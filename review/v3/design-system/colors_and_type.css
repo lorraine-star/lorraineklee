@@ -1,0 +1,268 @@
+/* ============================================================
+   LORRAINE LEE — Design System
+   Tokens: color, type, spacing, motion, surfaces
+   Direction: unconventional, fluid, stark UX, state-of-the-art
+   ============================================================ */
+
+/* ---------- WEBFONTS ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap');
+/* Geist          — primary sans (display + body)
+   Instrument Serif — editorial display, italic accents (the "human" voice)
+   Geist Mono     — credit lines, metadata, kicker labels                        */
+
+:root {
+  /* ============================================================
+     COLOR — Primary palette
+     The brand is saturated royal blue on stark white/black.
+     We add ONE warm accent (signal-amber) for selective tension.
+     ============================================================ */
+
+  /* Brand blue scale (sampled from logo + extended) */
+  --blue-50:  #EDF1FF;
+  --blue-100: #D8E0FF;
+  --blue-200: #B3C2FF;
+  --blue-300: #8AA0FF;
+  --blue-400: #5A7AFF;
+  --blue-500: #2E5BFF;   /* Brand primary — wordmark colour */
+  --blue-600: #1E47E6;   /* Hover / pressed-darker */
+  --blue-700: #1638B8;
+  --blue-800: #0E2780;
+  --blue-900: #07154A;
+  --blue-950: #030828;
+
+  /* Neutral scale — warm-cool neutral, near-true */
+  --neutral-0:    #FFFFFF;
+  --neutral-50:   #FAFAFB;
+  --neutral-100:  #F3F3F5;
+  --neutral-200:  #E6E6EA;
+  --neutral-300:  #CFCFD6;
+  --neutral-400:  #9C9CA8;
+  --neutral-500:  #6E6E7A;
+  --neutral-600:  #4A4A55;
+  --neutral-700:  #2E2E36;
+  --neutral-800:  #1A1A20;
+  --neutral-900:  #0C0C10;
+  --neutral-1000: #000000;
+
+  /* Signal — selective accent for emphasis, warnings, energy */
+  --signal-amber:  #FFB347;
+  --signal-coral:  #FF6B5B;     /* used VERY sparingly — error / live indicator */
+
+  /* ============================================================
+     SEMANTIC COLOR — what to actually reach for in components
+     ============================================================ */
+
+  /* Foreground */
+  --fg-1: var(--neutral-1000);  /* primary text on light */
+  --fg-2: var(--neutral-700);   /* secondary text */
+  --fg-3: var(--neutral-500);   /* tertiary / metadata */
+  --fg-4: var(--neutral-400);   /* placeholder / disabled */
+  --fg-inverse: var(--neutral-0);
+
+  /* Background */
+  --bg-1: var(--neutral-0);     /* page */
+  --bg-2: var(--neutral-50);    /* subtle elevation */
+  --bg-3: var(--neutral-100);   /* card / panel */
+  --bg-inverse: var(--neutral-1000);
+  --bg-brand: var(--blue-500);
+
+  /* Border / hairline */
+  --line-1: var(--neutral-200);
+  --line-2: var(--neutral-300);
+  --line-strong: var(--neutral-1000);
+
+  /* Action */
+  --action: var(--blue-500);
+  --action-hover: var(--blue-600);
+  --action-pressed: var(--blue-700);
+  --action-fg: var(--neutral-0);
+
+  /* Selection */
+  --selection-bg: var(--blue-500);
+  --selection-fg: var(--neutral-0);
+
+  /* ============================================================
+     TYPOGRAPHY — Families
+     ============================================================ */
+  --font-sans: 'Geist', ui-sans-serif, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', monospace;
+
+  /* ============================================================
+     TYPOGRAPHY — Type scale
+     A bold, large-stepping scale for stark display moments,
+     plus tight body sizes for high information density.
+     ============================================================ */
+  --t-mega:  clamp(4rem, 14vw, 14rem);    /* hero numerals / one-word slogans */
+  --t-d1:    clamp(3rem, 8vw, 7rem);      /* big page titles */
+  --t-d2:    clamp(2.25rem, 5vw, 4.5rem); /* section heads */
+  --t-h1:    clamp(2rem, 3.2vw, 3rem);
+  --t-h2:    clamp(1.5rem, 2.4vw, 2.25rem);
+  --t-h3:    1.5rem;       /* 24 */
+  --t-h4:    1.25rem;      /* 20 */
+  --t-lg:    1.125rem;     /* 18 — lead paragraphs */
+  --t-base:  1rem;         /* 16 — body */
+  --t-sm:    0.875rem;     /* 14 — UI / captions */
+  --t-xs:    0.75rem;      /* 12 — labels, kicker */
+  --t-xxs:   0.6875rem;    /* 11 — tiny mono labels (uppercase) */
+
+  /* Line-height */
+  --lh-tight:   0.92;   /* display crush */
+  --lh-snug:    1.05;
+  --lh-heading: 1.12;
+  --lh-body:    1.5;
+  --lh-relaxed: 1.65;
+
+  /* Tracking */
+  --tr-display: -0.04em;   /* tight on display */
+  --tr-tight:   -0.02em;
+  --tr-normal:  -0.005em;
+  --tr-loose:    0.04em;
+  --tr-mono:     0.02em;   /* uppercase mono labels */
+
+  /* Weight */
+  --w-light:    300;
+  --w-regular:  400;
+  --w-medium:   500;
+  --w-semibold: 600;
+  --w-bold:     700;
+  --w-black:    800;
+
+  /* ============================================================
+     SPACING
+     ============================================================ */
+  --s-0:   0;
+  --s-1:   0.25rem;     /* 4 */
+  --s-2:   0.5rem;      /* 8 */
+  --s-3:   0.75rem;     /* 12 */
+  --s-4:   1rem;        /* 16 */
+  --s-5:   1.5rem;      /* 24 */
+  --s-6:   2rem;        /* 32 */
+  --s-7:   3rem;        /* 48 */
+  --s-8:   4rem;        /* 64 */
+  --s-9:   6rem;        /* 96 */
+  --s-10:  8rem;        /* 128 */
+  --s-11:  12rem;       /* 192 */
+  --s-12:  16rem;       /* 256 */
+
+  /* ============================================================
+     RADIUS
+     The brand mark is sharp/squared (corner brackets) — we lean
+     SQUARE. Rounding is reserved for interactive pills + media.
+     ============================================================ */
+  --r-0:    0;
+  --r-1:    2px;
+  --r-2:    4px;
+  --r-3:    8px;
+  --r-4:    12px;
+  --r-5:    16px;
+  --r-pill: 999px;
+
+  /* ============================================================
+     SHADOW / ELEVATION
+     Mostly avoided — this brand uses HARD borders + flat fills.
+     One subtle "hover lift", one "modal" shadow, one "brand glow".
+     ============================================================ */
+  --shadow-hairline: inset 0 0 0 1px var(--line-1);
+  --shadow-hover:    0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px rgb(0 0 0 / 0.06);
+  --shadow-modal:    0 30px 60px -20px rgb(7 21 74 / 0.25), 0 12px 28px -8px rgb(0 0 0 / 0.18);
+  --shadow-brand:    0 20px 60px -20px rgb(46 91 255 / 0.45);
+
+  /* ============================================================
+     MOTION — fluid, springy, state-of-the-art
+     Curves chosen for confident overshoot without bounce-y noise.
+     ============================================================ */
+  --ease-out-quart:   cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring-soft: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --ease-spring-snap: cubic-bezier(0.5, 1.6, 0.4, 1);
+  --ease-in-out:      cubic-bezier(0.65, 0, 0.35, 1);
+
+  --dur-fast:   140ms;
+  --dur-base:   240ms;
+  --dur-slow:   480ms;
+  --dur-stage:  900ms;     /* slow content reveals, parallax */
+
+  /* ============================================================
+     LAYOUT
+     ============================================================ */
+  --max-w-text:    65ch;
+  --max-w-content: 1280px;
+  --max-w-wide:    1600px;
+  --gutter:        clamp(1.25rem, 4vw, 3rem);
+}
+
+/* ============================================================
+   SEMANTIC ELEMENT STYLES
+   Use these by setting class="t-d1" etc., or as references.
+   ============================================================ */
+
+html { font-family: var(--font-sans); color: var(--fg-1); background: var(--bg-1); }
+body { font-family: var(--font-sans); font-size: var(--t-base); line-height: var(--lh-body); letter-spacing: var(--tr-normal); color: var(--fg-1); }
+::selection { background: var(--selection-bg); color: var(--selection-fg); }
+
+.t-mega { font-family: var(--font-sans); font-size: var(--t-mega); font-weight: var(--w-black); line-height: var(--lh-tight); letter-spacing: var(--tr-display); }
+.t-d1   { font-family: var(--font-sans); font-size: var(--t-d1);   font-weight: var(--w-bold);  line-height: var(--lh-tight); letter-spacing: var(--tr-display); }
+.t-d2   { font-family: var(--font-sans); font-size: var(--t-d2);   font-weight: var(--w-bold);  line-height: var(--lh-snug);  letter-spacing: var(--tr-display); }
+.t-h1   { font-family: var(--font-sans); font-size: var(--t-h1);   font-weight: var(--w-semibold); line-height: var(--lh-heading); letter-spacing: var(--tr-tight); }
+.t-h2   { font-family: var(--font-sans); font-size: var(--t-h2);   font-weight: var(--w-semibold); line-height: var(--lh-heading); letter-spacing: var(--tr-tight); }
+.t-h3   { font-family: var(--font-sans); font-size: var(--t-h3);   font-weight: var(--w-semibold); line-height: var(--lh-heading); letter-spacing: var(--tr-tight); }
+.t-h4   { font-family: var(--font-sans); font-size: var(--t-h4);   font-weight: var(--w-medium);   line-height: var(--lh-heading); letter-spacing: var(--tr-normal); }
+.t-lead { font-family: var(--font-sans); font-size: var(--t-lg);   font-weight: var(--w-regular);  line-height: var(--lh-relaxed); color: var(--fg-2); }
+.t-body { font-family: var(--font-sans); font-size: var(--t-base); font-weight: var(--w-regular);  line-height: var(--lh-body); }
+.t-sm   { font-size: var(--t-sm);   line-height: var(--lh-body); }
+.t-xs   { font-size: var(--t-xs);   line-height: var(--lh-body); color: var(--fg-3); }
+
+/* Editorial italic — a lone serif moment for the "human" voice */
+.t-edit { font-family: var(--font-serif); font-style: italic; font-size: var(--t-d2); line-height: var(--lh-snug); letter-spacing: 0; color: var(--fg-1); }
+
+/* Mono kicker label — uppercase, micro */
+.t-kicker { font-family: var(--font-mono); font-size: var(--t-xxs); font-weight: var(--w-medium); text-transform: uppercase; letter-spacing: var(--tr-mono); color: var(--fg-2); }
+
+.t-mono { font-family: var(--font-mono); font-size: var(--t-sm); letter-spacing: var(--tr-mono); }
+
+/* Numerals: tabular for stats, listed numbers, timecodes */
+.num-tab { font-variant-numeric: tabular-nums; }
+
+/* In-text emphasis — the ONE accepted highlight inside type.
+   Use to lift a single word inside a statement to brand blue.
+   Inherits weight + size from surrounding text; only colour shifts. */
+.brand-emphasis { color: var(--blue-500); }
+.brand-emphasis-on-dark { color: #fff; }   /* on saturated-blue backgrounds, fall back to white-on-blue (no double colour) */
+
+/* ============================================================
+   MESH GRADIENT — soft brand atmosphere for select sections
+   Applied as a background on sections that need lift over the
+   default stark white. Three "blobs" of brand blue at low alpha,
+   on a near-white base. Calm, never decorative.
+   ============================================================ */
+.bg-mesh {
+  background-color: var(--bg-1);
+  background-image:
+    radial-gradient(at 18% 22%, rgb(46 91 255 / 0.18) 0px, transparent 50%),
+    radial-gradient(at 82% 12%, rgb(138 160 255 / 0.22) 0px, transparent 45%),
+    radial-gradient(at 70% 88%, rgb(46 91 255 / 0.14) 0px, transparent 55%),
+    radial-gradient(at 8% 92%, rgb(216 224 255 / 0.55) 0px, transparent 50%);
+}
+
+/* Inverse mesh — dim brand-blue atmosphere over near-black, for
+   the cohort-style inversions when we want lift, not full dark. */
+.bg-mesh-dark {
+  background-color: var(--neutral-900);
+  background-image:
+    radial-gradient(at 12% 18%, rgb(46 91 255 / 0.45) 0px, transparent 50%),
+    radial-gradient(at 88% 22%, rgb(22 56 184 / 0.55) 0px, transparent 50%),
+    radial-gradient(at 50% 96%, rgb(7 21 74 / 0.7) 0px, transparent 60%);
+  color: #fff;
+}
+
+/* Tinted mesh on the brand-blue moment — adds depth WITHOUT
+   breaking the chromatic restraint rule. Same hue, varied luminance. */
+.bg-mesh-brand {
+  background-color: var(--blue-500);
+  background-image:
+    radial-gradient(at 22% 18%, rgb(255 255 255 / 0.18) 0px, transparent 45%),
+    radial-gradient(at 82% 28%, rgb(7 21 74 / 0.30) 0px, transparent 55%),
+    radial-gradient(at 60% 92%, rgb(22 56 184 / 0.55) 0px, transparent 60%);
+  color: #fff;
+}
