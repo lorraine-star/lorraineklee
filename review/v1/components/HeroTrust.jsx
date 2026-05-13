@@ -64,18 +64,18 @@ function Hero({ headline, sub, ctaLabel, photoSrc, variant = 'editorial' }) {
 
 // =====================================================================
 // TrustStrip — "As Seen In" marquee. Trimmed media outlets per round 1
-// feedback. Text wordmarks until media SVGs land in /assets.
+// feedback. Real logos in /assets/press; sized + grayscaled via CSS.
 // =====================================================================
 const PRESS_OUTLETS = [
-  "Bloomberg",
-  "Fast Company",
-  "CNBC",
-  "Business Insider",
-  "Fox 5 Washington DC",
-  "CNN",
-  "NBC 4",
-  "Inc.",
-  "Entrepreneur",
+  { name: "Bloomberg",           src: "assets/press/bloomberg.svg" },
+  { name: "Fast Company",        src: "assets/press/fast-company.svg" },
+  { name: "CNBC",                src: "assets/press/cnbc.svg" },
+  { name: "Business Insider",    src: "assets/press/business-insider.svg" },
+  { name: "Fox 5 Washington DC", src: "assets/press/fox-5-dc.svg" },
+  { name: "CNN",                 src: "assets/press/cnn.svg" },
+  { name: "NBC 4",               src: "assets/press/nbc-4.svg" },
+  { name: "Inc.",                src: "assets/press/inc.svg" },
+  { name: "Entrepreneur",        src: "assets/press/entrepreneur.jpeg" },
 ];
 
 function TrustStrip({ animated = true }) {
@@ -86,7 +86,7 @@ function TrustStrip({ animated = true }) {
       <div className="marquee-mask">
         <div className="marquee" style={{ animationPlayState: animated ? 'running' : 'paused' }}>
           {doubled.map((o, i) => (
-            <span key={i} className="press-logo press-logo--marquee">{o}</span>
+            <img key={i} className="press-mark" src={o.src} alt={o.name} loading="lazy"/>
           ))}
         </div>
       </div>
