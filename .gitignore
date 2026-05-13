@@ -34,3 +34,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local-only design references & packaging archives
+Samples/
+Lorraine Logos/
+*.zip
+/assets/
+.claude/

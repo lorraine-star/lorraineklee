@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lorraine Lee — Home</title>
+<link rel="icon" href="assets/favicon.png">
+<link rel="stylesheet" href="styles/tokens.css">
+<link rel="stylesheet" href="styles/home.css">
+<link rel="stylesheet" href="styles/variants.css">
+<meta name="ext-resource-dependency" content="assets/lorraine-keynote.png" data-resource-id="heroPhoto" />
+<meta name="ext-resource-dependency" content="assets/book.png" data-resource-id="bookCover" />
+<meta name="ext-resource-dependency" content="assets/logo-primary.png" data-resource-id="logoPrimary" />
+<template id="__bundler_thumbnail" data-bg-color="#FBF8F2">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#FBF8F2"/>
+    <text x="600" y="430" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-weight="500" font-size="320" fill="#0E1530">L</text>
+    <circle cx="600" cy="560" r="8" fill="#FFD43B"/>
+  </svg>
+</template>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<!-- Tweaks shell (host protocol + form controls) -->
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+
+<!-- Components -->
+<script type="text/babel" src="components/BannerNav.standalone.jsx"></script>
+<script type="text/babel" src="components/HeroTrust.jsx"></script>
+<script type="text/babel" src="components/BookTestimonials.standalone.jsx"></script>
+<script type="text/babel" src="components/CourseFooter.standalone.jsx"></script>
+
+<!-- App -->
+<script type="text/babel" src="components/App.standalone.jsx"></script>
+</body>
+</html>
