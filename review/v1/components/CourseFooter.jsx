@@ -26,9 +26,11 @@ function FreeCourseCTA() {
             You're not alone. Get my free 5-day course. The same frameworks I teach leaders at Amazon, Cisco, and Fortune 500 companies. Articulate your value. Make promotions inevitable.
           </p>
           <ul className="course-bullets">
-            <li>Day 1 · Why your work isn't getting seen</li>
-            <li>Day 3 · Crafting your Unique Powerful Intro</li>
-            <li>Day 5 · Making promotions inevitable</li>
+            <li>Day 1 · Articulate your value so people actually listen</li>
+            <li>Day 2 · Show up on LinkedIn so opportunities come to you</li>
+            <li>Day 3 · Get known by the people who decide promotions</li>
+            <li>Day 4 · Position yourself as the obvious choice</li>
+            <li>Day 5 · Stay consistent without burning out</li>
           </ul>
         </div>
 
