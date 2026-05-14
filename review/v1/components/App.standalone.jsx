@@ -87,6 +87,7 @@ function HomeApp() {
         <FreeCourseCTA/>
       </main>
       <Footer/>
+      <FreeCoursePopup/>
 
       <TweaksPanel title="Tweaks">
         <TweakSection title="Design direction">

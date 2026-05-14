@@ -2,6 +2,8 @@
 // FreeCourseCTA — full-bleed dark section. Email opt-in.
 // =====================================================================
 function FreeCourseCTA() {
+  const offer = window.FREE_COURSE_OFFER || {};
+  const footerDays = offer.footerDays || [];
   const [email, setEmail] = React.useState('');
   const [sent, setSent]   = React.useState(false);
 
@@ -16,19 +18,21 @@ function FreeCourseCTA() {
       <div className="grid12 course-grid">
         <div className="course-copy">
           <div className="course-eyebrow">
-            <span className="pill">Free</span>
-            <span>5-Day Email Course</span>
+            <span className="pill">{offer.eyebrowPill || 'Free'}</span>
+            <span>{offer.eyebrowLabel || '5-Day Email Course'}</span>
           </div>
           <h2 className="course-headline">
-            Great at your job but can't <em>talk about it?</em>
+            {offer.footerHeadlinePrefix || "Great at your job but can't "}
+            <em>{offer.footerHeadlineEmphasis || 'talk about it?'}</em>
           </h2>
           <p className="course-sub">
-            You're not alone. Get my free 5-day course — the same frameworks I teach leaders at Amazon, Cisco, and Fortune 500 companies. Articulate your value. Make promotions inevitable.
+            {offer.footerSubhead ||
+              "You're not alone. Get my free 5-day course. The same frameworks I teach leaders at Amazon, Cisco, and Fortune 500 companies. Articulate your value. Make promotions inevitable."}
           </p>
           <ul className="course-bullets">
-            <li>Day 1 · Why your work isn't getting seen</li>
-            <li>Day 3 · Crafting your Unique Powerful Intro</li>
-            <li>Day 5 · Making promotions inevitable</li>
+            {footerDays.map((day) => (
+              <li key={day}>{day}</li>
+            ))}
           </ul>
         </div>
 
@@ -41,13 +45,17 @@ function FreeCourseCTA() {
                     <polyline points="20 6 9 17 4 12"/>
                   </svg>
                 </div>
-                <div className="success-title">You're in.</div>
-                <div className="success-sub">Day 1 is on its way to {email}.</div>
+                <div className="success-title">{offer.successTitle || "You're in."}</div>
+                <div className="success-sub">
+                  {(offer.successTemplate || 'Day 1 is on its way to {email}.').replace('{email}', email)}
+                </div>
               </div>
             ) : (
               <form onSubmit={handleSubmit}>
-                <span className="course-form-eyebrow">Start tomorrow</span>
-                <h3 className="course-form-title">Join <em>12,000+</em> leaders.</h3>
+                <span className="course-form-eyebrow">{offer.formEyebrow || 'Start tomorrow'}</span>
+                <h3 className="course-form-title">
+                  {offer.formTitleLead || 'Join'} <em>{offer.formTitleEmphasis || '12,000+'}</em> {offer.formTitleTail || 'leaders.'}
+                </h3>
                 <label className="field-label" htmlFor="course-email">Email address</label>
                 <input
                   id="course-email"
@@ -59,9 +67,9 @@ function FreeCourseCTA() {
                   onChange={(e)=>setEmail(e.target.value)}
                 />
                 <button type="submit" className="btn yellow large btn-block">
-                  Send me Day 1 <span aria-hidden="true">→</span>
+                  {offer.primaryButtonLabel || 'Send me Day 1'} <span aria-hidden="true">→</span>
                 </button>
-                <div className="fineprint">No spam. Unsubscribe in one click.</div>
+                <div className="fineprint">{offer.fineprint || 'No spam. Unsubscribe in one click.'}</div>
               </form>
             )}
           </div>
