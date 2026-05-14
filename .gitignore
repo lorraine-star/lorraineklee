@@ -41,3 +41,6 @@ Lorraine Logos/
 *.zip
 /assets/
 .claude/
+!review/v1/assets/
+!review/v1/assets/press/
+!review/v1/assets/press/**

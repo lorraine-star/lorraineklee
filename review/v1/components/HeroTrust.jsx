@@ -63,30 +63,42 @@ function Hero({ headline, sub, ctaLabel, photoSrc, variant = 'editorial' }) {
 }
 
 // =====================================================================
-// TrustStrip — "As Seen In" marquee. Trimmed media outlets per round 1
-// feedback. Real logos in /assets/press; sized + grayscaled via CSS.
+// TrustStrip — image-based press marquee. Keep asset paths local to the
+// /v1 directory so the Vercel static export can ship them with the page.
 // =====================================================================
-const PRESS_OUTLETS = [
-  { name: "Bloomberg",           src: "assets/press/bloomberg.svg" },
-  { name: "Fast Company",        src: "assets/press/fast-company.svg" },
-  { name: "CNBC",                src: "assets/press/cnbc.svg" },
-  { name: "Business Insider",    src: "assets/press/business-insider.svg" },
-  { name: "Fox 5 Washington DC", src: "assets/press/fox-5-dc.svg" },
-  { name: "CNN",                 src: "assets/press/cnn.svg" },
-  { name: "NBC 4",               src: "assets/press/nbc-4.svg" },
-  { name: "Inc.",                src: "assets/press/inc.svg" },
-  { name: "Entrepreneur",        src: "assets/press/entrepreneur.jpeg" },
+const PRESS_LOGOS = [
+  { id: "inc",                name: "Inc.",               src: "assets/press/inc.svg",               width: 92,  height: 30 },
+  { id: "bloomberg",          name: "Bloomberg",          src: "assets/press/bloomberg.svg",        width: 170, height: 24 },
+  { id: "fast-company",       name: "Fast Company",       src: "assets/press/fast-company.png",     width: 206, height: 30 },
+  // Use the darker fallback asset here, cropped tighter and a bit taller because the fan-mark reads smaller than the neighboring wordmarks.
+  { id: "cnbc",               name: "CNBC",               src: "assets/press/cnbc-cropped.png",     width: 110, height: 54 },
+  { id: "business-insider",   name: "Business Insider",   src: "assets/press/business-insider.svg", width: 228, height: 22 },
+  { id: "fox5",               name: "Fox 5 Washington DC",src: "assets/press/fox5.png",             width: 134, height: 40 },
+  { id: "cnn",                name: "CNN",                src: "assets/press/cnn.svg",              width: 102, height: 28 },
+  // The NBC 4 source has a square canvas, so it needs a taller render to read at parity.
+  { id: "nbc4",               name: "NBC 4",              src: "assets/press/nbc4.svg",             width: 88,  height: 58 },
 ];
 
 function TrustStrip({ animated = true }) {
-  const doubled = [...PRESS_OUTLETS, ...PRESS_OUTLETS];
+  const doubled = [...PRESS_LOGOS, ...PRESS_LOGOS];
   return (
     <section className="trust as-seen-in" data-screen-label="04 As seen in">
       <div className="trust-eyebrow">As Seen In</div>
       <div className="marquee-mask">
         <div className="marquee" style={{ animationPlayState: animated ? 'running' : 'paused' }}>
-          {doubled.map((o, i) => (
-            <img key={i} className="press-mark" src={o.src} alt={o.name} loading="lazy"/>
+          {doubled.map((logo, i) => (
+            <span
+              key={`${logo.id}-${i}`}
+              className={`press-mark-frame press-mark-frame--${logo.id}`}
+              style={{ '--mark-height': `${logo.height}px`, '--mark-width': `${logo.width}px` }}
+              aria-hidden={i >= PRESS_LOGOS.length ? 'true' : undefined}
+            >
+              <img
+                className={`press-mark press-mark--${logo.id}`}
+                src={logo.src}
+                alt={i < PRESS_LOGOS.length ? logo.name : ""}
+              />
+            </span>
           ))}
         </div>
       </div>

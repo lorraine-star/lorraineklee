@@ -8,9 +8,8 @@ function BookPromo() {
       <div className="grid12">
         <div className="book-cover-col">
           <div className="book-cover-stack">
-            <img className="book-cover" src="assets/book.png"
+            <img className="book-cover" src="uploads/book-with-seals.png"
                  alt="Unforgettable Presence by Lorraine K. Lee, book cover"/>
-            <div className="book-ribbon">WSJ BESTSELLER &middot; WILEY 2024</div>
           </div>
         </div>
         <div className="book-copy-col">
@@ -78,70 +77,169 @@ function FourWaysSlim() {
 }
 
 // =====================================================================
-// Testimonials — horizontal scroll carousel with snap. Headshot slot
-// per quote (data-driven via `photo` path; falls back to initials).
-// `photo` field stays empty until Lorraine sends locked picks and
-// LinkedIn-sourced headshots — swap in the asset path then.
+// Client proof — repeat engagements are the main signal here, but the
+// section needs to feel lighter than a dense grid. A staggered horizontal
+// rail keeps the proof card language while reducing visual bulk.
 // =====================================================================
-const HOME_TESTIMONIALS = [
+const REPEAT_ENGAGEMENTS = [
   {
-    quote: "She was confident, engaging, and personable, all while delivering insights that truly resonated with our managers.",
-    name: "Alex Harlan",
-    role: "Director of L&D, Google",
-    initials: "AH",
-    photo: "",
-  },
-  {
-    quote: "Lorraine doesn't just teach presence. She models it. Our high-potentials are still quoting her frameworks six months later.",
-    name: "Sophie Choi",
-    role: "VP People, Affirm",
-    initials: "SC",
-    photo: "",
+    id: "linkedin-learning",
+    count: "19x",
+    role: "Instructor",
+    company: "LinkedIn Learning",
+    note: "Her deepest repeat teaching relationship.",
     featured: true,
   },
-  {
-    quote: "Her expertise in personal branding and confident communication is unmatched. She's our most-requested return speaker.",
-    name: "Clint Carrens",
-    role: "Talent Brand Lead, Indeed",
-    initials: "CC",
-    photo: "",
-  },
+  { id: "powertofly", count: "9x", role: "Speaker", company: "PowerToFly" },
+  { id: "linkedin", count: "7x", role: "Speaker", company: "LinkedIn" },
+  { id: "cisco", count: "7x", role: "Speaker", company: "Cisco" },
+  { id: "google", count: "6x", role: "Speaker", company: "Google" },
+  { id: "zoom", count: "5x", role: "Speaker", company: "Zoom" },
+  { id: "northwestern", count: "5x", role: "Speaker", company: "Northwestern University" },
+  { id: "servicenow", count: "3x", role: "Speaker", company: "ServiceNow" },
 ];
 
+function ProofWordmark({ id, company }) {
+  switch (id) {
+    case "linkedin-learning":
+      return (
+        <span className="proof-wordmark proof-wordmark--linkedin-learning" aria-label={company}>
+          <span className="brand">LinkedIn</span>
+          <span className="descriptor">Learning</span>
+        </span>
+      );
+    case "linkedin":
+      return <span className="proof-wordmark proof-wordmark--linkedin">{company}</span>;
+    case "powertofly":
+      return (
+        <span className="proof-wordmark proof-wordmark--powertofly" aria-label={company}>
+          <span className="strong">POWER</span>
+          <span className="minor">to</span>
+          <span className="strong">FLY</span>
+        </span>
+      );
+    case "cisco":
+      return <span className="proof-wordmark proof-wordmark--cisco">{company}</span>;
+    case "google":
+      return <span className="proof-wordmark proof-wordmark--google">{company}</span>;
+    case "zoom":
+      return <span className="proof-wordmark proof-wordmark--zoom">{company}</span>;
+    case "northwestern":
+      return <span className="proof-wordmark proof-wordmark--northwestern">{company}</span>;
+    case "servicenow":
+      return (
+        <span className="proof-wordmark proof-wordmark--servicenow" aria-label={company}>
+          <span className="strong">service</span>
+          <span className="minor">now</span>
+        </span>
+      );
+    default:
+      return <span className="proof-wordmark">{company}</span>;
+  }
+}
+
 function Testimonials() {
+  const sectionRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const section = sectionRef.current;
+
+    if (!section) return undefined;
+
+    const panels = Array.from(section.querySelectorAll(".proof-panel"));
+    let frame = 0;
+
+    function updateParallax() {
+      frame = 0;
+
+      const viewportHeight = window.innerHeight || 1;
+
+      panels.forEach((panel, index) => {
+        const card = panel.querySelector(".proof-card");
+
+        if (!card) return;
+
+        const rect = panel.getBoundingClientRect();
+        const distance = rect.top + rect.height * 0.5 - viewportHeight * 0.56;
+        const normalized = Math.max(-1, Math.min(1, distance / (viewportHeight * 0.72)));
+        const depth = Number(card.dataset.depth || 1);
+        const direction = index % 2 === 0 ? -1 : 1;
+        const shift = -normalized * depth * 30;
+        const drift = normalized * depth * direction * 10;
+        const scale = 1 - Math.abs(normalized) * 0.032;
+        const opacity = 0.78 + (1 - Math.min(1, Math.abs(normalized) * 1.1)) * 0.22;
+
+        card.style.setProperty("--proof-shift", `${shift.toFixed(2)}px`);
+        card.style.setProperty("--proof-drift", `${drift.toFixed(2)}px`);
+        card.style.setProperty("--proof-scale", `${scale.toFixed(3)}`);
+        card.style.setProperty("--proof-opacity", `${opacity.toFixed(3)}`);
+      });
+    }
+
+    function queueParallax() {
+      if (!frame) frame = window.requestAnimationFrame(updateParallax);
+    }
+
+    window.addEventListener("scroll", queueParallax, { passive: true });
+    window.addEventListener("resize", queueParallax);
+    queueParallax();
+
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", queueParallax);
+      window.removeEventListener("resize", queueParallax);
+    };
+  }, []);
+
   return (
-    <section className="testimonials" data-screen-label="06 Testimonials">
+    <section className="testimonials client-proof" data-screen-label="06 Client proof">
       <div className="grid12">
         <div className="testimonials-head">
-          <span className="eyebrow">What clients say</span>
-          <h2 className="testimonials-title">
-            Companies bring her back <em>for more.</em>
-          </h2>
+          <span className="eyebrow">Client proof</span>
+          <h2 className="testimonials-title">Companies continue to bring Lorraine back for more</h2>
           <p className="lead">
-            From Fortune 500 leadership programs to high-potential cohorts at fast-growth tech companies, Lorraine's frameworks travel.
+            Repeat invitations across speaking, instruction, and leadership programs.
           </p>
         </div>
-        <div className="testimonials-scroller" role="region" aria-label="Client testimonials">
-          <div className="testimonials-track">
-            {HOME_TESTIMONIALS.map((t, i) => (
-              <figure key={i} className={'t-card' + (t.featured ? ' featured' : '')}>
-                <span className="t-mark" aria-hidden="true">"</span>
-                <blockquote className="t-quote">{t.quote}</blockquote>
-                <div className="t-divider"/>
-                <figcaption className="t-attrib">
-                  {t.photo ? (
-                    <img className="t-headshot" src={t.photo} alt={t.name}/>
-                  ) : (
-                    <div className="t-avatar" aria-hidden="true">{t.initials}</div>
-                  )}
-                  <div>
-                    <div className="t-name">{t.name}</div>
-                    <div className="t-role">{t.role}</div>
-                  </div>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
+        <div className="client-proof-layout" ref={sectionRef} role="list" aria-label="Repeat client engagements">
+          <p className="proof-sequence-note">
+            Eight repeat client relationships, ordered by recurrence.
+          </p>
+          {REPEAT_ENGAGEMENTS.map((item, index) => {
+            const depth = [1.4, 0.9, 1.1, 0.76, 1.2, 0.96, 1.06, 0.82][index] || 1;
+            const alignment = item.featured ? " proof-panel--featured" : (index % 2 === 0 ? " proof-panel--left" : " proof-panel--right");
+
+            return (
+              <div
+                key={item.id}
+                className={"proof-panel" + alignment}
+                role="listitem"
+              >
+                <div className="proof-panel-track">
+                  <article
+                    className={"proof-card" + (item.featured ? " proof-card--featured" : "")}
+                    data-depth={depth}
+                  >
+                    <div className="proof-card-meta">
+                      <span className="proof-card-index">{String(index + 1).padStart(2, "0")} / 08</span>
+                      {item.featured && <span className="proof-card-tag">Most repeated</span>}
+                    </div>
+                    <div className="proof-card-top">
+                      <div className={"proof-count" + (item.featured ? " proof-count--featured" : " proof-count--card")}>
+                        {item.count}
+                      </div>
+                      <div className="proof-role">{item.role}</div>
+                    </div>
+                    <div className="proof-divider" aria-hidden="true"/>
+                    <div className="proof-card-brand">
+                      <ProofWordmark id={item.id} company={item.company} />
+                    </div>
+                    {item.note && <p className="proof-note">{item.note}</p>}
+                  </article>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
