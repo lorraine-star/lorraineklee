@@ -77,9 +77,10 @@ function FourWaysSlim() {
 }
 
 // =====================================================================
-// Client proof — repeat engagements are the main signal here, but the
-// section needs to feel lighter than a dense grid. A staggered horizontal
-// rail keeps the proof card language while reducing visual bulk.
+// Client proof — repeat engagements are staged as a weighted bento grid so
+// the strongest relationship leads, secondary proof gets more surface area,
+// and the rest slot into tighter editorial tiles with restrained reveal
+// motion from the page edges.
 // =====================================================================
 const REPEAT_ENGAGEMENTS = [
   {
@@ -99,40 +100,57 @@ const REPEAT_ENGAGEMENTS = [
   { id: "servicenow", count: "3x", role: "Speaker", company: "ServiceNow" },
 ];
 
+const PROOF_LOGOS = {
+  linkedin: "assets/company-logos/linkedin.svg",
+  cisco: "assets/company-logos/cisco.svg",
+  google: "assets/company-logos/google.svg",
+  zoom: "assets/company-logos/zoom.svg",
+  servicenow: "assets/company-logos/servicenow.svg",
+  powertofly: "assets/company-logos/powertofly.png",
+  northwestern: "assets/company-logos/northwestern.png",
+};
+
+const PROOF_LAYOUTS = {
+  "linkedin-learning": "proof-card--featured",
+  "powertofly": "proof-card--top",
+  "linkedin": "proof-card--linkedin-slot",
+  "cisco": "proof-card--cisco-slot",
+  "google": "proof-card--google-slot",
+  "zoom": "proof-card--zoom-slot",
+  "northwestern": "proof-card--northwestern-slot",
+  "servicenow": "proof-card--servicenow-slot",
+};
+
 function ProofWordmark({ id, company }) {
   switch (id) {
     case "linkedin-learning":
       return (
-        <span className="proof-wordmark proof-wordmark--linkedin-learning" aria-label={company}>
-          <span className="brand">LinkedIn</span>
-          <span className="descriptor">Learning</span>
+        <span className="proof-logo-lockup proof-logo-lockup--linkedin-learning" aria-label={company}>
+          <img
+            className="proof-logo proof-logo--linkedin"
+            src={PROOF_LOGOS.linkedin}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+          />
+          <span className="proof-logo-descriptor">Learning</span>
         </span>
       );
     case "linkedin":
-      return <span className="proof-wordmark proof-wordmark--linkedin">{company}</span>;
+      return <img className="proof-logo proof-logo--linkedin" src={PROOF_LOGOS.linkedin} alt={company} loading="lazy" decoding="async"/>;
     case "powertofly":
-      return (
-        <span className="proof-wordmark proof-wordmark--powertofly" aria-label={company}>
-          <span className="strong">POWER</span>
-          <span className="minor">to</span>
-          <span className="strong">FLY</span>
-        </span>
-      );
+      return <img className="proof-logo proof-logo--powertofly" src={PROOF_LOGOS.powertofly} alt={company} loading="lazy" decoding="async"/>;
     case "cisco":
-      return <span className="proof-wordmark proof-wordmark--cisco">{company}</span>;
+      return <img className="proof-logo proof-logo--cisco" src={PROOF_LOGOS.cisco} alt={company} loading="lazy" decoding="async"/>;
     case "google":
-      return <span className="proof-wordmark proof-wordmark--google">{company}</span>;
+      return <img className="proof-logo proof-logo--google" src={PROOF_LOGOS.google} alt={company} loading="lazy" decoding="async"/>;
     case "zoom":
-      return <span className="proof-wordmark proof-wordmark--zoom">{company}</span>;
+      return <img className="proof-logo proof-logo--zoom" src={PROOF_LOGOS.zoom} alt={company} loading="lazy" decoding="async"/>;
     case "northwestern":
-      return <span className="proof-wordmark proof-wordmark--northwestern">{company}</span>;
+      return <img className="proof-logo proof-logo--northwestern" src={PROOF_LOGOS.northwestern} alt={company} loading="lazy" decoding="async"/>;
     case "servicenow":
-      return (
-        <span className="proof-wordmark proof-wordmark--servicenow" aria-label={company}>
-          <span className="strong">service</span>
-          <span className="minor">now</span>
-        </span>
-      );
+      return <img className="proof-logo proof-logo--servicenow" src={PROOF_LOGOS.servicenow} alt={company} loading="lazy" decoding="async"/>;
     default:
       return <span className="proof-wordmark">{company}</span>;
   }
@@ -146,48 +164,32 @@ function Testimonials() {
 
     if (!section) return undefined;
 
-    const panels = Array.from(section.querySelectorAll(".proof-panel"));
-    let frame = 0;
+    const cards = Array.from(section.querySelectorAll(".proof-card"));
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    function updateParallax() {
-      frame = 0;
-
-      const viewportHeight = window.innerHeight || 1;
-
-      panels.forEach((panel, index) => {
-        const card = panel.querySelector(".proof-card");
-
-        if (!card) return;
-
-        const rect = panel.getBoundingClientRect();
-        const distance = rect.top + rect.height * 0.5 - viewportHeight * 0.56;
-        const normalized = Math.max(-1, Math.min(1, distance / (viewportHeight * 0.72)));
-        const depth = Number(card.dataset.depth || 1);
-        const direction = index % 2 === 0 ? -1 : 1;
-        const shift = -normalized * depth * 30;
-        const drift = normalized * depth * direction * 10;
-        const scale = 1 - Math.abs(normalized) * 0.032;
-        const opacity = 0.78 + (1 - Math.min(1, Math.abs(normalized) * 1.1)) * 0.22;
-
-        card.style.setProperty("--proof-shift", `${shift.toFixed(2)}px`);
-        card.style.setProperty("--proof-drift", `${drift.toFixed(2)}px`);
-        card.style.setProperty("--proof-scale", `${scale.toFixed(3)}`);
-        card.style.setProperty("--proof-opacity", `${opacity.toFixed(3)}`);
-      });
+    if (prefersReducedMotion) {
+      cards.forEach((card) => card.classList.add("is-visible"));
+      return undefined;
     }
 
-    function queueParallax() {
-      if (!frame) frame = window.requestAnimationFrame(updateParallax);
-    }
+    const observer = new window.IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: 0.24,
+        rootMargin: "0px 0px -8% 0px",
+      }
+    );
 
-    window.addEventListener("scroll", queueParallax, { passive: true });
-    window.addEventListener("resize", queueParallax);
-    queueParallax();
+    cards.forEach((card) => observer.observe(card));
 
     return () => {
-      if (frame) window.cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", queueParallax);
-      window.removeEventListener("resize", queueParallax);
+      observer.disconnect();
     };
   }, []);
 
@@ -202,42 +204,32 @@ function Testimonials() {
           </p>
         </div>
         <div className="client-proof-layout" ref={sectionRef} role="list" aria-label="Repeat client engagements">
-          <p className="proof-sequence-note">
-            Eight repeat client relationships, ordered by recurrence.
-          </p>
           {REPEAT_ENGAGEMENTS.map((item, index) => {
-            const depth = [1.4, 0.9, 1.1, 0.76, 1.2, 0.96, 1.06, 0.82][index] || 1;
-            const alignment = item.featured ? " proof-panel--featured" : (index % 2 === 0 ? " proof-panel--left" : " proof-panel--right");
+            const placement = PROOF_LAYOUTS[item.id] ? ` ${PROOF_LAYOUTS[item.id]}` : "";
 
             return (
-              <div
+              <article
                 key={item.id}
-                className={"proof-panel" + alignment}
+                className={"proof-card" + placement}
                 role="listitem"
+                style={{ "--proof-delay": `${Math.min(index * 70, 280)}ms` }}
               >
-                <div className="proof-panel-track">
-                  <article
-                    className={"proof-card" + (item.featured ? " proof-card--featured" : "")}
-                    data-depth={depth}
-                  >
-                    <div className="proof-card-meta">
-                      <span className="proof-card-index">{String(index + 1).padStart(2, "0")} / 08</span>
-                      {item.featured && <span className="proof-card-tag">Most repeated</span>}
-                    </div>
-                    <div className="proof-card-top">
-                      <div className={"proof-count" + (item.featured ? " proof-count--featured" : " proof-count--card")}>
-                        {item.count}
-                      </div>
-                      <div className="proof-role">{item.role}</div>
-                    </div>
-                    <div className="proof-divider" aria-hidden="true"/>
-                    <div className="proof-card-brand">
-                      <ProofWordmark id={item.id} company={item.company} />
-                    </div>
-                    {item.note && <p className="proof-note">{item.note}</p>}
-                  </article>
+                <div className="proof-card-meta">
+                  <span className="proof-card-index">{String(index + 1).padStart(2, "0")} / 08</span>
+                  {item.featured && <span className="proof-card-tag">Most repeated</span>}
                 </div>
-              </div>
+                <div className="proof-card-top">
+                  <div className={"proof-count" + (item.featured ? " proof-count--featured" : " proof-count--card")}>
+                    {item.count}
+                  </div>
+                  <div className="proof-role">{item.role}</div>
+                </div>
+                <div className="proof-divider" aria-hidden="true"/>
+                <div className="proof-card-brand">
+                  <ProofWordmark id={item.id} company={item.company} />
+                </div>
+                {item.note && <p className="proof-note">{item.note}</p>}
+              </article>
             );
           })}
         </div>
