@@ -51,7 +51,6 @@ function Hero({ headline, sub, ctaLabel, photoSrc, variant = 'editorial' }) {
           <div className="photo-card">
             <img src={photoSrc} alt="Lorraine K. Lee, keynote speaker"/>
           </div>
-          <div className="photo-badge">As seen in Forbes · Fast Co.</div>
           <div className="photo-stat">
             <div className="num">4.9<span style={{fontSize:18, opacity:0.5, fontWeight:400}}>/5</span></div>
             <div className="lbl">Speaker rating across<br/>200+ keynotes</div>

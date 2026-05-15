@@ -568,21 +568,20 @@ body {
 
 /* ---------- TESTIMONIALS ---------- */
 .testimonials {
-  padding: clamp(42px, 6vw, 68px) 0;
+  padding: clamp(54px, 7vw, 92px) 0;
   background: linear-gradient(180deg, rgba(255,255,255,0.42) 0%, rgba(245,240,233,0.92) 100%);
 }
 .testimonials-head {
-  grid-column: 2 / span 10;
-  margin-bottom: 18px;
-  text-align: center;
+  grid-column: 1 / span 8;
+  margin-bottom: 48px;
 }
 .testimonials-head .lead {
   font-family: var(--font-sans);
   font-size: clamp(17px, 1.3vw, 19px);
   line-height: 1.55;
   color: var(--ink-700);
-  margin: 18px auto 0;
-  max-width: 42ch;
+  margin: 18px 0 0;
+  max-width: 560px;
 }
 .testimonials-title {
   font-family: var(--font-serif);
@@ -592,343 +591,107 @@ body {
   letter-spacing: -0.02em;
   margin: 14px 0 0;
   color: var(--ink-900);
-  max-width: 22ch;
-  margin-inline: auto;
   text-wrap: balance;
 }
-.client-proof-layout {
+.testimonials-title em { font-style: italic; color: var(--accent); font-weight: 400; }
+.testimonials-scroller {
   grid-column: 1 / -1;
-  width: min(100%, 1024px);
-  margin: 0 auto;
+  overflow: visible;
+}
+.testimonials-track {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  grid-template-rows: 186px 184px 184px;
-  grid-template-areas:
-    "hero hero hero hero hero hero top top top top top top"
-    "hero hero hero hero hero hero linkedin linkedin linkedin cisco cisco cisco"
-    "google google google zoom zoom zoom northwestern northwestern northwestern servicenow servicenow servicenow";
-  gap: clamp(14px, 1.6vw, 18px);
-  align-items: stretch;
-  grid-auto-flow: dense;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
 }
-.proof-card {
-  --proof-enter-x: 0px;
-  --proof-enter-y: 28px;
-  --proof-rest-y: 0px;
-  --proof-focus: 0.24;
-  width: 100%;
-  min-height: 0;
-  height: 100%;
-  padding: 22px 22px 30px;
-  border: 1px solid rgba(14,21,48,0.07);
-  border-radius: 24px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(247,243,236,0.98) 100%);
-  box-shadow:
-    0 16px 32px rgba(15,30,75,0.06),
-    0 2px 8px rgba(15,30,75,0.03);
+.t-card {
+  margin: 0;
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid var(--border-soft);
+  padding: 36px 32px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out);
   position: relative;
-  overflow: hidden;
-  isolation: isolate;
-  display: flex;
-  flex-direction: column;
-  will-change: transform, opacity, filter;
-  opacity: 0;
-  filter: blur(10px);
-  transform: translate3d(var(--proof-enter-x), calc(var(--proof-enter-y) + var(--proof-rest-y)), 0) scale(0.96);
-  transform-origin: center center;
-  transition:
-    transform 760ms cubic-bezier(0.16, 1, 0.3, 1) var(--proof-delay, 0ms),
-    opacity 560ms cubic-bezier(0.16, 1, 0.3, 1) var(--proof-delay, 0ms),
-    filter 560ms cubic-bezier(0.16, 1, 0.3, 1) var(--proof-delay, 0ms),
-    box-shadow 260ms var(--ease-out),
-    border-color 260ms var(--ease-out);
 }
-.proof-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background:
-    radial-gradient(120% 120% at 12% 10%, rgba(26,77,255,0.12), transparent 46%),
-    linear-gradient(180deg, rgba(255,255,255,0.34), transparent 38%);
-  opacity: calc(0.12 + var(--proof-focus) * 0.34);
-  transform: scale(calc(0.985 + var(--proof-focus) * 0.03));
-  transition: opacity 280ms var(--ease-out), transform 320ms var(--ease-out);
-  z-index: -1;
-  pointer-events: none;
+.t-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
 }
-.proof-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.52);
-  opacity: calc(0.46 + var(--proof-focus) * 0.24);
-  transition: opacity 260ms var(--ease-out);
-  pointer-events: none;
+.t-card.featured {
+  background: var(--ink-900);
+  color: var(--paper);
+  border-color: var(--ink-900);
 }
-.proof-card.is-visible {
-  opacity: 1;
-  filter: none;
-  transform: translate3d(0, var(--proof-rest-y), 0) scale(1);
-}
-.proof-card:hover {
-  border-color: rgba(26,77,255,0.16);
-  box-shadow:
-    0 26px 48px rgba(15,30,75,0.10),
-    0 8px 18px rgba(15,30,75,0.06);
-  transform: translate3d(0, calc(var(--proof-rest-y) - 6px), 0) scale(1.01);
-}
-.proof-card--featured {
-  grid-area: hero;
-  padding: 28px 30px 30px;
-  --proof-enter-y: 34px;
-  --proof-focus: 0.42;
-  background:
-    radial-gradient(140% 120% at 0% 0%, rgba(26,77,255,0.10), transparent 54%),
-    linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(247,243,236,0.98) 100%);
-}
-.proof-card--top {
-  grid-area: top;
-  --proof-enter-x: 72px;
-  --proof-enter-y: 0px;
-  --proof-focus: 0.3;
-}
-.proof-card--linkedin-slot {
-  grid-area: linkedin;
-  --proof-enter-x: 60px;
-  --proof-enter-y: 12px;
-  --proof-focus: 0.22;
-}
-.proof-card--cisco-slot {
-  grid-area: cisco;
-  --proof-enter-x: 76px;
-  --proof-enter-y: 12px;
-  --proof-focus: 0.22;
-}
-.proof-card--google-slot {
-  grid-area: google;
-  --proof-enter-x: -72px;
-  --proof-enter-y: 16px;
-  --proof-focus: 0.24;
-}
-.proof-card--zoom-slot {
-  grid-area: zoom;
-  --proof-enter-y: 20px;
-  --proof-focus: 0.22;
-}
-.proof-card--northwestern-slot {
-  grid-area: northwestern;
-  --proof-enter-y: 20px;
-  --proof-focus: 0.2;
-}
-.proof-card--servicenow-slot {
-  grid-area: servicenow;
-  --proof-enter-x: 72px;
-  --proof-enter-y: 20px;
-  --proof-focus: 0.18;
-}
-.proof-card--featured .proof-card-brand {
-  min-height: 42px;
-  margin-top: auto;
-}
-.proof-card--featured .proof-note {
-  max-width: 28ch;
-}
-.proof-card-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  margin-bottom: 16px;
-}
-.proof-card-index {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--fg-muted);
-}
-.proof-card-tag {
-  display: inline-flex;
-  align-self: flex-start;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(26,77,255,0.08);
-  color: var(--accent);
-  font-family: var(--font-sans);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-.proof-card-top {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.proof-count {
+.t-card.featured .t-quote { color: var(--paper); }
+.t-card.featured .t-name { color: var(--paper); }
+.t-card.featured .t-role { color: rgba(251,248,242,0.6); }
+.t-card.featured .t-mark { color: var(--brand-yellow-500); }
+.t-card.featured .t-divider { background: rgba(251,248,242,0.15); }
+.t-card.featured .t-avatar { background: linear-gradient(135deg, var(--brand-yellow-500), #ff9900); color: var(--ink-900); }
+.t-mark {
   font-family: var(--font-serif);
   font-size: 64px;
   font-weight: 500;
-  color: var(--accent);
-  line-height: 0.9;
-  letter-spacing: -0.04em;
-  margin: 0;
+  color: var(--brand-blue-300);
+  line-height: 0.6;
+  margin-bottom: 18px;
+  font-style: italic;
 }
-.proof-count--featured {
-  font-size: clamp(66px, 5vw, 84px);
-  line-height: 0.88;
+.t-quote {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  line-height: 1.45;
+  color: var(--ink-900);
+  margin: 0 0 28px;
+  font-style: italic;
+  flex: 1;
+  text-wrap: pretty;
 }
-.proof-count--card {
-  font-size: clamp(50px, 3.8vw, 62px);
-  line-height: 0.92;
-}
-.proof-role {
-  font-family: var(--font-sans);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--ink-700);
-}
-.proof-divider {
-  width: 34px;
+.t-divider {
   height: 1px;
-  background: rgba(26,77,255,0.28);
-  margin: 8px 0 10px;
+  background: var(--border-soft);
+  margin-bottom: 18px;
 }
-.proof-card-brand {
-  min-height: 30px;
+.t-attrib {
   display: flex;
   align-items: center;
-  margin-top: auto;
+  gap: 12px;
 }
-.proof-note {
-  margin: 12px 0 0;
-  font-family: var(--font-sans);
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--fg-muted);
-  max-width: 22ch;
+.t-avatar,
+.t-headshot {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
-.proof-wordmark {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 6px;
+.t-avatar {
+  background: linear-gradient(135deg, var(--brand-blue-300), var(--brand-blue-600));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
   font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 14px;
+}
+.t-headshot {
+  object-fit: cover;
+  background: var(--ink-100);
+}
+.t-name {
+  font-family: var(--font-sans);
+  font-size: 14px;
   font-weight: 700;
   color: var(--ink-900);
-  font-size: clamp(22px, 1.8vw, 28px);
-  letter-spacing: -0.04em;
-  line-height: 1;
+  line-height: 1.2;
 }
-.proof-logo-lockup {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  max-width: 100%;
-  min-height: 30px;
-}
-.proof-logo {
-  display: block;
-  width: auto;
-  height: 26px;
-  max-width: 100%;
-  max-height: none;
-  object-fit: contain;
-  flex: 0 0 auto;
-}
-.proof-logo-descriptor {
+.t-role {
   font-family: var(--font-sans);
-  font-size: 26px;
-  font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  color: rgba(14,21,48,0.68);
-}
-.proof-logo--google {
-  height: 30px;
-}
-.proof-logo--linkedin {
-  height: 24px;
-}
-.proof-logo--powertofly {
-  height: 16px;
-}
-.proof-logo--zoom {
-  height: 21px;
-}
-.proof-logo--servicenow {
-  height: 18px;
-}
-.proof-logo--northwestern {
-  height: 32px;
-}
-.proof-logo--cisco {
-  height: 34px;
-}
-.proof-card .proof-wordmark {
-  font-size: clamp(22px, 1.9vw, 27px);
-}
-.proof-card--featured .proof-wordmark {
-  font-size: clamp(27px, 2.25vw, 34px);
-}
-.proof-wordmark--linkedin-learning .brand,
-.proof-wordmark--linkedin {
-  font-weight: 700;
-}
-.proof-wordmark--linkedin-learning .descriptor {
-  font-weight: 500;
-  opacity: 0.72;
-}
-.proof-wordmark--powertofly {
-  gap: 3px;
-}
-.proof-wordmark--powertofly .strong,
-.proof-wordmark--servicenow .strong {
-  font-weight: 800;
-}
-.proof-wordmark--powertofly .minor,
-.proof-wordmark--servicenow .minor {
-  font-size: 0.68em;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  opacity: 0.66;
-}
-.proof-wordmark--cisco {
-  text-transform: lowercase;
-  letter-spacing: 0.06em;
-  font-weight: 600;
-}
-.proof-wordmark--google {
-  font-weight: 500;
-  letter-spacing: -0.05em;
-}
-.proof-wordmark--zoom {
-  font-weight: 700;
-  letter-spacing: -0.05em;
-  text-transform: lowercase;
-}
-.proof-wordmark--northwestern {
-  font-family: var(--font-serif);
-  font-size: clamp(18px, 1.4vw, 22px);
-  font-weight: 500;
-  letter-spacing: -0.03em;
-  line-height: 1.08;
-  max-width: 14ch;
-}
-@media (prefers-reduced-motion: reduce) {
-  .proof-card {
-    transform: none;
-    transition: none;
-    opacity: 1;
-    filter: none;
-  }
-  .proof-card::before,
-  .proof-card::after {
-    transition: none;
-  }
+  font-size: 12px;
+  color: var(--fg-muted);
+  margin-top: 2px;
 }
 
 /* ---------- FREE COURSE CTA ---------- */
@@ -1386,7 +1149,6 @@ body {
   .hero-copy { grid-column: 1 / span 7; }
   .hero-photo-wrap { grid-column: 8 / span 5; }
   .testimonials-head { grid-column: 1 / -1; }
-  .client-proof-layout { grid-column: 1 / -1; }
 }
 @media (max-width: 900px) {
   .nav-links { display: none; }
@@ -1697,75 +1459,38 @@ body {
     margin-right: 0;
     text-align: left;
   }
-  .client-proof-layout {
-    width: 100%;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: minmax(248px, auto) minmax(190px, auto) repeat(3, minmax(180px, auto));
-    grid-template-areas:
-      "hero hero"
-      "top top"
-      "linkedin cisco"
-      "google zoom"
-      "northwestern servicenow";
-    gap: 14px;
+  .testimonials-scroller {
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 16px;
+    margin: 0 calc(var(--grid-pad) * -1);
   }
-  .proof-card--featured {
-    padding: 24px 24px 24px;
+  .testimonials-scroller::-webkit-scrollbar { height: 8px; }
+  .testimonials-scroller::-webkit-scrollbar-track { background: transparent; }
+  .testimonials-scroller::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 999px;
+  }
+  .testimonials-track {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(280px, 320px);
+    grid-template-columns: none;
+    padding: 4px var(--grid-pad);
+  }
+  .testimonials-track .t-card {
+    scroll-snap-align: start;
+    min-width: 0;
   }
 }
 @media (max-width: 600px) {
   .four-ways-grid { grid-template-columns: 1fr; }
   .fw-card { border-right: 0; border-bottom: 1px solid rgba(26,77,255,0.14); min-height: auto; }
   .fw-card:last-child { border-bottom: 0; }
-  .client-proof-layout {
-    grid-template-columns: 1fr;
-    grid-template-rows: none;
-    grid-template-areas:
-      "hero"
-      "top"
-      "linkedin"
-      "cisco"
-      "google"
-      "zoom"
-      "northwestern"
-      "servicenow";
-    gap: 12px;
-  }
-  .proof-card,
-  .proof-card--featured,
-  .proof-card--top,
-  .proof-card--linkedin-slot,
-  .proof-card--cisco-slot,
-  .proof-card--google-slot,
-  .proof-card--zoom-slot,
-  .proof-card--northwestern-slot,
-  .proof-card--servicenow-slot {
-    grid-column: 1 / -1;
-    min-height: 0;
-    height: auto;
-  }
 }
 @media (max-width: 520px) {
-  .proof-card {
-    padding: 18px 18px 22px;
-  }
-  .proof-logo { height: 24px; }
-  .proof-logo-lockup {
-    min-height: 24px;
-    gap: 8px;
-  }
-  .proof-logo-descriptor { font-size: 22px; }
-  .proof-logo--google { height: 26px; }
-  .proof-logo--linkedin { height: 21px; }
-  .proof-logo--powertofly { height: 15px; }
-  .proof-logo--zoom { height: 19px; }
-  .proof-logo--servicenow { height: 16px; }
-  .proof-logo--northwestern { height: 28px; }
-  .proof-logo--cisco { height: 28px; }
-  .proof-card .proof-wordmark {
-    font-size: 20px;
-  }
-  .proof-card .proof-wordmark--northwestern {
-    font-size: 18px;
-  }
+  .t-card { padding: 30px 26px; }
 }
