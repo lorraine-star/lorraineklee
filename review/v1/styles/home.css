@@ -1078,12 +1078,33 @@ body {
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  transition: background 200ms var(--ease-out), color 200ms var(--ease-out), transform 200ms var(--ease-out);
+  transition: background 200ms var(--ease-out), color 200ms var(--ease-out), border-color 200ms var(--ease-out), transform 200ms var(--ease-out);
 }
 .social-btn:hover {
   background: var(--accent);
   color: #fff;
   transform: translateY(-2px);
+}
+/* Per-platform brand colors on hover */
+.social-btn[aria-label="LinkedIn"]:hover {
+  background: #0A66C2;
+  border-color: #0A66C2;
+  color: #fff;
+}
+.social-btn[aria-label="Instagram"]:hover {
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+  border-color: #d6249f;
+  color: #fff;
+}
+.social-btn[aria-label="YouTube"]:hover {
+  background: #FF0000;
+  border-color: #FF0000;
+  color: #fff;
+}
+.social-btn[aria-label="X (Twitter)"]:hover {
+  background: #0A0A0A;
+  border-color: #0A0A0A;
+  color: #fff;
 }
 .social-btn svg { width: 18px; height: 18px; }
 .footer-touch h4,

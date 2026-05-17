@@ -428,7 +428,24 @@
   font-size: 22px;
   opacity: 0.7;
   filter: grayscale(1);
+  transition: opacity 240ms var(--ease-out);
 }
+.logo-cell .logo-img {
+  width: auto;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.6;
+  transition: opacity 240ms var(--ease-out), filter 240ms var(--ease-out);
+}
+.logo-cell:hover .logo-word { opacity: 1; }
+.logo-cell:hover .logo-img {
+  opacity: 1;
+  filter: grayscale(0);
+}
+.logo-img--zoom     { height: 22px; }
+.logo-img--google   { height: 29px; }
+.logo-img--cisco    { height: 34px; }
+.logo-img--linkedin { height: 24px; }
 
 /* "As seen in" / "Career highlights" smaller logo strip */
 .media-strip {
