@@ -4,7 +4,7 @@
 
 const ABOUT_TWEAKS = /*EDITMODE-BEGIN*/{
   "designVariant": "Editorial",
-  "headlineVariant": "Hi, I'm Lorraine"
+  "headlineVariant": "20 years of presence"
 }/*EDITMODE-END*/;
 
 const ABOUT_HEADLINES = {
@@ -14,27 +14,18 @@ const ABOUT_HEADLINES = {
 };
 
 const CAREER_LOGOS = [
-  { t: "Zoom", cls: "bold" },
-  { t: "Google", cls: "serif" },
-  { t: "Cisco", cls: "caps" },
-  { t: "McKINSEY & CO", cls: "caps" },
-  { t: "LinkedIn", cls: "bold italic" },
-  { t: "Prezi", cls: "bold" },
-  { t: "JLL", cls: "caps" },
-];
-const MEDIA_LOGOS = [
-  { t: "Bloomberg", cls: "serif" },
-  { t: "Fast Company", cls: "bold" },
-  { t: "CNBC", cls: "caps" },
-  { t: "Business Insider", cls: "" },
-  { t: "Inc.", cls: "serif italic" },
-  { t: "Entrepreneur", cls: "serif" },
-  { t: "CNN", cls: "caps" },
+  { t: "Zoom",          logo: "assets/company-logos/zoom.svg",     mark: "zoom" },
+  { t: "Google",        logo: "assets/company-logos/google.svg",   mark: "google" },
+  { t: "Cisco",         logo: "assets/company-logos/cisco.svg",    mark: "cisco" },
+  { t: "McKinsey & Co", cls: "caps" },
+  { t: "LinkedIn",      logo: "assets/company-logos/linkedin.svg", mark: "linkedin" },
+  { t: "Prezi",         cls: "bold" },
+  { t: "JLL",           cls: "caps" },
 ];
 const ENDORSEMENTS = [
-  { quote: "One of the most generous teachers I've encountered in 20 years of corporate L&D.", name: "Priya Anand", role: "Head of L&D, Salesforce" },
-  { quote: "She earned a Wall Street Journal bestseller because the work is real. The frameworks are doing the heavy lifting.", name: "Daniel Pink", role: "#1 NYT bestselling author" },
-  { quote: "Lorraine took our managers from cautious to confident in a single afternoon. Six months later they're still using her language.", name: "Anita Chen", role: "VP People, Affirm" },
+  { quote: "One of the most generous teachers I've encountered in 20 years of corporate L&D.", name: "Priya Anand", role: "Head of L&D, Salesforce", initials: "PA" },
+  { quote: "She earned a Wall Street Journal bestseller because the work is real. The frameworks are doing the heavy lifting.", name: "Daniel Pink", role: "#1 NYT bestselling author", initials: "DP", featured: true },
+  { quote: "Lorraine took our managers from cautious to confident in a single afternoon. Six months later they're still using her language.", name: "Anita Chen", role: "VP People, Affirm", initials: "AC" },
 ];
 
 function AboutApp() {
@@ -122,7 +113,11 @@ function AboutApp() {
             </div>
             <div className="logo-grid">
               {CAREER_LOGOS.map((l,i)=>(
-                <div key={i} className="logo-cell"><span className={'logo-word '+l.cls}>{l.t}</span></div>
+                <div key={i} className="logo-cell">
+                  {l.logo
+                    ? <img className={'logo-img logo-img--'+l.mark} src={l.logo} alt={l.t} loading="lazy" decoding="async"/>
+                    : <span className={'logo-word '+l.cls}>{l.t}</span>}
+                </div>
               ))}
               <div className="logo-cell"><span className="logo-word serif italic" style={{color:'var(--ink-500)'}}>& earlier</span></div>
             </div>
@@ -130,16 +125,7 @@ function AboutApp() {
         </section>
 
         {/* AS SEEN IN */}
-        <section className="section section--tight" data-screen-label="06 As seen in">
-          <div className="grid12">
-            <div className="section-head section-head--center" style={{marginBottom: 32}}>
-              <span className="eyebrow">As seen in</span>
-            </div>
-            <div className="media-strip">
-              {MEDIA_LOGOS.map((l,i)=>(<span key={i} className={'logo-word '+l.cls}>{l.t}</span>))}
-            </div>
-          </div>
-        </section>
+        <TrustStrip animated={true}/>
 
         {/* NOW WORKING ON */}
         <section className="section" data-screen-label="07 Now">
@@ -172,17 +158,23 @@ function AboutApp() {
               <span className="eyebrow">Endorsements & awards</span>
               <h2>People who'd vouch for <em>my work.</em></h2>
             </div>
-            <div className="endorsement-row">
-              {ENDORSEMENTS.map((e,i)=>(
-                <figure key={i} className="endorsement">
-                  <span className="e-mark" aria-hidden="true">"</span>
-                  <blockquote>{e.quote}</blockquote>
-                  <figcaption>
-                    <div className="e-name">{e.name}</div>
-                    <div className="e-role">{e.role}</div>
-                  </figcaption>
-                </figure>
-              ))}
+            <div className="testimonials-scroller" role="region" aria-label="Endorsements">
+              <div className="testimonials-track">
+                {ENDORSEMENTS.map((e,i)=>(
+                  <figure key={i} className={"t-card" + (e.featured ? " featured" : "")}>
+                    <span className="t-mark" aria-hidden="true">"</span>
+                    <blockquote className="t-quote">{e.quote}</blockquote>
+                    <div className="t-divider"/>
+                    <figcaption className="t-attrib">
+                      <div className="t-avatar" aria-hidden="true">{e.initials}</div>
+                      <div>
+                        <div className="t-name">{e.name}</div>
+                        <div className="t-role">{e.role}</div>
+                      </div>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
             </div>
             <div className="endorsement-row" style={{marginTop: 20}}>
               <div className="repeat-card" style={{background:'#fff'}}>
