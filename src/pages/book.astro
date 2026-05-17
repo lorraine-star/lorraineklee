@@ -1,0 +1,85 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { reader, renderMarkdoc } from '../lib/keystatic';
+
+const book = await reader.singletons.book.read();
+if (!book) {
+	throw new Error('Missing book content (src/content/book/index.yaml)');
+}
+
+const descriptionHtml = await renderMarkdoc(book.description);
+---
+
+<Layout title={`${book.title} | Lorraine K. Lee`} description={book.subtitle}>
+	<section class="mx-auto max-w-3xl px-6 py-20">
+		<div class="flex flex-col gap-10 sm:flex-row sm:items-start">
+			{
+				book.book_cover && (
+					<img
+						src={book.book_cover}
+						alt={`${book.title} book cover`}
+						class="w-48 shrink-0 rounded-lg shadow-md"
+					/>
+				)
+			}
+			<div>
+				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">
+					{book.title}
+				</h1>
+				{
+					book.subtitle && (
+						<p class="mt-3 text-xl text-neutral-600">{book.subtitle}</p>
+					)
+				}
+				{
+					book.retailer_links.length > 0 && (
+						<div class="mt-6 flex flex-wrap gap-3">
+							{book.retailer_links.map((retailer) =>
+								retailer.url ? (
+									<a
+										href={retailer.url}
+										class="rounded-full border border-neutral-300 px-4 py-2 text-sm transition-colors hover:border-neutral-900"
+									>
+										{retailer.name}
+									</a>
+								) : (
+									<span class="rounded-full border border-neutral-200 px-4 py-2 text-sm text-neutral-400">
+										{retailer.name}
+									</span>
+								)
+							)}
+						</div>
+					)
+				}
+			</div>
+		</div>
+
+		<div
+			class="mt-12 space-y-4 text-lg leading-relaxed text-neutral-700"
+			set:html={descriptionHtml}
+		/>
+	</section>
+
+	{
+		book.endorsements.length > 0 && (
+			<section class="mx-auto max-w-5xl px-6 pb-20">
+				<h2 class="text-2xl font-semibold tracking-tight">
+					Praise for {book.title}
+				</h2>
+				<div class="mt-6 grid gap-6 sm:grid-cols-2">
+					{book.endorsements.map((endorsement) => (
+						<figure class="rounded-lg border border-neutral-200 p-6">
+							<blockquote class="leading-relaxed text-neutral-700">
+								{endorsement.quote}
+							</blockquote>
+							<figcaption class="mt-4 text-sm text-neutral-500">
+								{endorsement.author}
+								{endorsement.title && `, ${endorsement.title}`}
+							</figcaption>
+						</figure>
+					))}
+				</div>
+			</section>
+		)
+	}
+</Layout>

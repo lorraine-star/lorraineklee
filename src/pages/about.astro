@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { reader, renderMarkdoc } from '../lib/keystatic';
+
+const about = await reader.singletons.about.read();
+if (!about) {
+	throw new Error('Missing about content (src/content/about/index.yaml)');
+}
+
+const bodyHtml = await renderMarkdoc(about.body);
+---
+
+<Layout title="About | Lorraine K. Lee" description={about.headline}>
+	<article class="mx-auto max-w-3xl px-6 py-20">
+		<h1 class="text-balance text-4xl font-semibold tracking-tight sm:text-5xl">
+			{about.headline}
+		</h1>
+
+		{
+			about.hero_image && (
+				<img
+					src={about.hero_image}
+					alt=""
+					class="mt-10 w-full rounded-lg object-cover"
+				/>
+			)
+		}
+
+		<div
+			class="mt-10 space-y-4 text-lg leading-relaxed text-neutral-700"
+			set:html={bodyHtml}
+		/>
+
+		{
+			about.pull_quote && (
+				<blockquote class="my-12 border-l-2 border-neutral-900 pl-6 text-2xl italic leading-relaxed text-neutral-800">
+					{about.pull_quote}
+				</blockquote>
+			)
+		}
+
+		{
+			about.headshot && (
+				<img
+					src={about.headshot}
+					alt="Lorraine K. Lee"
+					class="mt-10 w-48 rounded-lg object-cover"
+				/>
+			)
+		}
+	</article>
+</Layout>
