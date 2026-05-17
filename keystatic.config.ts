@@ -1,13 +1,11 @@
 import { config, fields, collection, singleton } from '@keystatic/core';
 
-// Phase 1 (CLI-40): local storage — the admin UI at /keystatic writes to the
-// content files in this repo during `npm run dev`.
+// Storage: Keystatic Cloud. The admin UI at /keystatic authenticates against
+// the Keystatic Cloud project and commits content changes straight to the
+// GitHub repo, so Lorraine can edit without her own GitHub account.
 //
-// Phase 2 (handoff): switch storage to Keystatic Cloud so Lorraine can edit
-// without a GitHub account:
-//   storage: { kind: 'cloud' },
-//   cloud: { project: 'team-slug/project-slug' },
-// The Keystatic Cloud project must be created at keystatic.com first.
+// To run the admin against local files instead (e.g. offline dev), swap to:
+//   storage: { kind: 'local' },
 
 const testimonialFields = {
   quote: fields.text({ label: 'Quote', multiline: true }),
@@ -17,7 +15,10 @@ const testimonialFields = {
 
 export default config({
   storage: {
-    kind: 'local',
+    kind: 'cloud',
+  },
+  cloud: {
+    project: 'lorraineklee/lorraineklee',
   },
   singletons: {
     home: singleton({

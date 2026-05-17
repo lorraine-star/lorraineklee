@@ -28,9 +28,11 @@ UI at `http://localhost:4321/keystatic` while the dev server is running.
 - **Singletons** — one entry per page: Home, About, Speaking, Learn, Book, Contact
 - **Articles** — a collection of articles and press features
 
-Storage is currently `local`, so the admin UI writes directly to the content
-files in this repo. Before client handoff it switches to Keystatic Cloud so
-Lorraine can edit without a GitHub account — see `keystatic.config.ts`.
+Storage runs on [Keystatic Cloud](https://keystatic.com/docs/cloud) (project
+`lorraineklee/lorraineklee`). The admin UI authenticates against Keystatic
+Cloud and commits content changes straight to this GitHub repo, so Lorraine
+can edit without her own GitHub account. To run the admin against local files
+instead, set `storage` to `{ kind: 'local' }` in `keystatic.config.ts`.
 
 ## Project structure
 
