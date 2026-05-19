@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { reader, renderMarkdoc } from '../lib/keystatic';
+import { safeUrl } from '../lib/url';
 
 const contact = await reader.singletons.contact.read();
 if (!contact) {
@@ -8,6 +9,11 @@ if (!contact) {
 }
 
 const copyHtml = await renderMarkdoc(contact.copy);
+
+// contact_email is free-text in the CMS; only render the mailto link when it
+// is a well-formed address so a malformed value cannot ship a broken link.
+const email = contact.contact_email?.trim() ?? '';
+const hasValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 ---
 
 <Layout title="Contact | Lorraine K. Lee">
@@ -22,13 +28,13 @@ const copyHtml = await renderMarkdoc(contact.copy);
 		/>
 
 		{
-			contact.contact_email && (
+			hasValidEmail && (
 				<p class="mt-8">
 					<a
-						href={`mailto:${contact.contact_email}`}
+						href={`mailto:${email}`}
 						class="text-lg underline underline-offset-4 hover:text-neutral-600"
 					>
-						{contact.contact_email}
+						{email}
 					</a>
 				</p>
 			)
@@ -41,7 +47,7 @@ const copyHtml = await renderMarkdoc(contact.copy);
 						<li>
 							{social.url ? (
 								<a
-									href={social.url}
+									href={safeUrl(social.url)}
 									class="rounded-full border border-neutral-300 px-4 py-2 transition-colors hover:border-neutral-900"
 								>
 									{social.platform}

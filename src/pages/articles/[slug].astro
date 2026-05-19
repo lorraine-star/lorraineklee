@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { reader, renderMarkdoc } from '../../lib/keystatic';
 import { formatDate } from '../../lib/dates';
+import { safeUrl } from '../../lib/url';
 
 export async function getStaticPaths() {
 	const articles = await reader.collections.articles.all();
@@ -59,7 +60,7 @@ const contentHtml = await renderMarkdoc(article.content);
 			article.external_url && (
 				<p class="mt-10">
 					<a
-						href={article.external_url}
+						href={safeUrl(article.external_url)}
 						class="underline underline-offset-4 hover:text-neutral-600"
 					>
 						Read the original
