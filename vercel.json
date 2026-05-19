@@ -1,5 +1,3 @@
 {
-  "buildCommand": null,
-  "outputDirectory": "review",
-  "framework": null
+  "framework": "astro"
 }

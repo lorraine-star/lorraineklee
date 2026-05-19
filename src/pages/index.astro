@@ -1,0 +1,591 @@
+---
+import HomeLayout from '../layouts/HomeLayout.astro';
+
+const headlineHtml = 'Helping leaders build an<br/><em>unforgettable</em> presence.';
+const ctaLabel = 'Work With Me';
+
+const navPages = [
+  { id: 'home', label: 'Home', href: '/' },
+  { id: 'about', label: 'About', href: '/about' },
+  { id: 'speaking', label: 'Speaking', href: '/speaking' },
+  { id: 'learn', label: 'Learn', href: '/learn' },
+  { id: 'book', label: 'Book', href: '/book' },
+  { id: 'contact', label: 'Contact', href: '/contact' },
+];
+
+const pressLogos = [
+  { id: 'inc', name: 'Inc.', src: '/images/v1/press/inc.svg', width: 92, height: 30 },
+  { id: 'bloomberg', name: 'Bloomberg', src: '/images/v1/press/bloomberg.svg', width: 170, height: 24 },
+  { id: 'fast-company', name: 'Fast Company', src: '/images/v1/press/fast-company.png', width: 206, height: 30 },
+  { id: 'cnbc', name: 'CNBC', src: '/images/v1/press/cnbc-cropped.png', width: 110, height: 54 },
+  { id: 'business-insider', name: 'Business Insider', src: '/images/v1/press/business-insider.svg', width: 228, height: 22 },
+  { id: 'fox5', name: 'Fox 5 Washington DC', src: '/images/v1/press/fox5.png', width: 134, height: 40 },
+  { id: 'cnn', name: 'CNN', src: '/images/v1/press/cnn.svg', width: 102, height: 28 },
+  { id: 'nbc4', name: 'NBC 4', src: '/images/v1/press/nbc4.svg', width: 88, height: 58 },
+];
+const pressMarquee = [...pressLogos, ...pressLogos];
+
+const fourWays = [
+  { n: '01', label: 'Speaking', desc: 'Keynotes built around what your team actually needs to hear.', href: '/speaking' },
+  { n: '02', label: 'Unforgettable Presence®', desc: 'The book leadership programs already assign.', href: '/book' },
+  { n: '03', label: 'Courses', desc: 'On-demand training. 250,000+ students on LinkedIn Learning.', href: '/learn' },
+  { n: '04', label: 'Custom programs', desc: 'Cohort intensives for managers and high-potentials.', href: '/contact' },
+];
+
+const testimonials = [
+  {
+    quote: 'She was confident, engaging, and personable, all while delivering insights that truly resonated with our managers.',
+    name: 'Alex Harlan',
+    role: 'Director of L&D, Google',
+    initials: 'AH',
+  },
+  {
+    quote: "Lorraine doesn't just teach presence. She models it. Our high-potentials are still quoting her frameworks six months later.",
+    name: 'Sophie Choi',
+    role: 'VP People, Affirm',
+    initials: 'SC',
+    featured: true,
+  },
+  {
+    quote: "Her expertise in personal branding and confident communication is unmatched. She's our most-requested return speaker.",
+    name: 'Clint Carrens',
+    role: 'Talent Brand Lead, Indeed',
+    initials: 'CC',
+  },
+];
+
+const courseDays = [
+  'Day 1 · Articulate your value so people actually listen',
+  'Day 2 · Show up on LinkedIn so opportunities come to you',
+  'Day 3 · Get known by the people who decide promotions',
+  'Day 4 · Position yourself as the obvious choice',
+  'Day 5 · Stay consistent without burning out',
+];
+
+const courseHref =
+  'https://lorraineklee.com/from-invisible-to-influential/?utm_source=lorraineklee_site&utm_medium=popup&utm_campaign=from_invisible_to_influential&utm_content=scroll_modal_v1';
+---
+
+<HomeLayout
+  title="Lorraine K. Lee"
+  description="Keynotes, workshops, and coaching that help your managers and high-potentials stop being the best-kept secret at work."
+>
+  <div class="shell variant-editorial">
+    {/* ---------- Banner ---------- */}
+    <div class="banner" id="site-banner">
+      <div class="banner-inner">
+        <a class="banner-link" href="#course">
+          <span class="pre-mobile-hide">From</span>
+          <strong>Invisible to Influential</strong>
+          <span>Free 5-Day Email Course</span>
+          <span class="arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <button class="banner-dismiss" aria-label="Dismiss announcement" data-banner-dismiss>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    {/* ---------- Nav ---------- */}
+    <nav class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="/" aria-label="Lorraine Lee home">
+          <img src="/images/v1/logo-primary.png" alt="Lorraine Lee" />
+        </a>
+        <div class="nav-links">
+          {
+            navPages.map((p) => (
+              <a
+                class:list={['nav-link', { active: p.id === 'home' }]}
+                href={p.href}
+                aria-current={p.id === 'home' ? 'page' : undefined}
+              >
+                {p.label}
+              </a>
+            ))
+          }
+        </div>
+        <a class="btn primary" href="/contact">{ctaLabel}</a>
+      </div>
+    </nav>
+
+    <main>
+      {/* ---------- Hero ---------- */}
+      <section class="hero">
+        <div class="grid12 hero-grid">
+          <div class="hero-copy fade-up">
+            <div class="hero-eyebrow">
+              <span class="dot"></span>
+              <span class="eyebrow" style="color: var(--ink-500);">
+                Keynote speaker · Author · Instructor
+              </span>
+            </div>
+            <h1 class="hero-headline" set:html={headlineHtml} />
+            <p class="hero-sub">
+              Keynotes, workshops, and coaching that help your managers and
+              high-potentials stop being the best-kept secret at work, and
+              start driving the impact your organization needs.
+            </p>
+            <div class="hero-cta-row">
+              <a class="btn primary large" href="/contact">
+                {ctaLabel} <span aria-hidden="true">&rarr;</span>
+              </a>
+              <a class="btn outline" href="/book">Get the Book</a>
+              <a class="btn ghost" href="/speaking">Watch a keynote clip</a>
+            </div>
+            <div class="hero-meta">
+              <div>
+                <div class="num">250k+</div>
+                <div class="lbl">students taught<br />on LinkedIn Learning</div>
+              </div>
+              <div class="divider" aria-hidden="true"></div>
+              <div>
+                <div class="num">#1</div>
+                <div class="lbl">Amazon bestseller<br /><em>Unforgettable Presence</em></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-photo-wrap fade-up" style="animation-delay: 120ms;">
+            <div class="photo-bg-shape" aria-hidden="true"></div>
+            <div class="photo-card">
+              <img src="/images/v1/lorraine-keynote.png" alt="Lorraine K. Lee, keynote speaker" />
+            </div>
+            <div class="photo-stat">
+              <div class="num">4.9<span style="font-size: 18px; opacity: 0.5; font-weight: 400;">/5</span></div>
+              <div class="lbl">Speaker rating across<br />200+ keynotes</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- Trust strip ---------- */}
+      <section class="trust as-seen-in">
+        <div class="trust-eyebrow">As Seen In</div>
+        <div class="marquee-mask">
+          <div class="marquee">
+            {
+              pressMarquee.map((logo, i) => (
+                <span
+                  class={`press-mark-frame press-mark-frame--${logo.id}`}
+                  style={`--mark-height: ${logo.height}px; --mark-width: ${logo.width}px;`}
+                  aria-hidden={i >= pressLogos.length ? 'true' : undefined}
+                >
+                  <img
+                    class={`press-mark press-mark--${logo.id}`}
+                    src={logo.src}
+                    alt={i < pressLogos.length ? logo.name : ''}
+                  />
+                </span>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- Four ways ---------- */}
+      <section class="four-ways">
+        <div class="grid12">
+          <div class="four-ways-head">
+            <span class="eyebrow">How I can help</span>
+            <h2 class="four-ways-title">Four ways into the <em>work.</em></h2>
+          </div>
+          <div class="four-ways-grid">
+            {
+              fourWays.map((it) => (
+                <a class="fw-card" href={it.href}>
+                  <div class="fw-row">
+                    <span class="fw-num">{it.n}</span>
+                    <span class="fw-arrow" aria-hidden="true">&#8599;</span>
+                  </div>
+                  <div class="fw-label">{it.label}</div>
+                  <div class="fw-desc">{it.desc}</div>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- Book promo ---------- */}
+      <section class="book-promo v3">
+        <div class="grid12">
+          <div class="book-cover-col">
+            <div class="book-cover-stack">
+              <img
+                class="book-cover"
+                src="/images/v1/book-with-seals.png"
+                alt="Unforgettable Presence by Lorraine K. Lee, book cover"
+              />
+            </div>
+          </div>
+          <div class="book-copy-col">
+            <span class="eyebrow book-eyebrow">The Book</span>
+            <h2 class="book-bigtitle"><em>Unforgettable Presence&reg;</em></h2>
+            <p class="book-tagline">Get seen. Gain influence. Catapult your career.</p>
+            <p class="book-body">
+              The operator's manual for getting credit for your work. Used in
+              leadership programs at Zoom, LinkedIn, and Salesforce. Five parts,
+              fifty-two short chapters, no fluff.
+            </p>
+            <blockquote class="book-blockquote">
+              <p>
+                "The clearest, most actionable book on executive presence I've
+                read in a decade."
+              </p>
+              <footer>VP, People · Fortune 100 Tech</footer>
+            </blockquote>
+            <div class="book-cta-row">
+              <a class="btn primary large" href="/book">
+                Get your copy <span aria-hidden="true">&#8599;</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- Testimonials ---------- */}
+      <section class="testimonials">
+        <div class="grid12">
+          <div class="testimonials-head">
+            <span class="eyebrow">What clients say</span>
+            <h2 class="testimonials-title">Companies bring her back <em>for more.</em></h2>
+            <p class="lead">
+              From Fortune 500 leadership programs to high-potential cohorts at
+              fast-growth tech companies, Lorraine's frameworks travel.
+            </p>
+          </div>
+          <div class="testimonials-scroller" role="region" aria-label="Client testimonials">
+            <div class="testimonials-track">
+              {
+                testimonials.map((t) => (
+                  <figure class:list={['t-card', { featured: t.featured }]}>
+                    <span class="t-mark" aria-hidden="true">&ldquo;</span>
+                    <blockquote class="t-quote">{t.quote}</blockquote>
+                    <div class="t-divider"></div>
+                    <figcaption class="t-attrib">
+                      <div class="t-avatar" aria-hidden="true">{t.initials}</div>
+                      <div>
+                        <div class="t-name">{t.name}</div>
+                        <div class="t-role">{t.role}</div>
+                      </div>
+                    </figcaption>
+                  </figure>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- Free course CTA ---------- */}
+      <section id="course" class="course">
+        <div class="grid12 course-grid">
+          <div class="course-copy">
+            <div class="course-eyebrow">
+              <span class="pill">Free</span>
+              <span>5-Day Email Course</span>
+            </div>
+            <h2 class="course-headline">
+              Great at your job but can't <em>talk about it?</em>
+            </h2>
+            <p class="course-sub">
+              You're not alone. Get my free 5-day course. The same frameworks I
+              teach leaders at Amazon, Cisco, and Fortune 500 companies.
+              Articulate your value. Make promotions inevitable.
+            </p>
+            <ul class="course-bullets">
+              {courseDays.map((day) => <li>{day}</li>)}
+            </ul>
+          </div>
+
+          <div class="course-form">
+            <div class="course-form-card">
+              <form data-course-form>
+                <span class="course-form-eyebrow">Start tomorrow</span>
+                <h3 class="course-form-title">Join <em>12,000+</em> leaders.</h3>
+                <label class="field-label" for="course-email">Email address</label>
+                <input
+                  id="course-email"
+                  class="field"
+                  type="email"
+                  required
+                  placeholder="you@company.com"
+                />
+                <button type="submit" class="btn yellow large btn-block">
+                  Send me Day 1 <span aria-hidden="true">&rarr;</span>
+                </button>
+                <div class="fineprint">No spam. Unsubscribe in one click.</div>
+              </form>
+              <div class="success" data-course-success hidden>
+                <div class="check">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <div class="success-title">You're in.</div>
+                <div class="success-sub" data-course-success-sub>Day 1 is on its way.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    {/* ---------- Footer ---------- */}
+    <div class="footer-wave-wrap">
+      <svg class="footer-wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+        <path
+          fill="var(--paper-deep)"
+          d="M0,60 C240,120 480,10 720,50 C960,90 1200,120 1440,60 L1440,120 L0,120 Z"
+        ></path>
+      </svg>
+    </div>
+    <footer class="footer">
+      <div class="grid12 footer-grid">
+        <div class="footer-brand">
+          <img src="/images/v1/logo-primary.png" alt="Lorraine Lee" />
+          <p class="footer-tag">Helping leaders build an <em>unforgettable</em> presence.</p>
+          <div class="footer-socials">
+            <a
+              class="social-btn"
+              href="https://linkedin.com/in/lorraineklee"
+              aria-label="LinkedIn"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                ></path>
+              </svg>
+            </a>
+            <a class="social-btn" href="https://instagram.com/lorraineklee" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+            <a class="social-btn" href="https://youtube.com/@lorraineklee" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0 -3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+                ></path>
+              </svg>
+            </a>
+            <a class="social-btn" href="https://x.com/lorraineklee" aria-label="X (Twitter)" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                ></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-touch">
+          <h4>Get in touch</h4>
+          <p>Speaking, coaching, press:</p>
+          <a class="footer-email" href="mailto:contact@lorraineklee.com">contact@lorraineklee.com</a>
+        </div>
+        <div class="footer-explore">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="/about">About</a></li>
+            <li><a href="/speaking">Speaking</a></li>
+            <li><a href="/learn">Learn</a></li>
+            <li><a href="/book">The Book</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="grid12">
+        <div class="footer-base" style="grid-column: 1 / -1;">
+          <div>© 2026 Lorraine Lee · RISE Learning Solutions Corp.</div>
+          <div class="footer-base-links">
+            <a href="/contact">Contact</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  {/* ---------- Free course popup ---------- */}
+  <dialog class="free-course-popup" aria-labelledby="free-course-popup-title" data-course-popup>
+    <div class="free-course-popup__card">
+      <button type="button" class="free-course-popup__close" aria-label="Dismiss free course popup" data-popup-dismiss>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <div class="free-course-popup__eyebrow">Free 5-Day Course</div>
+      <h2 id="free-course-popup-title" class="free-course-popup__title">
+        From invisible to influential.
+      </h2>
+      <p class="free-course-popup__subhead">
+        The 5-day system to communicate your value, get visible to
+        decision-makers, and position yourself for the next level.
+      </p>
+      <ul class="free-course-popup__points">
+        <li>Articulate your value.</li>
+        <li>Show up on LinkedIn.</li>
+        <li>Get known by decision-makers.</li>
+      </ul>
+      <div class="free-course-popup__actions">
+        <a class="btn primary large" href={courseHref} data-popup-primary>
+          Start the free course <span aria-hidden="true">&rarr;</span>
+        </a>
+        <button type="button" class="free-course-popup__dismiss" data-popup-dismiss>Not now</button>
+      </div>
+      <p class="free-course-popup__meta">Five short emails. Free.</p>
+    </div>
+  </dialog>
+</HomeLayout>
+
+<script>
+  // --- Dismissible banner ---
+  document
+    .querySelector('[data-banner-dismiss]')
+    ?.addEventListener('click', () => {
+      document.getElementById('site-banner')?.setAttribute('hidden', '');
+    });
+
+  // --- Smooth in-page anchors ---
+  document.addEventListener('click', (e) => {
+    const link = (e.target as HTMLElement).closest?.('a[href^="#"]');
+    if (!link) return;
+    const id = link.getAttribute('href')!.slice(1);
+    const dest = id && document.getElementById(id);
+    if (!dest) return;
+    e.preventDefault();
+    dest.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  // --- Free-course email form ---
+  const form = document.querySelector<HTMLFormElement>('[data-course-form]');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    const input = form.querySelector<HTMLInputElement>('#course-email');
+    const email = input?.value.trim() ?? '';
+    const success = document.querySelector<HTMLElement>('[data-course-success]');
+    const sub = document.querySelector<HTMLElement>('[data-course-success-sub]');
+    if (sub) sub.textContent = `Day 1 is on its way to ${email}.`;
+    form.setAttribute('hidden', '');
+    success?.removeAttribute('hidden');
+  });
+
+  // --- Scroll/time-triggered free-course popup ---
+  (() => {
+    const dialog = document.querySelector<HTMLDialogElement>('[data-course-popup]');
+    if (!dialog) return;
+
+    const DISMISSED_KEY = 'll:v1:free-course-popup:dismissedAt';
+    const ENGAGED_KEY = 'll:v1:free-course-popup:engagedAt';
+    const DISMISS_MS = 7 * 24 * 60 * 60 * 1000;
+    const ENGAGED_MS = 30 * 24 * 60 * 60 * 1000;
+    const DELAY_MS = 18 * 1000;
+    const SCROLL_DEPTH = 0.35;
+
+    function readTs(key: string): number {
+      try {
+        const raw = window.localStorage.getItem(key);
+        const n = raw ? Number(raw) : 0;
+        return Number.isFinite(n) ? n : 0;
+      } catch {
+        return 0;
+      }
+    }
+    function writeTs(key: string) {
+      try {
+        window.localStorage.setItem(key, String(Date.now()));
+      } catch {
+        /* storage unavailable — popup behaves ephemerally */
+      }
+    }
+    function suppressed(): boolean {
+      const now = Date.now();
+      const d = readTs(DISMISSED_KEY);
+      if (d && now - d < DISMISS_MS) return true;
+      const e = readTs(ENGAGED_KEY);
+      return !!e && now - e < ENGAGED_MS;
+    }
+    function scrollDepth(): number {
+      const root = document.documentElement;
+      const scrollable = root.scrollHeight - window.innerHeight;
+      return scrollable <= 0 ? 0 : root.scrollTop / scrollable;
+    }
+
+    if (suppressed()) return;
+
+    let timeReady = false;
+    let scrollReady = false;
+    let courseSeen = false;
+    let done = false;
+
+    function open() {
+      if (done || courseSeen || !timeReady || !scrollReady) return;
+      done = true;
+      if (typeof dialog.showModal === 'function') dialog.showModal();
+      else dialog.setAttribute('open', 'open');
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      if (dialog.open) dialog.close();
+      document.body.style.overflow = '';
+    }
+    function dismiss() {
+      writeTs(DISMISSED_KEY);
+      done = true;
+      close();
+    }
+
+    window.setTimeout(() => {
+      timeReady = true;
+      open();
+    }, DELAY_MS);
+
+    function onScroll() {
+      if (scrollDepth() >= SCROLL_DEPTH) {
+        scrollReady = true;
+        window.removeEventListener('scroll', onScroll);
+        open();
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    const course = document.getElementById('course');
+    if (course) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((en) => en.isIntersecting)) {
+            courseSeen = true;
+            io.disconnect();
+          }
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -20% 0px' }
+      );
+      io.observe(course);
+    }
+
+    dialog.querySelectorAll('[data-popup-dismiss]').forEach((el) =>
+      el.addEventListener('click', dismiss)
+    );
+    dialog.addEventListener('cancel', (e) => {
+      e.preventDefault();
+      dismiss();
+    });
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dismiss();
+    });
+    dialog.querySelector('[data-popup-primary]')?.addEventListener('click', () => {
+      writeTs(ENGAGED_KEY);
+      done = true;
+    });
+  })();
+</script>

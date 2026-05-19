@@ -1,0 +1,285 @@
+---
+import SpeakingLayout from '../layouts/SpeakingLayout.astro';
+import { reader, renderMarkdoc } from '../lib/keystatic';
+import { safeUrl } from '../lib/url';
+
+const book = await reader.singletons.book.read();
+if (!book) {
+	throw new Error('Missing book content (src/content/book/index.mdoc)');
+}
+
+const {
+	title,
+	subtitle,
+	hero,
+	book_cover,
+	cover_badge_top,
+	cover_badge_bottom,
+	accolades,
+	description_section,
+	retailers_section,
+	retailer_links,
+	endorsements_section,
+	endorsements,
+	learn_section,
+	learn_items,
+	preview,
+	author_note,
+	final_cta,
+} = book;
+
+const descriptionHtml = await renderMarkdoc(book.description);
+
+const featuredEndorsements = endorsements.filter((e) => e.featured);
+const standardEndorsements = endorsements.filter((e) => !e.featured);
+---
+
+<SpeakingLayout
+	title={`${title} | Lorraine K. Lee`}
+	description={subtitle}
+	activeId="book"
+>
+	{/* ---------- Product hero ---------- */}
+	<section class="book-hero section--cream">
+		<div class="grid12">
+			<div class="book-hero-cover fade-up">
+				<div class="stack">
+					{
+						cover_badge_top && (
+							<span class="floating-badge top">{cover_badge_top}</span>
+						)
+					}
+					{book_cover && <img src={book_cover} alt={`${title} book cover`} />}
+					{
+						cover_badge_bottom && (
+							<span class="floating-badge bottom">{cover_badge_bottom}</span>
+						)
+					}
+				</div>
+			</div>
+			<div class="book-hero-copy fade-up" style="animation-delay: 120ms;">
+				<div class="page-hero-eyebrow">
+					<span class="dot"></span>
+					<span class="eyebrow" style="color: var(--ink-500);">
+						{hero.eyebrow}
+					</span>
+				</div>
+				<h1>{hero.headline} <em>{hero.headline_accent}</em></h1>
+				<p class="book-tag">{hero.tagline}</p>
+				{
+					accolades.length > 0 && (
+						<p class="bestseller-line">
+							{accolades.map((a, i) => (
+								<>
+									{i > 0 && <span class="dot" />}
+									{a.emphasized ? (
+										<strong>{a.text}</strong>
+									) : (
+										<span>{a.text}</span>
+									)}
+								</>
+							))}
+						</p>
+					)
+				}
+				<div class="hero-cta-row">
+					<a class="btn primary large" href={safeUrl(hero.primary_cta_url)}>
+						{hero.primary_cta_label} <span aria-hidden="true">&rarr;</span>
+					</a>
+					<a class="btn outline" href={safeUrl(hero.secondary_cta_url)}>
+						{hero.secondary_cta_label}
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Description ---------- */}
+	<section class="section">
+		<div class="grid12">
+			<div class="section-head section-head--center">
+				<span class="eyebrow">{description_section.eyebrow}</span>
+				<h2>
+					{description_section.heading}{' '}
+					<em>{description_section.heading_accent}</em>
+				</h2>
+			</div>
+			<div class="book-desc reveal" set:html={descriptionHtml} />
+		</div>
+	</section>
+
+	{/* ---------- Retailers ---------- */}
+	<section class="section section--tight section--cream" id="retailers">
+		<div class="grid12">
+			<div
+				class="section-head section-head--center"
+				style="margin-bottom: 32px;"
+			>
+				<span class="eyebrow">{retailers_section.eyebrow}</span>
+				<h2>
+					{retailers_section.heading}{' '}
+					<em>{retailers_section.heading_accent}</em>
+				</h2>
+			</div>
+			<div class="retailer-row reveal-stagger">
+				{
+					retailer_links.map((r) =>
+						r.url ? (
+							<a
+								class="retailer-btn"
+								href={safeUrl(r.url)}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<span class="retailer-name">{r.name}</span>
+								<span aria-hidden="true">&rarr;</span>
+							</a>
+						) : (
+							<span class="retailer-btn is-disabled" aria-disabled="true">
+								<span class="retailer-name">{r.name}</span>
+							</span>
+						)
+					)
+				}
+			</div>
+			{
+				retailers_section.format_note && (
+					<div style="grid-column: 1 / -1; text-align: center; margin-top: 24px;">
+						<p class="retailer-format-note">
+							{retailers_section.format_note}
+						</p>
+					</div>
+				)
+			}
+		</div>
+	</section>
+
+	{/* ---------- Endorsements ---------- */}
+	{
+		endorsements.length > 0 && (
+			<section class="section">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{endorsements_section.eyebrow}</span>
+						<h2>
+							{endorsements_section.heading}{' '}
+							<em>{endorsements_section.heading_accent}</em>
+						</h2>
+					</div>
+					<div class="endorsements-grid reveal-stagger">
+						{featuredEndorsements.map((e) => (
+							<figure class="endorsement featured-pull">
+								<span class="e-mark" aria-hidden="true">
+									&ldquo;
+								</span>
+								<blockquote>{e.quote}</blockquote>
+								<figcaption>
+									<div class="e-name">{e.name}</div>
+									<div class="e-role">{e.role}</div>
+								</figcaption>
+							</figure>
+						))}
+						{standardEndorsements.map((e) => (
+							<figure class="endorsement tall">
+								<span class="e-mark" aria-hidden="true">
+									&ldquo;
+								</span>
+								<blockquote>{e.quote}</blockquote>
+								<figcaption>
+									<div class="e-name">{e.name}</div>
+									<div class="e-role">{e.role}</div>
+								</figcaption>
+							</figure>
+						))}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- What you'll learn ---------- */}
+	{
+		learn_items.length > 0 && (
+			<section class="section section--cream">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{learn_section.eyebrow}</span>
+						<h2>
+							{learn_section.heading}{' '}
+							<em>{learn_section.heading_accent}</em>
+						</h2>
+					</div>
+					<div class="learn-list reveal-stagger">
+						{learn_items.map((b, i) => (
+							<div class="learn-item">
+								<div class="ln">{String(i + 1).padStart(2, '0')}</div>
+								<div>
+									<h4>{b.title}</h4>
+									<p>{b.description}</p>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Sample chapter ---------- */}
+	<section class="section section--tight" id="preview">
+		<div class="grid12">
+			<div class="preview-callout reveal">
+				<div class="preview-copy">
+					<span class="eyebrow">{preview.eyebrow}</span>
+					<h3>{preview.heading} <em>{preview.heading_accent}</em></h3>
+					<p>{preview.body}</p>
+				</div>
+				<a class="btn primary" href={safeUrl(preview.cta_url)}>
+					{preview.cta_label} <span aria-hidden="true">&rarr;</span>
+				</a>
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Author note ---------- */}
+	<section class="section section--tight">
+		<div class="grid12">
+			<div class="author-note reveal">
+				<div class="note-headshot">
+					{
+						author_note.headshot && (
+							<img
+								src={author_note.headshot}
+								alt={author_note.headshot_alt}
+							/>
+						)
+					}
+				</div>
+				<div class="note-body">
+					<span class="eyebrow">{author_note.eyebrow}</span>
+					<p style="margin-top: 12px;">{author_note.body}</p>
+					<div class="signature">{author_note.signature}</div>
+					<div class="signature-role">{author_note.signature_role}</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Final CTA ---------- */}
+	<section class="section">
+		<div class="grid12">
+			<div class="final-cta reveal">
+				<div class="final-cta-inner">
+					<span class="eyebrow">{final_cta.eyebrow}</span>
+					<h2>{final_cta.heading} <em>{final_cta.heading_accent}</em></h2>
+					<p>{final_cta.body}</p>
+					<div class="hero-cta-row" style="justify-content: center;">
+						<a class="btn yellow large" href={safeUrl(final_cta.cta_url)}>
+							{final_cta.cta_label} <span aria-hidden="true">&rarr;</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</SpeakingLayout>
