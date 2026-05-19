@@ -1,0 +1,74 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { reader, renderMarkdoc } from '../lib/keystatic';
+
+const speaking = await reader.singletons.speaking.read();
+if (!speaking) {
+	throw new Error('Missing speaking content (src/content/speaking/index.yaml)');
+}
+
+const introHtml = await renderMarkdoc(speaking.intro_copy);
+const numbers = speaking.speaking_numbers;
+---
+
+<Layout title="Speaking | Lorraine K. Lee">
+	<section class="mx-auto max-w-3xl px-6 py-20">
+		<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Speaking</h1>
+		<div
+			class="mt-8 space-y-4 text-lg leading-relaxed text-neutral-700"
+			set:html={introHtml}
+		/>
+	</section>
+
+	{
+		numbers.count && (
+			<section class="mx-auto max-w-3xl px-6 pb-16">
+				<p class="text-5xl font-semibold tracking-tight text-neutral-900">
+					{numbers.count}
+				</p>
+				<p class="mt-2 text-lg text-neutral-700">{numbers.stat}</p>
+				<p class="text-sm text-neutral-500">{numbers.label}</p>
+			</section>
+		)
+	}
+
+	{
+		speaking.speaking_topics.length > 0 && (
+			<section class="mx-auto max-w-3xl px-6 pb-16">
+				<h2 class="text-2xl font-semibold tracking-tight">
+					Talks and workshops
+				</h2>
+				<ul class="mt-6 space-y-6">
+					{speaking.speaking_topics.map((topic) => (
+						<li class="border-l-2 border-neutral-200 pl-6">
+							<h3 class="text-lg font-medium text-neutral-900">
+								{topic.title}
+							</h3>
+							<p class="mt-1 text-neutral-600">{topic.description}</p>
+						</li>
+					))}
+				</ul>
+			</section>
+		)
+	}
+
+	{
+		speaking.testimonials.length > 0 && (
+			<section class="mx-auto max-w-5xl px-6 pb-20">
+				<div class="grid gap-6 sm:grid-cols-2">
+					{speaking.testimonials.map((item) => (
+						<figure class="rounded-lg border border-neutral-200 p-6">
+							<blockquote class="leading-relaxed text-neutral-700">
+								{item.quote}
+							</blockquote>
+							<figcaption class="mt-4 text-sm text-neutral-500">
+								{item.author}
+								{item.title && `, ${item.title}`}
+							</figcaption>
+						</figure>
+					))}
+				</div>
+			</section>
+		)
+	}
+</Layout>
