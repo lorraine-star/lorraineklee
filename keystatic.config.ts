@@ -128,7 +128,7 @@ export default config({
         linkedin_learning_courses: fields.array(
           fields.object({
             title: fields.text({ label: 'Title' }),
-            url: fields.text({ label: 'URL' }),
+            url: fields.url({ label: 'URL' }),
             description: fields.text({
               label: 'Description',
               multiline: true,
@@ -172,7 +172,7 @@ export default config({
         retailer_links: fields.array(
           fields.object({
             name: fields.text({ label: 'Retailer name' }),
-            url: fields.text({ label: 'URL' }),
+            url: fields.url({ label: 'URL' }),
           }),
           {
             label: 'Retailer links',
@@ -196,7 +196,7 @@ export default config({
         social_links: fields.array(
           fields.object({
             platform: fields.text({ label: 'Platform' }),
-            url: fields.text({ label: 'URL' }),
+            url: fields.url({ label: 'URL' }),
           }),
           {
             label: 'Social links',
@@ -223,7 +223,7 @@ export default config({
           directory: 'public/images/articles',
           publicPath: '/images/articles/',
         }),
-        external_url: fields.text({ label: 'External URL' }),
+        external_url: fields.url({ label: 'External URL' }),
         content: fields.markdoc({ label: 'Content' }),
       },
     }),

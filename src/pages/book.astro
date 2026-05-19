@@ -4,7 +4,7 @@ import { reader, renderMarkdoc } from '../lib/keystatic';
 
 const book = await reader.singletons.book.read();
 if (!book) {
-	throw new Error('Missing book content (src/content/book/index.yaml)');
+	throw new Error('Missing book content (src/content/book/index.mdoc)');
 }
 
 const descriptionHtml = await renderMarkdoc(book.description);

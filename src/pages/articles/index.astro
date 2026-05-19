@@ -1,20 +1,12 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { reader } from '../../lib/keystatic';
+import { formatDate } from '../../lib/dates';
 
 const articles = await reader.collections.articles.all();
 const sorted = [...articles].sort((a, b) =>
 	(b.entry.date ?? '').localeCompare(a.entry.date ?? '')
 );
-
-const formatDate = (value: string | null) =>
-	value
-		? new Date(`${value}T00:00:00`).toLocaleDateString('en-US', {
-				year: 'numeric',
-				month: 'long',
-				day: 'numeric',
-			})
-		: '';
 ---
 
 <Layout title="Articles | Lorraine K. Lee">
