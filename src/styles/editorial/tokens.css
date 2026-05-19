@@ -1,9 +1,8 @@
 /* ============================================================
    LORRAINE LEE — Design Tokens
    Personal brand: editorial polish, warm gravitas, premium feel.
+   Fonts are loaded via <link> in the editorial layout <head>.
    ============================================================ */
-
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
   /* ============ COLOR — Brand ============ */
@@ -82,7 +81,7 @@
   --tracking-tight:    -0.02em;
   --tracking-normal:   0;
   --tracking-wide:     0.04em;
-  --tracking-eyebrow:  0.18em;
+  --tracking-eyebrow:  0.22em;
 
   /* ============ SPACING (4px base) ============ */
   --space-1:   4px;
@@ -137,7 +136,7 @@
 [data-type="eyebrow"] {
   font-family: var(--font-sans);
   font-size: var(--fs-eyebrow);
-  font-weight: var(--fw-semibold);
+  font-weight: var(--fw-bold);
   letter-spacing: var(--tracking-eyebrow);
   text-transform: uppercase;
   color: var(--accent);

@@ -198,16 +198,6 @@ body {
 .btn.ghost:hover { color: var(--brand-blue-900); transform: none; }
 .btn.large { font-size: 13px; padding: 17px 32px; }
 
-/* eyebrow */
-.eyebrow {
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
 /* ---------- HERO SHARED ---------- */
 .hero-cta-row {
   display: flex;
