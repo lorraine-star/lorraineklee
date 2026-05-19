@@ -665,25 +665,10 @@ export default config({
         lead: fields.text({ label: 'Lead paragraph', multiline: true }),
         contact_email: fields.text({ label: 'Contact email' }),
         press_email: fields.text({ label: 'Press email' }),
-        form_heading: fields.text({ label: 'Form heading' }),
-        inquiry_types: fields.array(
-          fields.text({ label: 'Inquiry type' }),
-          {
-            label: 'Inquiry types',
-            description: 'Options shown in the form’s inquiry-type dropdown.',
-            itemLabel: (props) => props.value || 'Type',
-          }
-        ),
-        response_note: fields.text({
-          label: 'Form response note',
-          multiline: true,
-          description: 'Small print shown next to the send button.',
-        }),
-        success_heading: fields.text({ label: 'Success heading' }),
-        success_body: fields.text({
-          label: 'Success message',
-          multiline: true,
-          description: 'Use {name} and {email} as placeholders.',
+        typeform_id: fields.text({
+          label: 'Typeform form ID',
+          description:
+            'The 8-character ID from the form\'s share URL — e.g. "PJJPZ9iJ" from https://<account>.typeform.com/to/PJJPZ9iJ.',
         }),
         social_links: fields.array(
           fields.object({
