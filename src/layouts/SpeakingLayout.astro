@@ -5,6 +5,7 @@ import '../styles/editorial/templates.css';
 import Banner from '../components/editorial/Banner.astro';
 import EditorialNav from '../components/editorial/EditorialNav.astro';
 import EditorialFooter from '../components/editorial/EditorialFooter.astro';
+import CookieBanner from '../components/CookieBanner.astro';
 
 interface Props {
   title: string;
@@ -40,6 +41,7 @@ const { title, description, activeId = 'home' } = Astro.props;
       </main>
       <EditorialFooter />
     </div>
+    <CookieBanner />
 
     <script>
       // --- Dismissible banner ---
