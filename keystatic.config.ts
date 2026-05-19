@@ -485,13 +485,71 @@ export default config({
       path: 'src/content/book/',
       format: { contentField: 'description' },
       schema: {
+        title: fields.text({ label: 'Book title' }),
+        subtitle: fields.text({ label: 'Subtitle' }),
+        hero: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            headline: fields.text({ label: 'Headline' }),
+            headline_accent: fields.text({
+              label: 'Headline accent (shown italic)',
+            }),
+            tagline: fields.text({
+              label: 'Tagline paragraph',
+              multiline: true,
+            }),
+            primary_cta_label: fields.text({ label: 'Primary CTA label' }),
+            primary_cta_url: fields.text({ label: 'Primary CTA URL' }),
+            secondary_cta_label: fields.text({
+              label: 'Secondary CTA label',
+            }),
+            secondary_cta_url: fields.text({ label: 'Secondary CTA URL' }),
+          },
+          { label: 'Hero' }
+        ),
         book_cover: fields.image({
           label: 'Book cover',
           directory: 'public/images/book',
           publicPath: '/images/book/',
         }),
-        title: fields.text({ label: 'Title' }),
-        subtitle: fields.text({ label: 'Subtitle' }),
+        cover_badge_top: fields.text({ label: 'Cover badge (top)' }),
+        cover_badge_bottom: fields.text({ label: 'Cover badge (bottom)' }),
+        accolades: fields.array(
+          fields.object({
+            text: fields.text({ label: 'Text' }),
+            emphasized: fields.checkbox({
+              label: 'Emphasized (accent colour)',
+              defaultValue: false,
+            }),
+          }),
+          {
+            label: 'Hero accolades line',
+            itemLabel: (props) => props.fields.text.value || 'Accolade',
+          }
+        ),
+        description_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+          },
+          { label: 'Description section heading' }
+        ),
+        retailers_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            format_note: fields.text({
+              label: 'Format note (below retailers)',
+            }),
+          },
+          { label: 'Retailers section' }
+        ),
         retailer_links: fields.array(
           fields.object({
             name: fields.text({ label: 'Retailer name' }),
@@ -502,10 +560,95 @@ export default config({
             itemLabel: (props) => props.fields.name.value || 'Retailer',
           }
         ),
-        endorsements: fields.array(fields.object(testimonialFields), {
-          label: 'Endorsements',
-          itemLabel: (props) => props.fields.author.value || 'Endorsement',
-        }),
+        endorsements_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+          },
+          { label: 'Endorsements section heading' }
+        ),
+        endorsements: fields.array(
+          fields.object({
+            quote: fields.text({ label: 'Quote', multiline: true }),
+            name: fields.text({ label: 'Name' }),
+            role: fields.text({ label: 'Role / organization' }),
+            featured: fields.checkbox({
+              label: 'Featured (dark pull quote)',
+              defaultValue: false,
+            }),
+          }),
+          {
+            label: 'Endorsements',
+            itemLabel: (props) => props.fields.name.value || 'Endorsement',
+          }
+        ),
+        learn_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+          },
+          { label: "What you'll learn section heading" }
+        ),
+        learn_items: fields.array(
+          fields.object({
+            title: fields.text({ label: 'Title' }),
+            description: fields.text({
+              label: 'Description',
+              multiline: true,
+            }),
+          }),
+          {
+            label: "What you'll learn items",
+            itemLabel: (props) => props.fields.title.value || 'Item',
+          }
+        ),
+        preview: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            cta_url: fields.text({ label: 'CTA URL' }),
+          },
+          { label: 'Sample chapter callout' }
+        ),
+        author_note: fields.object(
+          {
+            headshot: fields.image({
+              label: 'Headshot',
+              directory: 'public/images/book',
+              publicPath: '/images/book/',
+            }),
+            headshot_alt: fields.text({ label: 'Headshot alt text' }),
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            body: fields.text({ label: 'Note body', multiline: true }),
+            signature: fields.text({ label: 'Signature' }),
+            signature_role: fields.text({ label: 'Signature role' }),
+          },
+          { label: 'Author note' }
+        ),
+        final_cta: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            cta_url: fields.text({ label: 'CTA URL' }),
+          },
+          { label: 'Final CTA' }
+        ),
         description: fields.markdoc({ label: 'Description' }),
       },
     }),
