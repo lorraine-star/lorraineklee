@@ -34,6 +34,7 @@ pnpm-debug.log*
 Samples/
 Lorraine Logos/
 *.zip
+lorraineklee_verified_inventory_package/
 /assets/
 .claude/
 !review/v1/assets/
