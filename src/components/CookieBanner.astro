@@ -11,8 +11,8 @@
 //   - also listen for the "cookie-consent-change" window event
 //     (event.detail.consent) so they can start the moment a visitor accepts,
 //     without needing a page reload.
-// Declining stores "declined" and dispatches the same event, so any consent
-// -gated script stays off.
+// Declining stores "declined" and dispatches the same event, so any
+// consent-gated script stays off.
 ---
 
 <div
@@ -50,12 +50,11 @@
 </div>
 
 <script>
-	type Consent = 'accepted' | 'declined';
 	const STORAGE_KEY = 'cookie-consent';
 	const banner = document.getElementById('cookie-banner');
 
 	if (banner) {
-		let stored: string | null = null;
+		let stored = null;
 		try {
 			stored = localStorage.getItem(STORAGE_KEY);
 		} catch {
@@ -66,7 +65,7 @@
 			banner.hidden = false;
 		}
 
-		const record = (consent: Consent) => {
+		const record = (consent) => {
 			try {
 				localStorage.setItem(STORAGE_KEY, consent);
 			} catch {
@@ -74,7 +73,7 @@
 			}
 			banner.hidden = true;
 			window.dispatchEvent(
-				new CustomEvent<{ consent: Consent }>('cookie-consent-change', {
+				new CustomEvent('cookie-consent-change', {
 					detail: { consent },
 				})
 			);
