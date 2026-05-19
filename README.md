@@ -34,6 +34,23 @@ Cloud and commits content changes straight to this GitHub repo, so Lorraine
 can edit without her own GitHub account. To run the admin against local files
 instead, set `storage` to `{ kind: 'local' }` in `keystatic.config.ts`.
 
+## Contact form
+
+The Contact page form is sent through [Formspree](https://formspree.io) — the
+legacy WordPress mailer cannot send transactional email, so the Astro site does
+not depend on it. The form submits over `fetch` (AJAX) and shows inline success
+and error states; a hidden honeypot field (`_gotcha`) filters bots.
+
+Set the Formspree form id in the `PUBLIC_FORMSPREE_ID` environment variable
+(locally in a `.env` file, and in the Vercel project settings):
+
+```sh
+PUBLIC_FORMSPREE_ID=xxxxxxxx   # the id from https://formspree.io/f/<id>
+```
+
+Until it is set, the form validates input but shows an error state on submit
+instead of sending.
+
 ## Project structure
 
 ```
