@@ -1,0 +1,47 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { reader } from '../../lib/keystatic';
+import { formatDate } from '../../lib/dates';
+
+const articles = await reader.collections.articles.all();
+const sorted = [...articles].sort((a, b) =>
+	(b.entry.date ?? '').localeCompare(a.entry.date ?? '')
+);
+---
+
+<Layout title="Articles | Lorraine K. Lee">
+	<section class="mx-auto max-w-3xl px-6 py-20">
+		<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Articles</h1>
+
+		{
+			sorted.length === 0 ? (
+				<p class="mt-8 text-neutral-600">No articles published yet.</p>
+			) : (
+				<ul class="mt-10 space-y-8">
+					{sorted.map((article) => (
+						<li class="border-b border-neutral-200 pb-8 last:border-b-0">
+							{article.entry.date && (
+								<p class="text-sm text-neutral-500">
+									{formatDate(article.entry.date)}
+								</p>
+							)}
+							<h2 class="mt-1 text-2xl font-semibold tracking-tight">
+								<a
+									href={`/articles/${article.slug}`}
+									class="transition-colors hover:text-neutral-600"
+								>
+									{article.entry.title}
+								</a>
+							</h2>
+							{article.entry.description && (
+								<p class="mt-2 leading-relaxed text-neutral-600">
+									{article.entry.description}
+								</p>
+							)}
+						</li>
+					))}
+				</ul>
+			)
+		}
+	</section>
+</Layout>

@@ -1,0 +1,69 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { reader } from '../lib/keystatic';
+import { safeUrl } from '../lib/url';
+
+const home = await reader.singletons.home.read();
+if (!home) {
+	throw new Error('Missing home content (src/content/home/index.yaml)');
+}
+
+const featured = home.featured_testimonial;
+---
+
+<Layout title="Lorraine K. Lee" description={home.hero_subheadline}>
+	<section class="mx-auto max-w-3xl px-6 py-20 text-center">
+		<h1 class="text-balance text-4xl font-semibold tracking-tight sm:text-5xl">
+			{home.hero_headline}
+		</h1>
+		<p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-neutral-600">
+			{home.hero_subheadline}
+		</p>
+		{
+			home.primary_cta_text && home.primary_cta_url && (
+				<a
+					href={safeUrl(home.primary_cta_url)}
+					class="mt-8 inline-block rounded-full bg-neutral-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-700"
+				>
+					{home.primary_cta_text}
+				</a>
+			)
+		}
+	</section>
+
+	{
+		featured.quote && (
+			<section class="mx-auto max-w-3xl px-6 pb-16">
+				<blockquote class="border-l-2 border-neutral-900 pl-6 text-xl italic leading-relaxed text-neutral-700">
+					{featured.quote}
+				</blockquote>
+				{featured.author && (
+					<p class="mt-3 pl-6 text-sm text-neutral-500">
+						{featured.author}
+						{featured.title && `, ${featured.title}`}
+					</p>
+				)}
+			</section>
+		)
+	}
+
+	{
+		home.testimonials.length > 0 && (
+			<section class="mx-auto max-w-5xl px-6 pb-20">
+				<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+					{home.testimonials.map((item) => (
+						<figure class="rounded-lg border border-neutral-200 p-6">
+							<blockquote class="leading-relaxed text-neutral-700">
+								{item.quote}
+							</blockquote>
+							<figcaption class="mt-4 text-sm text-neutral-500">
+								{item.author}
+								{item.title && `, ${item.title}`}
+							</figcaption>
+						</figure>
+					))}
+				</div>
+			</section>
+		)
+	}
+</Layout>
