@@ -2,6 +2,7 @@
 import '../styles/v1/tokens.css';
 import '../styles/v1/home.css';
 import '../styles/v1/variants.css';
+import CookieBanner from '../components/CookieBanner.astro';
 
 interface Props {
   title?: string;
@@ -29,5 +30,6 @@ const { title = 'Lorraine K. Lee', description } = Astro.props;
   </head>
   <body>
     <slot />
+    <CookieBanner />
   </body>
 </html>

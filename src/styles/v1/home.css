@@ -992,7 +992,7 @@ body {
   font-family: var(--font-sans);
   font-size: 14px;
   line-height: 1.5;
-  color: var(--ink-800);
+  color: var(--ink-700);
 }
 .free-course-popup__points li::before {
   content: "";
@@ -1514,4 +1514,10 @@ body {
 }
 @media (max-width: 520px) {
   .t-card { padding: 30px 26px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee,
+  .fade-up,
+  .photo-stat { animation: none; }
 }

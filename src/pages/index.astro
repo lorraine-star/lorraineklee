@@ -466,9 +466,12 @@ const courseHref =
   const form = document.querySelector<HTMLFormElement>('[data-course-form]');
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
     const input = form.querySelector<HTMLInputElement>('#course-email');
     const email = input?.value.trim() ?? '';
-    if (!email.includes('@')) return;
     const success = document.querySelector<HTMLElement>('[data-course-success]');
     const sub = document.querySelector<HTMLElement>('[data-course-success-sub]');
     if (sub) sub.textContent = `Day 1 is on its way to ${email}.`;
