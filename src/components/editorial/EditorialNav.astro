@@ -1,0 +1,38 @@
+---
+// Editorial site nav: logo / page links / single CTA.
+interface Props {
+  activeId?: string;
+}
+const { activeId = 'home' } = Astro.props;
+
+const pages = [
+  { id: 'home', label: 'Home', href: '/' },
+  { id: 'about', label: 'About', href: '/about' },
+  { id: 'speaking', label: 'Speaking', href: '/speaking' },
+  { id: 'learn', label: 'Learn', href: '/learn' },
+  { id: 'book', label: 'Book', href: '/book' },
+  { id: 'contact', label: 'Contact', href: '/contact' },
+];
+---
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/" aria-label="Lorraine Lee, home">
+      <img src="/images/editorial/logo-primary.png" alt="Lorraine Lee" />
+    </a>
+    <div class="nav-links">
+      {
+        pages.map((p) => (
+          <a
+            class:list={['nav-link', { active: p.id === activeId }]}
+            href={p.href}
+            aria-current={p.id === activeId ? 'page' : undefined}
+          >
+            {p.label}
+          </a>
+        ))
+      }
+    </div>
+    <a class="btn primary" href="/contact">Work With Me</a>
+  </div>
+</nav>

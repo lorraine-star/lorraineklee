@@ -1,52 +1,236 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import SpeakingLayout from '../layouts/SpeakingLayout.astro';
 import { reader, renderMarkdoc } from '../lib/keystatic';
 
 const about = await reader.singletons.about.read();
 if (!about) {
-	throw new Error('Missing about content (src/content/about/index.yaml)');
+	throw new Error('Missing about content (src/content/about/index.mdoc)');
 }
+
+const {
+	hero,
+	story_section,
+	story_facts,
+	career_section,
+	career_logos,
+	media_eyebrow,
+	media_logos,
+	now_section,
+	now_items,
+	endorsements_section,
+	endorsements,
+	awards,
+	final_ctas,
+} = about;
 
 const bodyHtml = await renderMarkdoc(about.body);
 ---
 
-<Layout title="About | Lorraine K. Lee" description={about.headline}>
-	<article class="mx-auto max-w-3xl px-6 py-20">
-		<h1 class="text-balance text-4xl font-semibold tracking-tight sm:text-5xl">
-			{about.headline}
-		</h1>
+<SpeakingLayout
+	title="Lorraine K. Lee — About"
+	description={hero.lead}
+	activeId="about"
+>
+	{/* ---------- Hero ---------- */}
+	<section class="page-hero">
+		<div class="grid12 page-hero-grid">
+			<div class="page-hero-copy fade-up">
+				<div class="page-hero-eyebrow">
+					<span class="dot"></span>
+					<span class="eyebrow" style="color: var(--ink-500);">
+						{hero.eyebrow}
+					</span>
+				</div>
+				<h1>{hero.headline} <em>{hero.headline_accent}</em></h1>
+				<p class="lead-large">{hero.lead}</p>
+				<div class="hero-cta-row">
+					<a class="btn primary large" href={hero.primary_cta_url}>
+						{hero.primary_cta_label} <span aria-hidden="true">&rarr;</span>
+					</a>
+					<a class="btn outline" href={hero.secondary_cta_url}>
+						{hero.secondary_cta_label}
+					</a>
+				</div>
+			</div>
+			<div class="page-hero-aside fade-up" style="animation-delay: 120ms;">
+				<div class="about-hero-photo">
+					<div class="photo-mask">
+						<img src={hero.headshot} alt={hero.headshot_alt} />
+					</div>
+					<div class="floating-card">
+						<div class="num">{hero.stat_value}</div>
+						<div class="lbl">{hero.stat_label}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 
-		{
-			about.hero_image && (
-				<img
-					src={about.hero_image}
-					alt=""
-					class="mt-10 w-full rounded-lg object-cover"
-				/>
-			)
-		}
+	{/* ---------- Story ---------- */}
+	<section class="section section--cream">
+		<div class="grid12">
+			<div
+				class="section-head section-head--center"
+				style="margin-bottom: 48px;"
+			>
+				<span class="eyebrow">{story_section.eyebrow}</span>
+				<h2>
+					{story_section.heading} <em>{story_section.heading_accent}</em>
+				</h2>
+			</div>
+			<div class="bio-body reveal" set:html={bodyHtml} />
+			<div class="bio-aside reveal">
+				{
+					story_facts.map((f) => (
+						<div class="aside-item">
+							<div class="aside-k">{f.label}</div>
+							<div class="aside-v">{f.value}</div>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
 
-		<div
-			class="mt-10 space-y-4 text-lg leading-relaxed text-neutral-700"
-			set:html={bodyHtml}
-		/>
+	{/* ---------- Career highlights ---------- */}
+	<section class="section section--tight">
+		<div class="grid12">
+			<div
+				class="section-head section-head--center"
+				style="margin-bottom: 32px;"
+			>
+				<span class="eyebrow">{career_section.eyebrow}</span>
+				<h2>
+					{career_section.heading} <em>{career_section.heading_accent}</em>
+				</h2>
+			</div>
+			<div class="logo-grid reveal-stagger">
+				{
+					career_logos.map((l) => (
+						<div class="logo-cell">
+							<span class={`logo-word ${l.style}`}>{l.name}</span>
+						</div>
+					))
+				}
+				<div class="logo-cell">
+					<span class="logo-word serif italic" style="color: var(--ink-500);">
+						& earlier
+					</span>
+				</div>
+			</div>
+		</div>
+	</section>
 
-		{
-			about.pull_quote && (
-				<blockquote class="my-12 border-l-2 border-neutral-900 pl-6 text-2xl italic leading-relaxed text-neutral-800">
-					{about.pull_quote}
-				</blockquote>
-			)
-		}
+	{/* ---------- As seen in ---------- */}
+	<section class="section section--tight">
+		<div class="grid12">
+			<div
+				class="section-head section-head--center"
+				style="margin-bottom: 32px;"
+			>
+				<span class="eyebrow">{media_eyebrow}</span>
+			</div>
+			<div class="media-strip">
+				{
+					media_logos.map((l) => (
+						<span class={`logo-word ${l.style}`}>{l.name}</span>
+					))
+				}
+			</div>
+		</div>
+	</section>
 
-		{
-			about.headshot && (
-				<img
-					src={about.headshot}
-					alt="Lorraine K. Lee"
-					class="mt-10 w-48 rounded-lg object-cover"
-				/>
-			)
-		}
-	</article>
-</Layout>
+	{/* ---------- Now ---------- */}
+	<section class="section">
+		<div class="grid12">
+			<div class="now-working reveal">
+				<div>
+					<span class="eyebrow">{now_section.eyebrow}</span>
+					<h2>
+						{now_section.heading} <em>{now_section.heading_accent}</em>
+					</h2>
+					<p class="now-intro">{now_section.intro}</p>
+				</div>
+				<div>
+					<ul>
+						{
+							now_items.map((item) => (
+								<li>
+									<span class="lk">{item.number}</span>
+									<span class="lv">
+										<strong>{item.title}</strong> {item.description}
+									</span>
+								</li>
+							))
+						}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Endorsements & awards ---------- */}
+	<section class="section section--cream">
+		<div class="grid12">
+			<div class="section-head section-head--center">
+				<span class="eyebrow">{endorsements_section.eyebrow}</span>
+				<h2>
+					{endorsements_section.heading}{' '}
+					<em>{endorsements_section.heading_accent}</em>
+				</h2>
+			</div>
+			<div class="endorsement-row reveal-stagger" style="margin-top: 8px;">
+				{
+					endorsements.map((e) => (
+						<figure class="endorsement">
+							<span class="e-mark" aria-hidden="true">
+								&ldquo;
+							</span>
+							<blockquote>{e.quote}</blockquote>
+							<figcaption>
+								<div class="e-name">{e.name}</div>
+								<div class="e-role">{e.role}</div>
+							</figcaption>
+						</figure>
+					))
+				}
+			</div>
+			<div class="endorsement-row reveal-stagger" style="margin-top: 20px;">
+				{
+					awards.map((a) => (
+						<div class="award-card">
+							<div class="eyebrow">{a.eyebrow}</div>
+							<div class="award-value">{a.value}</div>
+							<div class="award-label">{a.label}</div>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Final CTAs ---------- */}
+	<section class="section">
+		<div class="grid12">
+			<div class="about-final reveal-stagger">
+				{
+					final_ctas.map((cta) => (
+						<a
+							class:list={['about-final-card', { dark: cta.dark }]}
+							href={cta.cta_url}
+						>
+							<span class="eyebrow">{cta.eyebrow}</span>
+							<h3>
+								{cta.heading} <em>{cta.heading_accent}</em>
+							</h3>
+							<p class="label-line">{cta.body}</p>
+							<span class="arrow">
+								{cta.cta_label} <span aria-hidden="true">&rarr;</span>
+							</span>
+						</a>
+					))
+				}
+			</div>
+		</div>
+	</section>
+</SpeakingLayout>

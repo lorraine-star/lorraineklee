@@ -59,102 +59,425 @@ export default config({
       path: 'src/content/about/',
       format: { contentField: 'body' },
       schema: {
-        headline: fields.text({ label: 'Headline' }),
-        hero_image: fields.image({
-          label: 'Hero image',
-          directory: 'public/images/about',
-          publicPath: '/images/about/',
-        }),
-        headshot: fields.image({
-          label: 'Headshot',
-          directory: 'public/images/about',
-          publicPath: '/images/about/',
-        }),
-        pull_quote: fields.text({ label: 'Pull quote', multiline: true }),
-        body: fields.markdoc({ label: 'Body' }),
-      },
-    }),
-    speaking: singleton({
-      label: 'Speaking',
-      path: 'src/content/speaking/',
-      format: { contentField: 'intro_copy' },
-      schema: {
-        hero_image: fields.image({
-          label: 'Hero image',
-          directory: 'public/images/speaking',
-          publicPath: '/images/speaking/',
-        }),
-        speaking_topics: fields.array(
+        hero: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            headline: fields.text({ label: 'Headline' }),
+            headline_accent: fields.text({
+              label: 'Headline accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead paragraph', multiline: true }),
+            primary_cta_label: fields.text({ label: 'Primary CTA label' }),
+            primary_cta_url: fields.text({ label: 'Primary CTA URL' }),
+            secondary_cta_label: fields.text({
+              label: 'Secondary CTA label',
+            }),
+            secondary_cta_url: fields.text({ label: 'Secondary CTA URL' }),
+            headshot: fields.image({
+              label: 'Headshot',
+              directory: 'public/images/about',
+              publicPath: '/images/about/',
+            }),
+            headshot_alt: fields.text({ label: 'Headshot alt text' }),
+            stat_value: fields.text({ label: 'Floating stat value' }),
+            stat_label: fields.text({
+              label: 'Floating stat label',
+              multiline: true,
+            }),
+          },
+          { label: 'Hero' }
+        ),
+        story_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+          },
+          { label: 'Story section heading' }
+        ),
+        story_facts: fields.array(
           fields.object({
+            label: fields.text({ label: 'Label' }),
+            value: fields.text({ label: 'Value' }),
+          }),
+          {
+            label: 'Story aside facts',
+            itemLabel: (props) => props.fields.label.value || 'Fact',
+          }
+        ),
+        career_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+          },
+          { label: 'Career highlights section heading' }
+        ),
+        career_logos: fields.array(
+          fields.object({
+            name: fields.text({ label: 'Company name' }),
+            style: fields.text({
+              label: 'Logo style (CSS classes: bold, caps, serif, italic)',
+            }),
+          }),
+          {
+            label: 'Career logos',
+            itemLabel: (props) => props.fields.name.value || 'Company',
+          }
+        ),
+        media_eyebrow: fields.text({ label: '"As seen in" eyebrow' }),
+        media_logos: fields.array(
+          fields.object({
+            name: fields.text({ label: 'Outlet name' }),
+            style: fields.text({ label: 'Logo style (CSS classes)' }),
+          }),
+          {
+            label: 'Media logos',
+            itemLabel: (props) => props.fields.name.value || 'Outlet',
+          }
+        ),
+        now_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            intro: fields.text({ label: 'Intro', multiline: true }),
+          },
+          { label: 'Now section heading' }
+        ),
+        now_items: fields.array(
+          fields.object({
+            number: fields.text({ label: 'Number' }),
             title: fields.text({ label: 'Title' }),
             description: fields.text({
               label: 'Description',
               multiline: true,
             }),
+          }),
+          {
+            label: 'Now items',
+            itemLabel: (props) => props.fields.title.value || 'Item',
+          }
+        ),
+        endorsements_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+          },
+          { label: 'Endorsements section heading' }
+        ),
+        endorsements: fields.array(
+          fields.object({
+            quote: fields.text({ label: 'Quote', multiline: true }),
+            name: fields.text({ label: 'Name' }),
+            role: fields.text({ label: 'Role / organization' }),
+          }),
+          {
+            label: 'Endorsements',
+            itemLabel: (props) => props.fields.name.value || 'Endorsement',
+          }
+        ),
+        awards: fields.array(
+          fields.object({
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            value: fields.text({ label: 'Value' }),
+            label: fields.text({ label: 'Label' }),
+          }),
+          {
+            label: 'Awards',
+            itemLabel: (props) => props.fields.value.value || 'Award',
+          }
+        ),
+        final_ctas: fields.array(
+          fields.object({
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            cta_url: fields.text({ label: 'CTA URL' }),
+            dark: fields.checkbox({
+              label: 'Dark card',
+              defaultValue: false,
+            }),
+          }),
+          {
+            label: 'Final CTA cards',
+            itemLabel: (props) => props.fields.heading.value || 'CTA',
+          }
+        ),
+        body: fields.markdoc({ label: 'Story body' }),
+      },
+    }),
+    speaking: singleton({
+      label: 'Speaking',
+      path: 'src/content/speaking/',
+      schema: {
+        hero: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            headline: fields.text({ label: 'Headline' }),
+            headline_accent: fields.text({
+              label: 'Headline accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead paragraph', multiline: true }),
+            cta_label: fields.text({ label: 'Primary CTA label' }),
+            cta_url: fields.text({ label: 'Primary CTA URL' }),
+            image: fields.image({
+              label: 'Hero image',
+              directory: 'public/images/speaking',
+              publicPath: '/images/speaking/',
+            }),
+            image_alt: fields.text({ label: 'Hero image alt text' }),
+            photo_stat_value: fields.text({ label: 'Photo stat value' }),
+            photo_stat_label: fields.text({
+              label: 'Photo stat label',
+              multiline: true,
+            }),
+            meta: fields.array(
+              fields.object({
+                value: fields.text({ label: 'Value' }),
+                label: fields.text({ label: 'Label', multiline: true }),
+              }),
+              {
+                label: 'Hero meta stats',
+                itemLabel: (props) => props.fields.value.value || 'Stat',
+              }
+            ),
+          },
+          { label: 'Hero' }
+        ),
+        topics_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+          },
+          { label: 'Topics section heading' }
+        ),
+        topics: fields.array(
+          fields.object({
+            number: fields.text({ label: 'Number' }),
+            title: fields.text({ label: 'Title' }),
+            description: fields.text({
+              label: 'Description',
+              multiline: true,
+            }),
+            format: fields.text({ label: 'Format' }),
           }),
           {
             label: 'Speaking topics',
             itemLabel: (props) => props.fields.title.value || 'Topic',
           }
         ),
-        past_clients_logos: fields.array(
-          fields.image({
-            label: 'Logo',
-            directory: 'public/images/clients',
-            publicPath: '/images/clients/',
-          }),
-          { label: 'Past client logos' }
-        ),
-        testimonials: fields.array(fields.object(testimonialFields), {
-          label: 'Testimonials',
-          itemLabel: (props) => props.fields.author.value || 'Testimonial',
-        }),
-        speaking_numbers: fields.object(
+        clients_section: fields.object(
           {
-            count: fields.text({ label: 'Count' }),
-            stat: fields.text({ label: 'Stat' }),
-            label: fields.text({ label: 'Label' }),
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
           },
-          { label: 'Speaking numbers' }
+          { label: 'Past clients section heading' }
         ),
-        intro_copy: fields.markdoc({ label: 'Intro copy' }),
+        past_clients: fields.array(
+          fields.object({
+            name: fields.text({ label: 'Client name' }),
+            style: fields.text({
+              label: 'Logo style (CSS classes: bold, caps, serif, italic)',
+            }),
+          }),
+          {
+            label: 'Past clients',
+            itemLabel: (props) => props.fields.name.value || 'Client',
+          }
+        ),
+        show_stats: fields.checkbox({
+          label: 'Show stats block',
+          defaultValue: true,
+        }),
+        stats_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+          },
+          { label: 'Stats section heading' }
+        ),
+        stats: fields.array(
+          fields.object({
+            value: fields.text({ label: 'Value (number)' }),
+            decimals: fields.integer({
+              label: 'Decimal places',
+              defaultValue: 0,
+            }),
+            denominator: fields.text({
+              label: 'Denominator / suffix (e.g. /5 or %)',
+            }),
+            label: fields.text({ label: 'Label', multiline: true }),
+          }),
+          {
+            label: 'Stats',
+            itemLabel: (props) => props.fields.value.value || 'Stat',
+          }
+        ),
+        testimonials_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+          },
+          { label: 'Testimonials section heading' }
+        ),
+        testimonials: fields.array(
+          fields.object({
+            quote: fields.text({ label: 'Quote', multiline: true }),
+            name: fields.text({ label: 'Name' }),
+            role: fields.text({ label: 'Role / organization' }),
+            initials: fields.text({ label: 'Initials' }),
+            featured: fields.checkbox({
+              label: 'Featured (dark card)',
+              defaultValue: false,
+            }),
+          }),
+          {
+            label: 'Organizer testimonials',
+            itemLabel: (props) => props.fields.name.value || 'Testimonial',
+          }
+        ),
+        repeats_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+          },
+          { label: 'Repeat bookings section heading' }
+        ),
+        repeats: fields.array(
+          fields.object({
+            name: fields.text({ label: 'Client name' }),
+            multiplier: fields.text({ label: 'Multiplier (e.g. 6x)' }),
+            label: fields.text({ label: 'Label' }),
+          }),
+          {
+            label: 'Repeat bookings',
+            itemLabel: (props) => props.fields.name.value || 'Client',
+          }
+        ),
+        as_seen_in_eyebrow: fields.text({ label: '"As seen in" eyebrow' }),
+        as_seen_in: fields.array(
+          fields.object({
+            name: fields.text({ label: 'Outlet name' }),
+            style: fields.text({ label: 'Logo style (CSS classes)' }),
+          }),
+          {
+            label: 'As seen in',
+            itemLabel: (props) => props.fields.name.value || 'Outlet',
+          }
+        ),
+        final_cta: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            cta_url: fields.text({ label: 'CTA URL' }),
+          },
+          { label: 'Final CTA' }
+        ),
       },
     }),
     learn: singleton({
       label: 'Learn',
       path: 'src/content/learn/',
-      format: { contentField: 'hero_copy' },
       schema: {
-        linkedin_learning_courses: fields.array(
+        hero: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            headline: fields.text({ label: 'Headline' }),
+            headline_accent: fields.text({
+              label: 'Headline accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead paragraph', multiline: true }),
+          },
+          { label: 'Hero' }
+        ),
+        courses: fields.array(
           fields.object({
             title: fields.text({ label: 'Title' }),
-            url: fields.text({ label: 'URL' }),
+            platform: fields.select({
+              label: 'Platform',
+              options: [
+                { label: 'LinkedIn Learning', value: 'LinkedIn Learning' },
+                { label: 'Stanford', value: 'Stanford' },
+                { label: 'Free', value: 'Free' },
+              ],
+              defaultValue: 'LinkedIn Learning',
+            }),
+            glyph: fields.text({
+              label: 'Thumbnail letter (decorative)',
+            }),
+            duration: fields.text({ label: 'Duration (optional)' }),
             description: fields.text({
               label: 'Description',
               multiline: true,
+            }),
+            url: fields.text({
+              label: 'Course URL (external links open in a new tab)',
             }),
           }),
           {
-            label: 'LinkedIn Learning courses',
+            label: 'Courses',
             itemLabel: (props) => props.fields.title.value || 'Course',
           }
         ),
-        stanford_blurb: fields.text({
-          label: 'Stanford blurb',
-          multiline: true,
-        }),
-        free_resource_cta: fields.object(
+        mid_cta: fields.object(
           {
-            text: fields.text({ label: 'CTA text' }),
-            url: fields.text({ label: 'CTA URL' }),
-            description: fields.text({
-              label: 'Description',
-              multiline: true,
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
             }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            cta_url: fields.text({ label: 'CTA URL' }),
           },
-          { label: 'Free resource CTA' }
+          { label: 'Mid-page CTA' }
         ),
-        hero_copy: fields.markdoc({ label: 'Hero copy' }),
+        stanford: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            cta_url: fields.text({ label: 'CTA URL' }),
+          },
+          { label: 'Stanford callout' }
+        ),
       },
     }),
     book: singleton({
