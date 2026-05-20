@@ -21,7 +21,7 @@ export const mainNavItems: NavItem[] = [
       { label: 'Speaking Overview', href: '/speaking' },
       { label: 'Keynotes and Trainings', href: '/speaking#past-talks' },
       { label: 'Testimonials', href: '/speaking#testimonials' },
-      { label: 'Bio and Headshot', href: '/about#bio' },
+      { label: 'Bio and Headshot', href: '/speaking#bio' },
     ],
   },
   {
@@ -30,8 +30,11 @@ export const mainNavItems: NavItem[] = [
     href: '/articles',
     children: [
       { label: 'Thought Leadership Overview', href: '/articles' },
-      { label: 'Newsletter', href: '/articles' },
-      { label: 'LinkedIn Resources', href: '/learn' },
+      { label: 'Guest Interviews', href: '/articles#guest-interviews' },
+      { label: 'Featured In', href: '/articles#featured-in' },
+      { label: 'Authored Articles', href: '/articles#authored' },
+      { label: 'Newsletter', href: '/articles#newsletter' },
+      { label: 'Ultimate LinkedIn Guide', href: '/learn#linkedin-guide' },
     ],
   },
   {
@@ -41,6 +44,8 @@ export const mainNavItems: NavItem[] = [
     children: [
       { label: 'Learn Overview', href: '/learn' },
       { label: 'Free Course', href: '/#course' },
+      { label: 'Unlock Your Impact Course', href: '/learn#unlock-your-impact' },
+      { label: 'Free Resources', href: '/learn#resources' },
       { label: 'Learning Courses', href: '/learn#courses' },
     ],
   },
@@ -51,6 +56,7 @@ export const mainNavItems: NavItem[] = [
     children: [
       { label: 'About Lorraine', href: '/about' },
       { label: 'Awards and Accolades', href: '/about#awards' },
+      { label: 'Media Kit', href: '/media-kit' },
     ],
   },
   { id: 'book', label: 'Book', href: '/book' },
