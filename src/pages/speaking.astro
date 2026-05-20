@@ -10,19 +10,28 @@ if (!speaking) {
 
 const {
 	hero,
+	reel_section,
 	topics_section,
 	topics,
+	custom_programs_section,
+	other_talks_section,
+	other_talks,
 	clients_section,
 	past_clients,
 	show_stats,
 	stats_section,
 	stats,
+	moderation_section,
+	moderation_clips,
 	testimonials_section,
 	testimonials,
+	attendee_testimonials_section,
+	attendee_testimonials,
 	repeats_section,
 	repeats,
 	as_seen_in_eyebrow,
 	as_seen_in,
+	bio_callout,
 	final_cta,
 } = speaking;
 
@@ -30,6 +39,13 @@ const statDisplay = (value: string, decimals: number) => {
 	const n = parseFloat(value) || 0;
 	return decimals > 0 ? n.toFixed(decimals) : Math.round(n).toLocaleString();
 };
+
+const reelEmbed = safeUrl(reel_section?.embed_url);
+
+const pressMarquee = as_seen_in
+	? [...as_seen_in, ...as_seen_in, ...as_seen_in, ...as_seen_in]
+	: [];
+const pressLogosLen = as_seen_in?.length ?? 0;
 ---
 
 <SpeakingLayout
@@ -53,7 +69,24 @@ const statDisplay = (value: string, decimals: number) => {
 					<a class="btn primary large" href={safeUrl(hero.cta_url)}>
 						{hero.cta_label} <span aria-hidden="true">&rarr;</span>
 					</a>
-					<a class="btn outline" href="#past-talks">See past talks</a>
+					{
+						hero.secondary_cta_label && (
+							<a
+								class="btn outline"
+								href={safeUrl(hero.secondary_cta_url) || '#'}
+							>
+								{hero.secondary_cta_label}
+							</a>
+						)
+					}
+					{
+						hero.testimonials_anchor_label && (
+							<a class="anchor-link" href="#testimonials">
+								{hero.testimonials_anchor_label}{' '}
+								<span class="arrow" aria-hidden="true">&darr;</span>
+							</a>
+						)
+					}
 				</div>
 				<div class="hero-meta">
 					{
@@ -72,23 +105,60 @@ const statDisplay = (value: string, decimals: number) => {
 			<div class="page-hero-aside fade-up" style="animation-delay: 120ms;">
 				<div class="photo-card">
 					<img src={hero.image} alt={hero.image_alt} />
-				</div>
-				<div
-					class="photo-stat"
-					style="background: var(--brand-yellow-500); color: var(--ink-900); border-color: var(--brand-yellow-500);"
-				>
-					<div class="num" style="color: var(--ink-900);">
-						{hero.photo_stat_value}
-					</div>
-					<div class="lbl" style="color: var(--ink-900); opacity: 0.78;">
-						{hero.photo_stat_label}
+					<div
+						class="photo-stat"
+						style="background: var(--brand-yellow-500); color: var(--ink-900); border-color: var(--brand-yellow-500);"
+					>
+						<div class="num" style="color: var(--ink-900);">
+							{hero.photo_stat_value}
+						</div>
+						<div class="lbl" style="color: var(--ink-900); opacity: 0.78;">
+							{hero.photo_stat_label}
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	{/* ---------- Topics ---------- */}
+	{/* ---------- Speaker reel ---------- */}
+	{
+		reel_section && (
+			<section class="section section--tight">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{reel_section.eyebrow}</span>
+						<h2>
+							{reel_section.heading} <em>{reel_section.heading_accent}</em>
+						</h2>
+						{reel_section.body && <p class="lead">{reel_section.body}</p>}
+					</div>
+					<div class="reel-frame reveal">
+						{reelEmbed ? (
+							<iframe
+								src={reelEmbed}
+								title="Lorraine K. Lee speaker reel"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+								allowfullscreen
+								loading="lazy"
+							/>
+						) : (
+							<div class="reel-placeholder">
+								<div class="play-ring" aria-hidden="true">&#9654;</div>
+								<div>Speaker reel embed coming soon.</div>
+								<div class="note">Lorraine — add the embed URL in Keystatic.</div>
+							</div>
+						)}
+					</div>
+					{reel_section.caption && (
+						<p class="reel-caption">{reel_section.caption}</p>
+					)}
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Signature keynotes ---------- */}
 	<section class="section section--cream" id="past-talks">
 		<div class="grid12">
 			<div class="section-head">
@@ -100,23 +170,130 @@ const statDisplay = (value: string, decimals: number) => {
 			</div>
 			<div class="topic-grid reveal-stagger">
 				{
-					topics.map((t) => (
-						<a class="topic-card" href="/contact">
-							<div class="topic-num">&#8470; {t.number}</div>
-							<h3>{t.title}</h3>
-							<p class="topic-desc">{t.description}</p>
-							<div class="topic-meta">
-								<span>{t.format}</span>
-								<span style="margin-left: auto;">
-									Inquire <span class="arrow">&rarr;</span>
-								</span>
-							</div>
-						</a>
-					))
+					topics.map((t) => {
+						const href = t.slug ? `/speaking/${t.slug}` : '/contact';
+						return (
+							<a class="topic-card" href={href}>
+								<div class="topic-num">&#8470; {t.number}</div>
+								<h3>{t.title}</h3>
+								<p class="topic-desc">{t.description}</p>
+								<div class="topic-meta">
+									<span>{t.format}</span>
+									<span class="topic-watch" style="margin-left: auto;">
+										Watch talk <span class="arrow">&rarr;</span>
+									</span>
+								</div>
+							</a>
+						);
+					})
 				}
 			</div>
 		</div>
 	</section>
+
+	{/* ---------- Custom programs ---------- */}
+	{
+		custom_programs_section && (
+			<section class="section">
+				<div class="grid12">
+					<div class="custom-programs-grid">
+						<div class="custom-programs-copy reveal">
+							<span class="eyebrow">{custom_programs_section.eyebrow}</span>
+							<h2>
+								{custom_programs_section.heading}{' '}
+								<em>{custom_programs_section.heading_accent}</em>
+							</h2>
+							<p>{custom_programs_section.body}</p>
+							{custom_programs_section.cta_label && (
+								<a
+									class="btn primary large"
+									href={safeUrl(custom_programs_section.cta_url)}
+								>
+									{custom_programs_section.cta_label}{' '}
+									<span aria-hidden="true">&rarr;</span>
+								</a>
+							)}
+						</div>
+						<ul class="custom-programs-list reveal-stagger">
+							{custom_programs_section.bullets?.map((b) => <li>{b}</li>)}
+						</ul>
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- All other talks ---------- */}
+	{
+		other_talks_section && other_talks?.length > 0 && (
+			<section class="section section--tight">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{other_talks_section.eyebrow}</span>
+						<h2>
+							{other_talks_section.heading}{' '}
+							<em>{other_talks_section.heading_accent}</em>
+						</h2>
+						{other_talks_section.lead && (
+							<p class="lead">{other_talks_section.lead}</p>
+						)}
+					</div>
+					<div class="other-talks reveal">
+						<div class="other-talks-acc" data-open="false">
+							<button
+								class="other-talks-trigger"
+								type="button"
+								aria-expanded="false"
+								aria-controls="other-talks-panel"
+							>
+								<span class="trigger-label">
+									{other_talks_section.summary_label || 'See all other talks'}
+								</span>
+								<span class="trigger-chevron" aria-hidden="true">
+									<svg viewBox="0 0 16 16" width="14" height="14">
+										<path
+											d="M3 5.5 L8 10.5 L13 5.5"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+									</svg>
+								</span>
+							</button>
+							<div
+								class="other-talks-panel"
+								id="other-talks-panel"
+								role="region"
+								aria-hidden="true"
+							>
+								<div class="other-talks-list">
+									{other_talks.map((talk, i) => {
+										const url = safeUrl(talk.url);
+										const Tag = (url ? 'a' : 'div') as 'a' | 'div';
+										return (
+											<Tag
+												class="talk-row"
+												style={`--row-i: ${i}`}
+												{...(url ? { href: url } : {})}
+											>
+												<span class="talk-marker" aria-hidden="true" />
+												<div class="talk-body">
+													<h4>{talk.title}</h4>
+													<p>{talk.description}</p>
+												</div>
+											</Tag>
+										);
+									})}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		)
+	}
 
 	{/* ---------- Past clients ---------- */}
 	<section class="section section--tight">
@@ -130,8 +307,18 @@ const statDisplay = (value: string, decimals: number) => {
 			<div class="logo-grid reveal">
 				{
 					past_clients.map((l) => (
-						<div class="logo-cell">
-							<span class={`logo-word ${l.style}`}>{l.name}</span>
+						<div class="logo-cell" data-client={l.name}>
+							{l.logo_src && (
+								<img
+									class="client-logo"
+									src={l.logo_src}
+									alt={l.name}
+									loading="lazy"
+									referrerpolicy="no-referrer"
+									onerror="this.classList.add('client-logo--failed'); this.removeAttribute('src');"
+								/>
+							)}
+							<span class="client-logo-name">{l.name}</span>
 						</div>
 					))
 				}
@@ -174,8 +361,57 @@ const statDisplay = (value: string, decimals: number) => {
 		)
 	}
 
-	{/* ---------- Organizer testimonials ---------- */}
-	<section class="section">
+	{/* ---------- Moderation ---------- */}
+	{
+		moderation_section && moderation_clips?.length > 0 && (
+			<section class="section">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{moderation_section.eyebrow}</span>
+						<h2>
+							{moderation_section.heading}{' '}
+							<em>{moderation_section.heading_accent}</em>
+						</h2>
+						{moderation_section.lead && (
+							<p class="lead">{moderation_section.lead}</p>
+						)}
+					</div>
+					<div class="moderation-grid reveal-stagger">
+						{moderation_clips.map((clip) => {
+							const embed = safeUrl(clip.embed_url);
+							return (
+								<div class="moderation-card">
+									<div class="clip-frame">
+										{embed ? (
+											<iframe
+												src={embed}
+												title={clip.title}
+												allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+												allowfullscreen
+												loading="lazy"
+											/>
+										) : (
+											<div class="reel-placeholder">
+												<div class="play-ring" aria-hidden="true">&#9654;</div>
+												<div class="note">Clip embed coming soon</div>
+											</div>
+										)}
+									</div>
+									<div class="clip-body">
+										<h3>{clip.title}</h3>
+										{clip.caption && <p>{clip.caption}</p>}
+									</div>
+								</div>
+							);
+						})}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Testimonials (organizers + attendees) ---------- */}
+	<section class="section" id="testimonials">
 		<div class="grid12">
 			<div class="section-head">
 				<span class="eyebrow">{testimonials_section.eyebrow}</span>
@@ -206,6 +442,41 @@ const statDisplay = (value: string, decimals: number) => {
 		</div>
 	</section>
 
+	{
+		attendee_testimonials_section && attendee_testimonials?.length > 0 && (
+			<section class="section section--tight section--cream">
+				<div class="grid12">
+					<div class="section-head">
+						<span class="eyebrow">{attendee_testimonials_section.eyebrow}</span>
+						<h2>
+							{attendee_testimonials_section.heading}{' '}
+							<em>{attendee_testimonials_section.heading_accent}</em>
+						</h2>
+						{attendee_testimonials_section.lead && (
+							<p class="lead">{attendee_testimonials_section.lead}</p>
+						)}
+					</div>
+					<div class="attendee-masonry reveal">
+						{attendee_testimonials.map((t) => (
+							<figure class="t-card">
+								<span class="t-mark" aria-hidden="true">&ldquo;</span>
+								<blockquote class="t-quote">{t.quote}</blockquote>
+								<div class="t-divider" />
+								<figcaption class="t-attrib">
+									<div class="t-avatar">{t.initials}</div>
+									<div>
+										<div class="t-name">{t.name}</div>
+										<div class="t-role">{t.role}</div>
+									</div>
+								</figcaption>
+							</figure>
+						))}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
 	{/* ---------- Repeat bookings ---------- */}
 	<section class="section section--cream">
 		<div class="grid12">
@@ -230,24 +501,52 @@ const statDisplay = (value: string, decimals: number) => {
 		</div>
 	</section>
 
-	{/* ---------- As seen in ---------- */}
-	<section class="section section--tight">
-		<div class="grid12">
-			<div
-				class="section-head section-head--center"
-				style="margin-bottom: 32px;"
-			>
-				<span class="eyebrow">{as_seen_in_eyebrow}</span>
-			</div>
-			<div class="media-strip">
+	{/* ---------- As seen in (marquee, matches Home) ---------- */}
+	<section class="trust as-seen-in editorial-trust">
+		<div class="trust-eyebrow">{as_seen_in_eyebrow}</div>
+		<div class="marquee-mask">
+			<div class="marquee">
 				{
-					as_seen_in.map((l) => (
-						<span class={`logo-word ${l.style}`}>{l.name}</span>
+					pressMarquee.map((logo, i) => (
+						<span
+							class={`press-mark-frame press-mark-frame--${logo.id}`}
+							style={`--mark-height: ${logo.height}px; --mark-width: ${logo.width}px;`}
+							aria-hidden={i >= pressLogosLen ? 'true' : undefined}
+						>
+							<img
+								class={`press-mark press-mark--${logo.id}`}
+								src={logo.src}
+								alt={i < pressLogosLen ? logo.name : ''}
+								loading="lazy"
+							/>
+						</span>
 					))
 				}
 			</div>
 		</div>
 	</section>
+
+	{/* ---------- Speaker bio callout ---------- */}
+	{
+		bio_callout && (
+			<section class="section section--tight">
+				<div class="grid12">
+					<div class="bio-callout reveal">
+						<div class="bio-callout-copy">
+							<span class="eyebrow">{bio_callout.eyebrow}</span>
+							<h3>
+								{bio_callout.heading} <em>{bio_callout.heading_accent}</em>
+							</h3>
+							<p>{bio_callout.body}</p>
+						</div>
+						<a class="btn outline large" href={safeUrl(bio_callout.cta_url)}>
+							{bio_callout.cta_label} <span aria-hidden="true">&rarr;</span>
+						</a>
+					</div>
+				</div>
+			</section>
+		)
+	}
 
 	{/* ---------- Final CTA ---------- */}
 	<section class="section">

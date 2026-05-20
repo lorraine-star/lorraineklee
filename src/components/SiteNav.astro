@@ -1,13 +1,5 @@
 ---
-const links = [
-  { href: '/', label: 'Home' },
-  { href: '/about', label: 'About' },
-  { href: '/speaking', label: 'Speaking' },
-  { href: '/learn', label: 'Learn' },
-  { href: '/book', label: 'Book' },
-  { href: '/articles', label: 'Articles' },
-  { href: '/contact', label: 'Contact' },
-];
+import { mainNavItems } from '../lib/nav';
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) =>
@@ -23,20 +15,34 @@ const isActive = (href: string) =>
     </a>
     <ul class="flex flex-wrap gap-x-5 gap-y-1 text-sm">
       {
-        links.map((link) => (
-          <li>
+        mainNavItems.map((item) => (
+          <li class="relative group">
             <a
-              href={link.href}
-              aria-current={isActive(link.href) ? 'page' : undefined}
+              href={item.href}
+              aria-current={isActive(item.href) ? 'page' : undefined}
               class:list={[
                 'transition-colors hover:text-neutral-900',
-                isActive(link.href)
+                isActive(item.href)
                   ? 'font-medium text-neutral-900'
                   : 'text-neutral-500',
               ]}
             >
-              {link.label}
+              {item.label}
             </a>
+            {item.children?.length && (
+              <ul class="absolute left-1/2 top-full z-20 mt-3 hidden min-w-52 -translate-x-1/2 rounded-xl border border-neutral-200 bg-white p-2 shadow-lg group-hover:block group-focus-within:block">
+                {item.children.map((child) => (
+                  <li>
+                    <a
+                      href={child.href}
+                      class="block whitespace-nowrap rounded-lg px-3 py-2 text-neutral-600 transition-colors hover:bg-neutral-50 hover:text-neutral-900"
+                    >
+                      {child.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
           </li>
         ))
       }

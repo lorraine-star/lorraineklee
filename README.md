@@ -36,20 +36,17 @@ instead, set `storage` to `{ kind: 'local' }` in `keystatic.config.ts`.
 
 ## Contact form
 
-The Contact page form is sent through [Formspree](https://formspree.io) — the
-legacy WordPress mailer cannot send transactional email, so the Astro site does
-not depend on it. The form submits over `fetch` (AJAX) and shows inline success
-and error states; a hidden honeypot field (`_gotcha`) filters bots.
+The Contact page form is Lorraine's own [Typeform](https://www.typeform.com/),
+embedded inline via Typeform's `embed.js`. Submissions land in her Typeform
+inbox and trigger her existing automation integrations.
 
-Set the Formspree form id in the `PUBLIC_FORMSPREE_ID` environment variable
-(locally in a `.env` file, and in the Vercel project settings):
+Set the Typeform form ID in Keystatic on the **Contact** singleton, in the
+**Typeform form ID** field — the 8-character ID from the form's share URL
+(`https://<account>.typeform.com/to/<id>`). The ID also lives in
+`src/content/contact/index.yaml` as `typeform_id` for local development.
 
-```sh
-PUBLIC_FORMSPREE_ID=xxxxxxxx   # the id from https://formspree.io/f/<id>
-```
-
-Until it is set, the form validates input but shows an error state on submit
-instead of sending.
+If the field is empty the form area falls back to a "not connected yet"
+message. Direct email rows are limited to press and brand deals.
 
 ## Project structure
 

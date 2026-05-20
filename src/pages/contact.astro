@@ -13,25 +13,19 @@ const {
 	headline,
 	headline_accent,
 	lead,
-	contact_email,
 	press_email,
-	form_heading,
-	inquiry_types,
-	response_note,
-	success_heading,
-	success_body,
+	brand_deals_email,
+	typeform_id,
 	social_links,
 } = contact;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const email = contact_email?.trim() ?? '';
-const hasEmail = EMAIL_RE.test(email);
 const press = press_email?.trim() ?? '';
 const hasPress = EMAIL_RE.test(press);
+const brandDeals = brand_deals_email?.trim() ?? '';
+const hasBrandDeals = EMAIL_RE.test(brandDeals);
 
-// Formspree endpoint id — supplied via the PUBLIC_FORMSPREE_ID env var so the
-// real form can be dropped in without a code change. Empty until configured.
-const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID ?? '';
+const formId = typeform_id?.trim() ?? '';
 
 // Inline SVG markup for known social platforms; matched case-insensitively.
 const socialIcons: Record<string, string> = {
@@ -51,7 +45,6 @@ const iconFor = (platform: string) =>
 	socialIcons[platform.trim().toLowerCase()] ?? fallbackIcon;
 
 const links = (social_links ?? []).filter((s) => s.url);
-const formAction = formspreeId ? `https://formspree.io/f/${formspreeId}` : '';
 ---
 
 <SpeakingLayout title="Lorraine K. Lee — Contact" description={lead} activeId="contact">
@@ -67,28 +60,24 @@ const formAction = formspreeId ? `https://formspree.io/f/${formspreeId}` : '';
 					<h1>{headline} <em>{headline_accent}</em></h1>
 					<p class="contact-lead">{lead}</p>
 
-					<div class="contact-direct">
-						{
-							hasEmail && (
-								<div class="row">
-									<span class="lbl">Email</span>
-									<a href={`mailto:${email}`}>{email}</a>
-								</div>
-							)
-						}
-						<div class="row">
-							<span class="lbl">Speaking</span>
-							<a href="/speaking">Booking inquiries &rarr;</a>
-						</div>
-						{
-							hasPress && (
-								<div class="row">
-									<span class="lbl">Press</span>
-									<a href={`mailto:${press}`}>{press}</a>
-								</div>
-							)
-						}
-					</div>
+					{
+						(hasBrandDeals || hasPress) && (
+							<div class="contact-direct">
+								{hasBrandDeals && (
+									<div class="row">
+										<span class="lbl">Brand deals and partnerships</span>
+										<a href={`mailto:${brandDeals}`}>{brandDeals}</a>
+									</div>
+								)}
+								{hasPress && (
+									<div class="row">
+										<span class="lbl">Press</span>
+										<a href={`mailto:${press}`}>{press}</a>
+									</div>
+								)}
+							</div>
+						)
+					}
 
 					{
 						links.length > 0 && (
@@ -111,251 +100,39 @@ const formAction = formspreeId ? `https://formspree.io/f/${formspreeId}` : '';
 					}
 				</aside>
 
-				{/* ---------- Right: form ---------- */}
+				{/* ---------- Right: Typeform embed ---------- */}
 				<div class="contact-form-card fade-up" style="animation-delay: 120ms;">
-					<form
-						id="contact-form"
-						action={formAction}
-						method="POST"
-						novalidate
-					>
-						<span class="eyebrow form-eyebrow">Send a message</span>
-						<h2>{form_heading}</h2>
-
-						<div class="form-error-banner" id="form-error" hidden role="alert">
-							<span aria-hidden="true">&#9888;</span>
-							<span id="form-error-text"></span>
-						</div>
-
-						<div class="row-2">
-							<div class="field-group">
-								<label for="name">Your name</label>
-								<input
-									id="name"
-									name="name"
-									type="text"
-									autocomplete="name"
-									placeholder="Jane Reyes"
-								/>
-								<div class="field-error" id="error-name" hidden></div>
-							</div>
-							<div class="field-group">
-								<label for="email">Email</label>
-								<input
-									id="email"
-									name="email"
-									type="email"
-									autocomplete="email"
-									placeholder="jane@company.com"
-								/>
-								<div class="field-error" id="error-email" hidden></div>
-							</div>
-						</div>
-
-						<div class="field-group">
-							<label for="inquiry">Inquiry type</label>
-							<select id="inquiry" name="inquiry">
-								<option value="">Select one&hellip;</option>
-								{
-									(inquiry_types ?? []).map((t) => (
-										<option value={t}>{t}</option>
-									))
-								}
-							</select>
-							<div class="field-error" id="error-inquiry" hidden></div>
-						</div>
-
-						<div class="field-group">
-							<label for="message">Tell me about it</label>
-							<textarea
-								id="message"
-								name="message"
-								placeholder="Event date, audience, location, format, and what you'd like the room to leave with."
-							></textarea>
-							<span class="char-counter" id="char-counter" hidden></span>
-							<div class="field-error" id="error-message" hidden></div>
-						</div>
-
-						{/* Honeypot — hidden from people, catches bots */}
-						<div aria-hidden="true" style="position:absolute;left:-9999px;" tabindex="-1">
-							<label for="company">Company</label>
-							<input id="company" name="_gotcha" type="text" tabindex="-1" autocomplete="off" />
-						</div>
-						<input type="hidden" name="_subject" value="New contact enquiry — lorraineklee.com" />
-
-						<div class="submit-row">
-							<p class="submit-note">{response_note}</p>
-							<button type="submit" class="btn primary large" id="contact-submit">
-								Send message <span aria-hidden="true">&rarr;</span>
-							</button>
-						</div>
-					</form>
-
-					<div class="contact-success" id="contact-success" hidden aria-live="polite">
-						<div class="check" aria-hidden="true">
-							<svg viewBox="0 0 24 24">
-								<polyline
-									points="4 13 9 18 20 6"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								></polyline>
-							</svg>
-						</div>
-						<h3>{success_heading}</h3>
-						<p id="contact-success-body"></p>
-					</div>
+					{
+						formId ? (
+							<div
+								data-tf-widget={formId}
+								data-tf-iframe-props={`title=Contact Lorraine K. Lee`}
+								data-tf-medium="snippet"
+								data-tf-opacity="100"
+								style="width:100%;min-height:640px;"
+							/>
+						) : (
+							<p class="contact-fallback">
+								{hasBrandDeals || hasPress ? (
+									<>
+										The contact form isn't connected yet. Email{' '}
+										{hasBrandDeals && (
+											<a href={`mailto:${brandDeals}`}>{brandDeals}</a>
+										)}
+										{hasBrandDeals && hasPress && ' or '}
+										{hasPress && <a href={`mailto:${press}`}>{press}</a>}{' '}
+										and I'll get back to you.
+									</>
+								) : (
+									"The contact form isn't connected yet — please check back soon."
+								)}
+							</p>
+						)
+					}
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<script
-		is:inline
-		define:vars={{ formAction, successBody: success_body, contactEmail: email }}
-	>
-		(() => {
-			const form = document.getElementById('contact-form');
-			if (!form) return;
-
-			const MSG_MIN = 10;
-			const MSG_MAX = 1200;
-			const EMAIL_RE = /^\S+@\S+\.\S+$/;
-
-			const submitBtn = document.getElementById('contact-submit');
-			const submitLabel = submitBtn.innerHTML;
-			const banner = document.getElementById('form-error');
-			const bannerText = document.getElementById('form-error-text');
-			const counter = document.getElementById('char-counter');
-			const message = document.getElementById('message');
-
-			const fields = ['name', 'email', 'inquiry', 'message'];
-
-			const escapeHtml = (s) =>
-				String(s).replace(
-					/[&<>"']/g,
-					(c) =>
-						({
-							'&': '&amp;',
-							'<': '&lt;',
-							'>': '&gt;',
-							'"': '&quot;',
-							"'": '&#39;',
-						})[c]
-				);
-
-			const setError = (key, msg) => {
-				const input = document.getElementById(key);
-				const box = document.getElementById('error-' + key);
-				if (msg) {
-					box.textContent = '⚠ ' + msg;
-					box.hidden = false;
-					input.setAttribute('aria-invalid', 'true');
-				} else {
-					box.hidden = true;
-					box.textContent = '';
-					input.removeAttribute('aria-invalid');
-				}
-			};
-
-			const showBanner = (msg) => {
-				bannerText.textContent = msg;
-				banner.hidden = false;
-			};
-			const hideBanner = () => {
-				banner.hidden = true;
-			};
-
-			// Live-clear a field's error as the visitor fixes it.
-			fields.forEach((key) => {
-				document
-					.getElementById(key)
-					.addEventListener('input', () => setError(key, ''));
-			});
-
-			// Character counter for the message field.
-			const updateCounter = () => {
-				const len = message.value.length;
-				if (len === 0) {
-					counter.hidden = true;
-					return;
-				}
-				counter.hidden = false;
-				counter.textContent = len + ' / ' + MSG_MAX;
-				counter.classList.toggle('over', len > MSG_MAX);
-			};
-			message.addEventListener('input', updateCounter);
-
-			const validate = () => {
-				const data = {
-					name: document.getElementById('name').value,
-					email: document.getElementById('email').value,
-					inquiry: document.getElementById('inquiry').value,
-					message: document.getElementById('message').value,
-				};
-				const errs = {};
-				if (!data.name.trim()) errs.name = 'Required';
-				if (!EMAIL_RE.test(data.email)) errs.email = 'Valid email required';
-				if (!data.inquiry) errs.inquiry = 'Pick one';
-				if (data.message.trim().length < MSG_MIN)
-					errs.message = 'A few more words please';
-				if (data.message.length > MSG_MAX)
-					errs.message = 'Too long, keep it under ' + MSG_MAX + ' characters';
-				fields.forEach((key) => setError(key, errs[key] || ''));
-				return { ok: Object.keys(errs).length === 0, errs, data };
-			};
-
-			form.addEventListener('submit', async (e) => {
-				e.preventDefault();
-				hideBanner();
-				const { ok, errs, data } = validate();
-				if (!ok) {
-					const first = fields.find((k) => errs[k]);
-					if (first) document.getElementById(first).focus();
-					return;
-				}
-
-				if (!form.getAttribute('action')) {
-					showBanner(
-						'The contact form is not connected yet. Please email ' +
-							(contactEmail || 'us') +
-							' directly.'
-					);
-					return;
-				}
-
-				submitBtn.disabled = true;
-				submitBtn.textContent = 'Sending…';
-
-				try {
-					const res = await fetch(form.getAttribute('action'), {
-						method: 'POST',
-						body: new FormData(form),
-						headers: { Accept: 'application/json' },
-					});
-					if (!res.ok) throw new Error('Bad response ' + res.status);
-
-					const firstName = data.name.trim().split(/\s+/)[0];
-					document.getElementById('contact-success-body').innerHTML = escapeHtml(
-						successBody
-					)
-						.replace(/\{name\}/g, escapeHtml(firstName))
-						.replace(
-							/\{email\}/g,
-							'<strong>' + escapeHtml(data.email.trim()) + '</strong>'
-						);
-					form.hidden = true;
-					document.getElementById('contact-success').hidden = false;
-				} catch (err) {
-					console.error('Contact form submission failed:', err);
-					submitBtn.disabled = false;
-					submitBtn.innerHTML = submitLabel;
-					showBanner(
-						'Something went wrong sending your message. Please try again, or email ' +
-							(contactEmail || 'us') +
-							' directly.'
-					);
-				}
-			});
-		})();
-	</script>
+	{formId && <script is:inline src="//embed.typeform.com/next/embed.js" async />}
 </SpeakingLayout>

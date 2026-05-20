@@ -234,6 +234,19 @@ export default config({
             lead: fields.text({ label: 'Lead paragraph', multiline: true }),
             cta_label: fields.text({ label: 'Primary CTA label' }),
             cta_url: fields.text({ label: 'Primary CTA URL' }),
+            secondary_cta_label: fields.text({
+              label: 'Secondary CTA label',
+              description: 'E.g. "View speaker one-pager"',
+            }),
+            secondary_cta_url: fields.text({
+              label: 'Secondary CTA URL',
+              description: 'PDF link, internal route, or external URL',
+            }),
+            testimonials_anchor_label: fields.text({
+              label: 'Testimonials anchor label',
+              description: 'Small link that jumps to the testimonials section',
+              defaultValue: 'Read testimonials',
+            }),
             image: fields.image({
               label: 'Hero image',
               directory: 'public/images/speaking',
@@ -258,6 +271,23 @@ export default config({
           },
           { label: 'Hero' }
         ),
+        reel_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            embed_url: fields.text({
+              label: 'Reel embed URL',
+              description:
+                'YouTube or Vimeo embed URL (e.g. https://www.youtube.com/embed/VIDEO_ID).',
+            }),
+            caption: fields.text({ label: 'Caption under reel' }),
+          },
+          { label: 'Speaker reel section' }
+        ),
         topics_section: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -272,16 +302,86 @@ export default config({
         topics: fields.array(
           fields.object({
             number: fields.text({ label: 'Number' }),
+            slug: fields.text({
+              label: 'URL slug',
+              description:
+                'Kebab-case slug for the deep-link page, e.g. "executive-presence".',
+            }),
             title: fields.text({ label: 'Title' }),
             description: fields.text({
               label: 'Description',
               multiline: true,
             }),
             format: fields.text({ label: 'Format' }),
+            clip_url: fields.text({
+              label: 'Talk clip embed URL (optional)',
+              description: 'YouTube or Vimeo embed URL for the talk page.',
+            }),
+            talk_track: fields.array(
+              fields.object({
+                time: fields.text({ label: 'Time / chapter (optional)' }),
+                label: fields.text({ label: 'Track label' }),
+              }),
+              {
+                label: 'Talk track (chapters)',
+                itemLabel: (props) =>
+                  props.fields.label.value || 'Track item',
+              }
+            ),
+            takeaways: fields.array(fields.text({ label: 'Takeaway' }), {
+              label: 'Audience takeaways',
+              itemLabel: (props) => props.value || 'Takeaway',
+            }),
           }),
           {
             label: 'Speaking topics',
             itemLabel: (props) => props.fields.title.value || 'Topic',
+          }
+        ),
+        custom_programs_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            bullets: fields.array(fields.text({ label: 'Bullet' }), {
+              label: 'Custom program bullets',
+              itemLabel: (props) => props.value || 'Bullet',
+            }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            cta_url: fields.text({ label: 'CTA URL' }),
+          },
+          { label: 'Custom programs section' }
+        ),
+        other_talks_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+            summary_label: fields.text({
+              label: 'Expand toggle label',
+              defaultValue: 'See all other talks',
+            }),
+          },
+          { label: 'All other talks section' }
+        ),
+        other_talks: fields.array(
+          fields.object({
+            title: fields.text({ label: 'Title' }),
+            description: fields.text({
+              label: 'Description',
+              multiline: true,
+            }),
+            url: fields.text({ label: 'URL (optional)' }),
+          }),
+          {
+            label: 'All other talks',
+            itemLabel: (props) => props.fields.title.value || 'Talk',
           }
         ),
         clients_section: fields.object(
@@ -297,8 +397,13 @@ export default config({
         past_clients: fields.array(
           fields.object({
             name: fields.text({ label: 'Client name' }),
+            logo_src: fields.text({
+              label: 'Logo image URL (e.g. Brandfetch CDN URL)',
+              description:
+                'Optional. If set, the logo image renders in place of the wordmark.',
+            }),
             style: fields.text({
-              label: 'Logo style (CSS classes: bold, caps, serif, italic)',
+              label: 'Logo style (CSS classes: bold, caps, serif, italic). Used only when logo_src is empty.',
             }),
           }),
           {
@@ -364,6 +469,70 @@ export default config({
             itemLabel: (props) => props.fields.name.value || 'Testimonial',
           }
         ),
+        attendee_testimonials_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+          },
+          { label: 'Attendee testimonials section heading' }
+        ),
+        attendee_testimonials: fields.array(
+          fields.object({
+            quote: fields.text({ label: 'Quote', multiline: true }),
+            name: fields.text({ label: 'Name' }),
+            role: fields.text({ label: 'Role / organization' }),
+            initials: fields.text({ label: 'Initials' }),
+          }),
+          {
+            label: 'Attendee testimonials',
+            itemLabel: (props) => props.fields.name.value || 'Testimonial',
+          }
+        ),
+        moderation_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+          },
+          { label: 'Moderation section heading' }
+        ),
+        moderation_clips: fields.array(
+          fields.object({
+            title: fields.text({ label: 'Clip title' }),
+            embed_url: fields.text({
+              label: 'Embed URL',
+              description: 'YouTube/Vimeo embed URL.',
+            }),
+            caption: fields.text({ label: 'Caption', multiline: true }),
+          }),
+          {
+            label: 'Moderation clips',
+            itemLabel: (props) => props.fields.title.value || 'Clip',
+          }
+        ),
+        bio_callout: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            cta_url: fields.text({
+              label: 'CTA URL',
+              defaultValue: '/speaker-bio',
+            }),
+          },
+          { label: 'Speaker bio callout' }
+        ),
         repeats_section: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -389,8 +558,13 @@ export default config({
         as_seen_in_eyebrow: fields.text({ label: '"As seen in" eyebrow' }),
         as_seen_in: fields.array(
           fields.object({
+            id: fields.text({ label: 'Slug (for CSS hooks, e.g. "cnn")' }),
             name: fields.text({ label: 'Outlet name' }),
-            style: fields.text({ label: 'Logo style (CSS classes)' }),
+            src: fields.text({
+              label: 'Logo image path (e.g. /images/v1/press/cnn.svg)',
+            }),
+            width: fields.integer({ label: 'Width (px)', defaultValue: 160 }),
+            height: fields.integer({ label: 'Height (px)', defaultValue: 32 }),
           }),
           {
             label: 'As seen in',
@@ -410,6 +584,78 @@ export default config({
           },
           { label: 'Final CTA' }
         ),
+      },
+    }),
+    speakerBio: singleton({
+      label: 'Speaker Bio',
+      path: 'src/content/speaker-bio/',
+      format: { contentField: 'body' },
+      schema: {
+        hero: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            headline: fields.text({ label: 'Headline' }),
+            headline_accent: fields.text({
+              label: 'Headline accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead paragraph', multiline: true }),
+            headshot: fields.image({
+              label: 'Headshot',
+              directory: 'public/images/speaker-bio',
+              publicPath: '/images/speaker-bio/',
+            }),
+            headshot_alt: fields.text({ label: 'Headshot alt text' }),
+          },
+          { label: 'Hero' }
+        ),
+        quick_facts: fields.array(
+          fields.object({
+            label: fields.text({ label: 'Label' }),
+            value: fields.text({ label: 'Value', multiline: true }),
+          }),
+          {
+            label: 'Quick facts',
+            itemLabel: (props) => props.fields.label.value || 'Fact',
+          }
+        ),
+        downloads_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+          },
+          { label: 'Downloads section heading' }
+        ),
+        downloads: fields.array(
+          fields.object({
+            label: fields.text({ label: 'Label' }),
+            description: fields.text({
+              label: 'Description (optional)',
+              multiline: true,
+            }),
+            url: fields.text({ label: 'URL' }),
+          }),
+          {
+            label: 'Speaker resources',
+            itemLabel: (props) => props.fields.label.value || 'Resource',
+          }
+        ),
+        final_cta: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            cta_url: fields.text({ label: 'CTA URL' }),
+          },
+          { label: 'Final CTA' }
+        ),
+        body: fields.markdoc({ label: 'Bio body' }),
       },
     }),
     learn: singleton({
@@ -550,14 +796,154 @@ export default config({
           },
           { label: 'Retailers section' }
         ),
-        retailer_links: fields.array(
+        retailer_links_individual: fields.array(
           fields.object({
             name: fields.text({ label: 'Retailer name' }),
             url: fields.url({ label: 'URL' }),
+            brand_color: fields.text({
+              label: 'Brand color (hex, optional — used on hover)',
+              description:
+                'e.g. #FF9900 for Amazon. White text is used over this color on hover.',
+            }),
           }),
           {
-            label: 'Retailer links',
+            label: 'Retailer links — individual buys',
             itemLabel: (props) => props.fields.name.value || 'Retailer',
+          }
+        ),
+        retailer_links_bulk: fields.array(
+          fields.object({
+            name: fields.text({ label: 'Retailer name' }),
+            url: fields.url({ label: 'URL' }),
+            brand_color: fields.text({
+              label: 'Brand color (hex, optional — used on hover)',
+              description:
+                'e.g. #FF9900 for Amazon. White text is used over this color on hover.',
+            }),
+          }),
+          {
+            label: 'Retailer links — bulk buys',
+            itemLabel: (props) => props.fields.name.value || 'Retailer',
+          }
+        ),
+        retailers_individual_label: fields.text({
+          label: 'Individual-buys sub-heading',
+          defaultValue: 'For yourself',
+        }),
+        retailers_bulk_label: fields.text({
+          label: 'Bulk-buys sub-heading',
+          defaultValue: 'Buying for your team or org?',
+        }),
+        community_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain text)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (yellow brush-stroke)',
+            }),
+            collage_image: fields.image({
+              label: 'Reader collage image',
+              directory: 'public/images/book',
+              publicPath: '/images/book/',
+            }),
+            alt_text: fields.text({ label: 'Image alt text' }),
+          },
+          { label: 'Community / readers collage' }
+        ),
+        featured_in_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+          },
+          { label: 'Featured In section heading' }
+        ),
+        featured_in_logos: fields.array(
+          fields.object({
+            name: fields.text({ label: 'Outlet name' }),
+            image: fields.image({
+              label: 'Logo image (SVG preferred)',
+              directory: 'public/images/book/logos',
+              publicPath: '/images/book/logos/',
+            }),
+            url: fields.url({ label: 'Article URL (optional)' }),
+          }),
+          {
+            label: 'Featured In logos',
+            itemLabel: (props) => props.fields.name.value || 'Logo',
+          }
+        ),
+        reviews_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (italic — the book title)',
+            }),
+          },
+          { label: 'Reader reviews section heading' }
+        ),
+        amazon_rating: fields.object(
+          {
+            stars: fields.text({
+              label: 'Star value (e.g. 4.8)',
+            }),
+            count_label: fields.text({
+              label: 'Count label (e.g. "161 global ratings")',
+            }),
+            url: fields.url({ label: 'Amazon product URL' }),
+          },
+          { label: 'Amazon rating snapshot' }
+        ),
+        reader_reviews: fields.array(
+          fields.object({
+            stars: fields.integer({
+              label: 'Star count',
+              defaultValue: 5,
+            }),
+            quote: fields.text({ label: 'Quote', multiline: true }),
+            highlighted_phrases: fields.array(
+              fields.text({ label: 'Phrase' }),
+              {
+                label: 'Highlighted phrases (rendered in blue inside quote)',
+                itemLabel: (props) => props.value || 'Phrase',
+              }
+            ),
+          }),
+          {
+            label: 'Reader reviews (3-col grid)',
+            itemLabel: (props) =>
+              (props.fields.quote.value || 'Review').slice(0, 60),
+          }
+        ),
+        awards_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (italic)',
+            }),
+          },
+          { label: 'Awards section heading' }
+        ),
+        awards: fields.array(
+          fields.object({
+            name: fields.text({ label: 'Award name (e.g. The BookFest® Awards)' }),
+            result: fields.text({ label: 'Result (e.g. 2nd Place, Winner)' }),
+            category: fields.text({
+              label: 'Category',
+              multiline: true,
+            }),
+            badge_image: fields.image({
+              label: 'Badge image',
+              directory: 'public/images/book/awards',
+              publicPath: '/images/book/awards/',
+            }),
+            badge_alt: fields.text({ label: 'Badge alt text' }),
+            url: fields.url({ label: 'Award URL (optional)' }),
+          }),
+          {
+            label: 'Awards',
+            itemLabel: (props) => props.fields.name.value || 'Award',
           }
         ),
         endorsements_section: fields.object(
@@ -572,16 +958,35 @@ export default config({
         ),
         endorsements: fields.array(
           fields.object({
-            quote: fields.text({ label: 'Quote', multiline: true }),
+            headshot: fields.image({
+              label: 'Headshot (square works best)',
+              description: 'Used in the 3D carousel image stack.',
+              directory: 'public/images/book/endorsements/headshots',
+              publicPath: '/images/book/endorsements/headshots/',
+            }),
             name: fields.text({ label: 'Name' }),
             role: fields.text({ label: 'Role / organization' }),
-            featured: fields.checkbox({
-              label: 'Featured (dark pull quote)',
-              defaultValue: false,
+            quote_alt: fields.text({
+              label: 'Quote',
+              multiline: true,
             }),
+            logos: fields.array(
+              fields.object({
+                image: fields.image({
+                  label: 'Logo / book cover',
+                  directory: 'public/images/book/endorsements/logos',
+                  publicPath: '/images/book/endorsements/logos/',
+                }),
+                alt: fields.text({ label: 'Alt text' }),
+              }),
+              {
+                label: 'Company logos / book covers',
+                itemLabel: (props) => props.fields.alt.value || 'Logo',
+              }
+            ),
           }),
           {
-            label: 'Endorsements',
+            label: 'Endorsements (3D carousel)',
             itemLabel: (props) => props.fields.name.value || 'Endorsement',
           }
         ),
@@ -621,21 +1026,6 @@ export default config({
           },
           { label: 'Sample chapter callout' }
         ),
-        author_note: fields.object(
-          {
-            headshot: fields.image({
-              label: 'Headshot',
-              directory: 'public/images/book',
-              publicPath: '/images/book/',
-            }),
-            headshot_alt: fields.text({ label: 'Headshot alt text' }),
-            eyebrow: fields.text({ label: 'Eyebrow' }),
-            body: fields.text({ label: 'Note body', multiline: true }),
-            signature: fields.text({ label: 'Signature' }),
-            signature_role: fields.text({ label: 'Signature role' }),
-          },
-          { label: 'Author note' }
-        ),
         final_cta: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -663,27 +1053,14 @@ export default config({
           description: 'The italicised end of the headline, e.g. "touch."',
         }),
         lead: fields.text({ label: 'Lead paragraph', multiline: true }),
-        contact_email: fields.text({ label: 'Contact email' }),
         press_email: fields.text({ label: 'Press email' }),
-        form_heading: fields.text({ label: 'Form heading' }),
-        inquiry_types: fields.array(
-          fields.text({ label: 'Inquiry type' }),
-          {
-            label: 'Inquiry types',
-            description: 'Options shown in the form’s inquiry-type dropdown.',
-            itemLabel: (props) => props.value || 'Type',
-          }
-        ),
-        response_note: fields.text({
-          label: 'Form response note',
-          multiline: true,
-          description: 'Small print shown next to the send button.',
+        brand_deals_email: fields.text({
+          label: 'Brand deals and partnerships email',
         }),
-        success_heading: fields.text({ label: 'Success heading' }),
-        success_body: fields.text({
-          label: 'Success message',
-          multiline: true,
-          description: 'Use {name} and {email} as placeholders.',
+        typeform_id: fields.text({
+          label: 'Typeform form ID',
+          description:
+            'The 8-character ID from the form\'s share URL — e.g. "PJJPZ9iJ" from https://<account>.typeform.com/to/PJJPZ9iJ.',
         }),
         social_links: fields.array(
           fields.object({

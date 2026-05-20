@@ -1,38 +1,159 @@
 ---
-// Editorial site nav: logo / page links / single CTA.
+import { isNavItemActive, mainNavItems } from '../../lib/nav';
+
 interface Props {
   activeId?: string;
+  logoSrc?: string;
+  ctaHref?: string;
+  ctaLabel?: string;
 }
-const { activeId = 'home' } = Astro.props;
 
-const pages = [
-  { id: 'home', label: 'Home', href: '/' },
-  { id: 'about', label: 'About', href: '/about' },
-  { id: 'speaking', label: 'Speaking', href: '/speaking' },
-  { id: 'learn', label: 'Learn', href: '/learn' },
-  { id: 'book', label: 'Book', href: '/book' },
-  { id: 'contact', label: 'Contact', href: '/contact' },
-];
+const {
+  activeId = 'home',
+  logoSrc = '/images/editorial/logo-primary.png',
+  ctaHref = '/contact',
+  ctaLabel = 'Work With Me',
+} = Astro.props;
 ---
 
 <nav class="nav">
   <div class="nav-inner">
     <a class="nav-logo" href="/" aria-label="Lorraine Lee, home">
-      <img src="/images/editorial/logo-primary.png" alt="Lorraine Lee" />
+      <img src={logoSrc} alt="Lorraine Lee" />
     </a>
-    <div class="nav-links">
+    <div class="nav-links" id="site-nav-menu" data-nav-menu>
       {
-        pages.map((p) => (
-          <a
-            class:list={['nav-link', { active: p.id === activeId }]}
-            href={p.href}
-            aria-current={p.id === activeId ? 'page' : undefined}
-          >
-            {p.label}
-          </a>
-        ))
+        mainNavItems.map((item) => {
+          const active = isNavItemActive(item, activeId);
+          return item.children?.length ? (
+            <div class:list={['nav-item', 'nav-menu-item', { active }]} data-nav-menu-item>
+              <button
+                class="nav-link nav-summary"
+                type="button"
+                aria-haspopup="menu"
+                aria-expanded="false"
+                data-nav-submenu-toggle
+              >
+                <span>{item.label}</span>
+                <span class="nav-chevron" aria-hidden="true">&#9662;</span>
+              </button>
+              <div class="nav-dropdown" role="menu">
+                {item.children.map((child) => (
+                  <a class="nav-dropdown-link" href={child.href} role="menuitem">
+                    {child.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <a
+              class:list={['nav-link', { active }]}
+              href={item.href}
+              aria-current={active ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          );
+        })
       }
     </div>
-    <a class="btn primary" href="/contact">Work With Me</a>
+    <button
+      class="nav-menu-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="site-nav-menu"
+      data-nav-menu-toggle
+    >
+      <span class="sr-only">Toggle navigation</span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+    <a class="btn primary" href={ctaHref}>{ctaLabel}</a>
   </div>
 </nav>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.nav').forEach((nav) => {
+    const toggle = nav.querySelector<HTMLButtonElement>('[data-nav-menu-toggle]');
+    const menu = nav.querySelector<HTMLElement>('[data-nav-menu]');
+    if (!toggle || !menu) return;
+    const desktopQuery = window.matchMedia('(min-width: 901px)');
+    const menuItems = Array.from(
+      nav.querySelectorAll<HTMLElement>('[data-nav-menu-item]')
+    );
+
+    function setItemOpen(item: HTMLElement, open: boolean) {
+      item.classList.toggle('is-open', open);
+      item
+        .querySelector<HTMLButtonElement>('[data-nav-submenu-toggle]')
+        ?.setAttribute('aria-expanded', String(open));
+    }
+
+    function closeSubmenus(except?: HTMLElement) {
+      menuItems.forEach((item) => {
+        if (item !== except) setItemOpen(item, false);
+      });
+    }
+
+    toggle.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      nav.classList.toggle('nav-open', !expanded);
+    });
+
+    menuItems.forEach((item) => {
+      const submenuToggle = item.querySelector<HTMLButtonElement>(
+        '[data-nav-submenu-toggle]'
+      );
+
+      item.addEventListener('mouseenter', () => {
+        if (!desktopQuery.matches) return;
+        closeSubmenus(item);
+        setItemOpen(item, true);
+      });
+
+      item.addEventListener('mouseleave', () => {
+        if (!desktopQuery.matches) return;
+        setItemOpen(item, false);
+      });
+
+      item.addEventListener('focusin', () => {
+        if (!desktopQuery.matches) return;
+        closeSubmenus(item);
+        setItemOpen(item, true);
+      });
+
+      item.addEventListener('focusout', (event) => {
+        if (!desktopQuery.matches) return;
+        const nextTarget = event.relatedTarget as Node | null;
+        if (!nextTarget || !item.contains(nextTarget)) setItemOpen(item, false);
+      });
+
+      submenuToggle?.addEventListener('click', () => {
+        if (desktopQuery.matches) return;
+        const expanded = submenuToggle.getAttribute('aria-expanded') === 'true';
+        closeSubmenus(item);
+        setItemOpen(item, !expanded);
+      });
+
+      submenuToggle?.addEventListener('mousedown', (event) => {
+        if (!desktopQuery.matches) return;
+        event.preventDefault();
+      });
+    });
+
+    nav.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      closeSubmenus();
+      toggle.setAttribute('aria-expanded', 'false');
+      nav.classList.remove('nav-open');
+    });
+
+    desktopQuery.addEventListener('change', () => {
+      closeSubmenus();
+      toggle.setAttribute('aria-expanded', 'false');
+      nav.classList.remove('nav-open');
+    });
+  });
+</script>
