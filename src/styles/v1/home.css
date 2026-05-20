@@ -1321,8 +1321,12 @@ body {
     opacity: 1;
     pointer-events: auto;
   }
+  .nav-item:hover .nav-dropdown,
+  .nav-item:focus-within .nav-dropdown,
   .nav-item.is-open .nav-dropdown {
     display: block;
+    transform: none;
+    left: auto;
   }
   .nav-dropdown::before { display: none; }
   .nav-dropdown-link {
