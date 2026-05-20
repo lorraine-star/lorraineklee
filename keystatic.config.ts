@@ -119,6 +119,14 @@ export default config({
         ),
         career_highlights: fields.array(
           fields.object({
+            logo: fields.image({
+              label: 'Logo',
+              directory: 'public/images/about/highlights',
+              publicPath: '/images/about/highlights/',
+              description:
+                'Brand mark shown at the top of the card. Leave empty to fall back to the text value.',
+            }),
+            logo_alt: fields.text({ label: 'Logo alt text' }),
             eyebrow: fields.text({ label: 'Eyebrow' }),
             value: fields.text({ label: 'Value (large display text)' }),
             label: fields.text({ label: 'Label (caption under value)' }),
@@ -126,17 +134,6 @@ export default config({
           {
             label: 'Career highlights',
             itemLabel: (props) => props.fields.value.value || 'Highlight',
-          }
-        ),
-        media_eyebrow: fields.text({ label: '"As seen in" eyebrow' }),
-        media_logos: fields.array(
-          fields.object({
-            name: fields.text({ label: 'Outlet name' }),
-            style: fields.text({ label: 'Logo style (CSS classes)' }),
-          }),
-          {
-            label: 'Media logos',
-            itemLabel: (props) => props.fields.name.value || 'Outlet',
           }
         ),
         credibility_section: fields.object(
