@@ -51,69 +51,63 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 			</div>
 		</div>
 
-		<div class="learn-hero-rail-wrap" aria-label="Featured courses and resources">
-			<ul class="learn-hero-rail reveal-stagger">
-				<li>
-					<a class="lh-card lh-card--feature" href="#course">
-						<span class="lh-card-pill">Free · 5-day course</span>
-						<h3 class="lh-card-title">
-							From <em>Invisible</em> to Influential
-						</h3>
-						<p class="lh-card-desc">
-							A free 5-day email course that helps you articulate your value
-							and get visible to decision-makers.
-						</p>
-						<span class="lh-card-cta">
-							Start the course <span aria-hidden="true">&rarr;</span>
-						</span>
-					</a>
-				</li>
-				<li>
-					<div class="lh-card lh-card--stat">
-						<span class="lh-card-stat-num">
-							250K<span class="suffix">+</span>
-						</span>
-						<span class="lh-card-stat-label">
-							Students taught on LinkedIn Learning
-						</span>
-					</div>
-				</li>
-				<li>
-					<a class="lh-card lh-card--browse" href="#courses">
-						<span class="lh-card-eyebrow">LinkedIn Learning</span>
-						<h3 class="lh-card-title">{courses.length} on-demand courses</h3>
-						<ul class="lh-card-list">
-							{courses.slice(0, 3).map((c) => <li>{c.title}</li>)}
-						</ul>
-						<span class="lh-card-cta">
-							Browse all <span aria-hidden="true">&rarr;</span>
-						</span>
-					</a>
-				</li>
+		<div class="grid12">
+			<div
+				class="learn-hero-bento reveal-stagger"
+				aria-label="Featured courses and resources"
+			>
+				<a class="lh-card lh-card--feature bento-feature" href="#course">
+					<span class="lh-card-pill">Free · 5-day course</span>
+					<h3 class="lh-card-title">From <em>Invisible</em> to Influential</h3>
+					<p class="lh-card-desc">
+						A free 5-day email course that helps you articulate your value
+						and get visible to decision-makers.
+					</p>
+					<span class="lh-card-cta">
+						Start the course <span aria-hidden="true">&rarr;</span>
+					</span>
+				</a>
+				<div class="lh-card lh-card--stat bento-stat">
+					<span class="lh-card-stat-num">250K<span class="suffix">+</span></span>
+					<span class="lh-card-stat-label">
+						Students taught on LinkedIn Learning
+					</span>
+				</div>
+				<a class="lh-card lh-card--browse bento-browse" href="#courses">
+					<span class="lh-card-eyebrow">LinkedIn Learning</span>
+					<h3 class="lh-card-title">{courses.length} on-demand courses</h3>
+					<ul class="lh-card-list">
+						{courses.slice(0, 3).map((c) => <li>{c.title}</li>)}
+					</ul>
+					<span class="lh-card-cta">
+						Browse all <span aria-hidden="true">&rarr;</span>
+					</span>
+				</a>
 				{
-					linkedin_resources?.map((r) => {
+					linkedin_resources?.map((r, i) => {
 						const url = safeUrl(r.url) || '/contact';
 						const external = isExternal(url);
 						return (
-							<li>
-								<a
-									class="lh-card lh-card--resource"
-									href={url}
-									target={external ? '_blank' : undefined}
-									rel={external ? 'noopener noreferrer' : undefined}
-								>
-									<span class="lh-card-eyebrow">Free resource</span>
-									<h3 class="lh-card-title">{r.label}</h3>
-									<span class="lh-card-cta">
-										{r.cta_label || 'Get it'}{' '}
-										<span aria-hidden="true">&rarr;</span>
-									</span>
-								</a>
-							</li>
+							<a
+								class:list={[
+									'lh-card lh-card--resource',
+									i === 0 ? 'bento-photo' : 'bento-guide',
+								]}
+								href={url}
+								target={external ? '_blank' : undefined}
+								rel={external ? 'noopener noreferrer' : undefined}
+							>
+								<span class="lh-card-eyebrow">Free resource</span>
+								<h3 class="lh-card-title">{r.label}</h3>
+								<span class="lh-card-cta">
+									{r.cta_label || 'Get it'}{' '}
+									<span aria-hidden="true">&rarr;</span>
+								</span>
+							</a>
 						);
 					})
 				}
-			</ul>
+			</div>
 		</div>
 	</section>
 

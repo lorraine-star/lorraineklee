@@ -603,42 +603,34 @@
   font-weight: 700;
 }
 
-/* Card rail */
-.learn-hero-rail-wrap {
+/* Bento grid */
+.learn-hero-bento {
+  grid-column: 1 / -1;
   margin-top: clamp(40px, 5vw, 64px);
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  scroll-padding-left: max(
-    var(--grid-pad),
-    calc((100vw - var(--grid-max)) / 2 + var(--grid-pad))
-  );
-  scrollbar-width: thin;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 14px;
-}
-.learn-hero-rail {
   display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: clamp(260px, 22vw, 300px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(3, clamp(150px, 13vw, 190px));
+  grid-template-areas:
+    'feature feature stat'
+    'feature feature browse'
+    'photo guide browse';
   gap: 16px;
-  list-style: none;
-  margin: 0;
-  /* Indent first card to align with the grid12 left edge; trail off the right edge. */
-  padding: 4px max(20px, calc((100vw - var(--grid-max)) / 2 + var(--grid-pad))) 4px
-    max(var(--grid-pad), calc((100vw - var(--grid-max)) / 2 + var(--grid-pad)));
 }
-.learn-hero-rail > li {
-  display: contents;
+.bento-feature {
+  grid-area: feature;
+  padding: 32px;
 }
-.learn-hero-rail > li > * { scroll-snap-align: start; }
+.bento-feature .lh-card-title { font-size: 32px; }
+.bento-stat { grid-area: stat; }
+.bento-browse { grid-area: browse; }
+.bento-photo { grid-area: photo; }
+.bento-guide { grid-area: guide; }
 
 .lh-card {
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  height: 320px;
   padding: 26px;
   border-radius: 18px;
   text-decoration: none;
@@ -745,7 +737,7 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 .lh-card-stat-num {
   font-family: var(--font-serif);
   font-weight: 500;
-  font-size: clamp(64px, 6vw, 96px);
+  font-size: clamp(56px, 5vw, 80px);
   line-height: 1;
   letter-spacing: -0.03em;
   color: var(--brand-yellow-500);
@@ -810,12 +802,33 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 @media (max-width: 900px) {
   .learn-hero-copy { grid-column: 1 / -1; }
   .learn-hero-aside { grid-column: 1 / -1; }
-  .learn-hero-rail {
-    grid-auto-columns: 78vw;
+  .learn-hero-bento {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      'feature feature'
+      'stat browse'
+      'photo guide';
   }
-  .lh-card { height: 280px; padding: 22px; }
+  .bento-feature { min-height: 220px; }
+  .bento-stat,
+  .bento-browse,
+  .bento-photo,
+  .bento-guide { min-height: 180px; }
+  .lh-card { padding: 22px; }
   .lh-card-title { font-size: 22px; }
   .lh-card-stat-num { font-size: 64px; }
+}
+@media (max-width: 560px) {
+  .learn-hero-bento {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'feature'
+      'stat'
+      'browse'
+      'photo'
+      'guide';
+  }
 }
 
 /* ----------------------------------------------------------
