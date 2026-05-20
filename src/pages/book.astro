@@ -39,9 +39,6 @@ const {
 
 const descriptionHtml = await renderMarkdoc(book.description);
 
-const featuredEndorsements = endorsements.filter((e) => e.featured);
-const standardEndorsements = endorsements.filter((e) => !e.featured);
-
 // Split each review quote into [text, isHighlighted] segments so the highlighted
 // phrases render in blue inside the rest of the quote text.
 function splitQuote(quote: string, phrases: readonly string[]) {
@@ -340,23 +337,31 @@ function renderStars(n: number) {
 			</div>
 			<div class="retailer-row reveal-stagger">
 				{
-					retailer_links_individual.map((r) =>
-						r.url ? (
+					retailer_links_individual.map((r) => {
+						const style = r.brand_color
+							? `--retailer-brand: ${r.brand_color};`
+							: undefined;
+						return r.url ? (
 							<a
 								class="retailer-btn"
 								href={safeUrl(r.url)}
 								target="_blank"
 								rel="noopener noreferrer"
+								style={style}
 							>
 								<span class="retailer-name">{r.name}</span>
 								<span aria-hidden="true">&rarr;</span>
 							</a>
 						) : (
-							<span class="retailer-btn is-disabled" aria-disabled="true">
+							<span
+								class="retailer-btn is-disabled"
+								aria-disabled="true"
+								style={style}
+							>
 								<span class="retailer-name">{r.name}</span>
 							</span>
-						)
-					)
+						);
+					})
 				}
 			</div>
 			{
@@ -364,23 +369,31 @@ function renderStars(n: number) {
 					<div class="retailer-bulk-block">
 						<div class="retailer-bulk-label">{retailers_bulk_label}</div>
 						<div class="retailer-row retailer-row--bulk reveal-stagger">
-							{retailer_links_bulk.map((r) =>
-								r.url ? (
+							{retailer_links_bulk.map((r) => {
+								const style = r.brand_color
+									? `--retailer-brand: ${r.brand_color};`
+									: undefined;
+								return r.url ? (
 									<a
 										class="retailer-btn"
 										href={safeUrl(r.url)}
 										target="_blank"
 										rel="noopener noreferrer"
+										style={style}
 									>
 										<span class="retailer-name">{r.name}</span>
 										<span aria-hidden="true">&rarr;</span>
 									</a>
 								) : (
-									<span class="retailer-btn is-disabled" aria-disabled="true">
+									<span
+										class="retailer-btn is-disabled"
+										aria-disabled="true"
+										style={style}
+									>
 										<span class="retailer-name">{r.name}</span>
 									</span>
-								)
-							)}
+								);
+							})}
 						</div>
 					</div>
 				)
@@ -397,10 +410,10 @@ function renderStars(n: number) {
 		</div>
 	</section>
 
-	{/* ---------- Endorsements (authors & leaders) ---------- */}
+	{/* ---------- Endorsements carousel (authors & leaders) ---------- */}
 	{
 		endorsements.length > 0 && (
-			<section class="section">
+			<section class="section endorsements-section">
 				<div class="grid12">
 					<div class="section-head section-head--center">
 						<span class="eyebrow">{endorsements_section.eyebrow}</span>
@@ -409,36 +422,178 @@ function renderStars(n: number) {
 							<em>{endorsements_section.heading_accent}</em>
 						</h2>
 					</div>
-					<div class="endorsements-grid reveal-stagger">
-						{featuredEndorsements.map((e) => (
-							<figure class="endorsement featured-pull">
-								<span class="e-mark" aria-hidden="true">
-									&ldquo;
-								</span>
-								<blockquote>{e.quote}</blockquote>
-								<figcaption>
-									<div class="e-name">{e.name}</div>
-									<div class="e-role">{e.role}</div>
-								</figcaption>
-							</figure>
-						))}
-						{standardEndorsements.map((e) => (
-							<figure class="endorsement tall">
-								<span class="e-mark" aria-hidden="true">
-									&ldquo;
-								</span>
-								<blockquote>{e.quote}</blockquote>
-								<figcaption>
-									<div class="e-name">{e.name}</div>
-									<div class="e-role">{e.role}</div>
-								</figcaption>
-							</figure>
+					<div
+						class="endorsement-carousel reveal"
+						data-endorsement-carousel
+						role="region"
+						aria-roledescription="carousel"
+						aria-label="Endorsements"
+					>
+						<button
+							type="button"
+							class="endorsement-arrow endorsement-arrow--prev"
+							data-carousel-prev
+							aria-label="Previous endorsement"
+						>
+							<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+								<path
+									d="M15 6l-6 6 6 6"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+						</button>
+						<div class="endorsement-track" data-carousel-track>
+							{endorsements.map((e, i) => (
+								<figure
+									class="endorsement-card"
+									data-carousel-slide
+									role="group"
+									aria-roledescription="slide"
+									aria-label={`${i + 1} of ${endorsements.length}: ${e.name}`}
+								>
+									<img
+										src={e.card_image}
+										alt={`${e.name}, ${e.role}: ${e.quote_alt}`}
+										loading={i === 0 ? 'eager' : 'lazy'}
+										decoding="async"
+									/>
+								</figure>
+							))}
+						</div>
+						<button
+							type="button"
+							class="endorsement-arrow endorsement-arrow--next"
+							data-carousel-next
+							aria-label="Next endorsement"
+						>
+							<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+								<path
+									d="M9 6l6 6-6 6"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+						</button>
+					</div>
+					<div
+						class="endorsement-dots"
+						data-carousel-dots
+						role="tablist"
+						aria-label="Choose endorsement"
+					>
+						{endorsements.map((e, i) => (
+							<button
+								type="button"
+								class="endorsement-dot"
+								data-carousel-dot
+								data-index={i}
+								role="tab"
+								aria-label={`Show endorsement from ${e.name}`}
+								aria-selected={i === 0 ? 'true' : 'false'}
+							/>
 						))}
 					</div>
 				</div>
 			</section>
 		)
 	}
+
+	<script is:inline>
+		(function () {
+			const root = document.querySelector('[data-endorsement-carousel]');
+			if (!root) return;
+			const track = root.querySelector('[data-carousel-track]');
+			const slides = root.querySelectorAll('[data-carousel-slide]');
+			const dots = document.querySelectorAll('[data-carousel-dot]');
+			const prevBtn = root.querySelector('[data-carousel-prev]');
+			const nextBtn = root.querySelector('[data-carousel-next]');
+			if (!track || !slides.length) return;
+			let current = 0;
+			let autoTimer = null;
+			const AUTO_MS = 7000;
+
+			function go(i, smooth = true) {
+				current = (i + slides.length) % slides.length;
+				const slide = slides[current];
+				if (!slide) return;
+				track.scrollTo({
+					left: slide.offsetLeft - track.offsetLeft,
+					behavior: smooth ? 'smooth' : 'auto',
+				});
+				dots.forEach((d, di) => {
+					d.setAttribute('aria-selected', di === current ? 'true' : 'false');
+				});
+			}
+			function next() { go(current + 1); }
+			function prev() { go(current - 1); }
+
+			function startAuto() {
+				stopAuto();
+				autoTimer = window.setInterval(next, AUTO_MS);
+			}
+			function stopAuto() {
+				if (autoTimer) {
+					window.clearInterval(autoTimer);
+					autoTimer = null;
+				}
+			}
+
+			prevBtn?.addEventListener('click', () => { prev(); startAuto(); });
+			nextBtn?.addEventListener('click', () => { next(); startAuto(); });
+			dots.forEach((d) => {
+				d.addEventListener('click', () => {
+					const idx = parseInt(d.getAttribute('data-index') || '0', 10);
+					go(idx);
+					startAuto();
+				});
+			});
+
+			// Pause auto-advance on hover or focus within the carousel.
+			root.addEventListener('mouseenter', stopAuto);
+			root.addEventListener('mouseleave', startAuto);
+			root.addEventListener('focusin', stopAuto);
+			root.addEventListener('focusout', startAuto);
+
+			// Keep `current` in sync if the user manually scrolls (touch swipe).
+			let scrollTimer;
+			track.addEventListener('scroll', () => {
+				window.clearTimeout(scrollTimer);
+				scrollTimer = window.setTimeout(() => {
+					const center = track.scrollLeft + track.clientWidth / 2;
+					let best = 0;
+					let bestDist = Infinity;
+					slides.forEach((s, i) => {
+						const c = s.offsetLeft + s.offsetWidth / 2 - track.offsetLeft;
+						const d = Math.abs(c - center);
+						if (d < bestDist) { bestDist = d; best = i; }
+					});
+					if (best !== current) {
+						current = best;
+						dots.forEach((d, di) => {
+							d.setAttribute('aria-selected', di === current ? 'true' : 'false');
+						});
+					}
+				}, 80);
+			}, { passive: true });
+
+			// Pause auto-advance if the tab is hidden.
+			document.addEventListener('visibilitychange', () => {
+				if (document.hidden) stopAuto();
+				else startAuto();
+			});
+
+			// Start on the first slide and kick off the loop.
+			go(0, false);
+			startAuto();
+		})();
+	</script>
 
 	{/* ---------- What you'll learn ---------- */}
 	{

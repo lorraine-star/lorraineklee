@@ -554,6 +554,11 @@ export default config({
           fields.object({
             name: fields.text({ label: 'Retailer name' }),
             url: fields.url({ label: 'URL' }),
+            brand_color: fields.text({
+              label: 'Brand color (hex, optional — used on hover)',
+              description:
+                'e.g. #FF9900 for Amazon. White text is used over this color on hover.',
+            }),
           }),
           {
             label: 'Retailer links — individual buys',
@@ -564,6 +569,11 @@ export default config({
           fields.object({
             name: fields.text({ label: 'Retailer name' }),
             url: fields.url({ label: 'URL' }),
+            brand_color: fields.text({
+              label: 'Brand color (hex, optional — used on hover)',
+              description:
+                'e.g. #FF9900 for Amazon. White text is used over this color on hover.',
+            }),
           }),
           {
             label: 'Retailer links — bulk buys',
@@ -698,16 +708,22 @@ export default config({
         ),
         endorsements: fields.array(
           fields.object({
-            quote: fields.text({ label: 'Quote', multiline: true }),
-            name: fields.text({ label: 'Name' }),
+            card_image: fields.image({
+              label: 'Endorsement card (image)',
+              description:
+                'A pre-designed card graphic that already includes the quote, name, headshot, and company logo. Sized roughly 1200×630 works well.',
+              directory: 'public/images/book/endorsements',
+              publicPath: '/images/book/endorsements/',
+            }),
+            name: fields.text({ label: 'Name (for slide navigation + alt text)' }),
             role: fields.text({ label: 'Role / organization' }),
-            featured: fields.checkbox({
-              label: 'Featured (dark pull quote)',
-              defaultValue: false,
+            quote_alt: fields.text({
+              label: 'Quote text (for screen readers + alt fallback)',
+              multiline: true,
             }),
           }),
           {
-            label: 'Endorsements',
+            label: 'Endorsement cards (carousel)',
             itemLabel: (props) => props.fields.name.value || 'Endorsement',
           }
         ),
