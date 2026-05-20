@@ -550,14 +550,140 @@ export default config({
           },
           { label: 'Retailers section' }
         ),
-        retailer_links: fields.array(
+        retailer_links_individual: fields.array(
           fields.object({
             name: fields.text({ label: 'Retailer name' }),
             url: fields.url({ label: 'URL' }),
           }),
           {
-            label: 'Retailer links',
+            label: 'Retailer links — individual buys',
             itemLabel: (props) => props.fields.name.value || 'Retailer',
+          }
+        ),
+        retailer_links_bulk: fields.array(
+          fields.object({
+            name: fields.text({ label: 'Retailer name' }),
+            url: fields.url({ label: 'URL' }),
+          }),
+          {
+            label: 'Retailer links — bulk buys',
+            itemLabel: (props) => props.fields.name.value || 'Retailer',
+          }
+        ),
+        retailers_bulk_label: fields.text({
+          label: 'Bulk-buys sub-heading',
+          defaultValue: 'Buying for your team or org?',
+        }),
+        community_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain text)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (yellow brush-stroke)',
+            }),
+            collage_image: fields.image({
+              label: 'Reader collage image',
+              directory: 'public/images/book',
+              publicPath: '/images/book/',
+            }),
+            alt_text: fields.text({ label: 'Image alt text' }),
+          },
+          { label: 'Community / readers collage' }
+        ),
+        featured_in_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+          },
+          { label: 'Featured In section heading' }
+        ),
+        featured_in_logos: fields.array(
+          fields.object({
+            name: fields.text({ label: 'Outlet name' }),
+            image: fields.image({
+              label: 'Logo image (SVG preferred)',
+              directory: 'public/images/book/logos',
+              publicPath: '/images/book/logos/',
+            }),
+            url: fields.url({ label: 'Article URL (optional)' }),
+          }),
+          {
+            label: 'Featured In logos',
+            itemLabel: (props) => props.fields.name.value || 'Logo',
+          }
+        ),
+        reviews_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (italic — the book title)',
+            }),
+          },
+          { label: 'Reader reviews section heading' }
+        ),
+        amazon_rating: fields.object(
+          {
+            stars: fields.text({
+              label: 'Star value (e.g. 4.8)',
+            }),
+            count_label: fields.text({
+              label: 'Count label (e.g. "161 global ratings")',
+            }),
+            url: fields.url({ label: 'Amazon product URL' }),
+          },
+          { label: 'Amazon rating snapshot' }
+        ),
+        reader_reviews: fields.array(
+          fields.object({
+            stars: fields.integer({
+              label: 'Star count',
+              defaultValue: 5,
+            }),
+            quote: fields.text({ label: 'Quote', multiline: true }),
+            highlighted_phrases: fields.array(
+              fields.text({ label: 'Phrase' }),
+              {
+                label: 'Highlighted phrases (rendered in blue inside quote)',
+                itemLabel: (props) => props.value || 'Phrase',
+              }
+            ),
+          }),
+          {
+            label: 'Reader reviews (3-col grid)',
+            itemLabel: (props) =>
+              (props.fields.quote.value || 'Review').slice(0, 60),
+          }
+        ),
+        awards_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (italic)',
+            }),
+          },
+          { label: 'Awards section heading' }
+        ),
+        awards: fields.array(
+          fields.object({
+            name: fields.text({ label: 'Award name (e.g. The BookFest® Awards)' }),
+            result: fields.text({ label: 'Result (e.g. 2nd Place, Winner)' }),
+            category: fields.text({
+              label: 'Category',
+              multiline: true,
+            }),
+            badge_image: fields.image({
+              label: 'Badge image',
+              directory: 'public/images/book/awards',
+              publicPath: '/images/book/awards/',
+            }),
+            badge_alt: fields.text({ label: 'Badge alt text' }),
+            url: fields.url({ label: 'Award URL (optional)' }),
+          }),
+          {
+            label: 'Awards',
+            itemLabel: (props) => props.fields.name.value || 'Award',
           }
         ),
         endorsements_section: fields.object(
@@ -620,21 +746,6 @@ export default config({
             cta_url: fields.text({ label: 'CTA URL' }),
           },
           { label: 'Sample chapter callout' }
-        ),
-        author_note: fields.object(
-          {
-            headshot: fields.image({
-              label: 'Headshot',
-              directory: 'public/images/book',
-              publicPath: '/images/book/',
-            }),
-            headshot_alt: fields.text({ label: 'Headshot alt text' }),
-            eyebrow: fields.text({ label: 'Eyebrow' }),
-            body: fields.text({ label: 'Note body', multiline: true }),
-            signature: fields.text({ label: 'Signature' }),
-            signature_role: fields.text({ label: 'Signature role' }),
-          },
-          { label: 'Author note' }
         ),
         final_cta: fields.object(
           {

@@ -18,13 +18,22 @@ const {
 	accolades,
 	description_section,
 	retailers_section,
-	retailer_links,
+	retailer_links_individual,
+	retailer_links_bulk,
+	retailers_bulk_label,
+	community_section,
+	featured_in_section,
+	featured_in_logos,
+	reviews_section,
+	amazon_rating,
+	reader_reviews,
+	awards_section,
+	awards,
 	endorsements_section,
 	endorsements,
 	learn_section,
 	learn_items,
 	preview,
-	author_note,
 	final_cta,
 } = book;
 
@@ -32,6 +41,23 @@ const descriptionHtml = await renderMarkdoc(book.description);
 
 const featuredEndorsements = endorsements.filter((e) => e.featured);
 const standardEndorsements = endorsements.filter((e) => !e.featured);
+
+// Split each review quote into [text, isHighlighted] segments so the highlighted
+// phrases render in blue inside the rest of the quote text.
+function splitQuote(quote: string, phrases: readonly string[]) {
+	const cleaned = phrases.filter((p): p is string => typeof p === 'string' && p.length > 0);
+	if (!cleaned.length) return [{ text: quote, hl: false }];
+	const escaped = cleaned.map((p) => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+	const re = new RegExp(`(${escaped.join('|')})`, 'g');
+	return quote
+		.split(re)
+		.filter((s) => s.length > 0)
+		.map((s) => ({ text: s, hl: cleaned.includes(s) }));
+}
+
+function renderStars(n: number) {
+	return Array.from({ length: n }, (_, i) => i);
+}
 ---
 
 <SpeakingLayout
@@ -108,7 +134,198 @@ const standardEndorsements = endorsements.filter((e) => !e.featured);
 		</div>
 	</section>
 
-	{/* ---------- Retailers ---------- */}
+	{/* ---------- Featured In (press logos) ---------- */}
+	{
+		featured_in_logos.length > 0 && (
+			<section class="section section--tight">
+				<div class="grid12">
+					<div
+						class="section-head section-head--center"
+						style="margin-bottom: 24px;"
+					>
+						<span class="eyebrow">{featured_in_section.eyebrow}</span>
+						{featured_in_section.heading && (
+							<h2>{featured_in_section.heading}</h2>
+						)}
+					</div>
+					<div class="featured-in-strip reveal-stagger">
+						{featured_in_logos.map((logo) =>
+							logo.url ? (
+								<a
+									class="featured-in-logo"
+									href={safeUrl(logo.url)}
+									target="_blank"
+									rel="noopener noreferrer"
+									aria-label={logo.name}
+								>
+									<img src={logo.image} alt={logo.name} loading="lazy" />
+								</a>
+							) : (
+								<span class="featured-in-logo" aria-label={logo.name}>
+									<img src={logo.image} alt={logo.name} loading="lazy" />
+								</span>
+							)
+						)}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Community / readers collage ---------- */}
+	{
+		community_section.collage_image && (
+			<section class="section community-section">
+				<div class="grid12">
+					<div
+						class="section-head section-head--center"
+						style="margin-bottom: 32px;"
+					>
+						<span class="eyebrow">{community_section.eyebrow}</span>
+						<h2 class="community-heading">
+							{community_section.heading}{' '}
+							<span class="brush-underline">
+								{community_section.heading_accent}
+							</span>
+						</h2>
+					</div>
+					<div class="readers-collage reveal">
+						<img
+							src={community_section.collage_image}
+							alt={community_section.alt_text || 'Readers with the book'}
+							loading="lazy"
+						/>
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Reader reviews (5-star grid) ---------- */}
+	{
+		reader_reviews.length > 0 && (
+			<section class="section section--cream reviews-section">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{reviews_section.eyebrow}</span>
+						<h2>
+							{reviews_section.heading}{' '}
+							<em>{reviews_section.heading_accent}</em>
+						</h2>
+						{amazon_rating?.stars && (
+							<div class="amazon-rating">
+								<span class="rating-stars" aria-hidden="true">
+									{renderStars(5).map(() => (
+										<svg
+											viewBox="0 0 24 24"
+											width="20"
+											height="20"
+											aria-hidden="true"
+										>
+											<path
+												d="M12 2l2.95 6.74L22 9.74l-5.5 4.78L18.18 22 12 18.27 5.82 22l1.68-7.48L2 9.74l7.05-1z"
+												fill="currentColor"
+											/>
+										</svg>
+									))}
+								</span>
+								<span class="rating-value">
+									<strong>{amazon_rating.stars}</strong>
+									<span class="rating-divider"> · </span>
+									<span>{amazon_rating.count_label}</span>
+								</span>
+								{amazon_rating.url && (
+									<a
+										class="rating-link"
+										href={safeUrl(amazon_rating.url)}
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										See all on Amazon →
+									</a>
+								)}
+							</div>
+						)}
+					</div>
+					<div class="reviews-panel reveal">
+						<div class="reviews-grid">
+							{reader_reviews.map((r) => {
+								const segments = splitQuote(
+									r.quote,
+									(r.highlighted_phrases || []) as readonly string[]
+								);
+								return (
+									<figure class="review-card">
+										<div class="review-stars" aria-label={`${r.stars} out of 5 stars`}>
+											{renderStars(r.stars).map(() => (
+												<svg
+													viewBox="0 0 24 24"
+													width="22"
+													height="22"
+													aria-hidden="true"
+												>
+													<path
+														d="M12 2l2.95 6.74L22 9.74l-5.5 4.78L18.18 22 12 18.27 5.82 22l1.68-7.48L2 9.74l7.05-1z"
+														fill="currentColor"
+													/>
+												</svg>
+											))}
+										</div>
+										<blockquote class="review-quote">
+											&ldquo;
+											{segments.map((seg) =>
+												seg.hl ? (
+													<span class="review-hl">{seg.text}</span>
+												) : (
+													<>{seg.text}</>
+												)
+											)}
+											&rdquo;
+										</blockquote>
+									</figure>
+								);
+							})}
+						</div>
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Awards ---------- */}
+	{
+		awards.length > 0 && (
+			<section class="section section--tight">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{awards_section.eyebrow}</span>
+						<h2>
+							{awards_section.heading}{' '}
+							<em>{awards_section.heading_accent}</em>
+						</h2>
+					</div>
+					<div class="awards-row reveal-stagger">
+						{awards.map((a) => (
+							<div class="award-tile">
+								{a.badge_image && (
+									<div class="award-badge">
+										<img src={a.badge_image} alt={a.badge_alt || a.name} loading="lazy" />
+									</div>
+								)}
+								<div class="award-meta">
+									<div class="award-name">{a.name}</div>
+									<div class="award-result">{a.result}</div>
+									<div class="award-category">{a.category}</div>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Retailers (individual + bulk) ---------- */}
 	<section class="section section--tight section--cream" id="retailers">
 		<div class="grid12">
 			<div
@@ -123,7 +340,7 @@ const standardEndorsements = endorsements.filter((e) => !e.featured);
 			</div>
 			<div class="retailer-row reveal-stagger">
 				{
-					retailer_links.map((r) =>
+					retailer_links_individual.map((r) =>
 						r.url ? (
 							<a
 								class="retailer-btn"
@@ -143,6 +360,32 @@ const standardEndorsements = endorsements.filter((e) => !e.featured);
 				}
 			</div>
 			{
+				retailer_links_bulk.length > 0 && (
+					<div class="retailer-bulk-block">
+						<div class="retailer-bulk-label">{retailers_bulk_label}</div>
+						<div class="retailer-row retailer-row--bulk reveal-stagger">
+							{retailer_links_bulk.map((r) =>
+								r.url ? (
+									<a
+										class="retailer-btn"
+										href={safeUrl(r.url)}
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										<span class="retailer-name">{r.name}</span>
+										<span aria-hidden="true">&rarr;</span>
+									</a>
+								) : (
+									<span class="retailer-btn is-disabled" aria-disabled="true">
+										<span class="retailer-name">{r.name}</span>
+									</span>
+								)
+							)}
+						</div>
+					</div>
+				)
+			}
+			{
 				retailers_section.format_note && (
 					<div style="grid-column: 1 / -1; text-align: center; margin-top: 24px;">
 						<p class="retailer-format-note">
@@ -154,7 +397,7 @@ const standardEndorsements = endorsements.filter((e) => !e.featured);
 		</div>
 	</section>
 
-	{/* ---------- Endorsements ---------- */}
+	{/* ---------- Endorsements (authors & leaders) ---------- */}
 	{
 		endorsements.length > 0 && (
 			<section class="section">
@@ -237,30 +480,6 @@ const standardEndorsements = endorsements.filter((e) => !e.featured);
 				<a class="btn primary" href={safeUrl(preview.cta_url)}>
 					{preview.cta_label} <span aria-hidden="true">&rarr;</span>
 				</a>
-			</div>
-		</div>
-	</section>
-
-	{/* ---------- Author note ---------- */}
-	<section class="section section--tight">
-		<div class="grid12">
-			<div class="author-note reveal">
-				<div class="note-headshot">
-					{
-						author_note.headshot && (
-							<img
-								src={author_note.headshot}
-								alt={author_note.headshot_alt}
-							/>
-						)
-					}
-				</div>
-				<div class="note-body">
-					<span class="eyebrow">{author_note.eyebrow}</span>
-					<p style="margin-top: 12px;">{author_note.body}</p>
-					<div class="signature">{author_note.signature}</div>
-					<div class="signature-role">{author_note.signature_role}</div>
-				</div>
 			</div>
 		</div>
 	</section>
