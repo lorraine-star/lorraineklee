@@ -147,9 +147,41 @@ const { title, description, activeId = 'home' } = Astro.props;
         });
       }
 
+      // --- "See all other talks" accordion ---
+      function setupAccordions() {
+        const accs = document.querySelectorAll<HTMLElement>('.other-talks-acc');
+        accs.forEach((acc) => {
+          const trigger = acc.querySelector<HTMLButtonElement>(
+            '.other-talks-trigger'
+          );
+          const panel = acc.querySelector<HTMLElement>('.other-talks-panel');
+          if (!trigger || !panel) return;
+
+          const measure = () => {
+            const prev = panel.style.maxHeight;
+            panel.style.maxHeight = 'none';
+            const h = panel.scrollHeight;
+            panel.style.maxHeight = prev;
+            acc.style.setProperty('--panel-h', h + 'px');
+          };
+
+          measure();
+          window.addEventListener('resize', measure, { passive: true });
+
+          trigger.addEventListener('click', () => {
+            measure();
+            const isOpen = acc.dataset.open === 'true';
+            acc.dataset.open = isOpen ? 'false' : 'true';
+            trigger.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+            panel.setAttribute('aria-hidden', isOpen ? 'true' : 'false');
+          });
+        });
+      }
+
       setupReveals();
       setupCounts();
       setupAnchors();
+      setupAccordions();
     </script>
   </body>
 </html>
