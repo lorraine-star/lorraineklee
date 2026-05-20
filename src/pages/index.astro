@@ -1,17 +1,25 @@
 ---
+/*
+ * ┌────────────────────────────────────────────────────────────────┐
+ * │  GLOBAL SECTIONS ON THIS PAGE                                  │
+ * │                                                                │
+ * │  The following sections are SHARED across the site. The home   │
+ * │  page holds the canonical markup. If another page needs one,   │
+ * │  import or duplicate from here — do not redesign in isolation. │
+ * │  Search for `data-global-section="<id>"` to find each one:     │
+ * │                                                                │
+ * │    • trust-as-seen-in   — press marquee ("As Seen In")         │
+ * │    • testimonials       — "What clients say" cards             │
+ * │                                                                │
+ * │  Coordinate edits to these via Linear so parallel worktrees    │
+ * │  don't drift.                                                  │
+ * └────────────────────────────────────────────────────────────────┘
+ */
 import HomeLayout from '../layouts/HomeLayout.astro';
+import EditorialNav from '../components/editorial/EditorialNav.astro';
 
 const headlineHtml = 'Helping leaders build an<br/><em>unforgettable</em> presence.';
 const ctaLabel = 'Work With Me';
-
-const navPages = [
-  { id: 'home', label: 'Home', href: '/' },
-  { id: 'about', label: 'About', href: '/about' },
-  { id: 'speaking', label: 'Speaking', href: '/speaking' },
-  { id: 'learn', label: 'Learn', href: '/learn' },
-  { id: 'book', label: 'Book', href: '/book' },
-  { id: 'contact', label: 'Contact', href: '/contact' },
-];
 
 const pressLogos = [
   { id: 'inc', name: 'Inc.', src: '/images/v1/press/inc.svg', width: 92, height: 30 },
@@ -89,28 +97,7 @@ const courseHref =
       </div>
     </div>
 
-    {/* ---------- Nav ---------- */}
-    <nav class="nav">
-      <div class="nav-inner">
-        <a class="nav-logo" href="/" aria-label="Lorraine Lee home">
-          <img src="/images/v1/logo-primary.png" alt="Lorraine Lee" />
-        </a>
-        <div class="nav-links">
-          {
-            navPages.map((p) => (
-              <a
-                class:list={['nav-link', { active: p.id === 'home' }]}
-                href={p.href}
-                aria-current={p.id === 'home' ? 'page' : undefined}
-              >
-                {p.label}
-              </a>
-            ))
-          }
-        </div>
-        <a class="btn primary" href="/contact">{ctaLabel}</a>
-      </div>
-    </nav>
+    <EditorialNav activeId="home" logoSrc="/images/v1/logo-primary.png" ctaLabel={ctaLabel} />
 
     <main>
       {/* ---------- Hero ---------- */}
@@ -162,8 +149,13 @@ const courseHref =
         </div>
       </section>
 
-      {/* ---------- Trust strip ---------- */}
-      <section class="trust as-seen-in">
+      {/* ============================================================
+           GLOBAL SECTION: trust / as-seen-in (press marquee)
+           Shared across pages. Canonical markup lives here on the home page.
+           If you need this on another page, import or duplicate from here —
+           do NOT redesign in isolation. Coordinate edits via Linear.
+           ============================================================ */}
+      <section class="trust as-seen-in" data-global-section="trust-as-seen-in">
         <div class="trust-eyebrow">As Seen In</div>
         <div class="marquee-mask">
           <div class="marquee">
@@ -185,6 +177,7 @@ const courseHref =
           </div>
         </div>
       </section>
+      {/* /GLOBAL SECTION: trust-as-seen-in */}
 
       {/* ---------- Four ways ---------- */}
       <section class="four-ways">
@@ -247,8 +240,13 @@ const courseHref =
         </div>
       </section>
 
-      {/* ---------- Testimonials ---------- */}
-      <section class="testimonials">
+      {/* ============================================================
+           GLOBAL SECTION: testimonials (What clients say)
+           Shared across pages. Canonical markup lives here on the home page.
+           If you need this on another page, import or duplicate from here —
+           do NOT redesign in isolation. Coordinate edits via Linear.
+           ============================================================ */}
+      <section class="testimonials" data-global-section="testimonials">
         <div class="grid12">
           <div class="testimonials-head">
             <span class="eyebrow">What clients say</span>
@@ -280,6 +278,7 @@ const courseHref =
           </div>
         </div>
       </section>
+      {/* /GLOBAL SECTION: testimonials */}
 
       {/* ---------- Free course CTA ---------- */}
       <section id="course" class="course">
@@ -385,8 +384,10 @@ const courseHref =
         </div>
         <div class="footer-touch">
           <h4>Get in touch</h4>
-          <p>Speaking, coaching, press:</p>
-          <a class="footer-email" href="mailto:contact@lorraineklee.com">contact@lorraineklee.com</a>
+          <p>Speaking and coaching inquiries use the contact form.</p>
+          <a class="footer-email" href="/contact">Contact Lorraine</a>
+          <a class="footer-email" href="mailto:press@lorraineklee.com">press@lorraineklee.com</a>
+          <a class="footer-email" href="mailto:meagan@lorraineklee.com">meagan@lorraineklee.com</a>
         </div>
         <div class="footer-explore">
           <h4>Explore</h4>
