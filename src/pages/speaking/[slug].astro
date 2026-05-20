@@ -1,0 +1,120 @@
+---
+import SpeakingLayout from '../../layouts/SpeakingLayout.astro';
+import { reader } from '../../lib/keystatic';
+import { safeUrl } from '../../lib/url';
+
+export async function getStaticPaths() {
+	const speaking = await reader.singletons.speaking.read();
+	if (!speaking) return [];
+	return (speaking.topics ?? [])
+		.filter((t) => t.slug)
+		.map((topic) => ({
+			params: { slug: topic.slug! },
+			props: { topic, final_cta: speaking.final_cta },
+		}));
+}
+
+const { topic, final_cta } = Astro.props;
+const clipEmbed = safeUrl(topic.clip_url);
+const hasTrack = (topic.talk_track ?? []).length > 0;
+const hasTakeaways = (topic.takeaways ?? []).length > 0;
+---
+
+<SpeakingLayout
+	title={`Lorraine K. Lee — ${topic.title}`}
+	description={topic.description}
+	activeId="speaking"
+>
+	<section class="page-hero page-hero--center">
+		<div class="grid12 page-hero-grid">
+			<div class="talk-page-hero fade-up">
+				<a class="talk-page-back" href="/speaking#past-talks">
+					<span aria-hidden="true">&larr;</span> All keynotes
+				</a>
+				<div class="talk-format">
+					&#8470; {topic.number} &middot; {topic.format}
+				</div>
+				<h1>{topic.title}</h1>
+				<p class="lead-large">{topic.description}</p>
+				<div class="hero-cta-row">
+					<a class="btn primary large" href="/contact">
+						Book this talk <span aria-hidden="true">&rarr;</span>
+					</a>
+					<a class="anchor-link" href="/speaking#past-talks">
+						See other keynotes <span class="arrow" aria-hidden="true">&rarr;</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{
+		clipEmbed && (
+			<section class="section section--tight" style="padding-top: 0;">
+				<div class="grid12">
+					<div class="talk-page-clip reveal">
+						<iframe
+							src={clipEmbed}
+							title={`${topic.title} — clip`}
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+							allowfullscreen
+							loading="lazy"
+						/>
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{
+		(hasTrack || hasTakeaways) && (
+			<section class="section">
+				<div class="grid12">
+					<div class="talk-page-grid reveal-stagger">
+						{hasTrack && (
+							<div>
+								<h2>Talk track</h2>
+								<ol class="talk-page-track">
+									{topic.talk_track!.map((row) => (
+										<li>
+											<span class="t-time">{row.time}</span>
+											<span>{row.label}</span>
+										</li>
+									))}
+								</ol>
+							</div>
+						)}
+						{hasTakeaways && (
+							<div>
+								<h2>What the audience walks away with</h2>
+								<ul class="talk-page-takeaways">
+									{topic.takeaways!.map((row) => (
+										<li>{row}</li>
+									))}
+								</ul>
+							</div>
+						)}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Final CTA (shared with /speaking) ---------- */}
+	<section class="section">
+		<div class="grid12">
+			<div class="final-cta">
+				<div class="final-cta-inner">
+					<span class="eyebrow">{final_cta.eyebrow}</span>
+					<h2>
+						{final_cta.heading} <em>{final_cta.heading_accent}</em>
+					</h2>
+					<p>{final_cta.body}</p>
+					<a class="btn yellow large" href={safeUrl(final_cta.cta_url)}>
+						{final_cta.cta_label} <span aria-hidden="true">&rarr;</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</SpeakingLayout>

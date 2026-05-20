@@ -1,0 +1,133 @@
+---
+import SpeakingLayout from '../layouts/SpeakingLayout.astro';
+import { reader, renderMarkdoc } from '../lib/keystatic';
+import { safeUrl } from '../lib/url';
+
+const bio = await reader.singletons.speakerBio.read();
+if (!bio) {
+	throw new Error('Missing speaker bio content (src/content/speaker-bio/index.mdoc)');
+}
+
+const { hero, quick_facts, downloads_section, downloads, final_cta } = bio;
+const bodyHtml = await renderMarkdoc(bio.body);
+
+const isExternal = (url: string) => /^https?:\/\//i.test(url);
+---
+
+<SpeakingLayout
+	title="Lorraine K. Lee — Speaker bio"
+	description={hero.lead}
+	activeId="speaking"
+>
+	{/* ---------- Hero ---------- */}
+	<section class="page-hero">
+		<div class="grid12 page-hero-grid">
+			<div class="page-hero-copy fade-up">
+				<div class="page-hero-eyebrow">
+					<span class="dot"></span>
+					<span class="eyebrow" style="color: var(--ink-500);">
+						{hero.eyebrow}
+					</span>
+				</div>
+				<h1>{hero.headline} <em>{hero.headline_accent}</em></h1>
+				<p class="lead-large">{hero.lead}</p>
+				<div class="hero-cta-row">
+					<a class="btn primary large" href="/contact">
+						Book Lorraine <span aria-hidden="true">&rarr;</span>
+					</a>
+					<a class="btn outline" href="/speaking">Back to speaking</a>
+				</div>
+			</div>
+			<div class="page-hero-aside fade-up" style="animation-delay: 120ms;">
+				<div class="speaker-bio-hero" style="display: contents;">
+					<div class="speaker-bio-headshot">
+						<img src={hero.headshot} alt={hero.headshot_alt} />
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Quick facts ---------- */}
+	{
+		quick_facts?.length > 0 && (
+			<section class="section section--tight">
+				<div class="grid12">
+					<div class="speaker-bio-facts reveal-stagger">
+						{quick_facts.map((f) => (
+							<div>
+								<div class="fact-k">{f.label}</div>
+								<div class="fact-v">{f.value}</div>
+							</div>
+						))}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Bio body ---------- */}
+	<section class="section section--cream">
+		<div class="grid12">
+			<div class="speaker-bio-body reveal" set:html={bodyHtml} />
+		</div>
+	</section>
+
+	{/* ---------- Downloads ---------- */}
+	{
+		downloads?.length > 0 && (
+			<section class="section section--tight">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{downloads_section.eyebrow}</span>
+						<h2>
+							{downloads_section.heading}{' '}
+							<em>{downloads_section.heading_accent}</em>
+						</h2>
+					</div>
+					<div class="speaker-bio-downloads reveal-stagger">
+						{downloads.map((d) => {
+							const url = safeUrl(d.url) || '#';
+							const external = isExternal(url);
+							return (
+								<a
+									class="dl-card"
+									href={url}
+									target={external ? '_blank' : undefined}
+									rel={external ? 'noopener noreferrer' : undefined}
+								>
+									<span class="dl-label">{d.label}</span>
+									{d.description && (
+										<p class="dl-desc">{d.description}</p>
+									)}
+									<span class="dl-arrow">
+										{external ? 'Open' : 'Download'}{' '}
+										<span aria-hidden="true">&rarr;</span>
+									</span>
+								</a>
+							);
+						})}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Final CTA ---------- */}
+	<section class="section">
+		<div class="grid12">
+			<div class="final-cta">
+				<div class="final-cta-inner">
+					<span class="eyebrow">{final_cta.eyebrow}</span>
+					<h2>
+						{final_cta.heading} <em>{final_cta.heading_accent}</em>
+					</h2>
+					<p>{final_cta.body}</p>
+					<a class="btn yellow large" href={safeUrl(final_cta.cta_url)}>
+						{final_cta.cta_label} <span aria-hidden="true">&rarr;</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</SpeakingLayout>

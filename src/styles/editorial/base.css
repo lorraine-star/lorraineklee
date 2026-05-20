@@ -256,8 +256,12 @@ body {
 }
 .photo-stat {
   position: absolute;
-  bottom: 16px;
-  left: 16px;
+  bottom: 24px;
+  /* The .photo-card extends 30% beyond its column to the right; centering
+     against the parent column would still put the badge to the visual left
+     of the photo. Anchor to the center of the photo-card itself instead. */
+  left: 50%;
+  transform: translateX(-50%);
   background: #fff;
   border-radius: 16px;
   padding: 14px 18px;
@@ -266,7 +270,7 @@ body {
   display: flex;
   align-items: center;
   gap: 14px;
-  max-width: 240px;
+  max-width: 260px;
   animation: floatIn 700ms var(--ease-out) 200ms backwards;
 }
 .photo-stat .num {
@@ -283,8 +287,8 @@ body {
   line-height: 1.35;
 }
 @keyframes floatIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translate(-50%, 12px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
 }
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(14px); }
