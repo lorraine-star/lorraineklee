@@ -1,17 +1,9 @@
 ---
 import HomeLayout from '../layouts/HomeLayout.astro';
+import EditorialNav from '../components/editorial/EditorialNav.astro';
 
 const headlineHtml = 'Helping leaders build an<br/><em>unforgettable</em> presence.';
 const ctaLabel = 'Work With Me';
-
-const navPages = [
-  { id: 'home', label: 'Home', href: '/' },
-  { id: 'about', label: 'About', href: '/about' },
-  { id: 'speaking', label: 'Speaking', href: '/speaking' },
-  { id: 'learn', label: 'Learn', href: '/learn' },
-  { id: 'book', label: 'Book', href: '/book' },
-  { id: 'contact', label: 'Contact', href: '/contact' },
-];
 
 const pressLogos = [
   { id: 'inc', name: 'Inc.', src: '/images/v1/press/inc.svg', width: 92, height: 30 },
@@ -89,28 +81,7 @@ const courseHref =
       </div>
     </div>
 
-    {/* ---------- Nav ---------- */}
-    <nav class="nav">
-      <div class="nav-inner">
-        <a class="nav-logo" href="/" aria-label="Lorraine Lee home">
-          <img src="/images/v1/logo-primary.png" alt="Lorraine Lee" />
-        </a>
-        <div class="nav-links">
-          {
-            navPages.map((p) => (
-              <a
-                class:list={['nav-link', { active: p.id === 'home' }]}
-                href={p.href}
-                aria-current={p.id === 'home' ? 'page' : undefined}
-              >
-                {p.label}
-              </a>
-            ))
-          }
-        </div>
-        <a class="btn primary" href="/contact">{ctaLabel}</a>
-      </div>
-    </nav>
+    <EditorialNav activeId="home" logoSrc="/images/v1/logo-primary.png" ctaLabel={ctaLabel} />
 
     <main>
       {/* ---------- Hero ---------- */}
