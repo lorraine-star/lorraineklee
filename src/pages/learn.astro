@@ -8,26 +8,14 @@ if (!learn) {
 	throw new Error('Missing learn content (src/content/learn/index.yaml)');
 }
 
-const { hero, courses, mid_cta, stanford } = learn;
-
-const platformOrder = ['LinkedIn Learning', 'Stanford', 'Free'];
-const filters = [
-	{ id: 'All', label: 'All', count: courses.length },
-	...platformOrder
-		.filter((p) => courses.some((c) => c.platform === p))
-		.map((p) => ({
-			id: p,
-			label: p,
-			count: courses.filter((c) => c.platform === p).length,
-		})),
-];
-
-const platformClass = (p: string) =>
-	p === 'Free'
-		? 'platform-tag free'
-		: p === 'Stanford'
-			? 'platform-tag stanford'
-			: 'platform-tag';
+const {
+	hero,
+	newsletter,
+	courses_section,
+	courses,
+	linkedin_resources_section,
+	linkedin_resources,
+} = learn;
 
 const isExternal = (url: string) => /^https?:\/\//i.test(url);
 ---
@@ -53,25 +41,73 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 		</div>
 	</section>
 
-	{/* ---------- Filter + course grid ---------- */}
-	<section class="section section--tight" id="courses" style="padding-top: 0;">
-		<div class="grid12">
-			<div class="learn-filter-wrap">
-				<div class="filter-bar filter-bar--animated">
-					<span class="filter-pill" aria-hidden="true"></span>
-					{
-						filters.map((f, i) => (
-							<button
-								class:list={['filter-tab', { active: i === 0 }]}
-								type="button"
-								data-filter={f.id}
-							>
-								{f.label}
-								<span class="count">{f.count}</span>
-							</button>
-						))
-					}
+	{/* ---------- Newsletter lead block (mirrors home page Free Course section) ---------- */}
+	<section id="course" class="course learn-newsletter">
+		<div class="grid12 course-grid">
+			<div class="course-copy">
+				<div class="course-eyebrow">
+					<span class="pill">{newsletter.eyebrow_pill}</span>
+					<span>{newsletter.eyebrow_label}</span>
 				</div>
+				<h2 class="course-headline">
+					{newsletter.headline} <em>{newsletter.headline_accent}</em>
+				</h2>
+				<p class="course-sub">{newsletter.body}</p>
+				<ul class="course-bullets">
+					{newsletter.bullets.map((day) => <li>{day}</li>)}
+				</ul>
+			</div>
+
+			<div class="course-form">
+				<div class="course-form-card">
+					<form data-course-form>
+						<span class="course-form-eyebrow">{newsletter.form_eyebrow}</span>
+						<h3 class="course-form-title">
+							{newsletter.form_title} <em>{newsletter.form_title_accent}</em>
+						</h3>
+						<label class="field-label" for="course-email">Email address</label>
+						<input
+							id="course-email"
+							class="field"
+							type="email"
+							required
+							placeholder="you@company.com"
+						/>
+						<button type="submit" class="btn yellow large btn-block">
+							{newsletter.form_button_label} <span aria-hidden="true">&rarr;</span>
+						</button>
+						<div class="fineprint">{newsletter.form_fineprint}</div>
+					</form>
+					<div class="success" data-course-success hidden>
+						<div class="check">
+							<svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+								<polyline points="20 6 9 17 4 12"></polyline>
+							</svg>
+						</div>
+						<div class="success-title">{newsletter.success_title}</div>
+						<div
+							class="success-sub"
+							data-course-success-sub
+							data-success-template={newsletter.success_subtitle_template}
+						>
+							Day 1 is on its way.
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- LinkedIn Learning courses (secondary) ---------- */}
+	<section class="section section--tight" id="courses">
+		<div class="grid12">
+			<div class="section-head section-head--center">
+				<span class="eyebrow">{courses_section.eyebrow}</span>
+				<h2>
+					{courses_section.heading}{' '}
+					<em>{courses_section.heading_accent}</em>
+				</h2>
+				{courses_section.lead && <p class="lead">{courses_section.lead}</p>}
 			</div>
 
 			<div class="course-grid-cards reveal-stagger">
@@ -92,7 +128,7 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 									<div class="course-thumb-deco" aria-hidden="true">
 										{c.glyph}
 									</div>
-									<span class={platformClass(c.platform)}>{c.platform}</span>
+									<span class="platform-tag">{c.platform}</span>
 									<div class="play" aria-hidden="true">
 										<svg viewBox="0 0 24 24" fill="currentColor">
 											<path d="M8 5v14l11-7z" />
@@ -116,84 +152,66 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 		</div>
 	</section>
 
-	{/* ---------- Mid-page CTA ---------- */}
-	<section class="section section--tight">
-		<div class="grid12">
-			<div class="mid-cta reveal">
-				<div>
-					<h3>{mid_cta.heading} <em>{mid_cta.heading_accent}</em></h3>
-					<p>{mid_cta.body}</p>
+	{/* ---------- LinkedIn lead-magnet resources ---------- */}
+	{
+		linkedin_resources?.length > 0 && (
+			<section class="section section--tight">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{linkedin_resources_section.eyebrow}</span>
+						<h2>
+							{linkedin_resources_section.heading}{' '}
+							<em>{linkedin_resources_section.heading_accent}</em>
+						</h2>
+						{linkedin_resources_section.lead && (
+							<p class="lead">{linkedin_resources_section.lead}</p>
+						)}
+					</div>
+					<div class="learn-resources reveal-stagger">
+						{linkedin_resources.map((r) => {
+							const url = safeUrl(r.url) || '/contact';
+							const external = isExternal(url);
+							return (
+								<a
+									class="resource-card"
+									href={url}
+									target={external ? '_blank' : undefined}
+									rel={external ? 'noopener noreferrer' : undefined}
+								>
+									<span class="resource-label">{r.label}</span>
+									{r.description && (
+										<p class="resource-desc">{r.description}</p>
+									)}
+									<span class="resource-arrow">
+										{r.cta_label || (external ? 'Open' : 'Download')}{' '}
+										<span aria-hidden="true">&rarr;</span>
+									</span>
+								</a>
+							);
+						})}
+					</div>
 				</div>
-				<a class="btn primary large" href={safeUrl(mid_cta.cta_url)}>
-					{mid_cta.cta_label} <span aria-hidden="true">&rarr;</span>
-				</a>
-			</div>
-		</div>
-	</section>
-
-	{/* ---------- Stanford callout ---------- */}
-	<section class="section section--tight">
-		<div class="grid12">
-			<div class="stanford-callout reveal">
-				<div class="stanford-mark" aria-hidden="true">S</div>
-				<div class="stanford-body">
-					<span class="eyebrow">{stanford.eyebrow}</span>
-					<h3>{stanford.heading}</h3>
-					<p>{stanford.body}</p>
-				</div>
-				{
-					stanford.cta_label && stanford.cta_url && (
-						<a class="btn outline" href={safeUrl(stanford.cta_url)}>
-							{stanford.cta_label} <span aria-hidden="true">&rarr;</span>
-						</a>
-					)
-				}
-			</div>
-		</div>
-	</section>
+			</section>
+		)
+	}
 </SpeakingLayout>
 
 <script>
-	function initLearnFilters() {
-		const bar = document.querySelector<HTMLElement>('.filter-bar--animated');
-		if (!bar) return;
-		const pill = bar.querySelector<HTMLElement>('.filter-pill');
-		const tabs = Array.from(
-			bar.querySelectorAll<HTMLElement>('.filter-tab')
-		);
-		const cards = Array.from(
-			document.querySelectorAll<HTMLElement>('.course-card')
-		);
-
-		function movePill(tab: HTMLElement) {
-			if (!pill) return;
-			pill.style.transform = 'translateX(' + tab.offsetLeft + 'px)';
-			pill.style.width = tab.offsetWidth + 'px';
+	// --- Newsletter email form (mirrors home page free-course form) ---
+	const form = document.querySelector<HTMLFormElement>('[data-course-form]');
+	form?.addEventListener('submit', (e) => {
+		e.preventDefault();
+		if (!form.checkValidity()) {
+			form.reportValidity();
+			return;
 		}
-
-		tabs.forEach((tab) => {
-			tab.addEventListener('click', () => {
-				tabs.forEach((t) => t.classList.remove('active'));
-				tab.classList.add('active');
-				const filter = tab.dataset.filter;
-				cards.forEach((card) => {
-					const show = filter === 'All' || card.dataset.platform === filter;
-					card.style.display = show ? '' : 'none';
-				});
-				movePill(tab);
-			});
-		});
-
-		const active = bar.querySelector<HTMLElement>('.filter-tab.active');
-		if (active) {
-			movePill(active);
-			requestAnimationFrame(() => bar.classList.add('is-ready'));
-		}
-		window.addEventListener('resize', () => {
-			const current = bar.querySelector<HTMLElement>('.filter-tab.active');
-			if (current) movePill(current);
-		});
-	}
-
-	initLearnFilters();
+		const input = form.querySelector<HTMLInputElement>('#course-email');
+		const email = input?.value.trim() ?? '';
+		const success = document.querySelector<HTMLElement>('[data-course-success]');
+		const sub = document.querySelector<HTMLElement>('[data-course-success-sub]');
+		const template = sub?.dataset.successTemplate ?? 'Day 1 is on its way to {email}.';
+		if (sub) sub.textContent = template.replace('{email}', email);
+		form.setAttribute('hidden', '');
+		success?.removeAttribute('hidden');
+	});
 </script>

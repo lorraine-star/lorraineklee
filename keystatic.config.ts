@@ -673,6 +673,63 @@ export default config({
           },
           { label: 'Hero' }
         ),
+        newsletter: fields.object(
+          {
+            eyebrow_pill: fields.text({
+              label: 'Eyebrow pill (e.g. "Free")',
+              defaultValue: 'Free',
+            }),
+            eyebrow_label: fields.text({
+              label: 'Eyebrow label',
+              defaultValue: '5-Day Email Course',
+            }),
+            headline: fields.text({ label: 'Headline (plain)' }),
+            headline_accent: fields.text({
+              label: 'Headline accent (italic)',
+            }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            bullets: fields.array(fields.text({ label: 'Bullet' }), {
+              label: 'Course-day bullets',
+              itemLabel: (props) => props.value || 'Bullet',
+            }),
+            form_eyebrow: fields.text({
+              label: 'Form eyebrow',
+              defaultValue: 'Start tomorrow',
+            }),
+            form_title: fields.text({ label: 'Form title (plain)' }),
+            form_title_accent: fields.text({
+              label: 'Form title accent (italic)',
+            }),
+            form_button_label: fields.text({
+              label: 'Form button label',
+              defaultValue: 'Send me Day 1',
+            }),
+            form_fineprint: fields.text({
+              label: 'Form fineprint',
+              defaultValue: 'No spam. Unsubscribe in one click.',
+            }),
+            success_title: fields.text({
+              label: 'Success state title',
+              defaultValue: "You're in.",
+            }),
+            success_subtitle_template: fields.text({
+              label: 'Success state subtitle (use {email} placeholder)',
+              defaultValue: 'Day 1 is on its way to {email}.',
+            }),
+          },
+          { label: 'Newsletter (lead block)' }
+        ),
+        courses_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+          },
+          { label: 'LinkedIn Learning courses section heading' }
+        ),
         courses: fields.array(
           fields.object({
             title: fields.text({ label: 'Title' }),
@@ -680,8 +737,6 @@ export default config({
               label: 'Platform',
               options: [
                 { label: 'LinkedIn Learning', value: 'LinkedIn Learning' },
-                { label: 'Stanford', value: 'Stanford' },
-                { label: 'Free', value: 'Free' },
               ],
               defaultValue: 'LinkedIn Learning',
             }),
@@ -702,27 +757,36 @@ export default config({
             itemLabel: (props) => props.fields.title.value || 'Course',
           }
         ),
-        mid_cta: fields.object(
-          {
-            heading: fields.text({ label: 'Heading' }),
-            heading_accent: fields.text({
-              label: 'Heading accent (shown italic)',
-            }),
-            body: fields.text({ label: 'Body', multiline: true }),
-            cta_label: fields.text({ label: 'CTA label' }),
-            cta_url: fields.text({ label: 'CTA URL' }),
-          },
-          { label: 'Mid-page CTA' }
-        ),
-        stanford: fields.object(
+        linkedin_resources_section: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
-            heading: fields.text({ label: 'Heading' }),
-            body: fields.text({ label: 'Body', multiline: true }),
-            cta_label: fields.text({ label: 'CTA label' }),
-            cta_url: fields.text({ label: 'CTA URL' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
           },
-          { label: 'Stanford callout' }
+          { label: 'LinkedIn resources section heading' }
+        ),
+        linkedin_resources: fields.array(
+          fields.object({
+            label: fields.text({ label: 'Label' }),
+            description: fields.text({
+              label: 'Description',
+              multiline: true,
+            }),
+            cta_label: fields.text({
+              label: 'CTA label',
+              defaultValue: 'Get the pack',
+            }),
+            url: fields.text({
+              label: 'URL (external links open in a new tab)',
+            }),
+          }),
+          {
+            label: 'LinkedIn resources / lead magnets',
+            itemLabel: (props) => props.fields.label.value || 'Resource',
+          }
         ),
       },
     }),
