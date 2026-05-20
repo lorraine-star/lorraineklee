@@ -150,6 +150,20 @@ export default config({
           fields.object({
             title: fields.text({ label: 'Title' }),
             detail: fields.text({ label: 'Detail', multiline: true }),
+            logos: fields.array(
+              fields.object({
+                src: fields.image({
+                  label: 'Logo',
+                  directory: 'public/images/about/credibility',
+                  publicPath: '/images/about/credibility/',
+                }),
+                alt: fields.text({ label: 'Alt text' }),
+              }),
+              {
+                label: 'Logos',
+                itemLabel: (props) => props.fields.alt.value || 'Logo',
+              }
+            ),
           }),
           {
             label: 'Credibility items',

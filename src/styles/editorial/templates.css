@@ -1027,6 +1027,31 @@
   flex-direction: column;
   gap: 10px;
 }
+.credibility-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  min-height: 38px;
+  margin-bottom: 6px;
+}
+.credibility-logos img {
+  max-height: 28px;
+  max-width: 110px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.78;
+  filter: grayscale(1);
+  transition: opacity 200ms var(--ease-out), filter 200ms var(--ease-out);
+}
+.credibility-logos img:hover {
+  opacity: 1;
+  filter: none;
+}
+.credibility-logos--1 img {
+  max-height: 32px;
+}
 .credibility-card h3 {
   font-family: var(--font-serif);
   font-weight: 500;

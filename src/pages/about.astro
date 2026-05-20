@@ -137,6 +137,18 @@ const bodyHtml = await renderMarkdoc(about.body);
 				{
 					credibility.map((c) => (
 						<div class="credibility-card">
+							{c.logos && c.logos.length > 0 && (
+								<div
+									class:list={[
+										'credibility-logos',
+										`credibility-logos--${c.logos.length}`,
+									]}
+								>
+									{c.logos.map((l) => (
+										<img src={l.src} alt={l.alt} />
+									))}
+								</div>
+							)}
 							<h3>{c.title}</h3>
 							<p>{c.detail}</p>
 						</div>
