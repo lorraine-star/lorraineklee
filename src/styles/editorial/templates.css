@@ -248,6 +248,21 @@
   opacity: 0.7;
   filter: grayscale(1);
 }
+.logo-cell .client-logo {
+  max-height: 48px;
+  max-width: 80%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.78;
+  filter: grayscale(1);
+  transition: opacity 200ms var(--ease-out), filter 200ms var(--ease-out);
+}
+.logo-cell a:hover .client-logo,
+.logo-cell .client-logo:hover {
+  opacity: 1;
+  filter: grayscale(0);
+}
 
 /* "As seen in" logo strip */
 .media-strip {
@@ -1190,120 +1205,14 @@
 }
 
 /* ----------------------------------------------------------------
-   Endorsements carousel — Book page
+   Endorsements carousel wrapper — Book page
+   The actual carousel UI lives in src/components/CircularTestimonials.
    ---------------------------------------------------------------- */
-.endorsement-carousel {
-  grid-column: 1 / -1;
-  position: relative;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: clamp(8px, 1.6vw, 20px);
-  margin-top: 16px;
-}
-.endorsement-track {
-  display: flex;
-  overflow-x: auto;
-  overflow-y: visible;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  gap: clamp(16px, 2.5vw, 32px);
-  padding: 24px 4px 32px;
-}
-.endorsement-track::-webkit-scrollbar { display: none; }
-.endorsement-card {
-  flex: 0 0 100%;
-  scroll-snap-align: center;
-  margin: 0;
-  border-radius: 22px;
-  overflow: hidden;
-  box-shadow: 0 18px 48px -16px rgba(14, 21, 48, 0.18), 0 4px 12px rgba(14, 21, 48, 0.06);
-  background: var(--paper);
-  transition: transform 320ms var(--ease-out);
-}
-.endorsement-card img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 22px;
-}
-.endorsement-arrow {
-  width: 52px;
-  height: 52px;
-  border-radius: 999px;
-  background: #fff;
-  border: 1.5px solid var(--ink-900);
-  color: var(--ink-900);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  padding: 0;
-  transition:
-    background 200ms var(--ease-out),
-    color 200ms var(--ease-out),
-    transform 200ms var(--ease-out),
-    box-shadow 200ms var(--ease-out);
-  z-index: 2;
-}
-.endorsement-arrow:hover {
-  background: var(--ink-900);
-  color: var(--paper);
-  transform: translateY(-1px);
-  box-shadow: 0 10px 24px -8px rgba(14, 21, 48, 0.35);
-}
-.endorsement-arrow:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-}
-.endorsement-dots {
+.endorsement-carousel-wrap {
   grid-column: 1 / -1;
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-top: 8px;
-}
-.endorsement-dot {
-  appearance: none;
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  border: 0;
-  background: var(--ink-200);
-  cursor: pointer;
-  padding: 0;
-  transition:
-    background 200ms var(--ease-out),
-    transform 200ms var(--ease-out),
-    width 200ms var(--ease-out);
-}
-.endorsement-dot:hover { background: var(--ink-300); }
-.endorsement-dot[aria-selected="true"] {
-  background: var(--accent);
-  width: 28px;
-}
-.endorsement-dot:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-}
-
-@media (max-width: 720px) {
-  .endorsement-carousel {
-    grid-template-columns: 1fr;
-  }
-  .endorsement-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 44px;
-    height: 44px;
-    background: rgba(255, 255, 255, 0.94);
-    backdrop-filter: blur(6px);
-  }
-  .endorsement-arrow--prev { left: 8px; }
-  .endorsement-arrow--next { right: 8px; }
+  padding-top: 8px;
 }
 
 .learn-list {
@@ -1374,36 +1283,6 @@
 /* ----------------------------------------------------------------
    Featured In (press logos band) — Book page
    ---------------------------------------------------------------- */
-.featured-in-strip {
-  grid-column: 1 / -1;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: clamp(24px, 4vw, 56px);
-  padding: 8px 0;
-}
-.featured-in-logo {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 56px;
-  width: 150px;
-  flex: 0 0 auto;
-  text-decoration: none;
-  transition: opacity 200ms var(--ease-out), filter 200ms var(--ease-out);
-  opacity: 0.78;
-  filter: grayscale(1);
-}
-.featured-in-logo:hover { opacity: 1; filter: grayscale(0); }
-.featured-in-logo img {
-  max-height: 100%;
-  max-width: 100%;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-}
-
 /* ----------------------------------------------------------------
    Community / readers collage — Book page
    ---------------------------------------------------------------- */
@@ -1575,17 +1454,35 @@
 }
 
 /* ----------------------------------------------------------------
-   Retailers — bulk-buys group
+   Retailers — grouped layout (Individual buys vs. Bulk buys)
    ---------------------------------------------------------------- */
-.retailer-bulk-block {
+.retailer-group {
   grid-column: 1 / -1;
-  margin-top: 36px;
-  padding-top: 32px;
-  border-top: 1px dashed var(--border);
   display: grid;
   gap: 16px;
 }
-.retailer-bulk-label {
+.retailer-group--bulk {
+  margin-top: 40px;
+  padding-top: 32px;
+  position: relative;
+}
+.retailer-group--bulk::before {
+  content: 'or';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--paper-deep);
+  padding: 0 14px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--ink-500);
+}
+.retailer-group--bulk {
+  border-top: 1px solid var(--border);
+}
+.retailer-group-label {
   font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 700;

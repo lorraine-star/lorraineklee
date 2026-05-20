@@ -580,6 +580,10 @@ export default config({
             itemLabel: (props) => props.fields.name.value || 'Retailer',
           }
         ),
+        retailers_individual_label: fields.text({
+          label: 'Individual-buys sub-heading',
+          defaultValue: 'For yourself',
+        }),
         retailers_bulk_label: fields.text({
           label: 'Bulk-buys sub-heading',
           defaultValue: 'Buying for your team or org?',
@@ -708,22 +712,35 @@ export default config({
         ),
         endorsements: fields.array(
           fields.object({
-            card_image: fields.image({
-              label: 'Endorsement card (image)',
-              description:
-                'A pre-designed card graphic that already includes the quote, name, headshot, and company logo. Sized roughly 1200×630 works well.',
-              directory: 'public/images/book/endorsements',
-              publicPath: '/images/book/endorsements/',
+            headshot: fields.image({
+              label: 'Headshot (square works best)',
+              description: 'Used in the 3D carousel image stack.',
+              directory: 'public/images/book/endorsements/headshots',
+              publicPath: '/images/book/endorsements/headshots/',
             }),
-            name: fields.text({ label: 'Name (for slide navigation + alt text)' }),
+            name: fields.text({ label: 'Name' }),
             role: fields.text({ label: 'Role / organization' }),
             quote_alt: fields.text({
-              label: 'Quote text (for screen readers + alt fallback)',
+              label: 'Quote',
               multiline: true,
             }),
+            logos: fields.array(
+              fields.object({
+                image: fields.image({
+                  label: 'Logo / book cover',
+                  directory: 'public/images/book/endorsements/logos',
+                  publicPath: '/images/book/endorsements/logos/',
+                }),
+                alt: fields.text({ label: 'Alt text' }),
+              }),
+              {
+                label: 'Company logos / book covers',
+                itemLabel: (props) => props.fields.alt.value || 'Logo',
+              }
+            ),
           }),
           {
-            label: 'Endorsement cards (carousel)',
+            label: 'Endorsements (3D carousel)',
             itemLabel: (props) => props.fields.name.value || 'Endorsement',
           }
         ),
