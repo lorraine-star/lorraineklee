@@ -1,4 +1,20 @@
 ---
+/*
+ * ┌────────────────────────────────────────────────────────────────┐
+ * │  GLOBAL SECTIONS ON THIS PAGE                                  │
+ * │                                                                │
+ * │  The following sections are SHARED across the site. The home   │
+ * │  page holds the canonical markup. If another page needs one,   │
+ * │  import or duplicate from here — do not redesign in isolation. │
+ * │  Search for `data-global-section="<id>"` to find each one:     │
+ * │                                                                │
+ * │    • trust-as-seen-in   — press marquee ("As Seen In")         │
+ * │    • testimonials       — "What clients say" cards             │
+ * │                                                                │
+ * │  Coordinate edits to these via Linear so parallel worktrees    │
+ * │  don't drift.                                                  │
+ * └────────────────────────────────────────────────────────────────┘
+ */
 import HomeLayout from '../layouts/HomeLayout.astro';
 import EditorialNav from '../components/editorial/EditorialNav.astro';
 
@@ -133,8 +149,13 @@ const courseHref =
         </div>
       </section>
 
-      {/* ---------- Trust strip ---------- */}
-      <section class="trust as-seen-in">
+      {/* ============================================================
+           GLOBAL SECTION: trust / as-seen-in (press marquee)
+           Shared across pages. Canonical markup lives here on the home page.
+           If you need this on another page, import or duplicate from here —
+           do NOT redesign in isolation. Coordinate edits via Linear.
+           ============================================================ */}
+      <section class="trust as-seen-in" data-global-section="trust-as-seen-in">
         <div class="trust-eyebrow">As Seen In</div>
         <div class="marquee-mask">
           <div class="marquee">
@@ -156,6 +177,7 @@ const courseHref =
           </div>
         </div>
       </section>
+      {/* /GLOBAL SECTION: trust-as-seen-in */}
 
       {/* ---------- Four ways ---------- */}
       <section class="four-ways">
@@ -218,8 +240,13 @@ const courseHref =
         </div>
       </section>
 
-      {/* ---------- Testimonials ---------- */}
-      <section class="testimonials">
+      {/* ============================================================
+           GLOBAL SECTION: testimonials (What clients say)
+           Shared across pages. Canonical markup lives here on the home page.
+           If you need this on another page, import or duplicate from here —
+           do NOT redesign in isolation. Coordinate edits via Linear.
+           ============================================================ */}
+      <section class="testimonials" data-global-section="testimonials">
         <div class="grid12">
           <div class="testimonials-head">
             <span class="eyebrow">What clients say</span>
@@ -251,6 +278,7 @@ const courseHref =
           </div>
         </div>
       </section>
+      {/* /GLOBAL SECTION: testimonials */}
 
       {/* ---------- Free course CTA ---------- */}
       <section id="course" class="course">
