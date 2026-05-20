@@ -13,17 +13,17 @@ const {
 	headline,
 	headline_accent,
 	lead,
-	contact_email,
 	press_email,
+	brand_deals_email,
 	typeform_id,
 	social_links,
 } = contact;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const email = contact_email?.trim() ?? '';
-const hasEmail = EMAIL_RE.test(email);
 const press = press_email?.trim() ?? '';
 const hasPress = EMAIL_RE.test(press);
+const brandDeals = brand_deals_email?.trim() ?? '';
+const hasBrandDeals = EMAIL_RE.test(brandDeals);
 
 const formId = typeform_id?.trim() ?? '';
 
@@ -60,28 +60,24 @@ const links = (social_links ?? []).filter((s) => s.url);
 					<h1>{headline} <em>{headline_accent}</em></h1>
 					<p class="contact-lead">{lead}</p>
 
-					<div class="contact-direct">
-						{
-							hasEmail && (
-								<div class="row">
-									<span class="lbl">Email</span>
-									<a href={`mailto:${email}`}>{email}</a>
-								</div>
-							)
-						}
-						<div class="row">
-							<span class="lbl">Speaking</span>
-							<a href="/speaking">Booking inquiries &rarr;</a>
-						</div>
-						{
-							hasPress && (
-								<div class="row">
-									<span class="lbl">Press</span>
-									<a href={`mailto:${press}`}>{press}</a>
-								</div>
-							)
-						}
-					</div>
+					{
+						(hasBrandDeals || hasPress) && (
+							<div class="contact-direct">
+								{hasBrandDeals && (
+									<div class="row">
+										<span class="lbl">Brand deals and partnerships</span>
+										<a href={`mailto:${brandDeals}`}>{brandDeals}</a>
+									</div>
+								)}
+								{hasPress && (
+									<div class="row">
+										<span class="lbl">Press</span>
+										<a href={`mailto:${press}`}>{press}</a>
+									</div>
+								)}
+							</div>
+						)
+					}
 
 					{
 						links.length > 0 && (
@@ -117,8 +113,19 @@ const links = (social_links ?? []).filter((s) => s.url);
 							/>
 						) : (
 							<p class="contact-fallback">
-								The contact form is not connected yet. Please email{' '}
-								{hasEmail ? <a href={`mailto:${email}`}>{email}</a> : 'us'} directly.
+								{hasBrandDeals || hasPress ? (
+									<>
+										The contact form isn't connected yet. Email{' '}
+										{hasBrandDeals && (
+											<a href={`mailto:${brandDeals}`}>{brandDeals}</a>
+										)}
+										{hasBrandDeals && hasPress && ' or '}
+										{hasPress && <a href={`mailto:${press}`}>{press}</a>}{' '}
+										and I'll get back to you.
+									</>
+								) : (
+									"The contact form isn't connected yet — please check back soon."
+								)}
 							</p>
 						)
 					}
