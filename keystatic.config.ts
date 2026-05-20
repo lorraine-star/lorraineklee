@@ -117,16 +117,15 @@ export default config({
           },
           { label: 'Career highlights section heading' }
         ),
-        career_logos: fields.array(
+        career_highlights: fields.array(
           fields.object({
-            name: fields.text({ label: 'Company name' }),
-            style: fields.text({
-              label: 'Logo style (CSS classes: bold, caps, serif, italic)',
-            }),
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            value: fields.text({ label: 'Value (large display text)' }),
+            label: fields.text({ label: 'Label (caption under value)' }),
           }),
           {
-            label: 'Career logos',
-            itemLabel: (props) => props.fields.name.value || 'Company',
+            label: 'Career highlights',
+            itemLabel: (props) => props.fields.value.value || 'Highlight',
           }
         ),
         media_eyebrow: fields.text({ label: '"As seen in" eyebrow' }),
@@ -140,61 +139,24 @@ export default config({
             itemLabel: (props) => props.fields.name.value || 'Outlet',
           }
         ),
-        now_section: fields.object(
+        credibility_section: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
             heading: fields.text({ label: 'Heading' }),
             heading_accent: fields.text({
               label: 'Heading accent (shown italic)',
             }),
-            intro: fields.text({ label: 'Intro', multiline: true }),
           },
-          { label: 'Now section heading' }
+          { label: 'Credibility section heading' }
         ),
-        now_items: fields.array(
+        credibility: fields.array(
           fields.object({
-            number: fields.text({ label: 'Number' }),
             title: fields.text({ label: 'Title' }),
-            description: fields.text({
-              label: 'Description',
-              multiline: true,
-            }),
+            detail: fields.text({ label: 'Detail', multiline: true }),
           }),
           {
-            label: 'Now items',
+            label: 'Credibility items',
             itemLabel: (props) => props.fields.title.value || 'Item',
-          }
-        ),
-        endorsements_section: fields.object(
-          {
-            eyebrow: fields.text({ label: 'Eyebrow' }),
-            heading: fields.text({ label: 'Heading' }),
-            heading_accent: fields.text({
-              label: 'Heading accent (shown italic)',
-            }),
-          },
-          { label: 'Endorsements section heading' }
-        ),
-        endorsements: fields.array(
-          fields.object({
-            quote: fields.text({ label: 'Quote', multiline: true }),
-            name: fields.text({ label: 'Name' }),
-            role: fields.text({ label: 'Role / organization' }),
-          }),
-          {
-            label: 'Endorsements',
-            itemLabel: (props) => props.fields.name.value || 'Endorsement',
-          }
-        ),
-        awards: fields.array(
-          fields.object({
-            eyebrow: fields.text({ label: 'Eyebrow' }),
-            value: fields.text({ label: 'Value' }),
-            label: fields.text({ label: 'Label' }),
-          }),
-          {
-            label: 'Awards',
-            itemLabel: (props) => props.fields.value.value || 'Award',
           }
         ),
         final_ctas: fields.array(
