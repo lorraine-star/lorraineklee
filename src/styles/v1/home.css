@@ -1123,8 +1123,10 @@ body {
   font-weight: 500;
   color: var(--ink-900);
   text-decoration: none;
-  display: inline-block;
+  display: block;
+  width: fit-content;
   margin-bottom: 6px;
+  overflow-wrap: anywhere;
 }
 .footer-email:hover { color: var(--accent); }
 .footer-touch p {

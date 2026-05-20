@@ -41,12 +41,12 @@ embedded inline via Typeform's `embed.js`. Submissions land in her Typeform
 inbox and trigger her existing automation integrations.
 
 Set the Typeform form ID in Keystatic on the **Contact** singleton, in the
-**Typeform form ID** field — the 8-character ID from the form's share URL
+**Typeform form ID** field, the 8-character ID from the form's share URL
 (`https://<account>.typeform.com/to/<id>`). The ID also lives in
 `src/content/contact/index.yaml` as `typeform_id` for local development.
 
 If the field is empty the form area falls back to a "not connected yet"
-message with a `mailto:` to `contact_email`.
+message. Direct email rows are limited to press and brand deals.
 
 ## Project structure
 

@@ -663,8 +663,10 @@ export default config({
           description: 'The italicised end of the headline, e.g. "touch."',
         }),
         lead: fields.text({ label: 'Lead paragraph', multiline: true }),
-        contact_email: fields.text({ label: 'Contact email' }),
         press_email: fields.text({ label: 'Press email' }),
+        brand_deals_email: fields.text({
+          label: 'Brand deals and partnerships email',
+        }),
         typeform_id: fields.text({
           label: 'Typeform form ID',
           description:
