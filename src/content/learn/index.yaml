@@ -29,6 +29,8 @@ courses_section:
   heading_accent: "LinkedIn Learning."
   lead: "Bite-sized, on-demand classes taught by Lorraine — watch on your schedule, free with a LinkedIn Learning subscription."
   hero_card_image: "/images/v1/learn/linkedin-learning-lorraine.webp"
+  cta_label: "See all courses"
+  cta_url: "https://www.linkedin.com/learning/instructors/lorraine-lee"
 courses:
   - title: "Nano Tips for Better Business Writing"
     platform: "LinkedIn Learning"

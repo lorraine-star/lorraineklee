@@ -262,6 +262,25 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 					})
 				}
 			</div>
+
+			{
+				courses_section.cta_label && courses_section.cta_url && (
+					<div class="courses-cta">
+						<a
+							class="btn outline large"
+							href={safeUrl(courses_section.cta_url)}
+							target={isExternal(courses_section.cta_url) ? '_blank' : undefined}
+							rel={
+								isExternal(courses_section.cta_url)
+									? 'noopener noreferrer'
+									: undefined
+							}
+						>
+							{courses_section.cta_label} <span aria-hidden="true">&rarr;</span>
+						</a>
+					</div>
+				)
+			}
 		</div>
 	</section>
 

@@ -739,6 +739,16 @@ export default config({
               directory: 'public/images/v1/learn',
               publicPath: '/images/v1/learn/',
             }),
+            cta_label: fields.text({
+              label: 'All-courses CTA label',
+              description: 'Button under the course grid, e.g. "See all courses".',
+              defaultValue: 'See all courses',
+            }),
+            cta_url: fields.text({
+              label: 'All-courses CTA URL',
+              description:
+                'Where the all-courses button points. Update to the dedicated LinkedIn courses page (CLI-87) once it ships.',
+            }),
           },
           { label: 'LinkedIn Learning courses section heading' }
         ),

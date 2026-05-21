@@ -554,6 +554,13 @@
   .course-grid-cards { grid-template-columns: 1fr; }
 }
 
+.courses-cta {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
 /* ----------------------------------------------------------
    Learn page hero — two-col copy + horizontal card rail
    ---------------------------------------------------------- */
