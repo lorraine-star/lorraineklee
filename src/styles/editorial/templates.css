@@ -959,14 +959,34 @@
   gap: 20px;
 }
 .highlight-card {
-  background: #fff;
-  border: 1px solid var(--border-soft);
-  border-radius: 14px;
-  padding: 32px 24px 28px;
+  --gold-deep: #9C7A1E;
+  --gold: #C9A227;
+  --gold-soft: #EBD79A;
+  position: relative;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(201, 162, 39, 0.07) 0%, rgba(201, 162, 39, 0) 60%),
+    linear-gradient(180deg, #fff 0%, var(--paper) 100%);
+  border: 1px solid var(--gold-soft);
+  border-radius: 16px;
+  padding: 40px 26px 30px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  transition: transform 280ms var(--ease-out), box-shadow 280ms var(--ease-out);
+}
+.highlight-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold-deep), var(--gold-soft) 50%, var(--gold-deep));
+}
+.highlight-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
 }
 .highlight-logo {
   height: 56px;
@@ -986,9 +1006,9 @@
   font-family: var(--font-sans);
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--gold-deep);
 }
 .highlight-value {
   font-family: var(--font-serif);
@@ -1041,13 +1061,6 @@
   width: auto;
   height: auto;
   object-fit: contain;
-  opacity: 0.78;
-  filter: grayscale(1);
-  transition: opacity 200ms var(--ease-out), filter 200ms var(--ease-out);
-}
-.credibility-logos img:hover {
-  opacity: 1;
-  filter: none;
 }
 .credibility-logos--1 img {
   max-height: 32px;
