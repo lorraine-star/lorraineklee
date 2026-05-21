@@ -17,21 +17,10 @@
  */
 import HomeLayout from '../layouts/HomeLayout.astro';
 import EditorialNav from '../components/editorial/EditorialNav.astro';
+import TrustAsSeenIn from '../components/TrustAsSeenIn.astro';
 
 const headlineHtml = 'Helping leaders build an<br/><em>unforgettable</em> presence.';
 const ctaLabel = 'Work With Me';
-
-const pressLogos = [
-  { id: 'inc', name: 'Inc.', src: '/images/v1/press/inc.svg', width: 92, height: 30 },
-  { id: 'bloomberg', name: 'Bloomberg', src: '/images/v1/press/bloomberg.svg', width: 170, height: 24 },
-  { id: 'fast-company', name: 'Fast Company', src: '/images/v1/press/fast-company.png', width: 206, height: 30 },
-  { id: 'cnbc', name: 'CNBC', src: '/images/v1/press/cnbc-cropped.png', width: 110, height: 54 },
-  { id: 'business-insider', name: 'Business Insider', src: '/images/v1/press/business-insider.svg', width: 228, height: 22 },
-  { id: 'fox5', name: 'Fox 5 Washington DC', src: '/images/v1/press/fox5.png', width: 134, height: 40 },
-  { id: 'cnn', name: 'CNN', src: '/images/v1/press/cnn.svg', width: 102, height: 28 },
-  { id: 'nbc4', name: 'NBC 4', src: '/images/v1/press/nbc4.svg', width: 88, height: 58 },
-];
-const pressMarquee = [...pressLogos, ...pressLogos];
 
 const fourWays = [
   { n: '01', label: 'Speaking', desc: 'Keynotes built around what your team actually needs to hear.', href: '/speaking' },
@@ -151,32 +140,10 @@ const courseHref =
 
       {/* ============================================================
            GLOBAL SECTION: trust / as-seen-in (press marquee)
-           Shared across pages. Canonical markup lives here on the home page.
-           If you need this on another page, import or duplicate from here —
-           do NOT redesign in isolation. Coordinate edits via Linear.
+           Canonical markup lives in <TrustAsSeenIn />. Edit that
+           component instead of redesigning in isolation here.
            ============================================================ */}
-      <section class="trust as-seen-in" data-global-section="trust-as-seen-in">
-        <div class="trust-eyebrow">As Seen In</div>
-        <div class="marquee-mask">
-          <div class="marquee">
-            {
-              pressMarquee.map((logo, i) => (
-                <span
-                  class={`press-mark-frame press-mark-frame--${logo.id}`}
-                  style={`--mark-height: ${logo.height}px; --mark-width: ${logo.width}px;`}
-                  aria-hidden={i >= pressLogos.length ? 'true' : undefined}
-                >
-                  <img
-                    class={`press-mark press-mark--${logo.id}`}
-                    src={logo.src}
-                    alt={i < pressLogos.length ? logo.name : ''}
-                  />
-                </span>
-              ))
-            }
-          </div>
-        </div>
-      </section>
+      <TrustAsSeenIn />
       {/* /GLOBAL SECTION: trust-as-seen-in */}
 
       {/* ---------- Four ways ---------- */}

@@ -1,5 +1,6 @@
 ---
 import SpeakingLayout from '../layouts/SpeakingLayout.astro';
+import TrustAsSeenIn from '../components/TrustAsSeenIn.astro';
 import { reader, renderMarkdoc } from '../lib/keystatic';
 import { safeUrl } from '../lib/url';
 
@@ -13,14 +14,9 @@ const {
 	story_section,
 	story_facts,
 	career_section,
-	career_logos,
-	media_eyebrow,
-	media_logos,
-	now_section,
-	now_items,
-	endorsements_section,
-	endorsements,
-	awards,
+	career_highlights,
+	credibility_section,
+	credibility,
 	final_ctas,
 } = about;
 
@@ -28,7 +24,7 @@ const bodyHtml = await renderMarkdoc(about.body);
 ---
 
 <SpeakingLayout
-	title="Lorraine K. Lee — About"
+	title="Lorraine K. Lee | About"
 	description={hero.lead}
 	activeId="about"
 >
@@ -94,7 +90,7 @@ const bodyHtml = await renderMarkdoc(about.body);
 	</section>
 
 	{/* ---------- Career highlights ---------- */}
-	<section class="section section--tight">
+	<section class="section section--tight" id="awards">
 		<div class="grid12">
 			<div
 				class="section-head section-head--center"
@@ -105,104 +101,56 @@ const bodyHtml = await renderMarkdoc(about.body);
 					{career_section.heading} <em>{career_section.heading_accent}</em>
 				</h2>
 			</div>
-			<div class="logo-grid reveal-stagger">
+			<div class="highlight-grid reveal-stagger">
 				{
-					career_logos.map((l) => (
-						<div class="logo-cell">
-							<span class={`logo-word ${l.style}`}>{l.name}</span>
+					career_highlights.map((h) => (
+						<div class="highlight-card">
+							{h.logo && (
+								<div class="highlight-logo">
+									<img src={h.logo} alt={h.logo_alt || h.value} />
+								</div>
+							)}
+							<div class="eyebrow">{h.eyebrow}</div>
+							<div class="highlight-value">{h.value}</div>
+							<div class="highlight-label">{h.label}</div>
 						</div>
 					))
 				}
-				<div class="logo-cell">
-					<span class="logo-word serif italic" style="color: var(--ink-500);">
-						& earlier
-					</span>
-				</div>
 			</div>
 		</div>
 	</section>
 
-	{/* ---------- As seen in ---------- */}
-	<section class="section section--tight">
-		<div class="grid12">
-			<div
-				class="section-head section-head--center"
-				style="margin-bottom: 32px;"
-			>
-				<span class="eyebrow">{media_eyebrow}</span>
-			</div>
-			<div class="media-strip">
-				{
-					media_logos.map((l) => (
-						<span class={`logo-word ${l.style}`}>{l.name}</span>
-					))
-				}
-			</div>
-		</div>
-	</section>
+	{/* ---------- As seen in (shared global section) ---------- */}
+	<TrustAsSeenIn />
 
-	{/* ---------- Now ---------- */}
-	<section class="section">
-		<div class="grid12">
-			<div class="now-working reveal">
-				<div>
-					<span class="eyebrow">{now_section.eyebrow}</span>
-					<h2>
-						{now_section.heading} <em>{now_section.heading_accent}</em>
-					</h2>
-					<p class="now-intro">{now_section.intro}</p>
-				</div>
-				<div>
-					<ul>
-						{
-							now_items.map((item) => (
-								<li>
-									<span class="lk">{item.number}</span>
-									<span class="lv">
-										<strong>{item.title}</strong> {item.description}
-									</span>
-								</li>
-							))
-						}
-					</ul>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	{/* ---------- Endorsements & awards ---------- */}
-	<section class="section section--cream" id="awards">
+	{/* ---------- Credibility ---------- */}
+	<section class="section section--cream" id="credibility">
 		<div class="grid12">
 			<div class="section-head section-head--center">
-				<span class="eyebrow">{endorsements_section.eyebrow}</span>
+				<span class="eyebrow">{credibility_section.eyebrow}</span>
 				<h2>
-					{endorsements_section.heading}{' '}
-					<em>{endorsements_section.heading_accent}</em>
+					{credibility_section.heading}{' '}
+					<em>{credibility_section.heading_accent}</em>
 				</h2>
 			</div>
-			<div class="endorsement-row reveal-stagger" style="margin-top: 8px;">
+			<div class="credibility-grid reveal-stagger">
 				{
-					endorsements.map((e) => (
-						<figure class="endorsement">
-							<span class="e-mark" aria-hidden="true">
-								&ldquo;
-							</span>
-							<blockquote>{e.quote}</blockquote>
-							<figcaption>
-								<div class="e-name">{e.name}</div>
-								<div class="e-role">{e.role}</div>
-							</figcaption>
-						</figure>
-					))
-				}
-			</div>
-			<div class="endorsement-row reveal-stagger" style="margin-top: 20px;">
-				{
-					awards.map((a) => (
-						<div class="award-card">
-							<div class="eyebrow">{a.eyebrow}</div>
-							<div class="award-value">{a.value}</div>
-							<div class="award-label">{a.label}</div>
+					credibility.map((c) => (
+						<div class="credibility-card">
+							{c.logos && c.logos.length > 0 && (
+								<div
+									class:list={[
+										'credibility-logos',
+										`credibility-logos--${c.logos.length}`,
+									]}
+								>
+									{c.logos.map((l) => (
+										<img src={l.src} alt={l.alt} />
+									))}
+								</div>
+							)}
+							<h3>{c.title}</h3>
+							<p>{c.detail}</p>
 						</div>
 					))
 				}

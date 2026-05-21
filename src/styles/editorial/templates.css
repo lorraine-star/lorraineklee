@@ -951,6 +951,137 @@
   margin-top: 10px;
 }
 
+/* ----- Career highlights grid (About page) ----- */
+.highlight-grid {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.highlight-card {
+  --gold-deep: #9C7A1E;
+  --gold: #C9A227;
+  --gold-soft: #EBD79A;
+  position: relative;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(201, 162, 39, 0.07) 0%, rgba(201, 162, 39, 0) 60%),
+    linear-gradient(180deg, #fff 0%, var(--paper) 100%);
+  border: 1px solid var(--gold-soft);
+  border-radius: 16px;
+  padding: 40px 26px 30px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  transition: transform 280ms var(--ease-out), box-shadow 280ms var(--ease-out);
+}
+.highlight-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold-deep), var(--gold-soft) 50%, var(--gold-deep));
+}
+.highlight-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+.highlight-logo {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+.highlight-logo img {
+  max-height: 56px;
+  max-width: 160px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+.highlight-card .eyebrow {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+.highlight-value {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-style: italic;
+  font-size: clamp(22px, 2.2vw, 30px);
+  line-height: 1.15;
+  color: var(--ink-900);
+  letter-spacing: -0.01em;
+  margin-top: 10px;
+}
+.highlight-label {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-500);
+  margin-top: 8px;
+}
+
+/* ----- Credibility grid (About page) ----- */
+.credibility-grid {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 32px;
+}
+.credibility-card {
+  background: #fff;
+  border: 1px solid var(--border-soft);
+  border-radius: 14px;
+  padding: 28px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.credibility-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  min-height: 38px;
+  margin-bottom: 6px;
+}
+.credibility-logos img {
+  max-height: 28px;
+  max-width: 110px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+.credibility-logos--1 img {
+  max-height: 32px;
+}
+.credibility-card h3 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(20px, 1.8vw, 24px);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink-900);
+  margin: 0;
+}
+.credibility-card p {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-700);
+  margin: 0;
+}
+
 /* ----- Final CTA cards ----- */
 .about-final {
   grid-column: 1 / -1;
@@ -1501,6 +1632,8 @@
   .bio-body { grid-column: 1 / span 7; }
   .bio-aside { grid-column: 9 / span 4; }
   .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+  .credibility-grid { grid-template-columns: repeat(2, 1fr); }
+  .highlight-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 900px) {
   .about-hero-photo { margin: 0 auto; }
@@ -1516,6 +1649,8 @@
   }
   .now-working { grid-template-columns: 1fr; gap: 32px; }
   .endorsement-row { grid-template-columns: 1fr; }
+  .credibility-grid { grid-template-columns: 1fr; }
+  .highlight-grid { grid-template-columns: 1fr; }
   .about-final { grid-template-columns: 1fr; }
   .book-hero-cover,
   .book-hero-copy { grid-column: 1 / -1; }
