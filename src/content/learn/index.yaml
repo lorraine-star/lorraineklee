@@ -22,11 +22,13 @@ newsletter:
   form_fineprint: "No spam. Unsubscribe in one click."
   success_title: "You're in."
   success_subtitle_template: "Day 1 is on its way to {email}."
+  hero_card_image: "/images/v1/learn/newsletter-lorraine.webp"
 courses_section:
   eyebrow: "LinkedIn Learning"
   heading: "On-demand courses on"
   heading_accent: "LinkedIn Learning."
   lead: "Bite-sized, on-demand classes taught by Lorraine — watch on your schedule, free with a LinkedIn Learning subscription."
+  hero_card_image: "/images/v1/learn/linkedin-learning-lorraine.webp"
 courses:
   - title: "Nano Tips for Better Business Writing"
     platform: "LinkedIn Learning"
@@ -68,7 +70,9 @@ linkedin_resources:
     description: "A set of on-brand LinkedIn cover photos you can drop into your profile in minutes — designed to make your page look intentional, not stock."
     cta_label: "Get the photo pack"
     url: "/contact"
+    image: "/images/v1/learn/linkedin-photo-pack.webp"
   - label: "The Digital LinkedIn Guide"
     description: "Lorraine's step-by-step playbook for building a LinkedIn presence that gets you noticed by decision-makers, recruiters, and clients."
     cta_label: "Get the guide"
     url: "/contact"
+    image: "/images/v1/learn/linkedin-guide.webp"

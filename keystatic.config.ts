@@ -716,6 +716,12 @@ export default config({
               label: 'Success state subtitle (use {email} placeholder)',
               defaultValue: 'Day 1 is on its way to {email}.',
             }),
+            hero_card_image: fields.image({
+              label: 'Hero bento card image',
+              description: 'Photo shown on the newsletter card in the hero bento grid.',
+              directory: 'public/images/v1/learn',
+              publicPath: '/images/v1/learn/',
+            }),
           },
           { label: 'Newsletter (lead block)' }
         ),
@@ -727,6 +733,12 @@ export default config({
               label: 'Heading accent (italic)',
             }),
             lead: fields.text({ label: 'Lead', multiline: true }),
+            hero_card_image: fields.image({
+              label: 'Hero bento card image',
+              description: 'Photo shown on the LinkedIn Learning card in the hero bento grid.',
+              directory: 'public/images/v1/learn',
+              publicPath: '/images/v1/learn/',
+            }),
           },
           { label: 'LinkedIn Learning courses section heading' }
         ),
@@ -781,6 +793,12 @@ export default config({
             }),
             url: fields.text({
               label: 'URL (external links open in a new tab)',
+            }),
+            image: fields.image({
+              label: 'Card image',
+              description: 'Cover/preview shown on the hero bento card and resource card.',
+              directory: 'public/images/v1/learn',
+              publicPath: '/images/v1/learn/',
             }),
           }),
           {
