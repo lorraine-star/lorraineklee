@@ -117,84 +117,57 @@ export default config({
           },
           { label: 'Career highlights section heading' }
         ),
-        career_logos: fields.array(
+        career_highlights: fields.array(
           fields.object({
-            name: fields.text({ label: 'Company name' }),
-            style: fields.text({
-              label: 'Logo style (CSS classes: bold, caps, serif, italic)',
+            logo: fields.image({
+              label: 'Logo',
+              directory: 'public/images/about/highlights',
+              publicPath: '/images/about/highlights/',
+              description:
+                'Brand mark shown at the top of the card. Leave empty to fall back to the text value.',
             }),
+            logo_alt: fields.text({ label: 'Logo alt text' }),
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            value: fields.text({ label: 'Value (large display text)' }),
+            label: fields.text({ label: 'Label (caption under value)' }),
           }),
           {
-            label: 'Career logos',
-            itemLabel: (props) => props.fields.name.value || 'Company',
+            label: 'Career highlights',
+            itemLabel: (props) => props.fields.value.value || 'Highlight',
           }
         ),
-        media_eyebrow: fields.text({ label: '"As seen in" eyebrow' }),
-        media_logos: fields.array(
-          fields.object({
-            name: fields.text({ label: 'Outlet name' }),
-            style: fields.text({ label: 'Logo style (CSS classes)' }),
-          }),
-          {
-            label: 'Media logos',
-            itemLabel: (props) => props.fields.name.value || 'Outlet',
-          }
-        ),
-        now_section: fields.object(
+        credibility_section: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
             heading: fields.text({ label: 'Heading' }),
             heading_accent: fields.text({
               label: 'Heading accent (shown italic)',
             }),
-            intro: fields.text({ label: 'Intro', multiline: true }),
           },
-          { label: 'Now section heading' }
+          { label: 'Credibility section heading' }
         ),
-        now_items: fields.array(
+        credibility: fields.array(
           fields.object({
-            number: fields.text({ label: 'Number' }),
             title: fields.text({ label: 'Title' }),
-            description: fields.text({
-              label: 'Description',
-              multiline: true,
-            }),
+            detail: fields.text({ label: 'Detail', multiline: true }),
+            logos: fields.array(
+              fields.object({
+                src: fields.image({
+                  label: 'Logo',
+                  directory: 'public/images/about/credibility',
+                  publicPath: '/images/about/credibility/',
+                }),
+                alt: fields.text({ label: 'Alt text' }),
+              }),
+              {
+                label: 'Logos',
+                itemLabel: (props) => props.fields.alt.value || 'Logo',
+              }
+            ),
           }),
           {
-            label: 'Now items',
+            label: 'Credibility items',
             itemLabel: (props) => props.fields.title.value || 'Item',
-          }
-        ),
-        endorsements_section: fields.object(
-          {
-            eyebrow: fields.text({ label: 'Eyebrow' }),
-            heading: fields.text({ label: 'Heading' }),
-            heading_accent: fields.text({
-              label: 'Heading accent (shown italic)',
-            }),
-          },
-          { label: 'Endorsements section heading' }
-        ),
-        endorsements: fields.array(
-          fields.object({
-            quote: fields.text({ label: 'Quote', multiline: true }),
-            name: fields.text({ label: 'Name' }),
-            role: fields.text({ label: 'Role / organization' }),
-          }),
-          {
-            label: 'Endorsements',
-            itemLabel: (props) => props.fields.name.value || 'Endorsement',
-          }
-        ),
-        awards: fields.array(
-          fields.object({
-            eyebrow: fields.text({ label: 'Eyebrow' }),
-            value: fields.text({ label: 'Value' }),
-            label: fields.text({ label: 'Label' }),
-          }),
-          {
-            label: 'Awards',
-            itemLabel: (props) => props.fields.value.value || 'Award',
           }
         ),
         final_ctas: fields.array(
@@ -673,6 +646,85 @@ export default config({
           },
           { label: 'Hero' }
         ),
+        newsletter: fields.object(
+          {
+            eyebrow_pill: fields.text({
+              label: 'Eyebrow pill (e.g. "Free")',
+              defaultValue: 'Free',
+            }),
+            eyebrow_label: fields.text({
+              label: 'Eyebrow label',
+              defaultValue: '5-Day Email Course',
+            }),
+            headline: fields.text({ label: 'Headline (plain)' }),
+            headline_accent: fields.text({
+              label: 'Headline accent (italic)',
+            }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            bullets: fields.array(fields.text({ label: 'Bullet' }), {
+              label: 'Course-day bullets',
+              itemLabel: (props) => props.value || 'Bullet',
+            }),
+            form_eyebrow: fields.text({
+              label: 'Form eyebrow',
+              defaultValue: 'Start tomorrow',
+            }),
+            form_title: fields.text({ label: 'Form title (plain)' }),
+            form_title_accent: fields.text({
+              label: 'Form title accent (italic)',
+            }),
+            form_button_label: fields.text({
+              label: 'Form button label',
+              defaultValue: 'Send me Day 1',
+            }),
+            form_fineprint: fields.text({
+              label: 'Form fineprint',
+              defaultValue: 'No spam. Unsubscribe in one click.',
+            }),
+            success_title: fields.text({
+              label: 'Success state title',
+              defaultValue: "You're in.",
+            }),
+            success_subtitle_template: fields.text({
+              label: 'Success state subtitle (use {email} placeholder)',
+              defaultValue: 'Day 1 is on its way to {email}.',
+            }),
+            hero_card_image: fields.image({
+              label: 'Hero bento card image',
+              description: 'Photo shown on the newsletter card in the hero bento grid.',
+              directory: 'public/images/v1/learn',
+              publicPath: '/images/v1/learn/',
+            }),
+          },
+          { label: 'Newsletter (lead block)' }
+        ),
+        courses_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+            hero_card_image: fields.image({
+              label: 'Hero bento card image',
+              description: 'Photo shown on the LinkedIn Learning card in the hero bento grid.',
+              directory: 'public/images/v1/learn',
+              publicPath: '/images/v1/learn/',
+            }),
+            cta_label: fields.text({
+              label: 'All-courses CTA label',
+              description: 'Button under the course grid, e.g. "See all courses".',
+              defaultValue: 'See all courses',
+            }),
+            cta_url: fields.text({
+              label: 'All-courses CTA URL',
+              description:
+                'Where the all-courses button points. Update to the dedicated LinkedIn courses page (CLI-87) once it ships.',
+            }),
+          },
+          { label: 'LinkedIn Learning courses section heading' }
+        ),
         courses: fields.array(
           fields.object({
             title: fields.text({ label: 'Title' }),
@@ -680,13 +732,18 @@ export default config({
               label: 'Platform',
               options: [
                 { label: 'LinkedIn Learning', value: 'LinkedIn Learning' },
-                { label: 'Stanford', value: 'Stanford' },
-                { label: 'Free', value: 'Free' },
               ],
               defaultValue: 'LinkedIn Learning',
             }),
             glyph: fields.text({
-              label: 'Thumbnail letter (decorative)',
+              label: 'Thumbnail letter (decorative — used only when no image is set)',
+            }),
+            thumbnail: fields.image({
+              label: 'Course thumbnail (optional)',
+              description:
+                'Course art shown on the card. Falls back to the decorative letter when empty.',
+              directory: 'public/images/v1/learn/courses',
+              publicPath: '/images/v1/learn/courses/',
             }),
             duration: fields.text({ label: 'Duration (optional)' }),
             description: fields.text({
@@ -702,27 +759,47 @@ export default config({
             itemLabel: (props) => props.fields.title.value || 'Course',
           }
         ),
-        mid_cta: fields.object(
-          {
-            heading: fields.text({ label: 'Heading' }),
-            heading_accent: fields.text({
-              label: 'Heading accent (shown italic)',
-            }),
-            body: fields.text({ label: 'Body', multiline: true }),
-            cta_label: fields.text({ label: 'CTA label' }),
-            cta_url: fields.text({ label: 'CTA URL' }),
-          },
-          { label: 'Mid-page CTA' }
-        ),
-        stanford: fields.object(
+        linkedin_resources_section: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
-            heading: fields.text({ label: 'Heading' }),
-            body: fields.text({ label: 'Body', multiline: true }),
-            cta_label: fields.text({ label: 'CTA label' }),
-            cta_url: fields.text({ label: 'CTA URL' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
           },
-          { label: 'Stanford callout' }
+          { label: 'LinkedIn resources section heading' }
+        ),
+        linkedin_resources: fields.array(
+          fields.object({
+            label: fields.text({ label: 'Label' }),
+            description: fields.text({
+              label: 'Description',
+              multiline: true,
+            }),
+            cta_label: fields.text({
+              label: 'CTA label',
+              defaultValue: 'Get the pack',
+            }),
+            url: fields.text({
+              label: 'URL (external links open in a new tab)',
+            }),
+            anchor_id: fields.text({
+              label: 'Anchor ID (optional)',
+              description:
+                'Stable in-page anchor for nav deep-links, e.g. "linkedin-guide" so /learn#linkedin-guide scrolls to this card.',
+            }),
+            image: fields.image({
+              label: 'Card image',
+              description: 'Cover/preview shown on the hero bento card and resource card.',
+              directory: 'public/images/v1/learn',
+              publicPath: '/images/v1/learn/',
+            }),
+          }),
+          {
+            label: 'LinkedIn resources / lead magnets',
+            itemLabel: (props) => props.fields.label.value || 'Resource',
+          }
         ),
       },
     }),

@@ -1,0 +1,123 @@
+---
+/**
+ * Global "As Seen In" press marquee.
+ *
+ * Canonical markup for the trust strip. Used on the home page and on any
+ * other page that needs the same press lineup. If you change the markup,
+ * styling, or logo list here, coordinate via Linear so parallel worktrees
+ * don't drift.
+ *
+ * Styles live in src/styles/v1/home.css (.trust, .marquee, .press-mark*).
+ * Pages that use this component must include that stylesheet via their
+ * layout (HomeLayout already does; SpeakingLayout imports it explicitly).
+ */
+
+const pressLogos = [
+  { id: 'inc', name: 'Inc.', src: '/images/v1/press/inc.svg', width: 92, height: 30 },
+  { id: 'bloomberg', name: 'Bloomberg', src: '/images/v1/press/bloomberg.svg', width: 170, height: 24 },
+  { id: 'fast-company', name: 'Fast Company', src: '/images/v1/press/fast-company.png', width: 206, height: 30 },
+  { id: 'cnbc', name: 'CNBC', src: '/images/v1/press/cnbc-cropped.png', width: 110, height: 54 },
+  { id: 'business-insider', name: 'Business Insider', src: '/images/v1/press/business-insider.svg', width: 228, height: 22 },
+  { id: 'fox5', name: 'Fox 5 Washington DC', src: '/images/v1/press/fox5.png', width: 134, height: 40 },
+  { id: 'cnn', name: 'CNN', src: '/images/v1/press/cnn.svg', width: 102, height: 28 },
+  { id: 'nbc4', name: 'NBC 4', src: '/images/v1/press/nbc4.svg', width: 88, height: 58 },
+];
+const pressMarquee = [...pressLogos, ...pressLogos];
+---
+
+<section class="trust as-seen-in" data-global-section="trust-as-seen-in">
+  <div class="trust-eyebrow">As Seen In</div>
+  <div class="marquee-mask">
+    <div class="marquee">
+      {
+        pressMarquee.map((logo, i) => (
+          <span
+            class={`press-mark-frame press-mark-frame--${logo.id}`}
+            style={`--mark-height: ${logo.height}px; --mark-width: ${logo.width}px;`}
+            aria-hidden={i >= pressLogos.length ? 'true' : undefined}
+          >
+            <img
+              class={`press-mark press-mark--${logo.id}`}
+              src={logo.src}
+              alt={i < pressLogos.length ? logo.name : ''}
+            />
+          </span>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  /* TrustAsSeenIn — ships the trust strip + press marquee styles wherever
+     this component is used. Mirrors the rules in src/styles/v1/home.css so
+     the home page is unaffected, and editorial pages (which don't import
+     home.css) still render correctly. */
+  .trust {
+    padding: 42px 0 46px;
+    border-top: 1px solid var(--border-soft);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .trust-eyebrow {
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+  .marquee-mask {
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .marquee {
+    display: flex;
+    gap: 80px;
+    animation: marquee 50s linear infinite;
+    width: max-content;
+    align-items: center;
+    will-change: transform;
+  }
+  .marquee-mask:hover .marquee { animation-play-state: paused; }
+  .press-mark-frame {
+    width: var(--mark-width, 160px);
+    height: var(--mark-height, 32px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    transition: transform 240ms var(--ease-out);
+  }
+  .press-mark {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    opacity: 0.74;
+    filter: grayscale(1);
+    pointer-events: none;
+    transition: opacity 240ms var(--ease-out), filter 240ms var(--ease-out);
+  }
+  .press-mark-frame:hover { transform: translateY(-1px); }
+  .press-mark-frame:hover .press-mark {
+    opacity: 1;
+    filter: none;
+  }
+  .press-mark--fox5 { filter: grayscale(1) brightness(0.18); }
+  .press-mark-frame--fox5:hover .press-mark { filter: brightness(0); }
+  .press-mark--cnn { filter: grayscale(1) brightness(0.62); }
+  .press-mark--business-insider { opacity: 0.7; }
+  .press-mark--nbc4 { opacity: 0.86; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee { animation: none; }
+  }
+</style>
