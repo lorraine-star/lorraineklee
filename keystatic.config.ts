@@ -794,6 +794,11 @@ export default config({
             url: fields.text({
               label: 'URL (external links open in a new tab)',
             }),
+            anchor_id: fields.text({
+              label: 'Anchor ID (optional)',
+              description:
+                'Stable in-page anchor for nav deep-links, e.g. "linkedin-guide" so /learn#linkedin-guide scrolls to this card.',
+            }),
             image: fields.image({
               label: 'Card image',
               description: 'Cover/preview shown on the hero bento card and resource card.',

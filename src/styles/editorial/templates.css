@@ -638,6 +638,10 @@ a.lh-card:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-md);
 }
+a.lh-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
 .lh-card-body {
   display: flex;
   flex-direction: column;
@@ -1076,6 +1080,12 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
+.learn-resources .resource-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.learn-resources .resource-card[id] { scroll-margin-top: 96px; }
+.anchor-target { scroll-margin-top: 96px; }
 /* With a thumbnail: horizontal split (image left, text right) */
 .learn-resources .resource-card--media {
   flex-direction: row;

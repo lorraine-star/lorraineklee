@@ -203,7 +203,7 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 	</section>
 
 	{/* ---------- LinkedIn Learning courses (secondary) ---------- */}
-	<section class="section section--tight" id="courses">
+	<section class="section section--tight anchor-target" id="courses">
 		<div class="grid12">
 			<div class="section-head section-head--center">
 				<span class="eyebrow">{courses_section.eyebrow}</span>
@@ -259,7 +259,7 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 	{/* ---------- LinkedIn lead-magnet resources ---------- */}
 	{
 		linkedin_resources?.length > 0 && (
-			<section class="section section--tight">
+			<section class="section section--tight anchor-target" id="resources">
 				<div class="grid12">
 					<div class="section-head section-head--center">
 						<span class="eyebrow">{linkedin_resources_section.eyebrow}</span>
@@ -278,6 +278,7 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 							return (
 								<a
 									class:list={['resource-card', { 'resource-card--media': r.image }]}
+									id={r.anchor_id || undefined}
 									href={url}
 									target={external ? '_blank' : undefined}
 									rel={external ? 'noopener noreferrer' : undefined}
@@ -321,7 +322,7 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 		const success = document.querySelector<HTMLElement>('[data-course-success]');
 		const sub = document.querySelector<HTMLElement>('[data-course-success-sub]');
 		const template = sub?.dataset.successTemplate ?? 'Day 1 is on its way to {email}.';
-		if (sub) sub.textContent = template.replace('{email}', email);
+		if (sub) sub.textContent = template.replaceAll('{email}', email);
 		form.setAttribute('hidden', '');
 		success?.removeAttribute('hidden');
 	});
