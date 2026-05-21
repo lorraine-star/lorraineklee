@@ -753,7 +753,14 @@ export default config({
               defaultValue: 'LinkedIn Learning',
             }),
             glyph: fields.text({
-              label: 'Thumbnail letter (decorative)',
+              label: 'Thumbnail letter (decorative — used only when no image is set)',
+            }),
+            thumbnail: fields.image({
+              label: 'Course thumbnail (optional)',
+              description:
+                'Course art shown on the card. Falls back to the decorative letter when empty.',
+              directory: 'public/images/v1/learn/courses',
+              publicPath: '/images/v1/learn/courses/',
             }),
             duration: fields.text({ label: 'Duration (optional)' }),
             description: fields.text({

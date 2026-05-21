@@ -229,9 +229,18 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 								rel={external ? 'noopener noreferrer' : undefined}
 							>
 								<div class="course-thumb">
-									<div class="course-thumb-deco" aria-hidden="true">
-										{c.glyph}
-									</div>
+									{c.thumbnail ? (
+										<img
+											class="course-thumb-img"
+											src={c.thumbnail}
+											alt=""
+											loading="lazy"
+										/>
+									) : (
+										<div class="course-thumb-deco" aria-hidden="true">
+											{c.glyph}
+										</div>
+									)}
 									<span class="platform-tag">{c.platform}</span>
 									<div class="play" aria-hidden="true">
 										<svg viewBox="0 0 24 24" fill="currentColor">

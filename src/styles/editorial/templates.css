@@ -440,6 +440,14 @@
   pointer-events: none;
 }
 .course-card:hover .course-thumb::after { opacity: 1; }
+.course-thumb-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 .course-thumb-deco {
   position: absolute;
   inset: 0;
