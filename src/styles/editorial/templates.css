@@ -1057,7 +1057,7 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 .learn-resources {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 20px;
 }
 .learn-resources .resource-card {
@@ -1075,6 +1075,33 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 .learn-resources .resource-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
+}
+/* With a thumbnail: horizontal split (image left, text right) */
+.learn-resources .resource-card--media {
+  flex-direction: row;
+  align-items: stretch;
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
+}
+.learn-resources .resource-media {
+  flex: 0 0 168px;
+  background: var(--paper-deep);
+}
+.learn-resources .resource-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.learn-resources .resource-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+  padding: 28px 32px;
 }
 .learn-resources .resource-card .resource-label {
   font-family: var(--font-serif);
@@ -1109,6 +1136,13 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 }
 .learn-resources .resource-card:hover .resource-arrow span {
   transform: translateX(4px);
+}
+@media (max-width: 560px) {
+  .learn-resources .resource-card--media { flex-direction: column; }
+  .learn-resources .resource-media {
+    flex: 0 0 auto;
+    height: 180px;
+  }
 }
 
 /* ============================================================

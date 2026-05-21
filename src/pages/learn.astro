@@ -277,19 +277,26 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 							const external = isExternal(url);
 							return (
 								<a
-									class="resource-card"
+									class:list={['resource-card', { 'resource-card--media': r.image }]}
 									href={url}
 									target={external ? '_blank' : undefined}
 									rel={external ? 'noopener noreferrer' : undefined}
 								>
-									<span class="resource-label">{r.label}</span>
-									{r.description && (
-										<p class="resource-desc">{r.description}</p>
+									{r.image && (
+										<div class="resource-media">
+											<img src={r.image} alt={r.label} loading="lazy" />
+										</div>
 									)}
-									<span class="resource-arrow">
-										{r.cta_label || (external ? 'Open' : 'Download')}{' '}
-										<span aria-hidden="true">&rarr;</span>
-									</span>
+									<div class="resource-body">
+										<span class="resource-label">{r.label}</span>
+										{r.description && (
+											<p class="resource-desc">{r.description}</p>
+										)}
+										<span class="resource-arrow">
+											{r.cta_label || (external ? 'Open' : 'Download')}{' '}
+											<span aria-hidden="true">&rarr;</span>
+										</span>
+									</div>
 								</a>
 							);
 						})}
