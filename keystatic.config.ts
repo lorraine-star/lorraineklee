@@ -1119,6 +1119,78 @@ export default config({
         description: fields.markdoc({ label: 'Description' }),
       },
     }),
+    coursesPage: singleton({
+      label: 'Courses Page',
+      path: 'src/content/courses-page/',
+      schema: {
+        hero: fields.object(
+          {
+            eyebrow: fields.text({
+              label: 'Eyebrow',
+              defaultValue: 'LinkedIn Learning',
+            }),
+            headline: fields.text({ label: 'Headline (plain)' }),
+            headline_accent: fields.text({
+              label: 'Headline accent (italic)',
+            }),
+            lead: fields.text({ label: 'Lead paragraph', multiline: true }),
+            primary_cta_label: fields.text({ label: 'Primary CTA label' }),
+            primary_cta_url: fields.text({ label: 'Primary CTA URL' }),
+          },
+          { label: 'Hero' }
+        ),
+        rating: fields.object(
+          {
+            value: fields.text({ label: 'Rating value (e.g. 4.7)' }),
+            scale: fields.text({
+              label: 'Rating scale (e.g. /5)',
+              defaultValue: '/5',
+            }),
+            students_label: fields.text({
+              label: 'Students label (e.g. 250,000+ students)',
+            }),
+            note: fields.text({
+              label: 'Note (e.g. More courses coming soon)',
+            }),
+          },
+          { label: 'Rating / social proof' }
+        ),
+        testimonials_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (italic)',
+            }),
+          },
+          { label: 'Student testimonials heading' }
+        ),
+        testimonials: fields.array(
+          fields.object({
+            quote: fields.text({ label: 'Quote', multiline: true }),
+            name: fields.text({ label: 'Name' }),
+            initials: fields.text({ label: 'Initials' }),
+          }),
+          {
+            label: 'Student testimonials',
+            itemLabel: (props) => props.fields.name.value || 'Testimonial',
+          }
+        ),
+        final_cta: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (italic)',
+            }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            cta_url: fields.text({ label: 'CTA URL' }),
+          },
+          { label: 'Final CTA (free course)' }
+        ),
+      },
+    }),
     contact: singleton({
       label: 'Contact',
       path: 'src/content/contact/',
@@ -1200,6 +1272,58 @@ export default config({
           publicPath: '/images/v1/courses/',
         }),
         duration: fields.text({ label: 'Duration (optional)' }),
+      },
+    }),
+    keynotes: collection({
+      label: 'Keynotes',
+      slugField: 'title',
+      path: 'src/content/keynotes/*',
+      format: { data: 'yaml' },
+      schema: {
+        title: fields.slug({
+          name: { label: 'Title' },
+          slug: {
+            label: 'URL slug',
+            description:
+              'Short canonical slug for /keynotes/[slug]. The old WordPress /keynote/* and /keynotes_v2/* URLs 301 to this in vercel.json.',
+          },
+        }),
+        order: fields.integer({
+          label: 'Sort order',
+          description: 'Lower numbers appear first in the keynote catalog.',
+          defaultValue: 0,
+        }),
+        format: fields.text({
+          label: 'Format',
+          description:
+            'E.g. "Keynote", "Keynote / Workshop", "Keynote / 60 min".',
+          defaultValue: 'Keynote',
+        }),
+        description: fields.text({
+          label: 'Description',
+          description:
+            'Short summary shown on the catalog card and used as the page meta description.',
+          multiline: true,
+        }),
+        clip_url: fields.text({
+          label: 'Talk clip embed URL (optional)',
+          description:
+            'YouTube or Vimeo embed URL shown on the keynote detail page.',
+        }),
+        takeaways: fields.array(fields.text({ label: 'Takeaway' }), {
+          label: 'Audience takeaways',
+          itemLabel: (props) => props.value || 'Takeaway',
+        }),
+        talk_track: fields.array(
+          fields.object({
+            time: fields.text({ label: 'Time / chapter (optional)' }),
+            label: fields.text({ label: 'Track label' }),
+          }),
+          {
+            label: 'Talk track (chapters)',
+            itemLabel: (props) => props.fields.label.value || 'Track item',
+          }
+        ),
       },
     }),
     articles: collection({

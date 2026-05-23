@@ -1,12 +1,16 @@
 ---
 import SpeakingLayout from '../../layouts/SpeakingLayout.astro';
 import { reader } from '../../lib/keystatic';
-
-const INSTRUCTOR_URL =
-	'https://www.linkedin.com/learning/instructors/lorraine-lee';
+import { safeUrl } from '../../lib/url';
 
 // Category order mirrors the old WordPress /learning-courses/ hub.
 const CATEGORY_ORDER = ['Communication', 'Leadership', 'Management', 'Career'];
+
+const page = await reader.singletons.coursesPage.read();
+if (!page) {
+	throw new Error('Missing courses page content (src/content/courses-page/index.yaml)');
+}
+const { hero, rating, testimonials_section, testimonials, final_cta } = page;
 
 const all = await reader.collections.courses.all();
 const courses = all
@@ -18,42 +22,68 @@ const grouped = CATEGORY_ORDER.map((category) => ({
 	items: courses.filter((c) => c.category === category),
 })).filter((g) => g.items.length > 0);
 
-const lead =
-	"Lorraine teaches on-demand LinkedIn Learning courses on communication, " +
-	"leadership, management, and career growth — bite-sized lessons you can " +
-	"watch on your own schedule, free with a LinkedIn Learning subscription.";
+const isExternal = (url: string) => /^https?:\/\//i.test(url);
+const heroCtaUrl = safeUrl(hero.primary_cta_url) || '#courses';
+const finalCtaUrl = safeUrl(final_cta.cta_url) || '/learn#course';
 ---
 
 <SpeakingLayout
 	title="LinkedIn Learning Courses | Lorraine K. Lee"
-	description={lead}
+	description={hero.lead}
 	activeId="learn"
 >
-	{/* ---------- Hero ---------- */}
+	{/* ---------- Hero + rating ---------- */}
 	<section class="page-hero page-hero--center">
 		<div class="grid12 page-hero-grid">
 			<div class="page-hero-copy fade-up">
 				<div class="page-hero-eyebrow">
 					<span class="dot"></span>
-					<span class="eyebrow" style="color: var(--ink-500);">
-						LinkedIn Learning
-					</span>
+					<span class="eyebrow" style="color: var(--ink-500);">{hero.eyebrow}</span>
 				</div>
-				<h1>On-demand courses, taught by <em>Lorraine.</em></h1>
-				<p class="lead-large">{lead}</p>
+				<h1>{hero.headline} <em>{hero.headline_accent}</em></h1>
+				<p class="lead-large">{hero.lead}</p>
 				<div class="hero-cta-row">
 					<a
 						class="btn primary large"
-						href={INSTRUCTOR_URL}
-						target="_blank"
-						rel="noopener noreferrer"
+						href={heroCtaUrl}
+						target={isExternal(heroCtaUrl) ? '_blank' : undefined}
+						rel={isExternal(heroCtaUrl) ? 'noopener noreferrer' : undefined}
 					>
-						See all on LinkedIn Learning <span aria-hidden="true">&rarr;</span>
+						{hero.primary_cta_label} <span aria-hidden="true">&rarr;</span>
 					</a>
 					<a class="anchor-link" href="#courses">
 						Browse courses <span class="arrow" aria-hidden="true">&rarr;</span>
 					</a>
 				</div>
+
+				{
+					rating?.value && (
+						<div class="course-rating">
+							<div class="amazon-rating">
+								<span class="rating-stars" aria-hidden="true">
+									{Array.from({ length: 5 }).map(() => (
+										<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+											<path
+												d="M12 2l2.95 6.74L22 9.74l-5.5 4.78L18.18 22 12 18.27 5.82 22l1.68-7.48L2 9.74l7.05-1z"
+												fill="currentColor"
+											/>
+										</svg>
+									))}
+								</span>
+								<span class="rating-value">
+									<strong>{rating.value}{rating.scale}</strong>
+									{rating.students_label && (
+										<>
+											<span class="rating-divider"> · </span>
+											<span>{rating.students_label}</span>
+										</>
+									)}
+								</span>
+							</div>
+							{rating.note && <p class="course-rating-note">{rating.note}</p>}
+						</div>
+					)
+				}
 			</div>
 		</div>
 	</section>
@@ -106,26 +136,51 @@ const lead =
 		}
 	</div>
 
-	{/* ---------- Final CTA ---------- */}
+	{/* ---------- Student testimonials ---------- */}
+	{
+		testimonials?.length > 0 && (
+			<section class="section section--tight anchor-target" id="testimonials">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{testimonials_section.eyebrow}</span>
+						<h2>
+							{testimonials_section.heading}{' '}
+							<em>{testimonials_section.heading_accent}</em>
+						</h2>
+					</div>
+					<div class="attendee-masonry reveal">
+						{testimonials.map((t) => (
+							<figure class="t-card">
+								<span class="t-mark" aria-hidden="true">&ldquo;</span>
+								<blockquote class="t-quote">{t.quote}</blockquote>
+								<div class="t-divider" />
+								<figcaption class="t-attrib">
+									<div class="t-avatar">{t.initials}</div>
+									<div>
+										<div class="t-name">{t.name}</div>
+										<div class="t-role">LinkedIn Learning student</div>
+									</div>
+								</figcaption>
+							</figure>
+						))}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Final CTA — free 5-day course ---------- */}
 	<section class="section">
 		<div class="grid12">
 			<div class="final-cta">
 				<div class="final-cta-inner">
-					<span class="eyebrow">Keep learning</span>
+					<span class="eyebrow">{final_cta.eyebrow}</span>
 					<h2>
-						Want the full library, <em>in one place?</em>
+						{final_cta.heading} <em>{final_cta.heading_accent}</em>
 					</h2>
-					<p>
-						Browse every course on Lorraine's LinkedIn Learning instructor page —
-						free with a LinkedIn Learning subscription.
-					</p>
-					<a
-						class="btn yellow large"
-						href={INSTRUCTOR_URL}
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						See all on LinkedIn Learning <span aria-hidden="true">&rarr;</span>
+					<p>{final_cta.body}</p>
+					<a class="btn yellow large" href={finalCtaUrl}>
+						{final_cta.cta_label} <span aria-hidden="true">&rarr;</span>
 					</a>
 				</div>
 			</div>
@@ -141,5 +196,18 @@ const lead =
 		line-clamp: 3;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
+	}
+	.course-rating {
+		margin-top: 28px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 6px;
+	}
+	.course-rating-note {
+		font-family: var(--font-sans);
+		font-size: 13px;
+		color: var(--ink-500);
+		margin: 0;
 	}
 </style>
