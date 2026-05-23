@@ -1153,6 +1153,43 @@ export default config({
     }),
   },
   collections: {
+    courses: collection({
+      label: 'LinkedIn Courses',
+      slugField: 'title',
+      path: 'src/content/courses/*',
+      format: { data: 'yaml' },
+      schema: {
+        title: fields.slug({
+          name: { label: 'Title' },
+          slug: {
+            label: 'URL slug',
+            description:
+              'Short canonical slug for /courses/[slug], e.g. "better-business-writing". The old WordPress /linkedin-courses/* URLs 301 to this in vercel.json.',
+          },
+        }),
+        order: fields.integer({
+          label: 'Sort order',
+          description: 'Lower numbers appear first on the /courses grid.',
+          defaultValue: 0,
+        }),
+        description: fields.text({ label: 'Description', multiline: true }),
+        url: fields.url({
+          label: 'LinkedIn Learning course URL',
+          description: 'Full external link, e.g. https://www.linkedin.com/learning/…',
+        }),
+        glyph: fields.text({
+          label: 'Thumbnail letter (decorative — used only when no image is set)',
+        }),
+        thumbnail: fields.image({
+          label: 'Course thumbnail (optional)',
+          description:
+            'Course art shown on the card. Falls back to the decorative letter when empty.',
+          directory: 'public/images/v1/courses',
+          publicPath: '/images/v1/courses/',
+        }),
+        duration: fields.text({ label: 'Duration (optional)' }),
+      },
+    }),
     articles: collection({
       label: 'Articles',
       slugField: 'title',

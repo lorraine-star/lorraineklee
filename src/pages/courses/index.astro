@@ -1,0 +1,120 @@
+---
+import SpeakingLayout from '../../layouts/SpeakingLayout.astro';
+import { reader } from '../../lib/keystatic';
+
+const INSTRUCTOR_URL =
+	'https://www.linkedin.com/learning/instructors/lorraine-lee';
+
+const all = await reader.collections.courses.all();
+const courses = all
+	.map((c) => ({ slug: c.slug, ...c.entry }))
+	.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+const lead =
+	"Lorraine teaches on-demand LinkedIn Learning courses on communication, " +
+	"leadership, and presence — bite-sized lessons you can watch on your own " +
+	"schedule, free with a LinkedIn Learning subscription.";
+---
+
+<SpeakingLayout
+	title="LinkedIn Learning Courses | Lorraine K. Lee"
+	description={lead}
+	activeId="learn"
+>
+	{/* ---------- Hero ---------- */}
+	<section class="page-hero page-hero--center">
+		<div class="grid12 page-hero-grid">
+			<div class="page-hero-copy fade-up">
+				<div class="page-hero-eyebrow">
+					<span class="dot"></span>
+					<span class="eyebrow" style="color: var(--ink-500);">
+						LinkedIn Learning
+					</span>
+				</div>
+				<h1>On-demand courses, taught by <em>Lorraine.</em></h1>
+				<p class="lead-large">{lead}</p>
+				<div class="hero-cta-row">
+					<a
+						class="btn primary large"
+						href={INSTRUCTOR_URL}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						See all on LinkedIn Learning <span aria-hidden="true">&rarr;</span>
+					</a>
+					<a class="anchor-link" href="#courses">
+						Browse courses <span class="arrow" aria-hidden="true">&rarr;</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Course grid ---------- */}
+	<section class="section section--tight anchor-target" id="courses">
+		<div class="grid12">
+			<div class="course-grid-cards reveal-stagger">
+				{
+					courses.map((c) => (
+						<a class="course-card" data-platform="LinkedIn Learning" href={`/courses/${c.slug}`}>
+							<div class="course-thumb">
+								{c.thumbnail ? (
+									<img
+										class="course-thumb-img"
+										src={c.thumbnail}
+										alt=""
+										loading="lazy"
+									/>
+								) : (
+									<div class="course-thumb-deco" aria-hidden="true">
+										{c.glyph}
+									</div>
+								)}
+								<span class="platform-tag">LinkedIn Learning</span>
+								<div class="play" aria-hidden="true">
+									<svg viewBox="0 0 24 24" fill="currentColor">
+										<path d="M8 5v14l11-7z" />
+									</svg>
+								</div>
+								{c.duration && <span class="duration">{c.duration}</span>}
+							</div>
+							<div class="course-card-body">
+								<h3>{c.title}</h3>
+								<p class="course-desc">{c.description}</p>
+								<span class="course-link">
+									View course <span aria-hidden="true">&rarr;</span>
+								</span>
+							</div>
+						</a>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Final CTA ---------- */}
+	<section class="section">
+		<div class="grid12">
+			<div class="final-cta">
+				<div class="final-cta-inner">
+					<span class="eyebrow">Keep learning</span>
+					<h2>
+						Want the full library, <em>in one place?</em>
+					</h2>
+					<p>
+						Browse every course on Lorraine's LinkedIn Learning instructor page —
+						free with a LinkedIn Learning subscription.
+					</p>
+					<a
+						class="btn yellow large"
+						href={INSTRUCTOR_URL}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						See all on LinkedIn Learning <span aria-hidden="true">&rarr;</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</SpeakingLayout>
