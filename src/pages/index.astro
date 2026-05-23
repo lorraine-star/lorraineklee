@@ -5,11 +5,11 @@
  * │                                                                │
  * │  The following sections are SHARED across the site. The home   │
  * │  page holds the canonical markup. If another page needs one,   │
- * │  import or duplicate from here — do not redesign in isolation. │
+ * │  import or duplicate from here, do not redesign in isolation.  │
  * │  Search for `data-global-section="<id>"` to find each one:     │
  * │                                                                │
- * │    • trust-as-seen-in   — press marquee ("As Seen In")         │
- * │    • testimonials       — "What clients say" cards             │
+ * │    • trust-as-seen-in   - press marquee ("As Seen In")         │
+ * │    • testimonials       - "What clients say" cards             │
  * │                                                                │
  * │  Coordinate edits to these via Linear so parallel worktrees    │
  * │  don't drift.                                                  │
@@ -18,6 +18,8 @@
 import HomeLayout from '../layouts/HomeLayout.astro';
 import EditorialNav from '../components/editorial/EditorialNav.astro';
 import TrustAsSeenIn from '../components/TrustAsSeenIn.astro';
+import HomeTestimonialsCarousel from '../components/HomeTestimonialsCarousel';
+import { reader } from '../lib/keystatic';
 
 const headlineHtml = 'Helping leaders build an<br/><em>unforgettable</em> presence.';
 const ctaLabel = 'Work With Me';
@@ -29,27 +31,32 @@ const fourWays = [
   { n: '04', label: 'Custom programs', desc: 'Cohort intensives for managers and high-potentials.', href: '/contact' },
 ];
 
-const testimonials = [
-  {
-    quote: 'She was confident, engaging, and personable, all while delivering insights that truly resonated with our managers.',
-    name: 'Alex Harlan',
-    role: 'Director of L&D, Google',
-    initials: 'AH',
-  },
-  {
-    quote: "Lorraine doesn't just teach presence. She models it. Our high-potentials are still quoting her frameworks six months later.",
-    name: 'Sophie Choi',
-    role: 'VP People, Affirm',
-    initials: 'SC',
-    featured: true,
-  },
-  {
-    quote: "Her expertise in personal branding and confident communication is unmatched. She's our most-requested return speaker.",
-    name: 'Clint Carrens',
-    role: 'Talent Brand Lead, Indeed',
-    initials: 'CC',
-  },
-];
+const home = await reader.singletons.home.read();
+if (!home) {
+  throw new Error('Missing home content (src/content/home/index.yaml)');
+}
+
+const getInitials = (name: string) =>
+  name
+    .split(/\s+/)
+    .map((part) => part[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase() || '?';
+
+const testimonials = (home.testimonials ?? [])
+  .map((testimonial) => {
+    const name = testimonial.author?.trim() ?? '';
+    return {
+      quote: testimonial.quote?.trim() ?? '',
+      name,
+      role: testimonial.title?.trim() ?? '',
+      photo: testimonial.photo?.trim() ?? '',
+      photoAlt: testimonial.photo_alt?.trim() || `Headshot of ${name}`,
+      initials: getInitials(name),
+    };
+  })
+  .filter((testimonial) => testimonial.quote && testimonial.name);
 
 const courseDays = [
   'Day 1 · Articulate your value so people actually listen',
@@ -210,7 +217,7 @@ const courseHref =
       {/* ============================================================
            GLOBAL SECTION: testimonials (What clients say)
            Shared across pages. Canonical markup lives here on the home page.
-           If you need this on another page, import or duplicate from here —
+           If you need this on another page, import or duplicate from here.
            do NOT redesign in isolation. Coordinate edits via Linear.
            ============================================================ */}
       <section class="testimonials" data-global-section="testimonials">
@@ -223,26 +230,7 @@ const courseHref =
               fast-growth tech companies, Lorraine's frameworks travel.
             </p>
           </div>
-          <div class="testimonials-scroller" role="region" aria-label="Client testimonials">
-            <div class="testimonials-track">
-              {
-                testimonials.map((t) => (
-                  <figure class:list={['t-card', { featured: t.featured }]}>
-                    <span class="t-mark" aria-hidden="true">&ldquo;</span>
-                    <blockquote class="t-quote">{t.quote}</blockquote>
-                    <div class="t-divider"></div>
-                    <figcaption class="t-attrib">
-                      <div class="t-avatar" aria-hidden="true">{t.initials}</div>
-                      <div>
-                        <div class="t-name">{t.name}</div>
-                        <div class="t-role">{t.role}</div>
-                      </div>
-                    </figcaption>
-                  </figure>
-                ))
-              }
-            </div>
-          </div>
+          <HomeTestimonialsCarousel testimonials={testimonials} client:load />
         </div>
       </section>
       {/* /GLOBAL SECTION: testimonials */}
@@ -472,7 +460,7 @@ const courseHref =
       try {
         window.localStorage.setItem(key, String(Date.now()));
       } catch {
-        /* storage unavailable — popup behaves ephemerally */
+        /* storage unavailable, popup behaves ephemerally */
       }
     }
     function suppressed(): boolean {

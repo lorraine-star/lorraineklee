@@ -11,6 +11,12 @@ const testimonialFields = {
   quote: fields.text({ label: 'Quote', multiline: true }),
   author: fields.text({ label: 'Author' }),
   title: fields.text({ label: 'Author title' }),
+  photo: fields.image({
+    label: 'Headshot',
+    directory: 'public/images/v1/testimonials',
+    publicPath: '/images/v1/testimonials/',
+  }),
+  photo_alt: fields.text({ label: 'Headshot alt text' }),
 };
 
 export default config({
@@ -736,7 +742,7 @@ export default config({
               defaultValue: 'LinkedIn Learning',
             }),
             glyph: fields.text({
-              label: 'Thumbnail letter (decorative — used only when no image is set)',
+              label: 'Thumbnail letter (decorative, used only when no image is set)',
             }),
             thumbnail: fields.image({
               label: 'Course thumbnail (optional)',
@@ -878,13 +884,13 @@ export default config({
             name: fields.text({ label: 'Retailer name' }),
             url: fields.url({ label: 'URL' }),
             brand_color: fields.text({
-              label: 'Brand color (hex, optional — used on hover)',
+              label: 'Brand color (hex, optional, used on hover)',
               description:
                 'e.g. #FF9900 for Amazon. White text is used over this color on hover.',
             }),
           }),
           {
-            label: 'Retailer links — individual buys',
+            label: 'Retailer links - individual buys',
             itemLabel: (props) => props.fields.name.value || 'Retailer',
           }
         ),
@@ -893,13 +899,13 @@ export default config({
             name: fields.text({ label: 'Retailer name' }),
             url: fields.url({ label: 'URL' }),
             brand_color: fields.text({
-              label: 'Brand color (hex, optional — used on hover)',
+              label: 'Brand color (hex, optional, used on hover)',
               description:
                 'e.g. #FF9900 for Amazon. White text is used over this color on hover.',
             }),
           }),
           {
-            label: 'Retailer links — bulk buys',
+            label: 'Retailer links - bulk buys',
             itemLabel: (props) => props.fields.name.value || 'Retailer',
           }
         ),
@@ -954,7 +960,7 @@ export default config({
             eyebrow: fields.text({ label: 'Eyebrow' }),
             heading: fields.text({ label: 'Heading (plain)' }),
             heading_accent: fields.text({
-              label: 'Heading accent (italic — the book title)',
+              label: 'Heading accent (italic, the book title)',
             }),
           },
           { label: 'Reader reviews section heading' }
@@ -1137,7 +1143,7 @@ export default config({
         typeform_id: fields.text({
           label: 'Typeform form ID',
           description:
-            'The 8-character ID from the form\'s share URL — e.g. "PJJPZ9iJ" from https://<account>.typeform.com/to/PJJPZ9iJ.',
+            'The 8-character ID from the form\'s share URL, e.g. "PJJPZ9iJ" from https://<account>.typeform.com/to/PJJPZ9iJ.',
         }),
         social_links: fields.array(
           fields.object({
