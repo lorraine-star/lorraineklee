@@ -1186,6 +1186,14 @@ export default config({
             quote: fields.text({ label: 'Quote', multiline: true }),
             name: fields.text({ label: 'Name' }),
             initials: fields.text({ label: 'Initials' }),
+            photo: fields.image({
+              label: 'Student photo (optional)',
+              description:
+                'Square headshot shown as the avatar. Falls back to the initials when empty.',
+              directory: 'public/images/v1/courses/testimonials',
+              publicPath: '/images/v1/courses/testimonials/',
+            }),
+            photo_alt: fields.text({ label: 'Photo alt text (optional)' }),
           }),
           {
             label: 'Student testimonials',
