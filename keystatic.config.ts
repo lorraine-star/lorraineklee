@@ -1143,14 +1143,30 @@ export default config({
           {
             value: fields.text({ label: 'Rating value (e.g. 4.7)' }),
             scale: fields.text({
-              label: 'Rating scale (e.g. /5)',
+              label: 'Rating scale suffix (e.g. /5)',
               defaultValue: '/5',
             }),
+            value_label: fields.text({
+              label: 'Rating caption (e.g. Average course rating)',
+              defaultValue: 'Average course rating',
+            }),
+            students_value: fields.text({
+              label: 'Students value (e.g. 250,000+)',
+            }),
             students_label: fields.text({
-              label: 'Students label (e.g. 250,000+ students)',
+              label: 'Students caption (e.g. Students taught)',
+              defaultValue: 'Students taught',
             }),
             note: fields.text({
               label: 'Note (e.g. More courses coming soon)',
+            }),
+            subscribe_label: fields.text({
+              label: 'Subscribe button label',
+              defaultValue: 'Subscribe to my newsletter to get the latest',
+            }),
+            subscribe_url: fields.text({
+              label: 'Subscribe button URL',
+              defaultValue: '/learn',
             }),
           },
           { label: 'Rating / social proof' }
@@ -1272,6 +1288,18 @@ export default config({
           publicPath: '/images/v1/courses/',
         }),
         duration: fields.text({ label: 'Duration (optional)' }),
+        show_on_hub: fields.checkbox({
+          label: 'Show on the /courses hub',
+          description:
+            'Uncheck to keep the course page (and its 301 redirect) live but hide the card from the /courses grid. Used to mirror the curated WordPress hub.',
+          defaultValue: true,
+        }),
+        featured: fields.checkbox({
+          label: 'Feature at the top of the hub',
+          description:
+            'Show this course as the large highlighted block above the category grids.',
+          defaultValue: false,
+        }),
       },
     }),
     keynotes: collection({

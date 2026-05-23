@@ -8,8 +8,12 @@ hero:
 rating:
   value: "4.7"
   scale: "/5"
-  students_label: "250,000+ students"
+  value_label: "Average course rating"
+  students_value: "250,000+"
+  students_label: "Students taught"
   note: "More courses coming soon."
+  subscribe_label: "Subscribe to my newsletter to get the latest"
+  subscribe_url: "/learn"
 testimonials_section:
   eyebrow: "Student reviews"
   heading: "What students are"

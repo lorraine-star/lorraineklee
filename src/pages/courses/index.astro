@@ -15,16 +15,44 @@ const { hero, rating, testimonials_section, testimonials, final_cta } = page;
 const all = await reader.collections.courses.all();
 const courses = all
 	.map((c) => ({ slug: c.slug, ...c.entry }))
+	// Mirror the curated WordPress hub: only show courses flagged for it.
+	// (Hidden courses keep their /courses/[slug] page and 301 redirect.)
+	.filter((c) => c.show_on_hub !== false)
 	.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+const featured = courses.filter((c) => c.featured);
+const featuredSlugs = new Set(featured.map((c) => c.slug));
 
 const grouped = CATEGORY_ORDER.map((category) => ({
 	category,
-	items: courses.filter((c) => c.category === category),
+	items: courses.filter(
+		(c) => c.category === category && !featuredSlugs.has(c.slug)
+	),
 })).filter((g) => g.items.length > 0);
 
+const LL_LOGO = '/images/v1/courses/linkedin-learning-logo.png';
 const isExternal = (url: string) => /^https?:\/\//i.test(url);
 const heroCtaUrl = safeUrl(hero.primary_cta_url) || '#courses';
 const finalCtaUrl = safeUrl(final_cta.cta_url) || '/learn#course';
+const subscribeUrl = safeUrl(rating?.subscribe_url) || '/learn';
+
+// Resolve a course's "Start learning" link: prefer the external LinkedIn
+// Learning URL, fall back to the on-site detail page.
+const courseHref = (c: { url?: string | null; slug: string }) =>
+	safeUrl(c.url) || `/courses/${c.slug}`;
+
+// Split the social-proof figures into a number (for the count-up animation)
+// and a trailing suffix (e.g. "+") so the animation lands on a clean value.
+const splitFigure = (raw?: string) => {
+	const text = (raw ?? '').trim();
+	const match = text.match(/^([\d.,]+)(.*)$/);
+	if (!match) return { value: 0, decimals: 0, suffix: text, display: text };
+	const numeric = parseFloat(match[1].replace(/,/g, ''));
+	const decimals = (match[1].split('.')[1] ?? '').length;
+	return { value: numeric, decimals, suffix: match[2], display: match[1] };
+};
+const ratingFig = splitFigure(rating?.value);
+const studentsFig = splitFigure(rating?.students_value);
 ---
 
 <SpeakingLayout
@@ -55,41 +83,126 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/learn#course';
 						Browse courses <span class="arrow" aria-hidden="true">&rarr;</span>
 					</a>
 				</div>
-
-				{
-					rating?.value && (
-						<div class="course-rating">
-							<div class="amazon-rating">
-								<span class="rating-stars" aria-hidden="true">
-									{Array.from({ length: 5 }).map(() => (
-										<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-											<path
-												d="M12 2l2.95 6.74L22 9.74l-5.5 4.78L18.18 22 12 18.27 5.82 22l1.68-7.48L2 9.74l7.05-1z"
-												fill="currentColor"
-											/>
-										</svg>
-									))}
-								</span>
-								<span class="rating-value">
-									<strong>{rating.value}{rating.scale}</strong>
-									{rating.students_label && (
-										<>
-											<span class="rating-divider"> · </span>
-											<span>{rating.students_label}</span>
-										</>
-									)}
-								</span>
-							</div>
-							{rating.note && <p class="course-rating-note">{rating.note}</p>}
-						</div>
-					)
-				}
 			</div>
 		</div>
 	</section>
 
-	{/* ---------- Courses, grouped by category ---------- */}
+	{/* ---------- Social proof band ---------- */}
+	{
+		rating?.value && (
+			<section class="section section--tight" style="padding-top: 0;">
+				<div class="grid12">
+					<div class="course-proof reveal">
+						<span class="course-proof-stars" aria-label={`${rating.value}${rating.scale} rating`}>
+							{Array.from({ length: 5 }).map(() => (
+								<svg viewBox="0 0 24 24" aria-hidden="true">
+									<path
+										d="M12 2l2.95 6.74L22 9.74l-5.5 4.78L18.18 22 12 18.27 5.82 22l1.68-7.48L2 9.74l7.05-1z"
+										fill="currentColor"
+									/>
+								</svg>
+							))}
+						</span>
+						<div class="course-proof-grid">
+							<div class="course-proof-stat">
+								<div class="course-proof-num">
+									<span
+										class="count-up"
+										data-to={ratingFig.value}
+										data-decimals={ratingFig.decimals}
+									>
+										{ratingFig.display}
+									</span>
+									<span class="course-proof-unit">{rating.scale}</span>
+								</div>
+								{rating.value_label && (
+									<div class="course-proof-label">{rating.value_label}</div>
+								)}
+							</div>
+							{rating.students_value && (
+								<>
+									<span class="course-proof-sep" aria-hidden="true" />
+									<div class="course-proof-stat">
+										<div class="course-proof-num">
+											<span
+												class="count-up"
+												data-to={studentsFig.value}
+												data-decimals={studentsFig.decimals}
+											>
+												{studentsFig.display}
+											</span>
+											<span class="course-proof-unit">{studentsFig.suffix}</span>
+										</div>
+										{rating.students_label && (
+											<div class="course-proof-label">{rating.students_label}</div>
+										)}
+									</div>
+								</>
+							)}
+						</div>
+						{(rating.note || rating.subscribe_label) && (
+							<div class="course-proof-foot">
+								{rating.note && <p class="course-proof-note">{rating.note}</p>}
+								{rating.subscribe_label && (
+									<a
+										class="btn yellow course-proof-sub"
+										href={subscribeUrl}
+										target={isExternal(subscribeUrl) ? '_blank' : undefined}
+										rel={isExternal(subscribeUrl) ? 'noopener noreferrer' : undefined}
+									>
+										{rating.subscribe_label} <span aria-hidden="true">&rarr;</span>
+									</a>
+								)}
+							</div>
+						)}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
 	<div id="courses">
+		{/* ---------- Featured course ---------- */}
+		{
+			featured.map((c) => {
+				const url = courseHref(c);
+				const ext = isExternal(url);
+				return (
+					<section class="section section--tight">
+						<div class="grid12">
+							<a
+								class="course-feature reveal"
+								href={url}
+								target={ext ? '_blank' : undefined}
+								rel={ext ? 'noopener noreferrer' : undefined}
+							>
+								{c.thumbnail && (
+									<div class="course-feature-media">
+										<img src={c.thumbnail} alt={c.title} loading="lazy" />
+									</div>
+								)}
+								<div class="course-feature-body">
+									<img
+										class="ll-logo"
+										src={LL_LOGO}
+										alt="LinkedIn Learning"
+										width="150"
+										height="30"
+									/>
+									<h2 class="course-feature-title">{c.title}</h2>
+									<p class="course-feature-desc">{c.description}</p>
+									<span class="btn yellow large course-feature-cta">
+										Start learning <span aria-hidden="true">&#8599;</span>
+									</span>
+								</div>
+							</a>
+						</div>
+					</section>
+				);
+			})
+		}
+
+		{/* ---------- Courses, grouped by category ---------- */}
 		{
 			grouped.map(({ category, items }) => (
 				<section class="section section--tight anchor-target" id={category.toLowerCase()}>
@@ -102,33 +215,49 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/learn#course';
 						</div>
 
 						<div class="course-grid-cards reveal-stagger">
-							{items.map((c) => (
-								<a class="course-card" data-platform="LinkedIn Learning" href={`/courses/${c.slug}`}>
-									<div class="course-thumb">
-										{c.thumbnail ? (
-											<img class="course-thumb-img" src={c.thumbnail} alt="" loading="lazy" />
-										) : (
-											<div class="course-thumb-deco" aria-hidden="true">
-												{c.glyph}
+							{items.map((c) => {
+								const url = courseHref(c);
+								const ext = isExternal(url);
+								return (
+									<a
+										class="course-card"
+										data-platform="LinkedIn Learning"
+										href={url}
+										target={ext ? '_blank' : undefined}
+										rel={ext ? 'noopener noreferrer' : undefined}
+									>
+										<div class="course-thumb">
+											{c.thumbnail ? (
+												<img class="course-thumb-img" src={c.thumbnail} alt="" loading="lazy" />
+											) : (
+												<div class="course-thumb-deco" aria-hidden="true">
+													{c.glyph}
+												</div>
+											)}
+											<div class="play" aria-hidden="true">
+												<svg viewBox="0 0 24 24" fill="currentColor">
+													<path d="M8 5v14l11-7z" />
+												</svg>
 											</div>
-										)}
-										<span class="platform-tag">LinkedIn Learning</span>
-										<div class="play" aria-hidden="true">
-											<svg viewBox="0 0 24 24" fill="currentColor">
-												<path d="M8 5v14l11-7z" />
-											</svg>
+											{c.duration && <span class="duration">{c.duration}</span>}
 										</div>
-										{c.duration && <span class="duration">{c.duration}</span>}
-									</div>
-									<div class="course-card-body">
-										<h3>{c.title}</h3>
-										<p class="course-desc course-desc--clamp">{c.description}</p>
-										<span class="course-link">
-											View course <span aria-hidden="true">&rarr;</span>
-										</span>
-									</div>
-								</a>
-							))}
+										<div class="course-card-body">
+											<img
+												class="ll-logo"
+												src={LL_LOGO}
+												alt="LinkedIn Learning"
+												width="130"
+												height="26"
+											/>
+											<h3>{c.title}</h3>
+											<p class="course-desc course-desc--clamp">{c.description}</p>
+											<span class="course-link">
+												Start learning <span aria-hidden="true">&#8599;</span>
+											</span>
+										</div>
+									</a>
+								);
+							})}
 						</div>
 					</div>
 				</section>
@@ -197,17 +326,170 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/learn#course';
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
-	.course-rating {
-		margin-top: 28px;
+	/* Social-proof band — prominent rating + students taught. */
+	.course-proof {
+		grid-column: 1 / -1;
+		max-width: 720px;
+		margin: 0 auto;
+		background: var(--paper-deep);
+		border: 1px solid var(--border-soft);
+		border-radius: 24px;
+		padding: clamp(24px, 3vw, 36px) clamp(28px, 5vw, 56px);
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		gap: 14px;
+		text-align: center;
+		box-shadow: 0 18px 40px -28px rgba(14, 21, 48, 0.35);
+	}
+	.course-proof-stars {
+		display: inline-flex;
+		gap: 5px;
+		color: var(--brand-yellow-500);
+	}
+	.course-proof-stars svg {
+		width: 26px;
+		height: 26px;
+		filter: drop-shadow(0 1px 0 rgba(14, 21, 48, 0.08));
+	}
+	.course-proof-grid {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: clamp(28px, 6vw, 64px);
+	}
+	.course-proof-stat {
+		display: flex;
+		flex-direction: column;
 		gap: 6px;
 	}
-	.course-rating-note {
+	.course-proof-num {
+		font-family: var(--font-serif);
+		font-weight: 600;
+		font-size: clamp(38px, 5.5vw, 56px);
+		line-height: 1;
+		letter-spacing: -0.02em;
+		color: var(--ink-900);
+		font-variant-numeric: tabular-nums;
+	}
+	.course-proof-unit {
+		color: var(--accent);
+		font-weight: 500;
+	}
+	.course-proof-label {
+		font-family: var(--font-sans);
+		font-size: 12px;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--ink-500);
+	}
+	.course-proof-sep {
+		align-self: stretch;
+		width: 1px;
+		background: var(--border);
+		margin: 6px 0;
+	}
+	.course-proof-note {
 		font-family: var(--font-sans);
 		font-size: 13px;
 		color: var(--ink-500);
 		margin: 0;
+	}
+	.course-proof-foot {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 12px;
+	}
+	.course-proof-sub {
+		font-size: 13px;
+	}
+
+	/* LinkedIn Learning logo on cards + feature block.
+	   align-self stops the flex column from stretching the logo to full width
+	   (which would distort its aspect ratio). */
+	.ll-logo {
+		height: 22px;
+		width: auto;
+		max-width: 100%;
+		display: block;
+		align-self: flex-start;
+	}
+	.course-card-body .ll-logo {
+		margin-bottom: 10px;
+	}
+
+	/* Featured course block. */
+	.course-feature {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+		gap: clamp(24px, 4vw, 48px);
+		align-items: center;
+		background: var(--bg-card);
+		border: 1px solid var(--border-soft);
+		border-radius: var(--radius-2xl);
+		padding: clamp(18px, 2.5vw, 28px);
+		text-decoration: none;
+		box-shadow: 0 26px 60px -42px rgba(14, 21, 48, 0.5);
+		transition: transform 0.25s ease, box-shadow 0.25s ease;
+	}
+	.course-feature:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 34px 72px -40px rgba(14, 21, 48, 0.55);
+	}
+	.course-feature-media {
+		border-radius: var(--radius-xl);
+		overflow: hidden;
+		aspect-ratio: 4 / 3;
+		background: var(--paper-deep);
+	}
+	.course-feature-media img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+	.course-feature-body .ll-logo {
+		height: 26px;
+		margin-bottom: 14px;
+	}
+	.course-feature-title {
+		font-family: var(--font-serif);
+		font-weight: 600;
+		font-size: clamp(26px, 3vw, 38px);
+		line-height: 1.08;
+		letter-spacing: -0.01em;
+		color: var(--ink-900);
+		margin: 0 0 12px;
+	}
+	.course-feature-desc {
+		font-family: var(--font-sans);
+		font-size: 16px;
+		line-height: 1.6;
+		color: var(--ink-700);
+		margin: 0 0 22px;
+		max-width: 54ch;
+	}
+	.course-feature-cta {
+		align-self: flex-start;
+	}
+	@media (max-width: 760px) {
+		.course-feature {
+			grid-template-columns: 1fr;
+		}
+	}
+	@media (max-width: 560px) {
+		.course-proof-grid {
+			flex-direction: column;
+			gap: 22px;
+		}
+		.course-proof-sep {
+			width: 56px;
+			height: 1px;
+			align-self: center;
+			margin: 0;
+		}
 	}
 </style>
