@@ -1167,9 +1167,21 @@ export default config({
               'Short canonical slug for /courses/[slug], e.g. "better-business-writing". The old WordPress /linkedin-courses/* URLs 301 to this in vercel.json.',
           },
         }),
+        category: fields.select({
+          label: 'Category',
+          description:
+            'Section the course is grouped under on the /courses page (mirrors the old WordPress hub).',
+          options: [
+            { label: 'Communication', value: 'Communication' },
+            { label: 'Leadership', value: 'Leadership' },
+            { label: 'Management', value: 'Management' },
+            { label: 'Career', value: 'Career' },
+          ],
+          defaultValue: 'Communication',
+        }),
         order: fields.integer({
-          label: 'Sort order',
-          description: 'Lower numbers appear first on the /courses grid.',
+          label: 'Sort order (within category)',
+          description: 'Lower numbers appear first within the course category.',
           defaultValue: 0,
         }),
         description: fields.text({ label: 'Description', multiline: true }),

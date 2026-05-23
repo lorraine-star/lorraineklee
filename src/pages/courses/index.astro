@@ -5,15 +5,23 @@ import { reader } from '../../lib/keystatic';
 const INSTRUCTOR_URL =
 	'https://www.linkedin.com/learning/instructors/lorraine-lee';
 
+// Category order mirrors the old WordPress /learning-courses/ hub.
+const CATEGORY_ORDER = ['Communication', 'Leadership', 'Management', 'Career'];
+
 const all = await reader.collections.courses.all();
 const courses = all
 	.map((c) => ({ slug: c.slug, ...c.entry }))
 	.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
+const grouped = CATEGORY_ORDER.map((category) => ({
+	category,
+	items: courses.filter((c) => c.category === category),
+})).filter((g) => g.items.length > 0);
+
 const lead =
 	"Lorraine teaches on-demand LinkedIn Learning courses on communication, " +
-	"leadership, and presence — bite-sized lessons you can watch on your own " +
-	"schedule, free with a LinkedIn Learning subscription.";
+	"leadership, management, and career growth — bite-sized lessons you can " +
+	"watch on your own schedule, free with a LinkedIn Learning subscription.";
 ---
 
 <SpeakingLayout
@@ -50,47 +58,53 @@ const lead =
 		</div>
 	</section>
 
-	{/* ---------- Course grid ---------- */}
-	<section class="section section--tight anchor-target" id="courses">
-		<div class="grid12">
-			<div class="course-grid-cards reveal-stagger">
-				{
-					courses.map((c) => (
-						<a class="course-card" data-platform="LinkedIn Learning" href={`/courses/${c.slug}`}>
-							<div class="course-thumb">
-								{c.thumbnail ? (
-									<img
-										class="course-thumb-img"
-										src={c.thumbnail}
-										alt=""
-										loading="lazy"
-									/>
-								) : (
-									<div class="course-thumb-deco" aria-hidden="true">
-										{c.glyph}
+	{/* ---------- Courses, grouped by category ---------- */}
+	<div id="courses">
+		{
+			grouped.map(({ category, items }) => (
+				<section class="section section--tight anchor-target" id={category.toLowerCase()}>
+					<div class="grid12">
+						<div class="section-head section-head--center">
+							<span class="eyebrow">{category}</span>
+							<h2>
+								{category} <em>courses</em>
+							</h2>
+						</div>
+
+						<div class="course-grid-cards reveal-stagger">
+							{items.map((c) => (
+								<a class="course-card" data-platform="LinkedIn Learning" href={`/courses/${c.slug}`}>
+									<div class="course-thumb">
+										{c.thumbnail ? (
+											<img class="course-thumb-img" src={c.thumbnail} alt="" loading="lazy" />
+										) : (
+											<div class="course-thumb-deco" aria-hidden="true">
+												{c.glyph}
+											</div>
+										)}
+										<span class="platform-tag">LinkedIn Learning</span>
+										<div class="play" aria-hidden="true">
+											<svg viewBox="0 0 24 24" fill="currentColor">
+												<path d="M8 5v14l11-7z" />
+											</svg>
+										</div>
+										{c.duration && <span class="duration">{c.duration}</span>}
 									</div>
-								)}
-								<span class="platform-tag">LinkedIn Learning</span>
-								<div class="play" aria-hidden="true">
-									<svg viewBox="0 0 24 24" fill="currentColor">
-										<path d="M8 5v14l11-7z" />
-									</svg>
-								</div>
-								{c.duration && <span class="duration">{c.duration}</span>}
-							</div>
-							<div class="course-card-body">
-								<h3>{c.title}</h3>
-								<p class="course-desc">{c.description}</p>
-								<span class="course-link">
-									View course <span aria-hidden="true">&rarr;</span>
-								</span>
-							</div>
-						</a>
-					))
-				}
-			</div>
-		</div>
-	</section>
+									<div class="course-card-body">
+										<h3>{c.title}</h3>
+										<p class="course-desc course-desc--clamp">{c.description}</p>
+										<span class="course-link">
+											View course <span aria-hidden="true">&rarr;</span>
+										</span>
+									</div>
+								</a>
+							))}
+						</div>
+					</div>
+				</section>
+			))
+		}
+	</div>
 
 	{/* ---------- Final CTA ---------- */}
 	<section class="section">
@@ -118,3 +132,14 @@ const lead =
 		</div>
 	</section>
 </SpeakingLayout>
+
+<style>
+	/* Keep card copy to a tidy, even height regardless of description length. */
+	.course-desc--clamp {
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+</style>

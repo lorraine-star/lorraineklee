@@ -26,7 +26,9 @@ const courseUrl = safeUrl(course.url);
 				<a class="talk-page-back" href="/courses">
 					<span aria-hidden="true">&larr;</span> All courses
 				</a>
-				<div class="talk-format">LinkedIn Learning &middot; On-demand course</div>
+				<div class="talk-format">
+					LinkedIn Learning{course.category && <> &middot; {course.category}</>}
+				</div>
 				<h1>{course.title}</h1>
 				{course.description && <p class="lead-large">{course.description}</p>}
 				<div class="hero-cta-row">
