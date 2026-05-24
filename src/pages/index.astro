@@ -8,8 +8,8 @@
  * │  import or duplicate from here, do not redesign in isolation.  │
  * │  Search for `data-global-section="<id>"` to find each one:     │
  * │                                                                │
- * │    • trust-as-seen-in   - press marquee ("As Seen In")         │
- * │    • testimonials       - "What clients say" cards             │
+ * │    • trust-as-seen-in   - press marquee (TrustAsSeenIn.astro)  │
+ * │    • testimonials       - client carousel (Testimonials.astro) │
  * │                                                                │
  * │  Coordinate edits to these via Linear so parallel worktrees    │
  * │  don't drift.                                                  │
@@ -18,8 +18,7 @@
 import HomeLayout from '../layouts/HomeLayout.astro';
 import EditorialNav from '../components/editorial/EditorialNav.astro';
 import TrustAsSeenIn from '../components/TrustAsSeenIn.astro';
-import HomeTestimonialsCarousel from '../components/HomeTestimonialsCarousel';
-import { reader } from '../lib/keystatic';
+import Testimonials from '../components/Testimonials.astro';
 
 const headlineHtml = 'Helping leaders build an<br/><em>unforgettable</em> presence.';
 const ctaLabel = 'Work With Me';
@@ -30,33 +29,6 @@ const fourWays = [
   { n: '03', label: 'Courses', desc: 'On-demand training. 250,000+ students on LinkedIn Learning.', href: '/learn' },
   { n: '04', label: 'Custom programs', desc: 'Cohort intensives for managers and high-potentials.', href: '/contact' },
 ];
-
-const home = await reader.singletons.home.read();
-if (!home) {
-  throw new Error('Missing home content (src/content/home/index.yaml)');
-}
-
-const getInitials = (name: string) =>
-  name
-    .split(/\s+/)
-    .map((part) => part[0])
-    .join('')
-    .slice(0, 2)
-    .toUpperCase() || '?';
-
-const testimonials = (home.testimonials ?? [])
-  .map((testimonial) => {
-    const name = testimonial.author?.trim() ?? '';
-    return {
-      quote: testimonial.quote?.trim() ?? '',
-      name,
-      role: testimonial.title?.trim() ?? '',
-      photo: testimonial.photo?.trim() ?? '',
-      photoAlt: testimonial.photo_alt?.trim() || `Headshot of ${name}`,
-      initials: getInitials(name),
-    };
-  })
-  .filter((testimonial) => testimonial.quote && testimonial.name);
 
 const courseDays = [
   'Day 1 · Articulate your value so people actually listen',
@@ -216,23 +188,12 @@ const courseHref =
 
       {/* ============================================================
            GLOBAL SECTION: testimonials (What clients say)
-           Shared across pages. Canonical markup lives here on the home page.
-           If you need this on another page, import or duplicate from here.
-           do NOT redesign in isolation. Coordinate edits via Linear.
+           Canonical markup lives in src/components/Testimonials.astro.
+           Reusable across pages — drop in <Testimonials /> (it reads its
+           own data from Keystatic). do NOT redesign in isolation.
+           Coordinate edits via Linear.
            ============================================================ */}
-      <section class="testimonials" data-global-section="testimonials">
-        <div class="grid12">
-          <div class="testimonials-head">
-            <span class="eyebrow">What clients say</span>
-            <h2 class="testimonials-title">Companies bring her back <em>for more.</em></h2>
-            <p class="lead">
-              From Fortune 500 leadership programs to high-potential cohorts at
-              fast-growth tech companies, Lorraine's frameworks travel.
-            </p>
-          </div>
-          <HomeTestimonialsCarousel testimonials={testimonials} client:load />
-        </div>
-      </section>
+      <Testimonials />
       {/* /GLOBAL SECTION: testimonials */}
 
       {/* ---------- Free course CTA ---------- */}
