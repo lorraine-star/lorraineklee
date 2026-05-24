@@ -1221,6 +1221,91 @@ export default config({
         ),
       },
     }),
+    interviewsPage: singleton({
+      label: 'Interviews Page',
+      path: 'src/content/interviews-page/',
+      schema: {
+        hero: fields.object(
+          {
+            eyebrow: fields.text({
+              label: 'Eyebrow',
+              defaultValue: 'Guest Interviews',
+            }),
+            headline: fields.text({ label: 'Headline (plain)' }),
+            headline_accent: fields.text({
+              label: 'Headline accent (italic)',
+            }),
+            lead: fields.text({ label: 'Lead paragraph', multiline: true }),
+            cta_label: fields.text({ label: 'Primary CTA label' }),
+            cta_url: fields.text({ label: 'Primary CTA URL' }),
+          },
+          { label: 'Hero' }
+        ),
+        featured_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+          },
+          {
+            label: 'Featured interviews section heading',
+            description:
+              'Heading for the block that renders the "Interviews" CMS collection — the leaders Lorraine has interviewed.',
+          }
+        ),
+        guest_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+          },
+          { label: 'Guest appearances section heading' }
+        ),
+        guest_appearances: fields.array(
+          fields.object({
+            show: fields.text({
+              label: 'Show / host',
+              description: 'E.g. "Think Fast Talk Smart" or "LinkedIn News".',
+            }),
+            title: fields.text({ label: 'Episode / segment title' }),
+            youtube_id: fields.text({
+              label: 'YouTube video ID (optional)',
+              description:
+                'The 11-character ID from the watch URL, e.g. "MbsUmSfdcrQ" from youtu.be/MbsUmSfdcrQ. Used for the thumbnail and watch link.',
+            }),
+            url: fields.text({
+              label: 'Watch URL (optional)',
+              description:
+                'External link used when the appearance is not on YouTube (e.g. a LinkedIn event or post). Falls back to the YouTube link when a video ID is set.',
+            }),
+          }),
+          {
+            label: 'Guest appearances (Lorraine as guest)',
+            itemLabel: (props) =>
+              props.fields.show.value || props.fields.title.value || 'Appearance',
+          }
+        ),
+        final_cta: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (italic)',
+            }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            cta_url: fields.text({ label: 'CTA URL' }),
+          },
+          { label: 'Final CTA' }
+        ),
+      },
+    }),
     contact: singleton({
       label: 'Contact',
       path: 'src/content/contact/',
@@ -1313,6 +1398,46 @@ export default config({
           description:
             'Show this course as the large highlighted block above the category grids.',
           defaultValue: false,
+        }),
+      },
+    }),
+    interviews: collection({
+      label: 'Interviews',
+      slugField: 'title',
+      path: 'src/content/interviews/*',
+      format: { data: 'yaml' },
+      schema: {
+        title: fields.slug({
+          name: { label: 'Title' },
+          slug: {
+            label: 'URL slug',
+            description:
+              'Anchor id on the /interviews page, e.g. "chelsea-clinton". The old WordPress /youtube-video/* URLs 301 to /interviews in vercel.json.',
+          },
+        }),
+        guest: fields.text({
+          label: 'Guest',
+          description: 'The person Lorraine interviews, e.g. "Chelsea Clinton".',
+        }),
+        order: fields.integer({
+          label: 'Sort order',
+          description: 'Lower numbers appear first.',
+          defaultValue: 0,
+        }),
+        youtube_id: fields.text({
+          label: 'YouTube video ID (optional)',
+          description:
+            'The 11-character ID from the watch URL, e.g. "W0_QWjYWPuE". Leave empty if the interview lives elsewhere (set the external link below instead).',
+        }),
+        video_url: fields.text({
+          label: 'External video / article URL (optional)',
+          description:
+            'Used when the interview is not on YouTube (e.g. a LinkedIn post). Ignored when a YouTube video ID is set.',
+        }),
+        description: fields.text({ label: 'Description', multiline: true }),
+        date: fields.text({
+          label: 'Date label (optional)',
+          description: 'Free text, e.g. "2019".',
         }),
       },
     }),
