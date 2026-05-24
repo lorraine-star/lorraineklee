@@ -167,18 +167,40 @@
   background: #fff;
   border: 1px solid var(--border-soft);
   border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out),
+    border-color 240ms var(--ease-out);
+}
+/* Only the closed card lifts on hover; an open card stays put as it grows. */
+.topic-acc:not([data-open='true']):hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.topic-acc[data-open='true'] {
+  border-color: rgba(15, 23, 42, 0.16);
+  box-shadow: 0 14px 36px -22px rgba(15, 23, 42, 0.28);
+}
+.topic-acc-trigger {
+  width: 100%;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
   padding: 36px 32px;
   display: flex;
   flex-direction: column;
   gap: 14px;
-  transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out);
-  text-decoration: none;
-  color: inherit;
-  position: relative;
 }
-.topic-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+.topic-acc-trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.topic-card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 .topic-card .topic-num {
   font-family: var(--font-serif);
@@ -186,6 +208,19 @@
   font-weight: 400;
   font-size: 22px;
   color: var(--accent);
+  line-height: 1;
+}
+.topic-tag {
+  margin-left: auto;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-900);
+  background: var(--brand-yellow-500, #ffd400);
+  padding: 5px 11px;
+  border-radius: 999px;
   line-height: 1;
 }
 .topic-card h3 {
@@ -217,10 +252,75 @@
   text-transform: uppercase;
   color: var(--accent);
 }
-.topic-card .topic-meta .arrow {
-  transition: transform 240ms var(--ease-out);
+.topic-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
-.topic-card:hover .topic-meta .arrow { transform: translateX(4px); }
+.topic-acc[data-open='true'] .topic-toggle .trigger-chevron {
+  transform: rotate(-180deg);
+  background: var(--accent);
+  color: #fff;
+}
+/* Dropdown panel — mirrors the .other-talks-panel reveal. */
+.topic-panel {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: max-height 560ms var(--ease-in-out),
+    opacity 320ms var(--ease-out) 80ms, transform 420ms var(--ease-out) 80ms;
+}
+.topic-acc[data-open='true'] .topic-panel {
+  max-height: var(--panel-h, 800px);
+  opacity: 1;
+  transform: translateY(0);
+}
+.topic-panel-inner {
+  padding: 24px 32px 32px;
+  border-top: 1px solid var(--border-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.topic-panel-label {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0;
+}
+.topic-takeaways {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.topic-takeaways li {
+  position: relative;
+  padding-left: 22px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-700);
+}
+.topic-takeaways li::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 9px;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+.topic-panel-inner .btn {
+  align-self: flex-start;
+}
 
 /* ----------------------------------------------------------------
    Logo grid — past clients
@@ -2521,20 +2621,6 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   letter-spacing: 0.02em;
 }
 
-/* "Watch talk" link on keynote cards */
-.topic-card .topic-watch {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 8px;
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--brand-blue-600);
-}
-
 /* Custom programs section */
 .custom-programs-grid {
   grid-column: 1 / -1;
@@ -2833,6 +2919,93 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   break-inside: avoid;
   margin-bottom: 20px;
   display: block;
+}
+
+/* ----------------------------------------------------------------
+   Past-clients marquee (logos scroll; names removed per round 2)
+   ---------------------------------------------------------------- */
+.client-marquee-section .marquee-mask {
+  margin-top: 28px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 6%,
+    #000 94%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 6%,
+    #000 94%,
+    transparent 100%
+  );
+}
+.client-marquee-section .marquee {
+  display: flex;
+  align-items: center;
+  gap: 64px;
+  width: max-content;
+  animation: editorial-marquee 64s linear infinite;
+  will-change: transform;
+}
+.client-marquee-section .marquee-mask:hover .marquee {
+  animation-play-state: paused;
+}
+.client-logo-frame {
+  flex: 0 0 auto;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.client-logo-frame--failed {
+  display: none;
+}
+.client-logo-frame .client-logo {
+  max-height: 40px;
+  width: auto;
+  max-width: 150px;
+  object-fit: contain;
+  opacity: 0.6;
+  filter: grayscale(1);
+  transition: opacity 240ms var(--ease-out), filter 240ms var(--ease-out);
+}
+.client-logo-frame:hover .client-logo {
+  opacity: 1;
+  filter: none;
+}
+.client-logo-frame .client-wordmark {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--ink-500);
+  white-space: nowrap;
+}
+
+/* Bolder testimonial quotes on Speaking (round 2) + carousel CTA */
+#testimonials .t-quote,
+.attendee-testimonials .t-quote {
+  font-weight: 500;
+}
+.testimonials-cta {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .client-marquee-section .marquee {
+    animation: none;
+  }
+  .topic-panel {
+    transition-duration: 0ms;
+  }
+  .topic-acc[data-open='true'] .topic-toggle .trigger-chevron {
+    transition-duration: 0ms;
+  }
 }
 
 /* Bio callout (mid-page card linking to /speaker-bio) */
