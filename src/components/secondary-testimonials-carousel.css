@@ -1,0 +1,189 @@
+/* Secondary testimonials carousel.
+   Reuses the global .t-card styling from base.css and owns the responsive
+   multi-column marquee, fade mask, pause control, and reduced-motion fallback. */
+
+.secondary-testimonials-wrap {
+  grid-column: 1 / -1;
+  position: relative;
+}
+
+.secondary-testimonials-control-row {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 10px;
+}
+
+.secondary-testimonials-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper-deep) 82%, #fff 18%);
+  color: var(--ink-700);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 0 12px 28px -24px rgba(14, 21, 48, 0.65);
+  cursor: pointer;
+  transition:
+    background-color 180ms var(--ease-out),
+    border-color 180ms var(--ease-out),
+    color 180ms var(--ease-out),
+    transform 180ms var(--ease-out),
+    box-shadow 180ms var(--ease-out);
+}
+
+.secondary-testimonials-toggle:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--brand-blue-600) 28%, var(--border-soft));
+  background: #fff;
+  color: var(--ink-900);
+  box-shadow: 0 16px 34px -26px rgba(14, 21, 48, 0.72);
+}
+
+.secondary-testimonials-toggle:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--brand-yellow-500) 70%, #fff);
+  outline-offset: 3px;
+}
+
+.secondary-testimonials-toggle svg {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+  stroke-width: 2.5;
+}
+
+.secondary-testimonials {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  height: clamp(800px, 82vh, 940px);
+  margin-top: 12px;
+  padding: 34px 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+
+.secondary-testimonials--tablet,
+.secondary-testimonials--desktop {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .secondary-testimonials--mobile {
+    display: none;
+  }
+
+  .secondary-testimonials--tablet {
+    display: flex;
+  }
+}
+
+@media (min-width: 1200px) {
+  .secondary-testimonials--tablet {
+    display: none;
+  }
+
+  .secondary-testimonials--desktop {
+    display: flex;
+  }
+}
+
+.secondary-testimonials-track {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 20px;
+  will-change: transform;
+  animation: secondary-testimonials-scroll var(--marquee-duration, 16s) linear infinite;
+}
+
+.secondary-testimonials-wrap:hover .secondary-testimonials-track,
+.secondary-testimonials-wrap.is-paused .secondary-testimonials-track {
+  animation-play-state: paused;
+}
+
+@keyframes secondary-testimonials-scroll {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+.secondary-testimonials-col .t-card {
+  width: 340px;
+  max-width: 82vw;
+  margin: 0;
+}
+
+.t-avatar.t-avatar--photo {
+  background: var(--paper-deep);
+  overflow: hidden;
+  padding: 0;
+}
+
+.t-avatar.t-avatar--photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 767px) {
+  .secondary-testimonials-control-row {
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+
+  .secondary-testimonials {
+    height: clamp(820px, 118vw, 900px);
+    padding: 30px 0;
+  }
+
+  .secondary-testimonials-col .t-card {
+    width: 88vw;
+    max-width: 430px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .secondary-testimonials-control-row {
+    display: none;
+  }
+
+  .secondary-testimonials {
+    height: auto;
+    padding: 0;
+    overflow: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .secondary-testimonials-track {
+    animation: none;
+  }
+}
