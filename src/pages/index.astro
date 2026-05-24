@@ -10,6 +10,7 @@
  * │                                                                │
  * │    • trust-as-seen-in   - press marquee (TrustAsSeenIn.astro)  │
  * │    • testimonials       - client carousel (Testimonials.astro) │
+ * │    • book-promo         - "The Book" promo (inline, this file) │
  * │                                                                │
  * │  Coordinate edits to these via Linear so parallel worktrees    │
  * │  don't drift.                                                  │
@@ -149,8 +150,13 @@ const courseHref =
         </div>
       </section>
 
-      {/* ---------- Book promo ---------- */}
-      <section class="book-promo v3">
+      {/* ============================================================
+           GLOBAL SECTION: book-promo (The Book / Unforgettable Presence®)
+           Canonical markup lives here on the home page. If you need this on
+           another page, import or duplicate from here. do NOT redesign in
+           isolation. Coordinate edits via Linear.
+           ============================================================ */}
+      <section class="book-promo v3" data-global-section="book-promo">
         <div class="grid12">
           <div class="book-cover-col">
             <div class="book-cover-stack">
@@ -185,6 +191,7 @@ const courseHref =
           </div>
         </div>
       </section>
+      {/* /GLOBAL SECTION: book-promo */}
 
       {/* ============================================================
            GLOBAL SECTION: testimonials (What clients say)
