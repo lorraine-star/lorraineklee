@@ -1159,6 +1159,58 @@ export default config({
     }),
   },
   collections: {
+    keynotes: collection({
+      label: 'Keynotes',
+      slugField: 'title',
+      path: 'src/content/keynotes/*',
+      format: { data: 'yaml' },
+      schema: {
+        title: fields.slug({
+          name: { label: 'Title' },
+          slug: {
+            label: 'URL slug',
+            description:
+              'Short canonical slug for /keynotes/[slug]. The old WordPress /keynote/* and /keynotes_v2/* URLs 301 to this in vercel.json.',
+          },
+        }),
+        order: fields.integer({
+          label: 'Sort order',
+          description: 'Lower numbers appear first in the keynote catalog.',
+          defaultValue: 0,
+        }),
+        format: fields.text({
+          label: 'Format',
+          description:
+            'E.g. "Keynote", "Keynote / Workshop", "Keynote / 60 min".',
+          defaultValue: 'Keynote',
+        }),
+        description: fields.text({
+          label: 'Description',
+          description:
+            'Short summary shown on the catalog card and used as the page meta description.',
+          multiline: true,
+        }),
+        clip_url: fields.text({
+          label: 'Talk clip embed URL (optional)',
+          description:
+            'YouTube or Vimeo embed URL shown on the keynote detail page.',
+        }),
+        takeaways: fields.array(fields.text({ label: 'Takeaway' }), {
+          label: 'Audience takeaways',
+          itemLabel: (props) => props.value || 'Takeaway',
+        }),
+        talk_track: fields.array(
+          fields.object({
+            time: fields.text({ label: 'Time / chapter (optional)' }),
+            label: fields.text({ label: 'Track label' }),
+          }),
+          {
+            label: 'Talk track (chapters)',
+            itemLabel: (props) => props.fields.label.value || 'Track item',
+          }
+        ),
+      },
+    }),
     articles: collection({
       label: 'Articles',
       slugField: 'title',
