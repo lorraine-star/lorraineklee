@@ -1,0 +1,531 @@
+---
+import SpeakingLayout from '../layouts/SpeakingLayout.astro';
+import TrustAsSeenIn from '../components/TrustAsSeenIn.astro';
+import { reader } from '../lib/keystatic';
+import { safeUrl } from '../lib/url';
+
+const mediaKit = await reader.singletons.mediaKit.read();
+if (!mediaKit) {
+	throw new Error('Missing media kit content (src/content/media-kit/index.yaml)');
+}
+
+const {
+	hero,
+	quick_facts,
+	bios_section,
+	bios,
+	headshots_section,
+	headshots,
+	assets_section,
+	assets,
+	topics_section,
+	topics,
+	press_section,
+	featured_links,
+	final_cta,
+} = mediaKit;
+
+const isExternal = (url: string) => /^https?:\/\//i.test(url);
+---
+
+<SpeakingLayout
+	title="Lorraine K. Lee | Media Kit"
+	description={hero.lead}
+	activeId="about"
+>
+	{/* ---------- Hero ---------- */}
+	<section class="page-hero">
+		<div class="grid12 page-hero-grid">
+			<div class="page-hero-copy fade-up">
+				<div class="page-hero-eyebrow">
+					<span class="dot"></span>
+					<span class="eyebrow" style="color: var(--ink-500);">
+						{hero.eyebrow}
+					</span>
+				</div>
+				<h1>{hero.headline} <em>{hero.headline_accent}</em></h1>
+				<p class="lead-large">{hero.lead}</p>
+				<div class="hero-cta-row">
+					<a class="btn primary large" href={safeUrl(hero.primary_cta_url)}>
+						{hero.primary_cta_label} <span aria-hidden="true">&rarr;</span>
+					</a>
+					<a class="btn outline" href={safeUrl(hero.secondary_cta_url)}>
+						{hero.secondary_cta_label}
+					</a>
+				</div>
+			</div>
+			<div class="page-hero-aside fade-up" style="animation-delay: 120ms;">
+				<div class="speaker-bio-headshot">
+					<img src={hero.headshot} alt={hero.headshot_alt} />
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Quick facts ---------- */}
+	{
+		quick_facts?.length > 0 && (
+			<section class="section section--tight">
+				<div class="grid12">
+					<div class="speaker-bio-facts reveal-stagger">
+						{quick_facts.map((f) => (
+							<div>
+								<div class="fact-k">{f.label}</div>
+								<div class="fact-v">{f.value}</div>
+							</div>
+						))}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Bios ---------- */}
+	{
+		bios?.length > 0 && (
+			<section class="section section--cream" id="bios">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{bios_section.eyebrow}</span>
+						<h2>
+							{bios_section.heading} <em>{bios_section.heading_accent}</em>
+						</h2>
+						{bios_section.note && (
+							<p class="section-note">{bios_section.note}</p>
+						)}
+					</div>
+					<div class="mk-bios reveal-stagger">
+						{bios.map((b) => (
+							<article class="mk-bio-card">
+								<header class="mk-bio-head">
+									<span class="mk-bio-len">{b.length_label}</span>
+									<button
+										class="mk-copy"
+										type="button"
+										data-copy={b.text}
+									>
+										Copy
+									</button>
+								</header>
+								<p class="mk-bio-text">{b.text}</p>
+							</article>
+						))}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Headshots ---------- */}
+	{
+		headshots?.length > 0 && (
+			<section class="section section--tight" id="headshots">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{headshots_section.eyebrow}</span>
+						<h2>
+							{headshots_section.heading}{' '}
+							<em>{headshots_section.heading_accent}</em>
+						</h2>
+					</div>
+					<div class="mk-headshots reveal-stagger">
+						{headshots.map((h) => {
+							const dl = safeUrl(h.download_url) || h.image;
+							return (
+								<figure class="mk-headshot">
+									<div class="mk-headshot-img">
+										<img src={h.image} alt={h.alt} loading="lazy" />
+									</div>
+									<figcaption>
+										<span class="mk-headshot-label">{h.label}</span>
+										<a
+											class="mk-headshot-dl"
+											href={dl}
+											download
+										>
+											Download <span aria-hidden="true">&darr;</span>
+										</a>
+									</figcaption>
+								</figure>
+							);
+						})}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Brand assets ---------- */}
+	{
+		assets?.length > 0 && (
+			<section class="section section--cream" id="assets">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{assets_section.eyebrow}</span>
+						<h2>
+							{assets_section.heading}{' '}
+							<em>{assets_section.heading_accent}</em>
+						</h2>
+					</div>
+					<div class="speaker-bio-downloads reveal-stagger">
+						{assets.map((a) => {
+							const url = safeUrl(a.url) || '#';
+							const external = isExternal(url);
+							return (
+								<a
+									class="dl-card"
+									href={url}
+									target={external ? '_blank' : undefined}
+									rel={external ? 'noopener noreferrer' : undefined}
+								>
+									<span class="dl-label">{a.label}</span>
+									{a.description && <p class="dl-desc">{a.description}</p>}
+									<span class="dl-arrow">
+										{external ? 'Open' : 'Download'}{' '}
+										<span aria-hidden="true">&rarr;</span>
+									</span>
+								</a>
+							);
+						})}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Topics ---------- */}
+	{
+		topics?.length > 0 && (
+			<section class="section section--tight" id="topics">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{topics_section.eyebrow}</span>
+						<h2>
+							{topics_section.heading}{' '}
+							<em>{topics_section.heading_accent}</em>
+						</h2>
+					</div>
+					<div class="mk-topics reveal-stagger">
+						{topics.map((t) => (
+							<div class="mk-topic-card">
+								<h3>{t.title}</h3>
+								<p>{t.description}</p>
+							</div>
+						))}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Featured in ---------- */}
+	<TrustAsSeenIn />
+
+	{
+		featured_links?.length > 0 && (
+			<section class="section section--tight" id="press">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{press_section.eyebrow}</span>
+						<h2>
+							{press_section.heading}{' '}
+							<em>{press_section.heading_accent}</em>
+						</h2>
+					</div>
+					<ul class="mk-press reveal-stagger">
+						{featured_links.map((l) => {
+							const url = safeUrl(l.url) || '#';
+							const external = isExternal(url);
+							return (
+								<li class="mk-press-item">
+									<a
+										href={url}
+										target={external ? '_blank' : undefined}
+										rel={external ? 'noopener noreferrer' : undefined}
+									>
+										<span class="mk-press-outlet">{l.outlet}</span>
+										<span class="mk-press-title">{l.title}</span>
+										<span class="mk-press-arrow" aria-hidden="true">&rarr;</span>
+									</a>
+								</li>
+							);
+						})}
+					</ul>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Final CTA ---------- */}
+	<section class="section">
+		<div class="grid12">
+			<div class="final-cta">
+				<div class="final-cta-inner">
+					<span class="eyebrow">{final_cta.eyebrow}</span>
+					<h2>
+						{final_cta.heading} <em>{final_cta.heading_accent}</em>
+					</h2>
+					<p>{final_cta.body}</p>
+					<a class="btn yellow large" href={safeUrl(final_cta.cta_url)}>
+						{final_cta.cta_label} <span aria-hidden="true">&rarr;</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</SpeakingLayout>
+
+<script>
+	// Copy-to-clipboard for the bio cards.
+	document.querySelectorAll<HTMLButtonElement>('.mk-copy').forEach((btn) => {
+		btn.addEventListener('click', async () => {
+			const text = btn.dataset.copy || '';
+			try {
+				await navigator.clipboard.writeText(text);
+			} catch {
+				const ta = document.createElement('textarea');
+				ta.value = text;
+				ta.style.position = 'fixed';
+				ta.style.opacity = '0';
+				document.body.appendChild(ta);
+				ta.select();
+				document.execCommand('copy');
+				document.body.removeChild(ta);
+			}
+			const original = btn.textContent;
+			btn.textContent = 'Copied';
+			btn.classList.add('is-copied');
+			window.setTimeout(() => {
+				btn.textContent = original;
+				btn.classList.remove('is-copied');
+			}, 1600);
+		});
+	});
+</script>
+
+<style>
+	/* Media kit — page-specific sections. Generic primitives (page-hero,
+	   section--*, dl-card, final-cta, speaker-bio-*) come from
+	   styles/editorial/templates.css. */
+
+	.page-hero .speaker-bio-headshot {
+		border-radius: 18px;
+		overflow: hidden;
+		box-shadow: var(--shadow-soft, 0 24px 60px rgba(20, 20, 30, 0.16));
+		max-width: 420px;
+		margin-left: auto;
+	}
+	.page-hero .speaker-bio-headshot img {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+
+	.section-note {
+		max-width: 580px;
+		margin: 14px auto 0;
+		color: var(--ink-500);
+		font-size: 15px;
+		line-height: 1.6;
+	}
+
+	/* Bios */
+	.mk-bios {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 24px;
+		margin-top: 48px;
+	}
+	.mk-bio-card {
+		display: flex;
+		flex-direction: column;
+		background: var(--paper, #fff);
+		border: 1px solid var(--border-soft);
+		border-radius: 16px;
+		padding: 26px 24px;
+	}
+	.mk-bio-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		margin-bottom: 16px;
+	}
+	.mk-bio-len {
+		font-family: var(--font-sans);
+		font-size: 12px;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--accent);
+	}
+	.mk-copy {
+		flex: 0 0 auto;
+		font-family: var(--font-sans);
+		font-size: 12px;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		color: var(--ink-700, #2a2a32);
+		background: var(--paper-deep);
+		border: 1px solid var(--border-soft);
+		border-radius: 999px;
+		padding: 6px 14px;
+		cursor: pointer;
+		transition:
+			background 200ms var(--ease-out),
+			color 200ms var(--ease-out),
+			border-color 200ms var(--ease-out);
+	}
+	.mk-copy:hover {
+		background: var(--accent);
+		border-color: var(--accent);
+		color: #fff;
+	}
+	.mk-copy.is-copied {
+		background: var(--accent);
+		border-color: var(--accent);
+		color: #fff;
+	}
+	.mk-bio-text {
+		margin: 0;
+		font-size: 15px;
+		line-height: 1.62;
+		color: var(--ink-700, #2a2a32);
+	}
+
+	/* Headshots */
+	.mk-headshots {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 24px;
+		margin-top: 40px;
+	}
+	.mk-headshot {
+		margin: 0;
+	}
+	.mk-headshot-img {
+		border-radius: 14px;
+		overflow: hidden;
+		background: var(--paper-deep);
+		aspect-ratio: 1 / 1;
+	}
+	.mk-headshot-img img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	.mk-headshot figcaption {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		margin-top: 14px;
+	}
+	.mk-headshot-label {
+		font-family: var(--font-sans);
+		font-size: 14px;
+		font-weight: 600;
+		color: var(--ink-700, #2a2a32);
+	}
+	.mk-headshot-dl {
+		font-family: var(--font-sans);
+		font-size: 13px;
+		font-weight: 600;
+		color: var(--accent);
+		text-decoration: none;
+		white-space: nowrap;
+	}
+	.mk-headshot-dl:hover {
+		text-decoration: underline;
+	}
+
+	/* Topics */
+	.mk-topics {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 20px;
+		margin-top: 40px;
+	}
+	.mk-topic-card {
+		background: var(--paper-deep);
+		border: 1px solid var(--border-soft);
+		border-radius: 16px;
+		padding: 26px 28px;
+	}
+	.mk-topic-card h3 {
+		margin: 0 0 10px;
+		font-family: var(--font-serif, serif);
+		font-size: 21px;
+		font-weight: 600;
+	}
+	.mk-topic-card p {
+		margin: 0;
+		font-size: 15px;
+		line-height: 1.6;
+		color: var(--ink-500);
+	}
+
+	/* Press links */
+	.mk-press {
+		list-style: none;
+		margin: 40px 0 0;
+		padding: 0;
+		border-top: 1px solid var(--border-soft);
+	}
+	.mk-press-item {
+		border-bottom: 1px solid var(--border-soft);
+	}
+	.mk-press-item a {
+		display: grid;
+		grid-template-columns: 200px 1fr auto;
+		align-items: baseline;
+		gap: 20px;
+		padding: 20px 8px;
+		text-decoration: none;
+		color: inherit;
+		transition: background 180ms var(--ease-out);
+	}
+	.mk-press-item a:hover {
+		background: var(--paper-deep);
+	}
+	.mk-press-outlet {
+		font-family: var(--font-sans);
+		font-size: 13px;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--accent);
+	}
+	.mk-press-title {
+		font-size: 17px;
+		line-height: 1.4;
+		color: var(--ink-700, #2a2a32);
+	}
+	.mk-press-arrow {
+		color: var(--ink-500);
+		transition: transform 180ms var(--ease-out);
+	}
+	.mk-press-item a:hover .mk-press-arrow {
+		transform: translateX(4px);
+	}
+
+	@media (max-width: 900px) {
+		.mk-bios,
+		.mk-headshots {
+			grid-template-columns: 1fr;
+		}
+		.mk-topics {
+			grid-template-columns: 1fr;
+		}
+		.page-hero .speaker-bio-headshot {
+			margin: 0 auto;
+		}
+		.mk-press-item a {
+			grid-template-columns: 1fr auto;
+		}
+		.mk-press-outlet {
+			grid-column: 1 / -1;
+		}
+	}
+</style>

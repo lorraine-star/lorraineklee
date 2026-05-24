@@ -7,6 +7,8 @@
       "permanent": true
     },
 
+    { "source": "/bio-and-headshot", "destination": "/media-kit", "permanent": true },
+
     { "source": "/learning-courses", "destination": "/courses", "permanent": true },
     { "source": "/linkedin-learning-courses", "destination": "/courses", "permanent": true },
     { "source": "/linkedin-courses", "destination": "/courses", "permanent": true },
