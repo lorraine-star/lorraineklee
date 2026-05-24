@@ -1253,6 +1253,105 @@ export default config({
         ),
       },
     }),
+    consulting: singleton({
+      label: 'Consulting',
+      path: 'src/content/consulting/',
+      schema: {
+        hero: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            headline: fields.text({ label: 'Headline' }),
+            headline_accent: fields.text({
+              label: 'Headline accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead paragraph', multiline: true }),
+            primary_cta_label: fields.text({ label: 'Primary CTA label' }),
+            primary_cta_url: fields.text({ label: 'Primary CTA URL' }),
+            secondary_cta_label: fields.text({
+              label: 'Secondary CTA label',
+            }),
+            secondary_cta_url: fields.text({
+              label: 'Secondary CTA URL',
+              description: 'Internal route, anchor (e.g. #services), or external URL.',
+            }),
+          },
+          { label: 'Hero' }
+        ),
+        services_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+          },
+          { label: 'Services section heading' }
+        ),
+        services: fields.array(
+          fields.object({
+            title: fields.text({ label: 'Title' }),
+            description: fields.text({
+              label: 'Description',
+              multiline: true,
+            }),
+          }),
+          {
+            label: 'Services',
+            itemLabel: (props) => props.fields.title.value || 'Service',
+          }
+        ),
+        testimonials_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+          },
+          { label: 'Testimonials section heading' }
+        ),
+        testimonials: fields.array(
+          fields.object({
+            quote: fields.text({ label: 'Quote', multiline: true }),
+            author: fields.text({ label: 'Author' }),
+            title: fields.text({ label: 'Author title' }),
+          }),
+          {
+            label: 'Testimonials',
+            itemLabel: (props) => props.fields.author.value || 'Testimonial',
+          }
+        ),
+        audience_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+          },
+          { label: 'Audience section heading' }
+        ),
+        audience_points: fields.array(fields.text({ label: 'Point' }), {
+          label: 'Audience points',
+          itemLabel: (props) => props.value || 'Point',
+        }),
+        final_cta: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            cta_url: fields.text({ label: 'CTA URL' }),
+          },
+          { label: 'Final CTA' }
+        ),
+      },
+    }),
   },
   collections: {
     courses: collection({
