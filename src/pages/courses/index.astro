@@ -14,15 +14,18 @@ if (!page) {
 const { hero, rating, testimonials_section, testimonials, final_cta } = page;
 
 const all = await reader.collections.courses.all();
-const courses = all
+const mapped = all
 	.map((c) => ({ slug: c.slug, ...c.entry }))
-	// Mirror the curated WordPress hub: only show courses flagged for it.
-	// (Hidden courses keep their /courses/[slug] page and 301 redirect.)
-	.filter((c) => c.show_on_hub !== false)
 	.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
-const featured = courses.filter((c) => c.featured);
+// Featured block: at most one course, derived from the full set (independent
+// of show_on_hub) so a featured course can never silently vanish from the page.
+const featured = mapped.filter((c) => c.featured).slice(0, 1);
 const featuredSlugs = new Set(featured.map((c) => c.slug));
+
+// Mirror the curated WordPress hub: only show courses flagged for it.
+// (Hidden courses keep their /courses/[slug] page and 301 redirect.)
+const courses = mapped.filter((c) => c.show_on_hub !== false);
 
 const grouped = CATEGORY_ORDER.map((category) => ({
 	category,
@@ -54,6 +57,10 @@ const splitFigure = (raw?: string) => {
 };
 const ratingFig = splitFigure(rating?.value);
 const studentsFig = splitFigure(rating?.students_value);
+// Only animate (count-up) genuinely numeric figures — otherwise the count-up
+// script would overwrite a non-numeric label (e.g. "Top-rated") with "0".
+const ratingNumeric = ratingFig.value > 0;
+const studentsNumeric = studentsFig.value > 0;
 ---
 
 <SpeakingLayout
@@ -107,13 +114,17 @@ const studentsFig = splitFigure(rating?.students_value);
 						<div class="course-proof-grid">
 							<div class="course-proof-stat">
 								<div class="course-proof-num">
-									<span
-										class="count-up"
-										data-to={ratingFig.value}
-										data-decimals={ratingFig.decimals}
-									>
-										{ratingFig.display}
-									</span>
+									{ratingNumeric ? (
+										<span
+											class="count-up"
+											data-to={ratingFig.value}
+											data-decimals={ratingFig.decimals}
+										>
+											{ratingFig.display}
+										</span>
+									) : (
+										<span>{ratingFig.display}</span>
+									)}
 									<span class="course-proof-unit">{rating.scale}</span>
 								</div>
 								{rating.value_label && (
@@ -125,13 +136,17 @@ const studentsFig = splitFigure(rating?.students_value);
 									<span class="course-proof-sep" aria-hidden="true" />
 									<div class="course-proof-stat">
 										<div class="course-proof-num">
-											<span
-												class="count-up"
-												data-to={studentsFig.value}
-												data-decimals={studentsFig.decimals}
-											>
-												{studentsFig.display}
-											</span>
+											{studentsNumeric ? (
+												<span
+													class="count-up"
+													data-to={studentsFig.value}
+													data-decimals={studentsFig.decimals}
+												>
+													{studentsFig.display}
+												</span>
+											) : (
+												<span>{studentsFig.display}</span>
+											)}
 											<span class="course-proof-unit">{studentsFig.suffix}</span>
 										</div>
 										{rating.students_label && (
@@ -278,7 +293,7 @@ const studentsFig = splitFigure(rating?.students_value);
 							<em>{testimonials_section.heading_accent}</em>
 						</h2>
 					</div>
-					<CourseTestimonials testimonials={testimonials} client:visible />
+					<CourseTestimonials testimonials={testimonials} />
 				</div>
 			</section>
 		)
@@ -315,7 +330,8 @@ const studentsFig = splitFigure(rating?.students_value);
 	/* Social-proof band — prominent rating + students taught. */
 	.course-proof {
 		grid-column: 1 / -1;
-		max-width: 720px;
+		max-width: min(720px, 100%);
+		box-sizing: border-box;
 		margin: 0 auto;
 		background: var(--paper-deep);
 		border: 1px solid var(--border-soft);
@@ -390,6 +406,10 @@ const studentsFig = splitFigure(rating?.students_value);
 	}
 	.course-proof-sub {
 		font-size: 13px;
+		max-width: 100%;
+		white-space: normal;
+		text-align: center;
+		height: auto;
 	}
 
 	/* LinkedIn Learning logo on cards + feature block.

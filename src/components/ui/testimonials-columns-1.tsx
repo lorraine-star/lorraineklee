@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
 
 export interface ColumnTestimonial {
   quote: string;
@@ -14,33 +13,36 @@ export interface ColumnTestimonial {
  * A single vertically-scrolling marquee column of testimonial cards.
  *
  * Adapted from the shadcn "testimonials-columns-1" component for this Astro +
- * editorial-design codebase: it imports from `framer-motion` (already a
- * dependency) instead of `motion/react`, and renders the project's global
- * `.t-card` markup (initials avatar) so it stays visually consistent with the
- * rest of the site rather than relying on shadcn Tailwind tokens.
+ * editorial-design codebase. The scroll is a pure CSS animation (not
+ * framer-motion) so it: pauses on hover/focus-within of the marquee (WCAG
+ * 2.2.2), disables under prefers-reduced-motion, loops seamlessly without the
+ * re-anchoring glitch a JS pause/resume would cause, and needs no client JS.
+ * It renders the project's global `.t-card` markup so it stays visually
+ * consistent with the rest of the site.
  */
 export const TestimonialsColumn = (props: {
   className?: string;
   testimonials: ColumnTestimonial[];
   duration?: number;
 }) => {
-  const reduceMotion = useReducedMotion();
   return (
     <div className={props.className}>
-      <motion.div
-        animate={reduceMotion ? undefined : { translateY: '-50%' }}
-        transition={{
-          duration: props.duration || 10,
-          repeat: Infinity,
-          ease: 'linear',
-          repeatType: 'loop',
-        }}
+      <div
         className="course-marquee-track"
+        style={
+          { '--marquee-duration': `${props.duration || 16}s` } as React.CSSProperties
+        }
       >
         {[...new Array(2)].map((_, index) => (
           <React.Fragment key={index}>
             {props.testimonials.map((t, i) => (
-              <figure className="t-card" key={`${index}-${i}`}>
+              // The second pass is a visual duplicate for the seamless loop —
+              // hide it from assistive tech so each quote is announced once.
+              <figure
+                className="t-card"
+                key={`${index}-${i}`}
+                aria-hidden={index === 1 ? true : undefined}
+              >
                 <span className="t-mark" aria-hidden="true">
                   &ldquo;
                 </span>
@@ -65,7 +67,7 @@ export const TestimonialsColumn = (props: {
             ))}
           </React.Fragment>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 };

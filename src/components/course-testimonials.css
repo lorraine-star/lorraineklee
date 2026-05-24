@@ -1,8 +1,13 @@
 /* Animated testimonials marquee for the /courses page.
-   Reuses the global .t-card styling (base.css); these rules only handle the
-   three-column marquee layout, the fade mask, and responsive column hiding. */
-.course-marquee {
+   Reuses the global .t-card styling (base.css); these rules handle the
+   responsive multi-column marquee, the fade mask, the CSS scroll animation,
+   hover/focus pause (WCAG 2.2.2), and the reduced-motion fallback. */
+
+.course-marquee-wrap {
   grid-column: 1 / -1;
+}
+
+.course-marquee {
   display: flex;
   justify-content: center;
   gap: 24px;
@@ -25,17 +30,68 @@
   );
 }
 
+/* Show exactly one layout per breakpoint: 1 col mobile / 2 tablet / 3 desktop.
+   Each layout holds ALL testimonials, so none are ever hidden. */
+.course-marquee--tablet,
+.course-marquee--desktop {
+  display: none;
+}
+@media (min-width: 768px) {
+  .course-marquee--mobile {
+    display: none;
+  }
+  .course-marquee--tablet {
+    display: flex;
+  }
+}
+@media (min-width: 1200px) {
+  .course-marquee--tablet {
+    display: none;
+  }
+  .course-marquee--desktop {
+    display: flex;
+  }
+}
+
 .course-marquee-track {
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding-bottom: 20px;
   will-change: transform;
+  animation: course-marquee-scroll var(--marquee-duration, 16s) linear infinite;
+}
+
+/* Pause the scroll while the user hovers or tabs into the section. */
+.course-marquee-wrap:hover .course-marquee-track,
+.course-marquee-wrap:focus-within .course-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes course-marquee-scroll {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+/* Respect reduced-motion: no scroll, static stacked cards (all still visible). */
+@media (prefers-reduced-motion: reduce) {
+  .course-marquee {
+    max-height: none;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .course-marquee-track {
+    animation: none;
+  }
 }
 
 /* The marquee sets its own card width; clear the masonry margin. */
 .course-marquee-col .t-card {
-  width: 340px;
+  width: 320px;
   max-width: 82vw;
   margin: 0;
 }
@@ -53,21 +109,9 @@
   display: block;
 }
 
-@media (max-width: 1024px) {
-  .course-marquee-col--lg {
-    display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .course-marquee-col--md {
-    display: none;
-  }
-  .course-marquee {
-    gap: 0;
-  }
+@media (max-width: 767px) {
   .course-marquee-col .t-card {
     width: 88vw;
-    max-width: 380px;
+    max-width: 420px;
   }
 }

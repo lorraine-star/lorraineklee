@@ -5,36 +5,43 @@ import {
 import './course-testimonials.css';
 
 /**
- * Three-column animated testimonials marquee island for /courses.
- * Splits the testimonials across three columns (each scrolling at a slightly
- * different speed); the 2nd and 3rd columns reveal at md/lg breakpoints.
+ * Animated testimonials marquee for /courses.
+ *
+ * Renders three responsive layouts — 1 column on mobile, 2 on tablet, 3 on
+ * desktop — and CSS shows exactly one at each breakpoint. Each layout
+ * distributes ALL testimonials round-robin across its columns, so no
+ * testimonial is ever hidden (unlike hiding columns, which dropped 2/3 of them
+ * on small screens). Pure SSR + CSS animation: no client JS, pauses on
+ * hover/focus, and stacks statically under prefers-reduced-motion.
  */
+const split = (items: ColumnTestimonial[], n: number) =>
+  Array.from({ length: n }, (_, k) => items.filter((_, i) => i % n === k));
+
 export default function CourseTestimonials({
   testimonials,
 }: {
   testimonials: ColumnTestimonial[];
 }) {
-  const col1 = testimonials.filter((_, i) => i % 3 === 0);
-  const col2 = testimonials.filter((_, i) => i % 3 === 1);
-  const col3 = testimonials.filter((_, i) => i % 3 === 2);
+  const variants: { name: string; cols: ColumnTestimonial[][]; durations: number[] }[] = [
+    { name: 'mobile', cols: split(testimonials, 1), durations: [26] },
+    { name: 'tablet', cols: split(testimonials, 2), durations: [18, 22] },
+    { name: 'desktop', cols: split(testimonials, 3), durations: [16, 20, 18] },
+  ];
 
   return (
-    <div className="course-marquee" aria-label="What students are saying">
-      <TestimonialsColumn
-        testimonials={col1}
-        duration={16}
-        className="course-marquee-col"
-      />
-      <TestimonialsColumn
-        testimonials={col2}
-        duration={20}
-        className="course-marquee-col course-marquee-col--md"
-      />
-      <TestimonialsColumn
-        testimonials={col3}
-        duration={18}
-        className="course-marquee-col course-marquee-col--lg"
-      />
+    <div className="course-marquee-wrap" aria-label="What students are saying">
+      {variants.map((v) => (
+        <div key={v.name} className={`course-marquee course-marquee--${v.name}`}>
+          {v.cols.map((col, i) => (
+            <TestimonialsColumn
+              key={i}
+              testimonials={col}
+              duration={v.durations[i]}
+              className="course-marquee-col"
+            />
+          ))}
+        </div>
+      ))}
     </div>
   );
 }
