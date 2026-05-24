@@ -1,0 +1,85 @@
+---
+/**
+ * Global "What clients say" testimonials section.
+ *
+ * Canonical markup for the testimonials carousel. Self-contained for data:
+ * by default it reads testimonials from Keystatic (the `home` singleton), so
+ * a page can drop in <Testimonials /> with no props. Heading copy can be
+ * overridden per page, and a caller may pass its own `testimonials` array.
+ *
+ * Styling: this section depends on the shared layout primitives (.grid12,
+ * .eyebrow) and the .testimonials / .t-* rules in src/styles/v1/home.css.
+ * The home page loads that stylesheet via HomeLayout. Any other page that
+ * uses this component must also load src/styles/v1/home.css.
+ *
+ * This is a GLOBAL section — coordinate edits via Linear so parallel
+ * worktrees don't drift.
+ */
+import HomeTestimonialsCarousel from './HomeTestimonialsCarousel';
+import { reader } from '../lib/keystatic';
+
+type Testimonial = {
+  quote: string;
+  name: string;
+  role: string;
+  photo?: string;
+  photoAlt?: string;
+  initials: string;
+};
+
+interface Props {
+  eyebrow?: string;
+  /** Heading markup; may contain inline HTML such as <em>. */
+  titleHtml?: string;
+  lead?: string;
+  /** Override the testimonials shown; defaults to the Keystatic `home` set. */
+  testimonials?: Testimonial[];
+}
+
+const getInitials = (name: string) =>
+  name
+    .split(/\s+/)
+    .map((part) => part[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase() || '?';
+
+const {
+  eyebrow = 'What clients say',
+  titleHtml = 'Companies bring her back <em>for more.</em>',
+  lead = "From Fortune 500 leadership programs to high-potential cohorts at fast-growth tech companies, Lorraine's frameworks travel.",
+  testimonials: testimonialsProp,
+} = Astro.props;
+
+let testimonials = testimonialsProp;
+if (!testimonials) {
+  const home = await reader.singletons.home.read();
+  if (!home) {
+    throw new Error('Missing home content (src/content/home/index.yaml)');
+  }
+  testimonials = (home.testimonials ?? [])
+    .map((testimonial) => {
+      const name = testimonial.author?.trim() ?? '';
+      return {
+        quote: testimonial.quote?.trim() ?? '',
+        name,
+        role: testimonial.title?.trim() ?? '',
+        photo: testimonial.photo?.trim() ?? '',
+        photoAlt: testimonial.photo_alt?.trim() || `Headshot of ${name}`,
+        initials: getInitials(name),
+      };
+    })
+    .filter((testimonial) => testimonial.quote && testimonial.name);
+}
+---
+
+<section class="testimonials" data-global-section="testimonials">
+  <div class="grid12">
+    <div class="testimonials-head">
+      <span class="eyebrow">{eyebrow}</span>
+      <h2 class="testimonials-title" set:html={titleHtml}></h2>
+      <p class="lead">{lead}</p>
+    </div>
+    <HomeTestimonialsCarousel testimonials={testimonials} client:load />
+  </div>
+</section>
