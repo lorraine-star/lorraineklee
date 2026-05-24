@@ -7,6 +7,7 @@ import react from '@astrojs/react';
 import markdoc from '@astrojs/markdoc';
 import keystatic from '@keystatic/astro';
 import vercel from '@astrojs/vercel';
+import { fileURLToPath } from 'node:url';
 
 // https://astro.build/config
 export default defineConfig({
@@ -15,7 +16,12 @@ export default defineConfig({
   adapter: vercel(),
 
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
+    },
   },
 
   integrations: [mdx(), react(), markdoc(), keystatic()]

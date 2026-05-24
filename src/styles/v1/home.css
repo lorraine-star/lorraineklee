@@ -1,5 +1,5 @@
 /* ============================================================
-   Home page — layout primitives + page-specific styles
+   Home page - layout primitives + page-specific styles
    ============================================================ */
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -12,7 +12,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* shared 12-col grid container — every section anchors to this so
+/* shared 12-col grid container - every section anchors to this so
    nav logo, hero headline, and below-fold sections share a left edge */
 .shell {
   --grid-max: 1240px;
@@ -680,6 +680,53 @@ body {
   grid-column: 1 / span 8;
   margin-bottom: 48px;
 }
+.testimonials-carousel {
+  grid-column: 1 / -1;
+  position: relative;
+  justify-self: center;
+  width: min(100%, 980px);
+  min-width: 0;
+}
+.testimonials-controls {
+  position: absolute;
+  top: -92px;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  gap: 10px;
+}
+.testimonial-control {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink-900);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: var(--shadow-xs);
+  transition: background 200ms var(--ease-out), color 200ms var(--ease-out), transform 200ms var(--ease-out);
+}
+.testimonial-control:hover,
+.testimonial-control:focus-visible {
+  background: var(--ink-900);
+  color: var(--paper);
+  transform: translateY(-1px);
+}
+.testimonial-control:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.testimonial-control:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+  transform: none;
+}
 .testimonials-head .lead {
   font-family: var(--font-sans);
   font-size: clamp(17px, 1.3vw, 19px);
@@ -699,26 +746,41 @@ body {
   text-wrap: balance;
 }
 .testimonials-title em { font-style: italic; color: var(--accent); font-weight: 400; }
-.testimonials-scroller {
-  grid-column: 1 / -1;
-  overflow: visible;
+.testimonials-carousel [data-slot="carousel-content"] {
+  overflow: hidden;
+  padding: 4px 0 18px;
+  outline: none;
+}
+.testimonials-carousel [data-slot="carousel-content"]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: 12px;
 }
 .testimonials-track {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
+  display: flex;
+  align-items: stretch;
+  column-gap: 0;
+  margin-left: 0;
+}
+.testimonials-carousel-slide {
+  flex: 0 0 min(760px, calc(100vw - (var(--grid-pad) * 2)));
+  min-width: 0;
+  padding: 0 20px;
+  display: flex;
 }
 .t-card {
   margin: 0;
   background: #fff;
   border-radius: 14px;
   border: 1px solid var(--border-soft);
-  padding: 36px 32px;
+  padding: 28px 30px;
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
   transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out);
   position: relative;
+  overflow-wrap: anywhere;
+  width: 100%;
 }
 .t-card:hover {
   transform: translateY(-3px);
@@ -737,19 +799,19 @@ body {
 .t-card.featured .t-avatar { background: linear-gradient(135deg, var(--brand-yellow-500), #ff9900); color: var(--ink-900); }
 .t-mark {
   font-family: var(--font-serif);
-  font-size: 64px;
+  font-size: 48px;
   font-weight: 500;
   color: var(--brand-blue-300);
   line-height: 0.6;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
   font-style: italic;
 }
 .t-quote {
   font-family: var(--font-serif);
-  font-size: 19px;
-  line-height: 1.45;
+  font-size: 17px;
+  line-height: 1.36;
   color: var(--ink-900);
-  margin: 0 0 28px;
+  margin: 0 0 22px;
   font-style: italic;
   flex: 1;
   text-wrap: pretty;
@@ -757,7 +819,7 @@ body {
 .t-divider {
   height: 1px;
   background: var(--border-soft);
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 .t-attrib {
   display: flex;
@@ -766,8 +828,8 @@ body {
 }
 .t-avatar,
 .t-headshot {
-  width: 42px;
-  height: 42px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -784,6 +846,7 @@ body {
 .t-headshot {
   object-fit: cover;
   background: var(--ink-100);
+  border: 1px solid rgba(14, 21, 48, 0.08);
 }
 .t-name {
   font-family: var(--font-sans);
@@ -1385,10 +1448,10 @@ body {
 }
 
 /* ============================================================
-   V3-ported sections — Book, As Seen In, Four Ways, Testimonials scroll
+   V3-ported sections - Book, As Seen In, Four Ways, Testimonials scroll
    ============================================================ */
 
-/* ---------- Book — V3 styling (overrides) ---------- */
+/* ---------- Book - V3 styling (overrides) ---------- */
 .book-promo.v3 { background: var(--paper); }
 .book-promo.v3 .book-cover {
   transform: none;
@@ -1631,8 +1694,13 @@ body {
   .fw-card:nth-child(2) { border-right: 0; }
   .fw-card:nth-child(1), .fw-card:nth-child(2) { border-bottom: 1px solid rgba(26,77,255,0.14); }
   .testimonials-head {
+    grid-column: 1 / -1;
     margin-bottom: 20px;
     text-align: left;
+  }
+  .testimonials-controls {
+    position: static;
+    margin-bottom: 24px;
   }
   .testimonials-title,
   .testimonials-head .lead {
@@ -1640,31 +1708,21 @@ body {
     margin-right: 0;
     text-align: left;
   }
-  .testimonials-scroller {
-    overflow-x: auto;
-    overflow-y: visible;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: thin;
-    scrollbar-color: var(--border) transparent;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 16px;
-    margin: 0 calc(var(--grid-pad) * -1);
+  .testimonials-carousel {
+    width: min(100%, calc(100vw - (var(--grid-pad) * 2)));
   }
-  .testimonials-scroller::-webkit-scrollbar { height: 8px; }
-  .testimonials-scroller::-webkit-scrollbar-track { background: transparent; }
-  .testimonials-scroller::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 999px;
+  .testimonials-carousel .testimonials-controls {
+    padding: 0;
+  }
+  .testimonials-carousel [data-slot="carousel-content"] {
+    padding-bottom: 16px;
   }
   .testimonials-track {
-    grid-auto-flow: column;
-    grid-auto-columns: minmax(280px, 320px);
-    grid-template-columns: none;
-    padding: 4px var(--grid-pad);
+    padding-left: 0;
+    column-gap: 16px;
   }
-  .testimonials-track .t-card {
-    scroll-snap-align: start;
-    min-width: 0;
+  .testimonials-carousel-slide {
+    flex-basis: calc(100% - 32px);
   }
 }
 @media (max-width: 600px) {
@@ -1673,7 +1731,11 @@ body {
   .fw-card:last-child { border-bottom: 0; }
 }
 @media (max-width: 520px) {
-  .t-card { padding: 30px 26px; }
+  .t-card { padding: 26px 22px; }
+  .t-quote {
+    font-size: 16px;
+    line-height: 1.38;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

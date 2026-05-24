@@ -42,7 +42,8 @@ These apply site-wide and are **not** repeated per row below.
 | `/consulting` | **pending** | Consulting |
 | `/interviews` | **pending** | Guest Interviews |
 | `/keynotes/[slug]` | **pending** | Keynote detail pages (CMS collection) |
-| `/courses` | **pending** | LinkedIn Learning courses hub + collection |
+| `/courses` | built | LinkedIn Learning courses hub + collection |
+| `/courses/[slug]` | built | Individual LinkedIn Learning courses (CMS collection) |
 
 Rows mapping to a **pending** target are flagged `⏳` — the redirect can only
 go live once that page is built.
@@ -73,7 +74,7 @@ go live once that page is built.
 | `/bio-and-headshot/` | `/media-kit` ⏳ | **301** | Press/media assets — group with Media Kit. |
 | `/media-kit/` | `/media-kit` ⏳ | preserve | |
 | `/portfolio-2/` | `/speaking` | **301** | Portfolio content overlaps Speaking. Confirm with client. |
-| `/learning-courses/` | `/courses` ⏳ | **301** | |
+| `/learning-courses/` | `/courses` | **301** | Live in `vercel.json` (CLI-87). |
 | `/linkedin-presence-training/` | `/speaking` | **301** | Training offer — fold into Speaking/Training. Confirm. |
 | `/video-communications-training/` | `/speaking` | **301** | As above. |
 | `/prezi-presentation-design-services/` | `/speaking` | **301** | As above. Confirm whether service is still offered. |
@@ -130,18 +131,24 @@ Affected slugs (10 `/keynote/*` + 6 `/keynotes_v2/*`): `9-essential-tips-for-mor
 ## 5. LinkedIn Learning courses (custom post type)
 
 27 `/linkedin-courses/*` URLs. Many are duplicate pairs (with/without
-`-with-lorraine-k-lee` suffix). Pick one canonical slug per course under
-`/courses/[slug]` and 301 the rest.
+`-with-lorraine-k-lee` suffix). **Done (CLI-87):** deduped to 18 canonical
+courses, each a Keystatic collection entry at `/courses/[slug]` using a short
+topic slug (e.g. `/courses/better-business-writing`). All 27 WordPress slugs
+301 to their canonical target in `vercel.json`.
 
 | WordPress URL pattern | Target Astro URL | Strategy |
 |---|---|---|
-| `/linkedin-courses/{slug}/` | `/courses/{canonical-slug}` ⏳ | **301** |
-| Duplicate variant slugs | `/courses/{canonical-slug}` ⏳ | **301** |
+| `/linkedin-courses/{slug}/` | `/courses/{canonical-slug}` | **301** |
+| Duplicate variant slugs | `/courses/{canonical-slug}` | **301** |
 
-> Duplicate pairs to collapse (keep the `-with-lorraine-k-lee` variant as
-> canonical for consistency): better-business-writing, effective-collaboration,
-> new-managers, stand-out-as-an-introvert, virtual-and-hybrid-meeting-essentials,
-> hybrid-meetings, how-to-speak. Action: build a deduplicated course collection.
+> Because the path prefix changes from `/linkedin-courses/` to `/courses/`,
+> every variant 301s regardless, so the canonical Astro slug is a clean short
+> topic slug rather than the verbose WordPress slug. The 9 duplicate pairs that
+> were collapsed: better-business-writing, effective-collaboration (WP
+> `better-collaboration` variant), new-managers, stand-out-as-an-introvert,
+> virtual-and-hybrid-meeting-essentials (+ `-2` variant), efficient-hybrid-meetings,
+> how-to-speak-so-others-will-listen, captivating-virtual-presentations,
+> navigating-life-after-layoff. See the full slug → target map in `vercel.json`.
 
 ## 6. Testimonial / video custom post types
 
