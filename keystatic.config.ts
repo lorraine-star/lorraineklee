@@ -1125,6 +1125,102 @@ export default config({
         description: fields.markdoc({ label: 'Description' }),
       },
     }),
+    coursesPage: singleton({
+      label: 'Courses Page',
+      path: 'src/content/courses-page/',
+      schema: {
+        hero: fields.object(
+          {
+            eyebrow: fields.text({
+              label: 'Eyebrow',
+              defaultValue: 'LinkedIn Learning',
+            }),
+            headline: fields.text({ label: 'Headline (plain)' }),
+            headline_accent: fields.text({
+              label: 'Headline accent (italic)',
+            }),
+            lead: fields.text({ label: 'Lead paragraph', multiline: true }),
+            primary_cta_label: fields.text({ label: 'Primary CTA label' }),
+            primary_cta_url: fields.text({ label: 'Primary CTA URL' }),
+          },
+          { label: 'Hero' }
+        ),
+        rating: fields.object(
+          {
+            value: fields.text({ label: 'Rating value (e.g. 4.7)' }),
+            scale: fields.text({
+              label: 'Rating scale suffix (e.g. /5)',
+              defaultValue: '/5',
+            }),
+            value_label: fields.text({
+              label: 'Rating caption (e.g. Average course rating)',
+              defaultValue: 'Average course rating',
+            }),
+            students_value: fields.text({
+              label: 'Students value (e.g. 250,000+)',
+            }),
+            students_label: fields.text({
+              label: 'Students caption (e.g. Students taught)',
+              defaultValue: 'Students taught',
+            }),
+            note: fields.text({
+              label: 'Note (e.g. More courses coming soon)',
+            }),
+            subscribe_label: fields.text({
+              label: 'Subscribe button label',
+              defaultValue: 'Subscribe to my newsletter to get the latest',
+            }),
+            subscribe_url: fields.text({
+              label: 'Subscribe button URL',
+              defaultValue: '/learn',
+            }),
+          },
+          { label: 'Rating / social proof' }
+        ),
+        testimonials_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (italic)',
+            }),
+          },
+          { label: 'Student testimonials heading' }
+        ),
+        testimonials: fields.array(
+          fields.object({
+            quote: fields.text({ label: 'Quote', multiline: true }),
+            name: fields.text({ label: 'Name' }),
+            initials: fields.text({ label: 'Initials' }),
+            photo: fields.image({
+              label: 'Student photo (optional)',
+              description:
+                'Square headshot shown as the avatar. Falls back to the initials when empty.',
+              directory: 'public/images/v1/courses/testimonials',
+              publicPath: '/images/v1/courses/testimonials/',
+            }),
+            photo_alt: fields.text({ label: 'Photo alt text (optional)' }),
+          }),
+          {
+            label: 'Student testimonials',
+            itemLabel: (props) => props.fields.name.value || 'Testimonial',
+          }
+        ),
+        final_cta: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (italic)',
+            }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            cta_url: fields.text({ label: 'CTA URL' }),
+          },
+          { label: 'Final CTA (free course)' }
+        ),
+      },
+    }),
     contact: singleton({
       label: 'Contact',
       path: 'src/content/contact/',
@@ -1159,6 +1255,67 @@ export default config({
     }),
   },
   collections: {
+    courses: collection({
+      label: 'LinkedIn Courses',
+      slugField: 'title',
+      path: 'src/content/courses/*',
+      format: { data: 'yaml' },
+      schema: {
+        title: fields.slug({
+          name: { label: 'Title' },
+          slug: {
+            label: 'URL slug',
+            description:
+              'Short canonical slug for /courses/[slug], e.g. "better-business-writing". The old WordPress /linkedin-courses/* URLs 301 to this in vercel.json.',
+          },
+        }),
+        category: fields.select({
+          label: 'Category',
+          description:
+            'Section the course is grouped under on the /courses page (mirrors the old WordPress hub).',
+          options: [
+            { label: 'Communication', value: 'Communication' },
+            { label: 'Leadership', value: 'Leadership' },
+            { label: 'Management', value: 'Management' },
+            { label: 'Career', value: 'Career' },
+          ],
+          defaultValue: 'Communication',
+        }),
+        order: fields.integer({
+          label: 'Sort order (within category)',
+          description: 'Lower numbers appear first within the course category.',
+          defaultValue: 0,
+        }),
+        description: fields.text({ label: 'Description', multiline: true }),
+        url: fields.url({
+          label: 'LinkedIn Learning course URL',
+          description: 'Full external link, e.g. https://www.linkedin.com/learning/…',
+        }),
+        glyph: fields.text({
+          label: 'Thumbnail letter (decorative — used only when no image is set)',
+        }),
+        thumbnail: fields.image({
+          label: 'Course thumbnail (optional)',
+          description:
+            'Course art shown on the card. Falls back to the decorative letter when empty.',
+          directory: 'public/images/v1/courses',
+          publicPath: '/images/v1/courses/',
+        }),
+        duration: fields.text({ label: 'Duration (optional)' }),
+        show_on_hub: fields.checkbox({
+          label: 'Show on the /courses hub',
+          description:
+            'Uncheck to keep the course page (and its 301 redirect) live but hide the card from the /courses grid. Used to mirror the curated WordPress hub.',
+          defaultValue: true,
+        }),
+        featured: fields.checkbox({
+          label: 'Feature at the top of the hub',
+          description:
+            'Show this course as the large highlighted block above the category grids.',
+          defaultValue: false,
+        }),
+      },
+    }),
     keynotes: collection({
       label: 'Keynotes',
       slugField: 'title',

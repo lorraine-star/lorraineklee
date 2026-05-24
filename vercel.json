@@ -34,6 +34,55 @@
     { "source": "/keynote/make-a-memorable-first-impression-on-video-the-tea-method", "destination": "/keynotes/make-a-memorable-first-impression-on-video-the-tea-method", "permanent": true },
 
     { "source": "/keynote/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "destination": "/keynotes/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "permanent": true },
-    { "source": "/keynotes_v2/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "destination": "/keynotes/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "permanent": true }
+    { "source": "/keynotes_v2/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "destination": "/keynotes/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "permanent": true },
+
+    { "source": "/learning-courses", "destination": "/courses", "permanent": true },
+    { "source": "/linkedin-learning-courses", "destination": "/courses", "permanent": true },
+    { "source": "/linkedin-courses", "destination": "/courses", "permanent": true },
+
+    { "source": "/linkedin-courses/nano-tips-for-better-business-writing-with-lorraine-k-lee", "destination": "/courses/better-business-writing", "permanent": true },
+    { "source": "/linkedin-courses/nano-tips-for-better-business-writing", "destination": "/courses/better-business-writing", "permanent": true },
+
+    { "source": "/linkedin-courses/nano-tips-for-communicating-with-executives-with-lorraine-k-lee", "destination": "/courses/communicating-with-executives", "permanent": true },
+
+    { "source": "/linkedin-courses/nano-tips-to-stand-out-as-an-introvert-with-lorraine-k-lee", "destination": "/courses/stand-out-as-an-introvert", "permanent": true },
+    { "source": "/linkedin-courses/nano-tips-to-stand-out-as-an-introvert", "destination": "/courses/stand-out-as-an-introvert", "permanent": true },
+
+    { "source": "/linkedin-courses/nano-tips-for-new-managers-with-lorraine-k-lee", "destination": "/courses/new-managers", "permanent": true },
+    { "source": "/linkedin-courses/nano-tips-for-new-managers", "destination": "/courses/new-managers", "permanent": true },
+
+    { "source": "/linkedin-courses/nano-tips-for-creating-captivating-virtual-presentations-with-lorraine-k-lee", "destination": "/courses/captivating-virtual-presentations", "permanent": true },
+    { "source": "/linkedin-courses/nano-tips-for-captivating-virtual-presentations", "destination": "/courses/captivating-virtual-presentations", "permanent": true },
+
+    { "source": "/linkedin-courses/how-to-speak-so-others-will-listen-nano-tips-with-lorraine-k-lee", "destination": "/courses/how-to-speak-so-others-will-listen", "permanent": true },
+    { "source": "/linkedin-courses/how-to-speak-so-others-will-listen-nano-tips", "destination": "/courses/how-to-speak-so-others-will-listen", "permanent": true },
+
+    { "source": "/linkedin-courses/nano-tips-for-managing-up-with-lorraine-k-lee", "destination": "/courses/managing-up", "permanent": true },
+
+    { "source": "/linkedin-courses/nano-tips-for-giving-and-receiving-feedback-with-lorraine-k-lee", "destination": "/courses/giving-and-receiving-feedback", "permanent": true },
+
+    { "source": "/linkedin-courses/nano-tips-for-effective-collaboration-with-lorraine-k-lee", "destination": "/courses/effective-collaboration", "permanent": true },
+    { "source": "/linkedin-courses/nano-tips-for-better-collaboration", "destination": "/courses/effective-collaboration", "permanent": true },
+
+    { "source": "/linkedin-courses/nano-tips-for-leading-with-positivity-with-lorraine-k-lee", "destination": "/courses/leading-with-positivity", "permanent": true },
+
+    { "source": "/linkedin-courses/nano-tips-for-delegating-as-a-manager-with-lorraine-k-lee", "destination": "/courses/delegating-as-a-manager", "permanent": true },
+
+    { "source": "/linkedin-courses/nano-tips-for-resilient-communication-with-lorraine-k-lee", "destination": "/courses/resilient-communication", "permanent": true },
+
+    { "source": "/linkedin-courses/nano-tips-for-quick-decision-making-with-lorraine-k-lee", "destination": "/courses/quick-decision-making", "permanent": true },
+
+    { "source": "/linkedin-courses/nano-tips-to-improve-adaptability-and-flexibility-with-lorraine-k-lee", "destination": "/courses/adaptability-and-flexibility", "permanent": true },
+
+    { "source": "/linkedin-courses/nano-tips-for-self-motivation-with-lorraine-k-lee", "destination": "/courses/self-motivation", "permanent": true },
+
+    { "source": "/linkedin-courses/how-to-run-efficient-hybrid-meetings-nano-tips-with-lorraine-k-lee", "destination": "/courses/efficient-hybrid-meetings", "permanent": true },
+    { "source": "/linkedin-courses/how-to-run-efficient-hybrid-meetings-nano-tips", "destination": "/courses/efficient-hybrid-meetings", "permanent": true },
+
+    { "source": "/linkedin-courses/virtual-and-hybrid-meeting-essentials", "destination": "/courses/virtual-and-hybrid-meeting-essentials", "permanent": true },
+    { "source": "/linkedin-courses/virtual-and-hybrid-meeting-essentials-2", "destination": "/courses/virtual-and-hybrid-meeting-essentials", "permanent": true },
+
+    { "source": "/linkedin-courses/nano-tips-for-navigating-life-after-layoff-with-lorraine-k-lee", "destination": "/courses/navigating-life-after-layoff", "permanent": true },
+    { "source": "/linkedin-courses/nano-tips-for-navigating-life-after-a-layoff", "destination": "/courses/navigating-life-after-layoff", "permanent": true }
   ]
 }
