@@ -7,6 +7,35 @@
       "permanent": true
     },
 
+    { "source": "/keynotes-archive", "destination": "/speaking", "permanent": true },
+
+    { "source": "/keynote-category/featured", "destination": "/speaking", "permanent": true },
+    { "source": "/keynote-category/most-popular", "destination": "/speaking", "permanent": true },
+
+    { "source": "/keynote/9-essential-tips-for-more-effective-hybrid-and-virtual-meetings", "destination": "/keynotes/9-essential-tips-for-more-effective-hybrid-and-virtual-meetings", "permanent": true },
+    { "source": "/keynotes_v2/9-essential-tips-for-more-effective-hybrid-and-virtual-meetings", "destination": "/keynotes/9-essential-tips-for-more-effective-hybrid-and-virtual-meetings", "permanent": true },
+
+    { "source": "/keynote/communicate-with-confidence-in-a-virtual-world", "destination": "/keynotes/communicate-with-confidence-in-a-virtual-world", "permanent": true },
+
+    { "source": "/keynote/how-to-build-influence-in-the-hybrid-office", "destination": "/keynotes/how-to-build-influence-in-the-hybrid-office", "permanent": true },
+    { "source": "/keynotes_v2/how-to-build-influence-in-the-hybrid-office", "destination": "/keynotes/how-to-build-influence-in-the-hybrid-office", "permanent": true },
+
+    { "source": "/keynote/how-to-build-your-linkedin-presence", "destination": "/keynotes/how-to-build-your-linkedin-presence", "permanent": true },
+    { "source": "/keynotes_v2/how-to-build-your-linkedin-presence", "destination": "/keynotes/how-to-build-your-linkedin-presence", "permanent": true },
+
+    { "source": "/keynote/how-to-lead-with-impact-strategies-to-build-collaboration-and-trust-on-your-team", "destination": "/keynotes/how-to-lead-with-impact-strategies-to-build-collaboration-and-trust-on-your-team", "permanent": true },
+    { "source": "/keynotes_v2/how-to-lead-with-impact-strategies-to-build-collaboration-and-trust-on-your-team", "destination": "/keynotes/how-to-lead-with-impact-strategies-to-build-collaboration-and-trust-on-your-team", "permanent": true },
+
+    { "source": "/keynote/how-to-present-like-a-pro", "destination": "/keynotes/how-to-present-like-a-pro", "permanent": true },
+    { "source": "/keynotes_v2/how-to-present-like-a-pro", "destination": "/keynotes/how-to-present-like-a-pro", "permanent": true },
+
+    { "source": "/keynote/how-to-stand-out-virtually-video-and-linkedin-essentials", "destination": "/keynotes/how-to-stand-out-virtually-video-and-linkedin-essentials", "permanent": true },
+
+    { "source": "/keynote/make-a-memorable-first-impression-on-video-the-tea-method", "destination": "/keynotes/make-a-memorable-first-impression-on-video-the-tea-method", "permanent": true },
+
+    { "source": "/keynote/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "destination": "/keynotes/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "permanent": true },
+    { "source": "/keynotes_v2/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "destination": "/keynotes/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "permanent": true },
+
     { "source": "/bio-and-headshot", "destination": "/media-kit", "permanent": true },
     { "source": "/consulting-and-coaching", "destination": "/consulting", "permanent": true },
 
