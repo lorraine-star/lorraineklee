@@ -292,14 +292,19 @@ export default config({
                 'Kebab-case slug for the deep-link page, e.g. "executive-presence".',
             }),
             title: fields.text({ label: 'Title' }),
+            tag: fields.text({
+              label: 'Tag / badge (optional)',
+              description:
+                'Small chip on the card, e.g. "Most Popular" or "#2 Most Popular". Leave blank for none.',
+            }),
             description: fields.text({
               label: 'Description',
               multiline: true,
             }),
             format: fields.text({ label: 'Format' }),
             clip_url: fields.text({
-              label: 'Talk clip embed URL (optional)',
-              description: 'YouTube or Vimeo embed URL for the talk page.',
+              label: 'Talk clip embed URL (optional, unused)',
+              description: 'Legacy field — kept for back-compat, not rendered.',
             }),
             talk_track: fields.array(
               fields.object({
@@ -443,6 +448,11 @@ export default config({
             name: fields.text({ label: 'Name' }),
             role: fields.text({ label: 'Role / organization' }),
             initials: fields.text({ label: 'Initials' }),
+            photo: fields.text({
+              label: 'Headshot image path (optional)',
+              description:
+                'E.g. /images/speaking/testimonials/raechel-h.webp. Falls back to initials when blank.',
+            }),
             featured: fields.checkbox({
               label: 'Featured (dark card)',
               defaultValue: false,
@@ -470,6 +480,10 @@ export default config({
             name: fields.text({ label: 'Name' }),
             role: fields.text({ label: 'Role / organization' }),
             initials: fields.text({ label: 'Initials' }),
+            photo: fields.text({
+              label: 'Headshot image path (optional)',
+              description: 'Falls back to initials when blank.',
+            }),
           }),
           {
             label: 'Attendee testimonials',
