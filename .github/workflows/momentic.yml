@@ -12,8 +12,9 @@ name: Momentic E2E
 #   1. Add a repo secret MOMENTIC_API_KEY (Momentic dashboard → API keys).
 #   2. Connect the Vercel ↔ GitHub integration so deployment_status events
 #      fire. Until then, use the manual "Run workflow" button.
-#   3. If preview deployments are protected, see the note at the bottom of
-#      this file to pass a Vercel protection-bypass secret.
+#   3. If preview deployments are protected (Vercel returns 401), add a
+#      VERCEL_BYPASS repo secret — Vercel → Settings → Deployment Protection →
+#      "Protection Bypass for Automation". The run step applies it automatically.
 
 on:
   deployment_status:
@@ -71,24 +72,20 @@ jobs:
       - name: Run Momentic smoke tests
         env:
           TARGET_URL: ${{ steps.target.outputs.url }}
-        run: npx momentic run --url-override "$TARGET_URL" --labels smoke
+          # Set this secret only if Vercel deployment protection is enabled;
+          # when present it's appended so the protected deployment loads.
+          VERCEL_BYPASS: ${{ secrets.VERCEL_BYPASS }}
+        run: |
+          URL="$TARGET_URL"
+          if [ -n "$VERCEL_BYPASS" ]; then
+            case "$URL" in
+              *\?*) SEP="&" ;;
+              *)    SEP="?" ;;
+            esac
+            URL="${URL}${SEP}x-vercel-protection-bypass=${VERCEL_BYPASS}&x-vercel-set-bypass-cookie=true"
+          fi
+          npx momentic run --url-override "$URL" --labels smoke
 
       - name: Upload results
         if: always()
         run: npx momentic results upload test-results
-
-# ---------------------------------------------------------------------------
-# Vercel Deployment Protection (optional)
-# If preview deployments are password/SSO protected, create a "Protection
-# Bypass for Automation" secret in Vercel, store it as the VERCEL_BYPASS repo
-# secret, and append it to the URL so Momentic can load the page:
-#
-#   - name: Run Momentic smoke tests
-#     env:
-#       TARGET_URL: ${{ steps.target.outputs.url }}
-#       VERCEL_BYPASS: ${{ secrets.VERCEL_BYPASS }}
-#     run: |
-#       npx momentic run \
-#         --url-override "${TARGET_URL}?x-vercel-protection-bypass=${VERCEL_BYPASS}&x-vercel-set-bypass-cookie=true" \
-#         --labels smoke
-# ---------------------------------------------------------------------------

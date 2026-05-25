@@ -21,14 +21,15 @@ Author and edit tests interactively with the Momentic MCP server or the
 
 [`../.github/workflows/momentic.yml`](../.github/workflows/momentic.yml) runs
 the `smoke` label against every Vercel deployment (and on demand via
-**Run workflow**). It needs one repo secret:
+**Run workflow**). Repo secrets:
 
-| Secret | Where to get it |
-| --- | --- |
-| `MOMENTIC_API_KEY` | Momentic dashboard → Settings → API keys |
+| Secret | Required? | Where to get it |
+| --- | --- | --- |
+| `MOMENTIC_API_KEY` | Yes | Momentic dashboard → Settings → API keys |
+| `VERCEL_BYPASS` | If previews are protected | Vercel → Settings → Deployment Protection → "Protection Bypass for Automation" |
 
-If preview deployments are protected, also add `VERCEL_BYPASS` — see the note
-at the bottom of the workflow file.
+When `VERCEL_BYPASS` is set, the workflow automatically appends it to the
+deployment URL so Momentic can load protected previews.
 
 ## Conventions
 
