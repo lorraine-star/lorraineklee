@@ -78,11 +78,15 @@ jobs:
         run: |
           URL="$TARGET_URL"
           if [ -n "$VERCEL_BYPASS" ]; then
+            # URL-encode the secret (in case it has reserved chars) and mask the
+            # encoded form in logs too, since it differs from the raw secret.
+            ENC_BYPASS=$(jq -rn --arg v "$VERCEL_BYPASS" '$v|@uri')
+            echo "::add-mask::$ENC_BYPASS"
             case "$URL" in
               *\?*) SEP="&" ;;
               *)    SEP="?" ;;
             esac
-            URL="${URL}${SEP}x-vercel-protection-bypass=${VERCEL_BYPASS}&x-vercel-set-bypass-cookie=true"
+            URL="${URL}${SEP}x-vercel-protection-bypass=${ENC_BYPASS}&x-vercel-set-bypass-cookie=true"
           fi
           npx momentic run --url-override "$URL" --labels smoke
 
