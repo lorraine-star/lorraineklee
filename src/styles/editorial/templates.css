@@ -3469,6 +3469,64 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   margin: 0 0 18px;
 }
 
+/* Legal pages */
+.legal-hero {
+  padding-bottom: clamp(40px, 5vw, 64px);
+}
+.legal-hero-copy {
+  grid-column: 2 / span 10;
+  max-width: 820px;
+  margin: 0 auto;
+  text-align: center;
+}
+.legal-hero .page-hero-eyebrow {
+  justify-content: center;
+}
+.legal-effective {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-500);
+  margin: 0;
+}
+.legal-section {
+  padding-top: clamp(48px, 6vw, 76px);
+}
+.legal-body {
+  grid-column: 2 / span 10;
+  max-width: 760px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid var(--border-soft);
+  border-radius: 18px;
+  padding: clamp(32px, 5vw, 56px);
+}
+.legal-body h2 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(24px, 2.4vw, 32px);
+  line-height: 1.15;
+  color: var(--ink-900);
+  margin: 34px 0 12px;
+}
+.legal-body h2:first-child {
+  margin-top: 0;
+}
+.legal-body p {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--ink-700);
+  margin: 0 0 18px;
+}
+.legal-body a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
 @media (max-width: 900px) {
   .custom-programs-grid { grid-template-columns: 1fr; gap: 28px; }
   .other-talks-list { grid-template-columns: 1fr; }
@@ -3483,6 +3541,8 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   .speaker-bio-hero { grid-template-columns: 1fr; gap: 28px; }
   .speaker-bio-hero .speaker-bio-headshot { margin: 0 auto; }
   .speaker-bio-body { grid-column: 1 / -1; }
+  .legal-hero-copy,
+  .legal-body { grid-column: 1 / -1; }
 }
 @media (min-width: 600px) and (max-width: 1100px) {
   .attendee-masonry { column-count: 2; }
