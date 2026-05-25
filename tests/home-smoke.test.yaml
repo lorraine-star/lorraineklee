@@ -12,7 +12,7 @@ labels:
 # banner or the delayed course popup (transient UI; see maintainable-tests docs).
 steps:
   - assert: The main hero heading reads "Helping leaders build an unforgettable presence"
-  - assert: Near the top of the hero, a small line of text describes Lorraine K. Lee as a keynote speaker, author, and instructor
+  - assert: Near the top of the hero, an eyebrow line shows the roles "Keynote speaker", "Author", and "Instructor"
   - assert: In the hero, a primary call-to-action link labeled "Work With Me" is visible
   - assert: The hero shows the stat "250k+" captioned "students taught on LinkedIn Learning"
   - assert: A section headed "Unforgettable Presence" promotes the book and shows a "Get your copy" link
