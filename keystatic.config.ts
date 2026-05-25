@@ -642,6 +642,195 @@ export default config({
         body: fields.markdoc({ label: 'Bio body' }),
       },
     }),
+    mediaKit: singleton({
+      label: 'Media Kit',
+      path: 'src/content/media-kit/',
+      schema: {
+        hero: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            headline: fields.text({ label: 'Headline' }),
+            headline_accent: fields.text({
+              label: 'Headline accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead paragraph', multiline: true }),
+            primary_cta_label: fields.text({ label: 'Primary CTA label' }),
+            primary_cta_url: fields.text({ label: 'Primary CTA URL' }),
+            secondary_cta_label: fields.text({
+              label: 'Secondary CTA label',
+            }),
+            secondary_cta_url: fields.text({ label: 'Secondary CTA URL' }),
+            contact_note: fields.text({
+              label: 'Press-contact note (shown under the CTAs, optional)',
+            }),
+            headshot: fields.image({
+              label: 'Headshot',
+              directory: 'public/images/media-kit',
+              publicPath: '/images/media-kit/',
+            }),
+            headshot_alt: fields.text({ label: 'Headshot alt text' }),
+            stat_value: fields.text({
+              label: 'Floating stat value (optional)',
+            }),
+            stat_label: fields.text({
+              label: 'Floating stat label (optional)',
+              multiline: true,
+            }),
+          },
+          { label: 'Hero' }
+        ),
+        quick_facts: fields.array(
+          fields.object({
+            label: fields.text({ label: 'Label' }),
+            value: fields.text({ label: 'Value', multiline: true }),
+          }),
+          {
+            label: 'Quick facts',
+            itemLabel: (props) => props.fields.label.value || 'Fact',
+          }
+        ),
+        bios_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            note: fields.text({
+              label: 'Note (optional)',
+              multiline: true,
+            }),
+          },
+          { label: 'Bios section heading' }
+        ),
+        bios: fields.array(
+          fields.object({
+            length_label: fields.text({
+              label: 'Length label (e.g. "Short — 50 words")',
+            }),
+            text: fields.text({ label: 'Bio text', multiline: true }),
+          }),
+          {
+            label: 'Bio versions',
+            itemLabel: (props) => props.fields.length_label.value || 'Bio',
+          }
+        ),
+        headshots_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+          },
+          { label: 'Headshots section heading' }
+        ),
+        headshots: fields.array(
+          fields.object({
+            image: fields.image({
+              label: 'Headshot',
+              directory: 'public/images/media-kit',
+              publicPath: '/images/media-kit/',
+            }),
+            alt: fields.text({ label: 'Alt text' }),
+            label: fields.text({ label: 'Caption / label' }),
+            download_url: fields.text({
+              label: 'Download / high-res URL (optional)',
+              description:
+                'Falls back to the image itself when left empty.',
+            }),
+          }),
+          {
+            label: 'Approved headshots',
+            itemLabel: (props) => props.fields.label.value || 'Headshot',
+          }
+        ),
+        assets_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+          },
+          { label: 'Brand assets section heading' }
+        ),
+        assets: fields.array(
+          fields.object({
+            label: fields.text({ label: 'Label' }),
+            description: fields.text({
+              label: 'Description (optional)',
+              multiline: true,
+            }),
+            format: fields.text({
+              label: 'Format chip (e.g. PDF, ZIP, JPG — optional)',
+            }),
+            url: fields.text({ label: 'URL' }),
+          }),
+          {
+            label: 'Brand & press assets',
+            itemLabel: (props) => props.fields.label.value || 'Asset',
+          }
+        ),
+        topics_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+          },
+          { label: 'Topics section heading' }
+        ),
+        topics: fields.array(
+          fields.object({
+            title: fields.text({ label: 'Topic' }),
+            description: fields.text({
+              label: 'Description',
+              multiline: true,
+            }),
+          }),
+          {
+            label: 'Speaking & media topics',
+            itemLabel: (props) => props.fields.title.value || 'Topic',
+          }
+        ),
+        press_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+          },
+          { label: 'Featured-in section heading' }
+        ),
+        featured_links: fields.array(
+          fields.object({
+            outlet: fields.text({ label: 'Outlet / publication' }),
+            title: fields.text({ label: 'Headline / segment title' }),
+            url: fields.text({ label: 'URL' }),
+          }),
+          {
+            label: 'Selected featured-in links',
+            itemLabel: (props) => props.fields.outlet.value || 'Feature',
+          }
+        ),
+        final_cta: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            cta_url: fields.text({ label: 'CTA URL' }),
+          },
+          { label: 'Final CTA' }
+        ),
+      },
+    }),
     learn: singleton({
       label: 'Learn',
       path: 'src/content/learn/',

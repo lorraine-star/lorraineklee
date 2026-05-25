@@ -7,6 +7,7 @@
       "permanent": true
     },
 
+    { "source": "/bio-and-headshot", "destination": "/media-kit", "permanent": true },
     { "source": "/consulting-and-coaching", "destination": "/consulting", "permanent": true },
 
     { "source": "/learning-courses", "destination": "/courses", "permanent": true },
