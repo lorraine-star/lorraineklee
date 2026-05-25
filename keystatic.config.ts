@@ -637,6 +637,28 @@ export default config({
         body: fields.markdoc({ label: 'Bio body' }),
       },
     }),
+    privacyPolicy: singleton({
+      label: 'Privacy Policy',
+      path: 'src/content/privacy-policy/',
+      format: { contentField: 'body' },
+      schema: {
+        title: fields.text({
+          label: 'Page title',
+          defaultValue: 'Privacy Policy',
+        }),
+        effective_date: fields.text({
+          label: 'Effective date',
+          defaultValue: 'January 1, 2026',
+        }),
+        description: fields.text({
+          label: 'Meta description',
+          multiline: true,
+          defaultValue:
+            'Privacy Policy for lorraineklee.com, including how personal information is collected, used, and shared.',
+        }),
+        body: fields.markdoc({ label: 'Policy body' }),
+      },
+    }),
     learn: singleton({
       label: 'Learn',
       path: 'src/content/learn/',
