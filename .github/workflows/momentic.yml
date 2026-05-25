@@ -1,0 +1,94 @@
+name: Momentic E2E
+
+# Smoke-tests each deployment with Momentic (https://momentic.ai).
+#
+# How it runs:
+#   • Automatically — when the Vercel GitHub integration reports a successful
+#     deployment (preview on PRs, production on main). The deployment URL is
+#     read from the event and passed to Momentic via --url-override.
+#   • Manually      — via the "Run workflow" button, supplying any URL.
+#
+# One-time setup:
+#   1. Add a repo secret MOMENTIC_API_KEY (Momentic dashboard → API keys).
+#   2. Connect the Vercel ↔ GitHub integration so deployment_status events
+#      fire. Until then, use the manual "Run workflow" button.
+#   3. If preview deployments are protected, see the note at the bottom of
+#      this file to pass a Vercel protection-bypass secret.
+
+on:
+  deployment_status:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "Base URL to smoke-test (e.g. a Vercel preview URL)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Smoke tests
+    # deployment_status fires for every state; only act on successful deploys.
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.deployment_status.state == 'success' }}
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    env:
+      MOMENTIC_API_KEY: ${{ secrets.MOMENTIC_API_KEY }}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install browsers
+        run: npx momentic install-browsers --all
+
+      - name: Resolve target URL
+        id: target
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_URL: ${{ inputs.url }}
+          DEPLOY_URL: ${{ github.event.deployment_status.environment_url }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            echo "url=$INPUT_URL" >> "$GITHUB_OUTPUT"
+          else
+            echo "url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run Momentic smoke tests
+        env:
+          TARGET_URL: ${{ steps.target.outputs.url }}
+        run: npx momentic run --url-override "$TARGET_URL" --labels smoke
+
+      - name: Upload results
+        if: always()
+        run: npx momentic results upload test-results
+
+# ---------------------------------------------------------------------------
+# Vercel Deployment Protection (optional)
+# If preview deployments are password/SSO protected, create a "Protection
+# Bypass for Automation" secret in Vercel, store it as the VERCEL_BYPASS repo
+# secret, and append it to the URL so Momentic can load the page:
+#
+#   - name: Run Momentic smoke tests
+#     env:
+#       TARGET_URL: ${{ steps.target.outputs.url }}
+#       VERCEL_BYPASS: ${{ secrets.VERCEL_BYPASS }}
+#     run: |
+#       npx momentic run \
+#         --url-override "${TARGET_URL}?x-vercel-protection-bypass=${VERCEL_BYPASS}&x-vercel-set-bypass-cookie=true" \
+#         --labels smoke
+# ---------------------------------------------------------------------------
