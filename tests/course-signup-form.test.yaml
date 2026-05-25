@@ -1,0 +1,19 @@
+fileType: momentic/test/v2
+id: 9fc8f446-d79e-453b-aceb-871d2afd0465
+version: 1.0.24
+description: Home free-course signup form submits and shows the success state
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - regression
+# Starts on the home page (auto-navigates to the base URL). Exercises the
+# vanilla-JS email form in the "Join 12,000+ leaders" free-course card.
+steps:
+  - type:
+      text: momentic-smoke@example.com
+      into: the email field in the "Join 12,000+ leaders" free 5-day course signup card (the one with a "Send me Day 1" button)
+      clear: inputs
+  - click: the "Send me Day 1" submit button
+  - assert: The form is replaced by a success state confirming the signup, showing "You're in." and a "Day 1 is on its way" message
