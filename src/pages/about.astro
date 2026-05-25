@@ -113,6 +113,9 @@ const bodyHtml = await renderMarkdoc(about.body);
 							<div class="eyebrow">{h.eyebrow}</div>
 							<div class="highlight-value">{h.value}</div>
 							<div class="highlight-label">{h.label}</div>
+							{h.attribution && (
+								<div class="highlight-attribution">{h.attribution}</div>
+							)}
 						</div>
 					))
 				}
@@ -137,6 +140,10 @@ const bodyHtml = await renderMarkdoc(about.body);
 				{
 					credibility.map((c) => (
 						<div class="credibility-card">
+							<div class="credibility-card-body">
+								<h3>{c.title}</h3>
+								<p>{c.detail}</p>
+							</div>
 							{c.logos && c.logos.length > 0 && (
 								<div
 									class:list={[
@@ -144,13 +151,22 @@ const bodyHtml = await renderMarkdoc(about.body);
 										`credibility-logos--${c.logos.length}`,
 									]}
 								>
-									{c.logos.map((l) => (
-										<img src={l.src} alt={l.alt} />
-									))}
+									{c.logos.map((l) => {
+										const key = l.src.split('/').pop()?.replace(/\.[^.]+$/, '') ?? '';
+										return (
+											<span class:list={['cred-logo-frame', `cred-logo-frame--${key}`]}>
+												<img
+													class:list={['cred-logo', `cred-logo--${key}`]}
+													src={l.src}
+													alt={l.alt}
+													loading="lazy"
+													decoding="async"
+												/>
+											</span>
+										);
+									})}
 								</div>
 							)}
-							<h3>{c.title}</h3>
-							<p>{c.detail}</p>
 						</div>
 					))
 				}
