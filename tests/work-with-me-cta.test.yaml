@@ -11,4 +11,4 @@ labels:
 # Starts on the home page (auto-navigates to the base URL).
 steps:
   - click: the "Work With Me" button in the page header
-  - assert: The contact page loads, showing the heading "Get in touch"
+  - assert: The contact page loads, showing the heading "Get in touch."

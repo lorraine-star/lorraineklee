@@ -10,6 +10,6 @@ labels:
   - smoke
 steps:
   - navigate: /contact
-  - assert: The hero heading reads "Get in touch"
+  - assert: The hero heading reads "Get in touch."
   - assert: A "Press" contact row shows the email press@lorraineklee.com
   - assert: A "Follow along" section with social media links is visible

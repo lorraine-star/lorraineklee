@@ -11,5 +11,5 @@ labels:
 steps:
   - navigate: /about
   - assert: The hero heading reads "About Lorraine"
-  - assert: The intro describes Lorraine as the Amazon #1 bestselling author of "Unforgettable Presence"
+  - assert: The intro describes Lorraine as the Amazon #1 bestselling author of Unforgettable Presence®
   - assert: Primary call-to-action links labeled "Work with me" and "Read the book" are visible

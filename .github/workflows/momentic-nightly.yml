@@ -9,7 +9,7 @@ name: Momentic Nightly
 #   - MOMENTIC_API_KEY (required)
 #   - VERCEL_BYPASS    (if the target is a protected Vercel deployment)
 #   - Optional repo variable MOMENTIC_NIGHTLY_URL to override the default
-#     target (the main branch's Vercel alias).
+#     target (the production domain).
 
 on:
   schedule:
@@ -17,7 +17,7 @@ on:
   workflow_dispatch:
     inputs:
       url:
-        description: "Base URL to test (defaults to MOMENTIC_NIGHTLY_URL, then the main alias)"
+        description: "Base URL to test (defaults to MOMENTIC_NIGHTLY_URL, then the production domain)"
         required: false
         type: string
 
@@ -58,7 +58,7 @@ jobs:
         run: |
           URL="$INPUT_URL"
           [ -z "$URL" ] && URL="$VAR_URL"
-          [ -z "$URL" ] && URL="https://lorraineklee-git-main-ryanflash66s-projects.vercel.app"
+          [ -z "$URL" ] && URL="https://lorraineklee.com"
           echo "url=$URL" >> "$GITHUB_OUTPUT"
 
       - name: Run full Momentic suite

@@ -10,7 +10,7 @@ labels:
   - smoke
 steps:
   - navigate: /speaking
-  - assert: The hero heading reads "Make the room remember"
+  - assert: The hero heading reads "Make the room remember."
   - assert: An eyebrow above the heading reads "Keynotes / Workshops / Custom Programs"
   - assert: A primary call-to-action labeled "Book Lorraine to speak" is visible
   - assert: A stat shows "200+ keynotes delivered since 2018"

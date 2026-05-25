@@ -10,6 +10,6 @@ labels:
   - smoke
 steps:
   - navigate: /learn
-  - assert: The hero heading reads "Learn from Lorraine"
+  - assert: The hero heading reads "Learn from Lorraine."
   - assert: Call-to-action links labeled "Start the free course" and "Browse courses" are visible
   - assert: The page promotes the free 5-day "From Invisible to Influential" email course
