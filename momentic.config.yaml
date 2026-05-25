@@ -1,0 +1,41 @@
+# Momentic project config — https://momentic.ai/docs/configuration/momentic-config
+#
+# Tests live in tests/ and run against a base URL:
+#   • Live site:    npx momentic run --env production
+#   • A deployment: npx momentic run --url-override "<deploy-url>" --labels smoke
+#
+# In CI we pass --url-override with the Vercel deployment URL, which overrides
+# the environment baseUrl below (see .github/workflows/momentic.yml).
+name: lorraineklee
+
+# Discover tests/modules under tests/ only (keeps E2E separate from app code).
+include:
+  - "tests/**/*.test.yaml"
+  - "tests/**/*.module.yaml"
+
+fileFormat: v2
+gitMainBranch: main
+retries: 0
+parallel: 1
+recordVideo: true
+
+browser:
+  autoExpandIframes: true
+
+ai:
+  useMemory: true
+  failureRecovery: true
+  agentConfig:
+    locator: v3
+    assertion: v3
+    visual-assertion: v3
+    text-extraction: v3
+    failure-classification: v1
+    failure-recovery: v2
+
+environments:
+  # Canonical production domain. Once the Astro migration is live here,
+  # `--env production` smoke-tests the real site. CI overrides this per run
+  # with --url-override so each Vercel deployment is tested before merge.
+  - name: production
+    baseUrl: https://lorraineklee.com
