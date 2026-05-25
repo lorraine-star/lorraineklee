@@ -162,6 +162,9 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
+  /* Each card sizes to its own content so expanding one card's dropdown
+     doesn't stretch its row-neighbour into an empty matching-height card. */
+  align-items: start;
 }
 .topic-card {
   background: #fff;
@@ -2800,6 +2803,7 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   border-bottom: 1px solid var(--border-soft);
   text-decoration: none;
   color: inherit;
+  cursor: pointer;
   display: flex;
   align-items: flex-start;
   gap: 14px;
@@ -2945,7 +2949,7 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 .client-marquee-section .marquee {
   display: flex;
   align-items: center;
-  gap: 64px;
+  gap: 16px;
   width: max-content;
   animation: editorial-marquee 64s linear infinite;
   will-change: transform;
@@ -2953,9 +2957,12 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 .client-marquee-section .marquee-mask:hover .marquee {
   animation-play-state: paused;
 }
+/* Fixed-width frames give even spacing regardless of each logo's aspect
+   ratio; the inner cap normalises optical height so wide/tall marks match. */
 .client-logo-frame {
   flex: 0 0 auto;
-  height: 40px;
+  width: 168px;
+  height: 34px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2964,9 +2971,9 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   display: none;
 }
 .client-logo-frame .client-logo {
-  max-height: 40px;
+  max-height: 26px;
   width: auto;
-  max-width: 150px;
+  max-width: 124px;
   object-fit: contain;
   opacity: 0.6;
   filter: grayscale(1);
@@ -2988,6 +2995,11 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 #testimonials .t-quote,
 .attendee-testimonials .t-quote {
   font-weight: 500;
+}
+/* Slow the attendee auto-scroll marquee — the global default (16-22s) reads
+   too fast on Speaking. Overrides the per-column inline --marquee-duration. */
+.attendee-testimonials .secondary-testimonials-track {
+  --marquee-duration: 30s !important;
 }
 .testimonials-cta {
   grid-column: 1 / -1;
