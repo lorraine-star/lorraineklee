@@ -39,7 +39,7 @@ These apply site-wide and are **not** repeated per row below.
 | `/thought-leadership` | **pending** | Thought Leadership (slug change — see CLI-38) |
 | `/testimonials` | **pending** | Testimonials |
 | `/coaching` | **pending** | Coaching |
-| `/consulting` | **pending** | Consulting |
+| `/consulting` | built | Consulting |
 | `/interviews` | built | Guest Interviews + video CMS collection |
 | `/keynotes/[slug]` | **pending** | Keynote detail pages (CMS collection) |
 | `/courses` | built | LinkedIn Learning courses hub + collection |
@@ -64,7 +64,7 @@ go live once that page is built.
 | `/testimonials/` | `/testimonials` ⏳ | preserve | |
 | `/testimonials-old/` | `/testimonials` ⏳ | **301** | Legacy duplicate — consolidate. |
 | `/coaching/` | `/coaching` ⏳ | preserve | |
-| `/consulting/` | `/consulting` ⏳ | preserve | |
+| `/consulting/` | `/consulting` | preserve | Canonical consulting URL. `/consulting-and-coaching/` 301s here (see §10). |
 | `/mentorship/` | `/about` | **301** | Thin page — fold into About unless client wants a standalone page. |
 | `/interviews/` | `/interviews` | preserve | Built (CLI-85). |
 | `/free-resources/` | `/learn` | **301** | |
@@ -216,7 +216,9 @@ services (Maven, ConvertKit/Kit, Google Docs, LinkedIn Learning, booking apps).
 - **Cleanup before porting:**
   - Circular pairs both `enabled` — e.g. `/consulting-and-coaching/` ⇄
     `/consulting/` (rows 17/20), `/training/` → `/trainings/` vs `/speaking-copy/`.
-    Resolve to a single direction.
+    Resolve to a single direction. **Resolved (CLI-84):** `/consulting` is the
+    canonical Astro page; `/consulting-and-coaching/` → `/consulting` (301, live
+    in `vercel.json`).
   - Internal-target rules (e.g. `/learn` → `/subscribe/`, `/featured-in/` →
     `/thought-leadership/`) must be reconciled against Sections 1–9 above so
     WordPress short-links and the Astro sitemap don't disagree. **Conflict

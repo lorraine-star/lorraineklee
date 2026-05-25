@@ -12,23 +12,22 @@ export interface ColumnTestimonial {
 /**
  * A single vertically-scrolling marquee column of testimonial cards.
  *
- * Adapted from the shadcn "testimonials-columns-1" component for this Astro +
- * editorial-design codebase. The scroll is a pure CSS animation (not
- * framer-motion) so it: pauses on hover/focus-within of the marquee (WCAG
- * 2.2.2), disables under prefers-reduced-motion, loops seamlessly without the
- * re-anchoring glitch a JS pause/resume would cause, and needs no client JS.
- * It renders the project's global `.t-card` markup so it stays visually
- * consistent with the rest of the site.
+ * Adapted from the shadcn "testimonials-columns-1" component for this Astro
+ * editorial design codebase. The scroll is a pure CSS animation, disables
+ * under prefers-reduced-motion, loops seamlessly, and renders the project's
+ * global `.t-card` markup so it stays visually consistent with the rest of
+ * the site.
  */
 export const TestimonialsColumn = (props: {
   className?: string;
+  trackClassName?: string;
   testimonials: ColumnTestimonial[];
   duration?: number;
 }) => {
   return (
     <div className={props.className}>
       <div
-        className="course-marquee-track"
+        className={props.trackClassName || 'testimonials-column-track'}
         style={
           { '--marquee-duration': `${props.duration || 16}s` } as React.CSSProperties
         }
@@ -36,7 +35,7 @@ export const TestimonialsColumn = (props: {
         {[...new Array(2)].map((_, index) => (
           <React.Fragment key={index}>
             {props.testimonials.map((t, i) => (
-              // The second pass is a visual duplicate for the seamless loop —
+              // The second pass is a visual duplicate for the seamless loop.
               // hide it from assistive tech so each quote is announced once.
               <figure
                 className="t-card"

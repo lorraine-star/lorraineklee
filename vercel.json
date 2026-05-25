@@ -7,6 +7,8 @@
       "permanent": true
     },
 
+    { "source": "/consulting-and-coaching", "destination": "/consulting", "permanent": true },
+
     { "source": "/learning-courses", "destination": "/courses", "permanent": true },
     { "source": "/linkedin-learning-courses", "destination": "/courses", "permanent": true },
     { "source": "/linkedin-courses", "destination": "/courses", "permanent": true },

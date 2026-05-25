@@ -1195,9 +1195,9 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 }
 .about-hero-photo img {
   width: 100%;
-  height: 105%;
-  object-fit: contain;
-  object-position: center bottom;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
 }
 .about-hero-photo .floating-card {
   position: absolute;
@@ -1502,6 +1502,26 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   text-transform: uppercase;
   color: var(--ink-500);
   margin-top: 8px;
+  /* Guaranteed breathing room above the attribution pill. Pairs with the
+     pill's margin-top:auto: this sets the minimum gap, auto absorbs any
+     extra slack so pills still bottom-align when a value wraps. */
+  margin-bottom: 18px;
+}
+/* Attribution tag — what the award/honor recognizes. Pinned to the card
+   bottom (margin-top:auto) so the pills align across the row; gold pill keys
+   off the card's local --gold-* tokens to match the highlight theme. */
+.highlight-attribution {
+  margin-top: auto;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: rgba(201, 162, 39, 0.1);
+  border: 1px solid var(--gold-soft);
+  color: var(--gold-deep);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 /* ----- Credibility grid (About page) ----- */
@@ -1516,28 +1536,24 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   background: #fff;
   border: 1px solid var(--border-soft);
   border-radius: 14px;
-  padding: 28px 26px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 280ms var(--ease-out), box-shadow 280ms var(--ease-out);
+}
+.credibility-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+/* Content zone (top): heading + body. Grows so the logo footer sits flush
+   to the card bottom and aligns across cards of differing height. */
+.credibility-card-body {
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-.credibility-logos {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 18px;
-  min-height: 38px;
-  margin-bottom: 6px;
-}
-.credibility-logos img {
-  max-height: 28px;
-  max-width: 110px;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-}
-.credibility-logos--1 img {
-  max-height: 32px;
+  padding: 28px 26px 22px;
 }
 .credibility-card h3 {
   font-family: var(--font-serif);
@@ -1555,6 +1571,61 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   color: var(--ink-700);
   margin: 0;
 }
+/* Logo zone (bottom): a distinct, centered "proof" footer, segmented from
+   the content above by a hairline border + faint paper tint. */
+.credibility-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  column-gap: 24px;
+  row-gap: 14px;
+  padding: 16px 22px;
+  border-top: 1px solid var(--border-soft);
+  background: var(--paper);
+}
+/* Fixed-height frame so every mark reads at the same optical size,
+   regardless of its intrinsic aspect ratio (mixed png + svg). */
+.cred-logo-frame {
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.cred-logo {
+  /* Every mark is now a compact brand symbol/icon, so a uniform height + a
+     tight width cap keeps them all at the same small optical size. Definite
+     height (not max-height) so SVGs without intrinsic dimensions still size. */
+  height: 22px;
+  width: auto;
+  max-width: 46px;
+  object-fit: contain;
+  display: block;
+  /* Muted by default so logos read as supporting proof, not headline.
+     0.74 + grayscale matches the press-mark treatment in TrustAsSeenIn. */
+  opacity: 0.74;
+  filter: grayscale(1);
+  transition: opacity 240ms var(--ease-out), filter 240ms var(--ease-out);
+}
+.credibility-card:hover .cred-logo {
+  opacity: 1;
+  filter: grayscale(0);
+}
+/* Per-asset optical normalization. Mixed png/svg marks don't share an ink
+   weight or aspect ratio, so the outliers are nudged here — mirrors the
+   press-mark--<id> convention in TrustAsSeenIn.astro. Tuned against the
+   rendered page (luminance + bounding box measured in-browser). */
+
+/* MasterClass symbol ("M") only ships in a light (white) variant, which is
+   invisible on the light footer — invert it to dark ink. grayscale(1) then
+   invert(1) turns the white mark black; hover keeps the invert. */
+.cred-logo--masterclass {
+  filter: grayscale(1) invert(1);
+}
+.credibility-card:hover .cred-logo--masterclass { filter: invert(1); }
+
+/* Light-toned award badge — lift opacity so it doesn't wash out at grayscale. */
+.cred-logo--asian-creator-awards { opacity: 0.9; }
 
 /* ----- Final CTA cards ----- */
 .about-final {
