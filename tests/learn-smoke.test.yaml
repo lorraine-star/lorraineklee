@@ -1,0 +1,15 @@
+fileType: momentic/test/v2
+id: d4e31977-2d90-42ad-966a-1993ec51c84d
+version: 1.0.24
+description: Learn page smoke test — hero, CTAs, and free-course offer render
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - smoke
+steps:
+  - navigate: /learn
+  - assert: The hero heading reads "Learn from Lorraine."
+  - assert: Call-to-action links labeled "Start the free course" and "Browse courses" are visible
+  - assert: The page promotes the free 5-day "From Invisible to Influential" email course
