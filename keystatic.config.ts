@@ -655,12 +655,22 @@ export default config({
               label: 'Secondary CTA label',
             }),
             secondary_cta_url: fields.text({ label: 'Secondary CTA URL' }),
+            contact_note: fields.text({
+              label: 'Press-contact note (shown under the CTAs, optional)',
+            }),
             headshot: fields.image({
               label: 'Headshot',
               directory: 'public/images/media-kit',
               publicPath: '/images/media-kit/',
             }),
             headshot_alt: fields.text({ label: 'Headshot alt text' }),
+            stat_value: fields.text({
+              label: 'Floating stat value (optional)',
+            }),
+            stat_label: fields.text({
+              label: 'Floating stat label (optional)',
+              multiline: true,
+            }),
           },
           { label: 'Hero' }
         ),
@@ -746,6 +756,9 @@ export default config({
             description: fields.text({
               label: 'Description (optional)',
               multiline: true,
+            }),
+            format: fields.text({
+              label: 'Format chip (e.g. PDF, ZIP, JPG — optional)',
             }),
             url: fields.text({ label: 'URL' }),
           }),

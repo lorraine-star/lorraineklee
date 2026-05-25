@@ -10,8 +10,11 @@ hero:
   primary_cta_url: /contact
   secondary_cta_label: Email press
   secondary_cta_url: 'mailto:press@lorraineklee.com'
+  contact_note: 'Press & media: press@lorraineklee.com · Typical lead time 8–14 weeks'
   headshot: /images/media-kit/lorraine-headshot.png
   headshot_alt: Headshot of Lorraine K. Lee
+  stat_value: 200+
+  stat_label: keynotes delivered for Cisco, Google, Zoom & more
 quick_facts:
   - label: Full name
     value: Lorraine K. Lee
@@ -101,17 +104,21 @@ assets_section:
   heading: Logos &
   heading_accent: downloads.
 assets:
-  - label: Speaker one-pager (PDF)
+  - label: Speaker one-pager
     description: Bio, headshot, top talks, and booking details on a single page.
+    format: PDF
     url: '#'
   - label: High-resolution headshot pack
     description: Print-quality JPEGs, suitable for event programs and press.
+    format: ZIP
     url: /images/media-kit/lorraine-headshot.png
   - label: Logo files
     description: Lorraine K. Lee wordmark, on light and dark backgrounds.
+    format: SVG
     url: '#'
   - label: Book cover — Unforgettable Presence®
     description: High-resolution cover art for the Amazon #1 bestseller.
+    format: JPG
     url: /book
 topics_section:
   eyebrow: Topics
