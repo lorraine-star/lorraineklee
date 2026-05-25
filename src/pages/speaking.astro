@@ -502,7 +502,9 @@ const clientsLen = past_clients?.length ?? 0;
 				)}
 			</div>
 		</div>
-		<HomeTestimonialsCarousel client:load testimonials={organizerCarousel} />
+		<div class="grid12">
+			<HomeTestimonialsCarousel client:load testimonials={organizerCarousel} />
+		</div>
 		<div class="grid12">
 			<div class="testimonials-cta reveal">
 				<a
