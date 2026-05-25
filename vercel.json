@@ -57,6 +57,11 @@
     { "source": "/linkedin-courses/virtual-and-hybrid-meeting-essentials-2", "destination": "/courses/virtual-and-hybrid-meeting-essentials", "permanent": true },
 
     { "source": "/linkedin-courses/nano-tips-for-navigating-life-after-layoff-with-lorraine-k-lee", "destination": "/courses/navigating-life-after-layoff", "permanent": true },
-    { "source": "/linkedin-courses/nano-tips-for-navigating-life-after-a-layoff", "destination": "/courses/navigating-life-after-layoff", "permanent": true }
+    { "source": "/linkedin-courses/nano-tips-for-navigating-life-after-a-layoff", "destination": "/courses/navigating-life-after-layoff", "permanent": true },
+
+    { "source": "/youtube-video/hacks-to-tackle-gender-equality-at-work", "destination": "/interviews", "permanent": true },
+    { "source": "/youtube-video/former-focus-brands-cinnabon-jamba-brands-etc-coo-and-president-kat-cole", "destination": "/interviews", "permanent": true },
+    { "source": "/youtube-video/an-interview-with-chelsea-clinton", "destination": "/interviews", "permanent": true },
+    { "source": "/youtube-video/actor-justin-baldoni", "destination": "/interviews", "permanent": true }
   ]
 }

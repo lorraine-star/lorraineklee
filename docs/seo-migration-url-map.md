@@ -40,7 +40,7 @@ These apply site-wide and are **not** repeated per row below.
 | `/testimonials` | **pending** | Testimonials |
 | `/coaching` | **pending** | Coaching |
 | `/consulting` | built | Consulting |
-| `/interviews` | **pending** | Guest Interviews |
+| `/interviews` | built | Guest Interviews + video CMS collection |
 | `/keynotes/[slug]` | **pending** | Keynote detail pages (CMS collection) |
 | `/courses` | built | LinkedIn Learning courses hub + collection |
 | `/courses/[slug]` | built | Individual LinkedIn Learning courses (CMS collection) |
@@ -66,7 +66,7 @@ go live once that page is built.
 | `/coaching/` | `/coaching` ⏳ | preserve | |
 | `/consulting/` | `/consulting` | preserve | Canonical consulting URL. `/consulting-and-coaching/` 301s here (see §10). |
 | `/mentorship/` | `/about` | **301** | Thin page — fold into About unless client wants a standalone page. |
-| `/interviews/` | `/interviews` ⏳ | preserve | |
+| `/interviews/` | `/interviews` | preserve | Built (CLI-85). |
 | `/free-resources/` | `/learn` | **301** | |
 | `/subscribe/` | `/learn` | **301** | |
 | `/unforgettable-presence/` | `/book` | **301** | Astro book page lives at `/book`. |
@@ -155,7 +155,7 @@ topic slug (e.g. `/courses/better-business-writing`). All 27 WordPress slugs
 | WordPress URL pattern | Target Astro URL | Strategy | Notes |
 |---|---|---|---|
 | `/testimonial/{slug}/` (9 URLs) | `/testimonials` ⏳ | **301** | Convert to CMS collection rendered on the Testimonials page. |
-| `/youtube-video/{slug}/` (4 URLs) | `/interviews` ⏳ | **301** | Convert to CMS collection on Interviews. |
+| `/youtube-video/{slug}/` (4 URLs) | `/interviews` | **301** | Done (CLI-85): converted to the Interviews CMS collection; all 4 slugs 301 to `/interviews` in `vercel.json`. |
 
 ## 7. Archive / taxonomy / author routes
 
