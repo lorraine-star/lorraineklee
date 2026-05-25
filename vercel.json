@@ -36,6 +36,7 @@
     { "source": "/keynote/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "destination": "/keynotes/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "permanent": true },
     { "source": "/keynotes_v2/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "destination": "/keynotes/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "permanent": true },
 
+    { "source": "/bio-and-headshot", "destination": "/media-kit", "permanent": true },
     { "source": "/consulting-and-coaching", "destination": "/consulting", "permanent": true },
 
     { "source": "/learning-courses", "destination": "/courses", "permanent": true },
@@ -85,6 +86,11 @@
     { "source": "/linkedin-courses/virtual-and-hybrid-meeting-essentials-2", "destination": "/courses/virtual-and-hybrid-meeting-essentials", "permanent": true },
 
     { "source": "/linkedin-courses/nano-tips-for-navigating-life-after-layoff-with-lorraine-k-lee", "destination": "/courses/navigating-life-after-layoff", "permanent": true },
-    { "source": "/linkedin-courses/nano-tips-for-navigating-life-after-a-layoff", "destination": "/courses/navigating-life-after-layoff", "permanent": true }
+    { "source": "/linkedin-courses/nano-tips-for-navigating-life-after-a-layoff", "destination": "/courses/navigating-life-after-layoff", "permanent": true },
+
+    { "source": "/youtube-video/hacks-to-tackle-gender-equality-at-work", "destination": "/interviews", "permanent": true },
+    { "source": "/youtube-video/former-focus-brands-cinnabon-jamba-brands-etc-coo-and-president-kat-cole", "destination": "/interviews", "permanent": true },
+    { "source": "/youtube-video/an-interview-with-chelsea-clinton", "destination": "/interviews", "permanent": true },
+    { "source": "/youtube-video/actor-justin-baldoni", "destination": "/interviews", "permanent": true }
   ]
 }
