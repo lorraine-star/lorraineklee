@@ -1,0 +1,19 @@
+fileType: momentic/test/v2
+id: 7ef2c9fc-e570-4a0a-b003-ccf4477bce72
+version: 1.0.24
+description: Homepage smoke test — hero, primary CTA, and key sections render
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - smoke
+# Assertions target durable, prerendered content only — not the dismissible
+# banner or the delayed course popup (transient UI; see maintainable-tests docs).
+steps:
+  - assert: The main hero heading reads "Helping leaders build an unforgettable presence"
+  - assert: Near the top of the hero, a small line of text describes Lorraine K. Lee as a keynote speaker, author, and instructor
+  - assert: In the hero, a primary call-to-action link labeled "Work With Me" is visible
+  - assert: The hero shows the stat "250k+" captioned "students taught on LinkedIn Learning"
+  - assert: A section headed "Unforgettable Presence" promotes the book and shows a "Get your copy" link
+  - assert: The footer's "Explore" list links to About, Speaking, Learn, The Book, and Contact
