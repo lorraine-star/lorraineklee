@@ -1,0 +1,68 @@
+---
+/**
+ * Global student testimonials section.
+ *
+ * Canonical markup for LinkedIn Learning student reviews. Edit this component
+ * when the course testimonials section needs to change.
+ */
+import SecondaryTestimonialsCarousel from './SecondaryTestimonialsCarousel.tsx';
+import { reader } from '../lib/keystatic';
+
+interface Props {
+	id?: string;
+	testimonialsSection?: {
+		eyebrow: string;
+		heading: string;
+		heading_accent: string;
+	};
+	testimonials?: {
+		quote: string;
+		name: string;
+		initials: string;
+		photo?: string;
+		photo_alt?: string;
+	}[];
+}
+
+const {
+	id = 'testimonials',
+	testimonialsSection: testimonialsSectionProp,
+	testimonials: testimonialsProp,
+} = Astro.props;
+
+let testimonialsSection = testimonialsSectionProp;
+let testimonials = testimonialsProp;
+
+if (!testimonialsSection || !testimonials) {
+	const page = await reader.singletons.coursesPage.read();
+	if (!page) {
+		throw new Error('Missing courses page content (src/content/courses-page/index.yaml)');
+	}
+
+	testimonialsSection = testimonialsSection ?? page.testimonials_section;
+	testimonials = testimonials ?? page.testimonials;
+}
+
+const hasTestimonials = testimonials && testimonials.length > 0;
+---
+
+{
+	hasTestimonials && (
+		<section
+			class="section section--tight anchor-target"
+			id={id}
+			data-global-section="student-testimonials"
+		>
+			<div class="grid12">
+				<div class="section-head section-head--center">
+					<span class="eyebrow">{testimonialsSection.eyebrow}</span>
+					<h2>
+						{testimonialsSection.heading}{' '}
+						<em>{testimonialsSection.heading_accent}</em>
+					</h2>
+				</div>
+				<SecondaryTestimonialsCarousel client:visible testimonials={testimonials} />
+			</div>
+		</section>
+	)
+}
