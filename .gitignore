@@ -30,6 +30,10 @@ pnpm-debug.log*
 # vercel
 .vercel
 
+# momentic e2e
+test-results/
+.momentic-mcp/
+
 # local-only design references & packaging archives
 Samples/
 Lorraine Logos/
