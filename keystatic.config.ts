@@ -136,6 +136,11 @@ export default config({
             eyebrow: fields.text({ label: 'Eyebrow' }),
             value: fields.text({ label: 'Value (large display text)' }),
             label: fields.text({ label: 'Label (caption under value)' }),
+            attribution: fields.text({
+              label: 'Attribution tag',
+              description:
+                'Short tag shown at the bottom of the card — what this award/honor recognizes. E.g. "For her newsletter". Leave empty to hide.',
+            }),
           }),
           {
             label: 'Career highlights',
