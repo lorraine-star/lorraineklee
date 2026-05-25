@@ -1,0 +1,305 @@
+---
+import SpeakingLayout from '../layouts/SpeakingLayout.astro';
+import { reader } from '../lib/keystatic';
+import { safeUrl } from '../lib/url';
+
+const consulting = await reader.singletons.consulting.read();
+if (!consulting) {
+	throw new Error('Missing consulting content (src/content/consulting/index.yaml)');
+}
+
+const {
+	hero,
+	services_section,
+	services,
+	testimonials_section,
+	testimonials,
+	audience_section,
+	audience_points,
+	final_cta,
+} = consulting;
+
+const isExternal = (url: string) => /^https?:\/\//i.test(url);
+const primaryCtaUrl = safeUrl(hero.primary_cta_url) || '/contact';
+const secondaryCtaUrl = safeUrl(hero.secondary_cta_url) || '#services';
+const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
+---
+
+<SpeakingLayout
+	title="Consulting | Lorraine K. Lee"
+	description={hero.lead}
+	activeId="consulting"
+>
+	{/* ---------- Hero ---------- */}
+	<section class="page-hero page-hero--center">
+		<div class="grid12 page-hero-grid">
+			<div class="page-hero-copy fade-up">
+				<div class="page-hero-eyebrow">
+					<span class="dot"></span>
+					<span class="eyebrow" style="color: var(--ink-500);">
+						{hero.eyebrow}
+					</span>
+				</div>
+				<h1>{hero.headline} <em>{hero.headline_accent}</em></h1>
+				<p class="lead-large">{hero.lead}</p>
+				<div class="hero-cta-row">
+					<a
+						class="btn primary large"
+						href={primaryCtaUrl}
+						target={isExternal(primaryCtaUrl) ? '_blank' : undefined}
+						rel={isExternal(primaryCtaUrl) ? 'noopener noreferrer' : undefined}
+					>
+						{hero.primary_cta_label} <span aria-hidden="true">&rarr;</span>
+					</a>
+					{
+						hero.secondary_cta_label && (
+							<a class="anchor-link" href={secondaryCtaUrl}>
+								{hero.secondary_cta_label}{' '}
+								<span class="arrow" aria-hidden="true">&rarr;</span>
+							</a>
+						)
+					}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Services ---------- */}
+	<section class="section section--cream anchor-target" id="services">
+		<div class="grid12">
+			<div class="section-head section-head--center">
+				<span class="eyebrow">{services_section.eyebrow}</span>
+				<h2>
+					{services_section.heading}{' '}
+					<em>{services_section.heading_accent}</em>
+				</h2>
+				{services_section.lead && (
+					<p class="lead">{services_section.lead}</p>
+				)}
+			</div>
+			<div class="consult-services reveal-stagger">
+				{
+					services.map((s, i) => (
+						<article class="consult-card">
+							<span class="consult-card-num" aria-hidden="true">
+								{String(i + 1).padStart(2, '0')}
+							</span>
+							<h3 class="consult-card-title">{s.title}</h3>
+							<p class="consult-card-desc">{s.description}</p>
+						</article>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Testimonials ---------- */}
+	{
+		testimonials?.length > 0 && (
+			<section class="section section--tight">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{testimonials_section.eyebrow}</span>
+						<h2>
+							{testimonials_section.heading}{' '}
+							<em>{testimonials_section.heading_accent}</em>
+						</h2>
+					</div>
+					<div class="consult-quotes reveal-stagger">
+						{testimonials.map((t) => (
+							<figure class="consult-quote">
+								<blockquote>“{t.quote}”</blockquote>
+								<figcaption>
+									<span class="consult-quote-author">{t.author}</span>
+									{t.title && (
+										<span class="consult-quote-role">{t.title}</span>
+									)}
+								</figcaption>
+							</figure>
+						))}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Who this is for ---------- */}
+	{
+		audience_points?.length > 0 && (
+			<section class="section section--cream">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{audience_section.eyebrow}</span>
+						<h2>
+							{audience_section.heading}{' '}
+							<em>{audience_section.heading_accent}</em>
+						</h2>
+						{audience_section.lead && (
+							<p class="lead">{audience_section.lead}</p>
+						)}
+					</div>
+					<ul class="consult-audience reveal-stagger">
+						{audience_points.map((point) => (
+							<li class="consult-audience-item">
+								<span class="consult-check" aria-hidden="true">
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+										<polyline points="20 6 9 17 4 12" />
+									</svg>
+								</span>
+								<span>{point}</span>
+							</li>
+						))}
+					</ul>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Final CTA ---------- */}
+	<section class="section">
+		<div class="grid12">
+			<div class="final-cta">
+				<div class="final-cta-inner">
+					<span class="eyebrow">{final_cta.eyebrow}</span>
+					<h2>
+						{final_cta.heading} <em>{final_cta.heading_accent}</em>
+					</h2>
+					<p>{final_cta.body}</p>
+					<a
+						class="btn yellow large"
+						href={finalCtaUrl}
+						target={isExternal(finalCtaUrl) ? '_blank' : undefined}
+						rel={isExternal(finalCtaUrl) ? 'noopener noreferrer' : undefined}
+					>
+						{final_cta.cta_label} <span aria-hidden="true">&rarr;</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</SpeakingLayout>
+
+<style>
+	/* Services — numbered editorial cards. */
+	.consult-services {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+		gap: clamp(16px, 2vw, 24px);
+		margin-top: clamp(28px, 4vw, 44px);
+	}
+	.consult-card {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		background: var(--bg-card);
+		border: 1px solid var(--border-soft);
+		border-radius: var(--radius-2xl);
+		padding: clamp(24px, 3vw, 34px);
+		box-shadow: 0 18px 44px -34px rgba(14, 21, 48, 0.4);
+		transition: transform 0.25s ease, box-shadow 0.25s ease;
+	}
+	.consult-card:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 26px 56px -36px rgba(14, 21, 48, 0.5);
+	}
+	.consult-card-num {
+		font-family: var(--font-mono, monospace);
+		font-size: 13px;
+		font-weight: 500;
+		letter-spacing: 0.12em;
+		color: var(--accent);
+	}
+	.consult-card-title {
+		font-family: var(--font-serif);
+		font-weight: 600;
+		font-size: clamp(20px, 2.2vw, 25px);
+		line-height: 1.18;
+		letter-spacing: -0.01em;
+		color: var(--ink-900);
+		margin: 0;
+	}
+	.consult-card-desc {
+		font-family: var(--font-sans);
+		font-size: 15.5px;
+		line-height: 1.62;
+		color: var(--ink-700);
+		margin: 0;
+	}
+
+	/* Testimonials — paired quote cards. */
+	.consult-quotes {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr));
+		gap: clamp(16px, 2vw, 24px);
+		margin-top: clamp(24px, 3vw, 40px);
+	}
+	.consult-quote {
+		margin: 0;
+		background: var(--paper-deep);
+		border: 1px solid var(--border-soft);
+		border-radius: var(--radius-2xl);
+		padding: clamp(26px, 3vw, 38px);
+	}
+	.consult-quote blockquote {
+		font-family: var(--font-serif);
+		font-size: clamp(18px, 2vw, 22px);
+		line-height: 1.5;
+		color: var(--ink-900);
+		margin: 0 0 20px;
+	}
+	.consult-quote figcaption {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+	.consult-quote-author {
+		font-family: var(--font-sans);
+		font-weight: 700;
+		font-size: 15px;
+		color: var(--ink-900);
+	}
+	.consult-quote-role {
+		font-family: var(--font-sans);
+		font-size: 13px;
+		color: var(--ink-500);
+	}
+
+	/* Who this is for — checklist. */
+	.consult-audience {
+		grid-column: 1 / -1;
+		list-style: none;
+		margin: clamp(24px, 3vw, 40px) auto 0;
+		padding: 0;
+		max-width: 720px;
+		display: grid;
+		gap: 14px;
+	}
+	.consult-audience-item {
+		display: flex;
+		align-items: flex-start;
+		gap: 14px;
+		font-family: var(--font-sans);
+		font-size: 16.5px;
+		line-height: 1.5;
+		color: var(--ink-700);
+	}
+	.consult-check {
+		flex: none;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 26px;
+		height: 26px;
+		border-radius: 999px;
+		background: var(--brand-yellow-500);
+		color: var(--ink-900);
+		margin-top: 1px;
+	}
+	.consult-check svg {
+		width: 15px;
+		height: 15px;
+	}
+</style>

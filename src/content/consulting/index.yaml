@@ -1,0 +1,91 @@
+hero:
+  eyebrow: Consulting
+  headline: Strategic support for your
+  headline_accent: leaders.
+  lead: >-
+    Get personalized support from Lorraine for your C-Suite, team, or
+    organization on a wide range of topics.
+  primary_cta_label: Get in touch with Lorraine
+  primary_cta_url: /contact
+  secondary_cta_label: Explore services
+  secondary_cta_url: '#services'
+services_section:
+  eyebrow: Services
+  heading: Ways to work
+  heading_accent: together.
+  lead: >-
+    Engagements are tailored to your goals — from a single executive to an
+    entire leadership team.
+services:
+  - title: LinkedIn C-Suite Strategy
+    description: >-
+      Create a LinkedIn strategy for your C-Suite and executive leadership team
+      to build out their thought leadership and executive presence. With a
+      proper LinkedIn strategy in place, your team can see benefits such as more
+      speaking engagements, press, and industry visibility. Move beyond the
+      profile (although that's still important, too), and build a content
+      strategy that gets you seen.
+  - title: Content Strategy
+    description: >-
+      Tap into Lorraine's 10+ years of experience at the intersection of
+      editorial and tech to build a content strategy that builds brand
+      favorability and awareness organically. Lorraine has led editorial teams
+      at companies including LinkedIn, SlideShare, and Prezi.
+  - title: Prezi Presentations
+    description: >-
+      Collaborate with Lorraine to create Prezi presentations that will help you
+      stand out in-person and virtually — all while capturing audience
+      attention, from board members and employees to prospects and
+      decision-makers.
+  - title: Improve Meeting Culture
+    description: >-
+      Lorraine is the creator of two popular LinkedIn Learning courses about how
+      to have better virtual and hybrid meetings (more than 30,000+ learners),
+      and is the author of Prezi's Meeting Guidebook, which has seen thousands of
+      organic downloads. Lorraine has shared her expertise on how to have better
+      meetings with companies including Zoom and Cisco.
+  - title: Public Speaking
+    description: >-
+      Looking to conquer a fear greater than death? Train your executives and
+      leaders to speak with confidence and connect with their audience virtually
+      whether they're speaking at an all-hands meeting, giving a board update, or
+      pitching their startup.
+testimonials_section:
+  eyebrow: Testimonials
+  heading: What clients
+  heading_accent: say.
+testimonials:
+  - quote: >-
+      Throughout the entire process of developing the DRIVEN prototype, Lorraine
+      has been an instrumental force of guidance on everything from Prezi
+      software to positioning actors for webcams and lighting.
+    author: Alexandra Levit
+    title: Workforce Futurist, WSJ Columnist, Int'l Bestselling Author
+  - quote: >-
+      She has a proven track record of building brand presence on LinkedIn from
+      the ground up, and was able to guide me to focus on approaches that
+      maximize ROI.
+    author: Katie Kwon
+    title: Marketing @ Magic Eden
+audience_section:
+  eyebrow: Who I work with
+  heading: Built for professionals who
+  heading_accent: stand out.
+  lead: For ambitious, career-driven professionals and teams who…
+audience_points:
+  - >-
+    Know where they want to go but are having trouble figuring out the tactical
+    steps
+  - Feel unnoticed by senior leaders and peers
+  - Want to stop fading into the background of their careers
+  - Want to grow beyond their job title and build presence outside office walls
+  - Love to learn and internalize new skills that help them stand out
+final_cta:
+  eyebrow: Let's talk
+  heading: Ready to elevate your
+  heading_accent: presence?
+  body: >-
+    Tell Lorraine about your team and goals, and she'll be in touch to find the
+    right way to work together.
+  cta_label: Get in touch with Lorraine
+  cta_url: /contact

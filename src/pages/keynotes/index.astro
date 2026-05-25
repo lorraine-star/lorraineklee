@@ -1,0 +1,99 @@
+---
+import SpeakingLayout from '../../layouts/SpeakingLayout.astro';
+import { reader } from '../../lib/keystatic';
+
+const all = await reader.collections.keynotes.all();
+const keynotes = all
+	.map((k) => ({ slug: k.slug, ...k.entry }))
+	.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+const lead =
+	"Lorraine delivers keynotes and workshops on communication, executive " +
+	"presence, leadership, and showing up powerfully in a hybrid, virtual world. " +
+	"Every talk is tailored to the room and built to send people back to work " +
+	"with something they can use Monday morning.";
+
+const numbered = keynotes.map((k, i) => ({
+	...k,
+	number: String(i + 1).padStart(2, '0'),
+}));
+---
+
+<SpeakingLayout
+	title="Keynotes & Talks | Lorraine K. Lee"
+	description={lead}
+	activeId="speaking"
+>
+	{/* ---------- Hero ---------- */}
+	<section class="page-hero page-hero--center">
+		<div class="grid12 page-hero-grid">
+			<div class="page-hero-copy fade-up">
+				<div class="page-hero-eyebrow">
+					<span class="dot"></span>
+					<span class="eyebrow" style="color: var(--ink-500);">
+						Keynotes & Talks
+					</span>
+				</div>
+				<h1>Talks that make people <em>lean in.</em></h1>
+				<p class="lead-large">{lead}</p>
+				<div class="hero-cta-row">
+					<a class="btn primary large" href="/contact">
+						Book Lorraine to speak <span aria-hidden="true">&rarr;</span>
+					</a>
+					<a class="anchor-link" href="#keynotes">
+						Browse keynotes <span class="arrow" aria-hidden="true">&rarr;</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Keynote catalog ---------- */}
+	<section class="section section--cream anchor-target" id="keynotes">
+		<div class="grid12">
+			<div class="section-head section-head--center">
+				<span class="eyebrow">The catalog</span>
+				<h2>Signature <em>keynotes.</em></h2>
+			</div>
+			<div class="topic-grid reveal-stagger">
+				{
+					numbered.map((k) => (
+						<a class="topic-card" href={`/keynotes/${k.slug}`}>
+							<div class="topic-num">&#8470; {k.number}</div>
+							<h3>{k.title}</h3>
+							<p class="topic-desc">{k.description}</p>
+							<div class="topic-meta">
+								<span>{k.format}</span>
+								<span class="topic-watch" style="margin-left: auto;">
+									View talk <span class="arrow">&rarr;</span>
+								</span>
+							</div>
+						</a>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Final CTA ---------- */}
+	<section class="section">
+		<div class="grid12">
+			<div class="final-cta">
+				<div class="final-cta-inner">
+					<span class="eyebrow">Bring Lorraine to your stage</span>
+					<h2>
+						Looking for the right talk <em>for your audience?</em>
+					</h2>
+					<p>
+						Every keynote is customized to your event, your team, and the moment
+						your organization is in. Tell Lorraine what you need and she'll shape
+						a talk around it.
+					</p>
+					<a class="btn yellow large" href="/contact">
+						Check availability <span aria-hidden="true">&rarr;</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</SpeakingLayout>
