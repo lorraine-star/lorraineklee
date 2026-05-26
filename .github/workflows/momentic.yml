@@ -5,12 +5,8 @@ name: Momentic E2E
 # How it runs:
 #   • Automatically — when the Vercel GitHub integration reports a successful
 #     deployment (preview on PRs, production on main). The deployment URL is
-#     read from the event and passed to Momentic via --url-override. Automatic
-#     runs execute only the fast `smoke` label so every deploy stays quick.
-#   • Manually      — via the "Run workflow" button, supplying any URL. The
-#     optional "labels" input picks which tests run: e.g. `regression` for the
-#     broader page-coverage suite, `smoke` for criticals, or leave it blank to
-#     run the entire test suite.
+#     read from the event and passed to Momentic via --url-override.
+#   • Manually      — via the "Run workflow" button, supplying any URL.
 #
 # One-time setup:
 #   1. Add a repo secret MOMENTIC_API_KEY (Momentic dashboard → API keys).
@@ -25,14 +21,9 @@ on:
   workflow_dispatch:
     inputs:
       url:
-        description: "Base URL to test (e.g. a Vercel preview URL)"
+        description: "Base URL to smoke-test (e.g. a Vercel preview URL)"
         required: true
         type: string
-      labels:
-        description: "Label filter (e.g. smoke or regression). Leave blank to run all tests."
-        required: false
-        type: string
-        default: ""
 
 permissions:
   contents: read
@@ -78,35 +69,9 @@ jobs:
             echo "url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Resolve label filter
-        id: labels
-        env:
-          EVENT_NAME: ${{ github.event_name }}
-          INPUT_LABELS: ${{ inputs.labels }}
-        run: |
-          # Automatic (deployment_status) runs stay fast: smoke only.
-          # Manual runs honor the optional labels input; blank = run all tests.
-          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
-            LABEL="$INPUT_LABELS"
-          else
-            LABEL="smoke"
-          fi
-          # The labels input is operator-supplied, so validate it against an
-          # allowlist before it reaches the shell: simple tokens (letters,
-          # digits, _, -) optionally comma-separated. This blocks shell
-          # metacharacters and any newline that could inject extra
-          # $GITHUB_OUTPUT entries. The value is later passed quoted as a single
-          # --labels argument (see the run step), never word-split.
-          if [ -n "$LABEL" ] && ! printf '%s' "$LABEL" | grep -Eq '^[A-Za-z0-9_,-]+$'; then
-            echo "::error::Invalid labels input '$LABEL'. Allowed: letters, digits, _, -, and commas." >&2
-            exit 1
-          fi
-          echo "label=$LABEL" >> "$GITHUB_OUTPUT"
-
-      - name: Run Momentic tests
+      - name: Run Momentic smoke tests
         env:
           TARGET_URL: ${{ steps.target.outputs.url }}
-          LABEL: ${{ steps.labels.outputs.label }}
           # Set this secret only if Vercel deployment protection is enabled;
           # when present it's appended so the protected deployment loads.
           VERCEL_BYPASS: ${{ secrets.VERCEL_BYPASS }}
@@ -123,12 +88,7 @@ jobs:
             esac
             URL="${URL}${SEP}x-vercel-protection-bypass=${ENC_BYPASS}&x-vercel-set-bypass-cookie=true"
           fi
-          # Quote the validated label as a single argument (blank = run all tests).
-          if [ -n "$LABEL" ]; then
-            npx momentic run --url-override "$URL" --labels "$LABEL"
-          else
-            npx momentic run --url-override "$URL"
-          fi
+          npx momentic run --url-override "$URL" --labels smoke
 
       - name: Upload results
         if: always()

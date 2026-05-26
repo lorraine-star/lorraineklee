@@ -1,0 +1,16 @@
+fileType: momentic/test/v2
+id: 2dc9845a-9c3c-4cdd-8325-78b1778c64ba
+version: 1.0.24
+description: Speaking page smoke test — hero, primary CTA, and stats render
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - smoke
+steps:
+  - navigate: /speaking
+  - assert: The hero heading reads "Make the room remember."
+  - assert: An eyebrow above the heading reads "Keynotes / Workshops / Custom Programs"
+  - assert: A primary call-to-action labeled "Book Lorraine to speak" is visible
+  - assert: A stat shows "200+ keynotes delivered since 2018"

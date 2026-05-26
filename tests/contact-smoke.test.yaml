@@ -1,0 +1,15 @@
+fileType: momentic/test/v2
+id: f1b12150-0b52-46b5-bff9-d09f76cec022
+version: 1.0.24
+description: Contact page smoke test — heading, direct emails, and socials render
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - smoke
+steps:
+  - navigate: /contact
+  - assert: The hero heading reads "Get in touch."
+  - assert: A "Press" contact row shows the email press@lorraineklee.com
+  - assert: A "Follow along" section with social media links is visible

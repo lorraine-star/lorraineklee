@@ -1,0 +1,15 @@
+fileType: momentic/test/v2
+id: a0bb9f89-8985-478b-ba55-e13a2eb1e459
+version: 1.0.24
+description: Courses page smoke test — heading, ratings stat, and course list render
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - smoke
+steps:
+  - navigate: /courses
+  - assert: The hero heading reads "On-demand courses, taught by Lorraine"
+  - assert: A stat shows a "4.7" average course rating and "250,000+" students taught
+  - assert: A list of LinkedIn Learning course cards is shown

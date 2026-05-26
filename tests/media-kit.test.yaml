@@ -7,7 +7,7 @@ disabled: false
 viewport: 1440, 900
 browserType: Chromium
 labels:
-  - regression
+  - smoke
 steps:
   - navigate: /media-kit
   - assert: The hero heading reads "Everything you need in one place."

@@ -1,0 +1,35 @@
+hero:
+  eyebrow: Featured In
+  headline: Press, podcasts, and
+  headline_accent: proof.
+  lead: >-
+    From AARP and CNBC Make It to Forbes, Bloomberg, and The Muse, here is where
+    Lorraine's work on presence, communication, and career growth has shown up,
+    plus the recognitions, interviews, and resources along the way.
+  primary_cta_label: Book Lorraine to speak
+  primary_cta_url: /speaking
+  secondary_cta_label: Browse appearances
+  secondary_cta_url: "#appearances"
+highlights_section:
+  eyebrow: Highlights
+  heading: A few that
+  heading_accent: stand out.
+  lead: >-
+    Recognitions and features that capture the range, from national press to
+    industry awards and top-viewed conference sessions.
+appearances_section:
+  eyebrow: The full list
+  heading: Everywhere
+  heading_accent: else.
+  lead: >-
+    Articles, podcasts, interviews, books, and resources that have featured or
+    quoted Lorraine over the years.
+final_cta:
+  eyebrow: Work with Lorraine
+  heading: Want her on your
+  heading_accent: stage or podcast?
+  body: >-
+    Lorraine speaks, guests, and contributes on presence, communication, and
+    building an unforgettable personal brand. Tell her what you are planning.
+  cta_label: Get in touch
+  cta_url: /contact

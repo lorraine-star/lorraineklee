@@ -2,7 +2,7 @@
 import SpeakingLayout from '../layouts/SpeakingLayout.astro';
 import { reader, renderMarkdoc } from '../lib/keystatic';
 import { safeUrl } from '../lib/url';
-import CircularTestimonials from '../components/CircularTestimonials.tsx';
+import Testimonials from '../components/Testimonials.astro';
 
 const book = await reader.singletons.book.read();
 if (!book) {
@@ -33,8 +33,6 @@ const {
 	awards,
 	endorsements_section,
 	endorsements,
-	learn_section,
-	learn_items,
 	preview,
 	final_cta,
 } = book;
@@ -56,6 +54,19 @@ function splitQuote(quote: string, phrases: readonly string[]) {
 
 function renderStars(n: number) {
 	return Array.from({ length: n }, (_, i) => i);
+}
+
+// Initials fallback for the shared testimonials card (used only if a headshot
+// is ever missing; all current endorsements ship a headshot).
+function getInitials(name: string) {
+	return (
+		name
+			.split(/\s+/)
+			.map((part) => part[0])
+			.join('')
+			.slice(0, 2)
+			.toUpperCase() || '?'
+	);
 }
 ---
 
@@ -424,77 +435,26 @@ function renderStars(n: number) {
 		</div>
 	</section>
 
-	{/* ---------- Endorsements carousel (3D circular, React) ---------- */}
+	{/* ---------- Endorsements (global testimonials carousel) ---------- */}
 	{
 		endorsements.length > 0 && (
-			<section class="section endorsements-section">
-				<div class="grid12">
-					<div class="section-head section-head--center">
-						<span class="eyebrow">{endorsements_section.eyebrow}</span>
-						<h2>
-							{endorsements_section.heading}{' '}
-							<em>{endorsements_section.heading_accent}</em>
-						</h2>
-					</div>
-					<div class="endorsement-carousel-wrap reveal">
-						<CircularTestimonials
-							client:visible
-							testimonials={endorsements.map((e) => ({
-								quote: e.quote_alt,
-								name: e.name,
-								designation: e.role,
-								src: e.headshot,
-								logos: (e.logos ?? []).map((l) => ({
-									image: l.image,
-									alt: l.alt,
-								})),
-							}))}
-							autoplay={true}
-							colors={{
-								name: '#0E1530',
-								designation: '#5B6177',
-								testimony: '#2A3147',
-								arrowBackground: '#0E1530',
-								arrowForeground: '#FBF8F2',
-								arrowHoverBackground: '#1A4DFF',
-							}}
-							fontSizes={{
-								name: '1.75rem',
-								designation: '0.95rem',
-								quote: '1.0625rem',
-							}}
-						/>
-					</div>
-				</div>
-			</section>
-		)
-	}
-
-	{/* ---------- What you'll learn ---------- */}
-	{
-		learn_items.length > 0 && (
-			<section class="section section--cream">
-				<div class="grid12">
-					<div class="section-head section-head--center">
-						<span class="eyebrow">{learn_section.eyebrow}</span>
-						<h2>
-							{learn_section.heading}{' '}
-							<em>{learn_section.heading_accent}</em>
-						</h2>
-					</div>
-					<div class="learn-list reveal-stagger">
-						{learn_items.map((b, i) => (
-							<div class="learn-item">
-								<div class="ln">{String(i + 1).padStart(2, '0')}</div>
-								<div>
-									<h4>{b.title}</h4>
-									<p>{b.description}</p>
-								</div>
-							</div>
-						))}
-					</div>
-				</div>
-			</section>
+			<Testimonials
+				eyebrow={endorsements_section.eyebrow}
+				titleHtml={`${endorsements_section.heading} <em>${endorsements_section.heading_accent}</em>`}
+				lead=""
+				testimonials={endorsements.map((e) => ({
+					quote: e.quote_alt,
+					name: e.name,
+					role: e.role,
+					photo: e.headshot,
+					photoAlt: `Headshot of ${e.name}`,
+					initials: getInitials(e.name),
+					logos: (e.logos ?? []).map((l) => ({
+						image: l.image,
+						alt: l.alt,
+					})),
+				}))}
+			/>
 		)
 	}
 

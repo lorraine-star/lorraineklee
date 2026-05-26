@@ -7,7 +7,7 @@ disabled: false
 viewport: 1440, 900
 browserType: Chromium
 labels:
-  - regression
+  - smoke
 steps:
   - navigate: /consulting
   - assert: The hero heading reads "Strategic support for your leaders."

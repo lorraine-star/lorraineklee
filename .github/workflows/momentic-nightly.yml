@@ -1,0 +1,83 @@
+name: Momentic Nightly
+
+# Full Momentic suite (smoke + regression) on a daily schedule against a stable
+# URL. Per-deploy runs in momentic.yml only cover `--labels smoke` to keep
+# deploys fast; this catches regressions on the live site (incl. content/CMS
+# changes that don't trigger a deploy) and the slower regression-labeled flows.
+#
+# Setup (same secrets as momentic.yml):
+#   - MOMENTIC_API_KEY (required)
+#   - VERCEL_BYPASS    (if the target is a protected Vercel deployment)
+#   - Optional repo variable MOMENTIC_NIGHTLY_URL to override the default
+#     target (the production domain).
+
+on:
+  schedule:
+    - cron: "0 9 * * *" # daily 09:00 UTC
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "Base URL to test (defaults to MOMENTIC_NIGHTLY_URL, then the production domain)"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  regression:
+    name: Full suite
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    env:
+      MOMENTIC_API_KEY: ${{ secrets.MOMENTIC_API_KEY }}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install browsers
+        run: npx momentic install-browsers --all
+
+      - name: Resolve target URL
+        id: target
+        env:
+          INPUT_URL: ${{ inputs.url }}
+          VAR_URL: ${{ vars.MOMENTIC_NIGHTLY_URL }}
+        run: |
+          URL="$INPUT_URL"
+          [ -z "$URL" ] && URL="$VAR_URL"
+          [ -z "$URL" ] && URL="https://lorraineklee.com"
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+
+      - name: Run full Momentic suite
+        env:
+          TARGET_URL: ${{ steps.target.outputs.url }}
+          VERCEL_BYPASS: ${{ secrets.VERCEL_BYPASS }}
+        run: |
+          URL="$TARGET_URL"
+          if [ -n "$VERCEL_BYPASS" ]; then
+            ENC_BYPASS=$(jq -rn --arg v "$VERCEL_BYPASS" '$v|@uri')
+            echo "::add-mask::$ENC_BYPASS"
+            case "$URL" in
+              *\?*) SEP="&" ;;
+              *)    SEP="?" ;;
+            esac
+            URL="${URL}${SEP}x-vercel-protection-bypass=${ENC_BYPASS}&x-vercel-set-bypass-cookie=true"
+          fi
+          npx momentic run --url-override "$URL"
+
+      - name: Upload results
+        if: always()
+        run: npx momentic results upload test-results

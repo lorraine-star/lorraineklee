@@ -38,6 +38,7 @@
 
     { "source": "/bio-and-headshot", "destination": "/media-kit", "permanent": true },
     { "source": "/consulting-and-coaching", "destination": "/consulting", "permanent": true },
+    { "source": "/async-linkedin-profile-audit-assessment", "destination": "/coaching#linkedin-audit", "permanent": true },
 
     { "source": "/learning-courses", "destination": "/courses", "permanent": true },
     { "source": "/linkedin-learning-courses", "destination": "/courses", "permanent": true },
@@ -91,6 +92,28 @@
     { "source": "/youtube-video/hacks-to-tackle-gender-equality-at-work", "destination": "/interviews", "permanent": true },
     { "source": "/youtube-video/former-focus-brands-cinnabon-jamba-brands-etc-coo-and-president-kat-cole", "destination": "/interviews", "permanent": true },
     { "source": "/youtube-video/an-interview-with-chelsea-clinton", "destination": "/interviews", "permanent": true },
-    { "source": "/youtube-video/actor-justin-baldoni", "destination": "/interviews", "permanent": true }
+    { "source": "/youtube-video/actor-justin-baldoni", "destination": "/interviews", "permanent": true },
+
+    { "source": "/testimonials-old", "destination": "/testimonials", "permanent": true },
+
+    { "source": "/testimonial/raechel-h", "destination": "/testimonials#raechel-h", "permanent": true },
+    { "source": "/testimonial/apurva-bhagali", "destination": "/testimonials#apurva-b", "permanent": true },
+    { "source": "/testimonial/jean-kang-figma", "destination": "/testimonials#jean-k", "permanent": true },
+    { "source": "/testimonial/shreya-linkedin", "destination": "/testimonials#shreya", "permanent": true },
+    { "source": "/testimonial/sulbha-m", "destination": "/testimonials#sulbha-m", "permanent": true },
+    { "source": "/testimonial/attendee-cisco", "destination": "/testimonials#attendee", "permanent": true },
+    { "source": "/testimonial/nicole-h", "destination": "/testimonials#nicole-h", "permanent": true },
+    { "source": "/testimonial/elisa-c", "destination": "/testimonials#elisa-c", "permanent": true },
+    { "source": "/testimonial/jennifer-c", "destination": "/testimonials#jennifer-c", "permanent": true },
+
+    { "source": "/amy-j", "destination": "/testimonials#amy-j", "permanent": true },
+    { "source": "/apurva-bhagali", "destination": "/testimonials#apurva-b", "permanent": true },
+    { "source": "/dorienne-b", "destination": "/testimonials#dorie-b", "permanent": true },
+    { "source": "/jason-r", "destination": "/testimonials#jason-r", "permanent": true },
+    { "source": "/rachel-h", "destination": "/testimonials#raechel-h", "permanent": true },
+    { "source": "/samantha-l", "destination": "/testimonials#samantha-l", "permanent": true },
+    { "source": "/sulbha-m", "destination": "/testimonials#sulbha-m", "permanent": true },
+    { "source": "/teju-k", "destination": "/testimonials#teju-k", "permanent": true },
+    { "source": "/women-leaders-in-data-al", "destination": "/testimonials#julie-h", "permanent": true }
   ]
 }

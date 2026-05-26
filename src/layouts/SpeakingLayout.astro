@@ -147,35 +147,61 @@ const { title, description, activeId = 'home' } = Astro.props;
         });
       }
 
-      // --- "See all other talks" accordion ---
+      // --- Disclosure accordions ("See all other talks" + keynote cards) ---
       function setupAccordions() {
-        const accs = document.querySelectorAll<HTMLElement>('.other-talks-acc');
-        accs.forEach((acc) => {
-          const trigger = acc.querySelector<HTMLButtonElement>(
-            '.other-talks-trigger'
-          );
-          const panel = acc.querySelector<HTMLElement>('.other-talks-panel');
-          if (!trigger || !panel) return;
+        const groups = [
+          {
+            acc: '.other-talks-acc',
+            trigger: '.other-talks-trigger',
+            panel: '.other-talks-panel',
+          },
+          {
+            acc: '.topic-acc',
+            trigger: '.topic-acc-trigger',
+            panel: '.topic-panel',
+          },
+        ];
 
-          const measure = () => {
-            const prev = panel.style.maxHeight;
-            panel.style.maxHeight = 'none';
-            const h = panel.scrollHeight;
-            panel.style.maxHeight = prev;
-            acc.style.setProperty('--panel-h', h + 'px');
-          };
+        for (const group of groups) {
+          document
+            .querySelectorAll<HTMLElement>(group.acc)
+            .forEach((acc) => {
+              const trigger = acc.querySelector<HTMLElement>(group.trigger);
+              const panel = acc.querySelector<HTMLElement>(group.panel);
+              if (!trigger || !panel) return;
 
-          measure();
-          window.addEventListener('resize', measure, { passive: true });
+              const measure = () => {
+                const prev = panel.style.maxHeight;
+                panel.style.maxHeight = 'none';
+                const h = panel.scrollHeight;
+                panel.style.maxHeight = prev;
+                acc.style.setProperty('--panel-h', h + 'px');
+              };
 
-          trigger.addEventListener('click', () => {
-            measure();
-            const isOpen = acc.dataset.open === 'true';
-            acc.dataset.open = isOpen ? 'false' : 'true';
-            trigger.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
-            panel.setAttribute('aria-hidden', isOpen ? 'true' : 'false');
-          });
-        });
+              measure();
+              window.addEventListener('resize', measure, { passive: true });
+
+              const toggle = () => {
+                measure();
+                const isOpen = acc.dataset.open === 'true';
+                acc.dataset.open = isOpen ? 'false' : 'true';
+                trigger.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+                panel.setAttribute('aria-hidden', isOpen ? 'true' : 'false');
+              };
+
+              trigger.addEventListener('click', toggle);
+              // Triggers that aren't native <button>s (e.g. div[role="button"]
+              // keynote cards) need explicit keyboard activation.
+              if (trigger.tagName !== 'BUTTON') {
+                trigger.addEventListener('keydown', (e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggle();
+                  }
+                });
+              }
+            });
+        }
       }
 
       setupReveals();

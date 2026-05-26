@@ -1,0 +1,14 @@
+fileType: momentic/test/v2
+id: 3fcb8b9e-042e-434f-b203-190407293c1b
+version: 1.0.24
+description: Home "Work With Me" CTA routes to the contact page
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - regression
+# Starts on the home page (auto-navigates to the base URL).
+steps:
+  - click: the "Work With Me" button in the page header
+  - assert: The contact page loads, showing the heading "Get in touch."

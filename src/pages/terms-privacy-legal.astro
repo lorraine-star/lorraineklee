@@ -1,0 +1,43 @@
+---
+import '../styles/global.css';
+import SpeakingLayout from '../layouts/SpeakingLayout.astro';
+import { DynamicIslandTOC } from '../components/ui/dynamic-island-toc';
+import { reader, renderMarkdoc } from '../lib/keystatic';
+
+const terms = await reader.singletons.termsPrivacyLegal.read();
+if (!terms) {
+	throw new Error('Missing terms content (src/content/terms-privacy-legal/index.mdoc)');
+}
+
+const bodyHtml = await renderMarkdoc(terms.body);
+---
+
+<SpeakingLayout
+	title={`Lorraine K. Lee | ${terms.title}`}
+	description={terms.description}
+	activeId="terms-privacy-legal"
+>
+	<section class="page-hero legal-hero">
+		<div class="grid12">
+			<div class="legal-hero-copy fade-up">
+				<div class="page-hero-eyebrow">
+					<span class="dot"></span>
+					<span class="eyebrow" style="color: var(--ink-500);">
+						Legal
+					</span>
+				</div>
+				<h1>{terms.title}</h1>
+				<p class="legal-effective">Effective Date: {terms.effective_date}</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="section section--cream legal-section">
+		<div class="grid12">
+			<article class="legal-body reveal" set:html={bodyHtml} />
+		</div>
+	</section>
+	<div class="legal-toc-theme">
+		<DynamicIslandTOC selector=".legal-body h2" client:load />
+	</div>
+</SpeakingLayout>

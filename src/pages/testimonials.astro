@@ -1,0 +1,351 @@
+---
+import SpeakingLayout from '../layouts/SpeakingLayout.astro';
+import {
+	getTestimonials,
+	initialsFor,
+	TESTIMONIAL_SECTIONS,
+	type TestimonialType,
+} from '../lib/testimonials';
+
+const testimonials = await getTestimonials({ placement: 'testimonials' });
+
+// Stable section anchors so the in-page jump nav and the old WordPress
+// /testimonial/* redirects (vercel.json) land on the right block.
+const SECTION_ANCHOR: Record<TestimonialType, string> = {
+	'client-organizer-speaking': 'clients',
+	'event-attendee': 'attendees',
+	'course-student-review': 'courses',
+};
+
+const sections = TESTIMONIAL_SECTIONS.map((section) => ({
+	...section,
+	anchor: SECTION_ANCHOR[section.type],
+	items: testimonials.filter((t) => t.type === section.type),
+})).filter((section) => section.items.length > 0);
+
+const total = testimonials.length;
+
+// Quotes longer than this get a collapse/expand toggle so a single long
+// testimonial never turns a mobile column into an unreadable wall of text.
+const LONG_QUOTE = 550;
+---
+
+<SpeakingLayout
+	title="Testimonials | Lorraine K. Lee"
+	description="What clients, event organizers, audiences, and LinkedIn Learning students say about working with and learning from Lorraine K. Lee."
+	activeId="speaking"
+>
+	{/* ---------- Hero ---------- */}
+	<section class="page-hero page-hero--center">
+		<div class="grid12 page-hero-grid">
+			<div class="page-hero-copy fade-up">
+				<div class="page-hero-eyebrow">
+					<span class="dot"></span>
+					<span class="eyebrow" style="color: var(--ink-500);">Testimonials</span>
+				</div>
+				<h1>Don't just take her word for it. <em>Hear it from them.</em></h1>
+				<p class="lead-large">
+					{total} testimonials from the clients who book her, the audiences who
+					show up, and the students who keep coming back to her LinkedIn Learning
+					courses.
+				</p>
+				<nav class="tm-jump" aria-label="Jump to testimonial type">
+					{
+						sections.map((section) => (
+							<a class="tm-jump-link" href={`#${section.anchor}`}>
+								{section.eyebrow}
+								<span class="tm-jump-count">{section.items.length}</span>
+							</a>
+						))
+					}
+				</nav>
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Testimonial sections, grouped by type ---------- */}
+	{
+		sections.map((section) => (
+			<section class="section section--tight anchor-target" id={section.anchor}>
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{section.eyebrow}</span>
+						<h2>{section.heading}</h2>
+					</div>
+					<div class="tm-masonry">
+						{section.items.map((t) => {
+							const isLong = t.quote.length > LONG_QUOTE;
+							return (
+								<figure
+									class:list={['tm-card', { 'is-long': isLong }]}
+									id={t.slug}
+								>
+									<span class="tm-mark" aria-hidden="true">&ldquo;</span>
+									<blockquote class="tm-quote">{t.quote}</blockquote>
+									{isLong && (
+										<button type="button" class="tm-more" aria-expanded="false">
+											Read more
+										</button>
+									)}
+									<div class="tm-divider" />
+									<figcaption class="tm-attrib">
+										{t.image ? (
+											<img
+												class="tm-avatar tm-avatar--photo"
+												src={t.image}
+												alt={t.imageAlt || `Headshot of ${t.author}`}
+												loading="lazy"
+												width="56"
+												height="56"
+											/>
+										) : (
+											<span class="tm-avatar" aria-hidden="true">
+												{initialsFor(t.author)}
+											</span>
+										)}
+										<span class="tm-attrib-text">
+											<span class="tm-name">{t.author}</span>
+											{t.roleOrCompany && (
+												<span class="tm-role">{t.roleOrCompany}</span>
+											)}
+										</span>
+									</figcaption>
+								</figure>
+							);
+						})}
+					</div>
+				</div>
+			</section>
+		))
+	}
+
+	{/* ---------- Final CTA ---------- */}
+	<section class="section">
+		<div class="grid12">
+			<div class="final-cta">
+				<div class="final-cta-inner">
+					<span class="eyebrow">Work with Lorraine</span>
+					<h2>Ready to give your team <em>their own story to tell?</em></h2>
+					<p>
+						Bring Lorraine in for a keynote, workshop, or fireside chat, or
+						browse 250+ more recommendations on LinkedIn.
+					</p>
+					<div class="hero-cta-row hero-cta-row--center">
+						<a class="btn yellow large" href="/speaking">
+							Book Lorraine to speak <span aria-hidden="true">&rarr;</span>
+						</a>
+						<a
+							class="anchor-link"
+							href="https://www.linkedin.com/in/lorraineklee/details/recommendations/"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							See more on LinkedIn{' '}
+							<span class="arrow" aria-hidden="true">&#8599;</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</SpeakingLayout>
+
+<script>
+	// Collapse/expand for long quotes. Plain DOM (no island) so it runs in
+	// dev, worktree previews, and production alike.
+	document.querySelectorAll<HTMLButtonElement>('.tm-more').forEach((btn) => {
+		btn.addEventListener('click', () => {
+			const card = btn.closest('.tm-card');
+			if (!card) return;
+			const open = card.classList.toggle('is-open');
+			btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+			btn.textContent = open ? 'Read less' : 'Read more';
+		});
+	});
+</script>
+
+<style>
+	/* Jump nav under the hero copy. */
+	.tm-jump {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 10px;
+		margin-top: 28px;
+	}
+	.tm-jump-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 9px 16px;
+		border-radius: var(--radius-pill);
+		border: 1px solid var(--border);
+		background: #fff;
+		font-family: var(--font-sans);
+		font-size: 13px;
+		font-weight: 600;
+		color: var(--ink-700);
+		text-decoration: none;
+		transition:
+			border-color 0.2s ease,
+			color 0.2s ease,
+			transform 0.2s ease;
+	}
+	.tm-jump-link:hover {
+		border-color: var(--accent);
+		color: var(--ink-900);
+		transform: translateY(-1px);
+	}
+	.tm-jump-count {
+		display: inline-grid;
+		place-items: center;
+		min-width: 22px;
+		height: 22px;
+		padding: 0 6px;
+		border-radius: var(--radius-pill);
+		background: var(--brand-blue-50, #eef2ff);
+		color: var(--brand-blue-600, #3a4ed6);
+		font-size: 11px;
+		font-weight: 700;
+	}
+
+	/* Masonry: variable-height quote cards flow into balanced columns. */
+	.tm-masonry {
+		grid-column: 1 / -1;
+		column-count: 3;
+		column-gap: 22px;
+		margin-top: 12px;
+	}
+
+	.tm-card {
+		break-inside: avoid;
+		margin: 0 0 22px;
+		display: block;
+		background: #fff;
+		border: 1px solid var(--border-soft);
+		border-radius: 16px;
+		padding: 26px 28px;
+		box-shadow: var(--shadow-sm);
+		position: relative;
+		overflow-wrap: anywhere;
+		scroll-margin-top: 96px;
+		transition:
+			transform 0.24s var(--ease-out),
+			box-shadow 0.24s var(--ease-out);
+	}
+	.tm-card:hover {
+		transform: translateY(-3px);
+		box-shadow: var(--shadow-md);
+	}
+
+	.tm-mark {
+		font-family: var(--font-serif);
+		font-size: 46px;
+		font-weight: 500;
+		font-style: italic;
+		line-height: 0.6;
+		color: var(--brand-blue-300, #9db0ff);
+		display: block;
+		margin-bottom: 12px;
+	}
+	.tm-quote {
+		font-family: var(--font-serif);
+		font-size: 17px;
+		line-height: 1.42;
+		color: var(--ink-900);
+		font-style: italic;
+		margin: 0;
+		text-wrap: pretty;
+	}
+
+	/* Collapsed long quotes clamp to ~9 lines until expanded. */
+	.tm-card.is-long .tm-quote {
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 9;
+		line-clamp: 9;
+		overflow: hidden;
+	}
+	.tm-card.is-long.is-open .tm-quote {
+		-webkit-line-clamp: unset;
+		line-clamp: unset;
+		overflow: visible;
+	}
+	.tm-more {
+		appearance: none;
+		border: none;
+		background: none;
+		padding: 6px 0 0;
+		margin: 0;
+		font-family: var(--font-sans);
+		font-size: 13px;
+		font-weight: 600;
+		color: var(--accent);
+		cursor: pointer;
+	}
+	.tm-more:hover {
+		text-decoration: underline;
+	}
+
+	.tm-divider {
+		height: 1px;
+		background: var(--border-soft);
+		margin: 20px 0 16px;
+	}
+	.tm-attrib {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+	.tm-avatar {
+		width: 56px;
+		height: 56px;
+		border-radius: 50%;
+		flex-shrink: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		object-fit: cover;
+		background: linear-gradient(
+			135deg,
+			var(--brand-blue-300, #9db0ff),
+			var(--brand-blue-600, #3a4ed6)
+		);
+		color: #fff;
+		font-family: var(--font-sans);
+		font-weight: 700;
+		font-size: 14px;
+	}
+	.tm-attrib-text {
+		display: flex;
+		flex-direction: column;
+	}
+	.tm-name {
+		font-family: var(--font-sans);
+		font-size: 14px;
+		font-weight: 700;
+		color: var(--ink-900);
+		line-height: 1.2;
+	}
+	.tm-role {
+		font-family: var(--font-sans);
+		font-size: 12px;
+		color: var(--fg-muted);
+		margin-top: 2px;
+	}
+
+	.hero-cta-row--center {
+		justify-content: center;
+	}
+
+	@media (max-width: 900px) {
+		.tm-masonry {
+			column-count: 2;
+		}
+	}
+	@media (max-width: 600px) {
+		.tm-masonry {
+			column-count: 1;
+		}
+	}
+</style>
