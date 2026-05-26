@@ -50,6 +50,10 @@ const {
 
 let testimonials = testimonialsProp;
 if (!testimonials) {
+  // TEMPORARY (CLI-120): the homepage now shows the curated `showOnHomepage`
+  // picks from the shared collection instead of the old hardcoded 16. This
+  // selection is provisional pending review — see CLI-120 for how to adjust
+  // the picks (toggle `showOnHomepage`) or fully revert.
   const shared = await getTestimonials({ placement: 'homepage' });
   testimonials = shared.map(toCarouselCard);
 }
