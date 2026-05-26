@@ -107,7 +107,7 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
 					<ul class="coach-topics reveal-stagger">
 						{topics.map((topic) => (
 							<li class="coach-topic-item">
-								<span class="consult-check" aria-hidden="true">
+								<span class="coach-check" aria-hidden="true">
 									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
 										<polyline points="20 6 9 17 4 12" />
 									</svg>
@@ -153,7 +153,7 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
 								<div class="coach-tier-price">
 									<span class="coach-tier-amount">{tier.price}</span>
 									{tier.per_session_note && (
-										<span class="coach-tier-permonth">
+										<span class="coach-tier-note">
 											{tier.per_session_note}
 										</span>
 									)}
@@ -314,7 +314,7 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
 		line-height: 1.5;
 		color: var(--ink-700);
 	}
-	.consult-check {
+	.coach-check {
 		flex: none;
 		display: inline-flex;
 		align-items: center;
@@ -326,7 +326,7 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
 		color: var(--ink-900);
 		margin-top: 1px;
 	}
-	.consult-check svg {
+	.coach-check svg {
 		width: 15px;
 		height: 15px;
 	}
@@ -407,7 +407,7 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
 		line-height: 1;
 		color: var(--ink-900);
 	}
-	.coach-tier-permonth {
+	.coach-tier-note {
 		font-family: var(--font-sans);
 		font-size: 13.5px;
 		color: var(--ink-500);
