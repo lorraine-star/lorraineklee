@@ -608,23 +608,9 @@ const STARS = '/images/free-course/stars.svg';
     text-align: left;
   }
 
-  /* ---------- Reveal animation ---------- */
-  :global(.reveal) {
-    opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
-  }
-  :global(.reveal.is-in) {
-    opacity: 1;
-    transform: none;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    :global(.reveal) {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
-  }
+  /* Scroll-reveal styling itself lives in the shared editorial templates.css
+     (.reveal / .reveal.is-in). FunnelLayout adds a JS-fallback so the funnel
+     never hides content if its reveal script fails to load. */
 
   /* ---------- Responsive ---------- */
   @media (max-width: 900px) {
