@@ -2,23 +2,24 @@
 /*
  * FunnelLayout — conversion landing-page chrome.
  *
- * Per the CLI-42 nav decision, funnel/landing pages use a MINIMAL nav (logo
- * only, no menu, no competing CTAs) to reduce exit points. This layout loads
- * the same editorial design tokens as the rest of the site so the funnel is
- * visually consistent, but deliberately omits the full SiteNav, the global
- * banner, and the marketing footer links.
+ * Uses the full site nav for consistency with the rest of the site, plus a
+ * lean footer. Loads the same editorial design tokens so the funnel matches
+ * the design system. The reveal script below is hardened so funnel content can
+ * never stay hidden if its scroll-reveal JS fails to run (see fc-js below).
  */
 import '../styles/editorial/tokens.css';
 import '../styles/editorial/base.css';
 import '../styles/editorial/templates.css';
+import EditorialNav from '../components/editorial/EditorialNav.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 
 interface Props {
   title: string;
   description?: string;
+  activeId?: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, activeId = 'learn' } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
@@ -40,14 +41,7 @@ const year = new Date().getFullYear();
   </head>
   <body>
     <div class="shell">
-      {/* Minimal funnel nav: logo only, links home, no menu (CLI-42). */}
-      <nav class="funnel-nav">
-        <div class="funnel-nav-inner">
-          <a class="nav-logo" href="/" aria-label="Lorraine Lee, home">
-            <img src="/images/editorial/logo-primary.png" alt="Lorraine Lee" />
-          </a>
-        </div>
-      </nav>
+      <EditorialNav activeId={activeId} />
 
       <main>
         <slot />
@@ -70,31 +64,7 @@ const year = new Date().getFullYear();
     <CookieBanner />
 
     <style>
-      /* Minimal funnel chrome — logo-only nav + lean footer. */
-      .funnel-nav {
-        position: sticky;
-        top: 0;
-        z-index: 50;
-        background: rgba(251, 248, 242, 0.85);
-        backdrop-filter: saturate(160%) blur(14px);
-        -webkit-backdrop-filter: saturate(160%) blur(14px);
-        border-bottom: 1px solid var(--border-soft);
-      }
-      .funnel-nav-inner {
-        width: 100%;
-        max-width: var(--grid-max);
-        margin: 0 auto;
-        padding: 16px var(--grid-pad);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 64px;
-      }
-      .funnel-nav .nav-logo img {
-        height: 30px;
-        display: block;
-      }
-
+      /* Lean funnel footer. */
       .funnel-footer {
         background: var(--paper-deep);
         padding: 40px 0;
