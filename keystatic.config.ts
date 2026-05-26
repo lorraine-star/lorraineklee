@@ -867,6 +867,28 @@ export default config({
         body: fields.markdoc({ label: 'Policy body' }),
       },
     }),
+    termsPrivacyLegal: singleton({
+      label: 'Terms and Conditions',
+      path: 'src/content/terms-privacy-legal/',
+      format: { contentField: 'body' },
+      schema: {
+        title: fields.text({
+          label: 'Page title',
+          defaultValue: 'Terms and Conditions',
+        }),
+        effective_date: fields.text({
+          label: 'Effective date',
+          defaultValue: 'January 1, 2026',
+        }),
+        description: fields.text({
+          label: 'Meta description',
+          multiline: true,
+          defaultValue:
+            'Terms and Conditions for lorraineklee.com, including permitted use, intellectual property, disclaimers, liability, and contact details.',
+        }),
+        body: fields.markdoc({ label: 'Terms body' }),
+      },
+    }),
     learn: singleton({
       label: 'Learn',
       path: 'src/content/learn/',
