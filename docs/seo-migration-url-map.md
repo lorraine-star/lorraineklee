@@ -60,7 +60,7 @@ go live once that page is built.
 | `/speaking/` | `/speaking` | preserve | |
 | `/contact/` | `/contact` | preserve | |
 | `/the-thought-leadership/` | `/thought-leadership` ⏳ | **301** | Known slug change confirmed by Lorraine's teammate 2026-05-04 — drop the extraneous "the". |
-| `/featured-in/` | `/thought-leadership` ⏳ | **301** | Consolidate into Thought Leadership (overlapping content; matches existing WP rule id 12). Confirm with client. |
+| `/featured-in/` | `/featured-in` | preserve | **Decision reversed (CLI-119):** client wants Featured In kept as a standalone credibility/press page. Do **not** 301 to `/thought-leadership`. Built in Astro. |
 | `/testimonials/` | `/testimonials` ⏳ | preserve | |
 | `/testimonials-old/` | `/testimonials` ⏳ | **301** | Legacy duplicate — consolidate. |
 | `/coaching/` | `/coaching` | preserve | Built (CLI-83). |
@@ -223,7 +223,9 @@ services (Maven, ConvertKit/Kit, Google Docs, LinkedIn Learning, booking apps).
     `/thought-leadership/`) must be reconciled against Sections 1–9 above so
     WordPress short-links and the Astro sitemap don't disagree. **Conflict
     flagged:** WP rule id 5 sends `/learn` → `/subscribe/`, but this plan makes
-    `/learn` a real Astro page — drop that rule.
+    `/learn` a real Astro page — drop that rule. **Resolved (CLI-119):** WP rule
+    id 12 sends `/featured-in/` → `/thought-leadership/`; drop it — `/featured-in`
+    is now a real Astro page and must stay canonical.
   - `/book` and `/book/` (rows 165/166/202) → external book page; in Astro
     `/book` is a real page, so **these rules must be removed** or they will
     shadow the new Book page.
@@ -242,8 +244,9 @@ services (Maven, ConvertKit/Kit, Google Docs, LinkedIn Learning, booking apps).
 ## Open questions for the client
 
 1. Is the WooCommerce/Stripe store still active, or fully retired? (Section 8.)
-2. Keep `/featured-in`, `/mentorship`, `/portfolio`, `/awardsandaccolades` as
-   standalone pages, or consolidate as proposed?
+2. ~~Keep `/featured-in`~~, `/mentorship`, `/portfolio`, `/awardsandaccolades` as
+   standalone pages, or consolidate as proposed? (**`/featured-in` resolved
+   CLI-119: kept standalone.**)
 3. Which event pages (Google, ServiceNow, HerCareerStory, Zoomies) are still
    promoted and need a live URL?
 4. Confirm canonical home for the "From Invisible to Influential" 5-day course.

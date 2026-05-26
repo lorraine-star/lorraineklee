@@ -1805,6 +1805,75 @@ export default config({
         ),
       },
     }),
+    featuredIn: singleton({
+      label: 'Featured In',
+      path: 'src/content/featured-in/',
+      schema: {
+        hero: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            headline: fields.text({ label: 'Headline' }),
+            headline_accent: fields.text({
+              label: 'Headline accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead paragraph', multiline: true }),
+            primary_cta_label: fields.text({ label: 'Primary CTA label' }),
+            primary_cta_url: fields.text({ label: 'Primary CTA URL' }),
+            secondary_cta_label: fields.text({
+              label: 'Secondary CTA label',
+            }),
+            secondary_cta_url: fields.text({
+              label: 'Secondary CTA URL',
+              description: 'Internal route, anchor (e.g. #appearances), or external URL.',
+            }),
+          },
+          { label: 'Hero' }
+        ),
+        highlights_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+          },
+          {
+            label: 'Highlights section heading',
+            description:
+              'Heading above the larger cards for appearances flagged "Feature at the top".',
+          }
+        ),
+        appearances_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+          },
+          {
+            label: 'All appearances section heading',
+            description:
+              'Heading above the full grid that renders the "Featured Appearances" collection.',
+          }
+        ),
+        final_cta: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            cta_url: fields.text({ label: 'CTA URL' }),
+          },
+          { label: 'Final CTA' }
+        ),
+      },
+    }),
   },
   collections: {
     courses: collection({
@@ -1977,6 +2046,90 @@ export default config({
         }),
         external_url: fields.url({ label: 'External URL' }),
         content: fields.markdoc({ label: 'Content' }),
+      },
+    }),
+    featuredAppearances: collection({
+      label: 'Featured Appearances',
+      slugField: 'title',
+      path: 'src/content/featured-appearances/*',
+      format: { data: 'yaml' },
+      schema: {
+        title: fields.slug({
+          name: { label: 'Title / headline' },
+          slug: {
+            label: 'URL slug',
+            description:
+              'Anchor id for the card on /featured-in, e.g. "forbes-epic-career-brand".',
+          },
+        }),
+        source_name: fields.text({
+          label: 'Source / outlet',
+          description: 'E.g. "Forbes", "CNBC Make It", "AARP".',
+        }),
+        appearance_type: fields.select({
+          label: 'Appearance type',
+          description: 'Drives the card chip and the default CTA label.',
+          options: [
+            { label: 'Article', value: 'Article' },
+            { label: 'Podcast', value: 'Podcast' },
+            { label: 'Video', value: 'Video' },
+            { label: 'Interview', value: 'Interview' },
+            { label: 'Book', value: 'Book' },
+            { label: 'Report', value: 'Report' },
+            { label: 'Resource', value: 'Resource' },
+            { label: 'Award', value: 'Award' },
+            { label: 'Event', value: 'Event' },
+            { label: 'Newsletter', value: 'Newsletter' },
+          ],
+          defaultValue: 'Article',
+        }),
+        date: fields.text({
+          label: 'Date label (optional)',
+          description: 'Free text, e.g. "November 2025".',
+        }),
+        description: fields.text({
+          label: 'Description (optional)',
+          multiline: true,
+        }),
+        url: fields.text({
+          label: 'External URL',
+          description:
+            'Link the card CTA opens. Leave blank for recognition-only items with no public link, then tick "Needs content review" below.',
+        }),
+        logo: fields.image({
+          label: 'Outlet logo (optional)',
+          description:
+            'Shown as the card mark. Falls back to the source name in text when empty.',
+          directory: 'public/images/featured-in/logos',
+          publicPath: '/images/featured-in/logos/',
+        }),
+        image: fields.image({
+          label: 'Card image (optional)',
+          description: 'Optional thumbnail/screenshot shown on the card.',
+          directory: 'public/images/featured-in',
+          publicPath: '/images/featured-in/',
+        }),
+        cta_label: fields.text({
+          label: 'CTA label (optional)',
+          description:
+            'Overrides the default label derived from the appearance type (e.g. "Read more", "Listen", "Watch").',
+        }),
+        priority: fields.integer({
+          label: 'Priority / sort order',
+          description: 'Lower numbers appear first.',
+          defaultValue: 100,
+        }),
+        featured: fields.checkbox({
+          label: 'Feature at the top',
+          description: 'Show as a larger highlight card above the main grid.',
+          defaultValue: false,
+        }),
+        needs_review: fields.checkbox({
+          label: 'Needs content review',
+          description:
+            'Internal flag: missing or unverified link/copy. The card still renders, just without a broken CTA.',
+          defaultValue: false,
+        }),
       },
     }),
   },
