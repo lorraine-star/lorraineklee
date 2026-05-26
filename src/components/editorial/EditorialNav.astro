@@ -12,7 +12,7 @@ const {
   activeId = 'home',
   logoSrc = '/images/editorial/logo-primary.png',
   ctaHref = '/contact',
-  ctaLabel = 'Work With Me',
+  ctaLabel = 'Contact',
 } = Astro.props;
 ---
 
@@ -23,7 +23,11 @@ const {
     </a>
     <div class="nav-links" id="site-nav-menu" data-nav-menu>
       {
-        mainNavItems.map((item) => {
+        /* Contact is surfaced as the primary CTA button below, so omit the
+           duplicate inline link here. */
+        mainNavItems
+          .filter((item) => item.id !== 'contact')
+          .map((item) => {
           const active = isNavItemActive(item, activeId);
           return item.children?.length ? (
             <div class:list={['nav-item', 'nav-menu-item', { active }]} data-nav-menu-item>
@@ -69,7 +73,13 @@ const {
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
     </button>
-    <a class="btn primary" href={ctaHref}>{ctaLabel}</a>
+    <a
+      class="btn primary"
+      href={ctaHref}
+      aria-current={activeId === 'contact' ? 'page' : undefined}
+    >
+      {ctaLabel}
+    </a>
   </div>
 </nav>
 
