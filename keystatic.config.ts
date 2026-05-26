@@ -292,14 +292,19 @@ export default config({
                 'Kebab-case slug for the deep-link page, e.g. "executive-presence".',
             }),
             title: fields.text({ label: 'Title' }),
+            tag: fields.text({
+              label: 'Tag / badge (optional)',
+              description:
+                'Small chip on the card, e.g. "Most Popular" or "#2 Most Popular". Leave blank for none.',
+            }),
             description: fields.text({
               label: 'Description',
               multiline: true,
             }),
             format: fields.text({ label: 'Format' }),
             clip_url: fields.text({
-              label: 'Talk clip embed URL (optional)',
-              description: 'YouTube or Vimeo embed URL for the talk page.',
+              label: 'Talk clip embed URL (optional, unused)',
+              description: 'Legacy field — kept for back-compat, not rendered.',
             }),
             talk_track: fields.array(
               fields.object({
@@ -443,6 +448,11 @@ export default config({
             name: fields.text({ label: 'Name' }),
             role: fields.text({ label: 'Role / organization' }),
             initials: fields.text({ label: 'Initials' }),
+            photo: fields.text({
+              label: 'Headshot image path (optional)',
+              description:
+                'E.g. /images/speaking/testimonials/raechel-h.webp. Falls back to initials when blank.',
+            }),
             featured: fields.checkbox({
               label: 'Featured (dark card)',
               defaultValue: false,
@@ -470,6 +480,10 @@ export default config({
             name: fields.text({ label: 'Name' }),
             role: fields.text({ label: 'Role / organization' }),
             initials: fields.text({ label: 'Initials' }),
+            photo: fields.text({
+              label: 'Headshot image path (optional)',
+              description: 'Falls back to initials when blank.',
+            }),
           }),
           {
             label: 'Attendee testimonials',
@@ -829,6 +843,28 @@ export default config({
           },
           { label: 'Final CTA' }
         ),
+      },
+    }),
+    privacyPolicy: singleton({
+      label: 'Privacy Policy',
+      path: 'src/content/privacy-policy/',
+      format: { contentField: 'body' },
+      schema: {
+        title: fields.text({
+          label: 'Page title',
+          defaultValue: 'Privacy Policy',
+        }),
+        effective_date: fields.text({
+          label: 'Effective date',
+          defaultValue: 'January 1, 2026',
+        }),
+        description: fields.text({
+          label: 'Meta description',
+          multiline: true,
+          defaultValue:
+            'Privacy Policy for lorraineklee.com, including how personal information is collected, used, and shared.',
+        }),
+        body: fields.markdoc({ label: 'Policy body' }),
       },
     }),
     learn: singleton({
@@ -1237,7 +1273,7 @@ export default config({
           fields.object({
             headshot: fields.image({
               label: 'Headshot (square works best)',
-              description: 'Used in the 3D carousel image stack.',
+              description: 'Shown as the circular headshot on the endorsement card.',
               directory: 'public/images/book/endorsements/headshots',
               publicPath: '/images/book/endorsements/headshots/',
             }),
@@ -1263,31 +1299,8 @@ export default config({
             ),
           }),
           {
-            label: 'Endorsements (3D carousel)',
+            label: 'Endorsements (carousel)',
             itemLabel: (props) => props.fields.name.value || 'Endorsement',
-          }
-        ),
-        learn_section: fields.object(
-          {
-            eyebrow: fields.text({ label: 'Eyebrow' }),
-            heading: fields.text({ label: 'Heading' }),
-            heading_accent: fields.text({
-              label: 'Heading accent (shown italic)',
-            }),
-          },
-          { label: "What you'll learn section heading" }
-        ),
-        learn_items: fields.array(
-          fields.object({
-            title: fields.text({ label: 'Title' }),
-            description: fields.text({
-              label: 'Description',
-              multiline: true,
-            }),
-          }),
-          {
-            label: "What you'll learn items",
-            itemLabel: (props) => props.fields.title.value || 'Item',
           }
         ),
         preview: fields.object(

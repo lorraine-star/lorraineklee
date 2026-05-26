@@ -1,37 +1,65 @@
 # End-to-end tests (Momentic)
 
-[Momentic](https://momentic.ai) drives a real browser to smoke-test the built
-site. Tests are YAML files in this folder; project config lives in
+[Momentic](https://momentic.ai) drives a real browser to test the built site.
+Tests are YAML files in this folder; project config lives in
 [`../momentic.config.yaml`](../momentic.config.yaml).
+
+## Test suite
+
+| Test | Label | Checks |
+| --- | --- | --- |
+| `home-smoke` | smoke | Home hero, primary CTA, book section, stats, footer nav |
+| `about-smoke` | smoke | About hero, intro, primary CTAs |
+| `speaking-smoke` | smoke | Speaking hero, "Book Lorraine to speak", stats |
+| `book-smoke` | smoke | Book title, accolades, buy CTAs |
+| `learn-smoke` | smoke | Learn hero, course CTAs, free-course offer |
+| `contact-smoke` | smoke | Contact heading, press email, socials |
+| `courses-smoke` | smoke | Courses heading, ratings stat, course list |
+| `course-signup-form` | regression | Home free-course form submit + success state |
+| `work-with-me-cta` | regression | "Work With Me" routes to the contact page |
+
+Page tests `navigate:` to a relative path; the suite auto-loads the base URL
+first, which sets the Vercel bypass cookie on protected previews so subsequent
+same-origin navigations are authorized.
 
 ## Run locally
 
 ```bash
-# Against the live/production site
-npx momentic run --env production
+# Full suite against a deployment (append the bypass for protected Vercel previews)
+npx momentic run \
+  --url-override "https://<deployment>.vercel.app?x-vercel-protection-bypass=<secret>&x-vercel-set-bypass-cookie=true"
 
-# Against a specific deployment (e.g. a Vercel preview)
-npx momentic run --url-override "https://<deployment>.vercel.app" --labels smoke
+# Just the smoke tier
+npx momentic run --url-override "https://<deployment>.vercel.app?..." --labels smoke
 ```
 
-Author and edit tests interactively with the Momentic MCP server or the
-`npx momentic` CLI — see the [docs](https://momentic.ai/docs).
+Set `MOMENTIC_API_KEY` in your environment first (assertions are AI-evaluated).
+Author/edit tests with the `npx momentic` CLI or MCP — see the [docs](https://momentic.ai/docs).
 
 ## CI
 
-[`../.github/workflows/momentic.yml`](../.github/workflows/momentic.yml) runs
-the `smoke` label against every Vercel deployment (and on demand via
-**Run workflow**). Repo secrets:
+| Workflow | Trigger | Runs |
+| --- | --- | --- |
+| [`momentic.yml`](../.github/workflows/momentic.yml) | every Vercel deploy + manual | `--labels smoke` |
+| [`momentic-nightly.yml`](../.github/workflows/momentic-nightly.yml) | daily 09:00 UTC + manual | full suite vs. the `main` alias |
 
-| Secret | Required? | Where to get it |
+Smoke runs on every deploy (fast); the nightly runs the full suite against the
+live `main` site to catch regressions and CMS/content changes that don't trigger
+a deploy.
+
+Repo secrets:
+
+| Secret | Required? | Where |
 | --- | --- | --- |
 | `MOMENTIC_API_KEY` | Yes | Momentic dashboard → Settings → API keys |
-| `VERCEL_BYPASS` | If previews are protected | Vercel → Settings → Deployment Protection → "Protection Bypass for Automation" |
+| `VERCEL_BYPASS` | For protected previews | Vercel → Settings → Deployment Protection → "Protection Bypass for Automation" |
 
-When `VERCEL_BYPASS` is set, the workflow automatically appends it to the
-deployment URL so Momentic can load protected previews.
+When `VERCEL_BYPASS` is set, both workflows append it (URL-encoded) so Momentic
+can load protected deployments. Optional repo variable `MOMENTIC_NIGHTLY_URL`
+overrides the nightly target.
 
 ## Conventions
 
 - One user outcome per test; kebab-case `*.test.yaml` filenames.
-- Label critical paths `smoke`, broader coverage `regression`.
+- `smoke` = critical paths, run on every deploy. `regression` = deeper flows,
+  kept off the per-deploy path and run in the nightly full sweep.

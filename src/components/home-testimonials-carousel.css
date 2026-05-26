@@ -1,0 +1,189 @@
+/* Home / client testimonials carousel (the global `testimonials` section).
+
+   Reuses the global .t-card, .t-quote, .t-mark, .t-divider, .t-attrib,
+   .t-avatar, .t-name and .t-role primitives from base.css (editorial layouts)
+   / home.css (home page) and OWNS the embla carousel layout, the circular
+   headshot, the optional per-item logo row, and the responsive behavior.
+
+   Imported by Testimonials.astro so these styles travel with the component to
+   any layout. The home page loads home.css; pages on other layouts (e.g. the
+   book page on SpeakingLayout) do not, so the carousel chrome must live here.
+
+   GLOBAL section: coordinate edits via Linear so parallel worktrees don't drift. */
+
+.testimonials {
+  padding: clamp(54px, 7vw, 92px) 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.42) 0%, rgba(245, 240, 233, 0.92) 100%);
+}
+.testimonials-head {
+  grid-column: 1 / span 8;
+  margin-bottom: 48px;
+}
+.testimonials-carousel {
+  grid-column: 1 / -1;
+  position: relative;
+  justify-self: center;
+  width: min(100%, 980px);
+  min-width: 0;
+}
+.testimonials-controls {
+  position: absolute;
+  top: -92px;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  gap: 10px;
+}
+.testimonial-control {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink-900);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: var(--shadow-xs);
+  transition: background 200ms var(--ease-out), color 200ms var(--ease-out), transform 200ms var(--ease-out);
+}
+.testimonial-control:hover,
+.testimonial-control:focus-visible {
+  background: var(--ink-900);
+  color: var(--paper);
+  transform: translateY(-1px);
+}
+.testimonial-control:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.testimonial-control:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+  transform: none;
+}
+.testimonials-head .lead {
+  font-family: var(--font-sans);
+  font-size: clamp(17px, 1.3vw, 19px);
+  line-height: 1.55;
+  color: var(--ink-700);
+  margin: 18px 0 0;
+  max-width: 560px;
+}
+.testimonials-title {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(36px, 4.5vw, 60px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 14px 0 0;
+  color: var(--ink-900);
+  text-wrap: balance;
+}
+.testimonials-title em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 400;
+}
+.testimonials-carousel [data-slot="carousel-content"] {
+  overflow: hidden;
+  padding: 4px 0 18px;
+  outline: none;
+}
+.testimonials-carousel [data-slot="carousel-content"]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: 12px;
+}
+.testimonials-track {
+  display: flex;
+  align-items: stretch;
+  column-gap: 0;
+  margin-left: 0;
+}
+.testimonials-carousel-slide {
+  flex: 0 0 min(760px, calc(100vw - (var(--grid-pad) * 2)));
+  min-width: 0;
+  padding: 0 20px;
+  display: flex;
+}
+
+/* Circular headshot. base.css styles .t-avatar (initials fallback) but not
+   .t-headshot, so the photo variant is owned here. */
+.t-headshot {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  object-fit: cover;
+  background: var(--ink-100);
+  border: 1px solid rgba(14, 21, 48, 0.08);
+}
+
+/* Optional per-item logo row: company logos and book covers. Renders only when
+   an item has logos, so testimonials without them are unaffected. */
+.t-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 20px;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-soft);
+}
+.t-logo {
+  display: block;
+  max-height: 40px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+}
+/* Book covers (tall aspect) read better a little larger than wordmarks. */
+.t-logos .t-logo[alt$="book cover"],
+.t-logos .t-logo[alt$="books"] {
+  max-height: 58px;
+}
+
+@media (max-width: 1100px) {
+  .testimonials-head {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 900px) {
+  .testimonials-head {
+    grid-column: 1 / -1;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  .testimonials-controls {
+    position: static;
+    margin-bottom: 24px;
+  }
+  .testimonials-title,
+  .testimonials-head .lead {
+    margin-left: 0;
+    margin-right: 0;
+    text-align: left;
+  }
+  .testimonials-carousel {
+    width: min(100%, calc(100vw - (var(--grid-pad) * 2)));
+  }
+  .testimonials-carousel .testimonials-controls {
+    padding: 0;
+  }
+  .testimonials-carousel [data-slot="carousel-content"] {
+    padding-bottom: 16px;
+  }
+  .testimonials-track {
+    padding-left: 0;
+    column-gap: 16px;
+  }
+  .testimonials-carousel-slide {
+    flex-basis: calc(100% - 32px);
+  }
+}

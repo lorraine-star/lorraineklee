@@ -1,0 +1,15 @@
+fileType: momentic/test/v2
+id: bed57760-485d-43e5-ac43-4ea41933cdf5
+version: 1.0.24
+description: Book page smoke test — title, accolades, and buy CTAs render
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - smoke
+steps:
+  - navigate: /book
+  - assert: The page features the book title "Unforgettable Presence"
+  - assert: The page shows the accolades "Amazon #1 Bestseller" and "Named a must-read by Next Big Idea Club"
+  - assert: Call-to-action links labeled "Buy my book" and "Read a sample" are visible

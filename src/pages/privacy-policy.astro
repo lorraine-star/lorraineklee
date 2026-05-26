@@ -1,0 +1,38 @@
+---
+import SpeakingLayout from '../layouts/SpeakingLayout.astro';
+import { reader, renderMarkdoc } from '../lib/keystatic';
+
+const policy = await reader.singletons.privacyPolicy.read();
+if (!policy) {
+	throw new Error('Missing privacy policy content (src/content/privacy-policy/index.mdoc)');
+}
+
+const bodyHtml = await renderMarkdoc(policy.body);
+---
+
+<SpeakingLayout
+	title={`Lorraine K. Lee | ${policy.title}`}
+	description={policy.description}
+	activeId="privacy-policy"
+>
+	<section class="page-hero legal-hero">
+		<div class="grid12">
+			<div class="legal-hero-copy fade-up">
+				<div class="page-hero-eyebrow">
+					<span class="dot"></span>
+					<span class="eyebrow" style="color: var(--ink-500);">
+						Legal
+					</span>
+				</div>
+				<h1>{policy.title}</h1>
+				<p class="legal-effective">Effective Date: {policy.effective_date}</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="section section--cream legal-section">
+		<div class="grid12">
+			<article class="legal-body reveal" set:html={bodyHtml} />
+		</div>
+	</section>
+</SpeakingLayout>
