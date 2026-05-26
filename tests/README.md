@@ -21,6 +21,8 @@ Tests are YAML files in this folder; project config lives in
 | `speaker-bio` | smoke | Speaker-bio hero, bios, downloads |
 | `articles` | smoke | Articles index heading (empty-safe) |
 | `keynotes` | smoke | Keynotes hero, keynote catalog, booking CTA |
+| `free-course-funnel` | smoke | Funnel hero, signup form, 5-day roadmap |
+| `free-course-thank-you` | smoke | Funnel confirmation copy + LinkedIn CTA |
 | `course-signup-form` | regression | Home free-course form submit + success state |
 | `work-with-me-cta` | regression | "Work With Me" routes to the contact page |
 | `keynote-detail` | regression | Representative `/keynotes/[slug]` — hero, "Book this talk", takeaways |

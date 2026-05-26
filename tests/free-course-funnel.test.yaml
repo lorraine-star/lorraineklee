@@ -1,0 +1,15 @@
+fileType: momentic/test/v2
+id: 43425266-cefe-4ec4-8f8d-8c9a1574ef49
+version: 1.0.24
+description: Free course funnel — hero, signup form, and 5-day roadmap render
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - smoke
+steps:
+  - navigate: /from-invisible-to-influential
+  - assert: The hero heading describes a "5-Day System to Communicate Your Value"
+  - assert: A signup form with a "SEND ME THE COURSE" button is visible
+  - assert: A section headed "Your 5-Day Roadmap From Invisible to Influential" is present

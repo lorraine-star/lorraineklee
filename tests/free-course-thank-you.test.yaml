@@ -1,0 +1,15 @@
+fileType: momentic/test/v2
+id: 818b7944-2e6f-42c5-b7ae-39e62a1b25ba
+version: 1.0.24
+description: Free course thank-you page — confirmation copy and LinkedIn CTA render
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - smoke
+steps:
+  - navigate: /from-invisible-to-influential-thank-you
+  - assert: An eyebrow reading "You're In" is visible
+  - assert: A confirmation headline tells the visitor they'll learn to communicate their value over the next 5 days
+  - assert: A "Follow Lorraine on LinkedIn" call-to-action link is present
