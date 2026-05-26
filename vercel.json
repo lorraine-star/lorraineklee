@@ -7,6 +7,10 @@
       "permanent": true
     },
 
+    { "source": "/free-course", "destination": "/from-invisible-to-influential", "permanent": true },
+    { "source": "/landing-01", "destination": "/from-invisible-to-influential", "permanent": true },
+    { "source": "/5-day-course", "destination": "/from-invisible-to-influential/?utm_source=linkedin&utm_medium=awaymessage&utm_campaign=5daycourse", "permanent": true },
+
     { "source": "/keynotes-archive", "destination": "/speaking", "permanent": true },
 
     { "source": "/keynote-category/featured", "destination": "/speaking", "permanent": true },
