@@ -271,6 +271,12 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
 </SpeakingLayout>
 
 <style>
+	/* Hero — give the CTA row more breathing room below the lead.
+	   Scoped to this page so other heroes that share .hero-cta-row are unaffected. */
+	.page-hero .hero-cta-row {
+		margin-top: clamp(14px, 2.4vw, 28px);
+	}
+
 	/* Intro — centered narrative column. */
 	.coach-intro {
 		grid-column: 1 / -1;
