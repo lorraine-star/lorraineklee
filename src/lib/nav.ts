@@ -45,7 +45,6 @@ export const mainNavItems: NavItem[] = [
     children: [
       { label: 'Learn Overview', href: '/learn' },
       { label: 'Free Course', href: '/#course' },
-      { label: 'Unlock Your Impact Course', href: '/learn#unlock-your-impact' },
       { label: 'Free Resources', href: '/learn#resources' },
       { label: 'Learning Courses', href: '/learn#courses' },
     ],
