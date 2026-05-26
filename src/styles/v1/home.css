@@ -746,27 +746,44 @@ body {
   text-wrap: balance;
 }
 .testimonials-title em { font-style: italic; color: var(--accent); font-weight: 400; }
-.testimonials-carousel [data-slot="carousel-content"] {
-  overflow: hidden;
-  padding: 4px 0 18px;
+.testimonials-track {
+  display: flex;
+  align-items: stretch;
+  column-gap: 24px;
+  margin-left: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  padding: 4px 4px 18px;
+  scroll-behavior: smooth;
+  scroll-padding-inline: 4px;
+  scroll-snap-type: x mandatory;
+  scrollbar-color: rgba(14,21,48,0.22) transparent;
+  scrollbar-width: thin;
   outline: none;
+  -webkit-overflow-scrolling: touch;
 }
-.testimonials-carousel [data-slot="carousel-content"]:focus-visible {
+.testimonials-track:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 6px;
   border-radius: 12px;
 }
-.testimonials-track {
-  display: flex;
-  align-items: stretch;
-  column-gap: 0;
-  margin-left: 0;
+.testimonials-track::-webkit-scrollbar {
+  height: 8px;
+}
+.testimonials-track::-webkit-scrollbar-track {
+  background: transparent;
+}
+.testimonials-track::-webkit-scrollbar-thumb {
+  background: rgba(14,21,48,0.22);
+  border-radius: 999px;
 }
 .testimonials-carousel-slide {
   flex: 0 0 min(760px, calc(100vw - (var(--grid-pad) * 2)));
   min-width: 0;
-  padding: 0 20px;
   display: flex;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
 }
 .t-card {
   margin: 0;
@@ -807,7 +824,7 @@ body {
   font-style: italic;
 }
 .t-quote {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 17px;
   line-height: 1.36;
   color: var(--ink-900);
@@ -1714,12 +1731,10 @@ body {
   .testimonials-carousel .testimonials-controls {
     padding: 0;
   }
-  .testimonials-carousel [data-slot="carousel-content"] {
-    padding-bottom: 16px;
-  }
   .testimonials-track {
-    padding-left: 0;
+    padding: 4px 0 16px;
     column-gap: 16px;
+    scroll-padding-inline: 0;
   }
   .testimonials-carousel-slide {
     flex-basis: calc(100% - 32px);

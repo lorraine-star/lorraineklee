@@ -461,7 +461,7 @@ body {
   font-style: italic;
 }
 .t-quote {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 19px;
   line-height: 1.45;
   color: var(--ink-900);
