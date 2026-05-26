@@ -1,0 +1,15 @@
+fileType: momentic/test/v2
+id: 9868e171-5f5b-4a24-b567-0dbc18cadcfa
+version: 1.0.24
+description: Interviews page — hero and guest appearances render
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - regression
+steps:
+  - navigate: /interviews
+  - assert: The hero heading reads "Conversations on presence, influence, and growth."
+  - assert: A section headed "Featured guest on shows & podcasts." is present
+  - assert: At least one guest appearance card or video is listed

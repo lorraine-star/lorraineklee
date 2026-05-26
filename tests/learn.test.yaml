@@ -1,0 +1,15 @@
+fileType: momentic/test/v2
+id: 0c6369aa-c66c-45ff-80ab-fbb1afb22074
+version: 1.0.24
+description: Learn page — hero, newsletter signup, and courses render
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - regression
+steps:
+  - navigate: /learn
+  - assert: The hero heading reads "Learn from Lorraine."
+  - assert: A free 5-day email course signup section with a "Send me Day 1" button is present
+  - assert: A section headed "On-demand courses on LinkedIn Learning." lists at least one course

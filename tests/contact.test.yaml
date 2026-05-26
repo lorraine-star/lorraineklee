@@ -1,0 +1,15 @@
+fileType: momentic/test/v2
+id: 4abfab19-378f-4ec1-a08f-2c0ce4311104
+version: 1.0.24
+description: Contact page — hero and contact form render
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - regression
+steps:
+  - navigate: /contact
+  - assert: The hero heading reads "Get in touch."
+  - assert: Lead copy near the hero mentions speaking, coaching, or press inquiries
+  - assert: A contact form or embedded form is present on the page

@@ -17,11 +17,24 @@ npx momentic run --url-override "https://<deployment>.vercel.app" --labels smoke
 Author and edit tests interactively with the Momentic MCP server or the
 `npx momentic` CLI — see the [docs](https://momentic.ai/docs).
 
+## Coverage
+
+Every page route has at least one test:
+
+- **smoke** — `home-smoke.test.yaml` covers the homepage (critical path, runs
+  on every deploy).
+- **regression** — one test per remaining route: `about`, `book`, `consulting`,
+  `contact`, `interviews`, `learn`, `media-kit`, `speaker-bio`, `speaking`,
+  `articles`, `courses`, `keynotes`, plus one representative detail page for
+  each dynamic template (`keynote-detail`, `course-detail`,
+  `speaking-topic-detail`).
+
 ## CI
 
 [`../.github/workflows/momentic.yml`](../.github/workflows/momentic.yml) runs
-the `smoke` label against every Vercel deployment (and on demand via
-**Run workflow**). Repo secrets:
+the `smoke` label against every Vercel deployment automatically. The broader
+`regression` suite runs **on demand** via **Run workflow** — set the `labels`
+input to `regression` (or leave it blank to run every test). Repo secrets:
 
 | Secret | Required? | Where to get it |
 | --- | --- | --- |

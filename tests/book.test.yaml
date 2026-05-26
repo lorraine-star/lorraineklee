@@ -1,0 +1,16 @@
+fileType: momentic/test/v2
+id: 6f66e50a-4662-4271-b6de-0da8ec29212a
+version: 1.0.24
+description: Book page — hero, accolades, and retailer links render
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - regression
+steps:
+  - navigate: /book
+  - assert: The hero heading prominently features the book title "Unforgettable Presence"
+  - assert: An accolade reading "Amazon #1 Bestseller" is visible
+  - assert: A "Buy my book" call-to-action link is visible in the hero
+  - assert: A "Pick your retailer." section lists retailers including Amazon and Audible

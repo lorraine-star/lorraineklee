@@ -1,0 +1,17 @@
+fileType: momentic/test/v2
+id: f4b92339-af7e-41f8-bdc0-53bbd6aa1e17
+version: 1.0.24
+description: Keynote detail page (/keynotes/[slug]) — hero, CTA, and takeaways render
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - regression
+# Representative keynote detail page; covers the /keynotes/[slug] template.
+steps:
+  - navigate: /keynotes/how-to-present-like-a-pro
+  - assert: The page heading reads "How to Present Like a Pro"
+  - assert: A "Book this talk" call-to-action link is visible
+  - assert: A back link labeled "All keynotes" pointing to the keynotes list is present
+  - assert: A "What the audience walks away with" section lists the talk's takeaways

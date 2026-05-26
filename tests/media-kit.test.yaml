@@ -1,0 +1,16 @@
+fileType: momentic/test/v2
+id: 05d105a7-6680-4805-bd7c-f3f6689adbfb
+version: 1.0.24
+description: Media kit page — hero, copy-and-paste bios, and headshots render
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - regression
+steps:
+  - navigate: /media-kit
+  - assert: The hero heading reads "Everything you need in one place."
+  - assert: A "Book Lorraine" call-to-action link is visible in the hero
+  - assert: A section headed "Copy-and-paste bios." offers short, medium, and long bio versions
+  - assert: An "Approved headshots." section is present

@@ -1,0 +1,15 @@
+fileType: momentic/test/v2
+id: eeb4843e-1500-4c43-89a4-af2dfabc4a57
+version: 1.0.24
+description: Articles index page — heading renders and route is reachable
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - regression
+# The articles collection may be empty; assert only the durable page heading so
+# the test stays green whether or not articles have been published.
+steps:
+  - navigate: /articles
+  - assert: The page has a top-level heading that reads "Articles"

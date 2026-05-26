@@ -1,0 +1,16 @@
+fileType: momentic/test/v2
+id: 417b79ac-586f-457e-96eb-5c9487590c76
+version: 1.0.24
+description: About page — hero, stat, and story section render
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - regression
+steps:
+  - navigate: /about
+  - assert: The hero heading reads "About Lorraine"
+  - assert: The hero shows the stat "250k+" captioned "students taught on LinkedIn Learning"
+  - assert: A "Work with me" call-to-action link is visible in the hero
+  - assert: A section headed "The long version, in my words." is present
