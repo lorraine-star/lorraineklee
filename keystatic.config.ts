@@ -1739,12 +1739,24 @@ export default config({
         ),
         trust: fields.object(
           {
-            heading: fields.text({ label: 'Heading' }),
-            bullets: fields.array(
-              fields.text({ label: 'Bullet (supports **bold**)' }),
+            heading: fields.text({
+              label: 'Heading (==text== renders highlighted)',
+            }),
+            items: fields.array(
+              fields.object({
+                icon: fields.image({
+                  label: 'Icon',
+                  directory: 'public/images/free-course/trust',
+                  publicPath: '/images/free-course/trust/',
+                }),
+                text: fields.text({
+                  label: 'Text (bold lead-in **...** becomes the card heading)',
+                  multiline: true,
+                }),
+              }),
               {
-                label: 'Credibility bullets',
-                itemLabel: (props) => props.value || 'Bullet',
+                label: 'Credibility cards',
+                itemLabel: (props) => props.fields.text.value || 'Card',
               }
             ),
           },

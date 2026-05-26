@@ -14,5 +14,7 @@ export function emphasize(value: string | null | undefined): string {
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
-  return escaped.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  return escaped
+    .replace(/==(.+?)==/g, '<mark>$1</mark>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
 }

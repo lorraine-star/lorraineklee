@@ -2,16 +2,17 @@
 /*
  * /from-invisible-to-influential/ — the free 5-day email course funnel.
  *
- * Canonical URL confirmed in CLI-95. This is a 1:1 recreation of the original
- * WordPress sales funnel: structure, verbatim copy, and Kit form behaviour are
- * faithful to the original, and the VISUAL design intentionally mirrors the
- * original conversion-funnel look (bold Montserrat type, #084af3 blue CTAs,
- * teal/yellow accents, high-contrast dark credibility block) rather than the
- * calm editorial design system used elsewhere on the site.
+ * Canonical URL confirmed in CLI-95. This recreates the ORIGINAL WordPress
+ * sales funnel 1:1 — same section structure, order, verbatim copy, and Kit
+ * form behaviour — and faithfully mirrors the original's visual design:
+ * centered single-column layout, yellow-highlighter headings, an inline
+ * signup form on a light-blue band, a blue 5-day roadmap banner, numbered day
+ * cards with arrow bullets and "You'll learn" pills, an icon credibility row,
+ * and a red-vs-green comparison.
  *
- * Copy lives in Keystatic (src/content/free-course/index.yaml); the Kit form
- * mechanics are hard-wired in FreeCourseForm.astro. Legacy/vanity URLs
- * (/free-course, /landing-01, /5-day-course) 301 here via vercel.json.
+ * Copy lives in Keystatic (src/content/free-course/index.yaml). Headings use
+ * ==text== for the yellow highlight and **text** for bold (see emphasize()).
+ * Kit form mechanics are hard-wired in FreeCourseForm.astro.
  */
 import FunnelLayout from '../layouts/FunnelLayout.astro';
 import FreeCourseForm from '../components/FreeCourseForm.astro';
@@ -25,23 +26,37 @@ if (!fc) {
 
 const { hero, problem, roadmap, days, trust, different, final } = fc;
 const STARS = '/images/free-course/stars.svg';
+const ROADMAP_IMG = '/images/free-course/roadmap-banner.png';
+
+// Split a credibility item into its bold lead-in (card heading) and the rest.
+const splitLead = (text: string) => {
+  const m = text.match(/^\*\*(.+?)\*\*\s*([\s\S]*)$/);
+  return m ? { head: m[1], body: m[2] } : { head: '', body: text };
+};
+const digit = (label: string) => label.replace(/[^0-9]/g, '');
 ---
 
 <FunnelLayout title={fc.seo_title} description={fc.seo_description}>
   <div class="fnl">
     {/* ============ HERO ============ */}
     <section class="fnl-hero">
-      <div class="grid12 fnl-hero-grid">
-        <div class="fnl-hero-copy">
-          <span class="fnl-eyebrow">
-            <img class="fnl-stars" src={STARS} alt="" width="92" height="18" />
+      <div class="grid12">
+        <div class="fnl-hero-inner">
+          <span class="fnl-pill">
+            <img class="fnl-stars" src={STARS} alt="" width="74" height="15" />
             {hero.eyebrow}
           </span>
-          <h1 class="fnl-h1">{hero.headline}</h1>
-          <p class="fnl-h1-suffix"><mark>{hero.headline_suffix}</mark></p>
+          <h1 class="fnl-h1">
+            {hero.headline}{' '}
+            <mark class="fnl-mark">{hero.headline_suffix}</mark>
+          </h1>
           <p class="fnl-support" set:html={emphasize(hero.support)}></p>
 
-          <div class="fnl-form-card">
+          <div class="fnl-hero-photo">
+            <img src={hero.image_desktop} alt={hero.image_alt} fetchpriority="high" decoding="async" />
+          </div>
+
+          <div class="fnl-formband">
             <FreeCourseForm
               formId="8913437"
               idPrefix="fc-hero"
@@ -49,34 +64,16 @@ const STARS = '/images/free-course/stars.svg';
               namePlaceholder={hero.name_placeholder}
               emailPlaceholder={hero.email_placeholder}
             />
-            <p class="fnl-form-foot">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1l3 1.5L18 4v6c0 4.5-2.6 8.4-6 9.9C8.6 18.4 6 14.5 6 10V4l3-1.5L12 1z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
-              100% free. No spam, ever.
-            </p>
-          </div>
-        </div>
-
-        <div class="fnl-hero-media">
-          <div class="fnl-hero-photo">
-            <picture>
-              <source media="(max-width: 760px)" srcset={hero.image_mobile} />
-              <img
-                src={hero.image_desktop}
-                alt={hero.image_alt}
-                fetchpriority="high"
-                decoding="async"
-              />
-            </picture>
           </div>
         </div>
       </div>
     </section>
 
-    {/* ============ PROBLEM ============ */}
+    {/* ============ DOES THIS SOUND LIKE YOU ============ */}
     <section class="fnl-sec fnl-problem">
       <div class="grid12">
-        <div class="fnl-wrap">
-          <h2 class="fnl-h2 fnl-center">{problem.heading}</h2>
+        <div class="fnl-narrow">
+          <h2 class="fnl-h2 fnl-center" set:html={emphasize(problem.heading)}></h2>
           <ul class="fnl-problem-list reveal-stagger">
             {
               problem.bullets.map((b) => (
@@ -98,36 +95,28 @@ const STARS = '/images/free-course/stars.svg';
     {/* ============ 5-DAY ROADMAP ============ */}
     <section class="fnl-sec fnl-roadmap" id="roadmap">
       <div class="grid12">
-        <div class="fnl-wrap">
-          <div class="fnl-center fnl-head">
-            <span class="fnl-kicker">{roadmap.eyebrow}</span>
-            <h2 class="fnl-h2">{roadmap.heading}</h2>
+        <div class="fnl-narrow">
+          <div class="fnl-banner reveal">
+            <div class="fnl-banner-copy">
+              <span class="fnl-banner-kicker">{roadmap.eyebrow}</span>
+              <h2 class="fnl-banner-h">{roadmap.heading}</h2>
+            </div>
+            <img class="fnl-banner-img" src={ROADMAP_IMG} alt="Lorraine K. Lee" loading="lazy" />
           </div>
+
           <div class="fnl-days reveal-stagger">
             {
-              days.map((d) => (
-                <article class="fnl-day">
-                  <div class="fnl-day-num">
-                    <span class="fnl-day-word">Day</span>
-                    <span class="fnl-day-digit">{d.day_label.replace(/[^0-9]/g, '')}</span>
-                  </div>
-                  <div class="fnl-day-body">
-                    <h3 class="fnl-day-title">{d.title}</h3>
-                    <p class="fnl-day-intro">{d.intro}</p>
-                    <p class="fnl-learn">You'll learn:</p>
-                    <ul class="fnl-checks">
-                      {d.bullets.map((b) => (
-                        <li>
-                          <span class="fnl-check" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
-                              <polyline points="20 6 9 17 4 12" />
-                            </svg>
-                          </span>
-                          <span set:html={emphasize(b)}></span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+              days.map((d, i) => (
+                <article class:list={['fnl-day', { 'fnl-day--wide': i === 0 }]}>
+                  <span class="fnl-day-badge">{digit(d.day_label)}</span>
+                  <h3 class="fnl-day-title">{d.title}</h3>
+                  <p class="fnl-day-intro">{d.intro}</p>
+                  <span class="fnl-learn-pill">You'll learn :</span>
+                  <ul class="fnl-arrows">
+                    {d.bullets.map((b) => (
+                      <li set:html={emphasize(b)}></li>
+                    ))}
+                  </ul>
                 </article>
               ))
             }
@@ -136,25 +125,29 @@ const STARS = '/images/free-course/stars.svg';
       </div>
     </section>
 
-    {/* ============ WHY TRUST ME (dark) ============ */}
+    {/* ============ WHY SHOULD YOU TRUST ME ============ */}
     <section class="fnl-sec fnl-trust">
       <div class="grid12">
-        <div class="fnl-wrap">
-          <h2 class="fnl-h2 fnl-center fnl-h2--light">{trust.heading}</h2>
-          <ul class="fnl-trust-list reveal-stagger">
+        <div class="fnl-narrow">
+          <h2 class="fnl-h2 fnl-center" set:html={emphasize(trust.heading)}></h2>
+          <div class="fnl-trust-grid reveal-stagger">
             {
-              trust.bullets.map((b) => (
-                <li class="fnl-trust-item">
-                  <span class="fnl-trust-mark" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2l2.95 6.74L22 9.74l-5.5 4.78L18.18 22 12 18.27 5.82 22l1.68-7.48L2 9.74l7.05-1z" />
-                    </svg>
-                  </span>
-                  <span set:html={emphasize(b)}></span>
-                </li>
-              ))
+              trust.items.map((it) => {
+                const { head, body } = splitLead(it.text);
+                return (
+                  <div class="fnl-trust-card">
+                    {it.icon && (
+                      <span class="fnl-trust-ic">
+                        <img src={it.icon} alt="" loading="lazy" />
+                      </span>
+                    )}
+                    {head && <h3 class="fnl-trust-h">{head}</h3>}
+                    <p class="fnl-trust-b" set:html={emphasize(body)}></p>
+                  </div>
+                );
+              })
             }
-          </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -162,18 +155,17 @@ const STARS = '/images/free-course/stars.svg';
     {/* ============ WHY THIS ISN'T LIKE EVERY OTHER COURSE ============ */}
     <section class="fnl-sec fnl-different">
       <div class="grid12">
-        <div class="fnl-wrap">
-          <h2 class="fnl-h2 fnl-center">{different.heading}</h2>
+        <div class="fnl-narrow">
+          <h2 class="fnl-h2 fnl-center" set:html={emphasize(different.heading)}></h2>
           <div class="fnl-compare reveal-stagger">
             <div class="fnl-col fnl-col--not">
               <ul>
                 {
                   different.not_items.map((item) => (
                     <li>
-                      <span class="fnl-x fnl-x--sm" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
-                          <line x1="18" y1="6" x2="6" y2="18" />
-                          <line x1="6" y1="6" x2="18" y2="18" />
+                      <span class="fnl-bang" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-1 5h2v7h-2V7zm0 9h2v2h-2v-2z" />
                         </svg>
                       </span>
                       <span set:html={emphasize(item)}></span>
@@ -187,7 +179,7 @@ const STARS = '/images/free-course/stars.svg';
                 {
                   different.is_items.map((item) => (
                     <li>
-                      <span class="fnl-check fnl-check--light" aria-hidden="true">
+                      <span class="fnl-tick" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
                           <polyline points="20 6 9 17 4 12" />
                         </svg>
@@ -203,13 +195,13 @@ const STARS = '/images/free-course/stars.svg';
       </div>
     </section>
 
-    {/* ============ FINAL CTA (blue) ============ */}
+    {/* ============ FINAL CTA ============ */}
     <section class="fnl-sec fnl-final" id="signup">
       <div class="grid12">
-        <div class="fnl-final-inner reveal">
-          <img class="fnl-stars fnl-stars--lg" src={STARS} alt="" width="132" height="26" />
-          <h2 class="fnl-final-h">{final.heading}</h2>
-          <div class="fnl-form-card fnl-form-card--final">
+        <div class="fnl-narrow fnl-center">
+          <img class="fnl-stars fnl-stars--lg" src={STARS} alt="" width="120" height="24" />
+          <h2 class="fnl-h2 fnl-final-h">{final.heading}</h2>
+          <div class="fnl-formband fnl-formband--final">
             <FreeCourseForm
               formId="8913490"
               idPrefix="fc-final"
@@ -217,10 +209,6 @@ const STARS = '/images/free-course/stars.svg';
               namePlaceholder={hero.name_placeholder}
               emailPlaceholder={hero.email_placeholder}
             />
-            <p class="fnl-form-foot">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1l3 1.5L18 4v6c0 4.5-2.6 8.4-6 9.9C8.6 18.4 6 14.5 6 10V4l3-1.5L12 1z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
-              100% free. No spam, ever.
-            </p>
           </div>
         </div>
       </div>
@@ -230,184 +218,151 @@ const STARS = '/images/free-course/stars.svg';
 
 <style>
   /* ============================================================
-     Free-course SALES FUNNEL — bold conversion design that mirrors
-     the original WordPress funnel. All scoped under .fnl.
+     Free-course SALES FUNNEL — faithful recreation of the original
+     WordPress funnel design. Centered, light, Montserrat, #084af3.
+     All scoped under .fnl.
      ============================================================ */
   .fnl {
     --f-blue: #084af3;
     --f-blue-700: #0a36c2;
     --f-ink: #0f1014;
-    --f-ink-soft: #33373d;
     --f-gray: #69727d;
-    --f-teal: #5eead4;
     --f-yellow: #fce036;
-    --f-lightblue: #c3e2ff;
-    --f-soft: #f3f6fb;
+    --f-band: #d6e7ff;
+    --f-soft: #f6f7f9;
     --f-line: #e6ebf3;
 
     font-family: 'Montserrat', 'Inter', system-ui, sans-serif;
-    color: var(--f-ink-soft);
+    color: var(--f-ink);
   }
   .fnl :global(strong) {
-    color: var(--f-ink);
     font-weight: 800;
+    color: var(--f-ink);
   }
-  .fnl-wrap {
+  .fnl :global(mark),
+  .fnl-mark {
+    background: linear-gradient(180deg, transparent 58%, var(--f-yellow) 58%);
+    color: inherit;
+    padding: 0 2px;
+  }
+  .fnl-narrow {
     grid-column: 1 / -1;
-    max-width: 960px;
+    max-width: 920px;
     margin: 0 auto;
     width: 100%;
   }
   .fnl-sec {
-    padding: clamp(48px, 7vw, 96px) 0;
+    padding: clamp(44px, 6vw, 84px) 0;
   }
   .fnl-center {
     text-align: center;
   }
 
-  /* ---- Shared headings ---- */
   .fnl-h1 {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 900;
-    font-size: clamp(34px, 4.6vw, 58px);
-    line-height: 1.04;
-    letter-spacing: -0.02em;
-    color: var(--f-ink);
-    margin: 14px 0 0;
-    text-transform: none;
-  }
-  .fnl-h1-suffix {
-    margin: 14px 0 0;
-    font-family: 'Montserrat', sans-serif;
     font-weight: 800;
-    font-size: clamp(18px, 2.2vw, 26px);
-    line-height: 1.2;
-  }
-  .fnl-h1-suffix mark {
-    background: linear-gradient(180deg, transparent 55%, var(--f-yellow) 55%);
+    font-size: clamp(28px, 3.6vw, 44px);
+    line-height: 1.18;
+    letter-spacing: -0.01em;
     color: var(--f-ink);
-    padding: 0 4px;
+    margin: 22px 0 0;
+    text-align: center;
   }
   .fnl-h2 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 800;
-    font-size: clamp(28px, 3.6vw, 44px);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+    font-size: clamp(26px, 3.2vw, 40px);
+    line-height: 1.18;
+    letter-spacing: -0.01em;
     color: var(--f-ink);
     margin: 0;
-  }
-  .fnl-h2--light {
-    color: #fff;
-  }
-  .fnl-head {
-    margin-bottom: clamp(32px, 4vw, 52px);
-  }
-  .fnl-kicker {
-    display: inline-block;
-    font-weight: 800;
-    font-size: 13px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--f-blue);
-    margin-bottom: 14px;
-  }
-  .fnl-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 800;
-    font-size: 13px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--f-blue);
-  }
-  .fnl-stars {
-    height: 18px;
-    width: auto;
-    display: block;
   }
 
   /* ---- HERO ---- */
   .fnl-hero {
-    background:
-      radial-gradient(120% 80% at 85% 0%, rgba(8, 74, 243, 0.08) 0, transparent 55%),
-      linear-gradient(180deg, #eef3ff 0%, #ffffff 70%);
-    padding: clamp(36px, 5vw, 72px) 0 clamp(48px, 6vw, 84px);
-    overflow: hidden;
+    padding: clamp(28px, 4vw, 56px) 0 clamp(40px, 5vw, 72px);
+    text-align: center;
   }
-  .fnl-hero-grid {
+  .fnl-hero-inner {
+    grid-column: 1 / -1;
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    row-gap: 36px;
   }
-  .fnl-hero-copy {
-    grid-column: 1 / span 7;
+  .fnl-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: #eef0f4;
+    color: var(--f-ink);
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    padding: 11px 20px;
+    border-radius: 999px;
   }
-  .fnl-hero-media {
-    grid-column: 8 / span 5;
+  .fnl-stars {
+    height: 15px;
+    width: auto;
+    display: block;
   }
   .fnl-support {
-    margin: 20px 0 0;
+    margin: 18px 0 0;
     font-size: clamp(15px, 1.2vw, 17px);
     line-height: 1.6;
     color: var(--f-gray);
-    max-width: 48ch;
     font-weight: 500;
+    max-width: 60ch;
   }
-
   .fnl-hero-photo {
-    position: relative;
-    border-radius: 22px;
-    overflow: hidden;
-    box-shadow: 0 30px 60px -28px rgba(8, 74, 243, 0.4);
-    border: 4px solid #fff;
-  }
-  .fnl-hero-photo::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
+    margin: 8px auto 0;
+    max-width: 560px;
+    width: 100%;
   }
   .fnl-hero-photo img {
     display: block;
     width: 100%;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    object-position: center top;
+    height: auto;
   }
 
-  /* ---- FORM CARD ---- */
-  .fnl-form-card {
-    margin-top: 26px;
-    background: #fff;
-    border: 1px solid var(--f-line);
-    border-radius: 18px;
-    padding: clamp(18px, 2vw, 24px);
-    box-shadow: 0 24px 50px -30px rgba(15, 16, 20, 0.4);
-    max-width: 460px;
+  /* ---- FORM BAND (inline) ---- */
+  .fnl-formband {
+    width: 100%;
+    max-width: 720px;
+    margin: 4px auto 0;
+    background: var(--f-band);
+    border-radius: 16px;
+    padding: clamp(16px, 2vw, 22px);
   }
-  .fnl-form-card--final {
-    max-width: 480px;
-    margin: 26px auto 0;
-    text-align: left;
+  .fnl-formband--final {
+    margin-top: 26px;
   }
   .fnl :global(.fc-form) {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 10px;
     margin: 0;
+  }
+  .fnl :global(.fc-field) {
+    flex: 1 1 180px;
+    display: flex;
   }
   .fnl :global(.fc-input) {
     width: 100%;
     font-family: 'Montserrat', sans-serif;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 500;
     color: var(--f-ink);
     background: #fff;
-    border: 2px solid var(--f-line);
-    border-radius: 10px;
-    padding: 15px 16px;
-    transition: border-color 160ms ease, box-shadow 160ms ease;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    padding: 14px 15px;
+    transition: box-shadow 160ms ease;
   }
   .fnl :global(.fc-input::placeholder) {
     color: #9aa3b0;
@@ -415,176 +370,189 @@ const STARS = '/images/free-course/stars.svg';
   }
   .fnl :global(.fc-input:focus-visible) {
     outline: none;
-    border-color: var(--f-blue);
-    box-shadow: 0 0 0 4px rgba(8, 74, 243, 0.14);
+    box-shadow: 0 0 0 3px rgba(8, 74, 243, 0.35);
   }
-  /* High-specificity override of the editorial .btn primary. */
   .fnl :global(.fc-form .fc-submit) {
-    width: 100%;
+    flex: 0 0 auto;
     justify-content: center;
     background: var(--f-blue);
     color: #fff;
     font-family: 'Montserrat', sans-serif;
     font-weight: 800;
-    font-size: 15px;
+    font-size: 14px;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    border-radius: 10px;
-    padding: 17px 24px;
-    box-shadow: 0 14px 26px -12px rgba(8, 74, 243, 0.7);
-    transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+    border-radius: 8px;
+    padding: 14px 26px;
+    box-shadow: 0 10px 22px -12px rgba(8, 74, 243, 0.7);
+    transition: transform 160ms ease, background 160ms ease;
   }
   .fnl :global(.fc-form .fc-submit:hover) {
     background: var(--f-blue-700);
     transform: translateY(-2px);
-    box-shadow: 0 20px 32px -14px rgba(8, 74, 243, 0.8);
   }
-  .fnl :global(.fc-form .fc-submit:active) {
-    transform: translateY(0);
-  }
-  .fnl-form-foot {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    margin: 14px 0 0;
-    font-size: 12.5px;
+  .fnl :global(.fc-form-error) {
+    flex: 1 0 100%;
+    margin: 4px 0 0;
+    font-size: 13px;
     font-weight: 600;
-    color: var(--f-gray);
+    color: #c0392b;
+    text-align: center;
   }
-  .fnl-form-foot svg {
-    width: 15px;
-    height: 15px;
-    color: var(--f-blue);
+  .fnl :global(.fc-form-error[hidden]) {
+    display: none;
   }
 
   /* ---- PROBLEM ---- */
-  .fnl-problem {
-    background: var(--f-soft);
-  }
   .fnl-problem .fnl-h2 {
-    margin-bottom: clamp(28px, 3.5vw, 44px);
+    margin-bottom: clamp(26px, 3vw, 40px);
   }
   .fnl-problem-list {
     list-style: none;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
+    max-width: 620px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
   .fnl-problem-item {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 13px;
-    background: #fff;
-    border: 1px solid var(--f-line);
-    border-radius: 12px;
-    padding: 16px 18px;
+    background: var(--f-soft);
+    border-radius: 10px;
+    padding: 14px 18px;
     font-size: 15.5px;
-    font-weight: 600;
-    line-height: 1.45;
-    color: var(--f-ink-soft);
-    box-shadow: 0 8px 20px -16px rgba(15, 16, 20, 0.3);
+    font-weight: 500;
+    line-height: 1.4;
+    color: #2a2f37;
   }
 
-  /* ---- check / x badges ---- */
+  /* ---- shared check ---- */
   .fnl-check,
-  .fnl-x {
+  .fnl-tick,
+  .fnl-bang {
     flex-shrink: 0;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-top: 1px;
   }
   .fnl-check {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
     background: var(--f-blue);
     color: #fff;
   }
-  .fnl-x {
-    background: #ffe2e2;
-    color: #e0414b;
-  }
-  .fnl-check svg,
-  .fnl-x svg {
-    width: 15px;
-    height: 15px;
-  }
-  .fnl-x--sm,
-  .fnl-check--light {
-    width: 24px;
-    height: 24px;
+  .fnl-check svg {
+    width: 14px;
+    height: 14px;
   }
 
-  /* ---- ROADMAP ---- */
+  /* ---- ROADMAP BANNER ---- */
+  .fnl-banner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    align-items: end;
+    gap: 16px;
+    background:
+      radial-gradient(circle at 88% 20%, rgba(255, 255, 255, 0.16) 0 2px, transparent 3px),
+      linear-gradient(135deg, #1450ff 0%, #084af3 60%, #0a36c2 100%);
+    border-radius: 20px;
+    padding: clamp(26px, 3vw, 40px);
+    padding-bottom: 0;
+    overflow: hidden;
+    margin-bottom: clamp(28px, 3.5vw, 44px);
+  }
+  .fnl-banner-copy {
+    padding-bottom: clamp(26px, 3vw, 40px);
+  }
+  .fnl-banner-kicker {
+    display: block;
+    color: rgba(255, 255, 255, 0.92);
+    font-weight: 600;
+    font-size: clamp(14px, 1.4vw, 17px);
+    margin-bottom: 8px;
+  }
+  .fnl-banner-h {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: clamp(22px, 2.8vw, 36px);
+    line-height: 1.1;
+    color: #fff;
+    margin: 0;
+  }
+  .fnl-banner-img {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    justify-self: end;
+    align-self: end;
+  }
+
+  /* ---- DAY CARDS ---- */
   .fnl-days {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(28px, 3vw, 40px) 24px;
   }
   .fnl-day {
-    display: grid;
-    grid-template-columns: 96px 1fr;
+    position: relative;
     background: #fff;
     border: 1px solid var(--f-line);
     border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 18px 40px -28px rgba(8, 74, 243, 0.35);
+    padding: 30px clamp(20px, 2.2vw, 28px) clamp(22px, 2.2vw, 28px);
+    box-shadow: 0 22px 44px -30px rgba(8, 74, 243, 0.4);
   }
-  .fnl-day-num {
-    background: linear-gradient(160deg, var(--f-blue) 0%, #2b63ff 100%);
+  .fnl-day--wide {
+    grid-column: 1 / -1;
+  }
+  .fnl-day-badge {
+    position: absolute;
+    top: -16px;
+    left: 26px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--f-blue);
     color: #fff;
-    display: flex;
-    flex-direction: column;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 2px;
-    padding: 20px 10px;
-  }
-  .fnl-day-word {
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    opacity: 0.85;
-  }
-  .fnl-day-digit {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 900;
-    font-size: 44px;
-    line-height: 1;
-  }
-  .fnl-day-body {
-    padding: clamp(20px, 2.4vw, 30px);
+    box-shadow: 0 8px 16px -6px rgba(8, 74, 243, 0.6);
   }
   .fnl-day-title {
     font-family: 'Montserrat', sans-serif;
     font-weight: 800;
-    font-size: clamp(19px, 2vw, 24px);
-    line-height: 1.18;
-    letter-spacing: -0.01em;
+    font-size: clamp(18px, 1.9vw, 22px);
+    line-height: 1.2;
     color: var(--f-ink);
-    margin: 0 0 8px;
+    margin: 0 0 10px;
   }
   .fnl-day-intro {
-    font-size: 15.5px;
+    font-size: 15px;
     font-weight: 500;
     line-height: 1.55;
     color: var(--f-gray);
     margin: 0 0 16px;
   }
-  .fnl-learn {
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--f-blue);
-    margin: 0 0 12px;
+  .fnl-learn-pill {
+    display: inline-block;
+    background: var(--f-band);
+    color: #0a36c2;
+    font-weight: 700;
+    font-size: 12.5px;
+    padding: 5px 12px;
+    border-radius: 7px;
+    margin-bottom: 14px;
   }
-  .fnl-checks {
+  .fnl-arrows {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -592,74 +560,92 @@ const STARS = '/images/free-course/stars.svg';
     flex-direction: column;
     gap: 11px;
   }
-  .fnl-checks li {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    font-size: 15px;
+  .fnl-arrows li {
+    position: relative;
+    padding-left: 26px;
+    font-size: 14.5px;
     font-weight: 500;
     line-height: 1.5;
-    color: var(--f-ink-soft);
+    color: #2a2f37;
   }
-
-  /* ---- TRUST (dark) ---- */
-  .fnl-trust {
-    background: var(--f-ink);
-  }
-  .fnl-trust .fnl-h2 {
-    margin-bottom: clamp(30px, 4vw, 48px);
-  }
-  .fnl-trust-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 18px 28px;
-  }
-  .fnl-trust-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    font-size: 15.5px;
-    font-weight: 500;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.72);
-  }
-  .fnl-trust-item :global(strong) {
-    color: #fff;
+  .fnl-arrows li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--f-blue);
     font-weight: 800;
   }
-  .fnl-trust-mark {
-    flex-shrink: 0;
-    color: var(--f-teal);
-    margin-top: 1px;
+
+  /* ---- TRUST ---- */
+  .fnl-trust .fnl-h2 {
+    margin-bottom: clamp(30px, 4vw, 52px);
   }
-  .fnl-trust-mark svg {
-    width: 22px;
-    height: 22px;
+  .fnl-trust-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(24px, 3vw, 40px);
+  }
+  .fnl-trust-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .fnl-trust-ic {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #e8f1ff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  .fnl-trust-ic img {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+  }
+  .fnl-trust-h {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 17px;
+    line-height: 1.25;
+    color: var(--f-ink);
+    margin: 0 0 10px;
+  }
+  .fnl-trust-b {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.55;
+    color: var(--f-gray);
+    margin: 0;
+    max-width: 30ch;
   }
 
   /* ---- DIFFERENT (compare) ---- */
   .fnl-different .fnl-h2 {
-    margin-bottom: clamp(30px, 4vw, 48px);
+    margin-bottom: clamp(28px, 3.5vw, 48px);
   }
   .fnl-compare {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 22px;
+    max-width: 880px;
+    margin: 0 auto;
   }
   .fnl-col {
-    border-radius: 18px;
+    border-radius: 16px;
     padding: clamp(22px, 2.6vw, 32px);
   }
   .fnl-col--not {
-    background: #fff5f5;
-    border: 1px solid #ffd9d9;
+    background: var(--f-soft);
+    border: 1px solid var(--f-line);
   }
   .fnl-col--is {
-    background: var(--f-ink);
-    border: 1px solid var(--f-ink);
+    background: #eefcf6;
+    border: 1px solid #c9f0df;
   }
   .fnl-col ul {
     list-style: none;
@@ -667,85 +653,79 @@ const STARS = '/images/free-course/stars.svg';
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 16px;
   }
   .fnl-col li {
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    font-size: 15.5px;
+    font-size: 15px;
     font-weight: 600;
     line-height: 1.45;
+    color: #2a2f37;
   }
-  .fnl-col--not li {
-    color: var(--f-ink-soft);
+  .fnl-bang {
+    color: #e0414b;
+    margin-top: 1px;
   }
-  .fnl-col--is li {
-    color: rgba(255, 255, 255, 0.82);
+  .fnl-bang svg {
+    width: 22px;
+    height: 22px;
   }
-  .fnl-col--is li :global(strong) {
+  .fnl-tick {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #1fae6c;
     color: #fff;
+    margin-top: 1px;
   }
-  .fnl-check--light {
-    background: var(--f-teal);
-    color: var(--f-ink);
+  .fnl-tick svg {
+    width: 14px;
+    height: 14px;
   }
 
-  /* ---- FINAL CTA (blue) ---- */
+  /* ---- FINAL CTA ---- */
   .fnl-final {
-    background:
-      radial-gradient(80% 120% at 50% 0%, #2b63ff 0, transparent 60%),
-      var(--f-blue);
-  }
-  .fnl-final-inner {
-    grid-column: 1 / -1;
-    max-width: 640px;
-    margin: 0 auto;
-    text-align: center;
+    background: linear-gradient(180deg, #f3f7ff 0%, #ffffff 100%);
   }
   .fnl-stars--lg {
-    height: 26px;
-    margin: 0 auto 18px;
+    height: 24px;
+    margin: 0 auto 16px;
   }
   .fnl-final-h {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 900;
-    font-size: clamp(30px, 4.2vw, 52px);
-    line-height: 1.06;
-    letter-spacing: -0.02em;
-    color: #fff;
-    margin: 0;
+    font-size: clamp(28px, 3.6vw, 46px);
+    margin-bottom: 4px;
   }
-
-  /* ---- Reveal styling handled by templates.css + FunnelLayout fallback ---- */
 
   /* ---- Responsive ---- */
-  @media (max-width: 900px) {
-    .fnl-hero-copy {
-      grid-column: 1 / -1;
-      order: 2;
+  @media (max-width: 760px) {
+    .fnl-banner {
+      grid-template-columns: 1fr;
     }
-    .fnl-hero-media {
-      grid-column: 1 / -1;
-      order: 1;
-      max-width: 420px;
-      margin: 0 auto;
+    .fnl-banner-img {
+      max-width: 220px;
+      justify-self: center;
     }
-    .fnl-form-card {
-      max-width: 560px;
+    .fnl-days {
+      grid-template-columns: 1fr;
     }
-  }
-  @media (max-width: 680px) {
-    .fnl-problem-list,
-    .fnl-trust-list,
+    .fnl-trust-grid {
+      grid-template-columns: 1fr 1fr;
+    }
     .fnl-compare {
       grid-template-columns: 1fr;
     }
-    .fnl-day {
-      grid-template-columns: 72px 1fr;
+  }
+  @media (max-width: 520px) {
+    .fnl :global(.fc-form .fc-submit) {
+      width: 100%;
+      flex: 1 0 100%;
     }
-    .fnl-day-digit {
-      font-size: 34px;
+    .fnl-trust-grid {
+      grid-template-columns: 1fr;
+      max-width: 360px;
+      margin: 0 auto;
     }
   }
 </style>
