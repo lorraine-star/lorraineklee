@@ -32,7 +32,7 @@ export const mainNavItems: NavItem[] = [
     children: [
       { label: 'Thought Leadership Overview', href: '/articles' },
       { label: 'Guest Interviews', href: '/articles#guest-interviews' },
-      { label: 'Featured In', href: '/articles#featured-in' },
+      { label: 'Featured In', href: '/featured-in' },
       { label: 'Authored Articles', href: '/articles#authored' },
       { label: 'Newsletter', href: '/articles#newsletter' },
       { label: 'Ultimate LinkedIn Guide', href: '/learn#linkedin-guide' },
