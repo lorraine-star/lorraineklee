@@ -3,6 +3,7 @@ import SpeakingLayout from '../layouts/SpeakingLayout.astro';
 import HomeTestimonialsCarousel from '../components/HomeTestimonialsCarousel';
 import SecondaryTestimonialsCarousel from '../components/SecondaryTestimonialsCarousel';
 import { reader } from '../lib/keystatic';
+import { getTestimonials, toCarouselCard, toColumnCard } from '../lib/testimonials';
 import { safeUrl } from '../lib/url';
 
 const speaking = await reader.singletons.speaking.read();
@@ -26,9 +27,7 @@ const {
 	moderation_section,
 	moderation_clips,
 	testimonials_section,
-	testimonials,
 	attendee_testimonials_section,
-	attendee_testimonials,
 	repeats_section,
 	repeats,
 	as_seen_in_eyebrow,
@@ -44,16 +43,17 @@ const statDisplay = (value: string, decimals: number) => {
 
 const reelEmbed = safeUrl(reel_section?.embed_url);
 
-const toCarousel = (list: typeof testimonials) =>
-	(list ?? []).map((t) => ({
-		quote: t.quote,
-		name: t.name,
-		role: t.role,
-		initials: t.initials,
-		photo: t.photo || undefined,
-	}));
-const organizerCarousel = toCarousel(testimonials);
-const attendeeCarousel = toCarousel(attendee_testimonials);
+// Testimonial copy comes from the shared collection (CLI-118); the section
+// heading/lead copy above still lives in the speaking singleton.
+const organizerCarousel = (
+	await getTestimonials({
+		placement: 'speaking',
+		type: 'client-organizer-speaking',
+	})
+).map(toCarouselCard);
+const attendeeCarousel = (
+	await getTestimonials({ placement: 'speaking', type: 'event-attendee' })
+).map(toColumnCard);
 const linkedinRecommendationsUrl =
 	'https://www.linkedin.com/in/lorraineklee/details/recommendations/';
 
@@ -521,7 +521,7 @@ const clientsLen = past_clients?.length ?? 0;
 	</section>
 
 	{
-		attendee_testimonials_section && attendee_testimonials?.length > 0 && (
+		attendee_testimonials_section && attendeeCarousel.length > 0 && (
 			<section class="section section--tight section--cream attendee-testimonials">
 				<div class="grid12">
 					<div class="section-head">
