@@ -1983,17 +1983,6 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   margin: 0;
 }
 
-/* ----------------------------------------------------------------
-   Endorsements carousel wrapper — Book page
-   The actual carousel UI lives in src/components/CircularTestimonials.
-   ---------------------------------------------------------------- */
-.endorsement-carousel-wrap {
-  grid-column: 1 / -1;
-  display: flex;
-  justify-content: center;
-  padding-top: 8px;
-}
-
 .learn-list {
   grid-column: 1 / -1;
   display: grid;

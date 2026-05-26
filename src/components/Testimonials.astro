@@ -17,6 +17,7 @@
  */
 import HomeTestimonialsCarousel from './HomeTestimonialsCarousel';
 import { reader } from '../lib/keystatic';
+import './home-testimonials-carousel.css';
 
 type Testimonial = {
   quote: string;
@@ -25,6 +26,8 @@ type Testimonial = {
   photo?: string;
   photoAlt?: string;
   initials: string;
+  /** Optional company / book-cover logos (used by the book page endorsements). */
+  logos?: { image: string; alt: string }[];
 };
 
 interface Props {
@@ -78,7 +81,7 @@ if (!testimonials) {
     <div class="testimonials-head">
       <span class="eyebrow">{eyebrow}</span>
       <h2 class="testimonials-title" set:html={titleHtml}></h2>
-      <p class="lead">{lead}</p>
+      {lead && <p class="lead">{lead}</p>}
     </div>
     <HomeTestimonialsCarousel testimonials={testimonials} client:load />
   </div>
