@@ -27,11 +27,11 @@ Tests are YAML files in this folder; project config lives in
 | `work-with-me-cta` | regression | "Work With Me" routes to the contact page |
 | `keynote-detail` | regression | Representative `/keynotes/[slug]` — hero, "Book this talk", takeaways |
 | `course-detail` | regression | Representative `/courses/[slug]` — hero, "Watch on LinkedIn Learning" |
-| `speaking-topic-detail` | regression | Representative `/speaking/[slug]` — hero, "Book this talk", takeaways |
 
 Every page route has at least one test. Static pages and collection index pages
-run as `smoke` (per deploy); the three dynamic detail templates are covered by
-one representative slug each as `regression` (run in the nightly full sweep).
+run as `smoke` (per deploy); the two dynamic detail templates (`/keynotes/[slug]`
+and `/courses/[slug]`) are covered by one representative slug each as
+`regression` (run in the nightly full sweep).
 
 Page tests `navigate:` to a relative path; the suite auto-loads the base URL
 first, which sets the Vercel bypass cookie on protected previews so subsequent
