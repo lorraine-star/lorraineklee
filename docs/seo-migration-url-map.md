@@ -38,7 +38,7 @@ These apply site-wide and are **not** repeated per row below.
 | `/articles/[slug]` | built | Individual articles / newsletter issues |
 | `/thought-leadership` | **pending** | Thought Leadership (slug change — see CLI-38) |
 | `/testimonials` | **pending** | Testimonials |
-| `/coaching` | **pending** | Coaching |
+| `/coaching` | built | Coaching |
 | `/consulting` | built | Consulting |
 | `/interviews` | built | Guest Interviews + video CMS collection |
 | `/keynotes/[slug]` | **pending** | Keynote detail pages (CMS collection) |
@@ -63,7 +63,7 @@ go live once that page is built.
 | `/featured-in/` | `/thought-leadership` ⏳ | **301** | Consolidate into Thought Leadership (overlapping content; matches existing WP rule id 12). Confirm with client. |
 | `/testimonials/` | `/testimonials` ⏳ | preserve | |
 | `/testimonials-old/` | `/testimonials` ⏳ | **301** | Legacy duplicate — consolidate. |
-| `/coaching/` | `/coaching` ⏳ | preserve | |
+| `/coaching/` | `/coaching` | preserve | Built (CLI-83). |
 | `/consulting/` | `/consulting` | preserve | Canonical consulting URL. `/consulting-and-coaching/` 301s here (see §10). |
 | `/mentorship/` | `/about` | **301** | Thin page — fold into About unless client wants a standalone page. |
 | `/interviews/` | `/interviews` | preserve | Built (CLI-85). |
@@ -199,7 +199,7 @@ Crawl flagged these as stale, event-specific, or thin. Default: **noindex +
 | `/from-the-archive-*` (3 URLs) | `/articles/{slug}` ⏳ | **301** |
 | `/email-me-with-your-topic-of-interest/`, `/thank-you-for-sharing-your-interest/`, `/thank-you-youre-still-on-the-list/`, `/linkedin-workshop-video/`, `/key-takeaways-download/` | `/contact` or `/learn` | **301** (thin utility pages) |
 | `/newsletter-back-issues/` | `/articles` | **301** |
-| `/async-linkedin-profile-audit-assessment/` | `/coaching` ⏳ | **301** (confirm if service active) |
+| `/async-linkedin-profile-audit-assessment/` | `/coaching#linkedin-audit` | **301** (live in `vercel.json`, CLI-83). Service confirmed active (~$499 async profile audit); folded into `/coaching` as a dedicated offer section rather than a standalone page. Confirm price/turnaround with client. |
 
 ## 10. Existing WordPress vanity / campaign short-links
 
