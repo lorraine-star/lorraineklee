@@ -1,0 +1,577 @@
+---
+import SpeakingLayout from '../layouts/SpeakingLayout.astro';
+import { reader } from '../lib/keystatic';
+import { safeUrl } from '../lib/url';
+
+const page = await reader.singletons.thoughtLeadership.read();
+if (!page) {
+	throw new Error(
+		'Missing thought leadership content (src/content/thought-leadership/index.yaml)'
+	);
+}
+
+const {
+	hero,
+	appearances_section,
+	appearances,
+	press_section,
+	press_features,
+	articles_section,
+	authored_articles,
+	interviews_section,
+	interviews,
+	final_cta,
+} = page;
+
+const isExternal = (url: string) => /^https?:\/\//i.test(url);
+const watchUrl = (id: string) => `https://www.youtube.com/watch?v=${id}`;
+const thumbUrl = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+
+// `safeUrl` returns '#' for invalid/unsafe URLs (e.g. javascript:). Treat that
+// as "no link" so empty/unsafe values are dropped by filters and fall through
+// to `|| fallback` rather than rendering a dead `#` link.
+const resolveUrl = (value: string | null | undefined) => {
+	const url = safeUrl(value);
+	return url && url !== '#' ? url : '';
+};
+
+// Media items (appearances + interviews): prefer the YouTube link, fall back to
+// the free-text URL, and drop anything that does not resolve to a real link.
+const toMedia = (items: typeof appearances) =>
+	(items ?? [])
+		.map((item) => {
+			const id = (item.youtube_id ?? '').trim();
+			const href = id ? watchUrl(id) : resolveUrl(item.url);
+			// Prefer an uploaded cover image; fall back to the YouTube poster.
+			const image = item.thumbnail || (id ? thumbUrl(id) : '');
+			// Only honor the "logo" treatment for an uploaded image (YouTube
+			// posters are always photos).
+			const isLogo = Boolean(item.thumbnail) && item.thumbnail_fit === 'logo';
+			return { ...item, id, href, image, isLogo };
+		})
+		.filter((item) => item.href);
+
+const guestAppearances = toMedia(appearances);
+const conductedInterviews = toMedia(
+	(interviews ?? []).map((i) => ({
+		// Map interview fields onto the shared media shape (show/title).
+		show: i.role,
+		title: i.name,
+		description: i.description,
+		thumbnail: i.thumbnail,
+		thumbnail_fit: i.thumbnail_fit,
+		youtube_id: i.youtube_id,
+		url: i.url,
+		cta_label: i.cta_label,
+		date: '',
+	}))
+);
+
+const pressFeatures = (press_features ?? [])
+	.map((f) => ({ ...f, href: resolveUrl(f.url) }))
+	.filter((f) => f.href);
+const articles = (authored_articles ?? [])
+	.map((a) => ({ ...a, href: resolveUrl(a.url) }))
+	.filter((a) => a.href);
+
+const primaryCtaUrl = resolveUrl(hero.primary_cta_url) || '/contact';
+const secondaryCtaUrl = resolveUrl(hero.secondary_cta_url) || '#press';
+const finalCtaUrl = resolveUrl(final_cta.cta_url) || '/contact';
+
+const appearancesMore = resolveUrl(appearances_section.view_more_url);
+const pressMore = resolveUrl(press_section.view_more_url);
+const articlesMore = resolveUrl(articles_section.view_more_url);
+const interviewsMore = resolveUrl(interviews_section.view_more_url);
+---
+
+<SpeakingLayout
+	title="Thought Leadership | Lorraine K. Lee"
+	description={hero.lead}
+	activeId="thought-leadership"
+>
+	{/* ---------- Hero ---------- */}
+	<section class="page-hero page-hero--center">
+		<div class="grid12 page-hero-grid">
+			<div class="page-hero-copy fade-up">
+				<div class="page-hero-eyebrow">
+					<span class="dot"></span>
+					<span class="eyebrow" style="color: var(--ink-500);">
+						{hero.eyebrow}
+					</span>
+				</div>
+				<h1>{hero.headline} <em>{hero.headline_accent}</em></h1>
+				<p class="lead-large">{hero.lead}</p>
+				<div class="hero-cta-row">
+					<a
+						class="btn primary large"
+						href={primaryCtaUrl}
+						target={isExternal(primaryCtaUrl) ? '_blank' : undefined}
+						rel={isExternal(primaryCtaUrl) ? 'noopener noreferrer' : undefined}
+					>
+						{hero.primary_cta_label} <span aria-hidden="true">&rarr;</span>
+					</a>
+					{
+						hero.secondary_cta_label && (
+							<a class="anchor-link" href={secondaryCtaUrl}>
+								{hero.secondary_cta_label}{' '}
+								<span class="arrow" aria-hidden="true">&rarr;</span>
+							</a>
+						)
+					}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Guest appearances (Lorraine as guest) ---------- */}
+	{
+		guestAppearances.length > 0 && (
+			<section class="section section--tight anchor-target" id="appearances">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{appearances_section.eyebrow}</span>
+						<h2>
+							{appearances_section.heading}{' '}
+							<em>{appearances_section.heading_accent}</em>
+						</h2>
+						{appearances_section.lead && (
+							<p class="lead">{appearances_section.lead}</p>
+						)}
+					</div>
+					<div class="tl-media-cards reveal-stagger">
+						{guestAppearances.map((g) => (
+							<a
+								class="tl-media-card"
+								href={g.href}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<div class:list={['tl-media-thumb', { 'tl-media-thumb--logo': g.isLogo }]}>
+									{g.image ? (
+										<img
+											src={g.image}
+											alt=""
+											loading="lazy"
+											width="480"
+											height="360"
+										/>
+									) : (
+										<div class="tl-media-thumb-deco" aria-hidden="true" />
+									)}
+									<span class="tl-media-play" aria-hidden="true">
+										<svg viewBox="0 0 24 24" fill="currentColor">
+											<path d="M8 5v14l11-7z" />
+										</svg>
+									</span>
+								</div>
+								<div class="tl-media-body">
+									<span class="tl-media-meta">
+										{g.show}
+										{g.show && g.date ? ' · ' : ''}
+										{g.date}
+									</span>
+									<h3>{g.title}</h3>
+									{g.description && (
+										<p class="tl-media-desc">{g.description}</p>
+									)}
+									<span class="tl-media-link">
+										{g.cta_label || 'Watch now'}{' '}
+										<span aria-hidden="true">&#8599;</span>
+									</span>
+								</div>
+							</a>
+						))}
+					</div>
+					{appearancesMore && appearances_section.view_more_label && (
+						<div class="tl-view-more">
+							<a
+								class="anchor-link"
+								href={appearancesMore}
+								target={isExternal(appearancesMore) ? '_blank' : undefined}
+								rel={
+									isExternal(appearancesMore)
+										? 'noopener noreferrer'
+										: undefined
+								}
+							>
+								{appearances_section.view_more_label}{' '}
+								<span class="arrow" aria-hidden="true">&rarr;</span>
+							</a>
+						</div>
+					)}
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Featured In (press teaser) ---------- */}
+	{
+		pressFeatures.length > 0 && (
+			<section class="section section--cream anchor-target" id="press">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{press_section.eyebrow}</span>
+						<h2>
+							{press_section.heading}{' '}
+							<em>{press_section.heading_accent}</em>
+						</h2>
+						{press_section.lead && <p class="lead">{press_section.lead}</p>}
+					</div>
+					<div class="tl-link-cards reveal-stagger">
+						{pressFeatures.map((f) => (
+							<a
+								class="tl-link-card"
+								href={f.href}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								{f.outlet && <span class="tl-link-outlet">{f.outlet}</span>}
+								<h3>{f.title}</h3>
+								<span class="tl-link-cta">
+									{f.cta_label || 'Read more'}{' '}
+									<span aria-hidden="true">&#8599;</span>
+								</span>
+							</a>
+						))}
+					</div>
+					{pressMore && press_section.view_more_label && (
+						<div class="tl-view-more">
+							<a
+								class="btn ghost"
+								href={pressMore}
+								target={isExternal(pressMore) ? '_blank' : undefined}
+								rel={isExternal(pressMore) ? 'noopener noreferrer' : undefined}
+							>
+								{press_section.view_more_label}{' '}
+								<span aria-hidden="true">&rarr;</span>
+							</a>
+						</div>
+					)}
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Authored articles ---------- */}
+	{
+		articles.length > 0 && (
+			<section class="section section--tight">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{articles_section.eyebrow}</span>
+						<h2>
+							{articles_section.heading}{' '}
+							<em>{articles_section.heading_accent}</em>
+						</h2>
+						{articles_section.lead && (
+							<p class="lead">{articles_section.lead}</p>
+						)}
+					</div>
+					<div class="tl-link-cards reveal-stagger">
+						{articles.map((a) => (
+							<a
+								class="tl-link-card"
+								href={a.href}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<span class="tl-link-outlet">
+									{a.outlet}
+									{a.outlet && a.date ? ' · ' : ''}
+									{a.date}
+								</span>
+								<h3>{a.title}</h3>
+								<span class="tl-link-cta">
+									{a.cta_label || 'Read more'}{' '}
+									<span aria-hidden="true">&#8599;</span>
+								</span>
+							</a>
+						))}
+					</div>
+					{articlesMore && articles_section.view_more_label && (
+						<div class="tl-view-more">
+							<a
+								class="anchor-link"
+								href={articlesMore}
+								target={isExternal(articlesMore) ? '_blank' : undefined}
+								rel={
+									isExternal(articlesMore) ? 'noopener noreferrer' : undefined
+								}
+							>
+								{articles_section.view_more_label}{' '}
+								<span class="arrow" aria-hidden="true">&rarr;</span>
+							</a>
+						</div>
+					)}
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Interviews Lorraine has conducted ---------- */}
+	{
+		conductedInterviews.length > 0 && (
+			<section class="section section--cream">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{interviews_section.eyebrow}</span>
+						<h2>
+							{interviews_section.heading}{' '}
+							<em>{interviews_section.heading_accent}</em>
+						</h2>
+						{interviews_section.lead && (
+							<p class="lead">{interviews_section.lead}</p>
+						)}
+					</div>
+					<div class="tl-media-cards reveal-stagger">
+						{conductedInterviews.map((it) => (
+							<a
+								class="tl-media-card"
+								href={it.href}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<div class:list={['tl-media-thumb', { 'tl-media-thumb--logo': it.isLogo }]}>
+									{it.image ? (
+										<img
+											src={it.image}
+											alt=""
+											loading="lazy"
+											width="480"
+											height="360"
+										/>
+									) : (
+										<div class="tl-media-thumb-deco" aria-hidden="true" />
+									)}
+									<span class="tl-media-play" aria-hidden="true">
+										<svg viewBox="0 0 24 24" fill="currentColor">
+											<path d="M8 5v14l11-7z" />
+										</svg>
+									</span>
+								</div>
+								<div class="tl-media-body">
+									<span class="tl-media-meta">{it.show}</span>
+									<h3>{it.title}</h3>
+									{it.description && (
+										<p class="tl-media-desc">{it.description}</p>
+									)}
+									<span class="tl-media-link">
+										{it.cta_label || 'Watch now'}{' '}
+										<span aria-hidden="true">&#8599;</span>
+									</span>
+								</div>
+							</a>
+						))}
+					</div>
+					{interviewsMore && interviews_section.view_more_label && (
+						<div class="tl-view-more">
+							<a
+								class="anchor-link"
+								href={interviewsMore}
+								target={isExternal(interviewsMore) ? '_blank' : undefined}
+								rel={
+									isExternal(interviewsMore)
+										? 'noopener noreferrer'
+										: undefined
+								}
+							>
+								{interviews_section.view_more_label}{' '}
+								<span class="arrow" aria-hidden="true">&rarr;</span>
+							</a>
+						</div>
+					)}
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Final CTA ---------- */}
+	<section class="section">
+		<div class="grid12">
+			<div class="final-cta">
+				<div class="final-cta-inner">
+					<span class="eyebrow">{final_cta.eyebrow}</span>
+					<h2>
+						{final_cta.heading} <em>{final_cta.heading_accent}</em>
+					</h2>
+					<p>{final_cta.body}</p>
+					<a
+						class="btn yellow large"
+						href={finalCtaUrl}
+						target={isExternal(finalCtaUrl) ? '_blank' : undefined}
+						rel={isExternal(finalCtaUrl) ? 'noopener noreferrer' : undefined}
+					>
+						{final_cta.cta_label} <span aria-hidden="true">&rarr;</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</SpeakingLayout>
+
+<style>
+	.tl-view-more {
+		display: flex;
+		justify-content: center;
+		margin-top: clamp(28px, 3.5vw, 44px);
+	}
+
+	/* Media cards — lightweight YouTube/link thumbnails for appearances and
+	   interviews Lorraine has conducted. */
+	.tl-media-cards {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+		gap: clamp(16px, 2vw, 24px);
+		margin-top: clamp(28px, 4vw, 44px);
+	}
+	.tl-media-card {
+		display: flex;
+		flex-direction: column;
+		background: var(--bg-card, #fff);
+		border: 1px solid var(--border-soft);
+		border-radius: 16px;
+		overflow: hidden;
+		text-decoration: none;
+		transition: transform 0.25s ease, box-shadow 0.25s ease;
+	}
+	.tl-media-card:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 26px 56px -40px rgba(14, 21, 48, 0.5);
+	}
+	.tl-media-thumb {
+		position: relative;
+		aspect-ratio: 16 / 9;
+		background: var(--ink-900);
+		overflow: hidden;
+	}
+	.tl-media-thumb img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+	/* Logo treatment: center a (usually transparent) brand mark on a light
+	   background instead of cropping it like a photo. */
+	.tl-media-thumb--logo {
+		background: var(--paper-deep, #f4f1ea);
+	}
+	.tl-media-thumb--logo img {
+		object-fit: contain;
+		padding: clamp(24px, 6%, 48px);
+	}
+	.tl-media-thumb-deco {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(135deg, var(--ink-900), #2a3566);
+	}
+	.tl-media-play {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		display: grid;
+		place-items: center;
+		width: 52px;
+		height: 52px;
+		border-radius: 50%;
+		background: rgba(14, 21, 48, 0.72);
+		color: #fff;
+		transition: background 0.25s ease, transform 0.25s ease;
+	}
+	.tl-media-play svg {
+		width: 22px;
+		height: 22px;
+		margin-left: 2px;
+	}
+	.tl-media-card:hover .tl-media-play {
+		background: var(--accent);
+		transform: translate(-50%, -50%) scale(1.06);
+	}
+	.tl-media-body {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		padding: 18px 20px 22px;
+		flex: 1;
+	}
+	.tl-media-meta {
+		font-family: var(--font-sans);
+		font-size: 12px;
+		font-weight: 700;
+		letter-spacing: 0.07em;
+		text-transform: uppercase;
+		color: var(--ink-500);
+	}
+	.tl-media-body h3 {
+		font-family: var(--font-serif);
+		font-weight: 500;
+		font-size: 19px;
+		line-height: 1.25;
+		color: var(--ink-900);
+		margin: 0;
+	}
+	.tl-media-desc {
+		font-family: var(--font-sans);
+		font-size: 14.5px;
+		line-height: 1.55;
+		color: var(--ink-700);
+		margin: 0;
+		flex: 1;
+	}
+	.tl-media-link {
+		font-family: var(--font-sans);
+		font-size: 13px;
+		font-weight: 600;
+		color: var(--accent);
+		margin-top: auto;
+	}
+
+	/* Link cards — text-only press features and authored articles. */
+	.tl-link-cards {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+		gap: clamp(16px, 2vw, 24px);
+		margin-top: clamp(28px, 4vw, 44px);
+	}
+	.tl-link-card {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		background: var(--bg-card, #fff);
+		border: 1px solid var(--border-soft);
+		border-radius: var(--radius-2xl, 20px);
+		padding: clamp(22px, 2.6vw, 30px);
+		text-decoration: none;
+		transition: transform 0.25s ease, box-shadow 0.25s ease;
+	}
+	.tl-link-card:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 26px 56px -40px rgba(14, 21, 48, 0.5);
+	}
+	.tl-link-outlet {
+		font-family: var(--font-sans);
+		font-size: 12px;
+		font-weight: 700;
+		letter-spacing: 0.07em;
+		text-transform: uppercase;
+		color: var(--accent);
+	}
+	.tl-link-card h3 {
+		font-family: var(--font-serif);
+		font-weight: 500;
+		font-size: clamp(18px, 2vw, 21px);
+		line-height: 1.3;
+		color: var(--ink-900);
+		margin: 0;
+		flex: 1;
+	}
+	.tl-link-cta {
+		font-family: var(--font-sans);
+		font-size: 13px;
+		font-weight: 600;
+		color: var(--ink-700);
+		margin-top: 4px;
+	}
+</style>

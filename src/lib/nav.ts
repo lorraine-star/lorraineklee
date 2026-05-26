@@ -52,7 +52,7 @@ export const mainNavItems: NavItem[] = [
     href: '/learn',
     children: [
       { label: 'Learn Overview', href: '/learn' },
-      { label: 'Free Course', href: '/#course' },
+      { label: 'Free Course', href: '/from-invisible-to-influential' },
       { label: 'Free Resources', href: '/learn#resources' },
       { label: 'Learning Courses', href: '/courses' },
     ],

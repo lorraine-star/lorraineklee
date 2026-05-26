@@ -1,0 +1,75 @@
+---
+/*
+ * FreeCourseForm — the "From Invisible to Influential" Kit/ConvertKit signup.
+ *
+ * Faithful to the original WordPress funnel: it posts the exact Kit fields
+ * (`email_address`, `fields[first_name]`) to the form's Kit subscriptions
+ * endpoint, then advances to the thank-you step. These IDs are hard-wired (not
+ * CMS-editable) so copy edits can never break email capture.
+ *
+ *   Top / hero form : Kit form 8913437 (embed uid 8337fba43c)
+ *   Bottom / final  : Kit form 8913490 (embed uid df8e6f0ada)
+ *
+ * Progressive enhancement: with JS we POST via fetch and redirect ourselves; if
+ * the fetch fails (e.g. network/CORS), the native form submit falls through to
+ * Kit, which is configured to redirect to the same thank-you URL.
+ */
+interface Props {
+  formId: string;
+  buttonLabel: string;
+  namePlaceholder?: string;
+  emailPlaceholder?: string;
+  idPrefix: string;
+}
+
+const {
+  formId,
+  buttonLabel,
+  namePlaceholder = 'First Name',
+  emailPlaceholder = 'Enter your best email',
+  idPrefix,
+} = Astro.props;
+
+const action = `https://app.kit.com/forms/${formId}/subscriptions`;
+const nameId = `${idPrefix}-name`;
+const emailId = `${idPrefix}-email`;
+---
+
+<form
+  class="fc-form"
+  data-fc-form
+  method="post"
+  action={action}
+>
+  <div class="fc-field">
+    <label class="sr-only" for={nameId}>First name</label>
+    <input
+      id={nameId}
+      class="fc-input"
+      type="text"
+      name="fields[first_name]"
+      placeholder={namePlaceholder}
+      autocomplete="given-name"
+      required
+    />
+  </div>
+  <div class="fc-field">
+    <label class="sr-only" for={emailId}>Email address</label>
+    <input
+      id={emailId}
+      class="fc-input"
+      type="email"
+      name="email_address"
+      placeholder={emailPlaceholder}
+      autocomplete="email"
+      required
+    />
+  </div>
+  <button type="submit" class="btn primary large fc-submit">
+    <span data-fc-label>{buttonLabel}</span>
+    <span aria-hidden="true">&rarr;</span>
+  </button>
+  <p class="fc-form-error" data-fc-error hidden aria-live="polite">
+    Something went wrong. Please try again.
+  </p>
+</form>

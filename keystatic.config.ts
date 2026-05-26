@@ -1666,6 +1666,173 @@ export default config({
         ),
       },
     }),
+    freeCourse: singleton({
+      label: 'Free Course (Funnel)',
+      path: 'src/content/free-course/',
+      // NOTE: The funnel form mechanics (Kit/ConvertKit form IDs, POST action,
+      // and the thank-you redirect) are intentionally hard-wired in
+      // src/pages/from-invisible-to-influential.astro and are NOT exposed here,
+      // so editing copy can never break the email-capture funnel.
+      // Bullet/support fields accept inline **bold** markers (see
+      // src/lib/emphasis.ts) so verbatim emphasis survives CMS edits.
+      schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+        seo_description: fields.text({
+          label: 'SEO description',
+          multiline: true,
+        }),
+        hero: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            headline: fields.text({ label: 'Headline', multiline: true }),
+            headline_suffix: fields.text({
+              label: 'Headline suffix (e.g. "In Just 20 Minutes a Day")',
+            }),
+            support: fields.text({
+              label: 'Supporting line (supports **bold**)',
+              multiline: true,
+            }),
+            image_desktop: fields.image({
+              label: 'Hero image (desktop)',
+              directory: 'public/images/free-course',
+              publicPath: '/images/free-course/',
+            }),
+            image_mobile: fields.image({
+              label: 'Hero image (mobile)',
+              directory: 'public/images/free-course',
+              publicPath: '/images/free-course/',
+            }),
+            image_alt: fields.text({ label: 'Hero image alt text' }),
+            name_placeholder: fields.text({
+              label: 'Form first-name placeholder',
+              defaultValue: 'First Name',
+            }),
+            email_placeholder: fields.text({
+              label: 'Form email placeholder',
+              defaultValue: 'Enter your best email',
+            }),
+            form_button_label: fields.text({
+              label: 'Top form button label',
+              defaultValue: 'Send Me the Course',
+            }),
+          },
+          { label: 'Hero' }
+        ),
+        problem: fields.object(
+          {
+            heading: fields.text({ label: 'Heading' }),
+            bullets: fields.array(
+              fields.text({ label: 'Bullet (supports **bold**)' }),
+              {
+                label: 'Problem bullets',
+                itemLabel: (props) => props.value || 'Bullet',
+              }
+            ),
+          },
+          { label: 'Does this sound like you?' }
+        ),
+        roadmap: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+          },
+          { label: '5-day roadmap heading' }
+        ),
+        days: fields.array(
+          fields.object({
+            day_label: fields.text({ label: 'Day label (e.g. "Day 1")' }),
+            title: fields.text({ label: 'Title' }),
+            intro: fields.text({ label: 'Intro line', multiline: true }),
+            bullets: fields.array(
+              fields.text({ label: 'Bullet (supports **bold**)' }),
+              {
+                label: '"You\'ll learn" bullets',
+                itemLabel: (props) => props.value || 'Bullet',
+              }
+            ),
+          }),
+          {
+            label: 'Roadmap days',
+            itemLabel: (props) =>
+              `${props.fields.day_label.value || 'Day'} — ${
+                props.fields.title.value || ''
+              }`,
+          }
+        ),
+        trust: fields.object(
+          {
+            heading: fields.text({
+              label: 'Heading (==text== renders highlighted)',
+            }),
+            items: fields.array(
+              fields.object({
+                icon: fields.image({
+                  label: 'Icon',
+                  directory: 'public/images/free-course/trust',
+                  publicPath: '/images/free-course/trust/',
+                }),
+                text: fields.text({
+                  label: 'Text (bold lead-in **...** becomes the card heading)',
+                  multiline: true,
+                }),
+              }),
+              {
+                label: 'Credibility cards',
+                itemLabel: (props) => props.fields.text.value || 'Card',
+              }
+            ),
+          },
+          { label: 'Why trust me?' }
+        ),
+        different: fields.object(
+          {
+            heading: fields.text({ label: 'Heading' }),
+            not_items: fields.array(
+              fields.text({ label: 'Item (supports **bold**)' }),
+              {
+                label: '"This is NOT" items',
+                itemLabel: (props) => props.value || 'Item',
+              }
+            ),
+            is_items: fields.array(
+              fields.text({ label: 'Item (supports **bold**)' }),
+              {
+                label: '"This IS" items',
+                itemLabel: (props) => props.value || 'Item',
+              }
+            ),
+          },
+          { label: "Why this isn't like every other course" }
+        ),
+        final: fields.object(
+          {
+            heading: fields.text({ label: 'Heading' }),
+            form_button_label: fields.text({
+              label: 'Bottom form button label',
+              defaultValue: "Let's Do This",
+            }),
+          },
+          { label: 'Final CTA' }
+        ),
+        thank_you: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            intro: fields.text({ label: 'Intro line' }),
+            headline: fields.text({ label: 'Headline', multiline: true }),
+            closing: fields.text({ label: 'Closing line' }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            cta_url: fields.text({ label: 'CTA URL' }),
+            image: fields.image({
+              label: 'Image',
+              directory: 'public/images/free-course',
+              publicPath: '/images/free-course/',
+            }),
+            image_alt: fields.text({ label: 'Image alt text' }),
+          },
+          { label: 'Thank-you page' }
+        ),
+      },
+    }),
     coaching: singleton({
       label: 'Coaching',
       path: 'src/content/coaching/',
@@ -1879,6 +2046,254 @@ export default config({
             label: 'All appearances section heading',
             description:
               'Heading above the full grid that renders the "Featured Appearances" collection.',
+          }
+        ),
+        final_cta: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            cta_url: fields.text({ label: 'CTA URL' }),
+          },
+          { label: 'Final CTA' }
+        ),
+      },
+    }),
+    thoughtLeadership: singleton({
+      label: 'Thought Leadership',
+      path: 'src/content/thought-leadership/',
+      schema: {
+        hero: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            headline: fields.text({ label: 'Headline' }),
+            headline_accent: fields.text({
+              label: 'Headline accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead paragraph', multiline: true }),
+            primary_cta_label: fields.text({ label: 'Primary CTA label' }),
+            primary_cta_url: fields.text({ label: 'Primary CTA URL' }),
+            secondary_cta_label: fields.text({
+              label: 'Secondary CTA label',
+            }),
+            secondary_cta_url: fields.text({
+              label: 'Secondary CTA URL',
+              description: 'Internal route, anchor (e.g. #press), or external URL.',
+            }),
+          },
+          { label: 'Hero' }
+        ),
+        appearances_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+            view_more_label: fields.text({
+              label: 'View-more link label',
+              defaultValue: 'View all interviews',
+            }),
+            view_more_url: fields.text({
+              label: 'View-more link URL',
+              defaultValue: '/interviews',
+            }),
+          },
+          { label: 'Guest appearances section heading' }
+        ),
+        appearances: fields.array(
+          fields.object({
+            date: fields.text({ label: 'Date label (e.g. "May 2025")' }),
+            show: fields.text({ label: 'Show / host' }),
+            title: fields.text({ label: 'Segment / episode title' }),
+            description: fields.text({
+              label: 'Description (optional)',
+              multiline: true,
+            }),
+            thumbnail: fields.image({
+              label: 'Thumbnail image (optional)',
+              description:
+                'Cover image for the card. Use this for non-YouTube appearances (e.g. LinkedIn events). Falls back to the YouTube thumbnail, then a gradient placeholder.',
+              directory: 'public/images/thought-leadership',
+              publicPath: '/images/thought-leadership/',
+            }),
+            thumbnail_fit: fields.select({
+              label: 'Thumbnail fit',
+              description:
+                'How the thumbnail image sits in the card. "Cover" crops a photo to fill the frame; "Logo" centers a transparent logo on a light background.',
+              options: [
+                { label: 'Cover (photo)', value: 'cover' },
+                { label: 'Logo (contain)', value: 'logo' },
+              ],
+              defaultValue: 'cover',
+            }),
+            youtube_id: fields.text({
+              label: 'YouTube video ID (optional)',
+              description:
+                'The 11-character ID from the watch URL, e.g. "MbsUmSfdcrQ". When set, its thumbnail is used unless a thumbnail image is uploaded above.',
+            }),
+            url: fields.text({
+              label: 'Watch URL (optional)',
+              description:
+                'External link used when the appearance is not on YouTube. Ignored when a YouTube video ID is set.',
+            }),
+            cta_label: fields.text({
+              label: 'CTA label',
+              defaultValue: 'Watch now',
+            }),
+          }),
+          {
+            label: 'Guest appearances (Lorraine as guest)',
+            itemLabel: (props) =>
+              props.fields.title.value || props.fields.show.value || 'Appearance',
+          }
+        ),
+        press_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+            view_more_label: fields.text({
+              label: 'View-more link label',
+              defaultValue: 'See all featured press',
+            }),
+            view_more_url: fields.text({
+              label: 'View-more link URL',
+              description: 'Links out to the dedicated Featured In page.',
+              defaultValue: '/featured-in',
+            }),
+          },
+          {
+            label: 'Featured In (press teaser) section heading',
+            description:
+              'A short press-proof teaser. The full press inventory lives on the dedicated Featured In page — link out via the view-more link rather than duplicating it here.',
+          }
+        ),
+        press_features: fields.array(
+          fields.object({
+            outlet: fields.text({ label: 'Outlet / publication' }),
+            title: fields.text({ label: 'Headline / segment title' }),
+            url: fields.text({ label: 'URL' }),
+            cta_label: fields.text({
+              label: 'CTA label',
+              defaultValue: 'Read more',
+            }),
+          }),
+          {
+            label: 'Featured press (teaser)',
+            itemLabel: (props) =>
+              props.fields.outlet.value || props.fields.title.value || 'Feature',
+          }
+        ),
+        articles_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+            view_more_label: fields.text({
+              label: 'View-more link label',
+              defaultValue: 'Read all articles',
+            }),
+            view_more_url: fields.text({
+              label: 'View-more link URL',
+              defaultValue: '/articles',
+            }),
+          },
+          { label: 'Authored articles section heading' }
+        ),
+        authored_articles: fields.array(
+          fields.object({
+            date: fields.text({ label: 'Date label (e.g. "April 2026")' }),
+            outlet: fields.text({ label: 'Outlet / publication' }),
+            title: fields.text({ label: 'Article title' }),
+            url: fields.text({ label: 'URL' }),
+            cta_label: fields.text({
+              label: 'CTA label',
+              defaultValue: 'Read more',
+            }),
+          }),
+          {
+            label: 'Authored articles',
+            itemLabel: (props) =>
+              props.fields.title.value || props.fields.outlet.value || 'Article',
+          }
+        ),
+        interviews_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+            view_more_label: fields.text({
+              label: 'View-more link label',
+              defaultValue: 'Watch on YouTube',
+            }),
+            view_more_url: fields.text({
+              label: 'View-more link URL',
+              defaultValue: 'https://www.youtube.com/c/LorraineKLee',
+            }),
+          },
+          {
+            label: 'Interviews-conducted section heading',
+            description:
+              'Interviews Lorraine has hosted with other leaders ("the other side of the camera").',
+          }
+        ),
+        interviews: fields.array(
+          fields.object({
+            name: fields.text({ label: 'Guest name' }),
+            role: fields.text({ label: 'Guest role / organization' }),
+            description: fields.text({
+              label: 'Description (optional)',
+              multiline: true,
+            }),
+            thumbnail: fields.image({
+              label: 'Thumbnail image (optional)',
+              description:
+                'Cover image for the card. Falls back to the YouTube thumbnail, then a gradient placeholder.',
+              directory: 'public/images/thought-leadership',
+              publicPath: '/images/thought-leadership/',
+            }),
+            thumbnail_fit: fields.select({
+              label: 'Thumbnail fit',
+              description:
+                'How the thumbnail image sits in the card. "Cover" crops a photo to fill the frame; "Logo" centers a transparent logo on a light background.',
+              options: [
+                { label: 'Cover (photo)', value: 'cover' },
+                { label: 'Logo (contain)', value: 'logo' },
+              ],
+              defaultValue: 'cover',
+            }),
+            youtube_id: fields.text({
+              label: 'YouTube video ID (optional)',
+              description:
+                'The 11-character ID from the watch URL. When set, its thumbnail is used unless a thumbnail image is uploaded above.',
+            }),
+            url: fields.text({
+              label: 'Watch URL (optional)',
+              description: 'Ignored when a YouTube video ID is set.',
+            }),
+            cta_label: fields.text({
+              label: 'CTA label',
+              defaultValue: 'Watch now',
+            }),
+          }),
+          {
+            label: 'Interviews Lorraine has conducted',
+            itemLabel: (props) => props.fields.name.value || 'Interview',
           }
         ),
         final_cta: fields.object(
