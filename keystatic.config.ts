@@ -1876,6 +1876,88 @@ export default config({
     }),
   },
   collections: {
+    testimonials: collection({
+      label: 'Testimonials',
+      slugField: 'author',
+      path: 'src/content/testimonials/*',
+      format: { data: 'yaml' },
+      // Shared testimonials source of truth (CLI-118). The /testimonials page
+      // (CLI-82) reads this collection via getTestimonials() in
+      // src/lib/testimonials.ts. Homepage, speaking, and courses pages still
+      // use their own hardcoded sets for now; migrate them to this collection
+      // as part of CLI-118 once each surface renders equivalent content.
+      schema: {
+        author: fields.slug({
+          name: { label: 'Author' },
+          slug: {
+            label: 'Anchor slug',
+            description:
+              'Stable in-page anchor for /testimonials#[slug]. Old WordPress /testimonial/* CPT URLs 301 to these anchors in vercel.json — do not change an existing slug without updating the redirect.',
+          },
+        }),
+        quote: fields.text({ label: 'Quote', multiline: true }),
+        roleOrCompany: fields.text({
+          label: 'Role / company',
+          description: 'Shown under the author name, e.g. "Chief of Staff to HubSpot\'s CFO" or "Figma".',
+        }),
+        type: fields.select({
+          label: 'Type',
+          description: 'Controls which section the testimonial appears in on /testimonials.',
+          options: [
+            { label: 'Client / organizer speaking', value: 'client-organizer-speaking' },
+            { label: 'Event attendee', value: 'event-attendee' },
+            { label: 'Course / student review', value: 'course-student-review' },
+          ],
+          defaultValue: 'client-organizer-speaking',
+        }),
+        order: fields.integer({
+          label: 'Sort order (within section)',
+          description: 'Lower numbers appear first within the testimonial type.',
+          defaultValue: 0,
+        }),
+        image: fields.text({
+          label: 'Headshot image path (optional)',
+          description:
+            'Full public path, e.g. /images/speaking/testimonials/raechel-h.webp. Falls back to author initials when empty.',
+        }),
+        imageAlt: fields.text({ label: 'Headshot alt text (optional)' }),
+        priority: fields.select({
+          label: 'Priority',
+          description: 'Editorial signal strength; used to pick homepage proof picks.',
+          options: [
+            { label: 'High', value: 'High' },
+            { label: 'Medium', value: 'Medium' },
+            { label: 'Low', value: 'Low' },
+          ],
+          defaultValue: 'Medium',
+        }),
+        topicTags: fields.array(fields.text({ label: 'Topic tag' }), {
+          label: 'Topic tags',
+          itemLabel: (props) => props.value || 'Tag',
+        }),
+        sourceUrl: fields.text({ label: 'Source URL (optional)' }),
+        matchedCptUrl: fields.text({
+          label: 'Matched WordPress CPT URL (optional)',
+          description: 'The old /testimonial/* URL this record was migrated from, if any.',
+        }),
+        showOnHomepage: fields.checkbox({
+          label: 'Show on homepage carousel',
+          defaultValue: false,
+        }),
+        showOnTestimonials: fields.checkbox({
+          label: 'Show on the /testimonials page',
+          defaultValue: true,
+        }),
+        showOnSpeaking: fields.checkbox({
+          label: 'Show on the /speaking page',
+          defaultValue: false,
+        }),
+        showOnCourses: fields.checkbox({
+          label: 'Show on the /courses page',
+          defaultValue: false,
+        }),
+      },
+    }),
     courses: collection({
       label: 'LinkedIn Courses',
       slugField: 'title',
