@@ -43,6 +43,8 @@ appearances:
     description: >-
       Lorraine shared tips for personal branding in Indeed's Job Search Academy
       webinar series.
+    thumbnail: /images/thought-leadership/indeed-logo.png
+    thumbnail_fit: logo
     youtube_id: ''
     url: >-
       https://www.linkedin.com/events/shinebrighter-refreshingyoupers7183481875833761793/theater/
@@ -53,6 +55,8 @@ appearances:
     description: >-
       With host Andrew Seaman, Lorraine shared what to do after a layoff and how
       to prepare for your next role.
+    thumbnail: /images/thought-leadership/get-hired-navigating-life-after-a-layoff.webp
+    thumbnail_fit: cover
     youtube_id: ''
     url: >-
       https://www.linkedin.com/feed/update/urn%3Ali%3Aactivity%3A7226981095974547456/

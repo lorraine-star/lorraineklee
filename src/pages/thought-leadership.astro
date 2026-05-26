@@ -42,7 +42,12 @@ const toMedia = (items: typeof appearances) =>
 		.map((item) => {
 			const id = (item.youtube_id ?? '').trim();
 			const href = id ? watchUrl(id) : resolveUrl(item.url);
-			return { ...item, id, href };
+			// Prefer an uploaded cover image; fall back to the YouTube poster.
+			const image = item.thumbnail || (id ? thumbUrl(id) : '');
+			// Only honor the "logo" treatment for an uploaded image (YouTube
+			// posters are always photos).
+			const isLogo = Boolean(item.thumbnail) && item.thumbnail_fit === 'logo';
+			return { ...item, id, href, image, isLogo };
 		})
 		.filter((item) => item.href);
 
@@ -53,6 +58,8 @@ const conductedInterviews = toMedia(
 		show: i.role,
 		title: i.name,
 		description: i.description,
+		thumbnail: i.thumbnail,
+		thumbnail_fit: i.thumbnail_fit,
 		youtube_id: i.youtube_id,
 		url: i.url,
 		cta_label: i.cta_label,
@@ -139,10 +146,10 @@ const interviewsMore = resolveUrl(interviews_section.view_more_url);
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								<div class="tl-media-thumb">
-									{g.id ? (
+								<div class:list={['tl-media-thumb', { 'tl-media-thumb--logo': g.isLogo }]}>
+									{g.image ? (
 										<img
-											src={thumbUrl(g.id)}
+											src={g.image}
 											alt=""
 											loading="lazy"
 											width="480"
@@ -324,10 +331,10 @@ const interviewsMore = resolveUrl(interviews_section.view_more_url);
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								<div class="tl-media-thumb">
-									{it.id ? (
+								<div class:list={['tl-media-thumb', { 'tl-media-thumb--logo': it.isLogo }]}>
+									{it.image ? (
 										<img
-											src={thumbUrl(it.id)}
+											src={it.image}
 											alt=""
 											loading="lazy"
 											width="480"
@@ -443,6 +450,15 @@ const interviewsMore = resolveUrl(interviews_section.view_more_url);
 		height: 100%;
 		object-fit: cover;
 		display: block;
+	}
+	/* Logo treatment: center a (usually transparent) brand mark on a light
+	   background instead of cropping it like a photo. */
+	.tl-media-thumb--logo {
+		background: var(--paper-deep, #f4f1ea);
+	}
+	.tl-media-thumb--logo img {
+		object-fit: contain;
+		padding: clamp(24px, 6%, 48px);
 	}
 	.tl-media-thumb-deco {
 		position: absolute;

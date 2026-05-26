@@ -1926,10 +1926,27 @@ export default config({
               label: 'Description (optional)',
               multiline: true,
             }),
+            thumbnail: fields.image({
+              label: 'Thumbnail image (optional)',
+              description:
+                'Cover image for the card. Use this for non-YouTube appearances (e.g. LinkedIn events). Falls back to the YouTube thumbnail, then a gradient placeholder.',
+              directory: 'public/images/thought-leadership',
+              publicPath: '/images/thought-leadership/',
+            }),
+            thumbnail_fit: fields.select({
+              label: 'Thumbnail fit',
+              description:
+                'How the thumbnail image sits in the card. "Cover" crops a photo to fill the frame; "Logo" centers a transparent logo on a light background.',
+              options: [
+                { label: 'Cover (photo)', value: 'cover' },
+                { label: 'Logo (contain)', value: 'logo' },
+              ],
+              defaultValue: 'cover',
+            }),
             youtube_id: fields.text({
               label: 'YouTube video ID (optional)',
               description:
-                'The 11-character ID from the watch URL, e.g. "MbsUmSfdcrQ". Used for the thumbnail and watch link.',
+                'The 11-character ID from the watch URL, e.g. "MbsUmSfdcrQ". When set, its thumbnail is used unless a thumbnail image is uploaded above.',
             }),
             url: fields.text({
               label: 'Watch URL (optional)',
@@ -2054,10 +2071,27 @@ export default config({
               label: 'Description (optional)',
               multiline: true,
             }),
+            thumbnail: fields.image({
+              label: 'Thumbnail image (optional)',
+              description:
+                'Cover image for the card. Falls back to the YouTube thumbnail, then a gradient placeholder.',
+              directory: 'public/images/thought-leadership',
+              publicPath: '/images/thought-leadership/',
+            }),
+            thumbnail_fit: fields.select({
+              label: 'Thumbnail fit',
+              description:
+                'How the thumbnail image sits in the card. "Cover" crops a photo to fill the frame; "Logo" centers a transparent logo on a light background.',
+              options: [
+                { label: 'Cover (photo)', value: 'cover' },
+                { label: 'Logo (contain)', value: 'logo' },
+              ],
+              defaultValue: 'cover',
+            }),
             youtube_id: fields.text({
               label: 'YouTube video ID (optional)',
               description:
-                'The 11-character ID from the watch URL. Used for the thumbnail and watch link.',
+                'The 11-character ID from the watch URL. When set, its thumbnail is used unless a thumbnail image is uploaded above.',
             }),
             url: fields.text({
               label: 'Watch URL (optional)',
