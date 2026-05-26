@@ -7,6 +7,7 @@
  */
 import SecondaryTestimonialsCarousel from './SecondaryTestimonialsCarousel.tsx';
 import { reader } from '../lib/keystatic';
+import { getTestimonials, toColumnCard } from '../lib/testimonials';
 
 interface Props {
 	id?: string;
@@ -33,14 +34,19 @@ const {
 let testimonialsSection = testimonialsSectionProp;
 let testimonials = testimonialsProp;
 
-if (!testimonialsSection || !testimonials) {
+// Section heading copy still lives in the courses singleton; the testimonial
+// content now comes from the shared collection (CLI-118).
+if (!testimonialsSection) {
 	const page = await reader.singletons.coursesPage.read();
 	if (!page) {
 		throw new Error('Missing courses page content (src/content/courses-page/index.yaml)');
 	}
+	testimonialsSection = page.testimonials_section;
+}
 
-	testimonialsSection = testimonialsSection ?? page.testimonials_section;
-	testimonials = testimonials ?? page.testimonials;
+if (!testimonials) {
+	const shared = await getTestimonials({ placement: 'courses' });
+	testimonials = shared.map(toColumnCard);
 }
 
 const hasTestimonials = testimonials && testimonials.length > 0;

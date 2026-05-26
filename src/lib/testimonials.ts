@@ -95,3 +95,49 @@ export const initialsFor = (name: string): string =>
     .join('')
     .slice(0, 2)
     .toUpperCase() || '?';
+
+/**
+ * Card shape consumed by `HomeTestimonialsCarousel` (homepage + speaking
+ * organizer carousel). Mirrors that component's `Testimonial` props.
+ */
+export interface CarouselCard {
+  quote: string;
+  name: string;
+  role: string;
+  photo?: string;
+  photoAlt?: string;
+  initials: string;
+}
+
+/** Map a shared testimonial to the home/organizer carousel card shape. */
+export const toCarouselCard = (t: Testimonial): CarouselCard => ({
+  quote: t.quote,
+  name: t.author,
+  role: t.roleOrCompany,
+  photo: t.image || undefined,
+  photoAlt: t.imageAlt || undefined,
+  initials: initialsFor(t.author),
+});
+
+/**
+ * Card shape consumed by `SecondaryTestimonialsCarousel` (attendee + student
+ * marquee columns). Mirrors `ColumnTestimonial`.
+ */
+export interface ColumnCard {
+  quote: string;
+  name: string;
+  initials: string;
+  role?: string;
+  photo?: string;
+  photo_alt?: string;
+}
+
+/** Map a shared testimonial to the marquee-column card shape. */
+export const toColumnCard = (t: Testimonial): ColumnCard => ({
+  quote: t.quote,
+  name: t.author,
+  role: t.roleOrCompany || undefined,
+  photo: t.image || undefined,
+  photo_alt: t.imageAlt || undefined,
+  initials: initialsFor(t.author),
+});

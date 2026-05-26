@@ -54,10 +54,9 @@ export default config({
         featured_testimonial: fields.object(testimonialFields, {
           label: 'Featured testimonial',
         }),
-        testimonials: fields.array(fields.object(testimonialFields), {
-          label: 'Testimonials',
-          itemLabel: (props) => props.fields.author.value || 'Testimonial',
-        }),
+        // The homepage testimonials carousel now reads from the shared
+        // `testimonials` collection (CLI-118) via getTestimonials({ placement:
+        // 'homepage' }). Edit those records, not a per-page array here.
       },
     }),
     about: singleton({
@@ -442,27 +441,10 @@ export default config({
           },
           { label: 'Testimonials section heading' }
         ),
-        testimonials: fields.array(
-          fields.object({
-            quote: fields.text({ label: 'Quote', multiline: true }),
-            name: fields.text({ label: 'Name' }),
-            role: fields.text({ label: 'Role / organization' }),
-            initials: fields.text({ label: 'Initials' }),
-            photo: fields.text({
-              label: 'Headshot image path (optional)',
-              description:
-                'E.g. /images/speaking/testimonials/raechel-h.webp. Falls back to initials when blank.',
-            }),
-            featured: fields.checkbox({
-              label: 'Featured (dark card)',
-              defaultValue: false,
-            }),
-          }),
-          {
-            label: 'Organizer testimonials',
-            itemLabel: (props) => props.fields.name.value || 'Testimonial',
-          }
-        ),
+        // Organizer testimonials now come from the shared `testimonials`
+        // collection (CLI-118) via getTestimonials({ placement: 'speaking',
+        // type: 'client-organizer-speaking' }). Only the section heading copy
+        // above lives here.
         attendee_testimonials_section: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -474,22 +456,8 @@ export default config({
           },
           { label: 'Attendee testimonials section heading' }
         ),
-        attendee_testimonials: fields.array(
-          fields.object({
-            quote: fields.text({ label: 'Quote', multiline: true }),
-            name: fields.text({ label: 'Name' }),
-            role: fields.text({ label: 'Role / organization' }),
-            initials: fields.text({ label: 'Initials' }),
-            photo: fields.text({
-              label: 'Headshot image path (optional)',
-              description: 'Falls back to initials when blank.',
-            }),
-          }),
-          {
-            label: 'Attendee testimonials',
-            itemLabel: (props) => props.fields.name.value || 'Testimonial',
-          }
-        ),
+        // Attendee testimonials likewise come from the shared collection via
+        // getTestimonials({ placement: 'speaking', type: 'event-attendee' }).
         moderation_section: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -1416,25 +1384,9 @@ export default config({
           },
           { label: 'Student testimonials heading' }
         ),
-        testimonials: fields.array(
-          fields.object({
-            quote: fields.text({ label: 'Quote', multiline: true }),
-            name: fields.text({ label: 'Name' }),
-            initials: fields.text({ label: 'Initials' }),
-            photo: fields.image({
-              label: 'Student photo (optional)',
-              description:
-                'Square headshot shown as the avatar. Falls back to the initials when empty.',
-              directory: 'public/images/v1/courses/testimonials',
-              publicPath: '/images/v1/courses/testimonials/',
-            }),
-            photo_alt: fields.text({ label: 'Photo alt text (optional)' }),
-          }),
-          {
-            label: 'Student testimonials',
-            itemLabel: (props) => props.fields.name.value || 'Testimonial',
-          }
-        ),
+        // Student reviews now come from the shared `testimonials` collection
+        // (CLI-118) via getTestimonials({ placement: 'courses' }). Only the
+        // section heading copy above lives here.
         final_cta: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
