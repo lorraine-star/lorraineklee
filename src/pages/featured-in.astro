@@ -1,0 +1,425 @@
+---
+import SpeakingLayout from '../layouts/SpeakingLayout.astro';
+import TrustAsSeenIn from '../components/TrustAsSeenIn.astro';
+import { reader } from '../lib/keystatic';
+import { safeUrl } from '../lib/url';
+
+const page = await reader.singletons.featuredIn.read();
+if (!page) {
+	throw new Error('Missing Featured In content (src/content/featured-in/index.yaml)');
+}
+const { hero, highlights_section, appearances_section, final_cta } = page;
+
+const isExternal = (url: string) => /^https?:\/\//i.test(url);
+
+// safeUrl() collapses unsafe/invalid URLs (e.g. javascript:) to '#'. Treat that
+// sentinel as "no link" so cards render without a dead CTA and CTA-URL fallbacks
+// still kick in, rather than linking to '#'.
+const cleanUrl = (value: string | null | undefined) => {
+	const url = safeUrl(value);
+	return url === '#' ? '' : url;
+};
+
+// Default CTA label per appearance type. Editors can override via cta_label.
+const CTA_DEFAULTS: Record<string, string> = {
+	Article: 'Read more',
+	Newsletter: 'Read more',
+	Award: 'Read more',
+	Podcast: 'Listen',
+	Video: 'Watch',
+	Interview: 'Watch',
+	Book: 'Learn more',
+	Report: 'Read the report',
+	Resource: 'View resource',
+	Event: 'Learn more',
+};
+
+const all = (await reader.collections.featuredAppearances.all())
+	.map((a) => {
+		const href = cleanUrl(a.entry.url);
+		return {
+			slug: a.slug,
+			...a.entry,
+			href,
+			ctaLabel:
+				a.entry.cta_label ||
+				CTA_DEFAULTS[a.entry.appearance_type] ||
+				'Read more',
+		};
+	})
+	.sort((x, y) => (x.priority ?? 100) - (y.priority ?? 100));
+
+const highlights = all.filter((a) => a.featured);
+const appearances = all.filter((a) => !a.featured);
+
+const heroPrimaryUrl = cleanUrl(hero.primary_cta_url) || '/speaking';
+const heroSecondaryUrl = cleanUrl(hero.secondary_cta_url) || '#appearances';
+const finalCtaUrl = cleanUrl(final_cta.cta_url) || '/contact';
+---
+
+<SpeakingLayout
+	title="Featured In | Lorraine K. Lee"
+	description={hero.lead}
+	activeId="thought-leadership"
+>
+	{/* ---------- Hero ---------- */}
+	<section class="page-hero page-hero--center section--cream">
+		<div class="grid12 page-hero-grid">
+			<div class="page-hero-copy fade-up">
+				<div class="page-hero-eyebrow">
+					<span class="dot"></span>
+					<span class="eyebrow" style="color: var(--ink-500);">{hero.eyebrow}</span>
+				</div>
+				<h1>{hero.headline} <em>{hero.headline_accent}</em></h1>
+				<p class="lead-large">{hero.lead}</p>
+				<div class="hero-cta-row">
+					<a
+						class="btn primary large"
+						href={heroPrimaryUrl}
+						target={isExternal(heroPrimaryUrl) ? '_blank' : undefined}
+						rel={isExternal(heroPrimaryUrl) ? 'noopener noreferrer' : undefined}
+					>
+						{hero.primary_cta_label} <span aria-hidden="true">&rarr;</span>
+					</a>
+					{
+						hero.secondary_cta_label && (
+							<a class="anchor-link" href={heroSecondaryUrl}>
+								{hero.secondary_cta_label}{' '}
+								<span class="arrow" aria-hidden="true">&rarr;</span>
+							</a>
+						)
+					}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Logo wall (global "As Seen In") ---------- */}
+	<TrustAsSeenIn />
+
+	{/* ---------- Highlights (featured cards) ---------- */}
+	{
+		highlights.length > 0 && (
+			<section class="section section--tight">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{highlights_section.eyebrow}</span>
+						<h2>
+							{highlights_section.heading}{' '}
+							<em>{highlights_section.heading_accent}</em>
+						</h2>
+						{highlights_section.lead && (
+							<p class="lead">{highlights_section.lead}</p>
+						)}
+					</div>
+					<div class="fi-highlights reveal-stagger">
+						{highlights.map((a) => {
+							const Tag = a.href ? 'a' : 'div';
+							return (
+								<Tag
+									class="fi-highlight"
+									id={a.slug}
+									href={a.href || undefined}
+									target={a.href && isExternal(a.href) ? '_blank' : undefined}
+									rel={
+										a.href && isExternal(a.href)
+											? 'noopener noreferrer'
+											: undefined
+									}
+								>
+									<div class="fi-card-top">
+										{a.logo ? (
+											<img
+												class="fi-logo"
+												src={a.logo}
+												alt={a.source_name}
+												loading="lazy"
+											/>
+										) : (
+											<span class="fi-source">{a.source_name}</span>
+										)}
+										<span class={`fi-chip fi-chip--${a.appearance_type.toLowerCase()}`}>
+											{a.appearance_type}
+										</span>
+									</div>
+									<h3 class="fi-h-title">{a.title}</h3>
+									{a.description && <p class="fi-desc">{a.description}</p>}
+									<div class="fi-foot">
+										{a.date && <span class="fi-date">{a.date}</span>}
+										{a.href && (
+											<span class="fi-cta">
+												{a.ctaLabel} <span aria-hidden="true">&#8599;</span>
+											</span>
+										)}
+									</div>
+								</Tag>
+							);
+						})}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- All appearances grid ---------- */}
+	<section class="section anchor-target" id="appearances">
+		<div class="grid12">
+			<div class="section-head section-head--center">
+				<span class="eyebrow">{appearances_section.eyebrow}</span>
+				<h2>
+					{appearances_section.heading}{' '}
+					<em>{appearances_section.heading_accent}</em>
+				</h2>
+				{appearances_section.lead && (
+					<p class="lead">{appearances_section.lead}</p>
+				)}
+			</div>
+			<div class="fi-grid reveal-stagger">
+				{appearances.map((a) => {
+					const Tag = a.href ? 'a' : 'div';
+					return (
+						<Tag
+							class={`fi-card${a.href ? '' : ' fi-card--static'}`}
+							id={a.slug}
+							href={a.href || undefined}
+							target={a.href && isExternal(a.href) ? '_blank' : undefined}
+							rel={
+								a.href && isExternal(a.href) ? 'noopener noreferrer' : undefined
+							}
+						>
+							<div class="fi-card-top">
+								{a.logo ? (
+									<img
+										class="fi-logo"
+										src={a.logo}
+										alt={a.source_name}
+										loading="lazy"
+									/>
+								) : (
+									<span class="fi-source">{a.source_name}</span>
+								)}
+								<span class={`fi-chip fi-chip--${a.appearance_type.toLowerCase()}`}>
+									{a.appearance_type}
+								</span>
+							</div>
+							<h3 class="fi-title">{a.title}</h3>
+							{a.description && <p class="fi-desc">{a.description}</p>}
+							<div class="fi-foot">
+								{a.date && <span class="fi-date">{a.date}</span>}
+								{a.href && (
+									<span class="fi-cta">
+										{a.ctaLabel} <span aria-hidden="true">&#8599;</span>
+									</span>
+								)}
+							</div>
+						</Tag>
+					);
+				})}
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Final CTA ---------- */}
+	<section class="section">
+		<div class="grid12">
+			<div class="final-cta reveal">
+				<div class="final-cta-inner">
+					<span class="eyebrow">{final_cta.eyebrow}</span>
+					<h2>
+						{final_cta.heading} <em>{final_cta.heading_accent}</em>
+					</h2>
+					<p>{final_cta.body}</p>
+					<div class="hero-cta-row" style="justify-content: center;">
+						<a class="btn yellow large" href={finalCtaUrl}>
+							{final_cta.cta_label} <span aria-hidden="true">&rarr;</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</SpeakingLayout>
+
+<style>
+	/* ================================================================
+	   Featured In — press / credibility cards.
+	   Primitives (page-hero, section--*, section-head, eyebrow,
+	   final-cta, btn) come from styles/editorial/.
+	   ================================================================ */
+
+	/* ---- Shared card chrome ---- */
+	.fi-card-top {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		margin-bottom: 16px;
+	}
+	.fi-logo {
+		max-height: 26px;
+		max-width: 130px;
+		width: auto;
+		height: auto;
+		object-fit: contain;
+		opacity: 0.85;
+		filter: grayscale(1);
+		transition: opacity 240ms var(--ease-out), filter 240ms var(--ease-out);
+	}
+	.fi-card:hover .fi-logo,
+	.fi-highlight:hover .fi-logo {
+		opacity: 1;
+		filter: none;
+	}
+	.fi-source {
+		font-family: var(--font-sans);
+		font-size: 12px;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--accent);
+	}
+	.fi-chip {
+		flex: 0 0 auto;
+		font-family: var(--font-sans);
+		font-size: 10.5px;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--ink-500);
+		background: var(--paper-deep);
+		border: 1px solid var(--border-soft);
+		border-radius: 999px;
+		padding: 4px 11px;
+	}
+	.fi-chip--award {
+		color: var(--accent);
+		background: var(--brand-blue-50, rgba(43, 70, 200, 0.08));
+		border-color: transparent;
+	}
+	.fi-chip--podcast,
+	.fi-chip--video,
+	.fi-chip--interview {
+		color: #8a5a00;
+		background: rgba(245, 178, 41, 0.16);
+		border-color: transparent;
+	}
+
+	.fi-desc {
+		margin: 0;
+		font-family: var(--font-sans);
+		font-size: 14px;
+		line-height: 1.55;
+		color: var(--ink-500);
+	}
+	.fi-foot {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		margin-top: auto;
+		padding-top: 16px;
+	}
+	.fi-date {
+		font-family: var(--font-mono);
+		font-size: 11.5px;
+		color: var(--ink-300);
+	}
+	.fi-cta {
+		margin-left: auto;
+		font-family: var(--font-sans);
+		font-size: 13px;
+		font-weight: 700;
+		color: var(--accent);
+		white-space: nowrap;
+	}
+	.fi-cta span {
+		display: inline-block;
+		transition: transform 200ms var(--ease-out);
+	}
+	.fi-card:hover .fi-cta span,
+	.fi-highlight:hover .fi-cta span {
+		transform: translate(2px, -2px);
+	}
+
+	/* ---- Highlights (featured) ---- */
+	.fi-highlights {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 22px;
+	}
+	.fi-highlight {
+		display: flex;
+		flex-direction: column;
+		padding: 26px 26px 24px;
+		background: var(--white);
+		border: 1px solid var(--border-soft);
+		border-top: 3px solid var(--accent);
+		border-radius: 16px;
+		text-decoration: none;
+		color: inherit;
+		transition: transform 260ms var(--ease-out), box-shadow 260ms var(--ease-out);
+	}
+	a.fi-highlight:hover {
+		transform: translateY(-4px);
+		box-shadow: var(--shadow-lg);
+	}
+	.fi-h-title {
+		margin: 0 0 12px;
+		font-family: var(--font-serif);
+		font-weight: 500;
+		font-size: 22px;
+		line-height: 1.25;
+		color: var(--ink-900);
+	}
+
+	/* ---- Main grid ---- */
+	.fi-grid {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 18px;
+	}
+	.fi-card {
+		display: flex;
+		flex-direction: column;
+		padding: 22px 22px 20px;
+		background: var(--white);
+		border: 1px solid var(--border-soft);
+		border-radius: 14px;
+		text-decoration: none;
+		color: inherit;
+		transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out),
+			border-color 240ms var(--ease-out);
+	}
+	a.fi-card:hover {
+		transform: translateY(-3px);
+		border-color: var(--ink-200);
+		box-shadow: var(--shadow-md);
+	}
+	.fi-card--static {
+		background: transparent;
+	}
+	.fi-title {
+		margin: 0 0 10px;
+		font-family: var(--font-serif);
+		font-weight: 500;
+		font-size: 18px;
+		line-height: 1.3;
+		color: var(--ink-900);
+	}
+
+	/* ---- Responsive ---- */
+	@media (max-width: 980px) {
+		.fi-highlights,
+		.fi-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+	@media (max-width: 600px) {
+		.fi-highlights,
+		.fi-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
