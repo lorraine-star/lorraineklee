@@ -1273,7 +1273,7 @@ export default config({
           fields.object({
             headshot: fields.image({
               label: 'Headshot (square works best)',
-              description: 'Used in the 3D carousel image stack.',
+              description: 'Shown as the circular headshot on the endorsement card.',
               directory: 'public/images/book/endorsements/headshots',
               publicPath: '/images/book/endorsements/headshots/',
             }),
@@ -1299,31 +1299,8 @@ export default config({
             ),
           }),
           {
-            label: 'Endorsements (3D carousel)',
+            label: 'Endorsements (carousel)',
             itemLabel: (props) => props.fields.name.value || 'Endorsement',
-          }
-        ),
-        learn_section: fields.object(
-          {
-            eyebrow: fields.text({ label: 'Eyebrow' }),
-            heading: fields.text({ label: 'Heading' }),
-            heading_accent: fields.text({
-              label: 'Heading accent (shown italic)',
-            }),
-          },
-          { label: "What you'll learn section heading" }
-        ),
-        learn_items: fields.array(
-          fields.object({
-            title: fields.text({ label: 'Title' }),
-            description: fields.text({
-              label: 'Description',
-              multiline: true,
-            }),
-          }),
-          {
-            label: "What you'll learn items",
-            itemLabel: (props) => props.fields.title.value || 'Item',
           }
         ),
         preview: fields.object(
