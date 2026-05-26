@@ -1666,6 +1666,173 @@ export default config({
         ),
       },
     }),
+    freeCourse: singleton({
+      label: 'Free Course (Funnel)',
+      path: 'src/content/free-course/',
+      // NOTE: The funnel form mechanics (Kit/ConvertKit form IDs, POST action,
+      // and the thank-you redirect) are intentionally hard-wired in
+      // src/pages/from-invisible-to-influential.astro and are NOT exposed here,
+      // so editing copy can never break the email-capture funnel.
+      // Bullet/support fields accept inline **bold** markers (see
+      // src/lib/emphasis.ts) so verbatim emphasis survives CMS edits.
+      schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+        seo_description: fields.text({
+          label: 'SEO description',
+          multiline: true,
+        }),
+        hero: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            headline: fields.text({ label: 'Headline', multiline: true }),
+            headline_suffix: fields.text({
+              label: 'Headline suffix (e.g. "In Just 20 Minutes a Day")',
+            }),
+            support: fields.text({
+              label: 'Supporting line (supports **bold**)',
+              multiline: true,
+            }),
+            image_desktop: fields.image({
+              label: 'Hero image (desktop)',
+              directory: 'public/images/free-course',
+              publicPath: '/images/free-course/',
+            }),
+            image_mobile: fields.image({
+              label: 'Hero image (mobile)',
+              directory: 'public/images/free-course',
+              publicPath: '/images/free-course/',
+            }),
+            image_alt: fields.text({ label: 'Hero image alt text' }),
+            name_placeholder: fields.text({
+              label: 'Form first-name placeholder',
+              defaultValue: 'First Name',
+            }),
+            email_placeholder: fields.text({
+              label: 'Form email placeholder',
+              defaultValue: 'Enter your best email',
+            }),
+            form_button_label: fields.text({
+              label: 'Top form button label',
+              defaultValue: 'Send Me the Course',
+            }),
+          },
+          { label: 'Hero' }
+        ),
+        problem: fields.object(
+          {
+            heading: fields.text({ label: 'Heading' }),
+            bullets: fields.array(
+              fields.text({ label: 'Bullet (supports **bold**)' }),
+              {
+                label: 'Problem bullets',
+                itemLabel: (props) => props.value || 'Bullet',
+              }
+            ),
+          },
+          { label: 'Does this sound like you?' }
+        ),
+        roadmap: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+          },
+          { label: '5-day roadmap heading' }
+        ),
+        days: fields.array(
+          fields.object({
+            day_label: fields.text({ label: 'Day label (e.g. "Day 1")' }),
+            title: fields.text({ label: 'Title' }),
+            intro: fields.text({ label: 'Intro line', multiline: true }),
+            bullets: fields.array(
+              fields.text({ label: 'Bullet (supports **bold**)' }),
+              {
+                label: '"You\'ll learn" bullets',
+                itemLabel: (props) => props.value || 'Bullet',
+              }
+            ),
+          }),
+          {
+            label: 'Roadmap days',
+            itemLabel: (props) =>
+              `${props.fields.day_label.value || 'Day'} — ${
+                props.fields.title.value || ''
+              }`,
+          }
+        ),
+        trust: fields.object(
+          {
+            heading: fields.text({
+              label: 'Heading (==text== renders highlighted)',
+            }),
+            items: fields.array(
+              fields.object({
+                icon: fields.image({
+                  label: 'Icon',
+                  directory: 'public/images/free-course/trust',
+                  publicPath: '/images/free-course/trust/',
+                }),
+                text: fields.text({
+                  label: 'Text (bold lead-in **...** becomes the card heading)',
+                  multiline: true,
+                }),
+              }),
+              {
+                label: 'Credibility cards',
+                itemLabel: (props) => props.fields.text.value || 'Card',
+              }
+            ),
+          },
+          { label: 'Why trust me?' }
+        ),
+        different: fields.object(
+          {
+            heading: fields.text({ label: 'Heading' }),
+            not_items: fields.array(
+              fields.text({ label: 'Item (supports **bold**)' }),
+              {
+                label: '"This is NOT" items',
+                itemLabel: (props) => props.value || 'Item',
+              }
+            ),
+            is_items: fields.array(
+              fields.text({ label: 'Item (supports **bold**)' }),
+              {
+                label: '"This IS" items',
+                itemLabel: (props) => props.value || 'Item',
+              }
+            ),
+          },
+          { label: "Why this isn't like every other course" }
+        ),
+        final: fields.object(
+          {
+            heading: fields.text({ label: 'Heading' }),
+            form_button_label: fields.text({
+              label: 'Bottom form button label',
+              defaultValue: "Let's Do This",
+            }),
+          },
+          { label: 'Final CTA' }
+        ),
+        thank_you: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            intro: fields.text({ label: 'Intro line' }),
+            headline: fields.text({ label: 'Headline', multiline: true }),
+            closing: fields.text({ label: 'Closing line' }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            cta_url: fields.text({ label: 'CTA URL' }),
+            image: fields.image({
+              label: 'Image',
+              directory: 'public/images/free-course',
+              publicPath: '/images/free-course/',
+            }),
+            image_alt: fields.text({ label: 'Image alt text' }),
+          },
+          { label: 'Thank-you page' }
+        ),
+      },
+    }),
     coaching: singleton({
       label: 'Coaching',
       path: 'src/content/coaching/',
