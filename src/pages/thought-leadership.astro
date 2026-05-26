@@ -27,13 +27,21 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 const watchUrl = (id: string) => `https://www.youtube.com/watch?v=${id}`;
 const thumbUrl = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 
+// `safeUrl` returns '#' for invalid/unsafe URLs (e.g. javascript:). Treat that
+// as "no link" so empty/unsafe values are dropped by filters and fall through
+// to `|| fallback` rather than rendering a dead `#` link.
+const resolveUrl = (value: string | null | undefined) => {
+	const url = safeUrl(value);
+	return url && url !== '#' ? url : '';
+};
+
 // Media items (appearances + interviews): prefer the YouTube link, fall back to
 // the free-text URL, and drop anything that does not resolve to a real link.
 const toMedia = (items: typeof appearances) =>
 	(items ?? [])
 		.map((item) => {
 			const id = (item.youtube_id ?? '').trim();
-			const href = id ? watchUrl(id) : safeUrl(item.url);
+			const href = id ? watchUrl(id) : resolveUrl(item.url);
 			return { ...item, id, href };
 		})
 		.filter((item) => item.href);
@@ -53,20 +61,20 @@ const conductedInterviews = toMedia(
 );
 
 const pressFeatures = (press_features ?? [])
-	.map((f) => ({ ...f, href: safeUrl(f.url) }))
+	.map((f) => ({ ...f, href: resolveUrl(f.url) }))
 	.filter((f) => f.href);
 const articles = (authored_articles ?? [])
-	.map((a) => ({ ...a, href: safeUrl(a.url) }))
+	.map((a) => ({ ...a, href: resolveUrl(a.url) }))
 	.filter((a) => a.href);
 
-const primaryCtaUrl = safeUrl(hero.primary_cta_url) || '/contact';
-const secondaryCtaUrl = safeUrl(hero.secondary_cta_url) || '#press';
-const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
+const primaryCtaUrl = resolveUrl(hero.primary_cta_url) || '/contact';
+const secondaryCtaUrl = resolveUrl(hero.secondary_cta_url) || '#press';
+const finalCtaUrl = resolveUrl(final_cta.cta_url) || '/contact';
 
-const appearancesMore = safeUrl(appearances_section.view_more_url);
-const pressMore = safeUrl(press_section.view_more_url);
-const articlesMore = safeUrl(articles_section.view_more_url);
-const interviewsMore = safeUrl(interviews_section.view_more_url);
+const appearancesMore = resolveUrl(appearances_section.view_more_url);
+const pressMore = resolveUrl(press_section.view_more_url);
+const articlesMore = resolveUrl(articles_section.view_more_url);
+const interviewsMore = resolveUrl(interviews_section.view_more_url);
 ---
 
 <SpeakingLayout

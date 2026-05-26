@@ -38,6 +38,7 @@
 
     { "source": "/bio-and-headshot", "destination": "/media-kit", "permanent": true },
     { "source": "/consulting-and-coaching", "destination": "/consulting", "permanent": true },
+    { "source": "/async-linkedin-profile-audit-assessment", "destination": "/coaching#linkedin-audit", "permanent": true },
 
     { "source": "/learning-courses", "destination": "/courses", "permanent": true },
     { "source": "/linkedin-learning-courses", "destination": "/courses", "permanent": true },

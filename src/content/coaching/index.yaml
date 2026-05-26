@@ -1,0 +1,137 @@
+hero:
+  eyebrow: Coaching
+  headline: Unforgettable presence.
+  headline_accent: Transformational growth.
+  lead: >-
+    You've worked hard to get where you are, but hard work alone isn't what sets
+    you apart. To stand out and lead with influence, you need to be seen, heard,
+    and remembered in the moments that matter most.
+  primary_cta_label: Work with Lorraine
+  primary_cta_url: /contact
+  secondary_cta_label: View coaching tiers
+  secondary_cta_url: '#tiers'
+intro_section:
+  eyebrow: Why work with me
+  heading: Get there faster, with more
+  heading_accent: clarity.
+intro_paragraphs:
+  - >-
+    It wasn't always this way for me. I used to put my head down and thought that
+    was enough to stand out. Turns out, it takes a lot more intentionality, key
+    mindset shifts, and a wide-reaching professional presence.
+  - >-
+    Now, I take what I've learned, and what I've taught to thousands of
+    professionals, to help you get there faster and with more clarity.
+  - >-
+    I've spent more than a decade helping high-achieving professionals grow their
+    confidence, presence, and impact as a keynote speaker, LinkedIn Top Voice, and
+    instructor to over 300,000 learners through LinkedIn Learning. I've been
+    trusted by teams at companies including Amazon, LinkedIn, Zoom, McKinsey,
+    Cisco, and Microsoft.
+  - >-
+    Whether you're stepping into a bigger role, speaking in front of executives,
+    or building your personal brand, I'll help you develop a presence that's
+    unforgettable. Through our work together, you'll gain the tools, confidence,
+    and strategies to show up powerfully and intentionally in every room, meeting,
+    or moment that matters.
+topics_section:
+  eyebrow: What we cover
+  heading: Common topics we
+  heading_accent: cover.
+  lead: >-
+    These sessions are guided by your goals and what's most relevant to you, but
+    I'll always bring structure, insight, and thoughtful prompts to move you
+    forward with clarity and confidence.
+topics:
+  - Uncovering your goals and defining what success looks like
+  - Upleveling your presentations and public speaking
+  - Leading meetings with clarity and confidence
+  - Showing up powerfully and consistently on LinkedIn
+  - Building a presence that stands out (especially as an introvert)
+  - Clarifying your personal brand and how others perceive you
+  - Communicating in high-stakes settings (exec briefings, all-hands, etc.)
+  - Strengthening your executive presence and influence
+  - Navigating visibility when you're not in the room
+  - Managing imposter syndrome and building self-trust
+tiers_section:
+  eyebrow: Coaching tiers
+  heading: Choose your
+  heading_accent: path forward.
+  lead: >-
+    Every engagement is one-on-one and tailored to where you are now and where you
+    want to go.
+tiers:
+  - name: Essential
+    duration: One month
+    price: $1,750
+    per_session_note: $875 per session
+    summary: >-
+      Guided conversations to clarify your goals, pain points, and tangible
+      action items.
+    features:
+      - 2 one-on-one 60-minute coaching sessions
+    footnote: >-
+      Sessions must be used within 4 weeks (recommended: once every other week).
+    featured: false
+  - name: Accelerator
+    duration: 3 months
+    price: $4,000
+    per_session_note: $750 per session
+    summary: Everything in Essential, plus deeper, customized strategic guidance.
+    features:
+      - 6 one-on-one 60-minute coaching sessions
+      - Customized sessions with strategic guidance
+      - Personalized insights on how you're showing up (in meetings, on LinkedIn, etc.)
+      - Asynchronous support via email
+    footnote: >-
+      Sessions must be used within 3 months (recommended: once every other week).
+    featured: true
+  - name: Premier
+    duration: 6 months
+    price: $10,000
+    per_session_note: $769 per session
+    summary: >-
+      Everything in Accelerator, plus high-touch support for sustained
+      transformation.
+    features:
+      - 12 one-on-one 60-minute coaching sessions
+      - 60-minute kickoff strategy session
+      - In-depth LinkedIn profile review using my custom scoring rubric
+      - Unlimited voice memo and email support between sessions
+      - Personalized summary and next-steps plan
+    footnote: >-
+      All sessions must be used within 6 months (recommended: weekly or every
+      other week).
+    featured: false
+oneoff:
+  label: One-off session
+  description: >-
+    Need a one-time strategy session or support ahead of a big moment? Lorraine
+    offers one-off consulting for high-impact guidance.
+  price: $1,000/hour
+audit:
+  show: true
+  eyebrow: Async option
+  heading: Just want your LinkedIn profile
+  heading_accent: reviewed?
+  description: >-
+    Prefer structured feedback without a live session? Submit your profile and
+    Lorraine will send back a detailed analysis with concrete, prioritized
+    suggestions, scored against her custom rubric. No meeting required.
+  price: $499
+  price_note: One-time, async
+  features:
+    - A full profile review scored against Lorraine's custom rubric
+    - Concrete, prioritized suggestions you can act on right away
+    - Delivered within one week, with no live meeting required
+  cta_label: Request your audit
+  cta_url: /contact
+final_cta:
+  eyebrow: Let's work together
+  heading: Ready to stand out, be seen, and
+  heading_accent: lead with influence?
+  body: >-
+    Reach out to get started and Lorraine will help you find the right way to work
+    together.
+  cta_label: Get in touch with Lorraine
+  cta_url: /contact
