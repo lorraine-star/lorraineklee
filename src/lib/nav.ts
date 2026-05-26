@@ -12,10 +12,12 @@ export interface NavItem {
 }
 
 // Route map (CLI-106): nav points at the canonical interior pages shipped under
-// CLI-80. `/thought-leadership` ships via CLI-81 (PR #51, not yet merged to
-// `dev`); every other destination here is live. `contact` stays in this shared
-// list for SiteNav (legacy `/articles`); EditorialNav drops the inline link and
-// surfaces Contact as its primary CTA button instead.
+// CLI-80; every destination here is live on `dev`. `contact` stays in this
+// shared list for SiteNav (legacy `/articles`); EditorialNav drops the inline
+// link and surfaces Contact as its primary CTA button instead. The
+// `work-with-me` group is a services menu with no overview page, so its parent
+// href points at its lead service (`/coaching`), not `/contact`, so it does not
+// duplicate the `contact` item in SiteNav (where active state is href-based).
 // Pre-existing fragments left as-is (no standalone page yet, out of CLI-106
 // scope): `/speaking#bio` (bio destination pending CLI-88/CLI-105),
 // `/articles#newsletter`, `/learn#linkedin-guide`.
@@ -60,7 +62,7 @@ export const mainNavItems: NavItem[] = [
   {
     id: 'work-with-me',
     label: 'Work With Me',
-    href: '/contact',
+    href: '/coaching',
     children: [
       { label: 'Coaching', href: '/coaching', activeId: 'coaching' },
       { label: 'Consulting', href: '/consulting', activeId: 'consulting' },

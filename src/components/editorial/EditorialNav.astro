@@ -73,7 +73,13 @@ const {
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
     </button>
-    <a class="btn primary" href={ctaHref}>{ctaLabel}</a>
+    <a
+      class="btn primary"
+      href={ctaHref}
+      aria-current={activeId === 'contact' ? 'page' : undefined}
+    >
+      {ctaLabel}
+    </a>
   </div>
 </nav>
 
