@@ -199,7 +199,7 @@ Crawl flagged these as stale, event-specific, or thin. Default: **noindex +
 | `/from-the-archive-*` (3 URLs) | `/articles/{slug}` ⏳ | **301** |
 | `/email-me-with-your-topic-of-interest/`, `/thank-you-for-sharing-your-interest/`, `/thank-you-youre-still-on-the-list/`, `/linkedin-workshop-video/`, `/key-takeaways-download/` | `/contact` or `/learn` | **301** (thin utility pages) |
 | `/newsletter-back-issues/` | `/articles` | **301** |
-| `/async-linkedin-profile-audit-assessment/` | `/coaching` | **301** (live in `vercel.json`, CLI-83). Standalone async audit retired; the LinkedIn profile review is now folded into the Premier coaching tier. |
+| `/async-linkedin-profile-audit-assessment/` | `/coaching#linkedin-audit` | **301** (live in `vercel.json`, CLI-83). Service confirmed active (~$499 async profile audit); folded into `/coaching` as a dedicated offer section rather than a standalone page. Confirm price/turnaround with client. |
 
 ## 10. Existing WordPress vanity / campaign short-links
 

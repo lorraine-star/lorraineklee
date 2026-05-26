@@ -1741,6 +1741,42 @@ export default config({
           },
           { label: 'One-off session callout' }
         ),
+        audit: fields.object(
+          {
+            show: fields.checkbox({
+              label: 'Show the async LinkedIn audit offer',
+              defaultValue: true,
+            }),
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            description: fields.text({
+              label: 'Description',
+              multiline: true,
+            }),
+            price: fields.text({ label: 'Price (e.g. "$499")' }),
+            price_note: fields.text({
+              label: 'Price note (e.g. "one-time, async")',
+            }),
+            features: fields.array(fields.text({ label: 'Feature' }), {
+              label: "What's included",
+              itemLabel: (props) => props.value || 'Feature',
+            }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            cta_url: fields.text({
+              label: 'CTA URL',
+              description:
+                'Where the audit CTA points. Defaults to /contact; update to a dedicated audit form or payment link when one exists.',
+            }),
+          },
+          {
+            label: 'Async LinkedIn profile audit offer',
+            description:
+              'Standalone async LinkedIn profile audit. The WordPress /async-linkedin-profile-audit-assessment/ page 301s to this section (#linkedin-audit).',
+          }
+        ),
         final_cta: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),

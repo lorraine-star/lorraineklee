@@ -109,6 +109,23 @@ oneoff:
     Need a one-time strategy session or support ahead of a big moment? Lorraine
     offers one-off consulting for high-impact guidance.
   price: $1,000/hour
+audit:
+  show: true
+  eyebrow: Async option
+  heading: Just want your LinkedIn profile
+  heading_accent: reviewed?
+  description: >-
+    Prefer structured feedback without a live session? Submit your profile and
+    Lorraine will send back a detailed analysis with concrete, prioritized
+    suggestions, scored against her custom rubric. No meeting required.
+  price: $499
+  price_note: One-time, async
+  features:
+    - A full profile review scored against Lorraine's custom rubric
+    - Concrete, prioritized suggestions you can act on right away
+    - Delivered within one week, with no live meeting required
+  cta_label: Request your audit
+  cta_url: /contact
 final_cta:
   eyebrow: Let's work together
   heading: Ready to stand out, be seen, and
