@@ -12,12 +12,48 @@ const {
 	hero,
 	newsletter,
 	courses_section,
-	courses,
 	linkedin_resources_section,
 	linkedin_resources,
 } = learn;
 
 const isExternal = (url: string) => /^https?:\/\//i.test(url);
+
+// Course catalog: read the shared LinkedIn Learning collection (real thumbnails,
+// categories) instead of a hardcoded list, so the Learn grid and the /courses
+// hub stay in sync. Mirror the hub's curation: only courses flagged for it.
+const CATEGORY_ORDER = ['Communication', 'Leadership', 'Management', 'Career'];
+const catIndex = (c?: string) => {
+	const i = CATEGORY_ORDER.indexOf(c ?? '');
+	return i === -1 ? CATEGORY_ORDER.length : i;
+};
+
+const allCourses = await reader.collections.courses.all();
+const hubCourses = allCourses
+	.map((c) => ({ slug: c.slug, ...c.entry }))
+	.filter((c) => c.show_on_hub !== false)
+	// `order` is per-category, so sorting by it first interleaves the categories
+	// (one from each before the second of any) for a varied default-6 spread.
+	.sort(
+		(a, b) =>
+			(a.order ?? 0) - (b.order ?? 0) ||
+			catIndex(a.category) - catIndex(b.category)
+	);
+
+const DEFAULT_VISIBLE = 6;
+const totalCourses = hubCourses.length;
+
+// Filter pills: only categories that actually have courses, in canonical order.
+const categories = CATEGORY_ORDER.filter((cat) =>
+	hubCourses.some((c) => c.category === cat)
+);
+const countFor = (cat: string) =>
+	hubCourses.filter((c) => c.category === cat).length;
+
+// Prefer the external LinkedIn Learning URL, fall back to the on-site detail page.
+const courseHref = (c: { url?: string | null; slug: string }) =>
+	safeUrl(c.url) || `/courses/${c.slug}`;
+
+const hasResources = (linkedin_resources?.length ?? 0) > 0;
 ---
 
 <SpeakingLayout
@@ -101,7 +137,7 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 					}
 					<div class="lh-card-overlay">
 						<span class="lh-card-eyebrow">LinkedIn Learning</span>
-						<h3 class="lh-card-title">{courses.length} on-demand courses</h3>
+						<h3 class="lh-card-title">{totalCourses} on-demand courses</h3>
 						<span class="lh-card-cta">
 							Browse all <span aria-hidden="true">&rarr;</span>
 						</span>
@@ -144,6 +180,29 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 			</div>
 		</div>
 	</section>
+
+	{/* ---------- Sticky jump-to-section sub-nav ---------- */}
+	<nav class="learn-subnav" aria-label="Jump to a section">
+		<div class="grid12">
+			<ul class="learn-subnav-list" data-section-nav>
+				<li>
+					<a href="#course" data-section-link>Free course</a>
+				</li>
+				<li>
+					<a href="#courses" data-section-link>Courses</a>
+				</li>
+				{
+					hasResources && (
+						<li>
+							<a href="#resources" data-section-link>
+								Free resources
+							</a>
+						</li>
+					)
+				}
+			</ul>
+		</div>
+	</nav>
 
 	{/* ---------- Newsletter lead block (mirrors home page Free Course section) ---------- */}
 	<section id="course" class="course learn-newsletter">
@@ -212,19 +271,54 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 					<em>{courses_section.heading_accent}</em>
 				</h2>
 				{courses_section.lead && <p class="lead">{courses_section.lead}</p>}
+				<p class="course-catalog-count">
+					{totalCourses} on-demand courses and counting.
+				</p>
 			</div>
 
-			<div class="course-grid-cards reveal-stagger">
+			{/* Category filter (progressive enhancement: hidden until JS wires it up,
+			    so it never renders as an inert control without JavaScript). */}
+			<div
+				class="course-filter"
+				data-course-filter
+				hidden
+				role="group"
+				aria-label="Filter courses by category"
+			>
+				<button
+					type="button"
+					class="course-filter-pill is-active"
+					data-filter="all"
+					aria-pressed="true"
+				>
+					All <span class="course-filter-num">{totalCourses}</span>
+				</button>
 				{
-					courses.map((c) => {
-						const url = c.url ?? '';
+					categories.map((cat) => (
+						<button
+							type="button"
+							class="course-filter-pill"
+							data-filter={cat}
+							aria-pressed="false"
+						>
+							{cat} <span class="course-filter-num">{countFor(cat)}</span>
+						</button>
+					))
+				}
+			</div>
+
+			<div class="course-grid-cards reveal-stagger" data-course-grid>
+				{
+					hubCourses.map((c, i) => {
+						const url = courseHref(c);
 						const external = isExternal(url);
-						const href = safeUrl(url) || '/contact';
 						return (
 							<a
 								class="course-card"
-								data-platform={c.platform}
-								href={href}
+								data-platform="LinkedIn Learning"
+								data-category={c.category}
+								data-default-visible={i < DEFAULT_VISIBLE ? 'true' : undefined}
+								href={url}
 								target={external ? '_blank' : undefined}
 								rel={external ? 'noopener noreferrer' : undefined}
 							>
@@ -235,13 +329,15 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 											src={c.thumbnail}
 											alt=""
 											loading="lazy"
+											width="1280"
+											height="720"
 										/>
 									) : (
 										<div class="course-thumb-deco" aria-hidden="true">
 											{c.glyph}
 										</div>
 									)}
-									<span class="platform-tag">{c.platform}</span>
+									<span class="platform-tag">LinkedIn Learning</span>
 									<div class="play" aria-hidden="true">
 										<svg viewBox="0 0 24 24" fill="currentColor">
 											<path d="M8 5v14l11-7z" />
@@ -253,8 +349,7 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 									<h3>{c.title}</h3>
 									<p class="course-desc">{c.description}</p>
 									<span class="course-link">
-										{external ? 'Watch course' : 'Learn more'}{' '}
-										<span aria-hidden="true">&rarr;</span>
+										Watch course <span aria-hidden="true">&rarr;</span>
 									</span>
 								</div>
 							</a>
@@ -263,11 +358,23 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 				}
 			</div>
 
-			{
-				courses_section.cta_label && courses_section.cta_url && (
-					<div class="courses-cta">
+			<p class="sr-only" data-course-live aria-live="polite" role="status"></p>
+
+			<div class="courses-cta courses-cta--stack">
+				<button
+					type="button"
+					class="btn outline large"
+					data-course-expand
+					hidden
+					aria-expanded="false"
+				>
+					<span data-expand-label>Show all {totalCourses} courses</span>
+					<span class="course-expand-icon" aria-hidden="true">&#8595;</span>
+				</button>
+				{
+					courses_section.cta_label && courses_section.cta_url && (
 						<a
-							class="btn outline large"
+							class="course-hub-link"
 							href={safeUrl(courses_section.cta_url)}
 							target={isExternal(courses_section.cta_url) ? '_blank' : undefined}
 							rel={
@@ -278,9 +385,9 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 						>
 							{courses_section.cta_label} <span aria-hidden="true">&rarr;</span>
 						</a>
-					</div>
-				)
-			}
+					)
+				}
+			</div>
 		</div>
 	</section>
 
@@ -354,4 +461,286 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 		form.setAttribute('hidden', '');
 		success?.removeAttribute('hidden');
 	});
+
+	// --- Course category filter + in-place expand ---
+	const grid = document.querySelector<HTMLElement>('[data-course-grid]');
+	const filterBar = document.querySelector<HTMLElement>('[data-course-filter]');
+	const expandBtn = document.querySelector<HTMLButtonElement>('[data-course-expand]');
+	const liveRegion = document.querySelector<HTMLElement>('[data-course-live]');
+
+	if (grid && filterBar && expandBtn) {
+		const cards = Array.from(grid.querySelectorAll<HTMLElement>('.course-card'));
+		const pills = Array.from(
+			filterBar.querySelectorAll<HTMLButtonElement>('[data-filter]')
+		);
+		const expandLabel = expandBtn.querySelector<HTMLElement>('[data-expand-label]');
+		const total = cards.length;
+		const defaultCount = cards.filter(
+			(c) => c.dataset.defaultVisible === 'true'
+		).length;
+
+		let activeFilter = 'all';
+		let expanded = false;
+		// Skip the aria-live announcement on first paint; only narrate changes.
+		let interacted = false;
+
+		const render = () => {
+			let shown = 0;
+			for (const card of cards) {
+				const visible =
+					activeFilter === 'all'
+						? expanded || card.dataset.defaultVisible === 'true'
+						: card.dataset.category === activeFilter;
+				card.classList.toggle('is-hidden', !visible);
+				// Cards hidden at load are never seen by the scroll-reveal observer,
+				// so once revealed by a filter/expand they must be forced visible.
+				if (visible && interacted) card.classList.add('is-in');
+				if (visible) shown += 1;
+			}
+
+			const canExpand = activeFilter === 'all' && total > defaultCount;
+			expandBtn.hidden = !canExpand;
+			expandBtn.setAttribute('aria-expanded', String(expanded));
+			expandBtn.classList.toggle('is-expanded', expanded);
+			if (expandLabel) {
+				expandLabel.textContent = expanded
+					? 'Show fewer courses'
+					: `Show all ${total} courses`;
+			}
+
+			for (const pill of pills) {
+				const on = (pill.dataset.filter || 'all') === activeFilter;
+				pill.classList.toggle('is-active', on);
+				pill.setAttribute('aria-pressed', String(on));
+			}
+
+			if (liveRegion && interacted) {
+				if (activeFilter === 'all') {
+					liveRegion.textContent =
+						expanded || total <= defaultCount
+							? `Showing all ${total} courses`
+							: `Showing ${shown} of ${total} courses`;
+				} else {
+					liveRegion.textContent = `Showing ${shown} ${activeFilter} ${
+						shown === 1 ? 'course' : 'courses'
+					}`;
+				}
+			}
+		};
+
+		filterBar.hidden = false;
+		pills.forEach((pill) => {
+			pill.addEventListener('click', () => {
+				interacted = true;
+				activeFilter = pill.dataset.filter || 'all';
+				// Returning to a category always shows the full (small) category;
+				// reset the all-view expansion so it collapses back to the default 6.
+				if (activeFilter !== 'all') expanded = false;
+				render();
+			});
+		});
+		expandBtn.addEventListener('click', () => {
+			interacted = true;
+			expanded = !expanded;
+			render();
+		});
+
+		render();
+	}
+
+	// --- Scroll-spy: highlight the active section in the jump sub-nav ---
+	const sectionLinks = Array.from(
+		document.querySelectorAll<HTMLAnchorElement>('[data-section-link]')
+	);
+	if (sectionLinks.length && 'IntersectionObserver' in window) {
+		const linkFor = new Map<Element, HTMLAnchorElement>();
+		for (const link of sectionLinks) {
+			const id = link.getAttribute('href')?.slice(1);
+			const section = id ? document.getElementById(id) : null;
+			if (section) linkFor.set(section, link);
+		}
+		const spy = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (!entry.isIntersecting) continue;
+					const active = linkFor.get(entry.target);
+					if (!active) continue;
+					sectionLinks.forEach((l) => l.removeAttribute('aria-current'));
+					active.setAttribute('aria-current', 'true');
+				}
+			},
+			{ rootMargin: '-45% 0px -50% 0px' }
+		);
+		linkFor.forEach((_, section) => spy.observe(section));
+	}
 </script>
+
+<style>
+	/* ----------------------------------------------------------
+	   Learn page sub-navigation: sticky jump-to-section bar
+	   ---------------------------------------------------------- */
+	.learn-subnav {
+		position: sticky;
+		top: 72px; /* sits just below the sticky site header (72px tall) */
+		z-index: 40;
+		background: rgba(251, 248, 242, 0.92);
+		backdrop-filter: saturate(160%) blur(12px);
+		-webkit-backdrop-filter: saturate(160%) blur(12px);
+		border-bottom: 1px solid var(--border-soft);
+	}
+	.learn-subnav-list {
+		grid-column: 1 / -1;
+		display: flex;
+		gap: 8px;
+		margin: 0;
+		padding: 10px 0;
+		list-style: none;
+		overflow-x: auto;
+		scrollbar-width: none;
+	}
+	.learn-subnav-list::-webkit-scrollbar {
+		display: none;
+	}
+	.learn-subnav-list a {
+		display: inline-flex;
+		align-items: center;
+		white-space: nowrap;
+		font-family: var(--font-sans);
+		font-size: 13px;
+		font-weight: 600;
+		letter-spacing: 0.01em;
+		color: var(--ink-700);
+		text-decoration: none;
+		padding: 8px 16px;
+		border-radius: 999px;
+		border: 1px solid var(--border-soft);
+		background: #fff;
+		transition: color 160ms var(--ease-out), background 160ms var(--ease-out),
+			border-color 160ms var(--ease-out);
+	}
+	.learn-subnav-list a:hover {
+		color: var(--accent);
+		border-color: var(--accent);
+	}
+	.learn-subnav-list a[aria-current='true'] {
+		color: var(--paper);
+		background: var(--ink-900);
+		border-color: var(--ink-900);
+	}
+	.learn-subnav-list a:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 2px;
+	}
+
+	/* Section anchors clear both the site header and this sub-nav. */
+	#course,
+	#courses,
+	#resources {
+		scroll-margin-top: 140px;
+	}
+
+	/* ----------------------------------------------------------
+	   Course catalog: count, category filter pills, expand
+	   ---------------------------------------------------------- */
+	.course-catalog-count {
+		font-family: var(--font-sans);
+		font-size: 14px;
+		font-weight: 600;
+		color: var(--ink-500);
+		margin: 14px 0 0;
+	}
+
+	.course-filter {
+		grid-column: 1 / -1;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 10px;
+		margin: 4px 0 32px;
+	}
+	.course-filter-pill {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		min-height: 40px;
+		font-family: var(--font-sans);
+		font-size: 13px;
+		font-weight: 600;
+		color: var(--ink-700);
+		background: #fff;
+		border: 1px solid var(--border-soft);
+		border-radius: 999px;
+		padding: 9px 18px;
+		cursor: pointer;
+		transition: color 160ms var(--ease-out), background 160ms var(--ease-out),
+			border-color 160ms var(--ease-out);
+	}
+	.course-filter-pill:hover {
+		color: var(--accent);
+		border-color: var(--accent);
+	}
+	.course-filter-pill.is-active {
+		color: var(--paper);
+		background: var(--ink-900);
+		border-color: var(--ink-900);
+	}
+	.course-filter-pill:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 2px;
+	}
+	.course-filter-num {
+		font-size: 11px;
+		font-weight: 700;
+		opacity: 0.7;
+		font-variant-numeric: tabular-nums;
+	}
+
+	/* Hidden state shared by the category filter and the collapse/expand. */
+	.course-card.is-hidden {
+		display: none;
+	}
+
+	.courses-cta--stack {
+		flex-direction: column;
+		gap: 16px;
+		align-items: center;
+	}
+	[data-course-expand] {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+	}
+	[data-course-expand] .course-expand-icon {
+		transition: transform 200ms var(--ease-out);
+	}
+	[data-course-expand].is-expanded .course-expand-icon {
+		transform: rotate(180deg);
+	}
+	.course-hub-link {
+		font-family: var(--font-sans);
+		font-size: 12px;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--accent);
+		text-decoration: none;
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+	}
+	.course-hub-link:hover {
+		text-decoration: underline;
+	}
+	.course-hub-link:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 3px;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.learn-subnav-list a,
+		.course-filter-pill,
+		[data-course-expand] .course-expand-icon {
+			transition: none;
+		}
+	}
+</style>
