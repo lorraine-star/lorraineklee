@@ -15,7 +15,12 @@ include:
 
 fileFormat: v2
 gitMainBranch: main
-retries: 0
+# Retry a failed test once. Prod runs hit live/preview deployments where a
+# single transient blip (Vercel function cold start, a mid-animation AI vision
+# screenshot, brief network hiccup) can fail an otherwise-healthy assertion. A
+# genuinely broken page still fails both attempts, so this cuts false alarms
+# without masking real regressions.
+retries: 1
 parallel: 1
 recordVideo: true
 
