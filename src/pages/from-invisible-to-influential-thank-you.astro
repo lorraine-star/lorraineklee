@@ -15,7 +15,11 @@ if (!fc) {
   throw new Error('Missing free-course content (src/content/free-course/index.yaml)');
 }
 const ty = fc.thank_you;
-const ctaUrl = safeUrl(ty.cta_url) || 'https://linkedin.com/in/lorraineklee';
+// safeUrl() collapses unsafe/invalid values to '#', which is truthy, so guard
+// against it explicitly to keep the LinkedIn fallback meaningful.
+const safeCta = safeUrl(ty.cta_url);
+const ctaUrl =
+  safeCta && safeCta !== '#' ? safeCta : 'https://linkedin.com/in/lorraineklee';
 const isExternal = /^https?:\/\//i.test(ctaUrl);
 ---
 
