@@ -12,6 +12,14 @@ const { hero, highlights_section, appearances_section, final_cta } = page;
 
 const isExternal = (url: string) => /^https?:\/\//i.test(url);
 
+// safeUrl() collapses unsafe/invalid URLs (e.g. javascript:) to '#'. Treat that
+// sentinel as "no link" so cards render without a dead CTA and CTA-URL fallbacks
+// still kick in, rather than linking to '#'.
+const cleanUrl = (value: string | null | undefined) => {
+	const url = safeUrl(value);
+	return url === '#' ? '' : url;
+};
+
 // Default CTA label per appearance type. Editors can override via cta_label.
 const CTA_DEFAULTS: Record<string, string> = {
 	Article: 'Read more',
@@ -28,7 +36,7 @@ const CTA_DEFAULTS: Record<string, string> = {
 
 const all = (await reader.collections.featuredAppearances.all())
 	.map((a) => {
-		const href = safeUrl(a.entry.url);
+		const href = cleanUrl(a.entry.url);
 		return {
 			slug: a.slug,
 			...a.entry,
@@ -44,9 +52,9 @@ const all = (await reader.collections.featuredAppearances.all())
 const highlights = all.filter((a) => a.featured);
 const appearances = all.filter((a) => !a.featured);
 
-const heroPrimaryUrl = safeUrl(hero.primary_cta_url) || '/speaking';
-const heroSecondaryUrl = safeUrl(hero.secondary_cta_url) || '#appearances';
-const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
+const heroPrimaryUrl = cleanUrl(hero.primary_cta_url) || '/speaking';
+const heroSecondaryUrl = cleanUrl(hero.secondary_cta_url) || '#appearances';
+const finalCtaUrl = cleanUrl(final_cta.cta_url) || '/contact';
 ---
 
 <SpeakingLayout
