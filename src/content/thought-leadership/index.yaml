@@ -1,0 +1,184 @@
+hero:
+  eyebrow: Thought Leadership
+  headline: Ideas that help leaders
+  headline_accent: get seen.
+  lead: >-
+    From keynote stages to LinkedIn News, Lorraine shares frameworks on
+    presence, communication, and personal branding that leaders actually use.
+    Here is where her ideas show up.
+  primary_cta_label: Work with Lorraine
+  primary_cta_url: /contact
+  secondary_cta_label: See where she's featured
+  secondary_cta_url: '#press'
+appearances_section:
+  eyebrow: On the mic
+  heading: Recent
+  heading_accent: appearances.
+  lead: >-
+    Lorraine joins podcasts, webinars, and live shows to talk presence,
+    communication, and career growth.
+  view_more_label: View all interviews
+  view_more_url: /interviews
+appearances:
+  - date: May 2025
+    show: Think Fast Talk Smart
+    title: 'Own Your Brand: How to Communicate with Presence and Impact'
+    description: ''
+    youtube_id: MbsUmSfdcrQ
+    url: ''
+    cta_label: Watch now
+  - date: April 2025
+    show: Level Up
+    title: Unforgettable Presence with Jason Yoong
+    description: >-
+      Lorraine and Level Up COO Jason Yoong discuss her bestselling book,
+      Unforgettable Presence: Get Seen, Gain Influence, and Catapult Your
+      Career.
+    youtube_id: t385bkCv7hk
+    url: ''
+    cta_label: Watch now
+  - date: May 2024
+    show: Indeed Job Search Academy
+    title: 'Shine Brighter: Refreshing Your Personal Brand for Career Success'
+    description: >-
+      Lorraine shared tips for personal branding in Indeed's Job Search Academy
+      webinar series.
+    youtube_id: ''
+    url: >-
+      https://www.linkedin.com/events/shinebrighter-refreshingyoupers7183481875833761793/theater/
+    cta_label: Watch now
+  - date: August 2024
+    show: Get Hired by LinkedIn News
+    title: Navigating Life After a Layoff
+    description: >-
+      With host Andrew Seaman, Lorraine shared what to do after a layoff and how
+      to prepare for your next role.
+    youtube_id: ''
+    url: >-
+      https://www.linkedin.com/feed/update/urn%3Ali%3Aactivity%3A7226981095974547456/
+    cta_label: Watch now
+press_section:
+  eyebrow: Featured in
+  heading: Press &
+  heading_accent: features.
+  lead: >-
+    A selection of the outlets where Lorraine's expertise has appeared. See the
+    full list on the Featured In page.
+  view_more_label: See all featured press
+  view_more_url: /featured-in
+press_features:
+  - outlet: AARP
+    title: Should You Pay for Help With Your Job Search?
+    url: https://www.aarp.org/work/job-search/paid-job-search-help.html
+    cta_label: Read more
+  - outlet: Forbes
+    title: How 'Presence' Is Changing In The Digital Era
+    url: >-
+      https://www.forbes.com/sites/kevinkruse/2025/09/29/how-presence-is-changing-in-the-digital-era/
+    cta_label: Read more
+  - outlet: Indeed
+    title: "'Dream Job' Redefined: How to Build a Career That Shifts With You"
+    url: https://www.indeed.com/career-advice/news/dream-job-flexible-strategy
+    cta_label: Read more
+  - outlet: Inc.
+    title: >-
+      Do 1 Small Thing in Every Conversation to Be Instantly Likable, Says
+      Communications Expert
+    url: >-
+      https://www.inc.com/minda-zetlin/do-1-small-thing-in-every-conversation-to-be-instantly-likable-says-communications-expert/91248826
+    cta_label: Read more
+  - outlet: PR Daily
+    title: Growing a personal brand through the EPIC framework
+    url: https://www.prdaily.com/growing-a-personal-brand-through-the-epic-framework/
+    cta_label: Read more
+  - outlet: Upworthy
+    title: The most likable people share a trait that is nearly impossible to fake
+    url: >-
+      https://www.upworthy.com/the-most-likable-people-share-a-trait-that-is-nearly-impossible-to-fake
+    cta_label: Read more
+articles_section:
+  eyebrow: In her words
+  heading: Authored
+  heading_accent: articles.
+  lead: >-
+    Bylines and contributions on presence, communication, and building a career
+    brand.
+  view_more_label: Read all articles
+  view_more_url: /articles
+authored_articles:
+  - date: April 2026
+    outlet: Fast Company
+    title: >-
+      Call it whatever you like: Personal brand, career brand, or professional
+      reputation. Here's how to build it
+    url: >-
+      https://www.fastcompany.com/91518626/call-it-whatever-you-like-personal-brand-career-brand-or-professional-reputation-heres-how-to-build-it
+    cta_label: Read more
+  - date: March 2026
+    outlet: Forbes
+    title: >-
+      The Secret Language of Work: Why Knowing What to Say Matters More Than You
+      Think
+    url: >-
+      https://www.forbes.com/sites/lorraineklee/2026/03/24/the-secret-language-of-work-why-knowing-what-to-say-matters-more-than-you-think/
+    cta_label: Read more
+  - date: December 2025
+    outlet: INTHEBLACK
+    title: 4 tips to supercharge your LinkedIn presence
+    url: >-
+      https://intheblack.cpaaustralia.com.au/careers-and-workplace/4-tips-supercharge-your-linkedin-presence
+    cta_label: Read more
+  - date: November 2025
+    outlet: CNBC
+    title: >-
+      Highly likable people do these 4 things when talking to others, say
+      communication experts
+    url: >-
+      https://www.cnbc.com/2025/11/21/likable-people-do-these-things-when-talking-to-others-communication-experts.html
+    cta_label: Read more
+interviews_section:
+  eyebrow: The other side of the camera
+  heading: Leaders Lorraine has
+  heading_accent: interviewed.
+  lead: >-
+    As a former LinkedIn News editor, Lorraine has interviewed prominent
+    business leaders. A few favorites below.
+  view_more_label: Watch on YouTube
+  view_more_url: https://www.youtube.com/c/LorraineKLee
+interviews:
+  - name: Shelley Zalis
+    role: Founder, The Female Quotient
+    description: >-
+      Shelley Zalis, founder of The Female Quotient, has dedicated herself to
+      the business of gender equality. She sat down with Lorraine to share
+      simple hacks she uses to achieve gender parity at work.
+    youtube_id: zvplacEd8zs
+    url: ''
+    cta_label: Watch now
+  - name: Esther Wojcicki
+    role: Educator
+    description: >-
+      Educator Esther Wojcicki has raised three very successful children and is
+      asked constantly for her secret. It starts with giving children a sense of
+      comfort and control.
+    youtube_id: 8kBJfLzocHM
+    url: ''
+    cta_label: Watch now
+  - name: Meena Harris
+    role: Phenomenal Woman Action Campaign
+    description: >-
+      Meena Harris of the Phenomenal Woman Action Campaign joined Lorraine to
+      talk diversity and inclusion, and why it starts with looking honestly at
+      the numbers.
+    youtube_id: ODWo8FKAzYM
+    url: ''
+    cta_label: Watch now
+final_cta:
+  eyebrow: Work with Lorraine
+  heading: Bring these ideas
+  heading_accent: to your team.
+  body: >-
+    Book a keynote, workshop, or custom program and give your leaders the
+    presence to get seen, gain influence, and grow their careers.
+  cta_label: Get in touch
+  cta_url: /contact

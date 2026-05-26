@@ -1644,6 +1644,220 @@ export default config({
         ),
       },
     }),
+    thoughtLeadership: singleton({
+      label: 'Thought Leadership',
+      path: 'src/content/thought-leadership/',
+      schema: {
+        hero: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            headline: fields.text({ label: 'Headline' }),
+            headline_accent: fields.text({
+              label: 'Headline accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead paragraph', multiline: true }),
+            primary_cta_label: fields.text({ label: 'Primary CTA label' }),
+            primary_cta_url: fields.text({ label: 'Primary CTA URL' }),
+            secondary_cta_label: fields.text({
+              label: 'Secondary CTA label',
+            }),
+            secondary_cta_url: fields.text({
+              label: 'Secondary CTA URL',
+              description: 'Internal route, anchor (e.g. #press), or external URL.',
+            }),
+          },
+          { label: 'Hero' }
+        ),
+        appearances_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+            view_more_label: fields.text({
+              label: 'View-more link label',
+              defaultValue: 'View all interviews',
+            }),
+            view_more_url: fields.text({
+              label: 'View-more link URL',
+              defaultValue: '/interviews',
+            }),
+          },
+          { label: 'Guest appearances section heading' }
+        ),
+        appearances: fields.array(
+          fields.object({
+            date: fields.text({ label: 'Date label (e.g. "May 2025")' }),
+            show: fields.text({ label: 'Show / host' }),
+            title: fields.text({ label: 'Segment / episode title' }),
+            description: fields.text({
+              label: 'Description (optional)',
+              multiline: true,
+            }),
+            youtube_id: fields.text({
+              label: 'YouTube video ID (optional)',
+              description:
+                'The 11-character ID from the watch URL, e.g. "MbsUmSfdcrQ". Used for the thumbnail and watch link.',
+            }),
+            url: fields.text({
+              label: 'Watch URL (optional)',
+              description:
+                'External link used when the appearance is not on YouTube. Ignored when a YouTube video ID is set.',
+            }),
+            cta_label: fields.text({
+              label: 'CTA label',
+              defaultValue: 'Watch now',
+            }),
+          }),
+          {
+            label: 'Guest appearances (Lorraine as guest)',
+            itemLabel: (props) =>
+              props.fields.title.value || props.fields.show.value || 'Appearance',
+          }
+        ),
+        press_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+            view_more_label: fields.text({
+              label: 'View-more link label',
+              defaultValue: 'See all featured press',
+            }),
+            view_more_url: fields.text({
+              label: 'View-more link URL',
+              description: 'Links out to the dedicated Featured In page.',
+              defaultValue: '/featured-in',
+            }),
+          },
+          {
+            label: 'Featured In (press teaser) section heading',
+            description:
+              'A short press-proof teaser. The full press inventory lives on the dedicated Featured In page — link out via the view-more link rather than duplicating it here.',
+          }
+        ),
+        press_features: fields.array(
+          fields.object({
+            outlet: fields.text({ label: 'Outlet / publication' }),
+            title: fields.text({ label: 'Headline / segment title' }),
+            url: fields.text({ label: 'URL' }),
+            cta_label: fields.text({
+              label: 'CTA label',
+              defaultValue: 'Read more',
+            }),
+          }),
+          {
+            label: 'Featured press (teaser)',
+            itemLabel: (props) =>
+              props.fields.outlet.value || props.fields.title.value || 'Feature',
+          }
+        ),
+        articles_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+            view_more_label: fields.text({
+              label: 'View-more link label',
+              defaultValue: 'Read all articles',
+            }),
+            view_more_url: fields.text({
+              label: 'View-more link URL',
+              defaultValue: '/articles',
+            }),
+          },
+          { label: 'Authored articles section heading' }
+        ),
+        authored_articles: fields.array(
+          fields.object({
+            date: fields.text({ label: 'Date label (e.g. "April 2026")' }),
+            outlet: fields.text({ label: 'Outlet / publication' }),
+            title: fields.text({ label: 'Article title' }),
+            url: fields.text({ label: 'URL' }),
+            cta_label: fields.text({
+              label: 'CTA label',
+              defaultValue: 'Read more',
+            }),
+          }),
+          {
+            label: 'Authored articles',
+            itemLabel: (props) =>
+              props.fields.title.value || props.fields.outlet.value || 'Article',
+          }
+        ),
+        interviews_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+            view_more_label: fields.text({
+              label: 'View-more link label',
+              defaultValue: 'Watch on YouTube',
+            }),
+            view_more_url: fields.text({
+              label: 'View-more link URL',
+              defaultValue: 'https://www.youtube.com/c/LorraineKLee',
+            }),
+          },
+          {
+            label: 'Interviews-conducted section heading',
+            description:
+              'Interviews Lorraine has hosted with other leaders ("the other side of the camera").',
+          }
+        ),
+        interviews: fields.array(
+          fields.object({
+            name: fields.text({ label: 'Guest name' }),
+            role: fields.text({ label: 'Guest role / organization' }),
+            description: fields.text({
+              label: 'Description (optional)',
+              multiline: true,
+            }),
+            youtube_id: fields.text({
+              label: 'YouTube video ID (optional)',
+              description:
+                'The 11-character ID from the watch URL. Used for the thumbnail and watch link.',
+            }),
+            url: fields.text({
+              label: 'Watch URL (optional)',
+              description: 'Ignored when a YouTube video ID is set.',
+            }),
+            cta_label: fields.text({
+              label: 'CTA label',
+              defaultValue: 'Watch now',
+            }),
+          }),
+          {
+            label: 'Interviews Lorraine has conducted',
+            itemLabel: (props) => props.fields.name.value || 'Interview',
+          }
+        ),
+        final_cta: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            cta_url: fields.text({ label: 'CTA URL' }),
+          },
+          { label: 'Final CTA' }
+        ),
+      },
+    }),
   },
   collections: {
     courses: collection({
