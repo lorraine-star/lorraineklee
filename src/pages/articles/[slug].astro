@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import SpeakingLayout from '../../layouts/SpeakingLayout.astro';
 import { reader, renderMarkdoc } from '../../lib/keystatic';
 import { formatDate } from '../../lib/dates';
 import { safeUrl } from '../../lib/url';
@@ -16,57 +16,87 @@ const { article } = Astro.props;
 const contentHtml = await renderMarkdoc(article.content);
 ---
 
-<Layout
+<SpeakingLayout
 	title={`${article.title} | Lorraine K. Lee`}
 	description={article.description}
+	activeId="thought-leadership"
 >
-	<article class="mx-auto max-w-3xl px-6 py-20">
-		<p class="text-sm">
-			<a href="/articles" class="text-neutral-500 hover:text-neutral-900">
-				&larr; All articles
-			</a>
-		</p>
-
-		<h1
-			class="mt-4 text-balance text-4xl font-semibold tracking-tight sm:text-5xl"
-		>
-			{article.title}
-		</h1>
-
-		{
-			article.date && (
-				<p class="mt-3 text-sm text-neutral-500">
-					{formatDate(article.date)}
+	<section class="section">
+		<div class="grid12">
+			<article class="article-detail">
+				<p class="article-back">
+					<a href="/articles">&larr; All articles</a>
 				</p>
-			)
-		}
 
-		{
-			article.hero_image && (
-				<img
-					src={article.hero_image}
-					alt=""
-					class="mt-8 w-full rounded-lg object-cover"
-				/>
-			)
-		}
+				<h1>{article.title}</h1>
 
-		<div
-			class="mt-8 space-y-4 text-lg leading-relaxed text-neutral-700"
-			set:html={contentHtml}
-		/>
+				{article.date && <p class="article-date">{formatDate(article.date)}</p>}
 
-		{
-			article.external_url && (
-				<p class="mt-10">
-					<a
-						href={safeUrl(article.external_url)}
-						class="underline underline-offset-4 hover:text-neutral-600"
-					>
-						Read the original
-					</a>
-				</p>
-			)
-		}
-	</article>
-</Layout>
+				{
+					article.hero_image && (
+						<img class="article-hero" src={article.hero_image} alt="" />
+					)
+				}
+
+				<div class="article-body" set:html={contentHtml} />
+
+				{
+					article.external_url && (
+						<p class="article-original">
+							<a href={safeUrl(article.external_url)}>Read the original</a>
+						</p>
+					)
+				}
+			</article>
+		</div>
+	</section>
+</SpeakingLayout>
+
+<style>
+	.article-detail {
+		grid-column: 1 / -1;
+		max-width: 72ch;
+		margin-inline: auto;
+	}
+	.article-back {
+		font-size: 0.85rem;
+		margin-bottom: 16px;
+	}
+	.article-back a {
+		color: var(--ink-500);
+		text-decoration: none;
+	}
+	.article-back a:hover {
+		color: var(--ink-900);
+	}
+	.article-detail h1 {
+		margin: 0 0 12px;
+	}
+	.article-date {
+		color: var(--ink-500);
+		font-size: 0.85rem;
+		margin-bottom: 24px;
+	}
+	.article-hero {
+		width: 100%;
+		border-radius: 14px;
+		margin: 8px 0 28px;
+		object-fit: cover;
+	}
+	.article-body {
+		font-size: 1.05rem;
+		line-height: 1.7;
+		color: var(--ink-700);
+	}
+	.article-body :global(p) {
+		margin: 0 0 1rem;
+	}
+	.article-original {
+		margin-top: 32px;
+	}
+	.article-original a {
+		color: var(--accent);
+		text-decoration: underline;
+		text-underline-offset: 4px;
+	}
+</style>
