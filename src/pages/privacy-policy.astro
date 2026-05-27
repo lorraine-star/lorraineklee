@@ -1,5 +1,7 @@
 ---
+import '../styles/global.css';
 import SpeakingLayout from '../layouts/SpeakingLayout.astro';
+import { DynamicIslandTOC } from '../components/ui/dynamic-island-toc';
 import { reader, renderMarkdoc } from '../lib/keystatic';
 
 const policy = await reader.singletons.privacyPolicy.read();
@@ -35,4 +37,7 @@ const bodyHtml = await renderMarkdoc(policy.body);
 			<article class="legal-body reveal" set:html={bodyHtml} />
 		</div>
 	</section>
+	<div class="legal-toc-theme">
+		<DynamicIslandTOC selector=".legal-body h2" client:load />
+	</div>
 </SpeakingLayout>

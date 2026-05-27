@@ -3176,6 +3176,12 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
 }
+.legal-toc-theme {
+  --background: #fff;
+  --foreground: var(--ink-900);
+  --muted: var(--paper-deep);
+  --muted-foreground: var(--ink-500);
+}
 
 @media (max-width: 900px) {
   .custom-programs-grid { grid-template-columns: 1fr; gap: 28px; }

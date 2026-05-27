@@ -30,6 +30,10 @@ pnpm-debug.log*
 # vercel
 .vercel
 
+# test & tooling artifacts
+.momentic-mcp/
+test-results/
+
 # local-only design references & packaging archives
 Samples/
 Lorraine Logos/
@@ -37,6 +41,7 @@ Lorraine Logos/
 *.tar
 *.tar.gz
 docs/cleaned_media_output/
+docs/lorraine_testimonials_rebuild_package/
 lorraineklee_verified_inventory_package/
 /assets/
 .claude/
