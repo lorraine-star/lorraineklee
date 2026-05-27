@@ -49,7 +49,7 @@ const numbered = keynotes.map((k, i) => ({
 	</section>
 
 	{/* ---------- Keynote catalog ---------- */}
-	<section class="section section--cream anchor-target" id="keynotes">
+	<section class="section section--compact section--cream anchor-target keynotes-catalog" id="keynotes">
 		<div class="grid12">
 			<div class="section-head section-head--center">
 				<span class="eyebrow">The catalog</span>
@@ -97,3 +97,12 @@ const numbered = keynotes.map((k, i) => ({
 		</div>
 	</section>
 </SpeakingLayout>
+
+<style>
+	/* CLI-123: tighten the gap between the hero and the keynote listing so the
+	   catalog reads as a continuation of the hero rather than a separate block.
+	   Keeps the shared .section--compact rhythm for the rest of the section. */
+	.keynotes-catalog {
+		padding-top: clamp(20px, 3vw, 36px);
+	}
+</style>
