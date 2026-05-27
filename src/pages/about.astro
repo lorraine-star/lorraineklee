@@ -64,12 +64,9 @@ const bodyHtml = await renderMarkdoc(about.body);
 	</section>
 
 	{/* ---------- Story ---------- */}
-	<section class="section section--cream" id="bio">
+	<section class="section section--tight section--cream" id="bio">
 		<div class="grid12">
-			<div
-				class="section-head section-head--center"
-				style="margin-bottom: 48px;"
-			>
+			<div class="section-head section-head--center">
 				<span class="eyebrow">{story_section.eyebrow}</span>
 				<h2>
 					{story_section.heading} <em>{story_section.heading_accent}</em>
@@ -92,10 +89,7 @@ const bodyHtml = await renderMarkdoc(about.body);
 	{/* ---------- Career highlights ---------- */}
 	<section class="section section--tight" id="awards">
 		<div class="grid12">
-			<div
-				class="section-head section-head--center"
-				style="margin-bottom: 32px;"
-			>
+			<div class="section-head section-head--center">
 				<span class="eyebrow">{career_section.eyebrow}</span>
 				<h2>
 					{career_section.heading} <em>{career_section.heading_accent}</em>
@@ -127,7 +121,7 @@ const bodyHtml = await renderMarkdoc(about.body);
 	<TrustAsSeenIn />
 
 	{/* ---------- Credibility ---------- */}
-	<section class="section section--cream" id="credibility">
+	<section class="section section--tight section--cream" id="credibility">
 		<div class="grid12">
 			<div class="section-head section-head--center">
 				<span class="eyebrow">{credibility_section.eyebrow}</span>
