@@ -1,0 +1,731 @@
+---
+/*
+ * /from-invisible-to-influential/ — the free 5-day email course funnel.
+ *
+ * Canonical URL confirmed in CLI-95. This recreates the ORIGINAL WordPress
+ * sales funnel 1:1 — same section structure, order, verbatim copy, and Kit
+ * form behaviour — and faithfully mirrors the original's visual design:
+ * centered single-column layout, yellow-highlighter headings, an inline
+ * signup form on a light-blue band, a blue 5-day roadmap banner, numbered day
+ * cards with arrow bullets and "You'll learn" pills, an icon credibility row,
+ * and a red-vs-green comparison.
+ *
+ * Copy lives in Keystatic (src/content/free-course/index.yaml). Headings use
+ * ==text== for the yellow highlight and **text** for bold (see emphasize()).
+ * Kit form mechanics are hard-wired in FreeCourseForm.astro.
+ */
+import FunnelLayout from '../layouts/FunnelLayout.astro';
+import FreeCourseForm from '../components/FreeCourseForm.astro';
+import { reader } from '../lib/keystatic';
+import { emphasize } from '../lib/emphasis';
+
+const fc = await reader.singletons.freeCourse.read();
+if (!fc) {
+  throw new Error('Missing free-course content (src/content/free-course/index.yaml)');
+}
+
+const { hero, problem, roadmap, days, trust, different, final } = fc;
+const STARS = '/images/free-course/stars.svg';
+const ROADMAP_IMG = '/images/free-course/roadmap-banner.png';
+
+// Split a credibility item into its bold lead-in (card heading) and the rest.
+const splitLead = (text: string) => {
+  const m = text.match(/^\*\*(.+?)\*\*\s*([\s\S]*)$/);
+  return m ? { head: m[1], body: m[2] } : { head: '', body: text };
+};
+const digit = (label: string) => label.replace(/[^0-9]/g, '');
+---
+
+<FunnelLayout title={fc.seo_title} description={fc.seo_description}>
+  <div class="fnl">
+    {/* ============ HERO ============ */}
+    <section class="fnl-hero">
+      <div class="grid12">
+        <div class="fnl-hero-inner">
+          <span class="fnl-pill">
+            <img class="fnl-stars" src={STARS} alt="" width="74" height="15" />
+            {hero.eyebrow}
+          </span>
+          <h1 class="fnl-h1">
+            {hero.headline}{' '}
+            <mark class="fnl-mark">{hero.headline_suffix}</mark>
+          </h1>
+          <p class="fnl-support" set:html={emphasize(hero.support)}></p>
+
+          <div class="fnl-hero-photo">
+            <img src={hero.image_desktop} alt={hero.image_alt} fetchpriority="high" decoding="async" />
+          </div>
+
+          <div class="fnl-formband">
+            <FreeCourseForm
+              formId="8913437"
+              idPrefix="fc-hero"
+              buttonLabel={hero.form_button_label}
+              namePlaceholder={hero.name_placeholder}
+              emailPlaceholder={hero.email_placeholder}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* ============ DOES THIS SOUND LIKE YOU ============ */}
+    <section class="fnl-sec fnl-problem">
+      <div class="grid12">
+        <div class="fnl-narrow">
+          <h2 class="fnl-h2 fnl-center" set:html={emphasize(problem.heading)}></h2>
+          <ul class="fnl-problem-list reveal-stagger">
+            {
+              problem.bullets.map((b) => (
+                <li class="fnl-problem-item">
+                  <span class="fnl-check" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </span>
+                  <span set:html={emphasize(b)}></span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    {/* ============ 5-DAY ROADMAP ============ */}
+    <section class="fnl-sec fnl-roadmap" id="roadmap">
+      <div class="grid12">
+        <div class="fnl-narrow">
+          <div class="fnl-banner reveal">
+            <div class="fnl-banner-copy">
+              <span class="fnl-banner-kicker">{roadmap.eyebrow}</span>
+              <h2 class="fnl-banner-h">{roadmap.heading}</h2>
+            </div>
+            <img class="fnl-banner-img" src={ROADMAP_IMG} alt="Lorraine K. Lee" loading="lazy" />
+          </div>
+
+          <div class="fnl-days reveal-stagger">
+            {
+              days.map((d, i) => (
+                <article class:list={['fnl-day', { 'fnl-day--wide': i === 0 }]}>
+                  <span class="fnl-day-badge">{digit(d.day_label)}</span>
+                  <h3 class="fnl-day-title">{d.title}</h3>
+                  <p class="fnl-day-intro">{d.intro}</p>
+                  <span class="fnl-learn-pill">You'll learn :</span>
+                  <ul class="fnl-arrows">
+                    {d.bullets.map((b) => (
+                      <li set:html={emphasize(b)}></li>
+                    ))}
+                  </ul>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* ============ WHY SHOULD YOU TRUST ME ============ */}
+    <section class="fnl-sec fnl-trust">
+      <div class="grid12">
+        <div class="fnl-narrow">
+          <h2 class="fnl-h2 fnl-center" set:html={emphasize(trust.heading)}></h2>
+          <div class="fnl-trust-grid reveal-stagger">
+            {
+              trust.items.map((it) => {
+                const { head, body } = splitLead(it.text);
+                return (
+                  <div class="fnl-trust-card">
+                    {it.icon && (
+                      <span class="fnl-trust-ic">
+                        <img src={it.icon} alt="" loading="lazy" />
+                      </span>
+                    )}
+                    {head && <h3 class="fnl-trust-h">{head}</h3>}
+                    <p class="fnl-trust-b" set:html={emphasize(body)}></p>
+                  </div>
+                );
+              })
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* ============ WHY THIS ISN'T LIKE EVERY OTHER COURSE ============ */}
+    <section class="fnl-sec fnl-different">
+      <div class="grid12">
+        <div class="fnl-narrow">
+          <h2 class="fnl-h2 fnl-center" set:html={emphasize(different.heading)}></h2>
+          <div class="fnl-compare reveal-stagger">
+            <div class="fnl-col fnl-col--not">
+              <ul>
+                {
+                  different.not_items.map((item) => (
+                    <li>
+                      <span class="fnl-bang" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-1 5h2v7h-2V7zm0 9h2v2h-2v-2z" />
+                        </svg>
+                      </span>
+                      <span set:html={emphasize(item)}></span>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+            <div class="fnl-col fnl-col--is">
+              <ul>
+                {
+                  different.is_items.map((item) => (
+                    <li>
+                      <span class="fnl-tick" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      </span>
+                      <span set:html={emphasize(item)}></span>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* ============ FINAL CTA ============ */}
+    <section class="fnl-sec fnl-final" id="signup">
+      <div class="grid12">
+        <div class="fnl-narrow fnl-center">
+          <img class="fnl-stars fnl-stars--lg" src={STARS} alt="" width="120" height="24" />
+          <h2 class="fnl-h2 fnl-final-h">{final.heading}</h2>
+          <div class="fnl-formband fnl-formband--final">
+            <FreeCourseForm
+              formId="8913490"
+              idPrefix="fc-final"
+              buttonLabel={final.form_button_label}
+              namePlaceholder={hero.name_placeholder}
+              emailPlaceholder={hero.email_placeholder}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</FunnelLayout>
+
+<style>
+  /* ============================================================
+     Free-course SALES FUNNEL — faithful recreation of the original
+     WordPress funnel design. Centered, light, Montserrat, #084af3.
+     All scoped under .fnl.
+     ============================================================ */
+  .fnl {
+    --f-blue: #084af3;
+    --f-blue-700: #0a36c2;
+    --f-ink: #0f1014;
+    --f-gray: #69727d;
+    --f-yellow: #fce036;
+    --f-band: #d6e7ff;
+    --f-soft: #f6f7f9;
+    --f-line: #e6ebf3;
+
+    font-family: 'Montserrat', 'Inter', system-ui, sans-serif;
+    color: var(--f-ink);
+  }
+  .fnl :global(strong) {
+    font-weight: 800;
+    color: var(--f-ink);
+  }
+  .fnl :global(mark),
+  .fnl-mark {
+    background: linear-gradient(180deg, transparent 58%, var(--f-yellow) 58%);
+    color: inherit;
+    padding: 0 2px;
+  }
+  .fnl-narrow {
+    grid-column: 1 / -1;
+    max-width: 920px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .fnl-sec {
+    padding: clamp(44px, 6vw, 84px) 0;
+  }
+  .fnl-center {
+    text-align: center;
+  }
+
+  .fnl-h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: clamp(28px, 3.6vw, 44px);
+    line-height: 1.18;
+    letter-spacing: -0.01em;
+    color: var(--f-ink);
+    margin: 22px 0 0;
+    text-align: center;
+  }
+  .fnl-h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: clamp(26px, 3.2vw, 40px);
+    line-height: 1.18;
+    letter-spacing: -0.01em;
+    color: var(--f-ink);
+    margin: 0;
+  }
+
+  /* ---- HERO ---- */
+  .fnl-hero {
+    padding: clamp(28px, 4vw, 56px) 0 clamp(40px, 5vw, 72px);
+    text-align: center;
+  }
+  .fnl-hero-inner {
+    grid-column: 1 / -1;
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .fnl-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: #eef0f4;
+    color: var(--f-ink);
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    padding: 11px 20px;
+    border-radius: 999px;
+  }
+  .fnl-stars {
+    height: 15px;
+    width: auto;
+    display: block;
+  }
+  .fnl-support {
+    margin: 18px 0 0;
+    font-size: clamp(15px, 1.2vw, 17px);
+    line-height: 1.6;
+    color: var(--f-gray);
+    font-weight: 500;
+    max-width: 60ch;
+  }
+  .fnl-hero-photo {
+    margin: 8px auto 0;
+    max-width: 560px;
+    width: 100%;
+  }
+  .fnl-hero-photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ---- FORM BAND (inline) ---- */
+  .fnl-formband {
+    width: 100%;
+    max-width: 720px;
+    margin: 4px auto 0;
+    background: var(--f-band);
+    border-radius: 16px;
+    padding: clamp(16px, 2vw, 22px);
+  }
+  .fnl-formband--final {
+    margin-top: 26px;
+  }
+  .fnl :global(.fc-form) {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 10px;
+    margin: 0;
+  }
+  .fnl :global(.fc-field) {
+    flex: 1 1 180px;
+    display: flex;
+  }
+  .fnl :global(.fc-input) {
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--f-ink);
+    background: #fff;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    padding: 14px 15px;
+    transition: box-shadow 160ms ease;
+  }
+  .fnl :global(.fc-input::placeholder) {
+    color: #9aa3b0;
+    font-weight: 500;
+  }
+  .fnl :global(.fc-input:focus-visible) {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(8, 74, 243, 0.35);
+  }
+  .fnl :global(.fc-form .fc-submit) {
+    flex: 0 0 auto;
+    justify-content: center;
+    background: var(--f-blue);
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-radius: 8px;
+    padding: 14px 26px;
+    box-shadow: 0 10px 22px -12px rgba(8, 74, 243, 0.7);
+    transition: transform 160ms ease, background 160ms ease;
+  }
+  .fnl :global(.fc-form .fc-submit:hover) {
+    background: var(--f-blue-700);
+    transform: translateY(-2px);
+  }
+  .fnl :global(.fc-form-error) {
+    flex: 1 0 100%;
+    margin: 4px 0 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #c0392b;
+    text-align: center;
+  }
+  .fnl :global(.fc-form-error[hidden]) {
+    display: none;
+  }
+
+  /* ---- PROBLEM ---- */
+  .fnl-problem .fnl-h2 {
+    margin-bottom: clamp(26px, 3vw, 40px);
+  }
+  .fnl-problem-list {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    max-width: 620px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .fnl-problem-item {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    background: var(--f-soft);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 15.5px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #2a2f37;
+  }
+
+  /* ---- shared check ---- */
+  .fnl-check,
+  .fnl-tick,
+  .fnl-bang {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .fnl-check {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--f-blue);
+    color: #fff;
+  }
+  .fnl-check svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* ---- ROADMAP BANNER ---- */
+  .fnl-banner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    align-items: end;
+    gap: 16px;
+    background:
+      radial-gradient(circle at 88% 20%, rgba(255, 255, 255, 0.16) 0 2px, transparent 3px),
+      linear-gradient(135deg, #1450ff 0%, #084af3 60%, #0a36c2 100%);
+    border-radius: 20px;
+    padding: clamp(26px, 3vw, 40px);
+    padding-bottom: 0;
+    overflow: hidden;
+    margin-bottom: clamp(28px, 3.5vw, 44px);
+  }
+  .fnl-banner-copy {
+    padding-bottom: clamp(26px, 3vw, 40px);
+  }
+  .fnl-banner-kicker {
+    display: block;
+    color: rgba(255, 255, 255, 0.92);
+    font-weight: 600;
+    font-size: clamp(14px, 1.4vw, 17px);
+    margin-bottom: 8px;
+  }
+  .fnl-banner-h {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: clamp(22px, 2.8vw, 36px);
+    line-height: 1.1;
+    color: #fff;
+    margin: 0;
+  }
+  .fnl-banner-img {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    justify-self: end;
+    align-self: end;
+  }
+
+  /* ---- DAY CARDS ---- */
+  .fnl-days {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(28px, 3vw, 40px) 24px;
+  }
+  .fnl-day {
+    position: relative;
+    background: #fff;
+    border: 1px solid var(--f-line);
+    border-radius: 16px;
+    padding: 30px clamp(20px, 2.2vw, 28px) clamp(22px, 2.2vw, 28px);
+    box-shadow: 0 22px 44px -30px rgba(8, 74, 243, 0.4);
+  }
+  .fnl-day--wide {
+    grid-column: 1 / -1;
+  }
+  .fnl-day-badge {
+    position: absolute;
+    top: -16px;
+    left: 26px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--f-blue);
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 16px -6px rgba(8, 74, 243, 0.6);
+  }
+  .fnl-day-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: clamp(18px, 1.9vw, 22px);
+    line-height: 1.2;
+    color: var(--f-ink);
+    margin: 0 0 10px;
+  }
+  .fnl-day-intro {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.55;
+    color: var(--f-gray);
+    margin: 0 0 16px;
+  }
+  .fnl-learn-pill {
+    display: inline-block;
+    background: var(--f-band);
+    color: #0a36c2;
+    font-weight: 700;
+    font-size: 12.5px;
+    padding: 5px 12px;
+    border-radius: 7px;
+    margin-bottom: 14px;
+  }
+  .fnl-arrows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+  .fnl-arrows li {
+    position: relative;
+    padding-left: 26px;
+    font-size: 14.5px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #2a2f37;
+  }
+  .fnl-arrows li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--f-blue);
+    font-weight: 800;
+  }
+
+  /* ---- TRUST ---- */
+  .fnl-trust .fnl-h2 {
+    margin-bottom: clamp(30px, 4vw, 52px);
+  }
+  .fnl-trust-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(24px, 3vw, 40px);
+  }
+  .fnl-trust-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .fnl-trust-ic {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #e8f1ff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  .fnl-trust-ic img {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+  }
+  .fnl-trust-h {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 17px;
+    line-height: 1.25;
+    color: var(--f-ink);
+    margin: 0 0 10px;
+  }
+  .fnl-trust-b {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.55;
+    color: var(--f-gray);
+    margin: 0;
+    max-width: 30ch;
+  }
+
+  /* ---- DIFFERENT (compare) ---- */
+  .fnl-different .fnl-h2 {
+    margin-bottom: clamp(28px, 3.5vw, 48px);
+  }
+  .fnl-compare {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  .fnl-col {
+    border-radius: 16px;
+    padding: clamp(22px, 2.6vw, 32px);
+  }
+  .fnl-col--not {
+    background: var(--f-soft);
+    border: 1px solid var(--f-line);
+  }
+  .fnl-col--is {
+    background: #eefcf6;
+    border: 1px solid #c9f0df;
+  }
+  .fnl-col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .fnl-col li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #2a2f37;
+  }
+  .fnl-bang {
+    color: #e0414b;
+    margin-top: 1px;
+  }
+  .fnl-bang svg {
+    width: 22px;
+    height: 22px;
+  }
+  .fnl-tick {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #1fae6c;
+    color: #fff;
+    margin-top: 1px;
+  }
+  .fnl-tick svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* ---- FINAL CTA ---- */
+  .fnl-final {
+    background: linear-gradient(180deg, #f3f7ff 0%, #ffffff 100%);
+  }
+  .fnl-stars--lg {
+    height: 24px;
+    margin: 0 auto 16px;
+  }
+  .fnl-final-h {
+    font-size: clamp(28px, 3.6vw, 46px);
+    margin-bottom: 4px;
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 760px) {
+    .fnl-banner {
+      grid-template-columns: 1fr;
+    }
+    .fnl-banner-img {
+      max-width: 220px;
+      justify-self: center;
+    }
+    .fnl-days {
+      grid-template-columns: 1fr;
+    }
+    .fnl-trust-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .fnl-compare {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 520px) {
+    .fnl :global(.fc-form .fc-submit) {
+      width: 100%;
+      flex: 1 0 100%;
+    }
+    .fnl-trust-grid {
+      grid-template-columns: 1fr;
+      max-width: 360px;
+      margin: 0 auto;
+    }
+  }
+</style>

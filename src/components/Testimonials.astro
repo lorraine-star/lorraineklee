@@ -3,9 +3,11 @@
  * Global "What clients say" testimonials section.
  *
  * Canonical markup for the testimonials carousel. Self-contained for data:
- * by default it reads testimonials from Keystatic (the `home` singleton), so
- * a page can drop in <Testimonials /> with no props. Heading copy can be
- * overridden per page, and a caller may pass its own `testimonials` array.
+ * by default it reads from the shared testimonials collection (CLI-118),
+ * filtered to `showOnHomepage`, so a page can drop in <Testimonials /> with
+ * no props. Heading copy can be overridden per page, and a caller may pass
+ * its own `testimonials` array (the book page does this for endorsement
+ * logos that don't live in the shared collection).
  *
  * Styling: this section depends on the shared layout primitives (.grid12,
  * .eyebrow) and the .testimonials / .t-* rules in src/styles/v1/home.css.
@@ -16,7 +18,8 @@
  * worktrees don't drift.
  */
 import HomeTestimonialsCarousel from './HomeTestimonialsCarousel';
-import { reader } from '../lib/keystatic';
+import { getTestimonials, toCarouselCard } from '../lib/testimonials';
+import './home-testimonials-carousel.css';
 
 type Testimonial = {
   quote: string;
@@ -25,6 +28,8 @@ type Testimonial = {
   photo?: string;
   photoAlt?: string;
   initials: string;
+  /** Optional company / book-cover logos (used by the book page endorsements). */
+  logos?: { image: string; alt: string }[];
 };
 
 interface Props {
@@ -32,17 +37,9 @@ interface Props {
   /** Heading markup; may contain inline HTML such as <em>. */
   titleHtml?: string;
   lead?: string;
-  /** Override the testimonials shown; defaults to the Keystatic `home` set. */
+  /** Override the testimonials shown; defaults to the shared `showOnHomepage` set. */
   testimonials?: Testimonial[];
 }
-
-const getInitials = (name: string) =>
-  name
-    .split(/\s+/)
-    .map((part) => part[0])
-    .join('')
-    .slice(0, 2)
-    .toUpperCase() || '?';
 
 const {
   eyebrow = 'What clients say',
@@ -53,23 +50,12 @@ const {
 
 let testimonials = testimonialsProp;
 if (!testimonials) {
-  const home = await reader.singletons.home.read();
-  if (!home) {
-    throw new Error('Missing home content (src/content/home/index.yaml)');
-  }
-  testimonials = (home.testimonials ?? [])
-    .map((testimonial) => {
-      const name = testimonial.author?.trim() ?? '';
-      return {
-        quote: testimonial.quote?.trim() ?? '',
-        name,
-        role: testimonial.title?.trim() ?? '',
-        photo: testimonial.photo?.trim() ?? '',
-        photoAlt: testimonial.photo_alt?.trim() || `Headshot of ${name}`,
-        initials: getInitials(name),
-      };
-    })
-    .filter((testimonial) => testimonial.quote && testimonial.name);
+  // TEMPORARY (CLI-120): the homepage now shows the curated `showOnHomepage`
+  // picks from the shared collection instead of the old hardcoded 16. This
+  // selection is provisional pending review — see CLI-120 for how to adjust
+  // the picks (toggle `showOnHomepage`) or fully revert.
+  const shared = await getTestimonials({ placement: 'homepage' });
+  testimonials = shared.map(toCarouselCard);
 }
 ---
 
@@ -78,7 +64,7 @@ if (!testimonials) {
     <div class="testimonials-head">
       <span class="eyebrow">{eyebrow}</span>
       <h2 class="testimonials-title" set:html={titleHtml}></h2>
-      <p class="lead">{lead}</p>
+      {lead && <p class="lead">{lead}</p>}
     </div>
     <HomeTestimonialsCarousel testimonials={testimonials} client:load />
   </div>

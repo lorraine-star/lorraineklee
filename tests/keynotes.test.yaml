@@ -1,0 +1,15 @@
+fileType: momentic/test/v2
+id: 6466beac-88b5-4787-a836-ec0feea7cce1
+version: 1.0.24
+description: Keynotes index page — hero, keynote catalog, and booking CTA render
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - smoke
+steps:
+  - navigate: /keynotes
+  - assert: The hero heading reads "Talks that make people lean in."
+  - assert: A "Book Lorraine to speak" call-to-action link is visible in the hero
+  - assert: A "Signature keynotes." catalog lists multiple keynote cards, each linking to a keynote detail page

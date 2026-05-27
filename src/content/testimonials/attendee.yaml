@@ -1,0 +1,19 @@
+author: Attendee
+quote: I took a 3-day course on influencing in the workplace and this 1 hour
+  session was WAAAYY better than the 3 day course! I’ll definitely be
+  recommending you to many people!
+roleOrCompany: Cisco
+type: event-attendee
+order: 20
+image: /images/speaking/testimonials/attendee.webp
+imageAlt: Headshot of Attendee
+priority: High
+topicTags:
+  - Career development
+  - Course review
+sourceUrl: https://lorraineklee.com/testimonials/
+matchedCptUrl: https://lorraineklee.com/testimonial/attendee-cisco/
+showOnHomepage: false
+showOnTestimonials: true
+showOnSpeaking: true
+showOnCourses: false

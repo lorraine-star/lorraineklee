@@ -1,0 +1,15 @@
+fileType: momentic/test/v2
+id: 5df9f17a-b80b-4134-9945-b7a784d4f45f
+version: 1.0.24
+description: Speaker bio page — hero, bios, and downloads render
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - smoke
+steps:
+  - navigate: /speaker-bio
+  - assert: The hero heading reads "Bio, headshot, and downloads."
+  - assert: The short bio (around 50 words) describing Lorraine K. Lee is present
+  - assert: A "Download what you need." section lists downloadable resources such as the speaker one-pager

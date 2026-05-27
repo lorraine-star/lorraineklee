@@ -1,0 +1,15 @@
+fileType: momentic/test/v2
+id: 8ff533da-5f61-45e4-be35-71af64d400c1
+version: 1.0.24
+description: About page smoke test — hero, intro, and primary CTAs render
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - smoke
+steps:
+  - navigate: /about
+  - assert: The hero heading reads "About Lorraine"
+  - assert: The intro describes Lorraine as the Amazon #1 bestselling author of Unforgettable Presence®
+  - assert: Primary call-to-action links labeled "Work with me" and "Read the book" are visible

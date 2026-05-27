@@ -6,6 +6,11 @@ import {
   CarouselPrevious,
 } from '@/components/ui/interfaces-carousel';
 
+type TestimonialLogo = {
+  image: string;
+  alt: string;
+};
+
 type Testimonial = {
   quote: string;
   name: string;
@@ -13,6 +18,8 @@ type Testimonial = {
   photo?: string;
   photoAlt?: string;
   initials: string;
+  /** Optional company / book-cover logos shown in a row at the foot of the card. */
+  logos?: TestimonialLogo[];
 };
 
 type HomeTestimonialsCarouselProps = {
@@ -69,6 +76,20 @@ export default function HomeTestimonialsCarousel({
                   <div className="t-role">{testimonial.role}</div>
                 </div>
               </figcaption>
+              {testimonial.logos && testimonial.logos.length > 0 && (
+                <div className="t-logos">
+                  {testimonial.logos.map((logo) => (
+                    <img
+                      key={logo.image}
+                      className="t-logo"
+                      src={logo.image}
+                      alt={logo.alt}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ))}
+                </div>
+              )}
             </figure>
           </CarouselItem>
         ))}

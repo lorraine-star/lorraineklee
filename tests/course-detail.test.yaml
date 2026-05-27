@@ -1,0 +1,20 @@
+fileType: momentic/test/v2
+id: ba3f806f-88e0-4b35-bf25-9a7b8565be09
+version: 1.0.24
+description: Course detail page (/courses/[slug]) — hero, CTA, and trust line render
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - regression
+# Representative course detail page; covers the /courses/[slug] template.
+# Pinned slug: the `better-business-writing` entry must exist in the courses
+# collection. If it's renamed/removed, this navigate 404s — repoint to another
+# course slug (and update the title assertion to match).
+steps:
+  - navigate: /courses/better-business-writing
+  - assert: The page heading reads "Nano Tips for Better Business Writing"
+  - assert: A "Watch on LinkedIn Learning" call-to-action link is visible
+  - assert: A back link labeled "All courses" pointing to the courses list is present
+  - assert: Trust copy reading "Free to watch with a LinkedIn Learning subscription." is present
