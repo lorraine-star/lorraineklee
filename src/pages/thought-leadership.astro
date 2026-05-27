@@ -161,7 +161,7 @@ const exploreLinks = [
 	</section>
 
 	{/* ---------- Explore more (hub link-outs) ---------- */}
-	<section class="section section--tight tl-explore">
+	<section class="section section--compact tl-explore">
 		<div class="grid12">
 			<div class="section-head section-head--center">
 				<span class="eyebrow">Explore more</span>
@@ -190,7 +190,7 @@ const exploreLinks = [
 	{/* ---------- Guest appearances (Lorraine as guest) ---------- */}
 	{
 		guestAppearances.length > 0 && (
-			<section class="section section--tight anchor-target" id="appearances">
+			<section class="section section--compact anchor-target" id="appearances">
 				<div class="grid12">
 					<div class="section-head section-head--center">
 						<span class="eyebrow">{appearances_section.eyebrow}</span>
@@ -271,7 +271,7 @@ const exploreLinks = [
 	{/* ---------- Featured In (press teaser) ---------- */}
 	{
 		pressFeatures.length > 0 && (
-			<section class="section section--cream anchor-target" id="press">
+			<section class="section section--compact section--cream anchor-target" id="press">
 				<div class="grid12">
 					<div class="section-head section-head--center">
 						<span class="eyebrow">{press_section.eyebrow}</span>
@@ -319,7 +319,7 @@ const exploreLinks = [
 	{/* ---------- Authored articles ---------- */}
 	{
 		articles.length > 0 && (
-			<section class="section section--tight">
+			<section class="section section--compact">
 				<div class="grid12">
 					<div class="section-head section-head--center">
 						<span class="eyebrow">{articles_section.eyebrow}</span>
@@ -375,7 +375,7 @@ const exploreLinks = [
 	{/* ---------- Interviews Lorraine has conducted ---------- */}
 	{
 		conductedInterviews.length > 0 && (
-			<section class="section section--cream">
+			<section class="section section--compact section--cream">
 				<div class="grid12">
 					<div class="section-head section-head--center">
 						<span class="eyebrow">{interviews_section.eyebrow}</span>
@@ -481,7 +481,7 @@ const exploreLinks = [
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
 		gap: clamp(16px, 2vw, 24px);
-		margin-top: clamp(28px, 4vw, 44px);
+		margin-top: clamp(20px, 2.5vw, 32px);
 	}
 	.tl-explore-card {
 		display: flex;
@@ -525,7 +525,7 @@ const exploreLinks = [
 	.tl-view-more {
 		display: flex;
 		justify-content: center;
-		margin-top: clamp(28px, 3.5vw, 44px);
+		margin-top: clamp(20px, 2.5vw, 32px);
 	}
 
 	/* Media cards — lightweight YouTube/link thumbnails for appearances and
@@ -535,7 +535,7 @@ const exploreLinks = [
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
 		gap: clamp(16px, 2vw, 24px);
-		margin-top: clamp(28px, 4vw, 44px);
+		margin-top: clamp(20px, 2.5vw, 32px);
 	}
 	.tl-media-card {
 		display: flex;
@@ -645,7 +645,7 @@ const exploreLinks = [
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
 		gap: clamp(16px, 2vw, 24px);
-		margin-top: clamp(28px, 4vw, 44px);
+		margin-top: clamp(20px, 2.5vw, 32px);
 	}
 	.tl-link-card {
 		display: flex;
