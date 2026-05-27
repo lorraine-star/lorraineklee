@@ -29,14 +29,27 @@
 
 /* ----------------------------------------------------------------
    Shared section primitives
+
+   Vertical-rhythm scale (CLI-123). Pick a tier by content role; keep
+   `.section` as the base class and add a modifier. Mobile (<=600px)
+   mins are tightened further at the bottom of this file.
+
+     .section--compact   clamp(28px, 4vw,  52px)  listing / dense / repeated grids
+     .section--tight     clamp(36px, 4.5vw, 64px) secondary or stacked sections
+     .section (default)  clamp(48px, 6vw,  84px)  most sections
+     .section--generous  clamp(64px, 8vw, 112px)  intentional emphasis only
+     .page-hero          asymmetric, large top / trimmed bottom (see below)
+     .final-cta          deliberately generous (see Final CTA block)
    ---------------------------------------------------------------- */
-.section { padding: clamp(56px, 7vw, 96px) 0; }
-.section--tight { padding: clamp(40px, 5vw, 72px) 0; }
+.section { padding: clamp(48px, 6vw, 84px) 0; }
+.section--compact { padding: clamp(28px, 4vw, 52px) 0; }
+.section--tight { padding: clamp(36px, 4.5vw, 64px) 0; }
+.section--generous { padding: clamp(64px, 8vw, 112px) 0; }
 .section--cream { background: var(--paper-deep); }
 
 .section-head {
   grid-column: 1 / span 8;
-  margin-bottom: 56px;
+  margin-bottom: clamp(32px, 4vw, 48px);
 }
 .section-head--center {
   grid-column: 1 / -1;
@@ -74,7 +87,7 @@
    Page hero
    ---------------------------------------------------------------- */
 .page-hero {
-  padding: clamp(64px, 9vw, 120px) 0 clamp(64px, 8vw, 96px);
+  padding: clamp(64px, 9vw, 120px) 0 clamp(48px, 6vw, 80px);
   position: relative;
   overflow: hidden;
 }
@@ -486,6 +499,16 @@
   .logo-grid { grid-template-columns: repeat(2, 1fr); }
   .repeat-grid { grid-template-columns: 1fr; }
   .section-head { grid-column: 1 / -1; }
+}
+
+/* Tighten section rhythm further on small mobile to cut scroll fatigue
+   (CLI-123). Lowers the clamp() floors only; fluid/max values are unchanged. */
+@media (max-width: 600px) {
+  .section { padding: clamp(36px, 9vw, 84px) 0; }
+  .section--compact { padding: clamp(24px, 6vw, 52px) 0; }
+  .section--tight { padding: clamp(28px, 7vw, 64px) 0; }
+  .section--generous { padding: clamp(48px, 11vw, 112px) 0; }
+  .page-hero { padding: clamp(44px, 11vw, 120px) 0 clamp(36px, 8vw, 80px); }
 }
 
 /* ----------------------------------------------------------------
