@@ -82,6 +82,43 @@ const appearancesMore = resolveUrl(appearances_section.view_more_url);
 const pressMore = resolveUrl(press_section.view_more_url);
 const articlesMore = resolveUrl(articles_section.view_more_url);
 const interviewsMore = resolveUrl(interviews_section.view_more_url);
+
+// This page is an overview hub, not the canonical full inventory. The
+// standalone pages (/articles/, /featured-in/, /interviews/) own the complete
+// lists, so each embedded section shows only a short teaser. We slice the
+// rendered arrays here (rather than trimming the Keystatic source) so the CMS
+// data stays intact and editors can keep curating the full set.
+const TEASER_COUNT = 3;
+const appearancesTeaser = guestAppearances.slice(0, TEASER_COUNT);
+const pressTeaser = pressFeatures.slice(0, TEASER_COUNT);
+const articlesTeaser = articles.slice(0, TEASER_COUNT);
+const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
+
+// "Explore more" hub: prominent link-outs to the canonical standalone pages
+// plus the newsletter. /subscribe/ is being built in a sibling unit (CLI-122)
+// and may 404 until that ships.
+const exploreLinks = [
+	{
+		href: '/articles/',
+		label: 'Authored Articles',
+		description: 'Bylines on presence, communication, and career branding.',
+	},
+	{
+		href: '/featured-in/',
+		label: 'Featured In',
+		description: 'Press features and outlets where Lorraine appears.',
+	},
+	{
+		href: '/interviews/',
+		label: 'Guest Interviews',
+		description: 'Conversations with prominent business leaders.',
+	},
+	{
+		href: '/subscribe/',
+		label: 'Newsletter',
+		description: 'Get presence and communication tips in your inbox.',
+	},
+];
 ---
 
 <SpeakingLayout
@@ -123,6 +160,33 @@ const interviewsMore = resolveUrl(interviews_section.view_more_url);
 		</div>
 	</section>
 
+	{/* ---------- Explore more (hub link-outs) ---------- */}
+	<section class="section section--tight tl-explore">
+		<div class="grid12">
+			<div class="section-head section-head--center">
+				<span class="eyebrow">Explore more</span>
+				<h2>Where to go <em>next.</em></h2>
+				<p class="lead">
+					This page is a quick overview. Browse the full collections on
+					their dedicated pages.
+				</p>
+			</div>
+			<div class="tl-explore-cards reveal-stagger">
+				{
+					exploreLinks.map((link) => (
+						<a class="tl-explore-card" href={link.href}>
+							<h3>{link.label}</h3>
+							<p>{link.description}</p>
+							<span class="tl-explore-cta">
+								Explore <span aria-hidden="true">&rarr;</span>
+							</span>
+						</a>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
 	{/* ---------- Guest appearances (Lorraine as guest) ---------- */}
 	{
 		guestAppearances.length > 0 && (
@@ -139,7 +203,7 @@ const interviewsMore = resolveUrl(interviews_section.view_more_url);
 						)}
 					</div>
 					<div class="tl-media-cards reveal-stagger">
-						{guestAppearances.map((g) => (
+						{appearancesTeaser.map((g) => (
 							<a
 								class="tl-media-card"
 								href={g.href}
@@ -218,7 +282,7 @@ const interviewsMore = resolveUrl(interviews_section.view_more_url);
 						{press_section.lead && <p class="lead">{press_section.lead}</p>}
 					</div>
 					<div class="tl-link-cards reveal-stagger">
-						{pressFeatures.map((f) => (
+						{pressTeaser.map((f) => (
 							<a
 								class="tl-link-card"
 								href={f.href}
@@ -268,7 +332,7 @@ const interviewsMore = resolveUrl(interviews_section.view_more_url);
 						)}
 					</div>
 					<div class="tl-link-cards reveal-stagger">
-						{articles.map((a) => (
+						{articlesTeaser.map((a) => (
 							<a
 								class="tl-link-card"
 								href={a.href}
@@ -324,7 +388,7 @@ const interviewsMore = resolveUrl(interviews_section.view_more_url);
 						)}
 					</div>
 					<div class="tl-media-cards reveal-stagger">
-						{conductedInterviews.map((it) => (
+						{interviewsTeaser.map((it) => (
 							<a
 								class="tl-media-card"
 								href={it.href}
@@ -410,6 +474,54 @@ const interviewsMore = resolveUrl(interviews_section.view_more_url);
 </SpeakingLayout>
 
 <style>
+	/* Explore more — prominent hub link-outs to the canonical standalone
+	   pages plus the newsletter. */
+	.tl-explore-cards {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+		gap: clamp(16px, 2vw, 24px);
+		margin-top: clamp(28px, 4vw, 44px);
+	}
+	.tl-explore-card {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		background: var(--bg-card, #fff);
+		border: 1px solid var(--border-soft);
+		border-radius: var(--radius-2xl, 20px);
+		padding: clamp(22px, 2.6vw, 30px);
+		text-decoration: none;
+		transition: transform 0.25s ease, box-shadow 0.25s ease;
+	}
+	.tl-explore-card:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 26px 56px -40px rgba(14, 21, 48, 0.5);
+	}
+	.tl-explore-card h3 {
+		font-family: var(--font-serif);
+		font-weight: 500;
+		font-size: clamp(19px, 2vw, 22px);
+		line-height: 1.25;
+		color: var(--ink-900);
+		margin: 0;
+	}
+	.tl-explore-card p {
+		font-family: var(--font-sans);
+		font-size: 14.5px;
+		line-height: 1.55;
+		color: var(--ink-700);
+		margin: 0;
+		flex: 1;
+	}
+	.tl-explore-cta {
+		font-family: var(--font-sans);
+		font-size: 13px;
+		font-weight: 600;
+		color: var(--accent);
+		margin-top: 6px;
+	}
+
 	.tl-view-more {
 		display: flex;
 		justify-content: center;
