@@ -13,6 +13,7 @@ const tl = await reader.singletons.thoughtLeadership.read();
 const authored = (tl?.authored_articles ?? []).map((a) => ({
 	dateLabel: a.date ?? '',
 	outlet: a.outlet ?? '',
+	outletLogo: a.outlet_logo ?? '',
 	title: a.title ?? '',
 	href: safeUrl(a.url),
 	ctaLabel: a.cta_label || 'Read more',
@@ -27,6 +28,7 @@ const posts = collection
 	.map((entry) => ({
 		dateLabel: entry.entry.date ? formatDate(entry.entry.date) : '',
 		outlet: '',
+		outletLogo: '',
 		title: entry.entry.title,
 		href: `/articles/${entry.slug}`,
 		ctaLabel: 'Read more',
@@ -69,8 +71,17 @@ const isExternal = (href: string) => /^https?:\/\//i.test(href);
 										: {})}
 								>
 									<div class="article-meta">
-										{item.outlet && (
-											<span class="article-outlet">{item.outlet}</span>
+										{item.outletLogo ? (
+											<img
+												class="article-outlet-logo"
+												src={item.outletLogo}
+												alt={item.outlet}
+												loading="lazy"
+											/>
+										) : (
+											item.outlet && (
+												<span class="article-outlet">{item.outlet}</span>
+											)
 										)}
 										{item.dateLabel && (
 											<span class="article-date">{item.dateLabel}</span>
@@ -138,6 +149,13 @@ const isExternal = (href: string) => /^https?:\/\//i.test(href);
 		color: var(--accent);
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
+	}
+	.article-outlet-logo {
+		height: 22px;
+		width: auto;
+		max-width: 130px;
+		object-fit: contain;
+		display: block;
 	}
 	.article-title {
 		font-size: clamp(1.15rem, 2vw, 1.5rem);

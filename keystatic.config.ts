@@ -2213,6 +2213,13 @@ export default config({
           fields.object({
             date: fields.text({ label: 'Date label (e.g. "April 2026")' }),
             outlet: fields.text({ label: 'Outlet / publication' }),
+            outlet_logo: fields.image({
+              label: 'Outlet logo (optional)',
+              description:
+                'Logo shown on the article card. Falls back to the outlet name as text when empty.',
+              directory: 'public/images/featured-in/logos',
+              publicPath: '/images/featured-in/logos/',
+            }),
             title: fields.text({ label: 'Article title' }),
             url: fields.text({ label: 'URL' }),
             cta_label: fields.text({
