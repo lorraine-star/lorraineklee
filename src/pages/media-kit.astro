@@ -81,7 +81,7 @@ const pad2 = (n: number) => String(n).padStart(2, '0');
 	{/* ---------- Quick facts (press sheet) ---------- */}
 	{
 		quick_facts?.length > 0 && (
-			<section class="section section--tight">
+			<section class="section section--compact">
 				<div class="grid12">
 					<dl class="mk-factsheet reveal-stagger">
 						{quick_facts.map((f) => (
@@ -130,7 +130,7 @@ const pad2 = (n: number) => String(n).padStart(2, '0');
 	{/* ---------- Headshots ---------- */}
 	{
 		headshots?.length > 0 && (
-			<section class="section" id="headshots">
+			<section class="section section--compact" id="headshots">
 				<div class="grid12">
 					<div class="section-head section-head--center">
 						<span class="eyebrow">{headshots_section.eyebrow}</span>
@@ -165,7 +165,7 @@ const pad2 = (n: number) => String(n).padStart(2, '0');
 	{/* ---------- Brand & press assets ---------- */}
 	{
 		assets?.length > 0 && (
-			<section class="section section--cream" id="assets">
+			<section class="section section--compact section--cream" id="assets">
 				<div class="grid12">
 					<div class="section-head section-head--center">
 						<span class="eyebrow">{assets_section.eyebrow}</span>
