@@ -112,6 +112,7 @@ articles_section:
 authored_articles:
   - date: April 2026
     outlet: Fast Company
+    outlet_logo: /images/featured-in/logos/fast-company.png
     title: >-
       Call it whatever you like: Personal brand, career brand, or professional
       reputation. Here's how to build it
@@ -120,6 +121,7 @@ authored_articles:
     cta_label: Read more
   - date: March 2026
     outlet: Forbes
+    outlet_logo: /images/featured-in/logos/forbes.png
     title: >-
       The Secret Language of Work: Why Knowing What to Say Matters More Than You
       Think
@@ -128,12 +130,14 @@ authored_articles:
     cta_label: Read more
   - date: December 2025
     outlet: INTHEBLACK
+    outlet_logo: null
     title: 4 tips to supercharge your LinkedIn presence
     url: >-
       https://intheblack.cpaaustralia.com.au/careers-and-workplace/4-tips-supercharge-your-linkedin-presence
     cta_label: Read more
   - date: November 2025
     outlet: CNBC
+    outlet_logo: /images/featured-in/logos/cnbc.png
     title: >-
       Highly likable people do these 4 things when talking to others, say
       communication experts

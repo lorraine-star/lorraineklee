@@ -70,7 +70,7 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
 	{/* ---------- Intro / story ---------- */}
 	{
 		intro_paragraphs?.length > 0 && (
-			<section class="section section--cream">
+			<section class="section section--tight section--cream">
 				<div class="grid12">
 					<div class="section-head section-head--center">
 						<span class="eyebrow">{intro_section.eyebrow}</span>
@@ -92,7 +92,7 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
 	{/* ---------- Common topics ---------- */}
 	{
 		topics?.length > 0 && (
-			<section class="section">
+			<section class="section section--compact">
 				<div class="grid12">
 					<div class="section-head section-head--center">
 						<span class="eyebrow">{topics_section.eyebrow}</span>
@@ -200,7 +200,7 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
 	{/* ---------- Async LinkedIn profile audit ---------- */}
 	{
 		audit?.show && (
-			<section class="section anchor-target" id="linkedin-audit">
+			<section class="section section--tight anchor-target" id="linkedin-audit">
 				<div class="grid12">
 					<div class="coach-audit fade-up">
 						<div class="coach-audit-copy">
@@ -281,7 +281,7 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
 	.coach-intro {
 		grid-column: 1 / -1;
 		max-width: 760px;
-		margin: clamp(24px, 3vw, 38px) auto 0;
+		margin: clamp(20px, 2.4vw, 30px) auto 0;
 		display: grid;
 		gap: 18px;
 	}
@@ -298,7 +298,7 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
 	.coach-topics {
 		grid-column: 1 / -1;
 		list-style: none;
-		margin: clamp(24px, 3vw, 40px) auto 0;
+		margin: clamp(20px, 2.4vw, 30px) auto 0;
 		padding: 0;
 		max-width: 900px;
 		display: grid;
@@ -337,7 +337,7 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
 		gap: clamp(16px, 2vw, 24px);
-		margin-top: clamp(28px, 4vw, 44px);
+		margin-top: clamp(24px, 3vw, 36px);
 		align-items: start;
 	}
 	.coach-tier {

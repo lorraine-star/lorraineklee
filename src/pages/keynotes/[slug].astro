@@ -49,7 +49,7 @@ const final_cta = speaking?.final_cta;
 
 	{
 		clipEmbed && (
-			<section class="section section--tight" style="padding-top: 0;">
+			<section class="section section--tight talk-clip-section">
 				<div class="grid12">
 					<div class="talk-page-clip reveal">
 						<iframe
@@ -67,7 +67,7 @@ const final_cta = speaking?.final_cta;
 
 	{
 		(hasTrack || hasTakeaways) && (
-			<section class="section">
+			<section class="section section--compact talk-content-section">
 				<div class="grid12">
 					<div class="talk-page-grid reveal-stagger">
 						{hasTrack && (
@@ -121,3 +121,17 @@ const final_cta = speaking?.final_cta;
 		)
 	}
 </SpeakingLayout>
+
+<style>
+	/* CLI-123: tighten this page's own vertical rhythm without touching the
+	   shared .talk-page-hero (defined in templates.css). The clip sits directly
+	   under the hero, so drop its top padding to close the gap. When the
+	   track/takeaways block is the first content section (no clip), trim its
+	   top padding too so it doesn't float far below the hero. */
+	.talk-clip-section {
+		padding-top: 0;
+	}
+	.talk-content-section {
+		padding-top: clamp(20px, 3vw, 36px);
+	}
+</style>

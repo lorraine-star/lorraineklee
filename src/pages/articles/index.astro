@@ -1,47 +1,180 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import SpeakingLayout from '../../layouts/SpeakingLayout.astro';
 import { reader } from '../../lib/keystatic';
 import { formatDate } from '../../lib/dates';
+import { safeUrl } from '../../lib/url';
 
-const articles = await reader.collections.articles.all();
-const sorted = [...articles].sort((a, b) =>
-	(b.entry.date ?? '').localeCompare(a.entry.date ?? '')
-);
+// "Authored Articles" (the nav label) and this `/articles` page are the same
+// thing. The canonical list lives in the thought-leadership singleton's
+// `authored_articles` array (single source of truth, also teased on the
+// /thought-leadership hub) and each item links out to where the piece was
+// published. We render that list here, newest-first as authored in the CMS.
+const tl = await reader.singletons.thoughtLeadership.read();
+const authored = (tl?.authored_articles ?? []).map((a) => ({
+	dateLabel: a.date ?? '',
+	outlet: a.outlet ?? '',
+	outletLogo: a.outlet_logo ?? '',
+	title: a.title ?? '',
+	href: safeUrl(a.url),
+	ctaLabel: a.cta_label || 'Read more',
+}));
+
+// On-site posts entered in the `articles` collection (empty today) are also
+// listed and link to their own detail page, so the collection and its
+// `[slug]` route stay usable for future long-form articles or newsletter issues.
+const collection = await reader.collections.articles.all();
+const posts = collection
+	.sort((a, b) => (b.entry.date ?? '').localeCompare(a.entry.date ?? ''))
+	.map((entry) => ({
+		dateLabel: entry.entry.date ? formatDate(entry.entry.date) : '',
+		outlet: '',
+		outletLogo: '',
+		title: entry.entry.title,
+		href: `/articles/${entry.slug}`,
+		ctaLabel: 'Read more',
+	}));
+
+const items = [...authored, ...posts];
+const isExternal = (href: string) => /^https?:\/\//i.test(href);
 ---
 
-<Layout title="Articles | Lorraine K. Lee">
-	<section class="mx-auto max-w-3xl px-6 py-20">
-		<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Articles</h1>
+<SpeakingLayout
+	title="Authored Articles | Lorraine K. Lee"
+	description="Bylines and features Lorraine K. Lee has written across leading outlets."
+	activeId="thought-leadership"
+>
+	<section class="section section--compact">
+		<div class="grid12">
+			<header class="articles-head">
+				<div class="page-hero-eyebrow">
+					<span class="dot"></span>
+					<span class="eyebrow" style="color: var(--ink-500);">Thought Leadership</span>
+				</div>
+				<h1>Authored <em>Articles</em>.</h1>
+				<p class="lead">
+					Bylines and features Lorraine has written across leading outlets.
+				</p>
+			</header>
 
-		{
-			sorted.length === 0 ? (
-				<p class="mt-8 text-neutral-600">No articles published yet.</p>
-			) : (
-				<ul class="mt-10 space-y-8">
-					{sorted.map((article) => (
-						<li class="border-b border-neutral-200 pb-8 last:border-b-0">
-							{article.entry.date && (
-								<p class="text-sm text-neutral-500">
-									{formatDate(article.entry.date)}
-								</p>
-							)}
-							<h2 class="mt-1 text-2xl font-semibold tracking-tight">
+			{
+				items.length === 0 ? (
+					<p class="articles-empty">No articles published yet.</p>
+				) : (
+					<ul class="articles-list reveal-stagger">
+						{items.map((item) => (
+							<li>
 								<a
-									href={`/articles/${article.slug}`}
-									class="transition-colors hover:text-neutral-600"
+									class="article-card"
+									href={item.href}
+									{...(isExternal(item.href)
+										? { target: '_blank', rel: 'noopener noreferrer' }
+										: {})}
 								>
-									{article.entry.title}
+									<div class="article-meta">
+										{item.outletLogo ? (
+											<img
+												class="article-outlet-logo"
+												src={item.outletLogo}
+												alt={item.outlet}
+												loading="lazy"
+											/>
+										) : (
+											item.outlet && (
+												<span class="article-outlet">{item.outlet}</span>
+											)
+										)}
+										{item.dateLabel && (
+											<span class="article-date">{item.dateLabel}</span>
+										)}
+									</div>
+									<h2 class="article-title">{item.title}</h2>
+									<span class="article-cta">
+										{item.ctaLabel} <span aria-hidden="true">&rarr;</span>
+									</span>
 								</a>
-							</h2>
-							{article.entry.description && (
-								<p class="mt-2 leading-relaxed text-neutral-600">
-									{article.entry.description}
-								</p>
-							)}
-						</li>
-					))}
-				</ul>
-			)
-		}
+							</li>
+						))}
+					</ul>
+				)
+			}
+		</div>
 	</section>
-</Layout>
+</SpeakingLayout>
+
+<style>
+	.articles-head {
+		grid-column: 1 / -1;
+		max-width: 62ch;
+		margin-bottom: clamp(20px, 3vw, 36px);
+	}
+	.articles-head h1 {
+		margin: 12px 0 16px;
+	}
+	.articles-list {
+		grid-column: 1 / -1;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 16px;
+	}
+	.article-card {
+		display: block;
+		padding: clamp(20px, 3vw, 28px);
+		border: 1px solid var(--ink-100);
+		border-radius: 14px;
+		background: var(--paper);
+		text-decoration: none;
+		color: inherit;
+		transition:
+			border-color 0.2s ease,
+			transform 0.2s ease,
+			box-shadow 0.2s ease;
+	}
+	.article-card:hover {
+		border-color: var(--ink-300);
+		transform: translateY(-2px);
+		box-shadow: 0 12px 30px -18px rgba(0, 0, 0, 0.35);
+	}
+	.article-meta {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 12px;
+		font-size: 0.78rem;
+		color: var(--ink-500);
+	}
+	.article-outlet {
+		font-weight: 700;
+		color: var(--accent);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+	.article-outlet-logo {
+		height: 22px;
+		width: auto;
+		max-width: 130px;
+		object-fit: contain;
+		display: block;
+	}
+	.article-title {
+		font-size: clamp(1.15rem, 2vw, 1.5rem);
+		line-height: 1.25;
+		margin: 10px 0 14px;
+	}
+	.article-cta {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		font-size: 0.85rem;
+		font-weight: 600;
+		color: var(--ink-700);
+	}
+	.article-card:hover .article-cta {
+		color: var(--accent);
+	}
+	.articles-empty {
+		grid-column: 1 / -1;
+		color: var(--ink-500);
+	}
+</style>

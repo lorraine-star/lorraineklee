@@ -98,7 +98,7 @@ const studentsNumeric = studentsFig.value > 0;
 	{/* ---------- Social proof band ---------- */}
 	{
 		rating?.value && (
-			<section class="section section--tight" style="padding-top: 0;">
+			<section class="section section--compact" style="padding-top: 0;">
 				<div class="grid12">
 					<div class="course-proof reveal">
 						<span class="course-proof-stars" aria-label={`${rating.value}${rating.scale} rating`}>
@@ -184,7 +184,7 @@ const studentsNumeric = studentsFig.value > 0;
 				const url = courseHref(c);
 				const ext = isExternal(url);
 				return (
-					<section class="section section--tight">
+					<section class="section section--compact">
 						<div class="grid12">
 							<a
 								class="course-feature reveal"
@@ -221,7 +221,7 @@ const studentsNumeric = studentsFig.value > 0;
 		{/* ---------- Courses, grouped by category ---------- */}
 		{
 			grouped.map(({ category, items }) => (
-				<section class="section section--tight anchor-target" id={category.toLowerCase()}>
+				<section class="section section--compact anchor-target" id={category.toLowerCase()}>
 					<div class="grid12">
 						<div class="section-head section-head--center">
 							<span class="eyebrow">{category}</span>

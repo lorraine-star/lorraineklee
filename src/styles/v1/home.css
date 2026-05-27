@@ -313,7 +313,8 @@ body {
 
 /* ---------- HERO ---------- */
 .hero {
-  padding: 52px 0 72px;
+  /* CLI-123: trim hero-to-next gap (was 72px bottom) to reduce scroll fatigue */
+  padding: 52px 0 clamp(40px, 5vw, 60px);
   position: relative;
   overflow: hidden;
 }
@@ -1298,7 +1299,7 @@ body {
     padding: 9px 12px;
   }
   .nav-menu-toggle { display: inline-flex; }
-  .hero { padding: 34px 0 60px; }
+  .hero { padding: 34px 0 40px; } /* CLI-123: tighten mobile hero-to-next gap (was 60px) */
   .hero-grid { row-gap: 52px; }
   .hero-copy, .hero-photo-wrap { grid-column: 1 / -1; }
   .hero-photo-wrap { max-width: 480px; margin: 0 auto; width: 100%; }
@@ -1505,7 +1506,9 @@ body {
 
 /* ---------- Four ways into the work (slim) ---------- */
 .four-ways {
-  padding: clamp(58px, 7vw, 86px) 0;
+  /* CLI-123: repeated card grid tightened toward the shared tight scale
+     (was clamp(58px, 7vw, 86px)) to cut compounding vertical space */
+  padding: clamp(36px, 4.5vw, 64px) 0;
   background: var(--paper);
 }
 .four-ways-head {

@@ -1,0 +1,243 @@
+---
+/*
+ * /subscribe/ — the standalone weekly-newsletter signup page (CLI-122).
+ *
+ * Canonical newsletter destination; preserved as-is from the WordPress URL.
+ * Copy is editable in Keystatic (src/content/subscribe/index.yaml). The
+ * Kit/ConvertKit form ID lives in that singleton (`kit_form_id`): when set, we
+ * reuse the shared FreeCourseForm island (same POST-to-Kit mechanics as the
+ * free-course funnel). When empty, we render a clearly-labeled placeholder so
+ * the page is live and on-brand while the production form ID is confirmed.
+ *
+ * This is intentionally a separate, general newsletter signup. It is NOT the
+ * "From Invisible to Influential" free-course funnel (CLI-117), which uses its
+ * own hard-wired Kit forms.
+ */
+import SpeakingLayout from '../layouts/SpeakingLayout.astro';
+import FreeCourseForm from '../components/FreeCourseForm.astro';
+import { reader } from '../lib/keystatic';
+
+const page = await reader.singletons.subscribe.read();
+if (!page) {
+  throw new Error('Missing subscribe content (src/content/subscribe/index.yaml)');
+}
+
+const {
+  eyebrow,
+  headline,
+  headline_accent,
+  lead,
+  benefits,
+  kit_form_id,
+  form_button_label,
+  name_placeholder,
+  email_placeholder,
+  fineprint,
+} = page;
+
+const formId = kit_form_id?.trim() ?? '';
+const items = (benefits ?? []).filter((b) => b && b.trim());
+---
+
+<SpeakingLayout
+  title="Subscribe | Lorraine K. Lee"
+  description={lead}
+  activeId="thought-leadership"
+>
+  <section class="section section--tight">
+    <div class="grid12">
+      <div class="sub-grid">
+        {/* ---------- Left: copy + benefits ---------- */}
+        <aside class="sub-copy fade-up">
+          <div class="page-hero-eyebrow">
+            <span class="dot"></span>
+            <span class="eyebrow" style="color: var(--ink-500);">{eyebrow}</span>
+          </div>
+          <h1>{headline} <em>{headline_accent}</em></h1>
+          <p class="sub-lead">{lead}</p>
+
+          {
+            items.length > 0 && (
+              <ul class="sub-benefits">
+                {items.map((b) => (
+                  <li>
+                    <span class="sub-check" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    </span>
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            )
+          }
+        </aside>
+
+        {/* ---------- Right: signup form ---------- */}
+        <div class="sub-form-card fade-up" style="animation-delay: 120ms;">
+          {
+            formId ? (
+              <>
+                <FreeCourseForm
+                  formId={formId}
+                  idPrefix="sub"
+                  buttonLabel={form_button_label || 'Subscribe'}
+                  namePlaceholder={name_placeholder || 'First Name'}
+                  emailPlaceholder={email_placeholder || 'Enter your best email'}
+                />
+                {fineprint && <p class="sub-fineprint">{fineprint}</p>}
+              </>
+            ) : (
+              /* TODO (CLI-122): set `kit_form_id` in src/content/subscribe/index.yaml
+                 to the production Kit/ConvertKit newsletter form ID. Until then
+                 this placeholder keeps the route live without capturing emails. */
+              <div class="sub-placeholder" data-subscribe-placeholder>
+                <span class="sub-placeholder-label">Newsletter signup</span>
+                <p class="sub-placeholder-copy">
+                  The signup form is being connected. Check back shortly to join
+                  the weekly newsletter.
+                </p>
+              </div>
+            )
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</SpeakingLayout>
+
+<style>
+  /* ================================================================
+     Subscribe — slim newsletter signup. Primitives (section, grid12,
+     page-hero-eyebrow, eyebrow, fade-up) come from styles/editorial/.
+     ================================================================ */
+  .sub-grid {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(28px, 4vw, 64px);
+    align-items: start;
+  }
+  .sub-copy h1 {
+    margin: 14px 0 0;
+  }
+  .sub-lead {
+    margin: 18px 0 0;
+    font-size: clamp(15px, 1.2vw, 17px);
+    line-height: 1.6;
+    color: var(--ink-500);
+    max-width: 52ch;
+  }
+  .sub-benefits {
+    list-style: none;
+    margin: 22px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .sub-benefits li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-family: var(--font-sans);
+    font-size: 15.5px;
+    line-height: 1.45;
+    color: var(--ink-900);
+  }
+  .sub-check {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--white, #fff);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+  .sub-check svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* ---- Form card ---- */
+  .sub-form-card {
+    background: var(--white, #fff);
+    border: 1px solid var(--border-soft);
+    border-radius: 18px;
+    padding: clamp(22px, 2.6vw, 32px);
+    box-shadow: var(--shadow-md);
+  }
+  .sub-form-card :global(.fc-form) {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+  }
+  .sub-form-card :global(.fc-field) {
+    display: flex;
+  }
+  .sub-form-card :global(.fc-input) {
+    width: 100%;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    color: var(--ink-900);
+    background: var(--paper-deep, #f6f7f9);
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    padding: 14px 15px;
+    transition: box-shadow 160ms ease, border-color 160ms ease;
+  }
+  .sub-form-card :global(.fc-input:focus-visible) {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(43, 70, 200, 0.18);
+  }
+  .sub-form-card :global(.fc-submit) {
+    justify-content: center;
+    width: 100%;
+  }
+  .sub-fineprint {
+    margin: 14px 0 0;
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    color: var(--ink-300);
+    text-align: center;
+  }
+
+  /* ---- Placeholder (no form ID yet) ---- */
+  .sub-placeholder {
+    border: 1px dashed var(--border-soft);
+    border-radius: 12px;
+    padding: 28px 24px;
+    text-align: center;
+    background: var(--paper-deep, #f6f7f9);
+  }
+  .sub-placeholder-label {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .sub-placeholder-copy {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink-500);
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 820px) {
+    .sub-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

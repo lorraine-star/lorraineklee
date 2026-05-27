@@ -20,7 +20,8 @@ export interface NavItem {
 // duplicate the `contact` item in SiteNav (where active state is href-based).
 // Pre-existing fragments left as-is (no standalone page yet, out of CLI-106
 // scope): `/speaking#bio` (bio destination pending CLI-88/CLI-105),
-// `/articles#newsletter`, `/learn#linkedin-guide`.
+// `/learn#linkedin-guide`. Newsletter points at the canonical `/subscribe/`
+// signup route (CLI-122).
 export const mainNavItems: NavItem[] = [
   { id: 'home', label: 'Home', href: '/' },
   {
@@ -44,7 +45,7 @@ export const mainNavItems: NavItem[] = [
       { label: 'Guest Interviews', href: '/interviews' },
       { label: 'Featured In', href: '/featured-in' },
       { label: 'Authored Articles', href: '/articles' },
-      { label: 'Newsletter', href: '/articles#newsletter' },
+      { label: 'Newsletter', href: '/subscribe/' },
       { label: 'Ultimate LinkedIn Guide', href: '/learn#linkedin-guide' },
     ],
   },
