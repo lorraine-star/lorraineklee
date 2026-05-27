@@ -8,6 +8,7 @@
     },
 
     { "source": "/newsletter", "destination": "/subscribe/", "permanent": true },
+    { "source": "/newsletter-back-issues", "destination": "/articles", "permanent": true },
 
     { "source": "/free-course", "destination": "/from-invisible-to-influential", "permanent": true },
     { "source": "/landing-01", "destination": "/from-invisible-to-influential", "permanent": true },
