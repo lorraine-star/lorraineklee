@@ -9,6 +9,9 @@ browserType: Chromium
 labels:
   - regression
 # Representative course detail page; covers the /courses/[slug] template.
+# Pinned slug: the `better-business-writing` entry must exist in the courses
+# collection. If it's renamed/removed, this navigate 404s — repoint to another
+# course slug (and update the title assertion to match).
 steps:
   - navigate: /courses/better-business-writing
   - assert: The page heading reads "Nano Tips for Better Business Writing"

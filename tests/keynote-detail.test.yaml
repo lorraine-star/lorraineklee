@@ -9,6 +9,9 @@ browserType: Chromium
 labels:
   - regression
 # Representative keynote detail page; covers the /keynotes/[slug] template.
+# Pinned slug: the `how-to-present-like-a-pro` entry must exist in the keynotes
+# collection. If it's renamed/removed, this navigate 404s — repoint to another
+# keynote slug (and update the title/takeaways assertions to match).
 steps:
   - navigate: /keynotes/how-to-present-like-a-pro
   - assert: The page heading reads "How to Present Like a Pro"
