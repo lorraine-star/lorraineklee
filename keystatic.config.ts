@@ -1519,6 +1519,51 @@ export default config({
         ),
       },
     }),
+    subscribe: singleton({
+      label: 'Subscribe (Newsletter)',
+      path: 'src/content/subscribe/',
+      // Slim newsletter signup landing page at /subscribe/ (CLI-122). The
+      // Kit/ConvertKit form ID lives in `kit_form_id` so copy edits cannot
+      // break email capture. Leave it empty to render a clearly-labeled
+      // placeholder until the production form ID is supplied.
+      schema: {
+        eyebrow: fields.text({
+          label: 'Eyebrow',
+          defaultValue: 'Weekly Newsletter',
+        }),
+        headline: fields.text({ label: 'Headline' }),
+        headline_accent: fields.text({
+          label: 'Headline accent (italic)',
+          description: 'The italicised end of the headline, e.g. "Career Bites".',
+        }),
+        lead: fields.text({ label: 'Lead paragraph', multiline: true }),
+        benefits: fields.array(fields.text({ label: 'Benefit' }), {
+          label: 'What subscribers get',
+          itemLabel: (props) => props.value || 'Benefit',
+        }),
+        kit_form_id: fields.text({
+          label: 'Kit / ConvertKit form ID',
+          description:
+            'Numeric Kit form ID for the newsletter signup (e.g. "8913437"). Leave empty to show a placeholder until the production form is confirmed.',
+        }),
+        form_button_label: fields.text({
+          label: 'Form button label',
+          defaultValue: 'Subscribe',
+        }),
+        name_placeholder: fields.text({
+          label: 'Form first-name placeholder',
+          defaultValue: 'First Name',
+        }),
+        email_placeholder: fields.text({
+          label: 'Form email placeholder',
+          defaultValue: 'Enter your best email',
+        }),
+        fineprint: fields.text({
+          label: 'Form fineprint',
+          defaultValue: 'No spam. Unsubscribe in one click.',
+        }),
+      },
+    }),
     consulting: singleton({
       label: 'Consulting',
       path: 'src/content/consulting/',
