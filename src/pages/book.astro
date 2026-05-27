@@ -131,7 +131,8 @@ function getInitials(name: string) {
 	</section>
 
 	{/* ---------- Description ---------- */}
-	<section class="section">
+	{/* --tight trims the gap below the visually heavy product hero (CLI-123). */}
+	<section class="section section--tight">
 		<div class="grid12">
 			<div class="section-head section-head--center">
 				<span class="eyebrow">{description_section.eyebrow}</span>
@@ -149,10 +150,7 @@ function getInitials(name: string) {
 		featured_in_logos.length > 0 && (
 			<section class="section section--tight">
 				<div class="grid12">
-					<div
-						class="section-head section-head--center"
-						style="margin-bottom: 24px;"
-					>
+					<div class="section-head section-head--center">
 						<span class="eyebrow">{featured_in_section.eyebrow}</span>
 						{featured_in_section.heading && (
 							<h2>{featured_in_section.heading}</h2>
@@ -194,12 +192,9 @@ function getInitials(name: string) {
 	{/* ---------- Community / readers collage ---------- */}
 	{
 		community_section.collage_image && (
-			<section class="section community-section">
+			<section class="section section--tight community-section">
 				<div class="grid12">
-					<div
-						class="section-head section-head--center"
-						style="margin-bottom: 32px;"
-					>
+					<div class="section-head section-head--center">
 						<span class="eyebrow">{community_section.eyebrow}</span>
 						<h2 class="community-heading">
 							{community_section.heading}{' '}
@@ -223,7 +218,7 @@ function getInitials(name: string) {
 	{/* ---------- Reader reviews (5-star grid) ---------- */}
 	{
 		reader_reviews.length > 0 && (
-			<section class="section section--cream reviews-section">
+			<section class="section section--tight section--cream reviews-section">
 				<div class="grid12">
 					<div class="section-head section-head--center">
 						<span class="eyebrow">{reviews_section.eyebrow}</span>
@@ -347,10 +342,7 @@ function getInitials(name: string) {
 	{/* ---------- Retailers (individual + bulk) ---------- */}
 	<section class="section section--tight section--cream" id="retailers">
 		<div class="grid12">
-			<div
-				class="section-head section-head--center"
-				style="margin-bottom: 32px;"
-			>
+			<div class="section-head section-head--center">
 				<span class="eyebrow">{retailers_section.eyebrow}</span>
 				<h2>
 					{retailers_section.heading}{' '}
