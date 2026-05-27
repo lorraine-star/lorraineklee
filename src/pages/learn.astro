@@ -262,7 +262,7 @@ const hasResources = (linkedin_resources?.length ?? 0) > 0;
 	</section>
 
 	{/* ---------- LinkedIn Learning courses (secondary) ---------- */}
-	<section class="section section--tight anchor-target" id="courses">
+	<section class="section section--compact anchor-target" id="courses">
 		<div class="grid12">
 			<div class="section-head section-head--center">
 				<span class="eyebrow">{courses_section.eyebrow}</span>
@@ -640,6 +640,19 @@ const hasResources = (linkedin_resources?.length ?? 0) > 0;
 	}
 
 	/* ----------------------------------------------------------
+	   CLI-123 spacing pass: trim the hero-to-next gap so the page
+	   starts scrolling sooner without crowding the hero. These are
+	   page-local overrides of the learn-specific rules in
+	   templates.css; the shared spacing scale stays untouched.
+	   ---------------------------------------------------------- */
+	.learn-hero {
+		padding-bottom: clamp(36px, 4.5vw, 64px);
+	}
+	.learn-hero-bento {
+		margin-top: clamp(28px, 4vw, 48px);
+	}
+
+	/* ----------------------------------------------------------
 	   Course catalog: count, category filter pills, expand
 	   ---------------------------------------------------------- */
 	.course-catalog-count {
@@ -647,7 +660,7 @@ const hasResources = (linkedin_resources?.length ?? 0) > 0;
 		font-size: 14px;
 		font-weight: 600;
 		color: var(--ink-500);
-		margin: 14px 0 0;
+		margin: 10px 0 0;
 	}
 
 	.course-filter {
@@ -656,7 +669,7 @@ const hasResources = (linkedin_resources?.length ?? 0) > 0;
 		flex-wrap: wrap;
 		justify-content: center;
 		gap: 10px;
-		margin: 4px 0 32px;
+		margin: 4px 0 24px;
 	}
 	.course-filter-pill {
 		display: inline-flex;
