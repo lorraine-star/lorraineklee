@@ -2,40 +2,81 @@
 import Layout from '../../layouts/Layout.astro';
 import { reader } from '../../lib/keystatic';
 import { formatDate } from '../../lib/dates';
+import { safeUrl } from '../../lib/url';
 
-const articles = await reader.collections.articles.all();
-const sorted = [...articles].sort((a, b) =>
-	(b.entry.date ?? '').localeCompare(a.entry.date ?? '')
-);
+// "Authored Articles" (the nav label) and this `/articles` page are the same
+// thing. The canonical list lives in the thought-leadership singleton's
+// `authored_articles` array (single source of truth, also teased on the
+// /thought-leadership hub) and each item links out to where the piece was
+// published. We render that list here, newest-first as authored in the CMS.
+const tl = await reader.singletons.thoughtLeadership.read();
+const authored = (tl?.authored_articles ?? []).map((a) => ({
+	dateLabel: a.date ?? '',
+	outlet: a.outlet ?? '',
+	title: a.title ?? '',
+	href: safeUrl(a.url),
+	ctaLabel: a.cta_label || 'Read more',
+}));
+
+// On-site posts entered in the `articles` collection (empty today) are also
+// listed and link to their own detail page, so the collection and its
+// `[slug]` route stay usable for future long-form articles.
+const collection = await reader.collections.articles.all();
+const posts = collection
+	.sort((a, b) => (b.entry.date ?? '').localeCompare(a.entry.date ?? ''))
+	.map((entry) => ({
+		dateLabel: entry.entry.date ? formatDate(entry.entry.date) : '',
+		outlet: '',
+		title: entry.entry.title,
+		href: `/articles/${entry.slug}`,
+		ctaLabel: 'Read more',
+	}));
+
+const items = [...authored, ...posts];
+const isExternal = (href: string) => /^https?:\/\//i.test(href);
 ---
 
 <Layout title="Articles | Lorraine K. Lee">
 	<section class="mx-auto max-w-3xl px-6 py-20">
 		<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Articles</h1>
+		<p class="mt-4 leading-relaxed text-neutral-600">
+			Bylines and features Lorraine has written across leading outlets.
+		</p>
 
 		{
-			sorted.length === 0 ? (
+			items.length === 0 ? (
 				<p class="mt-8 text-neutral-600">No articles published yet.</p>
 			) : (
 				<ul class="mt-10 space-y-8">
-					{sorted.map((article) => (
+					{items.map((item) => (
 						<li class="border-b border-neutral-200 pb-8 last:border-b-0">
-							{article.entry.date && (
+							{(item.dateLabel || item.outlet) && (
 								<p class="text-sm text-neutral-500">
-									{formatDate(article.entry.date)}
+									{[item.outlet, item.dateLabel].filter(Boolean).join(' · ')}
 								</p>
 							)}
 							<h2 class="mt-1 text-2xl font-semibold tracking-tight">
 								<a
-									href={`/articles/${article.slug}`}
+									href={item.href}
 									class="transition-colors hover:text-neutral-600"
+									{...(isExternal(item.href)
+										? { target: '_blank', rel: 'noopener noreferrer' }
+										: {})}
 								>
-									{article.entry.title}
+									{item.title}
 								</a>
 							</h2>
-							{article.entry.description && (
-								<p class="mt-2 leading-relaxed text-neutral-600">
-									{article.entry.description}
+							{item.href && item.href !== '#' && (
+								<p class="mt-3">
+									<a
+										href={item.href}
+										class="text-sm underline underline-offset-4 hover:text-neutral-900"
+										{...(isExternal(item.href)
+											? { target: '_blank', rel: 'noopener noreferrer' }
+											: {})}
+									>
+										{item.ctaLabel}
+									</a>
 								</p>
 							)}
 						</li>
