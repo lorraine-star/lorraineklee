@@ -1,0 +1,15 @@
+fileType: momentic/test/v2
+id: 7adcd57d-4d18-4e72-a01b-4a2e50975e04
+version: 1.0.24
+description: Consulting page — hero, services, and contact CTA render
+defaultEnv: production
+disabled: false
+viewport: 1440, 900
+browserType: Chromium
+labels:
+  - smoke
+steps:
+  - navigate: /consulting
+  - assert: The hero heading reads "Strategic support for your leaders."
+  - assert: A "Get in touch with Lorraine" call-to-action link is visible in the hero
+  - assert: A services section titled "Ways to work together." lists "LinkedIn C-Suite Strategy" as one of the ways to work together

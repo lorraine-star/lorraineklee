@@ -15,8 +15,23 @@ Tests are YAML files in this folder; project config lives in
 | `learn-smoke` | smoke | Learn hero, course CTAs, free-course offer |
 | `contact-smoke` | smoke | Contact heading, press email, socials |
 | `courses-smoke` | smoke | Courses heading, ratings stat, course list |
+| `consulting` | smoke | Consulting hero, services list, contact CTA |
+| `interviews` | smoke | Interviews hero, guest appearances list |
+| `media-kit` | smoke | Media-kit hero, copy-and-paste bios, headshots |
+| `speaker-bio` | smoke | Speaker-bio hero, bios, downloads |
+| `articles` | smoke | Articles index heading (empty-safe) |
+| `keynotes` | smoke | Keynotes hero, keynote catalog, booking CTA |
+| `free-course-funnel` | smoke | Funnel hero, signup form, 5-day roadmap |
+| `free-course-thank-you` | smoke | Funnel confirmation copy + LinkedIn CTA |
 | `course-signup-form` | regression | Home free-course form submit + success state |
 | `work-with-me-cta` | regression | "Work With Me" routes to the contact page |
+| `keynote-detail` | regression | Representative `/keynotes/[slug]` — hero, "Book this talk", takeaways |
+| `course-detail` | regression | Representative `/courses/[slug]` — hero, "Watch on LinkedIn Learning" |
+
+Every page route has at least one test. Static pages and collection index pages
+run as `smoke` (per deploy); the two dynamic detail templates (`/keynotes/[slug]`
+and `/courses/[slug]`) are covered by one representative slug each as
+`regression` (run in the nightly full sweep).
 
 Page tests `navigate:` to a relative path; the suite auto-loads the base URL
 first, which sets the Vercel bypass cookie on protected previews so subsequent
