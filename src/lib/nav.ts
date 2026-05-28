@@ -14,8 +14,14 @@ export interface NavItem {
 // Route map (CLI-130): nav reflects Lorraine's May 28 IA feedback.
 // - "Work With Me" removed; Speaking already has its own top-level link and
 //   Coaching/Consulting are no longer surfaced in the nav.
-// - Thought Leadership parent links directly to the overview; dropdown is
-//   trimmed to Guest Interviews / Featured In / Authored Articles.
+// - Every children-having parent label is a real link to its `href`. The
+//   chevron (split out in EditorialNav.astro as its own toggle) opens the
+//   submenu on mobile; on desktop the submenu still opens on hover/focus.
+//   Don't re-add an "Overview" row to the dropdowns: the parent label
+//   already navigates to the same page, and the duplicate row is what
+//   Lorraine asked us to drop.
+// - Thought Leadership dropdown: Guest Interviews / Featured In /
+//   Authored Articles.
 // - Newsletter (/subscribe/) moved into the Learn dropdown.
 // - Ultimate LinkedIn Guide is hidden from nav for now (deprioritized).
 // - Keynote Catalog removed from Speaking; the standalone /keynotes index
@@ -31,7 +37,6 @@ export const mainNavItems: NavItem[] = [
     label: 'Speaking',
     href: '/speaking',
     children: [
-      { label: 'Speaking Overview', href: '/speaking' },
       { label: 'Keynotes and Trainings', href: '/speaking#past-talks' },
       { label: 'Testimonials', href: '/testimonials' },
       { label: 'Bio and Headshot', href: '/speaking#bio' },
@@ -42,7 +47,6 @@ export const mainNavItems: NavItem[] = [
     label: 'Thought Leadership',
     href: '/thought-leadership',
     children: [
-      { label: 'Thought Leadership Overview', href: '/thought-leadership' },
       { label: 'Guest Interviews', href: '/interviews' },
       { label: 'Featured In', href: '/featured-in' },
       { label: 'Authored Articles', href: '/articles' },
@@ -53,7 +57,6 @@ export const mainNavItems: NavItem[] = [
     label: 'Learn',
     href: '/learn',
     children: [
-      { label: 'Learn Overview', href: '/learn' },
       { label: 'Free Course', href: '/from-invisible-to-influential' },
       { label: 'Learning Courses', href: '/courses' },
       { label: 'Newsletter', href: '/subscribe/' },
@@ -64,7 +67,6 @@ export const mainNavItems: NavItem[] = [
     label: 'About',
     href: '/about',
     children: [
-      { label: 'About Lorraine', href: '/about' },
       { label: 'Awards and Accolades', href: '/about#awards' },
       { label: 'Media Kit', href: '/media-kit' },
     ],

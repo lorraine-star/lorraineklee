@@ -138,16 +138,15 @@ body {
   transition: color 200ms var(--ease-out);
 }
 .nav-summary {
-  appearance: none;
-  border: 0;
-  background: transparent;
+  /* CLI-130: wrapper around the parent nav-link + chevron toggle. The
+     link itself navigates; the chevron is a separate small button so
+     mobile users can still expand the submenu without leaving the page. */
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  cursor: pointer;
+  gap: 4px;
 }
 .nav-link:hover,
-.nav-summary:hover { color: var(--accent); }
+.nav-summary:hover .nav-summary-link { color: var(--accent); }
 .nav-link::after {
   content: '';
   position: absolute;
@@ -159,15 +158,34 @@ body {
   transition: transform 240ms var(--ease-out);
 }
 .nav-link:hover::after { transform: scaleX(1); }
-.nav-link.active,
-.nav-item.active > .nav-summary { color: var(--accent); }
-.nav-link.active::after,
-.nav-item.active > .nav-summary::after { transform: scaleX(1); }
+.nav-link.active { color: var(--accent); }
+.nav-link.active::after { transform: scaleX(1); }
+.nav-submenu-toggle {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 8px 4px;
+  margin: 0;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.nav-submenu-toggle:hover { color: var(--accent); }
+.nav-submenu-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
 .nav-chevron {
   font-size: 10px;
   line-height: 1;
   transform: translateY(1px);
+  transition: transform 200ms var(--ease-out);
 }
+.nav-item.is-open .nav-chevron { transform: translateY(1px) rotate(180deg); }
 .nav-dropdown {
   position: absolute;
   left: 50%;
@@ -1267,6 +1285,18 @@ body {
   }
   .nav-summary {
     justify-content: space-between;
+    padding: 0;
+  }
+  /* The parent link inside .nav-summary should not stretch full-width or it
+     will push the chevron-toggle off the row; let it size to its label and
+     keep the toggle right-aligned via space-between. */
+  .nav-summary .nav-summary-link {
+    width: auto;
+    flex: 1 1 auto;
+    padding: 12px 0;
+  }
+  .nav-submenu-toggle {
+    padding: 12px 0 12px 12px;
   }
   .nav-link::after,
   .nav-summary::after {
