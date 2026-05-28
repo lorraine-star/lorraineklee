@@ -1332,13 +1332,26 @@ export default config({
               label: 'Eyebrow',
               defaultValue: 'LinkedIn Learning',
             }),
-            headline: fields.text({ label: 'Headline (plain)' }),
+            headline: fields.text({ label: 'Headline (plain start)' }),
             headline_accent: fields.text({
               label: 'Headline accent (italic)',
             }),
+            headline_tail: fields.text({
+              label: 'Headline tail (plain, after the accent)',
+              description:
+                'Optional plain text rendered after the italic accent, so the emphasis can sit mid-sentence. Leave empty to end the headline on the accent.',
+            }),
             lead: fields.text({ label: 'Lead paragraph', multiline: true }),
-            primary_cta_label: fields.text({ label: 'Primary CTA label' }),
-            primary_cta_url: fields.text({ label: 'Primary CTA URL' }),
+            primary_cta_label: fields.text({ label: 'LinkedIn CTA label' }),
+            primary_cta_url: fields.text({ label: 'LinkedIn CTA URL' }),
+            image: fields.image({
+              label: 'Hero photo (optional)',
+              description:
+                'Portrait/cutout shown in the hero frame. Leave empty to render the hero text full-width.',
+              directory: 'public/images/v1/courses',
+              publicPath: '/images/v1/courses/',
+            }),
+            image_alt: fields.text({ label: 'Hero photo alt text' }),
           },
           { label: 'Hero' }
         ),
@@ -1373,6 +1386,30 @@ export default config({
             }),
           },
           { label: 'Rating / social proof' }
+        ),
+        why_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+            points: fields.array(
+              fields.object({
+                title: fields.text({ label: 'Outcome title' }),
+                description: fields.text({
+                  label: 'Description',
+                  multiline: true,
+                }),
+              }),
+              {
+                label: 'Outcome points',
+                itemLabel: (props) => props.fields.title.value || 'Outcome',
+              }
+            ),
+          },
+          { label: 'Why these courses (mid-page conversion band)' }
         ),
         testimonials_section: fields.object(
           {

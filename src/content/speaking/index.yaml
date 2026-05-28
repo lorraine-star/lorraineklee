@@ -8,7 +8,7 @@ hero:
   secondary_cta_label: "View speaker one-pager"
   secondary_cta_url: "/speaker-bio"
   testimonials_anchor_label: "Read testimonials"
-  image: "/images/speaking/lorraine-keynote.png"
+  image: "/images/v1/lorraine-hero-speaking.webp"
   image_alt: "Lorraine K. Lee on stage"
   photo_stat_value: "100%"
   photo_stat_label: "learned something new"

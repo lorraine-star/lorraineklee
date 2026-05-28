@@ -11,9 +11,9 @@
 
    GLOBAL section: coordinate edits via Linear so parallel worktrees don't drift. */
 
-/* Aligned to the shared default section scale (CLI-123). */
+/* Aligned to the shared default section scale (CLI-123, retuned in CLI-104). */
 .testimonials {
-  padding: clamp(48px, 6vw, 84px) 0;
+  padding: clamp(40px, 5vw, 72px) 0;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.42) 0%, rgba(245, 240, 233, 0.92) 100%);
 }
 .testimonials-head {
