@@ -412,6 +412,10 @@ body {
   margin: 0 -8% 0 0;
   width: 130%;
   min-height: 620px;
+  /* CLI-104 polish: align photo top with the hero H1's top line. Using a
+     transform instead of margin so the grid track height stays put and the
+     hero copy doesn't drift downward. */
+  transform: translateY(90px);
 }
 .photo-card img {
   width: 100%;
