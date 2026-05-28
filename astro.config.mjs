@@ -16,6 +16,10 @@ export default defineConfig({
   adapter: vercel(),
 
   vite: {
+    // Allow relocating Vite's cache off a cloud-synced tree (e.g. Dropbox),
+    // which can lock node_modules/.vite mid-build. Defaults to Vite's normal
+    // location when the env var is unset, so this is a no-op by default.
+    cacheDir: process.env.VITE_CACHE_DIR || undefined,
     plugins: [tailwindcss()],
     resolve: {
       alias: {
