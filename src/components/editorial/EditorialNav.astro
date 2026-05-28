@@ -31,16 +31,30 @@ const {
           const active = isNavItemActive(item, activeId);
           return item.children?.length ? (
             <div class:list={['nav-item', 'nav-menu-item', { active }]} data-nav-menu-item>
-              <button
-                class="nav-link nav-summary"
-                type="button"
-                aria-haspopup="menu"
-                aria-expanded="false"
-                data-nav-submenu-toggle
-              >
-                <span>{item.label}</span>
-                <span class="nav-chevron" aria-hidden="true">&#9662;</span>
-              </button>
+              {/* CLI-130: the parent label is a real link to its own page,
+                  so clicking it navigates directly. The chevron is a
+                  separate small button so mobile users can still expand
+                  the submenu without leaving the page. Desktop continues
+                  to open the dropdown on hover/focus. */}
+              <div class="nav-summary">
+                <a
+                  class:list={['nav-link', 'nav-summary-link', { active }]}
+                  href={item.href}
+                  aria-current={active ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+                <button
+                  class="nav-submenu-toggle"
+                  type="button"
+                  aria-haspopup="menu"
+                  aria-expanded="false"
+                  aria-label={`Toggle ${item.label} menu`}
+                  data-nav-submenu-toggle
+                >
+                  <span class="nav-chevron" aria-hidden="true">&#9662;</span>
+                </button>
+              </div>
               <div class="nav-dropdown" role="menu">
                 {item.children.map((child) => (
                   <a class="nav-dropdown-link" href={child.href} role="menuitem">
