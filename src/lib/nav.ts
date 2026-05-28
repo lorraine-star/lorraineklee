@@ -42,6 +42,7 @@ export const mainNavItems: NavItem[] = [
     label: 'Thought Leadership',
     href: '/thought-leadership',
     children: [
+      { label: 'Thought Leadership Overview', href: '/thought-leadership' },
       { label: 'Guest Interviews', href: '/interviews' },
       { label: 'Featured In', href: '/featured-in' },
       { label: 'Authored Articles', href: '/articles' },
