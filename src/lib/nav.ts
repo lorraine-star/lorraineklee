@@ -39,7 +39,6 @@ export const mainNavItems: NavItem[] = [
     href: '/speaking',
     children: [
       { label: 'Keynotes and Trainings', href: '/speaking#past-talks' },
-      { label: 'Testimonials', href: '/testimonials' },
       { label: 'Bio and Headshot', href: '/speaker-bio' },
     ],
   },
@@ -69,6 +68,7 @@ export const mainNavItems: NavItem[] = [
     href: '/about',
     children: [
       { label: 'Awards and Accolades', href: '/about#awards' },
+      { label: 'Testimonials', href: '/testimonials' },
       { label: 'Media Kit', href: '/media-kit' },
     ],
   },
