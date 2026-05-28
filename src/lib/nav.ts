@@ -11,17 +11,19 @@ export interface NavItem {
   children?: NavChild[];
 }
 
-// Route map (CLI-106): nav points at the canonical interior pages shipped under
-// CLI-80; every destination here is live on `dev`. `contact` stays in this
-// shared list for SiteNav (legacy `/articles`); EditorialNav drops the inline
-// link and surfaces Contact as its primary CTA button instead. The
-// `work-with-me` group is a services menu with no overview page, so its parent
-// href points at its lead service (`/coaching`), not `/contact`, so it does not
-// duplicate the `contact` item in SiteNav (where active state is href-based).
-// Pre-existing fragments left as-is (no standalone page yet, out of CLI-106
-// scope): `/speaking#bio` (bio destination pending CLI-88/CLI-105),
-// `/learn#linkedin-guide`. Newsletter points at the canonical `/subscribe/`
-// signup route (CLI-122).
+// Route map (CLI-130): nav reflects Lorraine's May 28 IA feedback.
+// - "Work With Me" removed; Speaking already has its own top-level link and
+//   Coaching/Consulting are no longer surfaced in the nav.
+// - Thought Leadership parent links directly to the overview; dropdown is
+//   trimmed to Guest Interviews / Featured In / Authored Articles.
+// - Newsletter (/subscribe/) moved into the Learn dropdown.
+// - Ultimate LinkedIn Guide is hidden from nav for now (deprioritized).
+// - Keynote Catalog removed from Speaking; the standalone /keynotes index
+//   is gone (redirected to /speaking in astro.config.mjs). Individual
+//   /keynotes/:slug detail pages remain as link targets from the Speaking
+//   page "other talks" list.
+// Pre-existing fragments left as-is: `/speaking#bio` (bio destination pending
+// CLI-88/CLI-105).
 export const mainNavItems: NavItem[] = [
   { id: 'home', label: 'Home', href: '/' },
   {
@@ -31,7 +33,6 @@ export const mainNavItems: NavItem[] = [
     children: [
       { label: 'Speaking Overview', href: '/speaking' },
       { label: 'Keynotes and Trainings', href: '/speaking#past-talks' },
-      { label: 'Keynote Catalog', href: '/keynotes' },
       { label: 'Testimonials', href: '/testimonials' },
       { label: 'Bio and Headshot', href: '/speaking#bio' },
     ],
@@ -41,12 +42,9 @@ export const mainNavItems: NavItem[] = [
     label: 'Thought Leadership',
     href: '/thought-leadership',
     children: [
-      { label: 'Thought Leadership Overview', href: '/thought-leadership' },
       { label: 'Guest Interviews', href: '/interviews' },
       { label: 'Featured In', href: '/featured-in' },
       { label: 'Authored Articles', href: '/articles' },
-      { label: 'Newsletter', href: '/subscribe/' },
-      { label: 'Ultimate LinkedIn Guide', href: '/learn#linkedin-guide' },
     ],
   },
   {
@@ -56,18 +54,8 @@ export const mainNavItems: NavItem[] = [
     children: [
       { label: 'Learn Overview', href: '/learn' },
       { label: 'Free Course', href: '/from-invisible-to-influential' },
-      { label: 'Free Resources', href: '/learn#resources' },
       { label: 'Learning Courses', href: '/courses' },
-    ],
-  },
-  {
-    id: 'work-with-me',
-    label: 'Work With Me',
-    href: '/coaching',
-    children: [
-      { label: 'Coaching', href: '/coaching', activeId: 'coaching' },
-      { label: 'Consulting', href: '/consulting', activeId: 'consulting' },
-      { label: 'Speaking', href: '/speaking' },
+      { label: 'Newsletter', href: '/subscribe/' },
     ],
   },
   {

@@ -12,7 +12,6 @@ const {
 	hero,
 	newsletter,
 	courses_section,
-	linkedin_resources_section,
 	linkedin_resources,
 } = learn;
 
@@ -52,8 +51,6 @@ const countFor = (cat: string) =>
 // Prefer the external LinkedIn Learning URL, fall back to the on-site detail page.
 const courseHref = (c: { url?: string | null; slug: string }) =>
 	safeUrl(c.url) || `/courses/${c.slug}`;
-
-const hasResources = (linkedin_resources?.length ?? 0) > 0;
 ---
 
 <SpeakingLayout
@@ -191,15 +188,6 @@ const hasResources = (linkedin_resources?.length ?? 0) > 0;
 				<li>
 					<a href="#courses" data-section-link>Courses</a>
 				</li>
-				{
-					hasResources && (
-						<li>
-							<a href="#resources" data-section-link>
-								Free resources
-							</a>
-						</li>
-					)
-				}
 			</ul>
 		</div>
 	</nav>
@@ -391,56 +379,9 @@ const hasResources = (linkedin_resources?.length ?? 0) > 0;
 		</div>
 	</section>
 
-	{/* ---------- LinkedIn lead-magnet resources ---------- */}
-	{
-		linkedin_resources?.length > 0 && (
-			<section class="section section--tight anchor-target" id="resources">
-				<div class="grid12">
-					<div class="section-head section-head--center">
-						<span class="eyebrow">{linkedin_resources_section.eyebrow}</span>
-						<h2>
-							{linkedin_resources_section.heading}{' '}
-							<em>{linkedin_resources_section.heading_accent}</em>
-						</h2>
-						{linkedin_resources_section.lead && (
-							<p class="lead">{linkedin_resources_section.lead}</p>
-						)}
-					</div>
-					<div class="learn-resources reveal-stagger">
-						{linkedin_resources.map((r) => {
-							const url = safeUrl(r.url) || '/contact';
-							const external = isExternal(url);
-							return (
-								<a
-									class:list={['resource-card', { 'resource-card--media': r.image }]}
-									id={r.anchor_id || undefined}
-									href={url}
-									target={external ? '_blank' : undefined}
-									rel={external ? 'noopener noreferrer' : undefined}
-								>
-									{r.image && (
-										<div class="resource-media">
-											<img src={r.image} alt={r.label} loading="lazy" />
-										</div>
-									)}
-									<div class="resource-body">
-										<span class="resource-label">{r.label}</span>
-										{r.description && (
-											<p class="resource-desc">{r.description}</p>
-										)}
-										<span class="resource-arrow">
-											{r.cta_label || (external ? 'Open' : 'Download')}{' '}
-											<span aria-hidden="true">&rarr;</span>
-										</span>
-									</div>
-								</a>
-							);
-						})}
-					</div>
-				</div>
-			</section>
-		)
-	}
+	{/* CLI-130: standalone Free Resources section removed; resources stay
+	    surfaced via the hero bento cards above so the page reads cleanly
+	    without the duplicated block. */}
 </SpeakingLayout>
 
 <script>
@@ -634,8 +575,7 @@ const hasResources = (linkedin_resources?.length ?? 0) > 0;
 
 	/* Section anchors clear both the site header and this sub-nav. */
 	#course,
-	#courses,
-	#resources {
+	#courses {
 		scroll-margin-top: 140px;
 	}
 
