@@ -2,7 +2,7 @@
 import SpeakingLayout from '../../layouts/SpeakingLayout.astro';
 import { reader } from '../../lib/keystatic';
 import { safeUrl } from '../../lib/url';
-import StudentTestimonials from '../../components/StudentTestimonials.astro';
+import { getTestimonials } from '../../lib/testimonials';
 
 // Category order mirrors the old WordPress /learning-courses/ hub.
 const CATEGORY_ORDER = ['Communication', 'Leadership', 'Management', 'Career'];
@@ -11,7 +11,7 @@ const page = await reader.singletons.coursesPage.read();
 if (!page) {
 	throw new Error('Missing courses page content (src/content/courses-page/index.yaml)');
 }
-const { hero, rating, final_cta } = page;
+const { hero, rating, why_section, final_cta } = page;
 
 const all = await reader.collections.courses.all();
 const mapped = all
@@ -20,47 +20,40 @@ const mapped = all
 
 // Featured block: at most one course, derived from the full set (independent
 // of show_on_hub) so a featured course can never silently vanish from the page.
-const featured = mapped.filter((c) => c.featured).slice(0, 1);
-const featuredSlugs = new Set(featured.map((c) => c.slug));
+const featured = mapped.filter((c) => c.featured).slice(0, 1)[0] ?? null;
 
-// Mirror the curated WordPress hub: only show courses flagged for it.
-// (Hidden courses keep their /courses/[slug] page and 301 redirect.)
-const courses = mapped.filter((c) => c.show_on_hub !== false);
+// Mirror the curated WordPress hub: only courses flagged for it. Pre-sorted by
+// category then in-category order so the unfiltered grid still groups cleanly.
+// The featured course is kept in the grid too (it stays browsable under its
+// category) per the design.
+const hubCourses = mapped
+	.filter((c) => c.show_on_hub !== false)
+	.sort(
+		(a, b) =>
+			CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category) ||
+			(a.order ?? 0) - (b.order ?? 0)
+	);
 
-const grouped = CATEGORY_ORDER.map((category) => ({
-	category,
-	items: courses.filter(
-		(c) => c.category === category && !featuredSlugs.has(c.slug)
-	),
-})).filter((g) => g.items.length > 0);
+const counts: Record<string, number> = { all: hubCourses.length };
+for (const cat of CATEGORY_ORDER) {
+	counts[cat] = hubCourses.filter((c) => c.category === cat).length;
+}
+const categories = CATEGORY_ORDER.filter((cat) => counts[cat] > 0);
 
-const LL_LOGO = '/images/v1/courses/linkedin-learning-logo.png';
 const isExternal = (url: string) => /^https?:\/\//i.test(url);
-const heroCtaUrl = safeUrl(hero.primary_cta_url) || '#courses';
-const finalCtaUrl = safeUrl(final_cta.cta_url) || '/learn#course';
-const subscribeUrl = safeUrl(rating?.subscribe_url) || '/learn';
+const linkedinUrl = safeUrl(hero.primary_cta_url) || 'https://www.linkedin.com/learning/instructors/lorraine-lee';
+const finalCtaUrl = safeUrl(final_cta.cta_url) || '/from-invisible-to-influential/';
 
-// Resolve a course's "Start learning" link: prefer the external LinkedIn
-// Learning URL, fall back to the on-site detail page.
+// Resolve a course link: prefer the external LinkedIn Learning URL, fall back
+// to the on-site detail page.
 const courseHref = (c: { url?: string | null; slug: string }) =>
 	safeUrl(c.url) || `/courses/${c.slug}`;
 
-// Split the social-proof figures into a number (for the count-up animation)
-// and a trailing suffix (e.g. "+") so the animation lands on a clean value.
-const splitFigure = (raw?: string) => {
-	const text = (raw ?? '').trim();
-	const match = text.match(/^([\d.,]+)(.*)$/);
-	if (!match) return { value: 0, decimals: 0, suffix: text, display: text };
-	const numeric = parseFloat(match[1].replace(/,/g, ''));
-	const decimals = (match[1].split('.')[1] ?? '').length;
-	return { value: numeric, decimals, suffix: match[2], display: match[1] };
-};
-const ratingFig = splitFigure(rating?.value);
-const studentsFig = splitFigure(rating?.students_value);
-// Only animate (count-up) genuinely numeric figures — otherwise the count-up
-// script would overwrite a non-numeric label (e.g. "Top-rated") with "0".
-const ratingNumeric = ratingFig.value > 0;
-const studentsNumeric = studentsFig.value > 0;
+const whyPoints = why_section?.points ?? [];
+
+// Compact proof strip: pull real course/student reviews from the shared
+// testimonials collection (CLI-118); take at most two. No invented quotes.
+const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2);
 ---
 
 <SpeakingLayout
@@ -68,419 +61,1112 @@ const studentsNumeric = studentsFig.value > 0;
 	description={hero.lead}
 	activeId="learn"
 >
-	{/* ---------- Hero + rating ---------- */}
-	<section class="page-hero page-hero--center">
-		<div class="grid12 page-hero-grid">
-			<div class="page-hero-copy fade-up">
-				<div class="page-hero-eyebrow">
-					<span class="dot"></span>
-					<span class="eyebrow" style="color: var(--ink-500);">{hero.eyebrow}</span>
-				</div>
-				<h1>{hero.headline} <em>{hero.headline_accent}</em></h1>
-				<p class="lead-large">{hero.lead}</p>
-				<div class="hero-cta-row">
-					<a
-						class="btn primary large"
-						href={heroCtaUrl}
-						target={isExternal(heroCtaUrl) ? '_blank' : undefined}
-						rel={isExternal(heroCtaUrl) ? 'noopener noreferrer' : undefined}
-					>
-						{hero.primary_cta_label} <span aria-hidden="true">&rarr;</span>
-					</a>
-					<a class="anchor-link" href="#courses">
-						Browse courses <span class="arrow" aria-hidden="true">&rarr;</span>
-					</a>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	{/* ---------- Social proof band ---------- */}
-	{
-		rating?.value && (
-			<section class="section section--compact" style="padding-top: 0;">
-				<div class="grid12">
-					<div class="course-proof reveal">
-						<span class="course-proof-stars" aria-label={`${rating.value}${rating.scale} rating`}>
-							{Array.from({ length: 5 }).map(() => (
-								<svg viewBox="0 0 24 24" aria-hidden="true">
-									<path
-										d="M12 2l2.95 6.74L22 9.74l-5.5 4.78L18.18 22 12 18.27 5.82 22l1.68-7.48L2 9.74l7.05-1z"
-										fill="currentColor"
-									/>
-								</svg>
-							))}
-						</span>
-						<div class="course-proof-grid">
-							<div class="course-proof-stat">
-								<div class="course-proof-num">
-									{ratingNumeric ? (
-										<span
-											class="count-up"
-											data-to={ratingFig.value}
-											data-decimals={ratingFig.decimals}
-										>
-											{ratingFig.display}
-										</span>
-									) : (
-										<span>{ratingFig.display}</span>
-									)}
-									<span class="course-proof-unit">{rating.scale}</span>
-								</div>
-								{rating.value_label && (
-									<div class="course-proof-label">{rating.value_label}</div>
-								)}
-							</div>
-							{rating.students_value && (
-								<>
-									<span class="course-proof-sep" aria-hidden="true" />
-									<div class="course-proof-stat">
-										<div class="course-proof-num">
-											{studentsNumeric ? (
-												<span
-													class="count-up"
-													data-to={studentsFig.value}
-													data-decimals={studentsFig.decimals}
-												>
-													{studentsFig.display}
-												</span>
-											) : (
-												<span>{studentsFig.display}</span>
-											)}
-											<span class="course-proof-unit">{studentsFig.suffix}</span>
-										</div>
-										{rating.students_label && (
-											<div class="course-proof-label">{rating.students_label}</div>
-										)}
-									</div>
-								</>
-							)}
-						</div>
-						{(rating.note || rating.subscribe_label) && (
-							<div class="course-proof-foot">
-								{rating.note && <p class="course-proof-note">{rating.note}</p>}
-								{rating.subscribe_label && (
-									<a
-										class="btn yellow course-proof-sub"
-										href={subscribeUrl}
-										target={isExternal(subscribeUrl) ? '_blank' : undefined}
-										rel={isExternal(subscribeUrl) ? 'noopener noreferrer' : undefined}
-									>
-										{rating.subscribe_label} <span aria-hidden="true">&rarr;</span>
-									</a>
-								)}
-							</div>
-						)}
+	<div class="courses-page">
+		{/* ---------- Hero (editorial) ---------- */}
+		<section class="courses-hero hero-editorial">
+			<div class="container hero-editorial-grid">
+				<div class="hero-text">
+					<span class="eyebrow eyebrow-hero">{hero.eyebrow}</span>
+					<h1 class="h-hero">
+						{hero.headline}{' '}
+						<span class="accent-italic">{hero.headline_accent}</span>{hero.headline_tail}
+					</h1>
+					<p class="hero-lead">{hero.lead}</p>
+					<div class="hero-ctas">
+						<a class="btn primary large" href="#course-grid">Explore courses</a>
+						<a
+							class="btn outline large"
+							href={linkedinUrl}
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{hero.primary_cta_label} <span aria-hidden="true">&#8599;</span>
+						</a>
 					</div>
+					{
+						rating?.value && (
+							<div class="hero-stats">
+								{rating.students_value && (
+									<div class="hero-stat">
+										<div class="hero-stat-num">{rating.students_value}</div>
+										<div class="hero-stat-label">{rating.students_label}</div>
+									</div>
+								)}
+								<div class="hero-stat">
+									<div class="hero-stat-num">{mapped.length}</div>
+									<div class="hero-stat-label">LinkedIn Learning courses</div>
+								</div>
+								<div class="hero-stat">
+									<div class="hero-stat-num">
+										{rating.value}
+										<span class="hero-stat-unit">{rating.scale}</span>
+									</div>
+									<div class="hero-stat-label">{rating.value_label}</div>
+								</div>
+							</div>
+						)
+					}
 				</div>
-			</section>
-		)
-	}
 
-	<div id="courses">
+				{
+					hero.image && (
+						<aside class="hero-side">
+							<div class="hero-photo-frame editorial">
+								<div class="hero-photo-bg" aria-hidden="true" />
+								<img
+									src={hero.image}
+									alt={hero.image_alt}
+									class="hero-photo-img"
+									loading="eager"
+								/>
+							</div>
+							<div class="hero-credentials">
+								<div class="cred-pill">
+									<span class="cred-dot" aria-hidden="true" />
+									Top-rated LinkedIn Learning instructor
+								</div>
+								{rating?.value && (
+									<div class="cred-pill">
+										<span class="cred-star" aria-hidden="true">&#9733;</span>
+										{rating.value}{rating.scale} across the library
+									</div>
+								)}
+							</div>
+						</aside>
+					)
+				}
+			</div>
+		</section>
+
 		{/* ---------- Featured course ---------- */}
 		{
-			featured.map((c) => {
-				const url = courseHref(c);
-				const ext = isExternal(url);
-				return (
-					<section class="section section--compact">
-						<div class="grid12">
-							<a
-								class="course-feature reveal"
-								href={url}
-								target={ext ? '_blank' : undefined}
-								rel={ext ? 'noopener noreferrer' : undefined}
-							>
-								{c.thumbnail && (
-									<div class="course-feature-media">
-										<img src={c.thumbnail} alt={c.title} loading="lazy" />
-									</div>
-								)}
-								<div class="course-feature-body">
-									<img
-										class="ll-logo"
-										src={LL_LOGO}
-										alt="LinkedIn Learning"
-										width="150"
-										height="30"
-									/>
-									<h2 class="course-feature-title">{c.title}</h2>
-									<p class="course-feature-desc">{c.description}</p>
-									<span class="btn yellow large course-feature-cta">
-										Start learning <span aria-hidden="true">&#8599;</span>
-									</span>
+			featured && (
+				<section class="featured-section wide">
+					<div class="container">
+						<div class="featured-wide">
+							<div class="featured-wide-text">
+								<div class="eyebrow featured-eyebrow">
+									<span class="featured-eyebrow-dot" aria-hidden="true" />
+									Lorraine's pick &middot; Start here
 								</div>
-							</a>
-						</div>
-					</section>
-				);
-			})
-		}
-
-		{/* ---------- Courses, grouped by category ---------- */}
-		{
-			grouped.map(({ category, items }) => (
-				<section class="section section--compact anchor-target" id={category.toLowerCase()}>
-					<div class="grid12">
-						<div class="section-head section-head--center">
-							<span class="eyebrow">{category}</span>
-							<h2>
-								{category} <em>courses</em>
-							</h2>
-						</div>
-
-						<div class="course-grid-cards reveal-stagger">
-							{items.map((c) => {
-								const url = courseHref(c);
-								const ext = isExternal(url);
-								return (
+								<h2 class="featured-title">{featured.title}</h2>
+								<p class="featured-summary">{featured.description}</p>
+								<ul class="featured-tags" aria-label="Course tags">
+									{featured.category && (
+										<li class="featured-tag">{featured.category}</li>
+									)}
+									<li class="featured-tag">Free with LinkedIn Learning</li>
+								</ul>
+								<div class="featured-meta">
+									<span class="featured-meta-item">LinkedIn Learning</span>
+									<span class="featured-meta-item">Free with a subscription</span>
+								</div>
+								<div class="featured-ctas">
 									<a
-										class="course-card"
-										data-platform="LinkedIn Learning"
-										href={url}
-										target={ext ? '_blank' : undefined}
-										rel={ext ? 'noopener noreferrer' : undefined}
+										class="btn primary large"
+										href={courseHref(featured)}
+										target={isExternal(courseHref(featured)) ? '_blank' : undefined}
+										rel={isExternal(courseHref(featured)) ? 'noopener noreferrer' : undefined}
 									>
-										<div class="course-thumb">
-											{c.thumbnail ? (
-												<img class="course-thumb-img" src={c.thumbnail} alt="" loading="lazy" />
-											) : (
-												<div class="course-thumb-deco" aria-hidden="true">
-													{c.glyph}
-												</div>
-											)}
-											<div class="play" aria-hidden="true">
-												<svg viewBox="0 0 24 24" fill="currentColor">
-													<path d="M8 5v14l11-7z" />
-												</svg>
-											</div>
-											{c.duration && <span class="duration">{c.duration}</span>}
-										</div>
-										<div class="course-card-body">
-											<img
-												class="ll-logo"
-												src={LL_LOGO}
-												alt="LinkedIn Learning"
-												width="130"
-												height="26"
-											/>
-											<h3>{c.title}</h3>
-											<p class="course-desc course-desc--clamp">{c.description}</p>
-											<span class="course-link">
-												Start learning <span aria-hidden="true">&#8599;</span>
-											</span>
-										</div>
+										Start this course <span aria-hidden="true">&rarr;</span>
 									</a>
-								);
-							})}
+									<a class="btn ghost" href={`/courses/${featured.slug}`}>
+										See what's inside <span aria-hidden="true">&rarr;</span>
+									</a>
+								</div>
+							</div>
+							<div class="featured-wide-image">
+								<div class="featured-wide-bg" aria-hidden="true" />
+								{featured.thumbnail && (
+									<img
+										src={featured.thumbnail}
+										alt={featured.title}
+										class="featured-wide-photo"
+										loading="lazy"
+									/>
+								)}
+							</div>
 						</div>
 					</div>
 				</section>
-			))
+			)
 		}
-	</div>
 
-	{/* ---------- Student testimonials, global section ---------- */}
-	<StudentTestimonials />
-
-	{/* ---------- Final CTA — free 5-day course ---------- */}
-	<section class="section">
-		<div class="grid12">
-			<div class="final-cta">
-				<div class="final-cta-inner">
-					<span class="eyebrow">{final_cta.eyebrow}</span>
-					<h2>
-						{final_cta.heading} <em>{final_cta.heading_accent}</em>
-					</h2>
-					<p>{final_cta.body}</p>
-					<a class="btn yellow large" href={finalCtaUrl}>
-						{final_cta.cta_label} <span aria-hidden="true">&rarr;</span>
-					</a>
+		{/* ---------- Category filter (sticky) ---------- */}
+		<div class="filter-bar" id="course-grid">
+			<div class="container filter-bar-inner">
+				<div class="filter-bar-label">
+					<span class="eyebrow">Find the right course</span>
+					<h2 class="filter-bar-heading">Which course is right for you?</h2>
+				</div>
+				<div class="filter-pills" role="tablist" aria-label="Course categories">
+					<button
+						type="button"
+						class="filter-pill is-active"
+						data-filter="all"
+						role="tab"
+						aria-selected="true"
+					>
+						All courses
+						<span class="filter-pill-count">{counts.all}</span>
+					</button>
+					{
+						categories.map((cat) => (
+							<button
+								type="button"
+								class="filter-pill"
+								data-filter={cat}
+								role="tab"
+								aria-selected="false"
+							>
+								{cat}
+								<span class="filter-pill-count">{counts[cat]}</span>
+							</button>
+						))
+					}
 				</div>
 			</div>
 		</div>
-	</section>
+
+		{/* ---------- Course grid ---------- */}
+		<section class="grid-section">
+			<div class="container">
+				<div class="grid-section-head">
+					<div class="grid-section-title">
+						<span class="grid-count" data-grid-count>{counts.all}</span>
+						<span class="grid-count-label" data-grid-label>courses &middot; all categories</span>
+					</div>
+					<a
+						class="grid-section-link"
+						href={linkedinUrl}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						View on LinkedIn Learning <span aria-hidden="true">&#8599;</span>
+					</a>
+				</div>
+
+				<div class="course-grid" data-course-grid>
+					{
+						hubCourses.map((c) => {
+							const url = courseHref(c);
+							const ext = isExternal(url);
+							return (
+								<a
+									class="course-card"
+									data-category={c.category}
+									href={url}
+									target={ext ? '_blank' : undefined}
+									rel={ext ? 'noopener noreferrer' : undefined}
+								>
+									<div class="thumb">
+										{c.thumbnail ? (
+											<img class="thumb-img" src={c.thumbnail} alt="" loading="lazy" />
+										) : (
+											<div class="thumb-glyph" aria-hidden="true">{c.glyph}</div>
+										)}
+										<div class="thumb-meta">
+											<span class="thumb-platform">LinkedIn Learning</span>
+										</div>
+										{c.duration && <span class="thumb-duration">{c.duration}</span>}
+									</div>
+									<div class="course-card-body">
+										<div class="course-card-tagline">
+											<span class="course-cat">{c.category}</span>
+											{c.duration && (
+												<>
+													<span class="course-dot" aria-hidden="true">&middot;</span>
+													<span class="course-dur">{c.duration}</span>
+												</>
+											)}
+										</div>
+										<h3 class="course-card-title">{c.title}</h3>
+										<p class="course-card-summary">{c.description}</p>
+										<div class="course-card-foot">
+											<span class="course-cta">View course <span aria-hidden="true">&rarr;</span></span>
+										</div>
+									</div>
+								</a>
+							);
+						})
+					}
+				</div>
+				<div class="grid-empty" data-grid-empty hidden>
+					<p>No courses in this category yet. New ones are added regularly.</p>
+				</div>
+			</div>
+		</section>
+
+		{/* ---------- Outcomes band (why these courses) ---------- */}
+		{
+			whyPoints.length > 0 && (
+				<section class="outcomes-section outcomes-dark">
+					<div class="container">
+						<div class="outcomes-head">
+							{why_section.eyebrow && (
+								<div class="eyebrow eyebrow-on-dark">{why_section.eyebrow}</div>
+							)}
+							<h2 class="outcomes-heading">
+								{why_section.heading}{' '}
+								<span class="accent-italic-light">{why_section.heading_accent}</span>
+							</h2>
+							{why_section.lead && <p class="outcomes-lead">{why_section.lead}</p>}
+						</div>
+						<ul class="outcomes-grid">
+							{whyPoints.map((p, i) => (
+								<li class="outcome">
+									<div class="outcome-glyph">{String(i + 1).padStart(2, '0')}</div>
+									<div class="outcome-title">{p.title}</div>
+									<div class="outcome-body">{p.description}</div>
+								</li>
+							))}
+						</ul>
+					</div>
+				</section>
+			)
+		}
+
+		{/* ---------- Proof strip ---------- */}
+		{
+			rating?.value && (
+				<section class="proof-strip">
+					<div class="container proof-strip-inner">
+						<div class="proof-strip-stat">
+							<div class="proof-strip-num">
+								{rating.value}
+								<span class="proof-strip-unit">{rating.scale}</span>
+							</div>
+							<div class="proof-strip-stat-label">
+								{rating.value_label} across
+								<br />
+								<strong>{rating.students_value} learners</strong> on LinkedIn Learning
+							</div>
+						</div>
+						{proofQuotes.length > 0 && (
+							<div class="proof-strip-quotes">
+								{proofQuotes.map((q) => (
+									<figure class="proof-quote">
+										<blockquote class="proof-quote-text">&ldquo;{q.quote}&rdquo;</blockquote>
+										<figcaption class="proof-quote-who">
+											<strong>{q.author}</strong>
+											{q.roleOrCompany && (
+												<span class="proof-quote-role"> &middot; {q.roleOrCompany}</span>
+											)}
+										</figcaption>
+									</figure>
+								))}
+							</div>
+						)}
+					</div>
+				</section>
+			)
+		}
+
+		{/* ---------- Final CTA ---------- */}
+		<section class="courses-final-cta">
+			<div class="container narrow text-center">
+				<span class="eyebrow eyebrow-on-brand">{final_cta.eyebrow}</span>
+				<h2 class="final-cta-heading">
+					{final_cta.heading}{' '}
+					<span class="final-cta-italic">{final_cta.heading_accent}</span>
+				</h2>
+				<p class="final-cta-lead">{final_cta.body}</p>
+				<div class="final-cta-ctas">
+					<a
+						class="btn yellow large"
+						href={linkedinUrl}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						See all courses on LinkedIn Learning <span aria-hidden="true">&#8599;</span>
+					</a>
+					<a class="btn outline-on-brand large" href={finalCtaUrl}>
+						{final_cta.cta_label}
+					</a>
+				</div>
+			</div>
+		</section>
+	</div>
 </SpeakingLayout>
 
-<style>
-	/* Keep card copy to a tidy, even height regardless of description length. */
-	.course-desc--clamp {
-		display: -webkit-box;
-		-webkit-line-clamp: 3;
-		line-clamp: 3;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
+<script>
+	// Lightweight category filter (vanilla DOM — no island, so it works
+	// regardless of hydration quirks). Filters the grid by the data-category
+	// on each card and keeps the count + label in sync.
+	function setupCourseFilter() {
+		const bar = document.querySelector<HTMLElement>('.filter-pills');
+		const grid = document.querySelector<HTMLElement>('[data-course-grid]');
+		const empty = document.querySelector<HTMLElement>('[data-grid-empty]');
+		const countEl = document.querySelector<HTMLElement>('[data-grid-count]');
+		const labelEl = document.querySelector<HTMLElement>('[data-grid-label]');
+		if (!bar || !grid) return;
+
+		const pills = Array.from(
+			bar.querySelectorAll<HTMLButtonElement>('.filter-pill')
+		);
+		const cards = Array.from(
+			grid.querySelectorAll<HTMLElement>('.course-card')
+		);
+
+		const apply = (filter: string) => {
+			let shown = 0;
+			for (const card of cards) {
+				const match = filter === 'all' || card.dataset.category === filter;
+				card.hidden = !match;
+				if (match) shown++;
+			}
+			if (empty) empty.hidden = shown !== 0;
+			if (countEl) countEl.textContent = String(shown);
+			if (labelEl) {
+				labelEl.textContent = '';
+				if (filter === 'all') {
+					labelEl.append('courses · all categories');
+				} else {
+					labelEl.append('courses in ');
+					const em = document.createElement('em');
+					em.textContent = filter;
+					labelEl.append(em);
+				}
+			}
+		};
+
+		bar.addEventListener('click', (e) => {
+			const pill = (e.target as HTMLElement).closest<HTMLButtonElement>('.filter-pill');
+			if (!pill) return;
+			for (const p of pills) {
+				const active = p === pill;
+				p.classList.toggle('is-active', active);
+				p.setAttribute('aria-selected', active ? 'true' : 'false');
+			}
+			apply(pill.dataset.filter || 'all');
+		});
 	}
-	/* Social-proof band — prominent rating + students taught. */
-	.course-proof {
-		grid-column: 1 / -1;
-		max-width: min(720px, 100%);
-		box-sizing: border-box;
+
+	setupCourseFilter();
+</script>
+
+<style>
+	/* =================================================================
+	   Courses page — ported from the Claude Design "Courses Page"
+	   handoff bundle, wired to real CMS data. Resolves against the
+	   editorial design tokens already loaded by SpeakingLayout.
+	   ================================================================= */
+	.courses-page { display: block; }
+
+	/* container helpers — aligned to the site grid (nav/footer) width. */
+	.container {
+		width: 100%;
+		max-width: var(--grid-max);
 		margin: 0 auto;
-		background: var(--paper-deep);
+		padding: 0 var(--grid-pad);
+	}
+	.container.narrow { max-width: var(--container-sm); }
+	.text-center { text-align: center; }
+
+	/* ---------- shared hero helpers ---------- */
+	.eyebrow-hero {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		margin-bottom: 24px;
+	}
+	.eyebrow-hero::before {
+		content: '';
+		width: 28px;
+		height: 1px;
+		background: var(--accent);
+	}
+	.h-hero {
+		font-family: var(--font-serif);
+		font-size: clamp(36px, 4.4vw, 62px);
+		font-weight: 500;
+		line-height: 1.05;
+		letter-spacing: -0.025em;
+		color: var(--ink-900);
+		margin: 0 0 28px;
+		text-wrap: balance;
+	}
+	.h-hero .accent-italic { color: var(--accent); font-style: italic; }
+	.hero-lead {
+		font-family: var(--font-serif);
+		font-size: clamp(18px, 1.6vw, 22px);
+		line-height: 1.55;
+		color: var(--ink-700);
+		margin: 0 0 36px;
+		max-width: 600px;
+		text-wrap: pretty;
+	}
+	.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 48px; }
+	.hero-stats {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 24px;
+		padding-top: 28px;
+		border-top: 1px solid var(--border-soft);
+		max-width: 560px;
+	}
+	.hero-stat-num {
+		font-family: var(--font-serif);
+		font-size: clamp(28px, 3vw, 44px);
+		font-weight: 500;
+		color: var(--accent);
+		line-height: 1;
+		letter-spacing: -0.02em;
+	}
+	.hero-stat-unit { font-size: 0.6em; opacity: .55; }
+	.hero-stat-label {
+		font-family: var(--font-sans);
+		font-size: 12px;
+		color: var(--fg-muted);
+		margin-top: 8px;
+		letter-spacing: .01em;
+		line-height: 1.35;
+	}
+
+	/* ---------- hero editorial ---------- */
+	.courses-hero { padding: clamp(56px, 8vw, 96px) 0 clamp(64px, 8vw, 112px); }
+	.hero-editorial-grid {
+		display: grid;
+		grid-template-columns: 1.25fr 1fr;
+		gap: clamp(40px, 6vw, 80px);
+		align-items: center;
+	}
+	.hero-editorial-grid .hero-text { max-width: 640px; }
+	.hero-side { display: flex; flex-direction: column; gap: 32px; align-items: stretch; }
+	.hero-photo-frame {
+		position: relative;
+		border-radius: 28px;
+		overflow: hidden;
+		background: var(--brand-blue-100);
+		aspect-ratio: 4/5;
+		display: flex;
+		align-items: flex-end;
+		justify-content: center;
+		box-shadow: var(--shadow-lg);
+	}
+	.hero-photo-bg {
+		position: absolute;
+		inset: 0;
+		background:
+			radial-gradient(120% 80% at 35% 25%, #FFE7C7 0%, transparent 55%),
+			radial-gradient(80% 80% at 70% 70%, #C9D6FF 0%, transparent 60%),
+			linear-gradient(135deg, var(--brand-blue-100) 0%, var(--brand-blue-300) 100%);
+	}
+	.hero-photo-img {
+		position: relative;
+		z-index: 1;
+		width: 96%;
+		height: 110%;
+		object-fit: contain;
+		object-position: center bottom;
+		filter: drop-shadow(0 22px 30px rgba(15, 30, 75, 0.18));
+	}
+	.hero-credentials { display: flex; flex-direction: column; gap: 10px; }
+	.cred-pill {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		background: #fff;
 		border: 1px solid var(--border-soft);
-		border-radius: 24px;
-		padding: clamp(24px, 3vw, 36px) clamp(28px, 5vw, 56px);
+		border-radius: 999px;
+		padding: 10px 18px;
+		font-family: var(--font-sans);
+		font-size: 13px;
+		font-weight: 500;
+		color: var(--ink-900);
+		box-shadow: var(--shadow-xs);
+	}
+	.cred-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--success);
+		box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.18);
+		flex-shrink: 0;
+	}
+	.cred-star { color: var(--brand-yellow-500); font-size: 15px; }
+
+	/* ---------- featured course ---------- */
+	.featured-section { padding: clamp(40px, 5vw, 72px) 0 clamp(40px, 5vw, 80px); }
+	.featured-wide {
+		position: relative;
+		display: grid;
+		grid-template-columns: 1.05fr 1fr;
+		background: #fff;
+		border-radius: 28px;
+		border: 1px solid var(--border-soft);
+		overflow: hidden;
+		box-shadow: var(--shadow-md);
+	}
+	.featured-wide-text {
+		padding: clamp(36px, 4vw, 64px);
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		gap: 14px;
-		text-align: center;
-		box-shadow: 0 18px 40px -28px rgba(14, 21, 48, 0.35);
+		justify-content: center;
 	}
-	.course-proof-stars {
+	.featured-eyebrow {
 		display: inline-flex;
-		gap: 5px;
-		color: var(--brand-yellow-500);
+		align-items: center;
+		gap: 10px;
+		color: var(--accent);
+		margin-bottom: 18px;
 	}
-	.course-proof-stars svg {
-		width: 26px;
-		height: 26px;
-		filter: drop-shadow(0 1px 0 rgba(14, 21, 48, 0.08));
+	.featured-eyebrow-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--brand-yellow-500);
+		box-shadow: 0 0 0 4px var(--brand-yellow-100);
 	}
-	.course-proof-grid {
+	.featured-title {
+		font-family: var(--font-serif);
+		font-size: clamp(32px, 3.5vw, 52px);
+		font-weight: 500;
+		line-height: 1.05;
+		letter-spacing: -0.02em;
+		color: var(--ink-900);
+		margin: 0 0 20px;
+		text-wrap: balance;
+	}
+	.featured-summary {
+		font-family: var(--font-serif);
+		font-size: clamp(17px, 1.4vw, 20px);
+		line-height: 1.55;
+		color: var(--ink-700);
+		margin: 0 0 24px;
+	}
+	.featured-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		list-style: none;
+		padding: 0;
+		margin: 0 0 28px;
+	}
+	.featured-tag {
+		font-family: var(--font-sans);
+		font-size: 12px;
+		font-weight: 600;
+		letter-spacing: .04em;
+		padding: 6px 14px;
+		background: var(--brand-blue-50);
+		color: var(--brand-blue-900);
+		border-radius: 999px;
+		border: 1px solid var(--brand-blue-100);
+	}
+	.featured-meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 24px;
+		padding: 20px 0;
+		margin: 0 0 24px;
+		border-top: 1px solid var(--border-soft);
+		border-bottom: 1px solid var(--border-soft);
+		font-family: var(--font-sans);
+		font-size: 13px;
+		color: var(--fg-muted);
+	}
+	.featured-meta-item strong { color: var(--ink-900); font-weight: 600; }
+	.featured-ctas { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+	.featured-wide-image {
+		position: relative;
+		background: var(--brand-blue-100);
+		overflow: hidden;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		gap: clamp(28px, 6vw, 64px);
+		min-height: 380px;
 	}
-	.course-proof-stat {
-		display: flex;
-		flex-direction: column;
-		gap: 6px;
+	.featured-wide-bg {
+		position: absolute;
+		inset: 0;
+		background:
+			radial-gradient(120% 80% at 30% 25%, var(--brand-yellow-100) 0%, transparent 55%),
+			radial-gradient(80% 80% at 75% 70%, var(--brand-blue-300) 0%, transparent 60%),
+			linear-gradient(135deg, var(--brand-blue-100) 0%, var(--brand-blue-400) 100%);
 	}
-	.course-proof-num {
-		font-family: var(--font-serif);
-		font-weight: 600;
-		font-size: clamp(38px, 5.5vw, 56px);
-		line-height: 1;
-		letter-spacing: -0.02em;
-		color: var(--ink-900);
-		font-variant-numeric: tabular-nums;
-	}
-	.course-proof-unit {
-		color: var(--accent);
-		font-weight: 500;
-	}
-	.course-proof-label {
-		font-family: var(--font-sans);
-		font-size: 12px;
-		font-weight: 700;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: var(--ink-500);
-	}
-	.course-proof-sep {
-		align-self: stretch;
-		width: 1px;
-		background: var(--border);
-		margin: 6px 0;
-	}
-	.course-proof-note {
-		font-family: var(--font-sans);
-		font-size: 13px;
-		color: var(--ink-500);
-		margin: 0;
-	}
-	.course-proof-foot {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 12px;
-	}
-	.course-proof-sub {
-		font-size: 13px;
-		max-width: 100%;
-		white-space: normal;
-		text-align: center;
-		height: auto;
-	}
-
-	/* LinkedIn Learning logo on cards + feature block.
-	   align-self stops the flex column from stretching the logo to full width
-	   (which would distort its aspect ratio). */
-	.ll-logo {
-		height: 22px;
-		width: auto;
-		max-width: 100%;
-		display: block;
-		align-self: flex-start;
-	}
-	.course-card-body .ll-logo {
-		margin-bottom: 10px;
-	}
-
-	/* Featured course block. */
-	.course-feature {
-		grid-column: 1 / -1;
-		display: grid;
-		grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-		gap: clamp(24px, 4vw, 48px);
-		align-items: center;
-		background: var(--bg-card);
-		border: 1px solid var(--border-soft);
-		border-radius: var(--radius-2xl);
-		padding: clamp(18px, 2.5vw, 28px);
-		text-decoration: none;
-		box-shadow: 0 26px 60px -42px rgba(14, 21, 48, 0.5);
-		transition: transform 0.25s ease, box-shadow 0.25s ease;
-	}
-	.course-feature:hover {
-		transform: translateY(-3px);
-		box-shadow: 0 34px 72px -40px rgba(14, 21, 48, 0.55);
-	}
-	.course-feature-media {
-		border-radius: var(--radius-xl);
-		overflow: hidden;
-		aspect-ratio: 4 / 3;
-		background: var(--paper-deep);
-	}
-	.course-feature-media img {
+	/* Real course art fills the panel (cover), so the gradient is just a
+	   fallback behind it. */
+	.featured-wide-photo {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
 		display: block;
 	}
-	.course-feature-body .ll-logo {
-		height: 26px;
-		margin-bottom: 14px;
+
+	/* ---------- category filter (sticky under the nav) ---------- */
+	.filter-bar {
+		position: sticky;
+		top: 71px;
+		z-index: 20;
+		background: rgba(251, 248, 242, 0.92);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border-top: 1px solid var(--border-soft);
+		border-bottom: 1px solid var(--border-soft);
+		padding: 24px 0;
+		margin-top: clamp(40px, 5vw, 64px);
+		scroll-margin-top: 72px;
 	}
-	.course-feature-title {
+	.filter-bar-inner {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: clamp(24px, 4vw, 56px);
+		align-items: center;
+	}
+	.filter-bar-label { display: flex; flex-direction: column; gap: 4px; }
+	.filter-bar-heading {
 		font-family: var(--font-serif);
-		font-weight: 600;
-		font-size: clamp(26px, 3vw, 38px);
-		line-height: 1.08;
+		font-size: clamp(22px, 2vw, 28px);
+		font-weight: 500;
+		line-height: 1.1;
 		letter-spacing: -0.01em;
 		color: var(--ink-900);
-		margin: 0 0 12px;
+		margin: 0;
 	}
-	.course-feature-desc {
+	.filter-pills { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+	.filter-pill {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
 		font-family: var(--font-sans);
-		font-size: 16px;
-		line-height: 1.6;
+		font-size: 13px;
+		font-weight: 600;
+		padding: 10px 16px;
+		border-radius: 999px;
+		border: 1px solid var(--border);
+		background: #fff;
 		color: var(--ink-700);
-		margin: 0 0 22px;
-		max-width: 54ch;
+		cursor: pointer;
+		transition: all 200ms var(--ease-out);
 	}
-	.course-feature-cta {
-		align-self: flex-start;
+	.filter-pill:hover { border-color: var(--accent); color: var(--ink-900); }
+	.filter-pill.is-active { background: var(--ink-900); border-color: var(--ink-900); color: #fff; }
+	.filter-pill:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+	.filter-pill-count {
+		font-size: 11px;
+		background: rgba(0, 0, 0, 0.06);
+		color: inherit;
+		padding: 2px 7px;
+		border-radius: 999px;
+		font-weight: 600;
 	}
-	@media (max-width: 760px) {
-		.course-feature {
-			grid-template-columns: 1fr;
-		}
+	.filter-pill.is-active .filter-pill-count { background: rgba(255, 255, 255, 0.18); }
+
+	/* ---------- grid ---------- */
+	.grid-section { padding: clamp(40px, 5vw, 64px) 0 clamp(56px, 8vw, 96px); }
+	.grid-section-head {
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 24px;
+		margin: 0 0 32px;
+		padding-bottom: 16px;
+		border-bottom: 1px solid var(--border-soft);
 	}
-	@media (max-width: 560px) {
-		.course-proof-grid {
-			flex-direction: column;
-			gap: 22px;
+	.grid-section-title { display: flex; align-items: baseline; gap: 12px; }
+	.grid-count {
+		font-family: var(--font-serif);
+		font-size: clamp(32px, 3.5vw, 56px);
+		font-weight: 500;
+		color: var(--ink-900);
+		line-height: 1;
+		letter-spacing: -0.02em;
+	}
+	.grid-count-label { font-family: var(--font-sans); font-size: 14px; color: var(--fg-muted); }
+	.grid-count-label em { font-style: italic; font-family: var(--font-serif); color: var(--ink-900); }
+	.grid-section-link {
+		font-family: var(--font-sans);
+		font-size: 13px;
+		font-weight: 600;
+		color: var(--accent);
+		letter-spacing: .01em;
+		white-space: nowrap;
+	}
+	.grid-section-link:hover { color: var(--brand-blue-900); }
+	.course-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+	.grid-empty {
+		padding: 64px 32px;
+		text-align: center;
+		background: #fff;
+		border: 1px dashed var(--border);
+		border-radius: 14px;
+		color: var(--fg-muted);
+	}
+
+	/* ---------- course card ---------- */
+	.course-card {
+		display: flex;
+		flex-direction: column;
+		background: #fff;
+		border-radius: 14px;
+		border: 1px solid var(--border-soft);
+		overflow: hidden;
+		box-shadow: var(--shadow-sm);
+		transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out);
+		text-decoration: none;
+		color: inherit;
+		height: 100%;
+	}
+	.course-card[hidden] { display: none !important; }
+	.course-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+	.course-card:hover .course-cta { color: var(--brand-blue-900); }
+	.thumb {
+		position: relative;
+		aspect-ratio: 16/10;
+		overflow: hidden;
+		background: var(--paper-deep);
+		display: flex;
+		align-items: flex-end;
+		justify-content: flex-end;
+		padding: 16px 18px;
+	}
+	.thumb-img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+	.thumb-glyph {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-size: 64px;
+		font-weight: 500;
+		color: rgba(26, 77, 255, 0.18);
+		line-height: 1;
+	}
+	.thumb-meta {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		background: rgba(255, 255, 255, 0.94);
+		padding: 5px 11px;
+		border-radius: 999px;
+		font-family: var(--font-sans);
+		font-size: 10.5px;
+		font-weight: 700;
+		letter-spacing: .08em;
+		text-transform: uppercase;
+		color: var(--ink-900);
+	}
+	.thumb-platform::before {
+		content: 'in';
+		display: inline-block;
+		width: 14px;
+		height: 14px;
+		background: var(--brand-blue-600);
+		color: #fff;
+		font-family: var(--font-sans);
+		font-size: 9px;
+		font-weight: 900;
+		border-radius: 3px;
+		line-height: 14px;
+		text-align: center;
+		letter-spacing: 0;
+		text-transform: lowercase;
+		margin-right: 6px;
+		vertical-align: -2px;
+	}
+	.thumb-duration {
+		position: absolute;
+		z-index: 1;
+		bottom: 16px;
+		left: 18px;
+		background: rgba(14, 21, 48, 0.85);
+		color: #fff;
+		font-family: var(--font-sans);
+		font-size: 10.5px;
+		font-weight: 700;
+		letter-spacing: .06em;
+		padding: 4px 9px;
+		border-radius: 4px;
+	}
+	.course-card-body {
+		padding: 22px 22px 24px;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		flex: 1;
+	}
+	.course-card-tagline {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		font-family: var(--font-sans);
+		font-size: 11.5px;
+		letter-spacing: .14em;
+		text-transform: uppercase;
+		font-weight: 700;
+		flex-wrap: wrap;
+		row-gap: 4px;
+	}
+	.course-cat { color: var(--accent); }
+	.course-dot { color: var(--ink-300); }
+	.course-dur { color: var(--fg-muted); }
+	.course-card-title {
+		font-family: var(--font-serif);
+		font-size: 22px;
+		font-weight: 500;
+		line-height: 1.18;
+		letter-spacing: -0.01em;
+		color: var(--ink-900);
+		margin: 0;
+		text-wrap: balance;
+	}
+	.course-card-summary {
+		font-family: var(--font-sans);
+		font-size: 14.5px;
+		line-height: 1.55;
+		color: var(--ink-700);
+		margin: 0;
+		flex: 1;
+	}
+	.course-card-foot {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding-top: 14px;
+		margin-top: 4px;
+		border-top: 1px solid var(--border-soft);
+	}
+	.course-cta {
+		font-family: var(--font-sans);
+		font-size: 12.5px;
+		font-weight: 700;
+		letter-spacing: .04em;
+		color: var(--accent);
+		transition: color 200ms var(--ease-out);
+	}
+
+	/* ---------- outcomes band ---------- */
+	.outcomes-section { padding: clamp(72px, 9vw, 128px) 0; }
+	.outcomes-dark { background: var(--ink-900); color: var(--paper); }
+	.outcomes-head {
+		display: grid;
+		grid-template-columns: 1fr;
+		max-width: 760px;
+		margin: 0 auto 64px;
+		text-align: center;
+	}
+	.eyebrow-on-dark {
+		color: var(--brand-yellow-500);
+		margin-bottom: 18px;
+		justify-self: center;
+	}
+	.outcomes-heading {
+		font-family: var(--font-serif);
+		font-size: clamp(36px, 4.5vw, 64px);
+		font-weight: 500;
+		line-height: 1.05;
+		letter-spacing: -0.02em;
+		margin: 0 0 24px;
+		color: #fff;
+		text-wrap: balance;
+	}
+	.accent-italic-light { font-style: italic; color: var(--brand-yellow-500); }
+	.outcomes-lead {
+		font-family: var(--font-serif);
+		font-size: clamp(17px, 1.5vw, 21px);
+		line-height: 1.55;
+		margin: 0;
+		color: rgba(255, 255, 255, 0.78);
+	}
+	.outcomes-grid {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1px;
+		background: rgba(255, 255, 255, 0.12);
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		border-radius: 20px;
+		overflow: hidden;
+	}
+	.outcome {
+		padding: 36px 32px;
+		background: var(--ink-900);
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+	.outcome-glyph {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		letter-spacing: .2em;
+		color: var(--brand-yellow-500);
+		margin-bottom: 8px;
+	}
+	.outcome-title {
+		font-family: var(--font-serif);
+		font-size: 24px;
+		font-weight: 500;
+		line-height: 1.18;
+		letter-spacing: -0.01em;
+		color: #fff;
+	}
+	.outcome-body {
+		font-family: var(--font-sans);
+		font-size: 14.5px;
+		line-height: 1.6;
+		color: rgba(255, 255, 255, 0.72);
+	}
+
+	/* ---------- proof strip ---------- */
+	.proof-strip { padding: clamp(56px, 7vw, 96px) 0; background: var(--paper); }
+	.proof-strip-inner {
+		display: grid;
+		grid-template-columns: 0.55fr 1fr;
+		gap: clamp(32px, 5vw, 72px);
+		align-items: center;
+	}
+	.proof-strip-num {
+		font-family: var(--font-serif);
+		font-size: clamp(64px, 8vw, 120px);
+		font-weight: 500;
+		line-height: 0.95;
+		letter-spacing: -0.035em;
+		color: var(--accent);
+	}
+	.proof-strip-unit { font-size: 0.4em; opacity: .55; }
+	.proof-strip-stat-label {
+		font-family: var(--font-sans);
+		font-size: 15px;
+		line-height: 1.5;
+		color: var(--ink-700);
+		margin-top: 8px;
+	}
+	.proof-strip-stat-label strong { color: var(--ink-900); font-weight: 700; }
+	.proof-strip-quotes { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+	.proof-quote {
+		margin: 0;
+		padding: 28px;
+		background: #fff;
+		border-radius: 14px;
+		border: 1px solid var(--border-soft);
+		box-shadow: var(--shadow-xs);
+	}
+	.proof-quote-text {
+		font-family: var(--font-serif);
+		font-size: 18px;
+		font-style: italic;
+		line-height: 1.4;
+		color: var(--ink-900);
+		margin: 0 0 16px;
+	}
+	.proof-quote-who { font-family: var(--font-sans); font-size: 13px; color: var(--ink-900); }
+	.proof-quote-role { color: var(--fg-muted); font-weight: 500; }
+
+	/* ---------- final CTA (royal blue band) ---------- */
+	.courses-final-cta {
+		background: var(--brand-blue-600);
+		color: #fff;
+		padding: clamp(80px, 10vw, 144px) 0;
+		text-align: center;
+	}
+	.eyebrow-on-brand {
+		color: var(--brand-yellow-500);
+		margin-bottom: 22px;
+		display: inline-block;
+	}
+	.final-cta-heading {
+		font-family: var(--font-serif);
+		font-size: clamp(40px, 5.4vw, 80px);
+		font-weight: 500;
+		line-height: 1.02;
+		letter-spacing: -0.025em;
+		color: #fff;
+		margin: 0 0 24px;
+		text-wrap: balance;
+	}
+	.final-cta-italic { font-style: italic; color: var(--brand-yellow-500); }
+	.final-cta-lead {
+		font-family: var(--font-serif);
+		font-size: clamp(18px, 1.6vw, 22px);
+		line-height: 1.5;
+		color: rgba(255, 255, 255, 0.85);
+		margin: 0 auto 40px;
+		max-width: 560px;
+	}
+	.final-cta-ctas { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+	.btn.outline-on-brand {
+		background: transparent;
+		color: #fff;
+		border: 1.5px solid rgba(255, 255, 255, 0.5);
+	}
+	.btn.outline-on-brand:hover { background: #fff; color: var(--ink-900); border-color: #fff; }
+
+	/* =================================================================
+	   Responsive
+	   ================================================================= */
+	@media (max-width: 980px) {
+		.hero-editorial-grid { grid-template-columns: 1fr; gap: 48px; }
+		.hero-side { order: -1; }
+		.hero-photo-frame { aspect-ratio: 5/4; max-height: 460px; }
+		.hero-photo-img { width: 60%; height: 110%; }
+		.hero-credentials { flex-direction: row; flex-wrap: wrap; }
+
+		.featured-wide { grid-template-columns: 1fr; }
+		.featured-wide-image { min-height: 240px; order: -1; }
+
+		.filter-bar-inner { grid-template-columns: 1fr; gap: 16px; }
+		.filter-pills { justify-content: flex-start; }
+
+		.course-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+		.outcomes-grid { grid-template-columns: 1fr 1fr; }
+		.proof-strip-inner { grid-template-columns: 1fr; text-align: left; }
+	}
+
+	@media (max-width: 640px) {
+		.courses-hero { padding: 40px 0 56px; }
+		.h-hero { font-size: clamp(34px, 9vw, 48px); }
+		.hero-lead { font-size: 17px; }
+		.hero-stats { grid-template-columns: 1fr 1fr; gap: 18px; }
+		.hero-stat:last-child { grid-column: span 2; }
+
+		.featured-wide-text { padding: 32px 24px; }
+		.featured-title { font-size: clamp(26px, 7vw, 36px); }
+		.featured-meta { gap: 14px; font-size: 12px; }
+		.featured-ctas { gap: 10px; }
+		.featured-ctas .btn.primary { width: 100%; justify-content: center; }
+
+		.filter-bar { padding: 16px 0; margin-top: 40px; }
+		.filter-bar-heading { font-size: 18px; }
+		.filter-pills {
+			flex-wrap: nowrap;
+			overflow-x: auto;
+			margin: 0 calc(-1 * var(--grid-pad));
+			padding: 4px var(--grid-pad) 8px;
+			scrollbar-width: none;
+			-webkit-mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+			mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
 		}
-		.course-proof-sep {
-			width: 56px;
-			height: 1px;
-			align-self: center;
-			margin: 0;
-		}
+		.filter-pills::-webkit-scrollbar { display: none; }
+		.filter-pill { white-space: nowrap; flex-shrink: 0; }
+
+		.grid-section-head { flex-direction: column; align-items: flex-start; gap: 8px; }
+		.course-grid { grid-template-columns: 1fr; }
+		.course-card-title { font-size: 20px; }
+
+		.outcomes-section { padding: 64px 0; }
+		.outcomes-grid { grid-template-columns: 1fr; border-radius: 14px; }
+		.outcome { padding: 28px 24px; }
+
+		.proof-strip-quotes { grid-template-columns: 1fr; }
+		.proof-strip-num { font-size: 80px; }
+
+		.final-cta-heading { font-size: clamp(32px, 9vw, 44px); }
+		.final-cta-ctas .btn { width: 100%; justify-content: center; }
 	}
 </style>
