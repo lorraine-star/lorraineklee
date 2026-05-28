@@ -313,8 +313,8 @@ body {
 
 /* ---------- HERO ---------- */
 .hero {
-  /* CLI-123: trim hero-to-next gap (was 72px bottom) to reduce scroll fatigue */
-  padding: 52px 0 clamp(40px, 5vw, 60px);
+  /* CLI-123 trimmed hero-to-next gap; CLI-104 retunes for the new sitewide rhythm. */
+  padding: 44px 0 clamp(32px, 4vw, 52px);
   position: relative;
   overflow: hidden;
 }
@@ -481,7 +481,7 @@ body {
 
 /* ---------- TRUST STRIP ---------- */
 .trust {
-  padding: 42px 0 46px;
+  padding: 36px 0 38px;
   border-top: 1px solid var(--border-soft);
   border-bottom: 1px solid var(--border-soft);
 }
@@ -540,7 +540,7 @@ body {
 
 /* ---------- BOOK PROMO ---------- */
 .book-promo {
-  padding: clamp(44px, 6vw, 72px) 0;
+  padding: clamp(36px, 5vw, 60px) 0;
   background: var(--paper-deep);
   position: relative;
   overflow: hidden;
@@ -767,7 +767,7 @@ body {
 
 /* ---------- FREE COURSE CTA ---------- */
 .course {
-  padding: clamp(44px, 6vw, 72px) 0;
+  padding: clamp(36px, 5vw, 60px) 0;
   background: var(--ink-900);
   color: var(--paper);
   position: relative;
@@ -1299,7 +1299,7 @@ body {
     padding: 9px 12px;
   }
   .nav-menu-toggle { display: inline-flex; }
-  .hero { padding: 34px 0 40px; } /* CLI-123: tighten mobile hero-to-next gap (was 60px) */
+  .hero { padding: 28px 0 32px; } /* CLI-123 + CLI-104: tightened mobile hero-to-next gap */
   .hero-grid { row-gap: 52px; }
   .hero-copy, .hero-photo-wrap { grid-column: 1 / -1; }
   .hero-photo-wrap { max-width: 480px; margin: 0 auto; width: 100%; }
@@ -1506,9 +1506,8 @@ body {
 
 /* ---------- Four ways into the work (slim) ---------- */
 .four-ways {
-  /* CLI-123: repeated card grid tightened toward the shared tight scale
-     (was clamp(58px, 7vw, 86px)) to cut compounding vertical space */
-  padding: clamp(36px, 4.5vw, 64px) 0;
+  /* Anchored to the shared `.section--tight` scale (CLI-123 + CLI-104). */
+  padding: clamp(32px, 4vw, 56px) 0;
   background: var(--paper);
 }
 .four-ways-head {
