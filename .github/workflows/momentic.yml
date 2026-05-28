@@ -17,7 +17,10 @@ name: Momentic E2E
 #      "Protection Bypass for Automation". The run step applies it automatically.
 
 on:
-  deployment_status:
+  # Auto-run on Vercel deployments is disabled: the Momentic account is out of
+  # credits, so the run would just fail. Re-enable by uncommenting the line
+  # below once credits are restored.
+  # deployment_status:
   workflow_dispatch:
     inputs:
       url:

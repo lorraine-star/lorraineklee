@@ -28,8 +28,9 @@ export interface NavItem {
 //   is gone (redirected to /speaking in astro.config.mjs). Individual
 //   /keynotes/:slug detail pages remain as link targets from the Speaking
 //   page "other talks" list.
-// Pre-existing fragments left as-is: `/speaking#bio` (bio destination pending
-// CLI-88/CLI-105).
+// Bio and Headshot points at the dedicated `/speaker-bio` page (CLI-137);
+// the old `/speaking#bio` fragment had no matching anchor on the Speaking
+// page, so it just dumped users at the top of /speaking.
 export const mainNavItems: NavItem[] = [
   { id: 'home', label: 'Home', href: '/' },
   {
@@ -38,8 +39,7 @@ export const mainNavItems: NavItem[] = [
     href: '/speaking',
     children: [
       { label: 'Keynotes and Trainings', href: '/speaking#past-talks' },
-      { label: 'Testimonials', href: '/testimonials' },
-      { label: 'Bio and Headshot', href: '/speaking#bio' },
+      { label: 'Bio and Headshot', href: '/speaker-bio' },
     ],
   },
   {
@@ -68,6 +68,7 @@ export const mainNavItems: NavItem[] = [
     href: '/about',
     children: [
       { label: 'Awards and Accolades', href: '/about#awards' },
+      { label: 'Testimonials', href: '/testimonials' },
       { label: 'Media Kit', href: '/media-kit' },
     ],
   },
