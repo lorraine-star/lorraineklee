@@ -1,0 +1,81 @@
+---
+// Canonical shared site footer (data-global-section="site-footer").
+//
+// Styling note: this component is intentionally CSS-agnostic. It relies on the
+// footer classes (footer, footer-wave, footer-grid, footer-brand, footer-tag,
+// footer-socials, social-btn, footer-touch, footer-explore, footer-base,
+// footer-base-links) being defined in the per-design-system global stylesheet
+// loaded by the page: src/styles/v1/home.css for the homepage (HomeLayout) and
+// src/styles/editorial/templates.css for editorial pages (SpeakingLayout). Do
+// NOT add a scoped <style> block here; scoped styles would not match those
+// global selectors and would break the footer.
+import { socialLinks, iconFor } from '../lib/social';
+
+interface Props {
+  logoSrc?: string;
+}
+
+const { logoSrc = '/images/editorial/logo-primary.png' } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<div class="footer-wave-wrap">
+  <svg class="footer-wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+    <path
+      fill="var(--paper-deep)"
+      d="M0,60 C240,120 480,10 720,50 C960,90 1200,120 1440,60 L1440,120 L0,120 Z"
+    ></path>
+  </svg>
+</div>
+
+<footer class="footer" data-global-section="site-footer">
+  <div class="grid12 footer-grid">
+    <div class="footer-brand">
+      <img src={logoSrc} alt="Lorraine Lee" />
+      <p class="footer-tag">
+        Helping leaders build an <em>unforgettable</em> presence.
+      </p>
+      <div class="footer-socials">
+        {
+          socialLinks.map((s) => (
+            <a
+              class="social-btn"
+              href={s.url}
+              aria-label={s.ariaLabel}
+              target="_blank"
+              rel="noopener noreferrer"
+              set:html={iconFor(s.platform)}
+            />
+          ))
+        }
+      </div>
+    </div>
+    <div class="footer-touch">
+      <h4>Get in touch</h4>
+      <p>Speaking and coaching inquiries use the contact form.</p>
+      <a class="footer-email" href="/contact">Contact Lorraine</a>
+      <a class="footer-email" href="mailto:press@lorraineklee.com">press@lorraineklee.com</a>
+      <a class="footer-email" href="mailto:meagan@lorraineklee.com">meagan@lorraineklee.com</a>
+    </div>
+    <div class="footer-explore">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="/about">About</a></li>
+        <li><a href="/speaking">Speaking</a></li>
+        <li><a href="/learn">Learn</a></li>
+        <li><a href="/book">The Book</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="grid12">
+    <div class="footer-base" style="grid-column: 1 / -1;">
+      <div>&copy; {year} Lorraine Lee &middot; RISE Learning Solutions Corp.</div>
+      <div class="footer-base-links">
+        <a href="/terms-privacy-legal/">Terms and Conditions</a>
+        <a href="/privacy-policy/">Privacy Policy</a>
+        <a href="/contact">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>

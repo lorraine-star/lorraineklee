@@ -4,7 +4,7 @@ import '../styles/editorial/base.css';
 import '../styles/editorial/templates.css';
 import Banner from '../components/editorial/Banner.astro';
 import EditorialNav from '../components/editorial/EditorialNav.astro';
-import EditorialFooter from '../components/editorial/EditorialFooter.astro';
+import Footer from '../components/Footer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import ScrollToTop from '../components/ScrollToTop.astro';
 
@@ -40,7 +40,7 @@ const { title, description, activeId = 'home' } = Astro.props;
       <main>
         <slot />
       </main>
-      <EditorialFooter />
+      <Footer />
     </div>
     <CookieBanner />
     <ScrollToTop />
