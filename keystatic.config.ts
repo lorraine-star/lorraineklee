@@ -1894,7 +1894,13 @@ export default config({
         ),
         final: fields.object(
           {
-            heading: fields.text({ label: 'Heading' }),
+            heading: fields.text({
+              label: 'Heading (==text== shown as accent)',
+            }),
+            lede: fields.text({
+              label: 'Supporting lede paragraph',
+              multiline: true,
+            }),
             form_button_label: fields.text({
               label: 'Bottom form button label',
               defaultValue: "Let's Do This",
