@@ -15,6 +15,14 @@ guest_section:
   heading: "Featured guest on shows"
   heading_accent: "& podcasts."
   lead: "Lorraine joins LinkedIn Lives, podcasts, and webinars to talk professional presence, communication, and career growth."
+  youtube_cta_label: "More on YouTube"
+  youtube_cta_url: "https://www.youtube.com/c/lorraineklee"
+podcast_section:
+  eyebrow: "Prefer audio?"
+  heading: "Listen to the guest"
+  heading_accent: "podcast interviews."
+  lead: "A running playlist of Lorraine's podcast conversations on presence, communication, and career growth — press play and take them on the go."
+  spotify_playlist_id: "3ttrdXR9hP0Nx1tncWtx6T"
 guest_appearances:
   - show: "Think Fast Talk Smart"
     title: "Own Your Brand: How to Communicate with Presence and Impact"
