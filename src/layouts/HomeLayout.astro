@@ -3,6 +3,7 @@ import '../styles/v1/tokens.css';
 import '../styles/v1/home.css';
 import '../styles/v1/variants.css';
 import CookieBanner from '../components/CookieBanner.astro';
+import ClarityAnalytics from '../components/ClarityAnalytics.astro';
 import ScrollToTop from '../components/ScrollToTop.astro';
 
 interface Props {
@@ -28,6 +29,7 @@ const { title = 'Lorraine K. Lee', description } = Astro.props;
     />
     {description && <meta name="description" content={description} />}
     <title>{title}</title>
+    <ClarityAnalytics />
   </head>
   <body>
     <slot />

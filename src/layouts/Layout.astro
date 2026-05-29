@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import SiteNav from '../components/SiteNav.astro';
 import CookieBanner from '../components/CookieBanner.astro';
+import ClarityAnalytics from '../components/ClarityAnalytics.astro';
 import ScrollToTop from '../components/ScrollToTop.astro';
 
 interface Props {
@@ -22,6 +23,7 @@ const { title, description } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		{description && <meta name="description" content={description} />}
 		<title>{title}</title>
+		<ClarityAnalytics />
 	</head>
 	<body class="flex min-h-screen flex-col bg-white text-neutral-900">
 		<SiteNav />
