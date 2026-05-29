@@ -40,7 +40,8 @@ per-page variants clearly documented so they are not "fixed" by accident.
 | `FreeCourseForm.astro` | Subscribe + funnel | Intentionally page-local | Context-specific form; not a sitewide identical element. Keep. |
 | `DynamicIslandTOC` (`ui/dynamic-island-toc.tsx`) | Legal pages | Intentionally page-local | Table of contents specific to long legal pages. Keep. |
 | React testimonial carousels + `ui/*` building blocks | Behind the global testimonial wrappers | Intentionally page-local | Correctly encapsulated implementation pieces. Pages should use the `Testimonials.astro` / `StudentTestimonials.astro` wrappers, never these directly. Keep. |
-| Buttons / CTAs | ~20 pages, shared `.btn` CSS classes inline, plus a separate React `ui/button.tsx` | Follow-up | Renders consistently because the CSS is shared, so not a divergence bug. A sitewide swap to one component would touch many files and risk regressions. Recommend a dedicated follow-up ticket. |
+| Buttons / CTAs | ~20 pages, shared `.btn` CSS classes inline, plus a separate React `ui/button.tsx` | Follow-up (tier 2) | Renders consistently because the CSS is shared, so not a divergence bug. Componentize incrementally as pages are touched (no separate ticket); a big-bang sitewide swap risks regressions. |
+| Page hero / section head / CTA shells | ~21 pages, inline markup sharing CSS classes (`page-hero`, `section-head`) | Globalize incrementally (tier 2) | Same shell, page-local content. No shared component today. Prototype `PageHero.astro` added and `coaching.astro` converted. See "Tiers of sharing" below. |
 | `CourseTestimonials.tsx` | (none) | Follow-up (dead code) | Appears unused. Being removed in a sibling PR. See dead-code note below. |
 
 ## The footer: divergence details (Globalize now)
@@ -102,6 +103,40 @@ Current registry entries: `trust-as-seen-in`, `testimonials`,
 `student-testimonials`, `book-promo`. **`site-footer` is being added** to
 that registry as part of the footer consolidation.
 
+## Tiers of sharing: shared shell vs shared content
+
+Not everything that repeats should be a tier-1 global. There are three tiers:
+
+1. **Tier 1: global singleton.** Same markup AND same content everywhere. One
+   canonical component, no props; a change propagates automatically. Examples:
+   the footer socials, nav links, press marquee, cookie banner. This is what
+   the footer consolidation above fixed.
+2. **Tier 2: parameterized shared component.** Same markup/structure, but the
+   content changes per page. The component owns the shell; content is injected
+   via props/slots or pulled from the CMS by a key/placement. Examples already
+   in the codebase: `Testimonials.astro` (props or
+   `getTestimonials({ placement })`), `FreeCourseForm.astro` (`formId`,
+   labels), `EditorialNav.astro` (`activeId`, CTA), and the new `Footer.astro`
+   (`logoSrc`). At the page level, Astro's `src/layouts/*.astro` + `<slot/>` is
+   the same idea: identical outer shell, different page body.
+3. **Tier 3: page-local.** Unique to one page; inline.
+
+### The tier-2 gap (page heroes, section heads, CTA blocks)
+
+These section shells are tier-2 by nature (same structure, different copy per
+page) but are currently held together only by shared CSS classes inlined
+across roughly 21 pages (`page-hero`, `section-head`, `.btn`), with no shared
+component. That looks consistent today, but the structure is shared by
+convention, not enforced: a markup change on one page will not propagate, which
+is the same failure mode as the footer, just slower to surface.
+
+**Prototype (this work):** `src/components/PageHero.astro` was introduced as the
+tier-2 pattern and `src/pages/coaching.astro` was converted to use it. The
+component owns the hero shell (eyebrow, headline, lead) via props; each page
+keeps its own CTAs in the default slot. The same approach extends to a
+`SectionHead` and a shared `Button`/`Cta`. Per decision, this is done
+incrementally as pages are touched, without a separate ticket.
+
 ## Recommendations / next steps
 
 - **This batch:** consolidate the footer into a single canonical
@@ -113,8 +148,8 @@ that registry as part of the footer consolidation.
 - **Keep as variants:** the FunnelLayout and Layout minimal footers,
   `FreeCourseForm.astro`, and `DynamicIslandTOC` are intentionally
   page-local; do not fold them into the global footer.
-- **Follow-up ticket:** introduce a single `Button` component to replace the
-  inline `.btn` CSS usage and the separate React `ui/button.tsx`. Not in
-  this batch because CTAs already render consistently (shared CSS), so this
-  is cleanup rather than a divergence bug, and a sitewide swap risks
-  regressions and merge conflicts across many files.
+- **Componentize incrementally (no separate ticket):** promote the tier-2
+  section shells (page hero, section head, CTA/`Button`) to shared components
+  the way `PageHero.astro` now does for the hero. Convert pages as they are
+  touched rather than in one sitewide swap, since CTAs already render
+  consistently via shared CSS and a big-bang refactor risks regressions.
