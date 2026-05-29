@@ -523,7 +523,11 @@
 }
 .page-hero--center .page-hero-copy { grid-column: unset; }
 .page-hero--center .page-hero-eyebrow { justify-content: center; }
-.page-hero--center .lead-large { margin: 0 auto; }
+/* Centered heroes reset lead-large's margin to `0 auto`, which also drops the
+   default 32px bottom gap — restore it so the CTA row isn't crammed against the
+   lead. The row itself centers within the column (CLI-85). */
+.page-hero--center .lead-large { margin: 0 auto 32px; }
+.page-hero--center .hero-cta-row { justify-content: center; }
 
 /* Course cards */
 .course-grid-cards {

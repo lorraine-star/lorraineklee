@@ -1506,8 +1506,38 @@ export default config({
               label: 'Heading accent (italic)',
             }),
             lead: fields.text({ label: 'Lead', multiline: true }),
+            youtube_cta_label: fields.text({
+              label: 'YouTube button label',
+              description:
+                'Button shown under the guest appearances grid, linking to the YouTube channel. Leave empty to hide the button.',
+              defaultValue: 'More on YouTube',
+            }),
+            youtube_cta_url: fields.text({
+              label: 'YouTube button URL',
+              defaultValue: 'https://www.youtube.com/c/lorraineklee',
+            }),
           },
           { label: 'Guest appearances section heading' }
+        ),
+        podcast_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+            spotify_playlist_id: fields.text({
+              label: 'Spotify playlist ID',
+              description:
+                'The playlist ID from the Spotify share URL, e.g. "3ttrdXR9hP0Nx1tncWtx6T" from open.spotify.com/playlist/3ttrdXR9hP0Nx1tncWtx6T. Leave empty to hide the embed.',
+            }),
+          },
+          {
+            label: 'Podcast (Spotify) section',
+            description:
+              'Embeds the "Guest Podcast Interviews" Spotify playlist below the guest appearances. Leave the playlist ID empty to hide this section.',
+          }
         ),
         guest_appearances: fields.array(
           fields.object({

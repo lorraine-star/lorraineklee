@@ -9,8 +9,14 @@ if (!page) {
 		'Missing interviews page content (src/content/interviews-page/index.yaml)'
 	);
 }
-const { hero, featured_section, guest_section, guest_appearances, final_cta } =
-	page;
+const {
+	hero,
+	featured_section,
+	guest_section,
+	podcast_section,
+	guest_appearances,
+	final_cta,
+} = page;
 
 const interviews = (await reader.collections.interviews.all())
 	.map((i) => ({ slug: i.slug, ...i.entry }))
@@ -23,6 +29,16 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 const embedUrl = (id: string) => `https://www.youtube.com/embed/${id}`;
 const watchUrl = (id: string) => `https://www.youtube.com/watch?v=${id}`;
 const thumbUrl = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+
+// "More on YouTube" button under the guest grid (editable via Keystatic).
+const youtubeCtaUrl = safeUrl(guest_section.youtube_cta_url);
+const youtubeCtaLabel = (guest_section.youtube_cta_label ?? '').trim();
+
+// Spotify "Guest Podcast Interviews" playlist embed (editable via Keystatic).
+const spotifyId = (podcast_section?.spotify_playlist_id ?? '').trim();
+const spotifyEmbedUrl = spotifyId
+	? `https://open.spotify.com/embed/playlist/${spotifyId}?utm_source=generator`
+	: '';
 
 // Guest appearances: keep only items that resolve to a real link.
 const guests = (guest_appearances ?? [])
@@ -178,6 +194,47 @@ const guests = (guest_appearances ?? [])
 							</a>
 						))}
 					</div>
+					{youtubeCtaLabel && youtubeCtaUrl && (
+						<div class="guest-youtube-cta">
+							<a
+								class="btn outline"
+								href={youtubeCtaUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								{youtubeCtaLabel} <span aria-hidden="true">&#8599;</span>
+							</a>
+						</div>
+					)}
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Podcast (Spotify playlist) ---------- */}
+	{
+		spotifyEmbedUrl && (
+			<section class="section section--compact anchor-target" id="podcast-interviews">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{podcast_section.eyebrow}</span>
+						<h2>
+							{podcast_section.heading} <em>{podcast_section.heading_accent}</em>
+						</h2>
+						{podcast_section.lead && <p class="lead">{podcast_section.lead}</p>}
+					</div>
+					<div class="podcast-embed">
+						<iframe
+							src={spotifyEmbedUrl}
+							title="Lorraine K. Lee Guest Podcast Interviews on Spotify"
+							width="100%"
+							height="420"
+							loading="lazy"
+							style="border:0;border-radius:12px;"
+							allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+							allowfullscreen
+						/>
+					</div>
 				</div>
 			</section>
 		)
@@ -248,11 +305,32 @@ const guests = (guest_appearances ?? [])
 		letter-spacing: 0.02em;
 	}
 
-	/* Guest-appearance cards: lightweight thumbnail links (no embedded iframes). */
+	/* Guest-appearance cards: lightweight thumbnail links (no embedded iframes).
+	   Must span the full 12-col .grid12 track; without grid-column the grid
+	   collapses to a single auto column (CLI-85). */
 	.interview-cards {
+		grid-column: 1 / -1;
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
 		gap: 24px;
+	}
+	/* "More on YouTube" button under the guest grid. */
+	.guest-youtube-cta {
+		grid-column: 1 / -1;
+		display: flex;
+		justify-content: center;
+		margin-top: 40px;
+	}
+	/* Spotify "Guest Podcast Interviews" playlist embed. */
+	.podcast-embed {
+		grid-column: 1 / -1;
+		width: 100%;
+		max-width: 760px;
+		margin: 0 auto;
+	}
+	.podcast-embed iframe {
+		display: block;
+		width: 100%;
 	}
 	.interview-card {
 		display: flex;
