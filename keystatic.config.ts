@@ -291,19 +291,37 @@ export default config({
                 'Kebab-case slug for the deep-link page, e.g. "executive-presence".',
             }),
             title: fields.text({ label: 'Title' }),
+            subtitle: fields.text({
+              label: 'Subtitle (optional)',
+              description:
+                'The descriptive line after the title, e.g. "A Leader\'s Guide to Managing Your Brand At Work".',
+            }),
+            note: fields.text({
+              label: 'Context note (optional)',
+              description:
+                'Small note shown under the title, e.g. "For General Audiences and AAPI Groups".',
+            }),
             tag: fields.text({
               label: 'Tag / badge (optional)',
               description:
                 'Small chip on the card, e.g. "Most Popular" or "#2 Most Popular". Leave blank for none.',
             }),
+            gif: fields.text({
+              label: 'Animated clip (optional)',
+              description:
+                'Path to the animated WebP clip shown on the card, e.g. "/images/speaking/keynotes/exec-presence.webp".',
+            }),
+            gif_alt: fields.text({ label: 'Animated clip alt text' }),
             description: fields.text({
               label: 'Description',
               multiline: true,
+              description:
+                'Full talk description. Separate paragraphs with a blank line.',
             }),
             format: fields.text({ label: 'Format' }),
             clip_url: fields.text({
               label: 'Talk clip embed URL (optional, unused)',
-              description: 'Legacy field — kept for back-compat, not rendered.',
+              description: 'Legacy field, kept for back-compat, not rendered.',
             }),
             talk_track: fields.array(
               fields.object({
@@ -361,11 +379,24 @@ export default config({
         other_talks: fields.array(
           fields.object({
             title: fields.text({ label: 'Title' }),
+            subtitle: fields.text({ label: 'Subtitle (optional)' }),
+            note: fields.text({ label: 'Context note (optional)' }),
+            format: fields.text({ label: 'Format (optional)' }),
+            gif: fields.text({
+              label: 'Animated clip (optional)',
+              description:
+                'Path to the animated WebP clip, e.g. "/images/speaking/keynotes/tea-method.webp".',
+            }),
+            gif_alt: fields.text({ label: 'Animated clip alt text' }),
             description: fields.text({
               label: 'Description',
               multiline: true,
+              description: 'Separate paragraphs with a blank line.',
             }),
-            url: fields.text({ label: 'URL (optional)' }),
+            takeaways: fields.array(fields.text({ label: 'Takeaway' }), {
+              label: 'Audience takeaways',
+              itemLabel: (props) => props.value || 'Takeaway',
+            }),
           }),
           {
             label: 'All other talks',
@@ -464,6 +495,9 @@ export default config({
             heading: fields.text({ label: 'Heading' }),
             heading_accent: fields.text({
               label: 'Heading accent (shown italic)',
+            }),
+            heading_suffix: fields.text({
+              label: 'Heading suffix (plain text after the accent)',
             }),
             lead: fields.text({ label: 'Lead', multiline: true }),
           },
@@ -573,16 +607,6 @@ export default config({
             headshot_alt: fields.text({ label: 'Headshot alt text' }),
           },
           { label: 'Hero' }
-        ),
-        quick_facts: fields.array(
-          fields.object({
-            label: fields.text({ label: 'Label' }),
-            value: fields.text({ label: 'Value', multiline: true }),
-          }),
-          {
-            label: 'Quick facts',
-            itemLabel: (props) => props.fields.label.value || 'Fact',
-          }
         ),
         downloads_section: fields.object(
           {

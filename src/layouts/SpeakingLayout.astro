@@ -147,19 +147,54 @@ const { title, description, activeId = 'home' } = Astro.props;
         });
       }
 
-      // --- Disclosure accordions ("See all other talks" + keynote cards) ---
+      // --- Disclosure accordions ("See all other talks" + keynote/other-talk
+      // cards). Cards can be nested inside the "See all other talks" panel, so
+      // opening an inner card must re-measure ancestor panels to avoid clipping.
       function setupAccordions() {
+        const ACC_SEL = '.topic-acc, .other-talks-acc';
+        const PANEL_SEL = ':scope > .topic-panel, :scope > .other-talks-panel';
+
+        const panelOf = (acc: HTMLElement) =>
+          acc.querySelector<HTMLElement>(PANEL_SEL);
+
+        // Measure an accordion's natural panel height with the panel (and any
+        // open descendant panels) temporarily uncapped, so transitions in
+        // flight don't corrupt the reading.
+        const measureAcc = (acc: HTMLElement) => {
+          const panel = panelOf(acc);
+          if (!panel) return;
+          const touched: Array<[HTMLElement, string]> = [];
+          const uncap = (p: HTMLElement) => {
+            touched.push([p, p.style.maxHeight]);
+            p.style.maxHeight = 'none';
+          };
+          uncap(panel);
+          panel
+            .querySelectorAll<HTMLElement>('.topic-panel, .other-talks-panel')
+            .forEach((dp) => {
+              const dacc = dp.closest<HTMLElement>(ACC_SEL);
+              if (dacc && dacc.dataset.open === 'true') uncap(dp);
+            });
+          const h = panel.scrollHeight;
+          touched.forEach(([p, prev]) => {
+            p.style.maxHeight = prev;
+          });
+          acc.style.setProperty('--panel-h', h + 'px');
+        };
+
+        const allAccs = Array.from(
+          document.querySelectorAll<HTMLElement>(ACC_SEL)
+        );
+        allAccs.forEach(measureAcc);
+        window.addEventListener(
+          'resize',
+          () => allAccs.forEach(measureAcc),
+          { passive: true }
+        );
+
         const groups = [
-          {
-            acc: '.other-talks-acc',
-            trigger: '.other-talks-trigger',
-            panel: '.other-talks-panel',
-          },
-          {
-            acc: '.topic-acc',
-            trigger: '.topic-acc-trigger',
-            panel: '.topic-panel',
-          },
+          { acc: '.other-talks-acc', trigger: ':scope > .other-talks-trigger' },
+          { acc: '.topic-acc', trigger: ':scope > .topic-acc-trigger' },
         ];
 
         for (const group of groups) {
@@ -167,31 +202,25 @@ const { title, description, activeId = 'home' } = Astro.props;
             .querySelectorAll<HTMLElement>(group.acc)
             .forEach((acc) => {
               const trigger = acc.querySelector<HTMLElement>(group.trigger);
-              const panel = acc.querySelector<HTMLElement>(group.panel);
+              const panel = panelOf(acc);
               if (!trigger || !panel) return;
 
-              const measure = () => {
-                const prev = panel.style.maxHeight;
-                panel.style.maxHeight = 'none';
-                const h = panel.scrollHeight;
-                panel.style.maxHeight = prev;
-                acc.style.setProperty('--panel-h', h + 'px');
-              };
-
-              measure();
-              window.addEventListener('resize', measure, { passive: true });
-
               const toggle = () => {
-                measure();
                 const isOpen = acc.dataset.open === 'true';
                 acc.dataset.open = isOpen ? 'false' : 'true';
                 trigger.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
                 panel.setAttribute('aria-hidden', isOpen ? 'true' : 'false');
+                // Re-measure this accordion and every ancestor accordion.
+                let node: HTMLElement | null = acc;
+                while (node) {
+                  measureAcc(node);
+                  node = node.parentElement?.closest<HTMLElement>(ACC_SEL) ?? null;
+                }
               };
 
               trigger.addEventListener('click', toggle);
               // Triggers that aren't native <button>s (e.g. div[role="button"]
-              // keynote cards) need explicit keyboard activation.
+              // cards) need explicit keyboard activation.
               if (trigger.tagName !== 'BUTTON') {
                 trigger.addEventListener('keydown', (e) => {
                   if (e.key === 'Enter' || e.key === ' ') {

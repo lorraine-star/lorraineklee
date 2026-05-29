@@ -3063,8 +3063,21 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   filter: grayscale(1);
   transition: opacity 240ms var(--ease-out), filter 240ms var(--ease-out);
 }
+/* Logos sourced from Brandfetch arrive in inconsistent colours (several brands
+   only expose a white/reverse mark, invisible on this light marquee). They're
+   all on transparent backgrounds, so flatten them to a uniform dark silhouette.
+   style: "mono" = stay a silhouette; style: "color" = reveal real colour on
+   hover (set per client in the CMS). */
+.client-logo-frame .client-logo--mono,
+.client-logo-frame .client-logo--color {
+  filter: brightness(0);
+}
+/* Hover brightens every logo. Plain logos and "color" marks restore their real
+   colours; "mono" marks stay a dark silhouette so a white mark can't vanish. */
 .client-logo-frame:hover .client-logo {
   opacity: 1;
+}
+.client-logo-frame:hover .client-logo:not(.client-logo--mono) {
   filter: none;
 }
 .client-logo-frame .client-wordmark {
@@ -3392,29 +3405,6 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   object-fit: cover;
   display: block;
 }
-.speaker-bio-facts {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 24px;
-  border-top: 1px solid var(--border-soft);
-  padding-top: 32px;
-}
-.speaker-bio-facts .fact-k {
-  font-family: var(--font-sans);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--ink-500);
-  margin-bottom: 6px;
-}
-.speaker-bio-facts .fact-v {
-  font-family: var(--font-sans);
-  font-size: 15px;
-  line-height: 1.5;
-  color: var(--ink-900);
-}
 .speaker-bio-downloads {
   grid-column: 1 / -1;
   display: grid;
@@ -3671,4 +3661,170 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 .editorial-trust .press-mark--nbc4 { opacity: 0.86; }
 @media (prefers-reduced-motion: reduce) {
   .editorial-trust .marquee { animation: none; }
+}
+
+/* ----------------------------------------------------------------
+   Bento keynote grid (CLI-109)
+   Most-popular keynote is the wide hero tile; the rest pack around
+   it. Cards keep the .topic-acc dropdown behaviour. Rules live at
+   the end of the file so they win over the earlier single-column
+   .topic-grid / .other-talks-list declarations on every breakpoint.
+   ---------------------------------------------------------------- */
+.topic-bento {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: clamp(14px, 1.6vw, 20px);
+  align-items: start;
+}
+.topic-bento > .topic-card {
+  display: flex;
+  flex-direction: column;
+}
+/* Signature-keynote grid (not the nested other-talks grid): the first
+   card is the most popular, so it spans wide. Cards 2-5 are equal
+   half-row tiles. */
+.topic-bento:not(.other-talks-list) > .topic-card {
+  grid-column: span 2;
+}
+.topic-bento:not(.other-talks-list) > .topic-card:first-child {
+  grid-column: span 4;
+}
+/* Other-talks cards sit two-up inside the disclosure panel. */
+.other-talks-list.topic-bento {
+  grid-template-columns: repeat(6, 1fr);
+  padding: clamp(16px, 2vw, 24px);
+  gap: clamp(12px, 1.5vw, 18px);
+}
+.other-talks-list.topic-bento > .topic-card {
+  grid-column: span 3;
+}
+
+/* Animated keynote preview (GIF -> animated WebP). */
+.topic-media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--paper-deep);
+  border-bottom: 1px solid var(--border-soft);
+}
+.topic-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Subtitle + note that sit under the keynote/talk title. */
+.topic-subtitle {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--ink-700);
+  margin: 0;
+}
+.topic-note {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-500);
+  margin: 0;
+}
+
+/* Full WP description inside the dropdown. */
+.topic-fulldesc {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.topic-fulldesc p {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-700);
+  margin: 0;
+}
+
+/* Other-talk cards reuse .topic-card but title is an <h4>. */
+.other-talk-card .topic-acc-trigger {
+  padding: 24px 26px;
+}
+.other-talk-card .topic-acc-trigger > h4 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(19px, 1.5vw, 23px);
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  color: var(--ink-900);
+  margin: 0;
+}
+.other-talk-card .topic-panel-inner {
+  padding: 22px 26px 28px;
+}
+
+/* Wide hero tile: media beside the trigger on desktop, panel full width
+   below. Only when the card actually has a preview. */
+@media (min-width: 1025px) {
+  .topic-bento:not(.other-talks-list) > .topic-card:first-child:has(.topic-media) {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    grid-template-rows: 1fr auto;
+    grid-template-areas:
+      "media trigger"
+      "panel panel";
+    align-items: stretch;
+    /* Fill the row track set by the taller neighbouring tile instead of
+       sizing to our own (shorter) content, so no gap sits beneath. */
+    align-self: stretch;
+  }
+  .topic-bento:not(.other-talks-list)
+    > .topic-card:first-child:has(.topic-media)
+    > .topic-media {
+    grid-area: media;
+    aspect-ratio: auto;
+    border-bottom: 0;
+    border-right: 1px solid var(--border-soft);
+    min-height: 100%;
+  }
+  .topic-bento:not(.other-talks-list)
+    > .topic-card:first-child:has(.topic-media)
+    > .topic-acc-trigger {
+    grid-area: trigger;
+    justify-content: center;
+  }
+  .topic-bento:not(.other-talks-list)
+    > .topic-card:first-child:has(.topic-media)
+    > .topic-panel {
+    grid-area: panel;
+  }
+}
+
+/* Tablet: two-up grid, hero tile spans the full row. */
+@media (max-width: 1024px) {
+  .topic-bento,
+  .other-talks-list.topic-bento {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .topic-bento:not(.other-talks-list) > .topic-card,
+  .topic-bento:not(.other-talks-list) > .topic-card:first-child,
+  .other-talks-list.topic-bento > .topic-card {
+    grid-column: auto;
+  }
+  .topic-bento:not(.other-talks-list) > .topic-card:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Mobile: single column. */
+@media (max-width: 640px) {
+  .topic-bento,
+  .other-talks-list.topic-bento {
+    grid-template-columns: 1fr;
+  }
+  .topic-bento > .topic-card,
+  .topic-bento:not(.other-talks-list) > .topic-card:first-child,
+  .other-talks-list.topic-bento > .topic-card {
+    grid-column: auto;
+  }
 }
