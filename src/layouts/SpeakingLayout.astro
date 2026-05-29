@@ -44,6 +44,10 @@ const { title, description, activeId = 'home' } = Astro.props;
     <CookieBanner />
 
     <script>
+      // The staggered "waterfall" reveal lives in a shared module so it stays
+      // identical across the editorial layouts (see scripts/reveals.ts).
+      import { initReveals } from '../scripts/reveals';
+
       // --- Dismissible banner ---
       const banner = document.getElementById('site-banner');
       document
@@ -53,36 +57,6 @@ const { title, description, activeId = 'home' } = Astro.props;
       const reduceMotion = window.matchMedia(
         '(prefers-reduced-motion: reduce)'
       ).matches;
-
-      // --- Scroll-triggered reveals ---
-      function setupReveals() {
-        document.querySelectorAll<HTMLElement>('.reveal-stagger').forEach((parent) => {
-          Array.from(parent.children).forEach((child, i) => {
-            const el = child as HTMLElement;
-            el.classList.add('reveal');
-            if (!el.style.transitionDelay) {
-              el.style.transitionDelay = i * 80 + 'ms';
-            }
-          });
-        });
-
-        const revealEls = document.querySelectorAll<HTMLElement>('.reveal');
-        if (reduceMotion || !('IntersectionObserver' in window)) {
-          revealEls.forEach((el) => el.classList.add('is-in'));
-          return;
-        }
-        const observer = new IntersectionObserver(
-          (entries) => {
-            for (const entry of entries) {
-              if (!entry.isIntersecting) continue;
-              entry.target.classList.add('is-in');
-              observer.unobserve(entry.target);
-            }
-          },
-          { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
-        );
-        revealEls.forEach((el) => observer.observe(el));
-      }
 
       // --- Animated count-up numbers ---
       function animateCount(el: HTMLElement) {
@@ -233,7 +207,7 @@ const { title, description, activeId = 'home' } = Astro.props;
         }
       }
 
-      setupReveals();
+      initReveals();
       setupCounts();
       setupAnchors();
       setupAccordions();
