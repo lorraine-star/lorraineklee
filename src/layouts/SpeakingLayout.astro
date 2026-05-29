@@ -6,6 +6,7 @@ import Banner from '../components/editorial/Banner.astro';
 import EditorialNav from '../components/editorial/EditorialNav.astro';
 import EditorialFooter from '../components/editorial/EditorialFooter.astro';
 import CookieBanner from '../components/CookieBanner.astro';
+import ScrollToTop from '../components/ScrollToTop.astro';
 
 interface Props {
   title: string;
@@ -42,6 +43,7 @@ const { title, description, activeId = 'home' } = Astro.props;
       <EditorialFooter />
     </div>
     <CookieBanner />
+    <ScrollToTop />
 
     <script>
       // The staggered "waterfall" reveal lives in a shared module so it stays

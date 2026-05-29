@@ -12,6 +12,7 @@ import '../styles/editorial/base.css';
 import '../styles/editorial/templates.css';
 import EditorialNav from '../components/editorial/EditorialNav.astro';
 import CookieBanner from '../components/CookieBanner.astro';
+import ScrollToTop from '../components/ScrollToTop.astro';
 
 interface Props {
   title: string;
@@ -62,6 +63,7 @@ const year = new Date().getFullYear();
       </footer>
     </div>
     <CookieBanner />
+    <ScrollToTop />
 
     <style>
       /* Lean funnel footer. */
