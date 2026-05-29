@@ -1,0 +1,60 @@
+---
+/**
+ * Tier-2 shared component: the page hero shell (CLI-138 prototype).
+ *
+ * The interior pages all use the same hero structure (eyebrow, headline,
+ * lead, CTA row) but with different copy. This component owns that structure
+ * so it lives in one place, while each page stays the source of truth for its
+ * own copy (via props) and its own CTAs (passed in as the default slot).
+ *
+ * This is the "same shell, different content" pattern: contrast it with a
+ * tier-1 global like the footer, where both markup and content are identical
+ * everywhere.
+ *
+ * Styling comes from the .page-hero* rules in
+ * src/styles/editorial/templates.css, which the editorial layout already
+ * loads. No scoped styles here, so the shared stylesheet keeps full control.
+ */
+interface Props {
+  eyebrow?: string;
+  headline: string;
+  headlineAccent?: string;
+  lead?: string;
+  center?: boolean;
+}
+
+const { eyebrow, headline, headlineAccent, lead, center = false } = Astro.props;
+---
+
+<section class:list={['page-hero', { 'page-hero--center': center }]}>
+  <div class="grid12 page-hero-grid">
+    <div class="page-hero-copy fade-up">
+      {
+        eyebrow && (
+          <div class="page-hero-eyebrow">
+            <span class="dot"></span>
+            <span class="eyebrow" style="color: var(--ink-500);">{eyebrow}</span>
+          </div>
+        )
+      }
+      <h1>{headline} {headlineAccent && <em>{headlineAccent}</em>}</h1>
+      {lead && <p class="lead-large">{lead}</p>}
+      {
+        Astro.slots.has('default') && (
+          <div class="page-hero-actions">
+            <slot />
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Keep the CTA row (slotted in by each page) clear of the lead above it, so
+     the hero never reads as cramped. Owned by the shell so every page that uses
+     PageHero gets consistent spacing. */
+  .page-hero-actions {
+    margin-top: clamp(20px, 2.6vw, 32px);
+  }
+</style>

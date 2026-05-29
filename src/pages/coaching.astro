@@ -1,5 +1,6 @@
 ---
 import SpeakingLayout from '../layouts/SpeakingLayout.astro';
+import PageHero from '../components/PageHero.astro';
 import { reader } from '../lib/keystatic';
 import { safeUrl } from '../lib/url';
 
@@ -33,39 +34,33 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
 	description={hero.lead}
 	activeId="coaching"
 >
-	{/* ---------- Hero ---------- */}
-	<section class="page-hero page-hero--center">
-		<div class="grid12 page-hero-grid">
-			<div class="page-hero-copy fade-up">
-				<div class="page-hero-eyebrow">
-					<span class="dot"></span>
-					<span class="eyebrow" style="color: var(--ink-500);">
-						{hero.eyebrow}
-					</span>
-				</div>
-				<h1>{hero.headline} <em>{hero.headline_accent}</em></h1>
-				<p class="lead-large">{hero.lead}</p>
-				<div class="hero-cta-row">
-					<a
-						class="btn primary large"
-						href={primaryCtaUrl}
-						target={isExternal(primaryCtaUrl) ? '_blank' : undefined}
-						rel={isExternal(primaryCtaUrl) ? 'noopener noreferrer' : undefined}
-					>
-						{hero.primary_cta_label} <span aria-hidden="true">&rarr;</span>
+	{/* ---------- Hero (shared PageHero shell; copy + CTAs stay page-local) ---------- */}
+	<PageHero
+		center
+		eyebrow={hero.eyebrow}
+		headline={hero.headline}
+		headlineAccent={hero.headline_accent}
+		lead={hero.lead}
+	>
+		<div class="hero-cta-row">
+			<a
+				class="btn primary large"
+				href={primaryCtaUrl}
+				target={isExternal(primaryCtaUrl) ? '_blank' : undefined}
+				rel={isExternal(primaryCtaUrl) ? 'noopener noreferrer' : undefined}
+			>
+				{hero.primary_cta_label} <span aria-hidden="true">&rarr;</span>
+			</a>
+			{
+				hero.secondary_cta_label && (
+					<a class="anchor-link" href={secondaryCtaUrl}>
+						{hero.secondary_cta_label}{' '}
+						<span class="arrow" aria-hidden="true">&rarr;</span>
 					</a>
-					{
-						hero.secondary_cta_label && (
-							<a class="anchor-link" href={secondaryCtaUrl}>
-								{hero.secondary_cta_label}{' '}
-								<span class="arrow" aria-hidden="true">&rarr;</span>
-							</a>
-						)
-					}
-				</div>
-			</div>
+				)
+			}
 		</div>
-	</section>
+	</PageHero>
 
 	{/* ---------- Intro / story ---------- */}
 	{
@@ -271,12 +266,6 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
 </SpeakingLayout>
 
 <style>
-	/* Hero — give the CTA row more breathing room below the lead.
-	   Scoped to this page so other heroes that share .hero-cta-row are unaffected. */
-	.page-hero .hero-cta-row {
-		margin-top: clamp(14px, 2.4vw, 28px);
-	}
-
 	/* Intro — centered narrative column. */
 	.coach-intro {
 		grid-column: 1 / -1;
