@@ -2584,6 +2584,13 @@ export default config({
           description:
             'Used when the interview is not on YouTube (e.g. a LinkedIn post). Ignored when a YouTube video ID is set.',
         }),
+        thumbnail: fields.image({
+          label: 'Thumbnail / poster image (optional)',
+          description:
+            'Cover image for the card. Only used when there is no YouTube video ID (YouTube videos auto-pull their own thumbnail). Recommended 16:9.',
+          directory: 'public/images/interviews',
+          publicPath: '/images/interviews/',
+        }),
         description: fields.text({ label: 'Description', multiline: true }),
         date: fields.text({
           label: 'Date label (optional)',

@@ -116,17 +116,33 @@ const guests = (guest_appearances ?? [])
 											/>
 										) : link ? (
 											<a
-												class="clip-link"
+												class:list={['clip-link', { 'has-poster': it.thumbnail }]}
 												href={link}
 												target="_blank"
 												rel="noopener noreferrer"
 												aria-label={`Watch: ${it.title}`}
 											>
+												{it.thumbnail && (
+													<img
+														class="clip-poster"
+														src={it.thumbnail}
+														alt=""
+														loading="lazy"
+													/>
+												)}
 												<span class="play-ring" aria-hidden="true">&#9654;</span>
 												<span class="note">Watch the interview &#8599;</span>
 											</a>
 										) : (
-											<div class="reel-placeholder">
+											<div class:list={['reel-placeholder', { 'has-poster': it.thumbnail }]}>
+												{it.thumbnail && (
+													<img
+														class="clip-poster"
+														src={it.thumbnail}
+														alt=""
+														loading="lazy"
+													/>
+												)}
 												<div class="play-ring" aria-hidden="true">&#9654;</div>
 												<div class="note">Video coming soon</div>
 											</div>
@@ -304,6 +320,30 @@ const guests = (guest_appearances ?? [])
 		font-weight: 600;
 		letter-spacing: 0.02em;
 	}
+	/* Optional poster image for a non-YouTube featured interview (no auto
+	   thumbnail). Sits behind the play ring + label, with a scrim for legibility. */
+	.clip-frame .clip-poster {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		z-index: 0;
+	}
+	.clip-frame .has-poster::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(180deg, rgba(14, 21, 48, 0.25), rgba(14, 21, 48, 0.62));
+		z-index: 1;
+	}
+	.clip-frame .has-poster .play-ring,
+	.clip-frame .has-poster .note {
+		position: relative;
+		z-index: 2;
+	}
+	.clip-frame .clip-link.has-poster:hover { background: var(--ink-900); }
+	.clip-frame .clip-link.has-poster:hover .clip-poster { opacity: 0.92; }
 
 	/* Guest-appearance cards: lightweight thumbnail links (no embedded iframes).
 	   Must span the full 12-col .grid12 track; without grid-column the grid
