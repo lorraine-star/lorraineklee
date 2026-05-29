@@ -137,6 +137,24 @@ keeps its own CTAs in the default slot. The same approach extends to a
 `SectionHead` and a shared `Button`/`Cta`. Per decision, this is done
 incrementally as pages are touched, without a separate ticket.
 
+## Shared cross-layout behavior (not a visual section)
+
+Beyond the visual sections above, some shared *behavior* also needs one source
+of truth so it cannot drift between layouts.
+
+- **Scroll reveal / staggered waterfall** (CLI-132, PR #105). Canonical module:
+  `src/scripts/reveals.ts`, exposing
+  `initReveals({ staggerStep, forceRevealAfter })`. Both editorial layouts import
+  it: SpeakingLayout calls `initReveals()` (80ms stagger); FunnelLayout calls
+  `initReveals({ staggerStep: 70, forceRevealAfter: 2500 })` plus its own
+  `html.fc-js` CSS fallback. The supporting CSS (`.reveal`, `.reveal.is-in`,
+  reduced-motion) lives in `src/styles/editorial/templates.css`. Do not
+  reintroduce a per-layout copy of the reveal logic. Registered global sections
+  that sit inside a `.reveal` / `.reveal-stagger` container are *consumers* of
+  this behavior (they depend on the host layout calling `initReveals()`), not
+  drivers. HomeLayout (home page, this audit/gallery page) has no reveal system
+  and is untouched.
+
 ## Recommendations / next steps
 
 - **This batch:** consolidate the footer into a single canonical
