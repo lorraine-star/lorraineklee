@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "astro",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 4321
+    },
+    {
+      "name": "astro-c297ca",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "autoPort": true
+    },
+    {
+      "name": "review",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "5183", "--directory", "review", "--bind", "127.0.0.1"],
+      "port": 5183
+    }
+  ]
+}

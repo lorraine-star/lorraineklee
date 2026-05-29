@@ -52,6 +52,15 @@ const all = (await reader.collections.featuredAppearances.all())
 const highlights = all.filter((a) => a.featured);
 const appearances = all.filter((a) => !a.featured);
 
+// Build appearance type counts for filter pills
+const appearanceTypes = Array.from(
+	new Set(appearances.map((a) => a.appearance_type))
+).sort();
+const counts: Record<string, number> = { all: appearances.length };
+for (const type of appearanceTypes) {
+	counts[type] = appearances.filter((a) => a.appearance_type === type).length;
+}
+
 const heroPrimaryUrl = cleanUrl(hero.primary_cta_url) || '/speaking';
 const heroSecondaryUrl = cleanUrl(hero.secondary_cta_url) || '#appearances';
 const finalCtaUrl = cleanUrl(final_cta.cta_url) || '/contact';
@@ -161,7 +170,7 @@ const finalCtaUrl = cleanUrl(final_cta.cta_url) || '/contact';
 		)
 	}
 
-	{/* ---------- All appearances grid ---------- */}
+	{/* ---------- Appearances filter and grid ---------- */}
 	<section class="section section--compact anchor-target" id="appearances">
 		<div class="grid12">
 			<div class="section-head section-head--center">
@@ -174,13 +183,44 @@ const finalCtaUrl = cleanUrl(final_cta.cta_url) || '/contact';
 					<p class="lead">{appearances_section.lead}</p>
 				)}
 			</div>
-			<div class="fi-grid reveal-stagger">
+
+			{/* Filter pills */}
+			<div class="fi-filter-pills" role="tablist" aria-label="Appearance types">
+				<button
+					type="button"
+					class="fi-filter-pill is-active"
+					data-filter="all"
+					role="tab"
+					aria-selected="true"
+				>
+					All appearances
+					<span class="fi-filter-pill-count">{counts.all}</span>
+				</button>
+				{
+					appearanceTypes.map((type) => (
+						<button
+							type="button"
+							class="fi-filter-pill"
+							data-filter={type}
+							role="tab"
+							aria-selected="false"
+						>
+							{type}
+							<span class="fi-filter-pill-count">{counts[type]}</span>
+						</button>
+					))
+				}
+			</div>
+
+			{/* Grid */}
+			<div class="fi-grid reveal-stagger" data-appearance-grid>
 				{appearances.map((a) => {
 					const Tag = a.href ? 'a' : 'div';
 					return (
 						<Tag
 							class={`fi-card${a.href ? '' : ' fi-card--static'}`}
 							id={a.slug}
+							data-appearance-type={a.appearance_type}
 							href={a.href || undefined}
 							target={a.href && isExternal(a.href) ? '_blank' : undefined}
 							rel={
@@ -216,6 +256,11 @@ const finalCtaUrl = cleanUrl(final_cta.cta_url) || '/contact';
 					);
 				})}
 			</div>
+
+			{/* Empty state */}
+			<div class="fi-grid-empty" data-grid-empty hidden>
+				<p>No appearances in this category yet.</p>
+			</div>
 		</div>
 	</section>
 
@@ -246,6 +291,13 @@ const finalCtaUrl = cleanUrl(final_cta.cta_url) || '/contact';
 	   Primitives (page-hero, section--*, section-head, eyebrow,
 	   final-cta, btn) come from styles/editorial/.
 	   ================================================================ */
+
+	/* ---- Hero CTA row (centered hero — scoped so the final-CTA row is untouched) ---- */
+	.page-hero-copy .hero-cta-row {
+		justify-content: center;
+		gap: 18px;
+		margin-top: 32px;
+	}
 
 	/* ---- Shared card chrome ---- */
 	.fi-card-top {
@@ -373,6 +425,52 @@ const finalCtaUrl = cleanUrl(final_cta.cta_url) || '/contact';
 		color: var(--ink-900);
 	}
 
+	/* ---- Filter pills (mirrors the courses/learn category filter) ---- */
+	.fi-filter-pills {
+		grid-column: 1 / -1;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 10px;
+		margin: 4px 0 28px;
+	}
+	.fi-filter-pill {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		min-height: 40px;
+		padding: 9px 18px;
+		background: #fff;
+		border: 1px solid var(--border-soft);
+		border-radius: 999px;
+		font-family: var(--font-sans);
+		font-size: 13px;
+		font-weight: 600;
+		color: var(--ink-700);
+		cursor: pointer;
+		transition: color 160ms var(--ease-out), background 160ms var(--ease-out),
+			border-color 160ms var(--ease-out);
+	}
+	.fi-filter-pill:hover {
+		color: var(--accent);
+		border-color: var(--accent);
+	}
+	.fi-filter-pill.is-active {
+		color: #fff;
+		background: var(--ink-900);
+		border-color: var(--ink-900);
+	}
+	.fi-filter-pill:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 2px;
+	}
+	.fi-filter-pill-count {
+		font-size: 11px;
+		font-weight: 700;
+		opacity: 0.7;
+		font-variant-numeric: tabular-nums;
+	}
+
 	/* ---- Main grid ---- */
 	.fi-grid {
 		grid-column: 1 / -1;
@@ -400,6 +498,9 @@ const finalCtaUrl = cleanUrl(final_cta.cta_url) || '/contact';
 	.fi-card--static {
 		background: transparent;
 	}
+	.fi-card[hidden] {
+		display: none !important;
+	}
 	.fi-title {
 		margin: 0 0 10px;
 		font-family: var(--font-serif);
@@ -407,6 +508,21 @@ const finalCtaUrl = cleanUrl(final_cta.cta_url) || '/contact';
 		font-size: 18px;
 		line-height: 1.3;
 		color: var(--ink-900);
+	}
+
+	/* ---- Empty state ---- */
+	.fi-grid-empty {
+		grid-column: 1 / -1;
+		padding: 48px 24px;
+		text-align: center;
+		background: var(--paper-light);
+		border-radius: 12px;
+	}
+	.fi-grid-empty p {
+		margin: 0;
+		font-family: var(--font-sans);
+		font-size: 16px;
+		color: var(--ink-500);
 	}
 
 	/* ---- Responsive ---- */
@@ -423,3 +539,46 @@ const finalCtaUrl = cleanUrl(final_cta.cta_url) || '/contact';
 		}
 	}
 </style>
+
+<script>
+	// Lightweight appearance-type filter (vanilla DOM).
+	// Filters the grid by data-appearance-type and keeps count + empty state in sync.
+	function setupAppearanceFilter() {
+		const bar = document.querySelector<HTMLElement>('.fi-filter-pills');
+		const grid = document.querySelector<HTMLElement>('[data-appearance-grid]');
+		const empty = document.querySelector<HTMLElement>('[data-grid-empty]');
+		if (!bar || !grid) return;
+
+		const pills = Array.from(
+			bar.querySelectorAll<HTMLButtonElement>('.fi-filter-pill')
+		);
+		const cards = Array.from(
+			grid.querySelectorAll<HTMLElement>('.fi-card')
+		);
+
+		const apply = (filter: string) => {
+			let shown = 0;
+			for (const card of cards) {
+				const match = filter === 'all' || card.dataset.appearanceType === filter;
+				card.hidden = !match;
+				if (match) shown++;
+			}
+			if (empty) empty.hidden = shown !== 0;
+		};
+
+		bar.addEventListener('click', (e) => {
+			const pill = (e.target as HTMLElement).closest<HTMLButtonElement>(
+				'.fi-filter-pill'
+			);
+			if (!pill) return;
+			for (const p of pills) {
+				const active = p === pill;
+				p.classList.toggle('is-active', active);
+				p.setAttribute('aria-selected', active ? 'true' : 'false');
+			}
+			apply(pill.dataset.filter || 'all');
+		});
+	}
+
+	setupAppearanceFilter();
+</script>
