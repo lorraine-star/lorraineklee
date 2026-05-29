@@ -220,5 +220,13 @@
     font-size: 15px;
     line-height: 1.45;
     margin-bottom: 14px;
+    /* Cap long quotes on mobile so a single card never runs the whole screen.
+       flex:none stops the quote from stretching the card; the clamp bounds the
+       height and adds an ellipsis on the few very long quotes. */
+    flex: none;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 7;
+    overflow: hidden;
   }
 }
