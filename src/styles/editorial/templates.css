@@ -3778,6 +3778,13 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
        sizing to our own (shorter) content, so no gap sits beneath. */
     align-self: stretch;
   }
+  /* But once any tile in the row is expanded, a *closed* hero must not stretch
+     up to that open panel's height — that balloons it (and its preview) into an
+     oversized, mostly-empty card. Size it to its own content instead. */
+  .topic-bento:not(.other-talks-list):has(> .topic-card[data-open='true'])
+    > .topic-card:first-child:has(.topic-media):not([data-open='true']) {
+    align-self: start;
+  }
   .topic-bento:not(.other-talks-list)
     > .topic-card:first-child:has(.topic-media)
     > .topic-media {
@@ -3786,6 +3793,14 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
     border-bottom: 0;
     border-right: 1px solid var(--border-soft);
     min-height: 100%;
+  }
+  /* Closed hero next to an expanded tile: pin the preview to its natural ratio
+     so it stays compact rather than stretching with the content-sized card. */
+  .topic-bento:not(.other-talks-list):has(> .topic-card[data-open='true'])
+    > .topic-card:first-child:has(.topic-media):not([data-open='true'])
+    > .topic-media {
+    aspect-ratio: 16 / 9;
+    min-height: 0;
   }
   .topic-bento:not(.other-talks-list)
     > .topic-card:first-child:has(.topic-media)
