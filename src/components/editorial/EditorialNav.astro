@@ -1,5 +1,5 @@
 ---
-import { isNavItemActive, mainNavItems } from '../../lib/nav';
+import { isNavChildActive, isNavItemActive, mainNavItems } from '../../lib/nav';
 
 interface Props {
   activeId?: string;
@@ -14,6 +14,8 @@ const {
   ctaHref = '/contact',
   ctaLabel = 'Contact',
 } = Astro.props;
+
+const currentPath = Astro.url.pathname;
 ---
 
 <nav class="nav">
@@ -28,7 +30,9 @@ const {
         mainNavItems
           .filter((item) => item.id !== 'contact')
           .map((item) => {
-          const active = isNavItemActive(item, activeId);
+          const active =
+            isNavItemActive(item, activeId) ||
+            !!item.children?.some((child) => isNavChildActive(child, currentPath));
           return item.children?.length ? (
             <div class:list={['nav-item', 'nav-menu-item', { active }]} data-nav-menu-item>
               {/* CLI-130: the parent label is a real link to its own page,
@@ -56,11 +60,19 @@ const {
                 </button>
               </div>
               <div class="nav-dropdown" role="menu">
-                {item.children.map((child) => (
-                  <a class="nav-dropdown-link" href={child.href} role="menuitem">
-                    {child.label}
-                  </a>
-                ))}
+                {item.children.map((child) => {
+                  const childActive = isNavChildActive(child, currentPath);
+                  return (
+                    <a
+                      class:list={['nav-dropdown-link', { active: childActive }]}
+                      href={child.href}
+                      role="menuitem"
+                      aria-current={childActive ? 'page' : undefined}
+                    >
+                      {child.label}
+                    </a>
+                  );
+                })}
               </div>
             </div>
           ) : (
