@@ -55,6 +55,14 @@ const { title, description, activeId = 'home' } = Astro.props;
       ).matches;
 
       // --- Scroll-triggered reveals ---
+      // IntersectionObserver drives the staggered "waterfall" fade-up. On its
+      // own it has a known gap: during a fast or programmatic scroll (flick,
+      // End key, in-page anchor jump) an element can pass from fully below to
+      // fully above the viewport between observer samples. No threshold is
+      // crossed, the callback never fires, and that section stays stuck at
+      // opacity:0 for the rest of the visit (CLI-132). A rAF-throttled
+      // scroll/resize sweep is the safety net: it reveals any element whose top
+      // has crossed the trigger line, so the waterfall always completes.
       function setupReveals() {
         document.querySelectorAll<HTMLElement>('.reveal-stagger').forEach((parent) => {
           Array.from(parent.children).forEach((child, i) => {
@@ -66,22 +74,58 @@ const { title, description, activeId = 'home' } = Astro.props;
           });
         });
 
-        const revealEls = document.querySelectorAll<HTMLElement>('.reveal');
+        const revealEls = Array.from(
+          document.querySelectorAll<HTMLElement>('.reveal')
+        );
         if (reduceMotion || !('IntersectionObserver' in window)) {
           revealEls.forEach((el) => el.classList.add('is-in'));
           return;
         }
+
+        const remaining = new Set(revealEls);
+        const reveal = (el: HTMLElement) => {
+          el.classList.add('is-in');
+          remaining.delete(el);
+          observer.unobserve(el);
+          if (!remaining.size) {
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onScroll);
+          }
+        };
+
         const observer = new IntersectionObserver(
           (entries) => {
             for (const entry of entries) {
-              if (!entry.isIntersecting) continue;
-              entry.target.classList.add('is-in');
-              observer.unobserve(entry.target);
+              if (entry.isIntersecting) reveal(entry.target as HTMLElement);
             }
           },
           { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
         );
         revealEls.forEach((el) => observer.observe(el));
+
+        // Safety net for observer skips: reveal anything whose top has already
+        // crossed the bottom trigger line (mirrors the -8% rootMargin above).
+        // Also covers elements already past the line on load, e.g. deep-link or
+        // anchor landings.
+        const sweep = () => {
+          if (!remaining.size) return;
+          const line = window.innerHeight * 0.92;
+          for (const el of Array.from(remaining)) {
+            if (el.getBoundingClientRect().top < line) reveal(el);
+          }
+        };
+        let ticking = false;
+        const onScroll = () => {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(() => {
+            ticking = false;
+            sweep();
+          });
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll, { passive: true });
+        sweep();
       }
 
       // --- Animated count-up numbers ---
