@@ -188,3 +188,45 @@
     flex-basis: calc(100% - 32px);
   }
 }
+
+/* CLI-138: shorter client testimonial cards, and a sans-serif quote for
+   readability. Scoped to .testimonials (the global section wrapper) so it
+   overrides the serif .t-* primitives in home.css / base.css on every layout,
+   without a broad sitewide patch to the shared .t-* classes. */
+.testimonials .t-card {
+  padding: 22px 26px;
+}
+.testimonials .t-mark {
+  font-size: 36px;
+  margin-bottom: 8px;
+}
+.testimonials .t-quote {
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-size: 16px;
+  line-height: 1.45;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 900px) {
+  .testimonials .t-card {
+    padding: 18px 20px;
+  }
+  .testimonials .t-mark {
+    font-size: 32px;
+    margin-bottom: 6px;
+  }
+  .testimonials .t-quote {
+    font-size: 15px;
+    line-height: 1.45;
+    margin-bottom: 14px;
+    /* Cap long quotes on mobile so a single card never runs the whole screen.
+       flex:none stops the quote from stretching the card; the clamp bounds the
+       height and adds an ellipsis on the few very long quotes. */
+    flex: none;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 7;
+    overflow: hidden;
+  }
+}

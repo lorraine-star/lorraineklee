@@ -1407,6 +1407,16 @@ body {
   max-width: 760px;
 }
 .book-promo.v3 .book-cover-stack::before { display: none; }
+/* The .book-promo.v3 column overrides above are not inside a media query, so
+   they beat the mobile stacking rule (`.book-cover-col { grid-column: 1 / -1 }`)
+   and leave the promo as a cramped two-column on phones. Restore the intended
+   single-column stack at the mobile breakpoint. */
+@media (max-width: 900px) {
+  .book-promo.v3 .book-cover-col,
+  .book-promo.v3 .book-copy-col {
+    grid-column: 1 / -1;
+  }
+}
 .book-eyebrow {
   display: inline-block;
   margin-bottom: 16px;
