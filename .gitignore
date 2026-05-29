@@ -43,7 +43,8 @@ Lorraine Logos/
 docs/cleaned_media_output/
 lorraineklee_verified_inventory_package/
 /assets/
-.claude/
+.claude/*
+!.claude/launch.json
 !review/v1/assets/
 !review/v1/assets/press/
 !review/v1/assets/press/**
