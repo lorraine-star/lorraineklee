@@ -41,6 +41,13 @@ const statDisplay = (value: string, decimals: number) => {
 	return decimals > 0 ? n.toFixed(decimals) : Math.round(n).toLocaleString();
 };
 
+// Split a multi-paragraph description (blank-line separated) into paragraphs.
+const toParagraphs = (text?: string | null): string[] =>
+	(text ?? '')
+		.split(/\n\s*\n/)
+		.map((p) => p.replace(/\s+/g, ' ').trim())
+		.filter(Boolean);
+
 const reelEmbed = safeUrl(reel_section?.embed_url);
 
 // Testimonial copy comes from the shared collection (CLI-118); the section
@@ -191,13 +198,26 @@ const clientsLen = past_clients?.length ?? 0;
 				</h2>
 				{topics_section.lead && <p class="lead">{topics_section.lead}</p>}
 			</div>
-			<div class="topic-grid reveal-stagger">
+			<div class="topic-grid topic-bento reveal-stagger">
 				{
 					topics.map((t, i) => {
 						const panelId = `topic-panel-${i}`;
 						const hasTakeaways = (t.takeaways ?? []).length > 0;
+						const paragraphs = toParagraphs(t.description);
 						return (
 							<div class="topic-card topic-acc" data-open="false">
+								{t.gif && (
+									<div class="topic-media">
+										<img
+											src={t.gif}
+											alt={t.gif_alt || t.title}
+											width="600"
+											height="338"
+											loading="lazy"
+											decoding="async"
+										/>
+									</div>
+								)}
 								<div
 									class="topic-acc-trigger"
 									role="button"
@@ -210,7 +230,8 @@ const clientsLen = past_clients?.length ?? 0;
 										{t.tag && <span class="topic-tag">{t.tag}</span>}
 									</div>
 									<h3>{t.title}</h3>
-									<p class="topic-desc">{t.description}</p>
+									{t.subtitle && <p class="topic-subtitle">{t.subtitle}</p>}
+									{t.note && <p class="topic-note">{t.note}</p>}
 									<div class="topic-meta">
 										<span>{t.format}</span>
 										<span class="topic-toggle" style="margin-left: auto;">
@@ -237,6 +258,13 @@ const clientsLen = past_clients?.length ?? 0;
 									aria-hidden="true"
 								>
 									<div class="topic-panel-inner">
+										{paragraphs.length > 0 && (
+											<div class="topic-fulldesc">
+												{paragraphs.map((p) => (
+													<p>{p}</p>
+												))}
+											</div>
+										)}
 										{hasTakeaways && (
 											<>
 												<h4 class="topic-panel-label">
@@ -339,22 +367,95 @@ const clientsLen = past_clients?.length ?? 0;
 								role="region"
 								aria-hidden="true"
 							>
-								<div class="other-talks-list">
+								<div class="other-talks-list topic-grid topic-bento">
 									{other_talks.map((talk, i) => {
-										const url = safeUrl(talk.url);
-										const Tag = (url ? 'a' : 'div') as 'a' | 'div';
+										const panelId = `other-talk-panel-${i}`;
+										const hasTakeaways = (talk.takeaways ?? []).length > 0;
+										const paragraphs = toParagraphs(talk.description);
 										return (
-											<Tag
-												class="talk-row"
-												style={`--row-i: ${i}`}
-												{...(url ? { href: url } : {})}
+											<div
+												class="topic-card topic-acc other-talk-card"
+												data-open="false"
 											>
-												<span class="talk-marker" aria-hidden="true" />
-												<div class="talk-body">
+												{talk.gif && (
+													<div class="topic-media">
+														<img
+															src={talk.gif}
+															alt={talk.gif_alt || talk.title}
+															width="600"
+															height="338"
+															loading="lazy"
+															decoding="async"
+														/>
+													</div>
+												)}
+												<div
+													class="topic-acc-trigger"
+													role="button"
+													tabindex="0"
+													aria-expanded="false"
+													aria-controls={panelId}
+												>
 													<h4>{talk.title}</h4>
-													<p>{talk.description}</p>
+													{talk.subtitle && (
+														<p class="topic-subtitle">{talk.subtitle}</p>
+													)}
+													{talk.note && <p class="topic-note">{talk.note}</p>}
+													<div class="topic-meta">
+														{talk.format && <span>{talk.format}</span>}
+														<span
+															class="topic-toggle"
+															style="margin-left: auto;"
+														>
+															Details
+															<span class="trigger-chevron" aria-hidden="true">
+																<svg viewBox="0 0 16 16" width="14" height="14">
+																	<path
+																		d="M3 5.5 L8 10.5 L13 5.5"
+																		fill="none"
+																		stroke="currentColor"
+																		stroke-width="2"
+																		stroke-linecap="round"
+																		stroke-linejoin="round"
+																	/>
+																</svg>
+															</span>
+														</span>
+													</div>
 												</div>
-											</Tag>
+												<div
+													class="topic-panel"
+													id={panelId}
+													role="region"
+													aria-hidden="true"
+												>
+													<div class="topic-panel-inner">
+														{paragraphs.length > 0 && (
+															<div class="topic-fulldesc">
+																{paragraphs.map((p) => (
+																	<p>{p}</p>
+																))}
+															</div>
+														)}
+														{hasTakeaways && (
+															<>
+																<h4 class="topic-panel-label">
+																	What the audience walks away with
+																</h4>
+																<ul class="topic-takeaways">
+																	{talk.takeaways!.map((k) => (
+																		<li>{k}</li>
+																	))}
+																</ul>
+															</>
+														)}
+														<a class="btn primary" href="/contact">
+															Book this talk{' '}
+															<span aria-hidden="true">&rarr;</span>
+														</a>
+													</div>
+												</div>
+											</div>
 										);
 									})}
 								</div>
@@ -387,7 +488,7 @@ const clientsLen = past_clients?.length ?? 0;
 						>
 							{l.logo_src ? (
 								<img
-									class="client-logo"
+									class={`client-logo${l.style === 'mono' ? ' client-logo--mono' : ''}${l.style === 'color' ? ' client-logo--color' : ''}`}
 									src={l.logo_src}
 									alt={i < clientsLen ? l.name : ''}
 									loading="lazy"
@@ -449,6 +550,9 @@ const clientsLen = past_clients?.length ?? 0;
 						<h2>
 							{moderation_section.heading}{' '}
 							<em>{moderation_section.heading_accent}</em>
+							{moderation_section.heading_suffix && (
+								<> {moderation_section.heading_suffix}</>
+							)}
 						</h2>
 						{moderation_section.lead && (
 							<p class="lead">{moderation_section.lead}</p>

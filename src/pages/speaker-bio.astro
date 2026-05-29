@@ -8,7 +8,7 @@ if (!bio) {
 	throw new Error('Missing speaker bio content (src/content/speaker-bio/index.mdoc)');
 }
 
-const { hero, quick_facts, downloads_section, downloads, final_cta } = bio;
+const { hero, downloads_section, downloads, final_cta } = bio;
 const bodyHtml = await renderMarkdoc(bio.body);
 
 const isExternal = (url: string) => /^https?:\/\//i.test(url);
@@ -47,24 +47,6 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 			</div>
 		</div>
 	</section>
-
-	{/* ---------- Quick facts ---------- */}
-	{
-		quick_facts?.length > 0 && (
-			<section class="section section--tight">
-				<div class="grid12">
-					<div class="speaker-bio-facts reveal-stagger">
-						{quick_facts.map((f) => (
-							<div>
-								<div class="fact-k">{f.label}</div>
-								<div class="fact-v">{f.value}</div>
-							</div>
-						))}
-					</div>
-				</div>
-			</section>
-		)
-	}
 
 	{/* ---------- Bio body ---------- */}
 	<section class="section section--cream">
