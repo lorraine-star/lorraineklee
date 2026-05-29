@@ -238,6 +238,11 @@ body {
   color: var(--accent);
   outline: none;
 }
+.nav-dropdown-link.active {
+  color: var(--accent);
+  background: var(--paper-deep);
+  font-weight: 600;
+}
 .nav-inner > .btn { justify-self: end; }
 .nav-menu-toggle {
   display: none;

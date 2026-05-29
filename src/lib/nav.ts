@@ -78,3 +78,13 @@ export const mainNavItems: NavItem[] = [
 
 export const isNavItemActive = (item: NavItem, activeId: string) =>
   item.id === activeId || item.children?.some((child) => child.activeId === activeId);
+
+// Drop the hash/query and any trailing slash so href and pathname comparisons
+// line up (e.g. `/subscribe/` and `/about#awards` both normalize cleanly).
+export const normalizeNavPath = (path: string): string => {
+  const base = path.split(/[?#]/)[0];
+  return base.length > 1 && base.endsWith('/') ? base.slice(0, -1) : base;
+};
+
+export const isNavChildActive = (child: NavChild, currentPath: string): boolean =>
+  normalizeNavPath(child.href) === normalizeNavPath(currentPath);
