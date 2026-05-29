@@ -269,12 +269,85 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
         page-level sibling script would be emitted after </html> and never
         attach its handlers. */}
     <script>
-      // Trust carousel: step one card at a time (prev/next), matching the design.
+      // Trust carousel: endless loop + step-one-card prev/next.
+      // Clone the card set once before and once after the originals, park the
+      // viewport in the middle copy, and — whenever the user drifts more than
+      // half a set into a buffer — jump by exactly one set width. The jump is
+      // invisible because the copies are identical, so scrolling never hits an
+      // end. Recentering is debounced so it only fires once scrolling settles,
+      // which avoids fighting the smooth button animations.
       document.querySelectorAll<HTMLElement>('.fitf-carousel').forEach((c) => {
         const track = c.querySelector<HTMLElement>('.fitf-carousel-track');
         if (!track) return;
-        const card = track.querySelector<HTMLElement>('.fitf-trust-card');
-        const step = () => (card ? card.getBoundingClientRect().width : 320) + 20;
+        const originals = Array.from(track.children) as HTMLElement[];
+        const n = originals.length;
+        if (n < 2) return;
+
+        const beforeFrag = document.createDocumentFragment();
+        const afterFrag = document.createDocumentFragment();
+        originals.forEach((node) => {
+          const b = node.cloneNode(true) as HTMLElement;
+          const a = node.cloneNode(true) as HTMLElement;
+          b.setAttribute('aria-hidden', 'true');
+          a.setAttribute('aria-hidden', 'true');
+          b.dataset.clone = '1';
+          a.dataset.clone = '1';
+          beforeFrag.appendChild(b);
+          afterFrag.appendChild(a);
+        });
+        track.insertBefore(beforeFrag, originals[0]);
+        track.appendChild(afterFrag);
+
+        const kids = () => track.children as HTMLCollectionOf<HTMLElement>;
+        // Scroll position that centres a given card in the viewport.
+        const center = (el: HTMLElement) =>
+          el.offsetLeft - (track.clientWidth - el.offsetWidth) / 2;
+        // Measured fresh each call. Offsets depend on layout and viewport width,
+        // so reading them lazily means first-paint timing can never leave us
+        // with a stale period of 0 (which would disable the loop).
+        const metrics = () => {
+          const k = kids();
+          return { period: k[n].offsetLeft - k[0].offsetLeft, home: center(k[n]) };
+        };
+
+        const setLeft = (x: number) => {
+          const prev = track.style.scrollBehavior;
+          track.style.scrollBehavior = 'auto'; // jump instantly, not smooth
+          track.scrollLeft = x;
+          track.style.scrollBehavior = prev;
+        };
+
+        const recenter = () => {
+          const { period, home } = metrics();
+          if (!(period > 1)) return; // need a real measured period
+          const sl = track.scrollLeft;
+          const lo = home - period / 2;
+          // Map scrollLeft into one period-wide band centred on home, by whole
+          // periods (modulo, no loop). Identical clones make the shift invisible.
+          const target = lo + (((sl - lo) % period) + period) % period;
+          if (Math.abs(target - sl) > 1) setLeft(target);
+        };
+
+        let settleTimer = 0;
+        track.addEventListener(
+          'scroll',
+          () => {
+            window.clearTimeout(settleTimer);
+            settleTimer = window.setTimeout(recenter, 120);
+          },
+          { passive: true }
+        );
+
+        let resizeTimer = 0;
+        window.addEventListener('resize', () => {
+          window.clearTimeout(resizeTimer);
+          resizeTimer = window.setTimeout(recenter, 150);
+        });
+
+        const step = () => {
+          const el = track.querySelector<HTMLElement>('.fitf-trust-card');
+          return (el ? el.getBoundingClientRect().width : 320) + 20;
+        };
         c.querySelector<HTMLButtonElement>('.fitf-carousel-btn.next')?.addEventListener(
           'click',
           () => track.scrollBy({ left: step(), behavior: 'smooth' })
@@ -283,6 +356,16 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
           'click',
           () => track.scrollBy({ left: -step(), behavior: 'smooth' })
         );
+
+        // Park in the middle copy. Run after layout settles (double rAF) and
+        // again on full load, since the clones' real offsets aren't known until
+        // the cards have been laid out.
+        const park = () => {
+          const { period, home } = metrics();
+          if (period) setLeft(home);
+        };
+        requestAnimationFrame(() => requestAnimationFrame(park));
+        window.addEventListener('load', park);
       });
     </script>
   </div>
@@ -306,10 +389,10 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
     width: 100%;
   }
   .fitf-section {
-    padding: clamp(64px, 9vw, 120px) 0;
+    padding: clamp(34px, 4vw, 60px) 0;
   }
   .fitf-section--tight {
-    padding: clamp(48px, 6vw, 80px) 0;
+    padding: clamp(22px, 3vw, 40px) 0;
   }
   .fitf-section--alt {
     background: var(--paper-deep);
@@ -358,7 +441,7 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
   /* ---- Section head ---- */
   .fitf-section-head {
     max-width: 760px;
-    margin: 0 auto clamp(40px, 5vw, 64px);
+    margin: 0 auto clamp(26px, 3.5vw, 42px);
     text-align: center;
   }
   .fitf-section-head h2 {
@@ -374,7 +457,7 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
 
   /* ============ 1. HERO ============ */
   .fitf-hero {
-    padding: clamp(48px, 6vw, 88px) 0 clamp(56px, 7vw, 104px);
+    padding: clamp(32px, 4vw, 60px) 0 clamp(28px, 3.5vw, 48px);
   }
   .fitf-hero-grid {
     display: grid;
