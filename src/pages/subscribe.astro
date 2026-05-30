@@ -85,6 +85,7 @@ const items = (benefits ?? []).filter((b) => b && b.trim());
                   buttonLabel={form_button_label || 'Subscribe'}
                   namePlaceholder={name_placeholder || 'First Name'}
                   emailPlaceholder={email_placeholder || 'Enter your best email'}
+                  event="newsletter_signup"
                 />
                 {fineprint && <p class="sub-fineprint">{fineprint}</p>}
               </>

@@ -5,6 +5,7 @@ import '../styles/v1/variants.css';
 import CookieBanner from '../components/CookieBanner.astro';
 import ClarityAnalytics from '../components/ClarityAnalytics.astro';
 import ScrollToTop from '../components/ScrollToTop.astro';
+import GoogleAnalytics from '../components/GoogleAnalytics.astro';
 
 interface Props {
   title?: string;
@@ -29,6 +30,7 @@ const { title = 'Lorraine K. Lee', description } = Astro.props;
     />
     {description && <meta name="description" content={description} />}
     <title>{title}</title>
+    <GoogleAnalytics />
     <ClarityAnalytics />
   </head>
   <body>
