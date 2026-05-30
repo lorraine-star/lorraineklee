@@ -1,0 +1,67 @@
+---
+/*
+ * Microsoft Clarity loader (CLI-50): heat maps, scroll maps, session
+ * recordings, and click tracking.
+ *
+ * Consent-gated per the cookie banner contract (see CookieBanner.astro):
+ *   - loads Clarity only when localStorage["cookie-consent"] === "accepted"
+ *   - also reacts to the "cookie-consent-change" window event, so tracking
+ *     starts the moment a visitor accepts without needing a page reload
+ *   - never loads before opt-in; declining keeps it off
+ *
+ * Reuses the existing Clarity project. Do NOT create a new one, because a new
+ * project resets the heatmap history. The ID can be overridden with the
+ * PUBLIC_CLARITY_PROJECT_ID env var and defaults to the live project.
+ *
+ * Rendered inside <head> on every top-level layout (Layout, HomeLayout,
+ * FunnelLayout, SpeakingLayout). If you add a new top-level layout, include
+ * this there too so tracking stays sitewide.
+ */
+const projectId = import.meta.env.PUBLIC_CLARITY_PROJECT_ID ?? 'wdaa1y3eea';
+---
+
+<script is:inline define:vars={{ clarityProjectId: projectId }}>
+  (function () {
+    var CONSENT_KEY = 'cookie-consent';
+    var loaded = false;
+
+    // Official Microsoft Clarity snippet, wrapped so it runs only on consent.
+    function loadClarity() {
+      if (loaded || !clarityProjectId) return;
+      loaded = true;
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = 'https://www.clarity.ms/tag/' + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, 'clarity', 'script', clarityProjectId);
+    }
+
+    function hasConsent() {
+      try {
+        return localStorage.getItem(CONSENT_KEY) === 'accepted';
+      } catch (e) {
+        // localStorage blocked (private mode or disabled): treat as no consent.
+        return false;
+      }
+    }
+
+    // Returning visitor who already accepted: start immediately, no reload.
+    if (hasConsent()) {
+      loadClarity();
+    }
+
+    // First-time accept dispatches this event from the cookie banner.
+    window.addEventListener('cookie-consent-change', function (event) {
+      if (event && event.detail && event.detail.consent === 'accepted') {
+        loadClarity();
+      }
+    });
+  })();
+</script>
