@@ -72,6 +72,7 @@ body {
 }
 .banner-link:hover .arrow { transform: translateX(4px); }
 .banner-dismiss {
+  position: relative;
   background: transparent;
   border: 0;
   width: 32px;
@@ -86,6 +87,17 @@ body {
   margin-right: -6px;
 }
 .banner-dismiss:hover { background: rgba(14,21,48,0.08); }
+/* CLI-141: keep the compact 32px glyph but extend the tap target to >=44px.
+   The overlay is absolutely positioned, so the thin banner row never grows. */
+.banner-dismiss::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+}
 .banner-dismiss svg { width: 16px; height: 16px; stroke-width: 2; }
 
 /* ---------- NAV ---------- */
@@ -239,8 +251,8 @@ body {
 }
 .nav-menu-toggle {
   display: none;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border: 1px solid var(--border);
   border-radius: 999px;
   background: #fff;
@@ -1161,8 +1173,8 @@ body {
   margin-bottom: 12px;
 }
 .social-btn {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 999px;
   background: #fff;
   border: 1px solid var(--border);
@@ -1259,6 +1271,29 @@ body {
 .footer-base a { color: var(--fg-muted); text-decoration: none; }
 .footer-base a:hover { color: var(--accent); }
 .footer-base-links { display: flex; gap: 24px; }
+
+/* CLI-141: enlarge inline footer link tap targets to >=44px on touch widths
+   (where the footer already stacks). Type stays the same size; only the hit
+   area grows, so the desktop footer spacing is unchanged. */
+@media (max-width: 900px) {
+  .footer-email {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    margin-bottom: 0;
+  }
+  .footer-explore ul { gap: 4px; }
+  .footer-explore a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .footer-base-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
 
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 1100px) {

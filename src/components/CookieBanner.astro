@@ -94,6 +94,12 @@
 		font-size: 14px;
 		font-weight: 600;
 		line-height: 1;
+		/* CLI-141: keep a >=44px tap target. Vertical padding alone left these at
+		   ~38px, so anchor a 44px min-height and center the label in it. */
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 44px;
 		padding: 11px 22px;
 		border-radius: 999px;
 		border: 1px solid transparent;
