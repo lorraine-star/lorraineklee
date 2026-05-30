@@ -1506,8 +1506,38 @@ export default config({
               label: 'Heading accent (italic)',
             }),
             lead: fields.text({ label: 'Lead', multiline: true }),
+            youtube_cta_label: fields.text({
+              label: 'YouTube button label',
+              description:
+                'Button shown under the guest appearances grid, linking to the YouTube channel. Leave empty to hide the button.',
+              defaultValue: 'More on YouTube',
+            }),
+            youtube_cta_url: fields.text({
+              label: 'YouTube button URL',
+              defaultValue: 'https://www.youtube.com/c/lorraineklee',
+            }),
           },
           { label: 'Guest appearances section heading' }
+        ),
+        podcast_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+            spotify_playlist_id: fields.text({
+              label: 'Spotify playlist ID',
+              description:
+                'The playlist ID from the Spotify share URL, e.g. "3ttrdXR9hP0Nx1tncWtx6T" from open.spotify.com/playlist/3ttrdXR9hP0Nx1tncWtx6T. Leave empty to hide the embed.',
+            }),
+          },
+          {
+            label: 'Podcast (Spotify) section',
+            description:
+              'Embeds the "Guest Podcast Interviews" Spotify playlist below the guest appearances. Leave the playlist ID empty to hide this section.',
+          }
         ),
         guest_appearances: fields.array(
           fields.object({
@@ -1864,7 +1894,13 @@ export default config({
         ),
         final: fields.object(
           {
-            heading: fields.text({ label: 'Heading' }),
+            heading: fields.text({
+              label: 'Heading (==text== shown as accent)',
+            }),
+            lede: fields.text({
+              label: 'Supporting lede paragraph',
+              multiline: true,
+            }),
             form_button_label: fields.text({
               label: 'Bottom form button label',
               defaultValue: "Let's Do This",
@@ -2553,6 +2589,13 @@ export default config({
           label: 'External video / article URL (optional)',
           description:
             'Used when the interview is not on YouTube (e.g. a LinkedIn post). Ignored when a YouTube video ID is set.',
+        }),
+        thumbnail: fields.image({
+          label: 'Thumbnail / poster image (optional)',
+          description:
+            'Cover image for the card. Only used when there is no YouTube video ID (YouTube videos auto-pull their own thumbnail). Recommended 16:9.',
+          directory: 'public/images/interviews',
+          publicPath: '/images/interviews/',
         }),
         description: fields.text({ label: 'Description', multiline: true }),
         date: fields.text({

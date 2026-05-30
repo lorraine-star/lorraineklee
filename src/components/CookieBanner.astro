@@ -1,12 +1,12 @@
 ---
-// Native cookie-consent banner — no third-party tool (CLI-52).
+// Native cookie-consent banner, no third-party tool (CLI-52).
 //
 // The visitor's choice is stored in localStorage under "cookie-consent" as
 // either "accepted" or "declined". The banner shows only when no choice has
 // been stored yet, so a returning visitor never sees it again.
 //
-// Analytics integrations (Google Analytics — CLI-51, Microsoft Clarity —
-// CLI-50) MUST gate on consent:
+// Analytics integrations (Google Analytics CLI-51, Microsoft Clarity CLI-50)
+// MUST gate on consent:
 //   - on load, initialise only when localStorage["cookie-consent"] === "accepted"
 //   - also listen for the "cookie-consent-change" window event
 //     (event.detail.consent) so they can start the moment a visitor accepts,
@@ -17,37 +17,129 @@
 
 <div
 	id="cookie-banner"
-	class="fixed inset-x-0 bottom-0 z-50 border-t border-neutral-200 bg-white"
+	class="cookie-banner"
 	role="region"
 	aria-label="Cookie consent"
 	hidden
 >
-	<div
-		class="mx-auto flex max-w-5xl flex-col gap-4 px-6 py-4 sm:flex-row sm:items-center sm:justify-between"
-	>
-		<p class="text-sm leading-relaxed text-neutral-600">
+	<div class="cookie-banner__inner">
+		<p class="cookie-banner__text">
 			This site uses cookies to measure how visitors use it. You can accept
 			analytics cookies or decline. Declining keeps only what the site needs
 			to work.
 		</p>
-		<div class="flex shrink-0 gap-3">
+		<div class="cookie-banner__actions">
 			<button
 				type="button"
 				data-cookie-decline
-				class="rounded-full border border-neutral-300 px-5 py-2 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-100"
+				class="cookie-banner__btn cookie-banner__btn--ghost"
 			>
 				Decline
 			</button>
 			<button
 				type="button"
 				data-cookie-accept
-				class="rounded-full bg-neutral-900 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-neutral-700"
+				class="cookie-banner__btn cookie-banner__btn--primary"
 			>
 				Accept
 			</button>
 		</div>
 	</div>
 </div>
+
+<style>
+	/* Self-contained styles so the banner matches the design system on every
+	   layout. Uses the shared design tokens with literal fallbacks, because the
+	   default (Tailwind) layout does not load the v1/editorial token sheets. */
+	.cookie-banner {
+		position: fixed;
+		inset-inline: 0;
+		bottom: 0;
+		z-index: 60;
+		background: var(--paper, #fbf8f2);
+		border-top: 1px solid var(--border-soft, #eceef3);
+		box-shadow: 0 -12px 32px -26px rgba(14, 21, 48, 0.55);
+		font-family: var(--font-sans, "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif);
+	}
+
+	.cookie-banner[hidden] {
+		display: none;
+	}
+
+	.cookie-banner__inner {
+		max-width: var(--grid-max, 1240px);
+		margin: 0 auto;
+		padding: 16px var(--grid-pad, clamp(20px, 4vw, 56px));
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+	}
+
+	.cookie-banner__text {
+		margin: 0;
+		max-width: 64ch;
+		font-size: 14px;
+		line-height: 1.55;
+		color: var(--ink-700, #2a3147);
+	}
+
+	.cookie-banner__actions {
+		display: flex;
+		flex-shrink: 0;
+		gap: 12px;
+	}
+
+	.cookie-banner__btn {
+		font-family: inherit;
+		font-size: 14px;
+		font-weight: 600;
+		line-height: 1;
+		padding: 11px 22px;
+		border-radius: 999px;
+		border: 1px solid transparent;
+		cursor: pointer;
+		transition:
+			background-color 180ms ease,
+			color 180ms ease,
+			border-color 180ms ease,
+			transform 180ms ease;
+	}
+
+	.cookie-banner__btn:focus-visible {
+		outline: 2px solid var(--accent, #1a4dff);
+		outline-offset: 2px;
+	}
+
+	.cookie-banner__btn--primary {
+		background: var(--accent, #1a4dff);
+		color: var(--white, #fff);
+	}
+
+	.cookie-banner__btn--primary:hover {
+		background: var(--accent-hover, #2e64ff);
+		transform: translateY(-1px);
+	}
+
+	.cookie-banner__btn--ghost {
+		background: transparent;
+		color: var(--ink-700, #2a3147);
+		border-color: var(--border, #d4d7e0);
+	}
+
+	.cookie-banner__btn--ghost:hover {
+		background: var(--ink-100, #eceef3);
+		color: var(--ink-900, #0e1530);
+	}
+
+	@media (min-width: 640px) {
+		.cookie-banner__inner {
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			gap: 24px;
+		}
+	}
+</style>
 
 <script>
 	const STORAGE_KEY = 'cookie-consent';
@@ -58,7 +150,7 @@
 		try {
 			stored = localStorage.getItem(STORAGE_KEY);
 		} catch {
-			// localStorage unavailable (private mode / disabled) — show the banner.
+			// localStorage unavailable (private mode or disabled), show the banner.
 		}
 
 		if (stored !== 'accepted' && stored !== 'declined') {
@@ -69,7 +161,7 @@
 			try {
 				localStorage.setItem(STORAGE_KEY, consent);
 			} catch {
-				// Can't persist — the choice still applies for this page view.
+				// Can't persist, the choice still applies for this page view.
 			}
 			banner.hidden = true;
 			window.dispatchEvent(

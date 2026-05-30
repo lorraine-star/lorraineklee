@@ -12,6 +12,9 @@ import '../styles/editorial/base.css';
 import '../styles/editorial/templates.css';
 import EditorialNav from '../components/editorial/EditorialNav.astro';
 import CookieBanner from '../components/CookieBanner.astro';
+import ClarityAnalytics from '../components/ClarityAnalytics.astro';
+import ScrollToTop from '../components/ScrollToTop.astro';
+import GoogleAnalytics from '../components/GoogleAnalytics.astro';
 
 interface Props {
   title: string;
@@ -38,6 +41,8 @@ const year = new Date().getFullYear();
     />
     {description && <meta name="description" content={description} />}
     <title>{title}</title>
+    <GoogleAnalytics />
+    <ClarityAnalytics />
   </head>
   <body>
     <div class="shell">
@@ -62,6 +67,7 @@ const year = new Date().getFullYear();
       </footer>
     </div>
     <CookieBanner />
+    <ScrollToTop />
 
     <style>
       /* Lean funnel footer. */
@@ -107,52 +113,17 @@ const year = new Date().getFullYear();
     </style>
 
     <script>
+      import { initReveals } from '../scripts/reveals';
+
       // Mark JS as live FIRST. The funnel page only hides reveal content while
       // `html.fc-js` is present, so if this script never runs the content is
       // shown by default rather than stuck invisible.
       document.documentElement.classList.add('fc-js');
 
-      // Lightweight scroll-reveal (mirrors the editorial layout) so funnel
-      // sections fade in. No external dependencies / islands.
-      const reduceMotion = window.matchMedia(
-        '(prefers-reduced-motion: reduce)'
-      ).matches;
-
-      document
-        .querySelectorAll<HTMLElement>('.reveal-stagger')
-        .forEach((parent) => {
-          Array.from(parent.children).forEach((child, i) => {
-            const el = child as HTMLElement;
-            el.classList.add('reveal');
-            if (!el.style.transitionDelay) {
-              el.style.transitionDelay = i * 70 + 'ms';
-            }
-          });
-        });
-
-      const revealEls = document.querySelectorAll<HTMLElement>('.reveal');
-      if (reduceMotion || !('IntersectionObserver' in window)) {
-        revealEls.forEach((el) => el.classList.add('is-in'));
-      } else {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            for (const entry of entries) {
-              if (!entry.isIntersecting) continue;
-              entry.target.classList.add('is-in');
-              observer.unobserve(entry.target);
-            }
-          },
-          { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
-        );
-        revealEls.forEach((el) => observer.observe(el));
-
-        // Safety net: guarantee every block reveals even if the observer never
-        // fires (some embedded/in-app renderers don't drive IntersectionObserver).
-        // Funnel content must never stay hidden, so force-reveal shortly after load.
-        window.setTimeout(() => {
-          revealEls.forEach((el) => el.classList.add('is-in'));
-        }, 2500);
-      }
+      // Shared scroll-reveal (same module as the editorial layout) so funnel
+      // sections fade in. `forceRevealAfter` keeps the funnel's hard guarantee
+      // that content can never stay hidden in embedded/in-app renderers.
+      initReveals({ staggerStep: 70, forceRevealAfter: 2500 });
     </script>
   </body>
 </html>

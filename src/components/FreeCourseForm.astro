@@ -20,6 +20,14 @@ interface Props {
   namePlaceholder?: string;
   emailPlaceholder?: string;
   idPrefix: string;
+  /*
+   * Optional GA4 key-event name fired on submit (see GoogleAnalytics.astro).
+   * Set it where the submit itself is the conversion (e.g. the /subscribe
+   * newsletter form). Leave it unset on the free-course funnel forms, whose
+   * conversion is counted on the thank-you page Kit redirects to, so a signup
+   * is never double-counted.
+   */
+  event?: string;
 }
 
 const {
@@ -28,6 +36,7 @@ const {
   namePlaceholder = 'First Name',
   emailPlaceholder = 'Enter your best email',
   idPrefix,
+  event,
 } = Astro.props;
 
 const action = `https://app.kit.com/forms/${formId}/subscriptions`;
@@ -38,6 +47,7 @@ const emailId = `${idPrefix}-email`;
 <form
   class="fc-form"
   data-fc-form
+  data-ga-event={event}
   method="post"
   action={action}
 >

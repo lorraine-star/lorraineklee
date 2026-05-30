@@ -187,3 +187,11 @@
     animation: none;
   }
 }
+
+/* CLI-138: sans-serif quote for readability across the student carousel,
+   overriding the serif .t-quote primitive. Scoped to the carousel wrapper so
+   it does not affect other .t-card usages. */
+.secondary-testimonials-wrap .t-quote {
+  font-family: var(--font-sans);
+  font-style: normal;
+}
