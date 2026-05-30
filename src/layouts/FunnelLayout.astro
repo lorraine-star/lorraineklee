@@ -13,6 +13,7 @@ import '../styles/editorial/templates.css';
 import EditorialNav from '../components/editorial/EditorialNav.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import ScrollToTop from '../components/ScrollToTop.astro';
+import GoogleAnalytics from '../components/GoogleAnalytics.astro';
 
 interface Props {
   title: string;
@@ -39,6 +40,7 @@ const year = new Date().getFullYear();
     />
     {description && <meta name="description" content={description} />}
     <title>{title}</title>
+    <GoogleAnalytics />
   </head>
   <body>
     <div class="shell">

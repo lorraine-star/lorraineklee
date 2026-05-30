@@ -197,7 +197,15 @@ const courseHref =
 
           <div class="course-form">
             <div class="course-form-card">
-              <form data-course-form>
+              {/* Free-course signup: native POST to Kit (form 8913437), which
+                  redirects to the funnel thank-you page. The GA free_course_signup
+                  key event fires on that page's load (GoogleAnalytics.astro,
+                  CLI-51), so this form is deliberately not tagged here to avoid
+                  double-counting. */}
+              <form
+                method="post"
+                action="https://app.kit.com/forms/8913437/subscriptions"
+              >
                 <span class="course-form-eyebrow">Start tomorrow</span>
                 <h3 class="course-form-title">Join <em>12,000+</em> leaders.</h3>
                 <label class="field-label" for="course-email">Email address</label>
@@ -205,6 +213,7 @@ const courseHref =
                   id="course-email"
                   class="field"
                   type="email"
+                  name="email_address"
                   required
                   placeholder="you@company.com"
                 />
@@ -213,15 +222,6 @@ const courseHref =
                 </button>
                 <div class="fineprint">No spam. Unsubscribe in one click.</div>
               </form>
-              <div class="success" data-course-success hidden>
-                <div class="check">
-                  <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                  </svg>
-                </div>
-                <div class="success-title">You're in.</div>
-                <div class="success-sub" data-course-success-sub>Day 1 is on its way.</div>
-              </div>
             </div>
           </div>
         </div>
@@ -282,23 +282,6 @@ const courseHref =
     if (!dest) return;
     e.preventDefault();
     dest.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-
-  // --- Free-course email form ---
-  const form = document.querySelector<HTMLFormElement>('[data-course-form]');
-  form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      return;
-    }
-    const input = form.querySelector<HTMLInputElement>('#course-email');
-    const email = input?.value.trim() ?? '';
-    const success = document.querySelector<HTMLElement>('[data-course-success]');
-    const sub = document.querySelector<HTMLElement>('[data-course-success-sub]');
-    if (sub) sub.textContent = `Day 1 is on its way to ${email}.`;
-    form.setAttribute('hidden', '');
-    success?.removeAttribute('hidden');
   });
 
   // --- Scroll/time-triggered free-course popup ---

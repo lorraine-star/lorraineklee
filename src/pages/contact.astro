@@ -93,6 +93,7 @@ const links = (social_links ?? []).filter((s) => s.url);
 								data-tf-iframe-props={`title=Contact Lorraine K. Lee`}
 								data-tf-medium="snippet"
 								data-tf-opacity="100"
+								data-tf-on-submit="onContactSubmit"
 								style="width:100%;min-height:640px;"
 							/>
 						) : (
@@ -118,5 +119,26 @@ const links = (social_links ?? []).filter((s) => s.url);
 		</div>
 	</section>
 
-	{formId && <script is:inline src="//embed.typeform.com/next/embed.js" async />}
+	{
+		formId && (
+			<>
+				{/*
+				 * Typeform calls this (by name, via data-tf-on-submit) on a
+				 * successful contact-form submission. It must live on window so the
+				 * embed can find it. Routes the GA4 key event (CLI-51) through
+				 * window.trackEvent, which is a no-op unless the visitor accepted
+				 * analytics cookies — so a decline still blocks it. Defined before
+				 * embed.js loads so the callback is registered in time.
+				 */}
+				<script is:inline define:vars={{ formId }}>
+					window.onContactSubmit = function () {
+						if (typeof window.trackEvent === 'function') {
+							window.trackEvent('contact_submit', { form_id: formId });
+						}
+					};
+				</script>
+				<script is:inline src="//embed.typeform.com/next/embed.js" async />
+			</>
+		)
+	}
 </SpeakingLayout>

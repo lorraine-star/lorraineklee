@@ -1,0 +1,135 @@
+---
+/*
+ * GoogleAnalytics — consent-gated Google Analytics 4 (CLI-51).
+ *
+ * Loads gtag.js and configures GA4 ONLY after the visitor accepts analytics
+ * cookies via the native cookie banner (CookieBanner.astro, CLI-52). Nothing
+ * is requested from Google and no cookie is set until consent === "accepted",
+ * so declining keeps tracking fully off.
+ *
+ * Consent contract (mirrors CookieBanner.astro):
+ *   - localStorage["cookie-consent"] === "accepted" | "declined"
+ *   - on load: initialise only when the stored value is "accepted"
+ *   - also listen for the window "cookie-consent-change" event
+ *     (event.detail.consent) so tracking starts the moment a visitor accepts,
+ *     with no page reload.
+ *
+ * Drop <GoogleAnalytics /> into the <head> of every layout (it is rendered
+ * once per layout, the same way CookieBanner is rendered once per layout).
+ *
+ * Key-event tracking (CLI-51) is declarative. Tag any element with
+ * data-ga-event="<name>" and this component fires it through GA when the right
+ * interaction happens:
+ *   <form  data-ga-event="newsletter_signup">      -> fires on submit
+ *   <a|button data-ga-event="speaking_inquiry">    -> fires on click
+ *   <any data-ga-event="free_course_signup"
+ *        data-ga-on="load">                         -> fires on page load
+ * Add data-ga-label="..." for an optional event label. Events fired before
+ * consent are silently dropped (window.trackEvent is a no-op until GA loads),
+ * so callers never need to know whether consent was granted.
+ *
+ * The Measurement ID can be overridden per environment with the
+ * PUBLIC_GA_MEASUREMENT_ID env var; it defaults to the live property.
+ */
+const measurementId =
+  import.meta.env.PUBLIC_GA_MEASUREMENT_ID || 'G-7B23M7QX5X';
+---
+
+<script is:inline define:vars={{ measurementId }}>
+  (function () {
+    const STORAGE_KEY = 'cookie-consent';
+    let started = false;
+
+    // Inject gtag.js and configure GA4. Idempotent: only ever runs once.
+    function startGA() {
+      if (started || !measurementId) return;
+      started = true;
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        window.dataLayer.push(arguments);
+      }
+      window.gtag = gtag;
+
+      gtag('js', new Date());
+      gtag('config', measurementId);
+
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + measurementId;
+      document.head.appendChild(s);
+    }
+
+    function hasConsent() {
+      try {
+        return localStorage.getItem(STORAGE_KEY) === 'accepted';
+      } catch {
+        return false;
+      }
+    }
+
+    // Public helper: fire a GA event, but only once analytics is live. Safe to
+    // call at any time — it is a no-op until the visitor has accepted cookies,
+    // so events raised before/without consent are dropped rather than queued.
+    window.trackEvent = function (name, params) {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', name, params || {});
+      }
+    };
+
+    // Start now if consent was given on a previous visit; otherwise wait for the
+    // banner to report acceptance.
+    if (hasConsent()) startGA();
+    window.addEventListener('cookie-consent-change', function (e) {
+      if (e.detail && e.detail.consent === 'accepted') startGA();
+    });
+
+    // ---- Declarative key-event tracking via [data-ga-event] ----
+    function fire(el) {
+      if (!el) return;
+      const name = el.getAttribute('data-ga-event');
+      if (!name) return;
+      const params = {};
+      const label = el.getAttribute('data-ga-label');
+      if (label) params.event_label = label;
+      window.trackEvent(name, params);
+    }
+
+    // Clicks on links/buttons (anything that isn't a form or a load-fired tag).
+    document.addEventListener(
+      'click',
+      function (e) {
+        const t = e.target;
+        if (!t || !t.closest) return;
+        const el = t.closest('[data-ga-event]');
+        if (el && el.tagName !== 'FORM' && el.getAttribute('data-ga-on') !== 'load') {
+          fire(el);
+        }
+      },
+      true
+    );
+
+    // Form submissions.
+    document.addEventListener(
+      'submit',
+      function (e) {
+        const t = e.target;
+        if (!t || !t.closest) return;
+        fire(t.closest('form[data-ga-event]'));
+      },
+      true
+    );
+
+    // Page-load conversions (e.g. a thank-you page).
+    function fireLoadEvents() {
+      document
+        .querySelectorAll('[data-ga-event][data-ga-on="load"]')
+        .forEach(fire);
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', fireLoadEvents);
+    } else {
+      fireLoadEvents();
+    }
+  })();
+</script>

@@ -93,7 +93,7 @@ const clientsLen = past_clients?.length ?? 0;
 				<h1>{hero.headline} <em>{hero.headline_accent}</em></h1>
 				<p class="lead-large">{hero.lead}</p>
 				<div class="hero-cta-row">
-					<a class="btn primary large" href={safeUrl(hero.cta_url)}>
+					<a class="btn primary large" href={safeUrl(hero.cta_url)} data-ga-event="speaking_inquiry" data-ga-label="speaking-hero">
 						{hero.cta_label} <span aria-hidden="true">&rarr;</span>
 					</a>
 					{
@@ -277,7 +277,7 @@ const clientsLen = past_clients?.length ?? 0;
 												</ul>
 											</>
 										)}
-										<a class="btn primary" href="/contact">
+										<a class="btn primary" href="/contact" data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
 											Book this talk <span aria-hidden="true">&rarr;</span>
 										</a>
 									</div>
@@ -306,7 +306,7 @@ const clientsLen = past_clients?.length ?? 0;
 							{custom_programs_section.cta_label && (
 								<a
 									class="btn primary large"
-									href={safeUrl(custom_programs_section.cta_url)}
+									href={safeUrl(custom_programs_section.cta_url)} data-ga-event="speaking_inquiry" data-ga-label="speaking-custom-programs"
 								>
 									{custom_programs_section.cta_label}{' '}
 									<span aria-hidden="true">&rarr;</span>
@@ -449,7 +449,7 @@ const clientsLen = past_clients?.length ?? 0;
 																</ul>
 															</>
 														)}
-														<a class="btn primary" href="/contact">
+														<a class="btn primary" href="/contact" data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
 															Book this talk{' '}
 															<span aria-hidden="true">&rarr;</span>
 														</a>
@@ -728,7 +728,7 @@ const clientsLen = past_clients?.length ?? 0;
 						{final_cta.heading} <em>{final_cta.heading_accent}</em>
 					</h2>
 					<p>{final_cta.body}</p>
-					<a class="btn yellow large" href={safeUrl(final_cta.cta_url)}>
+					<a class="btn yellow large" href={safeUrl(final_cta.cta_url)} data-ga-event="speaking_inquiry" data-ga-label="speaking-final">
 						{final_cta.cta_label} <span aria-hidden="true">&rarr;</span>
 					</a>
 				</div>

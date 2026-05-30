@@ -27,6 +27,11 @@ const isExternal = /^https?:\/\//i.test(ctaUrl);
   title="You're in | From Invisible to Influential"
   description="Thanks for signing up for the free 5-day course. Day 1 is on its way to your inbox."
 >
+  {/* GA4 key event (CLI-51): this page is where Kit redirects after a
+      successful free-course signup, so its load is the reliable conversion
+      signal. Fired via GoogleAnalytics.astro's [data-ga-event] tracker. */}
+  <div hidden data-ga-event="free_course_signup" data-ga-on="load"></div>
+
   <section class="ty">
     <div class="grid12 ty-grid">
       <div class="ty-copy fade-up">
