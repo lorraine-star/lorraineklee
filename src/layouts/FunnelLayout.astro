@@ -12,6 +12,7 @@ import '../styles/editorial/base.css';
 import '../styles/editorial/templates.css';
 import EditorialNav from '../components/editorial/EditorialNav.astro';
 import CookieBanner from '../components/CookieBanner.astro';
+import ClarityAnalytics from '../components/ClarityAnalytics.astro';
 import ScrollToTop from '../components/ScrollToTop.astro';
 import GoogleAnalytics from '../components/GoogleAnalytics.astro';
 
@@ -41,6 +42,7 @@ const year = new Date().getFullYear();
     {description && <meta name="description" content={description} />}
     <title>{title}</title>
     <GoogleAnalytics />
+    <ClarityAnalytics />
   </head>
   <body>
     <div class="shell">
