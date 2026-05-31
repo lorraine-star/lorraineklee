@@ -180,7 +180,7 @@ body {
   border-radius: 4px;
 }
 .nav-chevron {
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1;
   transform: translateY(1px);
   transition: transform 200ms var(--ease-out);
@@ -1297,10 +1297,17 @@ body {
   .nav-summary .nav-summary-link {
     width: auto;
     flex: 1 1 auto;
-    padding: 12px 0;
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0;
   }
+  /* CLI-144: bigger, easier-to-hit chevron. Full-height >=44px square tap
+     target so opening the submenu does not require a precise tap. */
   .nav-submenu-toggle {
-    padding: 12px 0 12px 12px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
   }
   .nav-link::after,
   .nav-summary::after {
@@ -1320,8 +1327,10 @@ body {
     opacity: 1;
     pointer-events: auto;
   }
-  .nav-item:hover .nav-dropdown,
-  .nav-item:focus-within .nav-dropdown,
+  /* CLI-144: on mobile the dropdown opens ONLY via the chevron toggle
+     (.is-open). Reacting to :hover / :focus-within made the first tap on the
+     parent link reveal the submenu instead of navigating, forcing a second
+     tap to follow the link. */
   .nav-item.is-open .nav-dropdown {
     display: block;
     transform: none;
