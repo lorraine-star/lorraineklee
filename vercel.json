@@ -177,6 +177,13 @@
     { "source": "/payment-confirmation", "destination": "/", "permanent": true },
     { "source": "/payment-failed", "destination": "/", "permanent": true },
     { "source": "/ecamm-workshop", "destination": "/", "permanent": true },
-    { "source": "/ecamm-bonuses", "destination": "/", "permanent": true }
+    { "source": "/ecamm-bonuses", "destination": "/", "permanent": true },
+
+    { "source": "/from-the-archive-one-easy-way-to-expand-your-network-on-linkedin", "destination": "/articles", "permanent": true },
+    { "source": "/from-the-archive-avoid-this-resume-trap", "destination": "/articles", "permanent": true },
+    { "source": "/from-the-archive-polish-your-presence-for-remote-interviews-with-this-video-setup", "destination": "/articles", "permanent": true },
+
+    { "source": "/free-quiz", "destination": "/learn", "permanent": true },
+    { "source": "/book-resources", "destination": "/book", "permanent": true }
   ]
 }
