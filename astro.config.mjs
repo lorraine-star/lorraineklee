@@ -7,10 +7,15 @@ import react from '@astrojs/react';
 import markdoc from '@astrojs/markdoc';
 import keystatic from '@keystatic/astro';
 import vercel from '@astrojs/vercel';
+import sitemap from '@astrojs/sitemap';
 import { fileURLToPath } from 'node:url';
 
 // https://astro.build/config
 export default defineConfig({
+  // CLI-64: canonical production URL. Required by @astrojs/sitemap and used to
+  // emit absolute URLs; the domain resolves here after the CLI-66 DNS cutover.
+  site: 'https://lorraineklee.com',
+
   // Site pages prerender to static HTML; the Keystatic admin routes
   // (/keystatic, /api/keystatic) are server-rendered, which the adapter serves.
   adapter: vercel(),
@@ -34,5 +39,9 @@ export default defineConfig({
     },
   },
 
-  integrations: [mdx(), react(), markdoc(), keystatic()]
+  integrations: [mdx(), react(), markdoc(), keystatic(), sitemap({
+    // Keep the Keystatic admin (/keystatic) and its API (/api/keystatic) out
+    // of the public sitemap.
+    filter: (page) => !page.includes('/keystatic'),
+  })]
 });
