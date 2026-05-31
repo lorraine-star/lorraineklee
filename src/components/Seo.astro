@@ -1,0 +1,82 @@
+---
+/*
+ * Shared SEO head tags: canonical URL, Open Graph, Twitter Card, and the
+ * sitewide JSON-LD (Person + WebSite). Rendered inside every layout's <head>.
+ *
+ * Page-specific structured data (e.g. the Book schema on /book) is rendered by
+ * the page itself, so this component stays sitewide.
+ *
+ * Canonical/OG URLs derive from `Astro.site` (set in astro.config.mjs) so they
+ * match the sitemap's URL format.
+ */
+interface Props {
+  title: string;
+  description?: string;
+  /** Absolute-from-root path to the social share image. */
+  image?: string;
+  /** Open Graph type, e.g. "website" or "profile". */
+  type?: string;
+}
+
+const {
+  title,
+  description,
+  image = '/images/about/lorraine-hero.jpg',
+  type = 'website',
+} = Astro.props;
+
+const site = Astro.site ?? new URL('https://lorraineklee.com');
+const canonical = new URL(Astro.url.pathname, site).href;
+const imageURL = new URL(image, site).href;
+
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Lorraine K. Lee',
+  url: site.origin,
+  image: new URL('/images/about/lorraine-hero.jpg', site).href,
+  jobTitle: 'Keynote speaker, author, and instructor',
+  description:
+    'Keynote speaker, LinkedIn Learning instructor, and author of Unforgettable Presence®, helping professionals and teams build executive presence and get recognized for their work.',
+  // Only verified, first-party profiles (the contact page lists placeholder
+  // Instagram/X URLs, so they are intentionally omitted here).
+  sameAs: [
+    'https://www.linkedin.com/in/lorraineklee',
+    'https://www.youtube.com/c/lorraineklee',
+  ],
+  worksFor: { '@type': 'Organization', name: 'RISE Learning Solutions' },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: 'Northwestern University' },
+  knowsAbout: [
+    'Executive presence',
+    'Professional presence',
+    'Communication',
+    'Personal branding',
+    'Public speaking',
+    'LinkedIn',
+  ],
+};
+
+const website = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Lorraine K. Lee',
+  url: site.origin,
+};
+---
+
+<link rel="canonical" href={canonical} />
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content="Lorraine K. Lee" />
+<meta property="og:title" content={title} />
+{description && <meta property="og:description" content={description} />}
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={imageURL} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+{description && <meta name="twitter:description" content={description} />}
+<meta name="twitter:image" content={imageURL} />
+
+<script type="application/ld+json" set:html={JSON.stringify(person)} />
+<script type="application/ld+json" set:html={JSON.stringify(website)} />
