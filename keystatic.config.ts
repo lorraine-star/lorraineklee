@@ -7,18 +7,6 @@ import { config, fields, collection, singleton } from '@keystatic/core';
 // To run the admin against local files instead (e.g. offline dev), swap to:
 //   storage: { kind: 'local' },
 
-const testimonialFields = {
-  quote: fields.text({ label: 'Quote', multiline: true }),
-  author: fields.text({ label: 'Author' }),
-  title: fields.text({ label: 'Author title' }),
-  photo: fields.image({
-    label: 'Headshot',
-    directory: 'public/images/v1/testimonials',
-    publicPath: '/images/v1/testimonials/',
-  }),
-  photo_alt: fields.text({ label: 'Headshot alt text' }),
-};
-
 export default config({
   storage: {
     kind: 'cloud',
@@ -31,32 +19,58 @@ export default config({
       label: 'Home',
       path: 'src/content/home/',
       schema: {
-        hero_headline: fields.text({ label: 'Hero headline' }),
-        hero_subheadline: fields.text({
-          label: 'Hero subheadline',
-          multiline: true,
-        }),
-        hero_image: fields.image({
-          label: 'Hero image',
-          directory: 'public/images/home',
-          publicPath: '/images/home/',
-        }),
-        primary_cta_text: fields.text({ label: 'Primary CTA text' }),
-        primary_cta_url: fields.text({ label: 'Primary CTA URL' }),
-        social_proof_logos: fields.array(
-          fields.image({
-            label: 'Logo',
-            directory: 'public/images/logos',
-            publicPath: '/images/logos/',
-          }),
-          { label: 'Social proof logos' }
+        hero: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            headline: fields.text({ label: 'Headline (plain start)' }),
+            headline_accent: fields.text({
+              label: 'Headline accent (shown italic)',
+            }),
+            headline_tail: fields.text({
+              label: 'Headline tail (plain, after the accent)',
+              description:
+                'Plain text rendered after the italic accent so the emphasis can sit mid-sentence, e.g. "presence."',
+            }),
+            subheadline: fields.text({
+              label: 'Subheadline',
+              multiline: true,
+            }),
+            image: fields.image({
+              label: 'Hero image',
+              description:
+                'Leave empty to keep the current default hero photo.',
+              directory: 'public/images/home',
+              publicPath: '/images/home/',
+            }),
+            image_alt: fields.text({ label: 'Hero image alt text' }),
+          },
+          { label: 'Hero' }
         ),
-        featured_testimonial: fields.object(testimonialFields, {
-          label: 'Featured testimonial',
-        }),
-        // The homepage testimonials carousel now reads from the shared
-        // `testimonials` collection (CLI-118) via getTestimonials({ placement:
-        // 'homepage' }). Edit those records, not a per-page array here.
+        primary_cta: fields.object(
+          {
+            label: fields.text({ label: 'Label' }),
+            url: fields.text({ label: 'URL' }),
+          },
+          { label: 'Primary CTA (filled button)' }
+        ),
+        secondary_cta: fields.object(
+          {
+            label: fields.text({ label: 'Label' }),
+            url: fields.text({ label: 'URL' }),
+          },
+          { label: 'Secondary CTA (outline button)' }
+        ),
+        tertiary_cta: fields.object(
+          {
+            label: fields.text({ label: 'Label' }),
+            url: fields.text({ label: 'URL' }),
+          },
+          { label: 'Tertiary CTA (text link)' }
+        ),
+        // The hero meta stats (250k+, #1) and the photo rating stat are still
+        // hardcoded in src/pages/index.astro for now. The "as seen in" logos
+        // render from <TrustAsSeenIn /> and the testimonials carousel from the
+        // shared `testimonials` collection (CLI-118), not from this singleton.
       },
     }),
     about: singleton({
@@ -975,40 +989,9 @@ export default config({
           },
           { label: 'LinkedIn Learning courses section heading' }
         ),
-        courses: fields.array(
-          fields.object({
-            title: fields.text({ label: 'Title' }),
-            platform: fields.select({
-              label: 'Platform',
-              options: [
-                { label: 'LinkedIn Learning', value: 'LinkedIn Learning' },
-              ],
-              defaultValue: 'LinkedIn Learning',
-            }),
-            glyph: fields.text({
-              label: 'Thumbnail letter (decorative, used only when no image is set)',
-            }),
-            thumbnail: fields.image({
-              label: 'Course thumbnail (optional)',
-              description:
-                'Course art shown on the card. Falls back to the decorative letter when empty.',
-              directory: 'public/images/v1/learn/courses',
-              publicPath: '/images/v1/learn/courses/',
-            }),
-            duration: fields.text({ label: 'Duration (optional)' }),
-            description: fields.text({
-              label: 'Description',
-              multiline: true,
-            }),
-            url: fields.text({
-              label: 'Course URL (external links open in a new tab)',
-            }),
-          }),
-          {
-            label: 'Courses',
-            itemLabel: (props) => props.fields.title.value || 'Course',
-          }
-        ),
+        // The course grid renders from the shared `courses` collection
+        // (reader.collections.courses) so the Learn grid and the /courses hub
+        // stay in sync — there is no per-page course list on this singleton.
         linkedin_resources_section: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -1435,19 +1418,9 @@ export default config({
           },
           { label: 'Why these courses (mid-page conversion band)' }
         ),
-        testimonials_section: fields.object(
-          {
-            eyebrow: fields.text({ label: 'Eyebrow' }),
-            heading: fields.text({ label: 'Heading (plain)' }),
-            heading_accent: fields.text({
-              label: 'Heading accent (italic)',
-            }),
-          },
-          { label: 'Student testimonials heading' }
-        ),
-        // Student reviews now come from the shared `testimonials` collection
-        // (CLI-118) via getTestimonials({ placement: 'courses' }). Only the
-        // section heading copy above lives here.
+        // Student reviews come from the shared `testimonials` collection
+        // (CLI-118) via getTestimonials({ placement: 'courses' }) and render in
+        // a compact proof strip; this page has no separate testimonials heading.
         final_cta: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
