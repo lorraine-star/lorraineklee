@@ -12,14 +12,14 @@
  * Styling: this section depends on the shared layout primitives (.grid12,
  * .eyebrow) and the .testimonials / .t-* rules in src/styles/v1/home.css.
  * The home page loads that stylesheet via HomeLayout. Any other page that
- * uses this component must also load src/styles/v1/home.css.
+ * uses this component must also load src/styles/v1/home.css. The React
+ * carousel imports its own chrome styles.
  *
- * This is a GLOBAL section — coordinate edits via Linear so parallel
+ * This is a GLOBAL section. Coordinate edits via Linear so parallel
  * worktrees don't drift.
  */
 import HomeTestimonialsCarousel from './HomeTestimonialsCarousel';
 import { getTestimonials, toCarouselCard } from '../lib/testimonials';
-import './home-testimonials-carousel.css';
 
 type Testimonial = {
   quote: string;
@@ -52,7 +52,7 @@ let testimonials = testimonialsProp;
 if (!testimonials) {
   // TEMPORARY (CLI-120): the homepage now shows the curated `showOnHomepage`
   // picks from the shared collection instead of the old hardcoded 16. This
-  // selection is provisional pending review — see CLI-120 for how to adjust
+  // selection is provisional pending review. See CLI-120 for how to adjust
   // the picks (toggle `showOnHomepage`) or fully revert.
   const shared = await getTestimonials({ placement: 'homepage' });
   testimonials = shared.map(toCarouselCard);

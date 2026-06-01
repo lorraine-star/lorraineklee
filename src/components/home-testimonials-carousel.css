@@ -2,17 +2,18 @@
 
    Reuses the global .t-card, .t-quote, .t-mark, .t-divider, .t-attrib,
    .t-avatar, .t-name and .t-role primitives from base.css (editorial layouts)
-   / home.css (home page) and OWNS the embla carousel layout, the circular
-   headshot, the optional per-item logo row, and the responsive behavior.
+   / home.css (home page) and owns the carousel layout, edge fade, circular
+   headshot, optional per-item logo row, and responsive behavior.
 
-   Imported by Testimonials.astro so these styles travel with the component to
-   any layout. The home page loads home.css; pages on other layouts (e.g. the
-   book page on SpeakingLayout) do not, so the carousel chrome must live here.
+   Imported by HomeTestimonialsCarousel.tsx so these styles travel with every
+   React island usage. The home page loads home.css; pages on other layouts
+   may not, so the carousel chrome must live here.
 
    GLOBAL section: coordinate edits via Linear so parallel worktrees don't drift. */
 
 /* Aligned to the shared default section scale (CLI-123, retuned in CLI-104). */
 .testimonials {
+  --testimonials-carousel-bg: var(--paper);
   padding: clamp(40px, 5vw, 72px) 0;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.42) 0%, rgba(245, 240, 233, 0.92) 100%);
 }
@@ -22,24 +23,85 @@
 }
 .testimonials-carousel {
   grid-column: 1 / -1;
+  --testimonials-carousel-bg: var(--paper);
   position: relative;
   justify-self: center;
-  width: min(100%, 980px);
+  width: min(100%, 920px);
   min-width: 0;
+  overflow: visible;
+}
+.section--cream .testimonials-carousel {
+  --testimonials-carousel-bg: var(--paper-deep);
+}
+.testimonials-track {
+  display: flex;
+  align-items: stretch;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 8px 15% 24px;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  outline: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 14%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 14%, #000 86%, transparent 100%);
+}
+.testimonials-track::-webkit-scrollbar {
+  display: none;
+}
+.testimonials-track:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: 12px;
+}
+.testimonials-carousel-slide {
+  flex: 0 0 70%;
+  min-width: 0;
+  display: flex;
+  scroll-snap-align: center;
+}
+.testimonials-carousel::before,
+.testimonials-carousel::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  bottom: 24px;
+  width: 17%;
+  z-index: 2;
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(6px) saturate(118%);
+  backdrop-filter: blur(6px) saturate(118%);
+}
+.testimonials-carousel::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(251, 248, 242, 0.34), transparent);
+  background: linear-gradient(to right, color-mix(in srgb, var(--testimonials-carousel-bg) 34%, transparent), transparent);
+  -webkit-mask-image: linear-gradient(to right, #000 38%, transparent);
+  mask-image: linear-gradient(to right, #000 38%, transparent);
+}
+.testimonials-carousel::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(251, 248, 242, 0.34), transparent);
+  background: linear-gradient(to left, color-mix(in srgb, var(--testimonials-carousel-bg) 34%, transparent), transparent);
+  -webkit-mask-image: linear-gradient(to left, #000 38%, transparent);
+  mask-image: linear-gradient(to left, #000 38%, transparent);
 }
 .testimonials-controls {
   position: absolute;
-  top: -92px;
-  right: 0;
+  inset: 8px 0 24px;
   z-index: 2;
-  display: flex;
-  gap: 10px;
+  pointer-events: none;
 }
 .testimonial-control {
-  width: 44px;
-  height: 44px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
+  position: absolute;
+  top: 42%;
+  z-index: 3;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-pill);
   background: #fff;
   color: var(--ink-900);
   display: inline-flex;
@@ -49,14 +111,21 @@
   font-size: 20px;
   line-height: 1;
   cursor: pointer;
-  box-shadow: var(--shadow-xs);
-  transition: background 200ms var(--ease-out), color 200ms var(--ease-out), transform 200ms var(--ease-out);
+  pointer-events: auto;
+  transform: translateY(-50%);
+  box-shadow: var(--shadow-md);
+  transition: background var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out);
+}
+.testimonial-control.prev {
+  left: -66px;
+}
+.testimonial-control.next {
+  right: -66px;
 }
 .testimonial-control:hover,
 .testimonial-control:focus-visible {
   background: var(--ink-900);
-  color: var(--paper);
-  transform: translateY(-1px);
+  color: #fff;
 }
 .testimonial-control:focus-visible {
   outline: 2px solid var(--accent);
@@ -65,7 +134,21 @@
 .testimonial-control:disabled {
   opacity: 0.38;
   cursor: not-allowed;
-  transform: none;
+}
+.testimonial-control svg {
+  width: 22px;
+  height: 22px;
+}
+.testimonial-control .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 .testimonials-head .lead {
   font-family: var(--font-sans);
@@ -89,28 +172,6 @@
   font-style: italic;
   color: var(--accent);
   font-weight: 400;
-}
-.testimonials-carousel [data-slot="carousel-content"] {
-  overflow: hidden;
-  padding: 4px 0 18px;
-  outline: none;
-}
-.testimonials-carousel [data-slot="carousel-content"]:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 6px;
-  border-radius: 12px;
-}
-.testimonials-track {
-  display: flex;
-  align-items: stretch;
-  column-gap: 0;
-  margin-left: 0;
-}
-.testimonials-carousel-slide {
-  flex: 0 0 min(760px, calc(100vw - (var(--grid-pad) * 2)));
-  min-width: 0;
-  padding: 0 20px;
-  display: flex;
 }
 
 /* Circular headshot. base.css styles .t-avatar (initials fallback) but not
@@ -161,10 +222,6 @@
     margin-bottom: 20px;
     text-align: left;
   }
-  .testimonials-controls {
-    position: static;
-    margin-bottom: 24px;
-  }
   .testimonials-title,
   .testimonials-head .lead {
     margin-left: 0;
@@ -174,33 +231,50 @@
   .testimonials-carousel {
     width: min(100%, calc(100vw - (var(--grid-pad) * 2)));
   }
-  .testimonials-carousel .testimonials-controls {
-    padding: 0;
-  }
-  .testimonials-carousel [data-slot="carousel-content"] {
-    padding-bottom: 16px;
-  }
   .testimonials-track {
-    padding-left: 0;
-    column-gap: 16px;
+    gap: 16px;
+    padding-left: 9%;
+    padding-right: 9%;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
   }
   .testimonials-carousel-slide {
-    flex-basis: calc(100% - 32px);
+    flex-basis: 82%;
+  }
+  .testimonials-carousel::before,
+  .testimonials-carousel::after {
+    width: 11%;
+  }
+  .testimonial-control.prev {
+    left: 4px;
+  }
+  .testimonial-control.next {
+    right: 4px;
   }
 }
 
 /* CLI-138: shorter client testimonial cards, and a sans-serif quote for
-   readability. Scoped to .testimonials (the global section wrapper) so it
-   overrides the serif .t-* primitives in home.css / base.css on every layout,
-   without a broad sitewide patch to the shared .t-* classes. */
-.testimonials .t-card {
+   readability. Scoped to this carousel so it overrides the serif .t-*
+   primitives in home.css / base.css on every layout, without a broad
+   sitewide patch to the shared .t-* classes. */
+.testimonials-carousel .t-card {
+  background: rgba(255, 255, 255, 0.66);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: var(--radius-lg);
   padding: 22px 26px;
+  box-shadow: var(--shadow-md);
 }
-.testimonials .t-mark {
+.testimonials-carousel .t-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+.testimonials-carousel .t-mark {
   font-size: 36px;
   margin-bottom: 8px;
 }
-.testimonials .t-quote {
+.testimonials-carousel .t-quote {
   font-family: var(--font-sans);
   font-style: normal;
   font-size: 16px;
@@ -209,14 +283,14 @@
 }
 
 @media (max-width: 900px) {
-  .testimonials .t-card {
+  .testimonials-carousel .t-card {
     padding: 18px 20px;
   }
-  .testimonials .t-mark {
+  .testimonials-carousel .t-mark {
     font-size: 32px;
     margin-bottom: 6px;
   }
-  .testimonials .t-quote {
+  .testimonials-carousel .t-quote {
     font-size: 15px;
     line-height: 1.45;
     margin-bottom: 14px;
