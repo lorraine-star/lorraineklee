@@ -36,6 +36,12 @@ const posts = collection
 
 const items = [...authored, ...posts];
 const isExternal = (href: string) => /^https?:\/\//i.test(href);
+
+// Show an initial batch and reveal the rest behind a "See more" button. The
+// remaining cards are still rendered into the DOM (hidden) so they need no
+// fetch and stay available without JS once the toggle is activated.
+const INITIAL_COUNT = 6;
+const hasMore = items.length > INITIAL_COUNT;
 ---
 
 <SpeakingLayout
@@ -60,9 +66,9 @@ const isExternal = (href: string) => /^https?:\/\//i.test(href);
 				items.length === 0 ? (
 					<p class="articles-empty">No articles published yet.</p>
 				) : (
-					<ul class="articles-list reveal-stagger">
-						{items.map((item) => (
-							<li>
+					<ul class="articles-list reveal-stagger" id="articles-list">
+						{items.map((item, index) => (
+							<li class={index >= INITIAL_COUNT ? 'article-item is-hidden' : 'article-item'}>
 								<a
 									class="article-card"
 									href={item.href}
@@ -97,8 +103,48 @@ const isExternal = (href: string) => /^https?:\/\//i.test(href);
 					</ul>
 				)
 			}
+
+			{
+				hasMore && (
+					<div class="articles-more">
+						<button
+							type="button"
+							class="btn outline"
+							id="articles-see-more"
+							aria-expanded="false"
+							aria-controls="articles-list"
+						>
+							See more
+						</button>
+					</div>
+				)
+			}
 		</div>
 	</section>
+
+	<script>
+		const btn = document.getElementById('articles-see-more');
+		const list = document.getElementById('articles-list');
+		if (btn && list) {
+			const hiddenItems = Array.from(
+				list.querySelectorAll('.article-item.is-hidden')
+			);
+			btn.addEventListener('click', () => {
+				const expanded = btn.getAttribute('aria-expanded') === 'true';
+				const next = !expanded;
+				// When expanded, the extra cards are shown (is-hidden removed); when
+				// collapsed again, they are re-hidden.
+				hiddenItems.forEach((li) => li.classList.toggle('is-hidden', !next));
+				btn.setAttribute('aria-expanded', String(next));
+				btn.textContent = next ? 'See less' : 'See more';
+				if (next) {
+					// Move focus to the first newly revealed card for keyboard users.
+					const firstRevealed = hiddenItems[0]?.querySelector('a');
+					if (firstRevealed instanceof HTMLElement) firstRevealed.focus();
+				}
+			});
+		}
+	</script>
 </SpeakingLayout>
 
 <style>
@@ -176,5 +222,14 @@ const isExternal = (href: string) => /^https?:\/\//i.test(href);
 	.articles-empty {
 		grid-column: 1 / -1;
 		color: var(--ink-500);
+	}
+	.article-item.is-hidden {
+		display: none;
+	}
+	.articles-more {
+		grid-column: 1 / -1;
+		display: flex;
+		justify-content: center;
+		margin-top: clamp(20px, 3vw, 32px);
 	}
 </style>
