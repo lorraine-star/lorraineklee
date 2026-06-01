@@ -1,17 +1,19 @@
 hero:
-  eyebrow: "Keynote speaker · Author · Instructor"
-  headline: "Helping leaders build an"
-  headline_accent: "unforgettable"
-  headline_tail: "presence."
-  subheadline: "Keynotes, workshops, and coaching that help your managers and high-potentials stop being the best-kept secret at work, and start driving the impact your organization needs."
-  image: null
-  image_alt: "Lorraine K. Lee, keynote speaker"
+  eyebrow: Keynote speaker · Author · Instructor
+  headline: Helping leaders build an
+  headline_accent: unforgettable
+  headline_tail: presence Today!.
+  subheadline: >-
+    Keynotes, workshops, and coaching that help your managers and
+    high-potentials stop being the best-kept secret at work, and start driving
+    the impact your organization needs.
+  image_alt: Lorraine K. Lee, keynote speaker
 primary_cta:
-  label: "Work With Me"
-  url: "/contact"
+  label: Work With Me
+  url: /contact
 secondary_cta:
-  label: "Get the Book"
-  url: "/book"
+  label: Get the Book
+  url: /book
 tertiary_cta:
-  label: "Watch a keynote clip"
-  url: "/speaking"
+  label: Watch a keynote clip
+  url: /speaking
