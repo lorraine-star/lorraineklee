@@ -61,6 +61,17 @@ const isExternal = /^https?:\/\//i.test(ctaUrl);
       }
     </div>
   </section>
+
+  {/* Permanently suppress the site-wide free-course popup (CLI-146): reaching
+      this page means a successful signup from any entry point (funnel forms,
+      /subscribe, or the popup itself), so the popup should never show again. */}
+  <script is:inline>
+    try {
+      window.localStorage.setItem('ll:free-course-popup:subscribed', '1');
+    } catch (e) {
+      /* private mode / storage disabled — nothing to persist */
+    }
+  </script>
 </FunnelLayout>
 
 <style>

@@ -1,0 +1,417 @@
+---
+/*
+ * FreeCoursePopup — site-wide opt-in for the free 5-day email course (CLI-146).
+ *
+ * Ties into the SAME signup as the funnel: it embeds the canonical
+ * FreeCourseForm posting to Kit form 8913437, so a popup signup is captured
+ * and counted exactly like the funnel hero form (conversion is tallied on the
+ * thank-you page Kit redirects to, so `event` is intentionally left unset to
+ * avoid double-counting).
+ *
+ * Frequency rule (confirmed cadence in CLI-146, timings are easy to tweak in
+ * the <script> constants below):
+ *   - Show once per visitor: the 7-day window starts the moment it opens, so a
+ *     reload or navigating to another page in the same visit won't reopen it.
+ *   - Suppress ~7 days if they don't sign up (dismiss / close / ignore).
+ *   - Never show again after signup. The permanent flag is set both here on
+ *     submit and on the thank-you page, so signups from ANY entry point
+ *     (funnel hero, funnel footer, /subscribe, this popup) suppress it.
+ * State lives in first-party localStorage (functional, not analytics), so it
+ * works regardless of the cookie-consent choice.
+ *
+ * Self-contained: it ships its own styles (including the embedded form's), so
+ * it renders correctly in every layout it's dropped into and never shows on the
+ * active signup-flow pages (funnel / thank-you / /subscribe) via the script's
+ * path denylist. Rendered in Layout, HomeLayout, and SpeakingLayout — NOT
+ * FunnelLayout.
+ */
+import FreeCourseForm from './FreeCourseForm.astro';
+
+const POINTS = [
+  'Articulate your value.',
+  'Show up on LinkedIn.',
+  'Get known by decision-makers.',
+];
+---
+
+<dialog
+  class="free-course-popup"
+  aria-labelledby="free-course-popup-title"
+  data-free-course-popup
+>
+  <div class="fcp-card">
+    <button type="button" class="fcp-close" data-fcp-close aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <p class="fcp-eyebrow">Free 5-Day Course</p>
+    <h2 id="free-course-popup-title" class="fcp-title">From invisible to influential.</h2>
+    <p class="fcp-subhead">
+      The 5-day system to communicate your value, get visible to decision-makers,
+      and position yourself for the next level.
+    </p>
+
+    <ul class="fcp-points">
+      {POINTS.map((point) => <li>{point}</li>)}
+    </ul>
+
+    <FreeCourseForm
+      formId="8913437"
+      idPrefix="fc-popup"
+      buttonLabel="SEND ME THE COURSE"
+      namePlaceholder="First name"
+      emailPlaceholder="Enter your best email"
+    />
+
+    <p class="fcp-meta">Five short emails. Free. Unsubscribe anytime.</p>
+  </div>
+</dialog>
+
+<style>
+  /* Self-contained brand values (mirrors editorial/tokens.css) so the popup is
+     not dependent on which layout's stylesheet is loaded. */
+  .free-course-popup {
+    --fcp-blue: #1a4dff;
+    --fcp-blue-hover: #2e64ff;
+    --fcp-paper: #fbf8f2;
+    --fcp-ink: #0e1530;
+    --fcp-ink-muted: #2a3147;
+    --fcp-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    --fcp-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+    width: min(460px, calc(100vw - 32px));
+    max-width: 460px;
+    padding: 0;
+    border: none;
+    border-radius: 20px;
+    background: transparent;
+    color: var(--fcp-ink);
+    overflow: visible;
+  }
+
+  .free-course-popup::backdrop {
+    background: rgba(14, 21, 48, 0.55);
+    backdrop-filter: blur(2px);
+  }
+
+  .fcp-card {
+    position: relative;
+    padding: 36px 32px 28px;
+    background: var(--fcp-paper);
+    border-radius: 20px;
+    box-shadow: 0 24px 60px -12px rgba(14, 21, 48, 0.45);
+    font-family: var(--fcp-sans);
+  }
+
+  /* Entrance animation (skipped under reduced-motion via the rule below). */
+  .free-course-popup[open] .fcp-card {
+    animation: fcp-rise 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @keyframes fcp-rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .fcp-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--fcp-ink-muted);
+    cursor: pointer;
+    transition: background 160ms ease, color 160ms ease;
+  }
+  .fcp-close:hover {
+    background: rgba(14, 21, 48, 0.07);
+    color: var(--fcp-ink);
+  }
+  .fcp-close svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .fcp-eyebrow {
+    margin: 0 0 10px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fcp-blue);
+  }
+
+  .fcp-title {
+    margin: 0 0 12px;
+    font-family: var(--fcp-serif);
+    font-weight: 600;
+    font-size: clamp(26px, 5vw, 32px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--fcp-ink);
+  }
+
+  .fcp-subhead {
+    margin: 0 0 18px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--fcp-ink-muted);
+  }
+
+  .fcp-points {
+    list-style: none;
+    margin: 0 0 22px;
+    padding: 0;
+    display: grid;
+    gap: 9px;
+  }
+  .fcp-points li {
+    position: relative;
+    padding-left: 26px;
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--fcp-ink);
+  }
+  .fcp-points li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 2px;
+    width: 17px;
+    height: 17px;
+    border-radius: 999px;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E")
+      center / 11px no-repeat var(--fcp-blue);
+  }
+
+  .fcp-meta {
+    margin: 14px 0 0;
+    font-size: 12.5px;
+    color: var(--fcp-ink-muted);
+    text-align: center;
+  }
+
+  /* ----- Embedded FreeCourseForm (its markup ships no styles of its own) ----- */
+  .free-course-popup :global(.fc-form) {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+  }
+  .free-course-popup :global(.fc-input) {
+    width: 100%;
+    padding: 13px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(14, 21, 48, 0.16);
+    background: #fff;
+    color: var(--fcp-ink);
+    font-family: var(--fcp-sans);
+    font-size: 16px;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+  }
+  .free-course-popup :global(.fc-input)::placeholder {
+    color: rgba(42, 49, 71, 0.55);
+  }
+  .free-course-popup :global(.fc-input):focus {
+    outline: none;
+    border-color: var(--fcp-blue);
+    box-shadow: 0 0 0 3px rgba(26, 77, 255, 0.18);
+  }
+  .free-course-popup :global(.fc-submit) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 2px;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 999px;
+    background: var(--fcp-blue);
+    color: #fff;
+    font-family: var(--fcp-sans);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+  }
+  .free-course-popup :global(.fc-submit):hover {
+    background: var(--fcp-blue-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px -8px rgba(26, 77, 255, 0.6);
+  }
+  .free-course-popup :global(.fc-submit):active {
+    transform: none;
+  }
+  .free-course-popup :global(.fc-form-error) {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: #c24545;
+    text-align: center;
+  }
+  .free-course-popup :global(.sr-only) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (max-width: 480px) {
+    .fcp-card {
+      padding: 32px 22px 24px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .free-course-popup[open] .fcp-card {
+      animation: none;
+    }
+    .free-course-popup :global(.fc-submit),
+    .fcp-close {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // ----- Frequency rule (tweak these freely) -----
+  const SUPPRESS_DAYS = 7; // re-show window if they don't sign up
+  const OPEN_DELAY_MS = 15000; // time on page before it may open
+  const SCROLL_TRIGGER = 0.45; // OR this much of the page scrolled, whichever first
+
+  const SEEN_KEY = 'll:free-course-popup:seenAt';
+  const SUBSCRIBED_KEY = 'll:free-course-popup:subscribed';
+  const DAY_MS = 24 * 60 * 60 * 1000;
+
+  // Active signup-flow pages where the popup must never appear. startsWith
+  // covers the funnel, its thank-you page, and any future sub-paths.
+  const DENY_PREFIXES = ['/from-invisible-to-influential', '/subscribe'];
+
+  function readStorage(key: string): string | null {
+    try {
+      return window.localStorage.getItem(key);
+    } catch {
+      return null;
+    }
+  }
+
+  function writeStorage(key: string, value: string): void {
+    try {
+      window.localStorage.setItem(key, value);
+    } catch {
+      // Private mode / disabled storage: the popup just behaves ephemerally.
+    }
+  }
+
+  function onDenyPage(): boolean {
+    const path = window.location.pathname.replace(/\/+$/, '') || '/';
+    return DENY_PREFIXES.some((prefix) => path === prefix || path.startsWith(prefix));
+  }
+
+  function isSuppressed(): boolean {
+    if (readStorage(SUBSCRIBED_KEY)) return true;
+    const seen = Number(readStorage(SEEN_KEY)) || 0;
+    if (seen && Date.now() - seen < SUPPRESS_DAYS * DAY_MS) return true;
+    return false;
+  }
+
+  function init(): void {
+    const dialog = document.querySelector<HTMLDialogElement>('[data-free-course-popup]');
+    if (!dialog) return;
+    if (onDenyPage() || isSuppressed()) return;
+    if (typeof dialog.showModal !== 'function') return; // no <dialog> support: skip silently
+
+    let opened = false;
+    let bodyOverflow = '';
+    let bodyPaddingRight = '';
+
+    function lockScroll(): void {
+      bodyOverflow = document.body.style.overflow;
+      bodyPaddingRight = document.body.style.paddingRight;
+      const scrollbar = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.overflow = 'hidden';
+      if (scrollbar > 0) document.body.style.paddingRight = `${scrollbar}px`;
+    }
+
+    function unlockScroll(): void {
+      document.body.style.overflow = bodyOverflow;
+      document.body.style.paddingRight = bodyPaddingRight;
+    }
+
+    function open(): void {
+      if (opened || dialog.open) return;
+      opened = true;
+      // The 7-day window starts on open, so it shows at most once per visitor
+      // per window regardless of how the visitor closes or leaves it.
+      writeStorage(SEEN_KEY, String(Date.now()));
+      cleanupTriggers();
+      lockScroll();
+      dialog.showModal();
+    }
+
+    let timerId = 0;
+    function onScroll(): void {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const depth = scrollable > 0 ? document.documentElement.scrollTop / scrollable : 0;
+      if (depth >= SCROLL_TRIGGER) open();
+    }
+    function cleanupTriggers(): void {
+      window.clearTimeout(timerId);
+      window.removeEventListener('scroll', onScroll);
+    }
+
+    timerId = window.setTimeout(open, OPEN_DELAY_MS);
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Close (dismiss) wiring. seenAt is already written on open, so a dismiss
+    // just needs to close; the 7-day suppression is already in effect. Scroll is
+    // unlocked explicitly here (not via the native 'close' event, which some
+    // engines don't fire for programmatic close); unlockScroll is idempotent.
+    function close(): void {
+      if (dialog.open) dialog.close();
+      unlockScroll();
+    }
+    dialog.querySelector('[data-fcp-close]')?.addEventListener('click', close);
+    dialog.addEventListener('click', (event) => {
+      // Click on the backdrop (the dialog element itself, outside the card).
+      if (event.target === dialog) close();
+    });
+    // ESC closes the dialog itself and fires 'cancel'; unlock scroll on both
+    // 'cancel' and 'close' as belt-and-suspenders across browsers.
+    dialog.addEventListener('cancel', unlockScroll);
+    dialog.addEventListener('close', unlockScroll);
+
+    // Signup: mark permanently subscribed before the native POST navigates away.
+    dialog.querySelector('form')?.addEventListener('submit', () => {
+      writeStorage(SUBSCRIBED_KEY, '1');
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init, { once: true });
+  } else {
+    init();
+  }
+</script>
