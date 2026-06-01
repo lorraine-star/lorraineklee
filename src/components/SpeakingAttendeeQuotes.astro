@@ -1,0 +1,105 @@
+---
+/**
+ * Static attendee-quote grid for the /speaking page (CLI-145).
+ *
+ * Replaces the prior auto-scrolling waterfall (the React
+ * `SecondaryTestimonialsCarousel` island) for the attendee section. That
+ * island is still used by the shared `StudentTestimonials.astro` global
+ * section, so it (and its CSS) is intentionally left untouched. This component
+ * renders the same `event-attendee` testimonials as a de-duplicated static
+ * responsive grid (3 cols desktop, 2 tablet, 1 mobile) with no animation,
+ * no Pause control, and no client-side JS.
+ *
+ * Cards reuse the global `.t-card` vocabulary from base.css. Because the
+ * photo-avatar styles normally live in the carousel's own stylesheet (which
+ * this static markup does not load), they are re-declared here, scoped to the
+ * grid wrapper so they cannot leak into other `.t-card` usages.
+ */
+import type { ColumnCard } from '../lib/testimonials';
+
+interface Props {
+	cards: ColumnCard[];
+}
+
+const { cards } = Astro.props;
+---
+
+{
+	cards.length > 0 && (
+		<div class="attendee-quote-grid reveal">
+			{cards.map((card) => (
+				<figure class="t-card">
+					<span class="t-mark" aria-hidden="true">
+						&ldquo;
+					</span>
+					<blockquote class="t-quote">{card.quote}</blockquote>
+					<div class="t-divider" />
+					<figcaption class="t-attrib">
+						{card.photo ? (
+							<div class="t-avatar t-avatar--photo">
+								<img
+									src={card.photo}
+									alt={card.photo_alt || card.name}
+									loading="lazy"
+								/>
+							</div>
+						) : (
+							<div class="t-avatar">{card.initials}</div>
+						)}
+						<div>
+							<div class="t-name">{card.name}</div>
+							{card.role && <div class="t-role">{card.role}</div>}
+						</div>
+					</figcaption>
+				</figure>
+			))}
+		</div>
+	)
+}
+
+<style>
+	.attendee-quote-grid {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 24px;
+		margin-top: 12px;
+	}
+
+	@media (min-width: 768px) {
+		.attendee-quote-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (min-width: 1200px) {
+		.attendee-quote-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	/* Match the carousel's readability tweak: sans-serif, upright quote.
+	   Scoped to this grid so it cannot affect other .t-card usages. */
+	.attendee-quote-grid :global(.t-quote) {
+		font-family: var(--font-sans);
+		font-style: normal;
+		font-weight: 500;
+		font-size: 17px;
+	}
+
+	/* Photo avatars. The shared carousel declares these in its own stylesheet,
+	   which this static grid does not load, so re-declare them here scoped to
+	   the grid wrapper. */
+	.attendee-quote-grid :global(.t-avatar.t-avatar--photo) {
+		background: var(--paper-deep);
+		overflow: hidden;
+		padding: 0;
+	}
+
+	.attendee-quote-grid :global(.t-avatar.t-avatar--photo img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+</style>

@@ -1,7 +1,7 @@
 ---
 import SpeakingLayout from '../layouts/SpeakingLayout.astro';
 import HomeTestimonialsCarousel from '../components/HomeTestimonialsCarousel';
-import SecondaryTestimonialsCarousel from '../components/SecondaryTestimonialsCarousel';
+import SpeakingAttendeeQuotes from '../components/SpeakingAttendeeQuotes.astro';
 import { reader } from '../lib/keystatic';
 import { getTestimonials, toCarouselCard, toColumnCard } from '../lib/testimonials';
 import { safeUrl } from '../lib/url';
@@ -58,7 +58,10 @@ const organizerCarousel = (
 		type: 'client-organizer-speaking',
 	})
 ).map(toCarouselCard);
-const attendeeCarousel = (
+// Static, de-duplicated attendee quotes (CLI-145). getTestimonials already
+// de-dupes (one entry per testimonial) and sorts by `order`; rendered as a
+// static grid via SpeakingAttendeeQuotes, no auto-scroll/marquee duplication.
+const attendeeQuotes = (
 	await getTestimonials({ placement: 'speaking', type: 'event-attendee' })
 ).map(toColumnCard);
 const linkedinRecommendationsUrl =
@@ -625,7 +628,7 @@ const clientsLen = past_clients?.length ?? 0;
 	</section>
 
 	{
-		attendee_testimonials_section && attendeeCarousel.length > 0 && (
+		attendee_testimonials_section && attendeeQuotes.length > 0 && (
 			<section class="section section--tight section--cream attendee-testimonials">
 				<div class="grid12">
 					<div class="section-head">
@@ -639,10 +642,9 @@ const clientsLen = past_clients?.length ?? 0;
 						)}
 					</div>
 				</div>
-				<SecondaryTestimonialsCarousel
-					client:visible
-					testimonials={attendeeCarousel}
-				/>
+				<div class="grid12">
+					<SpeakingAttendeeQuotes cards={attendeeQuotes} />
+				</div>
 			</section>
 		)
 	}
