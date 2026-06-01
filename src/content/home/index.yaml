@@ -2,11 +2,12 @@ hero:
   eyebrow: Keynote speaker · Author · Instructor
   headline: Helping leaders build an
   headline_accent: unforgettable
-  headline_tail: presence.
+  headline_tail: presence today.
   subheadline: >-
     Keynotes, workshops, and coaching that help your managers and
     high-potentials stop being the best-kept secret at work, and start driving
     the impact your organization needs.
+  image: /images/home/hero/image.png
   image_alt: Lorraine K. Lee, keynote speaker
 primary_cta:
   label: Work With Me
