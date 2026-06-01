@@ -1,10 +1,9 @@
-hero_headline: "Get seen. Gain influence. Build an unforgettable presence."
-hero_subheadline: "Keynote speaker, LinkedIn Learning instructor, and author of Unforgettable Presence®. I help professionals and teams communicate with confidence and get recognized for the work they do."
-hero_image: null
-primary_cta_text: "Book Lorraine to speak"
-primary_cta_url: "/speaking"
+hero_headline: Get seen. Gain influence. Build an unforgettable presence today!
+hero_subheadline: >-
+  Keynote speaker, LinkedIn Learning instructor, and author of Unforgettable
+  Presence®. I help professionals and teams communicate with confidence and get
+  recognized for the work they do.
+primary_cta_text: Book Lorraine to speak
+primary_cta_url: /speaking
 social_proof_logos: []
-featured_testimonial:
-  quote: ""
-  author: ""
-  title: ""
+featured_testimonial: {}
