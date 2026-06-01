@@ -25,9 +25,14 @@ import BookPromo from '../components/BookPromo.astro';
 import TrustAsSeenIn from '../components/TrustAsSeenIn.astro';
 import Testimonials from '../components/Testimonials.astro';
 import Footer from '../components/Footer.astro';
+import { reader } from '../lib/keystatic';
 
-const headlineHtml = 'Helping leaders build an<br/><em>unforgettable</em> presence.';
-const ctaLabel = 'Work With Me';
+const home = await reader.singletons.home.read();
+if (!home) {
+  throw new Error('Missing home content (src/content/home/index.yaml)');
+}
+const { hero, primary_cta, secondary_cta, tertiary_cta } = home;
+const heroImage = hero?.image ?? '/images/v1/lorraine-hero-home.webp';
 
 const fourWays = [
   { n: '01', label: 'Speaking', desc: 'Keynotes built around what your team actually needs to hear.', href: '/speaking' },
@@ -81,21 +86,20 @@ const courseHref =
             <div class="hero-eyebrow">
               <span class="dot"></span>
               <span class="eyebrow" style="color: var(--ink-500);">
-                Keynote speaker · Author · Instructor
+                {hero?.eyebrow ?? 'Keynote speaker · Author · Instructor'}
               </span>
             </div>
-            <h1 class="hero-headline" set:html={headlineHtml} />
+            <h1 class="hero-headline">{hero?.headline ?? 'Helping leaders build an'} <em>{hero?.headline_accent ?? 'unforgettable'}</em> {hero?.headline_tail ?? 'presence.'}</h1>
             <p class="hero-sub">
-              Keynotes, workshops, and coaching that help your managers and
-              high-potentials stop being the best-kept secret at work, and
-              start driving the impact your organization needs.
+              {hero?.subheadline ??
+                'Keynotes, workshops, and coaching that help your managers and high-potentials stop being the best-kept secret at work, and start driving the impact your organization needs.'}
             </p>
             <div class="hero-cta-row">
-              <a class="btn primary large" href="/contact">
-                {ctaLabel} <span aria-hidden="true">&rarr;</span>
+              <a class="btn primary large" href={primary_cta?.url ?? '/contact'}>
+                {primary_cta?.label ?? 'Work With Me'} <span aria-hidden="true">&rarr;</span>
               </a>
-              <a class="btn outline" href="/book">Get the Book</a>
-              <a class="btn ghost" href="/speaking">Watch a keynote clip</a>
+              <a class="btn outline" href={secondary_cta?.url ?? '/book'}>{secondary_cta?.label ?? 'Get the Book'}</a>
+              <a class="btn ghost" href={tertiary_cta?.url ?? '/speaking'}>{tertiary_cta?.label ?? 'Watch a keynote clip'}</a>
             </div>
             <div class="hero-meta">
               <div>
@@ -113,7 +117,7 @@ const courseHref =
           <div class="hero-photo-wrap fade-up" style="animation-delay: 120ms;">
             <div class="photo-bg-shape" aria-hidden="true"></div>
             <div class="photo-card">
-              <img src="/images/v1/lorraine-hero-home.webp" alt="Lorraine K. Lee, keynote speaker" />
+              <img src={heroImage} alt={hero?.image_alt ?? 'Lorraine K. Lee, keynote speaker'} />
             </div>
             <div class="photo-stat">
               <div class="num">4.9<span style="font-size: 18px; opacity: 0.5; font-weight: 400;">/5</span></div>
