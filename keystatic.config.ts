@@ -2737,6 +2737,10 @@ export default config({
       slugField: 'slug',
       path: 'src/content/links/*',
       format: { data: 'yaml' },
+      // Show the destination and on/off state alongside each slug in the
+      // collection list, so the Shortlinks landing page reads as a tracking
+      // table (slug | destination | active).
+      columns: ['destination', 'active'],
       // CLI-151: branded short redirects, e.g. lorraineklee.com/book -> a long
       // destination URL. getShortlinkRedirects() in src/lib/shortlinks.ts turns
       // each active entry into a 301 in the Astro `redirects` config at build
@@ -2749,7 +2753,7 @@ export default config({
           slug: {
             label: 'URL slug',
             description:
-              'What comes after the slash, e.g. "book" for lorraineklee.com/book. Lowercase, no spaces, no leading slash. Must NOT match an existing page (about, book, speaking, learn, contact, articles, etc.) or it will be ignored.',
+              'What comes after the slash, e.g. "buy-the-book" for lorraineklee.com/buy-the-book. Lowercase, no spaces, no leading slash. Must NOT match an existing page (about, book, speaking, learn, contact, articles, etc.) or it will be ignored in favor of that page.',
           },
         }),
         destination: fields.url({
