@@ -3758,7 +3758,9 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 @media (min-width: 1025px) {
   .topic-bento:not(.other-talks-list) > .topic-card:first-child:has(.topic-media) {
     display: grid;
-    grid-template-columns: 1.05fr 1fr;
+    /* Give the media column more room so the 16:9 preview renders larger and
+       the letterbox bands above/below it stay modest. */
+    grid-template-columns: 1.4fr 1fr;
     grid-template-rows: 1fr auto;
     grid-template-areas:
       "media trigger"
@@ -3783,6 +3785,24 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
     border-bottom: 0;
     border-right: 1px solid var(--border-soft);
     min-height: 100%;
+  }
+  /* The hero tile fills the (taller) row height set by its stacked neighbour,
+     but its media column is far wider than it is tall. Showing the 16:9 preview
+     with object-fit: cover here would crop the landscape source into a portrait
+     sliver. Use contain so the full preview is visible, centered, with the
+     paper background framing it top and bottom. */
+  .topic-bento:not(.other-talks-list)
+    > .topic-card:first-child:has(.topic-media)
+    > .topic-media > img {
+    object-fit: contain;
+    object-position: center;
+  }
+  /* Closed hero next to an expanded tile pins its media back to 16:9 (below),
+     where it fully fills the cell, so cover is correct there again. */
+  .topic-bento:not(.other-talks-list):has(> .topic-card[data-open='true'])
+    > .topic-card:first-child:has(.topic-media):not([data-open='true'])
+    > .topic-media > img {
+    object-fit: cover;
   }
   /* Closed hero next to an expanded tile: pin the preview to its natural ratio
      so it stays compact rather than stretching with the content-sized card. */
