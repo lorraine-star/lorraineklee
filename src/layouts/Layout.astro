@@ -5,6 +5,8 @@ import CookieBanner from '../components/CookieBanner.astro';
 import ClarityAnalytics from '../components/ClarityAnalytics.astro';
 import ScrollToTop from '../components/ScrollToTop.astro';
 import GoogleAnalytics from '../components/GoogleAnalytics.astro';
+import FreeCoursePopup from '../components/FreeCoursePopup.astro';
+import Seo from '../components/Seo.astro';
 
 interface Props {
 	title: string;
@@ -24,6 +26,7 @@ const { title, description } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		{description && <meta name="description" content={description} />}
 		<title>{title}</title>
+		<Seo title={title} description={description} />
 		<GoogleAnalytics />
 		<ClarityAnalytics />
 	</head>
@@ -39,5 +42,6 @@ const { title, description } = Astro.props;
 		</footer>
 		<CookieBanner />
 		<ScrollToTop />
+		<FreeCoursePopup />
 	</body>
 </html>

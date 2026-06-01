@@ -73,6 +73,7 @@ body {
 }
 .banner-link:hover .arrow { transform: translateX(4px); }
 .banner-dismiss {
+  position: relative;
   background: transparent;
   border: 0;
   width: 32px;
@@ -87,6 +88,17 @@ body {
   margin-right: -6px;
 }
 .banner-dismiss:hover { background: rgba(14,21,48,0.08); }
+/* CLI-141: keep the compact 32px glyph but extend the tap target to >=44px.
+   The overlay is absolutely positioned, so the thin banner row never grows. */
+.banner-dismiss::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+}
 .banner-dismiss svg { width: 16px; height: 16px; stroke-width: 2; }
 
 /* ---------- NAV ---------- */
@@ -181,7 +193,7 @@ body {
   border-radius: 4px;
 }
 .nav-chevron {
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1;
   transform: translateY(1px);
   transition: transform 200ms var(--ease-out);
@@ -246,8 +258,8 @@ body {
 .nav-inner > .btn { justify-self: end; }
 .nav-menu-toggle {
   display: none;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border: 1px solid var(--border);
   border-radius: 999px;
   background: #fff;
@@ -561,8 +573,8 @@ body {
   margin-bottom: 12px;
 }
 .social-btn {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 999px;
   background: #fff;
   border: 1px solid var(--border);
@@ -639,6 +651,29 @@ body {
 .footer-base a:hover { color: var(--accent); }
 .footer-base-links { display: flex; gap: 24px; }
 
+/* CLI-141: enlarge inline footer link tap targets to >=44px on touch widths
+   (where the footer already stacks). Type stays the same size; only the hit
+   area grows, so the desktop footer spacing is unchanged. */
+@media (max-width: 900px) {
+  .footer-email {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    margin-bottom: 0;
+  }
+  .footer-explore ul { gap: 4px; }
+  .footer-explore a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .footer-base-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 900px) {
   .nav-inner { grid-template-columns: auto 1fr auto auto; gap: 12px; }
@@ -672,10 +707,17 @@ body {
   .nav-summary .nav-summary-link {
     width: auto;
     flex: 1 1 auto;
-    padding: 12px 0;
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0;
   }
+  /* CLI-144: bigger, easier-to-hit chevron. Full-height >=44px square tap
+     target so opening the submenu does not require a precise tap. */
   .nav-submenu-toggle {
-    padding: 12px 0 12px 12px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
   }
   .nav-link::after,
   .nav-summary::after {
@@ -695,8 +737,10 @@ body {
     opacity: 1;
     pointer-events: auto;
   }
-  .nav-item:hover .nav-dropdown,
-  .nav-item:focus-within .nav-dropdown,
+  /* CLI-144: on mobile the dropdown opens ONLY via the chevron toggle
+     (.is-open). Reacting to :hover / :focus-within made the first tap on the
+     parent link reveal the submenu instead of navigating, forcing a second
+     tap to follow the link. */
   .nav-item.is-open .nav-dropdown {
     display: block;
     transform: none;

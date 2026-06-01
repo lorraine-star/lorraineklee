@@ -1,5 +1,5 @@
 /* ============================================================
-   Editorial template styles — Speaking page sections
+   Editorial template styles - Speaking page sections
    ============================================================ */
 
 /* ----------------------------------------------------------------
@@ -279,7 +279,7 @@
   background: var(--accent);
   color: #fff;
 }
-/* Dropdown panel — mirrors the .other-talks-panel reveal. */
+/* Dropdown panel, mirrors the .other-talks-panel reveal. */
 .topic-panel {
   max-height: 0;
   overflow: hidden;
@@ -340,7 +340,7 @@
 }
 
 /* ----------------------------------------------------------------
-   Logo grid — past clients
+   Logo grid - past clients
    ---------------------------------------------------------------- */
 .logo-grid {
   grid-column: 1 / -1;
@@ -513,7 +513,7 @@
 }
 
 /* ----------------------------------------------------------------
-   Learn page — content hub (centered hero, filter, course cards)
+   Learn page - content hub (centered hero, filter, course cards)
    ---------------------------------------------------------------- */
 .page-hero--center .page-hero-grid {
   display: block;
@@ -524,7 +524,7 @@
 .page-hero--center .page-hero-copy { grid-column: unset; }
 .page-hero--center .page-hero-eyebrow { justify-content: center; }
 /* Centered heroes reset lead-large's margin to `0 auto`, which also drops the
-   default 32px bottom gap — restore it so the CTA row isn't crammed against the
+   default 32px bottom gap. Restore it so the CTA row isn't crammed against the
    lead. The row itself centers within the column (CLI-85). */
 .page-hero--center .lead-large { margin: 0 auto 32px; }
 .page-hero--center .hero-cta-row { justify-content: center; }
@@ -693,7 +693,7 @@
 }
 
 /* ----------------------------------------------------------
-   Learn page hero — two-col copy + horizontal card rail
+   Learn page hero - two-col copy + horizontal card rail
    ---------------------------------------------------------- */
 .learn-hero {
   padding-bottom: clamp(48px, 6vw, 80px);
@@ -1202,7 +1202,7 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 }
 
 /* ----------------------------------------------------------
-   Learn — LinkedIn resources (lead-magnet cards)
+   Learn - LinkedIn resources (lead-magnet cards)
    ---------------------------------------------------------- */
 .learn-resources {
   grid-column: 1 / -1;
@@ -1638,7 +1638,7 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
      extra slack so pills still bottom-align when a value wraps. */
   margin-bottom: 18px;
 }
-/* Attribution tag — what the award/honor recognizes. Pinned to the card
+/* Attribution tag, what the award/honor recognizes. Pinned to the card
    bottom (margin-top:auto) so the pills align across the row; gold pill keys
    off the card's local --gold-* tokens to match the highlight theme. */
 .highlight-attribution {
@@ -1743,19 +1743,19 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   filter: grayscale(0);
 }
 /* Per-asset optical normalization. Mixed png/svg marks don't share an ink
-   weight or aspect ratio, so the outliers are nudged here — mirrors the
+   weight or aspect ratio, so the outliers are nudged here. Mirrors the
    press-mark--<id> convention in TrustAsSeenIn.astro. Tuned against the
    rendered page (luminance + bounding box measured in-browser). */
 
 /* MasterClass symbol ("M") only ships in a light (white) variant, which is
-   invisible on the light footer — invert it to dark ink. grayscale(1) then
+   invisible on the light footer. Invert it to dark ink. grayscale(1) then
    invert(1) turns the white mark black; hover keeps the invert. */
 .cred-logo--masterclass {
   filter: grayscale(1) invert(1);
 }
 .credibility-card:hover .cred-logo--masterclass { filter: invert(1); }
 
-/* Light-toned award badge — lift opacity so it doesn't wash out at grayscale. */
+/* Light-toned award badge. Lift opacity so it doesn't wash out at grayscale. */
 .cred-logo--asian-creator-awards { opacity: 0.9; }
 
 /* ----- Final CTA cards ----- */
@@ -2077,10 +2077,10 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 }
 
 /* ----------------------------------------------------------------
-   Featured In (press logos band) — Book page
+   Featured In (press logos band) - Book page
    ---------------------------------------------------------------- */
 /* ----------------------------------------------------------------
-   Community / readers collage — Book page
+   Community / readers collage - Book page
    ---------------------------------------------------------------- */
 .community-heading {
   text-wrap: balance;
@@ -2116,7 +2116,7 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 }
 
 /* ----------------------------------------------------------------
-   Reader reviews grid — Book page
+   Reader reviews grid - Book page
    ---------------------------------------------------------------- */
 .amazon-rating {
   display: inline-flex;
@@ -2197,7 +2197,7 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 }
 
 /* ----------------------------------------------------------------
-   Awards — Book page
+   Awards - Book page
    ---------------------------------------------------------------- */
 .awards-row {
   grid-column: 1 / -1;
@@ -2250,7 +2250,7 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 }
 
 /* ----------------------------------------------------------------
-   Retailers — grouped layout (Individual buys vs. Bulk buys)
+   Retailers - grouped layout (Individual buys vs. Bulk buys)
    ---------------------------------------------------------------- */
 .retailer-group {
   grid-column: 1 / -1;
@@ -3096,100 +3096,6 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   display: flex;
   justify-content: center;
   margin-top: 28px;
-}
-
-/* Horizontal organizer testimonials carousel (HomeTestimonialsCarousel).
-   Its layout CSS lives in the homepage stylesheet, which this page doesn't
-   load, so without this the slides stack full-width. Scoped to #testimonials
-   so it can't affect any other page; controls sit inline above the track
-   (the homepage's absolute offset assumes its own header layout). */
-#testimonials .testimonials-carousel {
-  grid-column: 1 / -1;
-  position: relative;
-  justify-self: center;
-  width: min(100%, 980px);
-  min-width: 0;
-}
-#testimonials .testimonials-controls {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin: 0 0 16px;
-  padding: 0 20px;
-}
-#testimonials .testimonial-control {
-  width: 44px;
-  height: 44px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: #fff;
-  color: var(--ink-900);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-sans);
-  font-size: 20px;
-  line-height: 1;
-  cursor: pointer;
-  box-shadow: var(--shadow-xs);
-  transition: background 200ms var(--ease-out), color 200ms var(--ease-out),
-    transform 200ms var(--ease-out);
-}
-#testimonials .testimonial-control:hover,
-#testimonials .testimonial-control:focus-visible {
-  background: var(--ink-900);
-  color: var(--paper);
-  transform: translateY(-1px);
-}
-#testimonials .testimonial-control:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-}
-#testimonials .testimonial-control:disabled {
-  opacity: 0.38;
-  cursor: not-allowed;
-  transform: none;
-}
-#testimonials .testimonials-carousel [data-slot='carousel-content'] {
-  overflow: hidden;
-  padding: 4px 0 18px;
-  outline: none;
-}
-#testimonials .testimonials-track {
-  display: flex;
-  align-items: stretch;
-  column-gap: 0;
-  margin-left: 0;
-}
-#testimonials .testimonials-carousel-slide {
-  flex: 0 0 min(760px, calc(100vw - (var(--grid-pad) * 2)));
-  min-width: 0;
-  padding: 0 20px;
-  display: flex;
-}
-#testimonials .t-headshot {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  object-fit: cover;
-  background: var(--ink-100);
-  border: 1px solid rgba(14, 21, 48, 0.08);
-}
-@media (max-width: 900px) {
-  #testimonials .testimonials-carousel {
-    width: min(100%, calc(100vw - (var(--grid-pad) * 2)));
-  }
-  #testimonials .testimonials-carousel [data-slot='carousel-content'] {
-    padding-bottom: 16px;
-  }
-  #testimonials .testimonials-track {
-    padding-left: 0;
-    column-gap: 16px;
-  }
-  #testimonials .testimonials-carousel-slide {
-    flex-basis: calc(100% - 32px);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

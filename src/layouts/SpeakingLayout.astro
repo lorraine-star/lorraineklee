@@ -9,6 +9,8 @@ import CookieBanner from '../components/CookieBanner.astro';
 import ClarityAnalytics from '../components/ClarityAnalytics.astro';
 import ScrollToTop from '../components/ScrollToTop.astro';
 import GoogleAnalytics from '../components/GoogleAnalytics.astro';
+import FreeCoursePopup from '../components/FreeCoursePopup.astro';
+import Seo from '../components/Seo.astro';
 
 interface Props {
   title: string;
@@ -34,6 +36,7 @@ const { title, description, activeId = 'home' } = Astro.props;
     />
     {description && <meta name="description" content={description} />}
     <title>{title}</title>
+    <Seo title={title} description={description} />
     <GoogleAnalytics />
     <ClarityAnalytics />
   </head>
@@ -48,6 +51,7 @@ const { title, description, activeId = 'home' } = Astro.props;
     </div>
     <CookieBanner />
     <ScrollToTop />
+    <FreeCoursePopup />
 
     <script>
       // The staggered "waterfall" reveal lives in a shared module so it stays

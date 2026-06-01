@@ -121,6 +121,69 @@
     { "source": "/samantha-l", "destination": "/testimonials#samantha-l", "permanent": true },
     { "source": "/sulbha-m", "destination": "/testimonials#sulbha-m", "permanent": true },
     { "source": "/teju-k", "destination": "/testimonials#teju-k", "permanent": true },
-    { "source": "/women-leaders-in-data-al", "destination": "/testimonials#julie-h", "permanent": true }
+    { "source": "/women-leaders-in-data-al", "destination": "/testimonials#julie-h", "permanent": true },
+
+    { "source": "/mentorship", "destination": "/about", "permanent": true },
+    { "source": "/awardsandaccolades", "destination": "/about", "permanent": true },
+    { "source": "/author/lorraineklee", "destination": "/about", "permanent": true },
+
+    { "source": "/unforgettable-presence", "destination": "/book", "permanent": true },
+    { "source": "/unforgettable-presence-masterclass", "destination": "/book", "permanent": true },
+    { "source": "/staging-for-unforgettable-presence-tm", "destination": "/book", "permanent": true },
+
+    { "source": "/free-resources", "destination": "/learn", "permanent": true },
+    { "source": "/your-preferences-updated", "destination": "/learn", "permanent": true },
+    { "source": "/key-takeaways-download", "destination": "/learn", "permanent": true },
+    { "source": "/survey-ultimate-guide", "destination": "/learn", "permanent": true },
+    { "source": "/ultimate-linkedin-guide", "destination": "/learn", "permanent": true },
+    { "source": "/ultimate-guide-to-linkedin-free-version", "destination": "/learn", "permanent": true },
+    { "source": "/linkedin-workshop-video", "destination": "/learn", "permanent": true },
+
+    { "source": "/portfolio-2", "destination": "/speaking", "permanent": true },
+    { "source": "/training-old", "destination": "/speaking", "permanent": true },
+    { "source": "/linkedin-replay", "destination": "/speaking", "permanent": true },
+    { "source": "/linkedin-training-replay", "destination": "/speaking", "permanent": true },
+    { "source": "/linkedin-training", "destination": "/speaking", "permanent": true },
+    { "source": "/linkedin-presence-training", "destination": "/speaking", "permanent": true },
+    { "source": "/video-communications-training", "destination": "/speaking", "permanent": true },
+    { "source": "/prezi-presentation-design-services", "destination": "/speaking", "permanent": true },
+    { "source": "/googlefireside2025", "destination": "/speaking", "permanent": true },
+    { "source": "/servicenow-linkedin-2025", "destination": "/speaking", "permanent": true },
+    { "source": "/hercareerstory-may2025", "destination": "/speaking", "permanent": true },
+    { "source": "/zoomies", "destination": "/speaking", "permanent": true },
+
+    { "source": "/email-me-with-your-topic-of-interest", "destination": "/contact", "permanent": true },
+    { "source": "/thank-you-for-sharing-your-interest", "destination": "/contact", "permanent": true },
+    { "source": "/thank-you-youre-still-on-the-list", "destination": "/contact", "permanent": true },
+
+    { "source": "/issue-42-why-youre-feeling-burnt-out-and-how-to-fix-it", "destination": "/articles", "permanent": true },
+    { "source": "/issue-43-what-your-linkedin-headline-is-missing", "destination": "/articles", "permanent": true },
+    { "source": "/issue-44-how-to-create-a-superpowered-agenda", "destination": "/articles", "permanent": true },
+    { "source": "/issue-45-have-you-taken-advantage-of-this-linkedin-feature", "destination": "/articles", "permanent": true },
+    { "source": "/tools-and-techniques-for-smarter-work", "destination": "/articles", "permanent": true },
+    { "source": "/category/:slug", "destination": "/articles", "permanent": true },
+    { "source": "/tag/:slug", "destination": "/articles", "permanent": true },
+
+    { "source": "/cart", "destination": "/", "permanent": true },
+    { "source": "/checkout", "destination": "/", "permanent": true },
+    { "source": "/shop", "destination": "/", "permanent": true },
+    { "source": "/my-account", "destination": "/", "permanent": true },
+    { "source": "/payment-form", "destination": "/", "permanent": true },
+    { "source": "/payment-form-ecamm-bundle", "destination": "/", "permanent": true },
+    { "source": "/payment-form-for-purchasing-the-recording", "destination": "/", "permanent": true },
+    { "source": "/payment-form-for-qa-and-an-additional-live-qa-session", "destination": "/", "permanent": true },
+    { "source": "/unforgettable-presence-linkedin-guide-payment", "destination": "/", "permanent": true },
+    { "source": "/masterclass-checkout", "destination": "/", "permanent": true },
+    { "source": "/payment-confirmation", "destination": "/", "permanent": true },
+    { "source": "/payment-failed", "destination": "/", "permanent": true },
+    { "source": "/ecamm-workshop", "destination": "/", "permanent": true },
+    { "source": "/ecamm-bonuses", "destination": "/", "permanent": true },
+
+    { "source": "/from-the-archive-one-easy-way-to-expand-your-network-on-linkedin", "destination": "/articles", "permanent": true },
+    { "source": "/from-the-archive-avoid-this-resume-trap", "destination": "/articles", "permanent": true },
+    { "source": "/from-the-archive-polish-your-presence-for-remote-interviews-with-this-video-setup", "destination": "/articles", "permanent": true },
+
+    { "source": "/free-quiz", "destination": "/learn", "permanent": true },
+    { "source": "/book-resources", "destination": "/book", "permanent": true }
   ]
 }

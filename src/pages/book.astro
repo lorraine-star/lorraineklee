@@ -39,6 +39,29 @@ const {
 
 const descriptionHtml = await renderMarkdoc(book.description);
 
+// CLI-63: Book structured data (JSON-LD) for /book. The ® stays on the title.
+const bookSite = Astro.site ?? new URL('https://lorraineklee.com');
+const bookReviewCount = (amazon_rating?.count_label?.match(/\d[\d,]*/)?.[0] ?? '161').replace(/,/g, '');
+const bookSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'Book',
+	name: title,
+	alternateName: `${title}: ${subtitle}`,
+	author: { '@type': 'Person', name: 'Lorraine K. Lee', url: bookSite.origin },
+	isbn: '9781394281725',
+	numberOfPages: 264,
+	bookFormat: 'https://schema.org/Hardcover',
+	inLanguage: 'en',
+	publisher: { '@type': 'Organization', name: 'Wiley' },
+	url: new URL('/book', bookSite).href,
+	image: new URL(book_cover, bookSite).href,
+	aggregateRating: {
+		'@type': 'AggregateRating',
+		ratingValue: amazon_rating?.stars ?? '4.8',
+		reviewCount: bookReviewCount,
+	},
+};
+
 // Split each review quote into [text, isHighlighted] segments so the highlighted
 // phrases render in blue inside the rest of the quote text.
 function splitQuote(quote: string, phrases: readonly string[]) {
@@ -75,6 +98,8 @@ function getInitials(name: string) {
 	description={subtitle}
 	activeId="book"
 >
+	<script type="application/ld+json" set:html={JSON.stringify(bookSchema)} />
+
 	{/* ---------- Product hero ---------- */}
 	<section class="book-hero section--cream">
 		<div class="grid12">
