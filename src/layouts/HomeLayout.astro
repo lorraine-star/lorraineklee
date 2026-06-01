@@ -6,6 +6,7 @@ import CookieBanner from '../components/CookieBanner.astro';
 import ClarityAnalytics from '../components/ClarityAnalytics.astro';
 import ScrollToTop from '../components/ScrollToTop.astro';
 import GoogleAnalytics from '../components/GoogleAnalytics.astro';
+import FreeCoursePopup from '../components/FreeCoursePopup.astro';
 
 interface Props {
   title?: string;
@@ -37,5 +38,6 @@ const { title = 'Lorraine K. Lee', description } = Astro.props;
     <slot />
     <CookieBanner />
     <ScrollToTop />
+    <FreeCoursePopup />
   </body>
 </html>
