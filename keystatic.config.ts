@@ -2732,5 +2732,42 @@ export default config({
         }),
       },
     }),
+    links: collection({
+      label: 'Shortlinks',
+      slugField: 'slug',
+      path: 'src/content/links/*',
+      format: { data: 'yaml' },
+      // CLI-151: branded short redirects, e.g. lorraineklee.com/book -> a long
+      // destination URL. getShortlinkRedirects() in src/lib/shortlinks.ts turns
+      // each active entry into a 301 in the Astro `redirects` config at build
+      // time, so a new or edited shortlink goes live after the normal commit +
+      // rebuild. A slug that matches a real page or an existing redirect is
+      // skipped at build (the real route wins) and logged as a warning.
+      schema: {
+        slug: fields.slug({
+          name: { label: 'Short path' },
+          slug: {
+            label: 'URL slug',
+            description:
+              'What comes after the slash, e.g. "book" for lorraineklee.com/book. Lowercase, no spaces, no leading slash. Must NOT match an existing page (about, book, speaking, learn, contact, articles, etc.) or it will be ignored.',
+          },
+        }),
+        destination: fields.url({
+          label: 'Destination URL',
+          description:
+            'The full URL this shortlink sends visitors to, e.g. https://www.amazon.com/dp/XXXX. Must start with http(s)://.',
+        }),
+        active: fields.checkbox({
+          label: 'Active',
+          description: 'Uncheck to turn the shortlink off without deleting it.',
+          defaultValue: true,
+        }),
+        note: fields.text({
+          label: 'Note (optional)',
+          description:
+            'A label for your own reference, e.g. "Amazon book listing". Not shown to visitors.',
+        }),
+      },
+    }),
   },
 });

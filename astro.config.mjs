@@ -9,6 +9,17 @@ import keystatic from '@keystatic/astro';
 import vercel from '@astrojs/vercel';
 import sitemap from '@astrojs/sitemap';
 import { fileURLToPath } from 'node:url';
+import { getShortlinkRedirects } from './src/lib/shortlinks';
+
+// CLI-151: branded shortlinks live in the Keystatic "Shortlinks" collection and
+// are generated into the redirects map below at build time (external 301s). A
+// slug that collides with a real route or an existing redirect is skipped and
+// logged here, so a real page always wins.
+const { redirects: shortlinkRedirects, warnings: shortlinkWarnings } =
+  await getShortlinkRedirects();
+for (const warning of shortlinkWarnings) {
+  console.warn(`[shortlinks] ${warning}`);
+}
 
 // https://astro.build/config
 export default defineConfig({
@@ -24,6 +35,7 @@ export default defineConfig({
   // consolidate to a single Speaking page and preserve any external links.
   redirects: {
     '/keynotes': '/speaking',
+    ...shortlinkRedirects,
   },
 
   vite: {
