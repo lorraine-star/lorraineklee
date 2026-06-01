@@ -27,12 +27,24 @@ UI at `http://localhost:4321/keystatic` while the dev server is running.
 
 - **Singletons** — one entry per page: Home, About, Speaking, Learn, Book, Contact
 - **Articles** — a collection of articles and press features
+- **Shortlinks** — branded redirects (e.g. `/book` → a long destination URL); see below
 
 Storage runs on [Keystatic Cloud](https://keystatic.com/docs/cloud) (project
 `lorraineklee/lorraineklee`). The admin UI authenticates against Keystatic
 Cloud and commits content changes straight to this GitHub repo, so Lorraine
 can edit without her own GitHub account. To run the admin against local files
 instead, set `storage` to `{ kind: 'local' }` in `keystatic.config.ts`.
+
+### Shortlinks (branded redirects)
+
+The **Shortlinks** collection (`src/content/links/`) lets non-developers create
+branded redirects like `lorraineklee.com/book` → a long destination URL, edited
+in the same Keystatic UI as everything else. At build time
+`getShortlinkRedirects()` (`src/lib/shortlinks.ts`) turns each active entry into
+a 301 in the Astro `redirects` config, so a new or edited shortlink goes live
+after the normal commit + rebuild. A slug that collides with a real page or an
+existing `vercel.json` redirect is skipped at build (the real route always
+wins) and logged as a `[shortlinks]` warning.
 
 ## Contact form
 
