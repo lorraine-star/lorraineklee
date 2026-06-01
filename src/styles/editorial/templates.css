@@ -3014,42 +3014,32 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 }
 
 /* ----------------------------------------------------------------
-   Past-clients marquee (logos scroll; names removed per round 2)
+   Past-clients grid (every logo, static; no marquee per CLI-145)
    ---------------------------------------------------------------- */
-.client-marquee-section .marquee-mask {
+.client-marquee-section .client-grid {
+  grid-column: 1 / -1;
   margin-top: 28px;
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    transparent 0,
-    #000 6%,
-    #000 94%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    90deg,
-    transparent 0,
-    #000 6%,
-    #000 94%,
-    transparent 100%
-  );
-}
-.client-marquee-section .marquee {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 36px 16px;
   align-items: center;
-  gap: 16px;
-  width: max-content;
-  animation: editorial-marquee 64s linear infinite;
-  will-change: transform;
+  justify-items: center;
 }
-.client-marquee-section .marquee-mask:hover .marquee {
-  animation-play-state: paused;
+@media (max-width: 900px) {
+  .client-marquee-section .client-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
-/* Fixed-width frames give even spacing regardless of each logo's aspect
+@media (max-width: 600px) {
+  .client-marquee-section .client-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px 12px;
+  }
+}
+/* Fixed-height frames give even spacing regardless of each logo's aspect
    ratio; the inner cap normalises optical height so wide/tall marks match. */
 .client-logo-frame {
-  flex: 0 0 auto;
-  width: 168px;
+  width: 100%;
   height: 34px;
   display: inline-flex;
   align-items: center;
@@ -3068,7 +3058,7 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   transition: opacity 240ms var(--ease-out), filter 240ms var(--ease-out);
 }
 /* Logos sourced from Brandfetch arrive in inconsistent colours (several brands
-   only expose a white/reverse mark, invisible on this light marquee). They're
+   only expose a white/reverse mark, invisible on this light grid). They're
    all on transparent backgrounds, so flatten them to a uniform dark silhouette.
    style: "mono" = stay a silhouette; style: "color" = reveal real colour on
    hover (set per client in the CMS). */
@@ -3087,20 +3077,19 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 .client-logo-frame .client-wordmark {
   font-family: var(--font-sans);
   font-weight: 700;
-  font-size: 18px;
+  font-size: 15px;
+  line-height: 1.15;
   color: var(--ink-500);
-  white-space: nowrap;
+  text-align: center;
+  /* Wrap inside the narrow grid cell instead of overflowing onto neighbours. */
+  max-width: 100%;
 }
 
-/* Bolder testimonial quotes on Speaking (round 2) + carousel CTA */
-#testimonials .t-quote,
-.attendee-testimonials .t-quote {
+/* Bolder testimonial quotes on the Speaking organizer carousel (round 2).
+   The attendee section now owns its quote styling in SpeakingAttendeeQuotes
+   (CLI-145), so it no longer needs an override here. */
+#testimonials .t-quote {
   font-weight: 500;
-}
-/* Slow the attendee auto-scroll marquee. The global default (16-22s) reads
-   too fast on Speaking. Overrides the per-column inline --marquee-duration. */
-.attendee-testimonials .secondary-testimonials-track {
-  --marquee-duration: 30s !important;
 }
 .testimonials-cta {
   grid-column: 1 / -1;
@@ -3110,9 +3099,6 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .client-marquee-section .marquee {
-    animation: none;
-  }
   .topic-panel {
     transition-duration: 0ms;
   }
@@ -3678,7 +3664,9 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 @media (min-width: 1025px) {
   .topic-bento:not(.other-talks-list) > .topic-card:first-child:has(.topic-media) {
     display: grid;
-    grid-template-columns: 1.05fr 1fr;
+    /* Give the media column more room so the 16:9 preview renders larger and
+       the letterbox bands above/below it stay modest. */
+    grid-template-columns: 1.4fr 1fr;
     grid-template-rows: 1fr auto;
     grid-template-areas:
       "media trigger"
@@ -3703,6 +3691,24 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
     border-bottom: 0;
     border-right: 1px solid var(--border-soft);
     min-height: 100%;
+  }
+  /* The hero tile fills the (taller) row height set by its stacked neighbour,
+     but its media column is far wider than it is tall. Showing the 16:9 preview
+     with object-fit: cover here would crop the landscape source into a portrait
+     sliver. Use contain so the full preview is visible, centered, with the
+     paper background framing it top and bottom. */
+  .topic-bento:not(.other-talks-list)
+    > .topic-card:first-child:has(.topic-media)
+    > .topic-media > img {
+    object-fit: contain;
+    object-position: center;
+  }
+  /* Closed hero next to an expanded tile pins its media back to 16:9 (below),
+     where it fully fills the cell, so cover is correct there again. */
+  .topic-bento:not(.other-talks-list):has(> .topic-card[data-open='true'])
+    > .topic-card:first-child:has(.topic-media):not([data-open='true'])
+    > .topic-media > img {
+    object-fit: cover;
   }
   /* Closed hero next to an expanded tile: pin the preview to its natural ratio
      so it stays compact rather than stretching with the content-sized card. */

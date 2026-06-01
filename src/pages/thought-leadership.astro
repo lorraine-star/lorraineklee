@@ -93,32 +93,6 @@ const appearancesTeaser = guestAppearances.slice(0, TEASER_COUNT);
 const pressTeaser = pressFeatures.slice(0, TEASER_COUNT);
 const articlesTeaser = articles.slice(0, TEASER_COUNT);
 const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
-
-// "Explore more" hub: prominent link-outs to the canonical standalone pages
-// plus the newsletter. /subscribe/ is being built in a sibling unit (CLI-122)
-// and may 404 until that ships.
-const exploreLinks = [
-	{
-		href: '/articles/',
-		label: 'Authored Articles',
-		description: 'Bylines on presence, communication, and career branding.',
-	},
-	{
-		href: '/featured-in/',
-		label: 'Featured In',
-		description: 'Press features and outlets where Lorraine appears.',
-	},
-	{
-		href: '/interviews/',
-		label: 'Guest Interviews',
-		description: 'Conversations with prominent business leaders.',
-	},
-	{
-		href: '/subscribe/',
-		label: 'Newsletter',
-		description: 'Get presence and communication tips in your inbox.',
-	},
-];
 ---
 
 <SpeakingLayout
@@ -156,33 +130,6 @@ const exploreLinks = [
 						)
 					}
 				</div>
-			</div>
-		</div>
-	</section>
-
-	{/* ---------- Explore more (hub link-outs) ---------- */}
-	<section class="section section--compact tl-explore">
-		<div class="grid12">
-			<div class="section-head section-head--center">
-				<span class="eyebrow">Explore more</span>
-				<h2>Where to go <em>next.</em></h2>
-				<p class="lead">
-					This page is a quick overview. Browse the full collections on
-					their dedicated pages.
-				</p>
-			</div>
-			<div class="tl-explore-cards reveal-stagger">
-				{
-					exploreLinks.map((link) => (
-						<a class="tl-explore-card" href={link.href}>
-							<h3>{link.label}</h3>
-							<p>{link.description}</p>
-							<span class="tl-explore-cta">
-								Explore <span aria-hidden="true">&rarr;</span>
-							</span>
-						</a>
-					))
-				}
 			</div>
 		</div>
 	</section>
@@ -301,13 +248,13 @@ const exploreLinks = [
 					{pressMore && press_section.view_more_label && (
 						<div class="tl-view-more">
 							<a
-								class="btn ghost"
+								class="anchor-link"
 								href={pressMore}
 								target={isExternal(pressMore) ? '_blank' : undefined}
 								rel={isExternal(pressMore) ? 'noopener noreferrer' : undefined}
 							>
 								{press_section.view_more_label}{' '}
-								<span aria-hidden="true">&rarr;</span>
+								<span class="arrow" aria-hidden="true">&rarr;</span>
 							</a>
 						</div>
 					)}
@@ -474,58 +421,37 @@ const exploreLinks = [
 </SpeakingLayout>
 
 <style>
-	/* Explore more — prominent hub link-outs to the canonical standalone
-	   pages plus the newsletter. */
-	.tl-explore-cards {
-		grid-column: 1 / -1;
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
-		gap: clamp(16px, 2vw, 24px);
-		margin-top: clamp(20px, 2.5vw, 32px);
-	}
-	.tl-explore-card {
-		display: flex;
-		flex-direction: column;
-		gap: 8px;
-		background: var(--bg-card, #fff);
-		border: 1px solid var(--border-soft);
-		border-radius: var(--radius-2xl, 20px);
-		padding: clamp(22px, 2.6vw, 30px);
-		text-decoration: none;
-		transition: transform 0.25s ease, box-shadow 0.25s ease;
-	}
-	.tl-explore-card:hover {
-		transform: translateY(-3px);
-		box-shadow: 0 26px 56px -40px rgba(14, 21, 48, 0.5);
-	}
-	.tl-explore-card h3 {
-		font-family: var(--font-serif);
-		font-weight: 500;
-		font-size: clamp(19px, 2vw, 22px);
-		line-height: 1.25;
-		color: var(--ink-900);
-		margin: 0;
-	}
-	.tl-explore-card p {
-		font-family: var(--font-sans);
-		font-size: 14.5px;
-		line-height: 1.55;
-		color: var(--ink-700);
-		margin: 0;
-		flex: 1;
-	}
-	.tl-explore-cta {
-		font-family: var(--font-sans);
-		font-size: 13px;
-		font-weight: 600;
-		color: var(--accent);
-		margin-top: 6px;
-	}
-
 	.tl-view-more {
 		display: flex;
 		justify-content: center;
 		margin-top: clamp(20px, 2.5vw, 32px);
+	}
+
+	/* Every per-section "view all" link uses the text-with-arrow anchor-link
+	   role. The base .anchor-link rule in templates.css is scoped to
+	   .hero-cta-row, so restate it here for the links inside .tl-view-more so
+	   all four sections read as one consistent, aligned CTA style. */
+	.tl-view-more .anchor-link {
+		font-family: var(--font-sans);
+		font-size: 13px;
+		font-weight: 600;
+		letter-spacing: 0.01em;
+		color: var(--accent);
+		text-decoration: none;
+		padding: 12px 4px;
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		transition: color 200ms var(--ease-out);
+	}
+	.tl-view-more .anchor-link:hover {
+		color: var(--brand-blue-900);
+	}
+	.tl-view-more .anchor-link .arrow {
+		transition: transform 200ms var(--ease-out);
+	}
+	.tl-view-more .anchor-link:hover .arrow {
+		transform: translateX(3px);
 	}
 
 	/* Media cards — lightweight YouTube/link thumbnails for appearances and
