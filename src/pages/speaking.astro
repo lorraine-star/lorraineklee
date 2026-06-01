@@ -69,10 +69,7 @@ const pressMarquee = as_seen_in
 	: [];
 const pressLogosLen = as_seen_in?.length ?? 0;
 
-const clientsMarquee = past_clients
-	? [...past_clients, ...past_clients, ...past_clients, ...past_clients]
-	: [];
-const clientsLen = past_clients?.length ?? 0;
+const clientLogos = past_clients ?? [];
 ---
 
 <SpeakingLayout
@@ -467,7 +464,7 @@ const clientsLen = past_clients?.length ?? 0;
 		)
 	}
 
-	{/* ---------- Past clients (marquee) ---------- */}
+	{/* ---------- Past clients (static grid: every logo, no marquee) ---------- */}
 	<section class="section section--compact client-marquee-section">
 		<div class="grid12">
 			<div class="section-head section-head--center">
@@ -476,21 +473,15 @@ const clientsLen = past_clients?.length ?? 0;
 					{clients_section.heading} <em>{clients_section.heading_accent}</em>
 				</h2>
 			</div>
-		</div>
-		<div class="marquee-mask reveal">
-			<div class="marquee">
+			<div class="client-grid reveal">
 				{
-					clientsMarquee.map((l, i) => (
-						<span
-							class="client-logo-frame"
-							data-client={l.name}
-							aria-hidden={i >= clientsLen ? 'true' : undefined}
-						>
+					clientLogos.map((l) => (
+						<span class="client-logo-frame" data-client={l.name}>
 							{l.logo_src ? (
 								<img
 									class={`client-logo${l.style === 'mono' ? ' client-logo--mono' : ''}${l.style === 'color' ? ' client-logo--color' : ''}`}
 									src={l.logo_src}
-									alt={i < clientsLen ? l.name : ''}
+									alt={l.name}
 									loading="lazy"
 									referrerpolicy="no-referrer"
 									onerror="this.closest('.client-logo-frame').classList.add('client-logo-frame--failed');"

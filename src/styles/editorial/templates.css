@@ -3014,42 +3014,32 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 }
 
 /* ----------------------------------------------------------------
-   Past-clients marquee (logos scroll; names removed per round 2)
+   Past-clients grid (every logo, static; no marquee per CLI-145)
    ---------------------------------------------------------------- */
-.client-marquee-section .marquee-mask {
+.client-marquee-section .client-grid {
+  grid-column: 1 / -1;
   margin-top: 28px;
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    transparent 0,
-    #000 6%,
-    #000 94%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    90deg,
-    transparent 0,
-    #000 6%,
-    #000 94%,
-    transparent 100%
-  );
-}
-.client-marquee-section .marquee {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 36px 16px;
   align-items: center;
-  gap: 16px;
-  width: max-content;
-  animation: editorial-marquee 64s linear infinite;
-  will-change: transform;
+  justify-items: center;
 }
-.client-marquee-section .marquee-mask:hover .marquee {
-  animation-play-state: paused;
+@media (max-width: 900px) {
+  .client-marquee-section .client-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
-/* Fixed-width frames give even spacing regardless of each logo's aspect
+@media (max-width: 600px) {
+  .client-marquee-section .client-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px 12px;
+  }
+}
+/* Fixed-height frames give even spacing regardless of each logo's aspect
    ratio; the inner cap normalises optical height so wide/tall marks match. */
 .client-logo-frame {
-  flex: 0 0 auto;
-  width: 168px;
+  width: 100%;
   height: 34px;
   display: inline-flex;
   align-items: center;
@@ -3068,7 +3058,7 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   transition: opacity 240ms var(--ease-out), filter 240ms var(--ease-out);
 }
 /* Logos sourced from Brandfetch arrive in inconsistent colours (several brands
-   only expose a white/reverse mark, invisible on this light marquee). They're
+   only expose a white/reverse mark, invisible on this light grid). They're
    all on transparent backgrounds, so flatten them to a uniform dark silhouette.
    style: "mono" = stay a silhouette; style: "color" = reveal real colour on
    hover (set per client in the CMS). */
@@ -3087,9 +3077,12 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 .client-logo-frame .client-wordmark {
   font-family: var(--font-sans);
   font-weight: 700;
-  font-size: 18px;
+  font-size: 15px;
+  line-height: 1.15;
   color: var(--ink-500);
-  white-space: nowrap;
+  text-align: center;
+  /* Wrap inside the narrow grid cell instead of overflowing onto neighbours. */
+  max-width: 100%;
 }
 
 /* Bolder testimonial quotes on Speaking (round 2) + carousel CTA */
@@ -3204,9 +3197,6 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .client-marquee-section .marquee {
-    animation: none;
-  }
   .topic-panel {
     transition-duration: 0ms;
   }

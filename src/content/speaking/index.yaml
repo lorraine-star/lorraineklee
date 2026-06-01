@@ -230,7 +230,7 @@ other_talks:
       - "Tips and tricks for sharing video content on LinkedIn to reach a larger audience."
 clients_section:
   eyebrow: "Trusted by"
-  heading: "A short list of the rooms"
+  heading: "The rooms"
   heading_accent: "she's been in."
 past_clients:
   - name: "Zoom"
@@ -313,6 +313,25 @@ past_clients:
     style: "mono"
   - name: "SXSW"
     logo_src: "/images/clients/sxsw.webp"
+    style: "mono"
+  - name: "LinkedIn Learning"
+    logo_src: "/images/clients/linkedin-learning.webp"
+    style: "mono"
+  - name: "HerWorkplace"
+    logo_src: "/images/clients/herworkplace.webp"
+    style: "mono"
+  - name: "Chief of Staff Network"
+    logo_src: "/images/clients/chief-of-staff.webp"
+    style: "mono"
+  # TODO(CLI-145): source transparent-background logos for the two below.
+  # The only assets on lorraineklee.com are a white-background JPEG (FVS) and a
+  # dark-teal-background PNG (INBOUND); both turn into solid boxes under the
+  # mono silhouette treatment, so they render as text wordmarks for now.
+  - name: "Florida Virtual School"
+    logo_src: ""
+    style: "mono"
+  - name: "INBOUND"
+    logo_src: ""
     style: "mono"
 show_stats: true
 stats_section:
