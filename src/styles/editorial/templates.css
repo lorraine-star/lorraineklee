@@ -3092,15 +3092,11 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   white-space: nowrap;
 }
 
-/* Bolder testimonial quotes on Speaking (round 2) + carousel CTA */
-#testimonials .t-quote,
-.attendee-testimonials .t-quote {
+/* Bolder testimonial quotes on the Speaking organizer carousel (round 2).
+   The attendee section now owns its quote styling in SpeakingAttendeeQuotes
+   (CLI-145), so it no longer needs an override here. */
+#testimonials .t-quote {
   font-weight: 500;
-}
-/* Slow the attendee auto-scroll marquee — the global default (16-22s) reads
-   too fast on Speaking. Overrides the per-column inline --marquee-duration. */
-.attendee-testimonials .secondary-testimonials-track {
-  --marquee-duration: 30s !important;
 }
 .testimonials-cta {
   grid-column: 1 / -1;
