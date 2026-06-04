@@ -30,7 +30,7 @@ UI at `http://localhost:4321/keystatic` while the dev server is running.
 - **Shortlinks** — branded redirects (e.g. `/book` → a long destination URL); see below
 
 Storage runs on [Keystatic Cloud](https://keystatic.com/docs/cloud) (project
-`[PLACEHOLDER]`). The admin UI authenticates against Keystatic
+`rise-learning/lorraineklee`). The admin UI authenticates against Keystatic
 Cloud and commits content changes straight to this GitHub repo, so Lorraine
 can edit without her own GitHub account. To run the admin against local files
 instead, set `storage` to `{ kind: 'local' }` in `keystatic.config.ts`.
