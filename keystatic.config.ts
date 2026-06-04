@@ -12,7 +12,7 @@ export default config({
     kind: 'cloud',
   },
   cloud: {
-    project: 'lorraineklee/lorraineklee',
+    project: 'rise-learning/lorraineklee',
   },
   singletons: {
     home: singleton({
