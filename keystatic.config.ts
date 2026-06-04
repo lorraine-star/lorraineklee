@@ -2,7 +2,8 @@ import { config, fields, collection, singleton } from '@keystatic/core';
 
 // Storage: Keystatic Cloud. The admin UI at /keystatic authenticates against
 // the Keystatic Cloud project and commits content changes straight to the
-// GitHub repo, so Lorraine can edit without her own GitHub account.
+// GitHub repo. Lorraine owns the Keystatic Cloud project (the `rise-learning`
+// account) and connected it to her own GitHub account during handoff.
 //
 // To run the admin against local files instead (e.g. offline dev), swap to:
 //   storage: { kind: 'local' },

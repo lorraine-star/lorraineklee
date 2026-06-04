@@ -42,31 +42,37 @@ adding `/keystatic` to the end of the site address:
 
 > **https://lorraineklee.com/keystatic**
 
-- Sign in with your **email**. You do **not** need a GitHub account or any
-  developer login.
-- The very first time, you will accept an email invitation, then log in. After
-  that, you just go straight to the address above.
+- Sign in with your **Keystatic account**. During setup, Lorraine created this
+  account and connected it to her own **GitHub** account. That GitHub connection
+  is what lets the editor save your changes to the website. It is already done,
+  so it is a one-time step you went through during onboarding, not something you
+  redo each visit.
+- After that first sign-in, you can usually go straight to the address above and
+  start editing.
+- Because the editor is connected to Lorraine's own account, your saved changes
+  are attributed to your team rather than to the developer.
 - Bookmark `lorraineklee.com/keystatic` so it is one click away.
 
-If you land on a page asking for a GitHub login and you do not have one, stop
-and contact your developer (see [section 8](#8-what-not-to-touch-and-who-to-call)).
-You should be signing in with your email, not setting up a developer account.
+If you ever get signed out and are not sure how to get back in, see
+[section 8](#8-what-not-to-touch-and-who-to-call) for who to contact.
 
 ---
 
 ## 2. Adding teammates
 
-Your team edits through **Keystatic Cloud**. To let another team member edit:
+The Keystatic project is connected to **Lorraine's own account** (she created it
+and linked it to her GitHub during setup), so Lorraine is the owner who adds and
+removes editors.
 
-1. Whoever manages the Keystatic Cloud account (your developer, to start) invites
-   them by email from the Keystatic Cloud team settings.
-2. The teammate accepts the email invite and signs in at
+To add a team member:
+
+1. Lorraine opens her **Keystatic Cloud team settings** and invites the person.
+2. The teammate accepts the invitation and can then edit at
    `lorraineklee.com/keystatic`.
 
-**Seat limit:** the free plan includes a small number of editor seats (3). If
-the team grows past that, it needs a paid upgrade. If you want more editors than
-the free plan allows, ask your developer to set that up rather than removing
-someone who still needs access.
+**Seat limit:** the free plan includes a limited number of editor seats (3). If
+the team needs more editors than that, it requires a paid upgrade on Lorraine's
+account rather than removing someone who still needs access.
 
 ---
 
