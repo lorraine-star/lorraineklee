@@ -150,8 +150,8 @@ Use this as your "I want to change X, so I edit Y" cheat sheet.
 | A **press or media feature** (Forbes, CNBC, etc.)                   | **Featured Appearances**    | The grid on the **Featured In** page                   |
 | An **article**                                                      | **Articles**                | The **Articles** page and each article's own page      |
 | A **LinkedIn Learning course**                                      | **LinkedIn Courses**        | The **Courses** page and the course block on **Learn** |
-| A **keynote talk** (with its own page)                              | **Keynotes**                | The **Speaking** page and each keynote's own page      |
-| An **interview Lorraine hosted** (leaders she interviewed)          | **Interviews**              | The "interviews" block on the **Interviews** page      |
+| A **keynote talk** (with its own page)                              | **Keynotes**                | Each keynote's own page under `/keynotes/` (old keynote links redirect here)      |
+| An **interview Lorraine hosted** (leaders she interviewed)          | **Interviews**              | The "leaders Lorraine has interviewed" block on the **Interviews** page      |
 | A **testimonial / review**                                          | **Testimonials**            | The **Testimonials** page (and home / speaking / courses if you tick the boxes) |
 | A **branded short link** (like `/book`)                             | **Shortlinks**              | Redirects visitors, see [section 6](#6-branded-short-links) |
 
@@ -166,6 +166,11 @@ Use this as your "I want to change X, so I edit Y" cheat sheet.
 > lists of appearances, press, articles, and interviews right inside the
 > **Thought Leadership** entry. So you edit those teasers there, not in the
 > shared Collections.
+
+> **Heads up about Speaking talks vs. Keynotes.** The talk cards shown on the
+> **Speaking** page are edited inside the **Speaking** entry's own list, not in
+> the **Keynotes** collection. The Keynotes collection is the catalog behind the
+> individual keynote pages under `/keynotes/`.
 
 ---
 
@@ -213,8 +218,9 @@ part is left off below so it does not repeat ten times.
 1. Open the **Testimonials** list.
 2. Create a new entry (or open an existing one to edit it).
 3. Fill in the **Quote**, the **Author**, and their **Role / company**.
-4. Choose the **Type** (client/organizer, event attendee, or course/student).
-   This controls which section of the Testimonials page it appears in.
+4. Choose the **Type** (Client / organizer speaking, Event attendee, or Course /
+   student review). This controls which section of the Testimonials page it
+   appears in.
 5. Optional: tick **Show on homepage**, **Show on speaking**, or **Show on
    courses** to feature it elsewhere. Use **Sort order** to move it up or down.
 6. Save.
@@ -311,7 +317,7 @@ totally fine. Just do not rename the slug on something that already exists.
 
 **Be careful with the "form ID" fields.** A few fields hold the ID of a connected
 form: the **Typeform form ID** on the Contact page, and the **Kit / ConvertKit
-form ID** on the Subscribe and Learn pages. These connect your forms to the right
+form ID** on the Subscribe page. These connect your forms to the right
 inbox and email list. Editing the surrounding words is safe; changing the ID
 itself can send submissions to the wrong place or stop them. Only change an ID if
 you are deliberately swapping in a different form.
@@ -376,7 +382,7 @@ there is no Keystatic screen for it. You have two options:
   "Writing and media":
 
   ```
-  - [Title of the page](https://lorraineklee.com/the-page/): One sentence about what it is.
+  - [Title of the page](https://lorraineklee.com/the-page/): A short description of what it is.
   ```
 
   Add your new line in the section it best fits, keep the same format, and save.
