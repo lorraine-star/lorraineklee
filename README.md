@@ -2,6 +2,11 @@
 
 Astro rebuild of lorraineklee.com, with content managed in Keystatic.
 
+> **Editing the site content?** Start with the plain-language
+> **[Editing Guide](docs/EDITING-GUIDE.md)**: how to log in, where each page's
+> content lives, and how to make common edits. Written for non-developers, no
+> coding or GitHub knowledge needed.
+
 ## Stack
 
 - [Astro](https://astro.build) — site framework
