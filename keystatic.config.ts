@@ -483,6 +483,19 @@ export default config({
               label: 'Heading accent (shown italic)',
             }),
             lead: fields.text({ label: 'Lead', multiline: true }),
+            linkedin_cta_label: fields.text({
+              label: 'LinkedIn testimonials CTA label',
+              description:
+                'Button under the organizer testimonials, e.g. "View 250+ glowing testimonials on LinkedIn".',
+              defaultValue: 'View 250+ glowing testimonials on LinkedIn',
+            }),
+            linkedin_cta_url: fields.text({
+              label: 'LinkedIn testimonials CTA URL',
+              description:
+                'Where the LinkedIn testimonials button points (the LinkedIn recommendations page).',
+              defaultValue:
+                'https://www.linkedin.com/in/lorraineklee/details/recommendations/',
+            }),
           },
           { label: 'Testimonials section heading' }
         ),
@@ -613,6 +626,22 @@ export default config({
               label: 'Headline accent (shown italic)',
             }),
             lead: fields.text({ label: 'Lead paragraph', multiline: true }),
+            primary_cta_label: fields.text({
+              label: 'Primary CTA label',
+              defaultValue: 'Book Lorraine',
+            }),
+            primary_cta_url: fields.text({
+              label: 'Primary CTA URL',
+              defaultValue: '/contact',
+            }),
+            secondary_cta_label: fields.text({
+              label: 'Secondary CTA label',
+              defaultValue: 'Back to speaking',
+            }),
+            secondary_cta_url: fields.text({
+              label: 'Secondary CTA URL',
+              defaultValue: '/speaking',
+            }),
             headshot: fields.image({
               label: 'Headshot',
               directory: 'public/images/speaker-bio',
@@ -907,6 +936,12 @@ export default config({
               label: 'Headline accent (shown italic)',
             }),
             lead: fields.text({ label: 'Lead paragraph', multiline: true }),
+            trust_count: fields.text({
+              label: 'Hero trust-line count',
+              description:
+                'The bolded count in "Join 12,000+ leaders learning with Lorraine."',
+              defaultValue: '12,000+',
+            }),
           },
           { label: 'Hero' }
         ),
@@ -1359,6 +1394,12 @@ export default config({
               publicPath: '/images/v1/courses/',
             }),
             image_alt: fields.text({ label: 'Hero photo alt text' }),
+            credential_pill: fields.text({
+              label: 'Credential pill',
+              description:
+                'Small pill over the hero photo, e.g. "Top-rated LinkedIn Learning instructor".',
+              defaultValue: 'Top-rated LinkedIn Learning instructor',
+            }),
           },
           { label: 'Hero' }
         ),
@@ -1393,6 +1434,19 @@ export default config({
             }),
           },
           { label: 'Rating / social proof' }
+        ),
+        filter_bar: fields.object(
+          {
+            eyebrow: fields.text({
+              label: 'Eyebrow',
+              defaultValue: 'Find the right course',
+            }),
+            heading: fields.text({
+              label: 'Heading',
+              defaultValue: 'Which course is right for you?',
+            }),
+          },
+          { label: 'Category filter bar labels' }
         ),
         why_section: fields.object(
           {
@@ -1562,6 +1616,18 @@ export default config({
           description: 'The italicised end of the headline, e.g. "touch."',
         }),
         lead: fields.text({ label: 'Lead paragraph', multiline: true }),
+        brand_deals_label: fields.text({
+          label: 'Brand deals row label',
+          defaultValue: 'Brand deals and partnerships',
+        }),
+        press_label: fields.text({
+          label: 'Press row label',
+          defaultValue: 'Press',
+        }),
+        follow_label: fields.text({
+          label: 'Social links heading',
+          defaultValue: 'Follow along',
+        }),
         press_email: fields.text({ label: 'Press email' }),
         brand_deals_email: fields.text({
           label: 'Brand deals and partnerships email',

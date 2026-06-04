@@ -65,7 +65,11 @@ const attendeeQuotes = (
 	await getTestimonials({ placement: 'speaking', type: 'event-attendee' })
 ).map(toColumnCard);
 const linkedinRecommendationsUrl =
+	safeUrl(testimonials_section?.linkedin_cta_url) ||
 	'https://www.linkedin.com/in/lorraineklee/details/recommendations/';
+const linkedinTestimonialsLabel =
+	testimonials_section?.linkedin_cta_label ||
+	'View 250+ glowing testimonials on LinkedIn';
 
 const pressMarquee = as_seen_in
 	? [...as_seen_in, ...as_seen_in, ...as_seen_in, ...as_seen_in]
@@ -611,7 +615,7 @@ const clientLogos = past_clients ?? [];
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					View 250+ glowing testimonials on LinkedIn
+					{linkedinTestimonialsLabel}
 					<span aria-hidden="true">&rarr;</span>
 				</a>
 			</div>

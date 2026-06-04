@@ -369,6 +369,8 @@ testimonials_section:
   heading: "Event organizers don't"
   heading_accent: "regret it."
   lead: "A handful of the recent ones, in their own words. References and the full file available on request."
+  linkedin_cta_label: "View 250+ glowing testimonials on LinkedIn"
+  linkedin_cta_url: "https://www.linkedin.com/in/lorraineklee/details/recommendations/"
 attendee_testimonials_section:
   eyebrow: "From the people in the seats"
   heading: "And the audience"
