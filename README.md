@@ -2,6 +2,11 @@
 
 Astro rebuild of lorraineklee.com, with content managed in Keystatic.
 
+> **Editing the site content?** Start with the plain-language
+> **[Editing Guide](docs/EDITING-GUIDE.md)**: how to log in, where each page's
+> content lives, and how to make common edits. Written for non-developers, no
+> coding or GitHub knowledge needed.
+
 ## Stack
 
 - [Astro](https://astro.build) — site framework
@@ -31,9 +36,11 @@ UI at `http://localhost:4321/keystatic` while the dev server is running.
 
 Storage runs on [Keystatic Cloud](https://keystatic.com/docs/cloud) (project
 `rise-learning/lorraineklee`). The admin UI authenticates against Keystatic
-Cloud and commits content changes straight to this GitHub repo, so Lorraine
-can edit without her own GitHub account. To run the admin against local files
-instead, set `storage` to `{ kind: 'local' }` in `keystatic.config.ts`.
+Cloud and commits content changes straight to this GitHub repo. The Keystatic
+Cloud project belongs to Lorraine's own `rise-learning` account, which she
+connected to her own GitHub account during handoff. To run the admin against
+local files instead, set `storage` to `{ kind: 'local' }` in
+`keystatic.config.ts`.
 
 ### Shortlinks (branded redirects)
 
