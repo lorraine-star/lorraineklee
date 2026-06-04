@@ -11,7 +11,7 @@ const page = await reader.singletons.coursesPage.read();
 if (!page) {
 	throw new Error('Missing courses page content (src/content/courses-page/index.yaml)');
 }
-const { hero, rating, why_section, final_cta } = page;
+const { hero, rating, filter_bar, why_section, final_cta } = page;
 
 const all = await reader.collections.courses.all();
 const mapped = all
@@ -123,7 +123,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 							<div class="hero-credentials">
 								<div class="cred-pill">
 									<span class="cred-dot" aria-hidden="true" />
-									Top-rated LinkedIn Learning instructor
+									{hero.credential_pill || 'Top-rated LinkedIn Learning instructor'}
 								</div>
 								{rating?.value && (
 									<div class="cred-pill">
@@ -196,8 +196,8 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 		<div class="filter-bar" id="course-grid">
 			<div class="container filter-bar-inner">
 				<div class="filter-bar-label">
-					<span class="eyebrow">Find the right course</span>
-					<h2 class="filter-bar-heading">Which course is right for you?</h2>
+					<span class="eyebrow">{filter_bar?.eyebrow || 'Find the right course'}</span>
+					<h2 class="filter-bar-heading">{filter_bar?.heading || 'Which course is right for you?'}</h2>
 				</div>
 				<div class="filter-pills" role="tablist" aria-label="Course categories">
 					<button

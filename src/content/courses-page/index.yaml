@@ -8,6 +8,7 @@ hero:
   primary_cta_url: "https://www.linkedin.com/learning/instructors/lorraine-lee"
   image: "/images/v1/courses/lorraine-speaking.webp"
   image_alt: "Lorraine K. Lee teaching with a microphone"
+  credential_pill: "Top-rated LinkedIn Learning instructor"
 rating:
   value: "4.7"
   scale: "/5"
@@ -17,6 +18,9 @@ rating:
   note: "More courses coming soon."
   subscribe_label: "Subscribe to my newsletter to get the latest"
   subscribe_url: "/learn"
+filter_bar:
+  eyebrow: "Find the right course"
+  heading: "Which course is right for you?"
 why_section:
   eyebrow: "Why these courses"
   heading: "Tactics you can"

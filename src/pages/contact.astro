@@ -14,6 +14,9 @@ const {
 	headline,
 	headline_accent,
 	lead,
+	brand_deals_label,
+	press_label,
+	follow_label,
 	press_email,
 	brand_deals_email,
 	typeform_id,
@@ -49,13 +52,13 @@ const links = (social_links ?? []).filter((s) => s.url);
 							<div class="contact-direct">
 								{hasBrandDeals && (
 									<div class="row">
-										<span class="lbl">Brand deals and partnerships</span>
+										<span class="lbl">{brand_deals_label || 'Brand deals and partnerships'}</span>
 										<a href={`mailto:${brandDeals}`}>{brandDeals}</a>
 									</div>
 								)}
 								{hasPress && (
 									<div class="row">
-										<span class="lbl">Press</span>
+										<span class="lbl">{press_label || 'Press'}</span>
 										<a href={`mailto:${press}`}>{press}</a>
 									</div>
 								)}
@@ -66,7 +69,7 @@ const links = (social_links ?? []).filter((s) => s.url);
 					{
 						links.length > 0 && (
 							<>
-								<div class="contact-follow">Follow along</div>
+								<div class="contact-follow">{follow_label || 'Follow along'}</div>
 								<div class="social-row">
 									{links.map((s) => (
 										<a
