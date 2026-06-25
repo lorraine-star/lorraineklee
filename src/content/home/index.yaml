@@ -13,8 +13,6 @@ primary_cta:
   label: Work With Me
   url: /contact
 secondary_cta:
-  label: Get the Book
-  url: /book
-tertiary_cta:
   label: Learn More
   url: /speaking
+tertiary_cta: {}
