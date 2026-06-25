@@ -18,3 +18,16 @@ secondary_cta:
 tertiary_cta:
   label: Watch a keynote clip
   url: /speaking
+four_ways:
+  column_1:
+    heading: Speaking
+    blurb: Keynotes built around what your team actually needs to hear.
+  column_2:
+    heading: Unforgettable Presence®
+    blurb: The book leadership programs already assign.
+  column_3:
+    heading: Courses
+    blurb: On-demand training. 250,000+ students on LinkedIn Learning.
+  column_4:
+    heading: Custom programs
+    blurb: Cohort intensives for managers and high-potentials.

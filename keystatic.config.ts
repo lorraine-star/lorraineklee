@@ -68,6 +68,81 @@ export default config({
           },
           { label: 'Tertiary CTA (text link)' }
         ),
+        // "Four ways into the work" cards below the hero. Only the heading and
+        // blurb of each card are editable; the four columns, their order,
+        // numbering (01–04), links, and styling are fixed in code
+        // (src/pages/index.astro). Modelled as four named objects rather than an
+        // array so an editor cannot add, remove, or reorder columns (CLI-153).
+        four_ways: fields.object(
+          {
+            column_1: fields.object(
+              {
+                heading: fields.text({
+                  label: 'Heading',
+                  defaultValue: 'Speaking',
+                }),
+                blurb: fields.text({
+                  label: 'Blurb',
+                  multiline: true,
+                  defaultValue:
+                    'Keynotes built around what your team actually needs to hear.',
+                }),
+              },
+              { label: 'Column 1' }
+            ),
+            column_2: fields.object(
+              {
+                heading: fields.text({
+                  label: 'Heading',
+                  description:
+                    'Keep the ® symbol. "Unforgettable Presence®" is a registered trademark and the ® must be preserved.',
+                  defaultValue: 'Unforgettable Presence®',
+                }),
+                blurb: fields.text({
+                  label: 'Blurb',
+                  multiline: true,
+                  defaultValue: 'The book leadership programs already assign.',
+                }),
+              },
+              { label: 'Column 2' }
+            ),
+            column_3: fields.object(
+              {
+                heading: fields.text({
+                  label: 'Heading',
+                  defaultValue: 'Courses',
+                }),
+                blurb: fields.text({
+                  label: 'Blurb',
+                  multiline: true,
+                  defaultValue:
+                    'On-demand training. 250,000+ students on LinkedIn Learning.',
+                }),
+              },
+              { label: 'Column 3' }
+            ),
+            column_4: fields.object(
+              {
+                heading: fields.text({
+                  label: 'Heading',
+                  defaultValue: 'Custom programs',
+                }),
+                blurb: fields.text({
+                  label: 'Blurb',
+                  multiline: true,
+                  defaultValue:
+                    'Cohort intensives for managers and high-potentials.',
+                }),
+              },
+              { label: 'Column 4' }
+            ),
+          },
+          {
+            label: 'Four ways into the work',
+            description:
+              'The four cards below the hero. Headings and blurbs are editable; the number of columns, their order, numbering, links, and styling stay fixed in code.',
+          }
+        ),
         // The hero meta stats (250k+, #1) and the photo rating stat are still
         // hardcoded in src/pages/index.astro for now. The "as seen in" logos
         // render from <TrustAsSeenIn /> and the testimonials carousel from the
