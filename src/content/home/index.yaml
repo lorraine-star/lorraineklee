@@ -1,6 +1,6 @@
 hero:
   eyebrow: Keynote speaker · Author · Instructor
-  headline: Helping strong leaders build an
+  headline: Helping leaders build an
   headline_accent: unforgettable
   headline_tail: presence.
   subheadline: >-
@@ -16,5 +16,5 @@ secondary_cta:
   label: Get the Book
   url: /book
 tertiary_cta:
-  label: Watch a keynote clip
+  label: Learn More
   url: /speaking
