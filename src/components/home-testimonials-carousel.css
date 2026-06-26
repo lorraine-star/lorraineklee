@@ -2,8 +2,10 @@
 
    Reuses the global .t-card, .t-quote, .t-mark, .t-divider, .t-attrib,
    .t-avatar, .t-name and .t-role primitives from base.css (editorial layouts)
-   / home.css (home page) and owns the carousel layout, edge fade, circular
-   headshot, optional per-item logo row, and responsive behavior.
+   / home.css (home page) and owns the carousel layout (three cards per view on
+   desktop, collapsing to a single card with a peek on tablet and mobile),
+   circular headshot, optional per-item logo row, and responsive behavior. Cards
+   size to their content height and there is no edge blur/fade (CLI-154).
 
    Imported by HomeTestimonialsCarousel.tsx so these styles travel with every
    React island usage. The home page loads home.css; pages on other layouts
@@ -26,7 +28,10 @@
   --testimonials-carousel-bg: var(--paper);
   position: relative;
   justify-self: center;
-  width: min(100%, 920px);
+  /* Reserve ~80px gutters each side (the 160px) so the outside arrows never
+     overflow the page. The 1040px term is a safety ceiling only; under the
+     current 1240px grid the gutter term always wins (CLI-154). */
+  width: min(100% - 160px, 1040px);
   min-width: 0;
   overflow: visible;
 }
@@ -35,17 +40,15 @@
 }
 .testimonials-track {
   display: flex;
-  align-items: stretch;
+  align-items: flex-start;
   gap: 20px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding: 8px 15% 24px;
+  padding: 8px 12px 24px;
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
   outline: none;
-  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 14%, #000 86%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0, #000 14%, #000 86%, transparent 100%);
 }
 .testimonials-track::-webkit-scrollbar {
   display: none;
@@ -55,37 +58,13 @@
   outline-offset: 6px;
   border-radius: 12px;
 }
+/* Three cards per view on desktop (two 20px gaps). Cards size to their own
+   content height because the track aligns items to the start (CLI-154). */
 .testimonials-carousel-slide {
-  flex: 0 0 70%;
+  flex: 0 0 calc((100% - 40px) / 3);
   min-width: 0;
   display: flex;
   scroll-snap-align: center;
-}
-.testimonials-carousel::before,
-.testimonials-carousel::after {
-  content: "";
-  position: absolute;
-  top: 8px;
-  bottom: 24px;
-  width: 17%;
-  z-index: 2;
-  pointer-events: none;
-  -webkit-backdrop-filter: blur(6px) saturate(118%);
-  backdrop-filter: blur(6px) saturate(118%);
-}
-.testimonials-carousel::before {
-  left: 0;
-  background: linear-gradient(to right, rgba(251, 248, 242, 0.34), transparent);
-  background: linear-gradient(to right, color-mix(in srgb, var(--testimonials-carousel-bg) 34%, transparent), transparent);
-  -webkit-mask-image: linear-gradient(to right, #000 38%, transparent);
-  mask-image: linear-gradient(to right, #000 38%, transparent);
-}
-.testimonials-carousel::after {
-  right: 0;
-  background: linear-gradient(to left, rgba(251, 248, 242, 0.34), transparent);
-  background: linear-gradient(to left, color-mix(in srgb, var(--testimonials-carousel-bg) 34%, transparent), transparent);
-  -webkit-mask-image: linear-gradient(to left, #000 38%, transparent);
-  mask-image: linear-gradient(to left, #000 38%, transparent);
 }
 .testimonials-controls {
   position: absolute;
@@ -216,9 +195,12 @@
   }
 }
 
+/* Tablet and mobile: collapse the three-up row to a single centered card with a
+   small peek of the neighbours. The carousel JS keeps one card centered, so an
+   odd count (1 or 3) fills cleanly; arrows move just inside the edges since
+   there is no room for the outside arrows on a narrow screen. */
 @media (max-width: 900px) {
   .testimonials-head {
-    grid-column: 1 / -1;
     margin-bottom: 20px;
     text-align: left;
   }
@@ -233,17 +215,17 @@
   }
   .testimonials-track {
     gap: 16px;
-    padding-left: 9%;
-    padding-right: 9%;
-    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
-    mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+    padding-left: 0;
+    padding-right: 0;
   }
   .testimonials-carousel-slide {
     flex-basis: 82%;
   }
-  .testimonials-carousel::before,
-  .testimonials-carousel::after {
-    width: 11%;
+  /* Smaller controls sit inside the edges over the peek; the reduced reach
+     keeps them clear of the quote text even on the narrowest phones. */
+  .testimonial-control {
+    width: 40px;
+    height: 40px;
   }
   .testimonial-control.prev {
     left: 4px;
