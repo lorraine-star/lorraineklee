@@ -16,6 +16,97 @@ export default config({
     project: 'rise-learning/lorraineklee',
   },
   singletons: {
+    siteSettings: singleton({
+      label: 'Site Settings',
+      path: 'src/content/site-settings/',
+      // Sitewide chrome that used to be hardcoded. The footer is driven from
+      // here (CLI-159); the nav and announcement banner can join this singleton
+      // later. Social icon SVG artwork stays in code (src/lib/social.ts); only
+      // the platform key and URL are editable here.
+      schema: {
+        footer: fields.object(
+          {
+            tagline_before: fields.text({
+              label: 'Tagline (text before the italic word)',
+            }),
+            tagline_emphasis: fields.text({
+              label: 'Tagline italic word',
+            }),
+            tagline_after: fields.text({
+              label: 'Tagline (text after the italic word)',
+            }),
+            socials: fields.array(
+              fields.object({
+                platform: fields.text({
+                  label: 'Platform',
+                  description:
+                    'One of: linkedin, instagram, youtube, x (or twitter). Controls which icon renders.',
+                }),
+                label: fields.text({
+                  label: 'Accessible label',
+                  description: 'Screen-reader label, e.g. "X (Twitter)".',
+                }),
+                url: fields.url({ label: 'URL' }),
+              }),
+              {
+                label: 'Social links',
+                itemLabel: (props) => props.fields.platform.value || 'Link',
+              }
+            ),
+            contact_heading: fields.text({
+              label: 'Get-in-touch heading',
+              defaultValue: 'Get in touch',
+            }),
+            contact_blurb: fields.text({
+              label: 'Get-in-touch blurb',
+              multiline: true,
+            }),
+            contact_links: fields.array(
+              fields.object({
+                label: fields.text({ label: 'Label' }),
+                href: fields.text({
+                  label: 'Link (route, mailto:, or URL)',
+                }),
+              }),
+              {
+                label: 'Get-in-touch links',
+                itemLabel: (props) => props.fields.label.value || 'Link',
+              }
+            ),
+            explore_heading: fields.text({
+              label: 'Explore column heading',
+              defaultValue: 'Explore',
+            }),
+            explore_links: fields.array(
+              fields.object({
+                label: fields.text({ label: 'Label' }),
+                href: fields.text({ label: 'Link' }),
+              }),
+              {
+                label: 'Explore links',
+                itemLabel: (props) => props.fields.label.value || 'Link',
+              }
+            ),
+            legal_entity: fields.text({
+              label: 'Copyright entity (after the auto year)',
+              description:
+                'Rendered as the copyright line after the year, which updates automatically.',
+            }),
+            legal_links: fields.array(
+              fields.object({
+                label: fields.text({ label: 'Label' }),
+                href: fields.text({ label: 'Link' }),
+              }),
+              {
+                label: 'Legal / base links',
+                itemLabel: (props) => props.fields.label.value || 'Link',
+              }
+            ),
+          },
+          { label: 'Footer' }
+        ),
+      },
+    }),
     home: singleton({
       label: 'Home',
       path: 'src/content/home/',
