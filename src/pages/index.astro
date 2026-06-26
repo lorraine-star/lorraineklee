@@ -31,14 +31,17 @@ const home = await reader.singletons.home.read();
 if (!home) {
   throw new Error('Missing home content (src/content/home/index.yaml)');
 }
-const { hero, primary_cta, secondary_cta, tertiary_cta } = home;
+const { hero, primary_cta, secondary_cta, tertiary_cta, four_ways } = home;
 const heroImage = hero?.image ?? '/images/v1/lorraine-hero-home.webp';
 
+// "Four ways into the work" cards. Headings/blurbs are editable via the home
+// singleton (CLI-153); the number of cards, their order, numbering, and links
+// stay fixed here. Fall back to the original copy if a field is left blank.
 const fourWays = [
-  { n: '01', label: 'Speaking', desc: 'Keynotes built around what your team actually needs to hear.', href: '/speaking' },
-  { n: '02', label: 'Unforgettable Presence®', desc: 'The book leadership programs already assign.', href: '/book' },
-  { n: '03', label: 'Courses', desc: 'On-demand training. 250,000+ students on LinkedIn Learning.', href: '/learn' },
-  { n: '04', label: 'Custom programs', desc: 'Cohort intensives for managers and high-potentials.', href: '/contact' },
+  { n: '01', label: four_ways?.column_1?.heading || 'Speaking', desc: four_ways?.column_1?.blurb || 'Keynotes built around what your team actually needs to hear.', href: '/speaking' },
+  { n: '02', label: four_ways?.column_2?.heading || 'Unforgettable Presence®', desc: four_ways?.column_2?.blurb || 'The book leadership programs already assign.', href: '/book' },
+  { n: '03', label: four_ways?.column_3?.heading || 'Courses', desc: four_ways?.column_3?.blurb || 'On-demand training. 250,000+ students on LinkedIn Learning.', href: '/learn' },
+  { n: '04', label: four_ways?.column_4?.heading || 'Custom programs', desc: four_ways?.column_4?.blurb || 'Cohort intensives for managers and high-potentials.', href: '/contact' },
 ];
 
 const courseDays = [
