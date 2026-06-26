@@ -20,6 +20,11 @@ export default config({
       label: 'Home',
       path: 'src/content/home/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+        seo_description: fields.text({
+          label: 'SEO description',
+          multiline: true,
+        }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -154,6 +159,7 @@ export default config({
       path: 'src/content/about/',
       format: { contentField: 'body' },
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -297,6 +303,7 @@ export default config({
       label: 'Speaking',
       path: 'src/content/speaking/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -694,6 +701,7 @@ export default config({
       path: 'src/content/speaker-bio/',
       format: { contentField: 'body' },
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -771,6 +779,7 @@ export default config({
       label: 'Media Kit',
       path: 'src/content/media-kit/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -1004,6 +1013,7 @@ export default config({
       label: 'Learn',
       path: 'src/content/learn/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -1444,6 +1454,7 @@ export default config({
       label: 'Courses Page',
       path: 'src/content/courses-page/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
         hero: fields.object(
           {
             eyebrow: fields.text({
@@ -1570,6 +1581,7 @@ export default config({
       label: 'Interviews Page',
       path: 'src/content/interviews-page/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
         hero: fields.object(
           {
             eyebrow: fields.text({
@@ -1685,6 +1697,7 @@ export default config({
       label: 'Contact',
       path: 'src/content/contact/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
         eyebrow: fields.text({ label: 'Eyebrow', defaultValue: 'Contact' }),
         headline: fields.text({ label: 'Headline' }),
         headline_accent: fields.text({
@@ -1733,6 +1746,7 @@ export default config({
       // break email capture. Leave it empty to render a clearly-labeled
       // placeholder until the production form ID is supplied.
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
         eyebrow: fields.text({
           label: 'Eyebrow',
           defaultValue: 'Weekly Newsletter',
@@ -1774,6 +1788,7 @@ export default config({
       label: 'Consulting',
       path: 'src/content/consulting/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -2046,6 +2061,7 @@ export default config({
       label: 'Coaching',
       path: 'src/content/coaching/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -2207,6 +2223,7 @@ export default config({
       label: 'Featured In',
       path: 'src/content/featured-in/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -2276,6 +2293,7 @@ export default config({
       label: 'Thought Leadership',
       path: 'src/content/thought-leadership/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
