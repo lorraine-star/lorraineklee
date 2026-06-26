@@ -105,6 +105,59 @@ export default config({
           },
           { label: 'Footer' }
         ),
+        nav: fields.object(
+          {
+            items: fields.array(
+              fields.object({
+                id: fields.text({
+                  label: 'ID (stable key for active highlighting)',
+                  description:
+                    'Internal key used to highlight the current page in the nav, e.g. "speaking". Keep existing ids unchanged; new top-level items can use any unique slug.',
+                }),
+                label: fields.text({ label: 'Label' }),
+                href: fields.text({ label: 'Link' }),
+                children: fields.array(
+                  fields.object({
+                    label: fields.text({ label: 'Label' }),
+                    href: fields.text({ label: 'Link' }),
+                  }),
+                  {
+                    label: 'Dropdown items',
+                    itemLabel: (props) => props.fields.label.value || 'Item',
+                  }
+                ),
+              }),
+              {
+                label: 'Nav items',
+                itemLabel: (props) => props.fields.label.value || 'Item',
+              }
+            ),
+            cta_label: fields.text({
+              label: 'CTA button label',
+              defaultValue: 'Contact',
+            }),
+            cta_href: fields.text({
+              label: 'CTA button link',
+              defaultValue: '/contact',
+            }),
+          },
+          { label: 'Navigation' }
+        ),
+        banner: fields.object(
+          {
+            enabled: fields.checkbox({
+              label: 'Show announcement banner',
+              defaultValue: true,
+            }),
+            text_strong: fields.text({
+              label: 'Bold lead-in',
+              description: 'The bold part, e.g. "Free 5-day course:".',
+            }),
+            text: fields.text({ label: 'Text' }),
+            href: fields.text({ label: 'Link' }),
+          },
+          { label: 'Announcement banner' }
+        ),
       },
     }),
     home: singleton({
