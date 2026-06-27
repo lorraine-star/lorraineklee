@@ -31,10 +31,39 @@ const home = await reader.singletons.home.read();
 if (!home) {
   throw new Error('Missing home content (src/content/home/index.yaml)');
 }
-const { hero, primary_cta, secondary_cta, tertiary_cta, four_ways } = home;
+const {
+  hero,
+  primary_cta,
+  secondary_cta,
+  tertiary_cta,
+  four_ways,
+  banner,
+  free_course,
+  course_popup,
+  testimonials_section,
+} = home;
 const heroImage = hero?.image ?? '/images/v1/lorraine-hero-home.webp';
 
-// "Four ways into the work" cards. Headings/blurbs are editable via the home
+// Split a multi-line label so manual line breaks survive as <br>.
+const splitLines = (value: string | null | undefined) =>
+  (value ?? '').split('\n');
+
+// Announcement banner (home-specific; links to the on-page #course section).
+// Editable via the home singleton; hidden when `enabled` is false.
+const showBanner = banner?.enabled !== false;
+
+// Hero proof stats (250k+, #1). Editable via the home singleton; fall back to
+// the original copy when unset.
+const heroMeta =
+  hero?.meta && hero.meta.length
+    ? hero.meta
+    : [
+        { value: '250k+', label: 'students taught\non LinkedIn Learning' },
+        { value: '#1', label: 'Amazon bestseller\nUnforgettable Presence®' },
+      ];
+const photoStat = hero?.photo_stat;
+
+// "Four ways into the work" cards. Heading and blurbs are editable via the home
 // singleton (CLI-153); the number of cards, their order, numbering, and links
 // stay fixed here. Fall back to the original copy if a field is left blank.
 const fourWays = [
@@ -44,15 +73,21 @@ const fourWays = [
   { n: '04', label: four_ways?.column_4?.heading || 'Custom programs', desc: four_ways?.column_4?.blurb || 'Cohort intensives for managers and high-potentials.', href: '/contact' },
 ];
 
-const courseDays = [
-  'Day 1 · Articulate your value so people actually listen',
-  'Day 2 · Show up on LinkedIn so opportunities come to you',
-  'Day 3 · Get known by the people who decide promotions',
-  'Day 4 · Position yourself as the obvious choice',
-  'Day 5 · Stay consistent without burning out',
-];
+const courseDays =
+  free_course?.bullets && free_course.bullets.length
+    ? free_course.bullets
+    : [
+        'Day 1 · Articulate your value so people actually listen',
+        'Day 2 · Show up on LinkedIn so opportunities come to you',
+        'Day 3 · Get known by the people who decide promotions',
+        'Day 4 · Position yourself as the obvious choice',
+        'Day 5 · Stay consistent without burning out',
+      ];
 
+// Popup CTA target: editable (keep the UTM params for tracking), with the
+// original UTM-tagged link as the fallback.
 const courseHref =
+  course_popup?.cta_url ||
   '/from-invisible-to-influential?utm_source=lorraineklee_site&utm_medium=popup&utm_campaign=from_invisible_to_influential&utm_content=scroll_modal_v1';
 ---
 
@@ -62,22 +97,26 @@ const courseHref =
 >
   <div class="shell variant-editorial">
     {/* ---------- Banner ---------- */}
-    <div class="banner" id="site-banner">
-      <div class="banner-inner">
-        <a class="banner-link" href="#course">
-          <span class="pre-mobile-hide">From</span>
-          <strong>Invisible to Influential</strong>
-          <span>Free 5-Day Email Course</span>
-          <span class="arrow" aria-hidden="true">&rarr;</span>
-        </a>
-        <button class="banner-dismiss" aria-label="Dismiss announcement" data-banner-dismiss>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-      </div>
-    </div>
+    {
+      showBanner && (
+        <div class="banner" id="site-banner">
+          <div class="banner-inner">
+            <a class="banner-link" href={banner?.href || '#course'}>
+              <span class="pre-mobile-hide">{banner?.prefix ?? 'From'}</span>
+              <strong>{banner?.strong || 'Invisible to Influential'}</strong>
+              <span>{banner?.text || 'Free 5-Day Email Course'}</span>
+              <span class="arrow" aria-hidden="true">&rarr;</span>
+            </a>
+            <button class="banner-dismiss" aria-label="Dismiss announcement" data-banner-dismiss>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+      )
+    }
 
     <EditorialNav activeId="home" logoSrc="/images/v1/logo-primary.png" />
 
@@ -105,15 +144,21 @@ const courseHref =
               <a class="btn ghost" href={tertiary_cta?.url ?? '/speaking'}>{tertiary_cta?.label ?? 'Watch a keynote clip'}</a>
             </div>
             <div class="hero-meta">
-              <div>
-                <div class="num">250k+</div>
-                <div class="lbl">students taught<br />on LinkedIn Learning</div>
-              </div>
-              <div class="divider" aria-hidden="true"></div>
-              <div>
-                <div class="num">#1</div>
-                <div class="lbl">Amazon bestseller<br /><em>Unforgettable Presence®</em></div>
-              </div>
+              {
+                heroMeta.map((stat, i) => (
+                  <Fragment>
+                    {i > 0 && <div class="divider" aria-hidden="true" />}
+                    <div>
+                      <div class="num">{stat.value}</div>
+                      <div class="lbl">
+                        {splitLines(stat.label).map((line, j) => (
+                          <Fragment>{j > 0 && <br />}{line}</Fragment>
+                        ))}
+                      </div>
+                    </div>
+                  </Fragment>
+                ))
+              }
             </div>
           </div>
 
@@ -123,8 +168,12 @@ const courseHref =
               <img src={heroImage} alt={hero?.image_alt ?? 'Lorraine K. Lee, keynote speaker'} />
             </div>
             <div class="photo-stat">
-              <div class="num">4.9<span style="font-size: 18px; opacity: 0.5; font-weight: 400;">/5</span></div>
-              <div class="lbl">Speaker rating across<br />200+ keynotes</div>
+              <div class="num">{photoStat?.value || '4.9'}<span style="font-size: 18px; opacity: 0.5; font-weight: 400;">{photoStat?.suffix || '/5'}</span></div>
+              <div class="lbl">
+                {splitLines(photoStat?.label || 'Speaker rating across\n200+ keynotes').map((line, j) => (
+                  <Fragment>{j > 0 && <br />}{line}</Fragment>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -142,8 +191,8 @@ const courseHref =
       <section class="four-ways">
         <div class="grid12">
           <div class="four-ways-head">
-            <span class="eyebrow">How I can help</span>
-            <h2 class="four-ways-title">Four ways into the <em>work.</em></h2>
+            <span class="eyebrow">{four_ways?.eyebrow || 'How I can help'}</span>
+            <h2 class="four-ways-title">{four_ways?.heading || 'Four ways into the'} <em>{four_ways?.heading_accent || 'work.'}</em></h2>
           </div>
           <div class="four-ways-grid">
             {
@@ -178,7 +227,13 @@ const courseHref =
            own data from Keystatic). do NOT redesign in isolation.
            Coordinate edits via Linear.
            ============================================================ */}
-      <Testimonials />
+      <Testimonials
+        eyebrow={testimonials_section?.eyebrow || undefined}
+        titleHtml={testimonials_section?.heading
+          ? `${testimonials_section.heading} <em>${testimonials_section.heading_accent ?? ''}</em>`
+          : undefined}
+        lead={testimonials_section?.lead || undefined}
+      />
       {/* /GLOBAL SECTION: testimonials */}
 
       {/* ---------- Free course CTA ---------- */}
@@ -186,16 +241,15 @@ const courseHref =
         <div class="grid12 course-grid">
           <div class="course-copy">
             <div class="course-eyebrow">
-              <span class="pill">Free</span>
-              <span>5-Day Email Course</span>
+              <span class="pill">{free_course?.eyebrow_pill || 'Free'}</span>
+              <span>{free_course?.eyebrow_label || '5-Day Email Course'}</span>
             </div>
             <h2 class="course-headline">
-              Great at your job but can't <em>talk about it?</em>
+              {free_course?.headline || "Great at your job but can't"} <em>{free_course?.headline_accent || 'talk about it?'}</em>
             </h2>
             <p class="course-sub">
-              You're not alone. Get my free 5-day course. The same frameworks I
-              teach leaders at Amazon, Cisco, and Fortune 500 companies.
-              Articulate your value. Make promotions inevitable.
+              {free_course?.body ||
+                "You're not alone. Get my free 5-day course. The same frameworks I teach leaders at Amazon, Cisco, and Fortune 500 companies. Articulate your value. Make promotions inevitable."}
             </p>
             <ul class="course-bullets">
               {courseDays.map((day) => <li>{day}</li>)}
@@ -213,21 +267,21 @@ const courseHref =
                 method="post"
                 action="https://app.kit.com/forms/8913437/subscriptions"
               >
-                <span class="course-form-eyebrow">Start tomorrow</span>
-                <h3 class="course-form-title">Join <em>12,000+</em> leaders.</h3>
-                <label class="field-label" for="course-email">Email address</label>
+                <span class="course-form-eyebrow">{free_course?.form_eyebrow || 'Start tomorrow'}</span>
+                <h3 class="course-form-title">{free_course?.form_title || 'Join'} <em>{free_course?.form_title_accent || '12,000+'}</em> {free_course?.form_title_tail || 'leaders.'}</h3>
+                <label class="field-label" for="course-email">{free_course?.form_email_label || 'Email address'}</label>
                 <input
                   id="course-email"
                   class="field"
                   type="email"
                   name="email_address"
                   required
-                  placeholder="you@company.com"
+                  placeholder={free_course?.form_email_placeholder || 'you@company.com'}
                 />
                 <button type="submit" class="btn yellow large btn-block">
-                  Send me Day 1 <span aria-hidden="true">&rarr;</span>
+                  {free_course?.form_button_label || 'Send me Day 1'} <span aria-hidden="true">&rarr;</span>
                 </button>
-                <div class="fineprint">No spam. Unsubscribe in one click.</div>
+                <div class="fineprint">{free_course?.form_fineprint || 'No spam. Unsubscribe in one click.'}</div>
               </form>
             </div>
           </div>
@@ -248,26 +302,33 @@ const courseHref =
           <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
-      <div class="free-course-popup__eyebrow">Free 5-Day Course</div>
+      <div class="free-course-popup__eyebrow">{course_popup?.eyebrow || 'Free 5-Day Course'}</div>
       <h2 id="free-course-popup-title" class="free-course-popup__title">
-        From invisible to influential.
+        {course_popup?.title || 'From invisible to influential.'}
       </h2>
       <p class="free-course-popup__subhead">
-        The 5-day system to communicate your value, get visible to
-        decision-makers, and position yourself for the next level.
+        {course_popup?.subhead ||
+          'The 5-day system to communicate your value, get visible to decision-makers, and position yourself for the next level.'}
       </p>
       <ul class="free-course-popup__points">
-        <li>Articulate your value.</li>
-        <li>Show up on LinkedIn.</li>
-        <li>Get known by decision-makers.</li>
+        {
+          (course_popup?.points && course_popup.points.length
+            ? course_popup.points
+            : [
+                'Articulate your value.',
+                'Show up on LinkedIn.',
+                'Get known by decision-makers.',
+              ]
+          ).map((pt) => <li>{pt}</li>)
+        }
       </ul>
       <div class="free-course-popup__actions">
         <a class="btn primary large" href={courseHref} data-popup-primary>
-          Start the free course <span aria-hidden="true">&rarr;</span>
+          {course_popup?.cta_label || 'Start the free course'} <span aria-hidden="true">&rarr;</span>
         </a>
-        <button type="button" class="free-course-popup__dismiss" data-popup-dismiss>Not now</button>
+        <button type="button" class="free-course-popup__dismiss" data-popup-dismiss>{course_popup?.dismiss_label || 'Not now'}</button>
       </div>
-      <p class="free-course-popup__meta">Five short emails. Free.</p>
+      <p class="free-course-popup__meta">{course_popup?.meta || 'Five short emails. Free.'}</p>
     </div>
   </dialog>
 </HomeLayout>

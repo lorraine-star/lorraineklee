@@ -193,6 +193,32 @@ export default config({
               publicPath: '/images/home/',
             }),
             image_alt: fields.text({ label: 'Hero image alt text' }),
+            meta: fields.array(
+              fields.object({
+                value: fields.text({ label: 'Value (e.g. 250k+)' }),
+                label: fields.text({
+                  label: 'Label',
+                  description: 'Put each line on its own line for a manual break.',
+                  multiline: true,
+                }),
+              }),
+              {
+                label: 'Hero proof stats',
+                itemLabel: (props) => props.fields.value.value || 'Stat',
+              }
+            ),
+            photo_stat: fields.object(
+              {
+                value: fields.text({ label: 'Value (e.g. 4.9)' }),
+                suffix: fields.text({ label: 'Suffix (e.g. /5)' }),
+                label: fields.text({
+                  label: 'Label',
+                  description: 'Put each line on its own line for a manual break.',
+                  multiline: true,
+                }),
+              },
+              { label: 'Hero photo stat badge' }
+            ),
           },
           { label: 'Hero' }
         ),
@@ -224,6 +250,18 @@ export default config({
         // array so an editor cannot add, remove, or reorder columns (CLI-153).
         four_ways: fields.object(
           {
+            eyebrow: fields.text({
+              label: 'Section eyebrow',
+              defaultValue: 'How I can help',
+            }),
+            heading: fields.text({
+              label: 'Section heading (plain start)',
+              defaultValue: 'Four ways into the',
+            }),
+            heading_accent: fields.text({
+              label: 'Section heading accent (shown italic)',
+              defaultValue: 'work.',
+            }),
             column_1: fields.object(
               {
                 heading: fields.text({
@@ -292,10 +330,127 @@ export default config({
               'The four cards below the hero. Headings and blurbs are editable; the number of columns, their order, numbering, links, and styling stay fixed in code.',
           }
         ),
-        // The hero meta stats (250k+, #1) and the photo rating stat are still
-        // hardcoded in src/pages/index.astro for now. The "as seen in" logos
-        // render from <TrustAsSeenIn /> and the testimonials carousel from the
-        // shared `testimonials` collection (CLI-118), not from this singleton.
+        // The "as seen in" logos render from <TrustAsSeenIn /> and the
+        // testimonials carousel from the shared `testimonials` collection
+        // (CLI-118); only the testimonials heading copy lives here.
+        banner: fields.object(
+          {
+            enabled: fields.checkbox({
+              label: 'Show announcement banner',
+              defaultValue: true,
+            }),
+            prefix: fields.text({
+              label: 'Prefix (hidden on mobile, e.g. "From")',
+            }),
+            strong: fields.text({ label: 'Bold text' }),
+            text: fields.text({ label: 'Text' }),
+            href: fields.text({
+              label: 'Link',
+              description: 'Use #course to jump to the on-page free-course section.',
+            }),
+          },
+          { label: 'Announcement banner' }
+        ),
+        free_course: fields.object(
+          {
+            eyebrow_pill: fields.text({
+              label: 'Eyebrow pill',
+              defaultValue: 'Free',
+            }),
+            eyebrow_label: fields.text({
+              label: 'Eyebrow label',
+              defaultValue: '5-Day Email Course',
+            }),
+            headline: fields.text({ label: 'Headline (plain start)' }),
+            headline_accent: fields.text({
+              label: 'Headline accent (shown italic)',
+            }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            bullets: fields.array(fields.text({ label: 'Bullet' }), {
+              label: 'Course-day bullets',
+              itemLabel: (props) => props.value || 'Bullet',
+            }),
+            form_eyebrow: fields.text({
+              label: 'Form eyebrow',
+              defaultValue: 'Start tomorrow',
+            }),
+            form_title: fields.text({ label: 'Form title (plain)' }),
+            form_title_accent: fields.text({
+              label: 'Form title accent (shown italic)',
+            }),
+            form_title_tail: fields.text({
+              label: 'Form title tail (plain, after the accent)',
+            }),
+            form_email_label: fields.text({
+              label: 'Form email label',
+              defaultValue: 'Email address',
+            }),
+            form_email_placeholder: fields.text({
+              label: 'Form email placeholder',
+              defaultValue: 'you@company.com',
+            }),
+            form_button_label: fields.text({
+              label: 'Form button label',
+              defaultValue: 'Send me Day 1',
+            }),
+            form_fineprint: fields.text({
+              label: 'Form fineprint',
+              defaultValue: 'No spam. Unsubscribe in one click.',
+            }),
+          },
+          {
+            label: 'Free course section',
+            description:
+              'The Kit form action URL is hard-wired in code so copy edits cannot break email capture.',
+          }
+        ),
+        course_popup: fields.object(
+          {
+            eyebrow: fields.text({
+              label: 'Eyebrow',
+              defaultValue: 'Free 5-Day Course',
+            }),
+            title: fields.text({ label: 'Title' }),
+            subhead: fields.text({ label: 'Subhead', multiline: true }),
+            points: fields.array(fields.text({ label: 'Point' }), {
+              label: 'Points',
+              itemLabel: (props) => props.value || 'Point',
+            }),
+            cta_label: fields.text({
+              label: 'CTA label',
+              defaultValue: 'Start the free course',
+            }),
+            cta_url: fields.text({
+              label: 'CTA URL',
+              description:
+                'Where the popup button points. Keep the UTM parameters if you want the click tracked.',
+            }),
+            dismiss_label: fields.text({
+              label: 'Dismiss label',
+              defaultValue: 'Not now',
+            }),
+            meta: fields.text({
+              label: 'Meta line',
+              defaultValue: 'Five short emails. Free.',
+            }),
+          },
+          {
+            label: 'Free course popup',
+            description:
+              'The scroll/time triggers that decide when the popup appears stay in code.',
+          }
+        ),
+        testimonials_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+          },
+          { label: 'Testimonials section heading' }
+        ),
       },
     }),
     about: singleton({
