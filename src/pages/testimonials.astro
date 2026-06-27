@@ -1,11 +1,14 @@
 ---
 import SpeakingLayout from '../layouts/SpeakingLayout.astro';
+import { reader } from '../lib/keystatic';
 import {
 	getTestimonials,
 	initialsFor,
 	TESTIMONIAL_SECTIONS,
 	type TestimonialType,
 } from '../lib/testimonials';
+
+const page = await reader.singletons.testimonialsPage.read();
 
 const testimonials = await getTestimonials({ placement: 'testimonials' });
 
@@ -31,8 +34,9 @@ const LONG_QUOTE = 550;
 ---
 
 <SpeakingLayout
-	title="Testimonials | Lorraine K. Lee"
-	description="What clients, event organizers, audiences, and LinkedIn Learning students say about working with and learning from Lorraine K. Lee."
+	title={page?.seo_title || 'Testimonials | Lorraine K. Lee'}
+	description={page?.seo_description ||
+		'What clients, event organizers, audiences, and LinkedIn Learning students say about working with and learning from Lorraine K. Lee.'}
 	activeId="about"
 >
 	{/* ---------- Hero ---------- */}

@@ -45,8 +45,8 @@ const hasMore = items.length > INITIAL_COUNT;
 ---
 
 <SpeakingLayout
-	title="Authored Articles | Lorraine K. Lee"
-	description="Bylines and features Lorraine K. Lee has written across leading outlets."
+	title={tl?.articles_seo_title || "Authored Articles | Lorraine K. Lee"}
+	description={tl?.articles_seo_description || "Bylines and features Lorraine K. Lee has written across leading outlets."}
 	activeId="thought-leadership"
 >
 	<section class="section section--compact">

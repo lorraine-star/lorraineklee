@@ -459,6 +459,7 @@ export default config({
       format: { contentField: 'body' },
       schema: {
         seo_title: fields.text({ label: 'SEO title' }),
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -603,6 +604,8 @@ export default config({
       path: 'src/content/speaking/',
       schema: {
         seo_title: fields.text({ label: 'SEO title' }),
+
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         card_cta_label: fields.text({
           label: 'Talk card CTA label',
           description:
@@ -1023,6 +1026,8 @@ export default config({
       format: { contentField: 'body' },
       schema: {
         seo_title: fields.text({ label: 'SEO title' }),
+
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -1101,6 +1106,7 @@ export default config({
       path: 'src/content/media-kit/',
       schema: {
         seo_title: fields.text({ label: 'SEO title' }),
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -1347,6 +1353,8 @@ export default config({
       path: 'src/content/learn/',
       schema: {
         seo_title: fields.text({ label: 'SEO title' }),
+
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -1873,6 +1881,7 @@ export default config({
       path: 'src/content/courses-page/',
       schema: {
         seo_title: fields.text({ label: 'SEO title' }),
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         hero: fields.object(
           {
             eyebrow: fields.text({
@@ -2067,6 +2076,7 @@ export default config({
       path: 'src/content/interviews-page/',
       schema: {
         seo_title: fields.text({ label: 'SEO title' }),
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         hero: fields.object(
           {
             eyebrow: fields.text({
@@ -2210,6 +2220,8 @@ export default config({
       path: 'src/content/contact/',
       schema: {
         seo_title: fields.text({ label: 'SEO title' }),
+
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         eyebrow: fields.text({ label: 'Eyebrow', defaultValue: 'Contact' }),
         headline: fields.text({ label: 'Headline' }),
         headline_accent: fields.text({
@@ -2259,6 +2271,7 @@ export default config({
       // placeholder until the production form ID is supplied.
       schema: {
         seo_title: fields.text({ label: 'SEO title' }),
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         eyebrow: fields.text({
           label: 'Eyebrow',
           defaultValue: 'Weekly Newsletter',
@@ -2301,6 +2314,8 @@ export default config({
       path: 'src/content/consulting/',
       schema: {
         seo_title: fields.text({ label: 'SEO title' }),
+
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -2409,6 +2424,18 @@ export default config({
         seo_title: fields.text({ label: 'SEO title' }),
         seo_description: fields.text({
           label: 'SEO description',
+          multiline: true,
+        }),
+
+        thankyou_seo_title: fields.text({
+          label: 'Thank-you page SEO title',
+          description:
+            'Title for the funnel confirmation page (/from-invisible-to-influential-thank-you). Separate from the landing-page SEO title above so the two do not collide.',
+        }),
+        thankyou_seo_description: fields.text({
+          label: 'Thank-you page SEO description',
+          description:
+            'Meta description for the funnel confirmation page, separate from the landing-page SEO description above.',
           multiline: true,
         }),
         hero: fields.object(
@@ -2621,11 +2648,24 @@ export default config({
         ),
       },
     }),
+    testimonialsPage: singleton({
+      label: 'Testimonials Page',
+      path: 'src/content/testimonials-page/',
+      schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+        seo_description: fields.text({
+          label: 'SEO description',
+          multiline: true,
+        }),
+      },
+    }),
     coaching: singleton({
       label: 'Coaching',
       path: 'src/content/coaching/',
       schema: {
         seo_title: fields.text({ label: 'SEO title' }),
+
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -2791,6 +2831,8 @@ export default config({
       path: 'src/content/featured-in/',
       schema: {
         seo_title: fields.text({ label: 'SEO title' }),
+
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -2866,6 +2908,18 @@ export default config({
       path: 'src/content/thought-leadership/',
       schema: {
         seo_title: fields.text({ label: 'SEO title' }),
+
+        seo_description: fields.text({
+          label: 'SEO description (Thought Leadership page)',
+          multiline: true,
+        }),
+        articles_seo_title: fields.text({
+          label: 'SEO title (Authored Articles page)',
+        }),
+        articles_seo_description: fields.text({
+          label: 'SEO description (Authored Articles page)',
+          multiline: true,
+        }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),

@@ -34,7 +34,7 @@ const formId = typeform_id?.trim() ?? '';
 const links = (social_links ?? []).filter((s) => s.url);
 ---
 
-<SpeakingLayout title={contact.seo_title || "Lorraine K. Lee | Contact"} description={lead} activeId="contact">
+<SpeakingLayout title={contact.seo_title || "Lorraine K. Lee | Contact"} description={contact.seo_description || lead} activeId="contact">
 	<section class="section section--tight">
 		<div class="grid12">
 			<div class="contact-grid">

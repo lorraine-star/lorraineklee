@@ -31,7 +31,7 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
 
 <SpeakingLayout
 	title={coaching.seo_title || "Coaching | Lorraine K. Lee"}
-	description={hero.lead}
+	description={coaching.seo_description || hero.lead}
 	activeId="coaching"
 >
 	{/* ---------- Hero (shared PageHero shell; copy + CTAs stay page-local) ---------- */}

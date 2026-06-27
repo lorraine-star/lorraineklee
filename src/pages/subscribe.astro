@@ -41,7 +41,7 @@ const items = (benefits ?? []).filter((b) => b && b.trim());
 
 <SpeakingLayout
   title={page.seo_title || "Subscribe | Lorraine K. Lee"}
-  description={lead}
+  description={page.seo_description || lead}
   activeId="learn"
 >
   <section class="section section--tight">
