@@ -16,6 +16,35 @@ export default config({
     project: 'rise-learning/lorraineklee',
   },
   singletons: {
+    bookPromo: singleton({
+      label: 'Book Promo (global section)',
+      path: 'src/content/book-promo/',
+      // Canonical content for the shared "The Book" promo (BookPromo.astro,
+      // data-global-section="book-promo"). Fields fall back to the previous
+      // hardcoded copy so the section renders identically until edited.
+      schema: {
+        eyebrow: fields.text({ label: 'Eyebrow', defaultValue: 'The Book' }),
+        title: fields.text({
+          label: 'Title (shown italic)',
+          defaultValue: 'Unforgettable Presence®',
+        }),
+        tagline: fields.text({ label: 'Tagline' }),
+        body: fields.text({ label: 'Body', multiline: true }),
+        quote: fields.text({
+          label: 'Endorsement quote (quotation marks added automatically)',
+          multiline: true,
+        }),
+        quote_attribution: fields.text({ label: 'Endorsement attribution' }),
+        cta_label: fields.text({ label: 'CTA label', defaultValue: 'Get your copy' }),
+        cta_url: fields.text({ label: 'CTA URL', defaultValue: '/book' }),
+        cover_image: fields.image({
+          label: 'Book cover image',
+          directory: 'public/images/v1',
+          publicPath: '/images/v1/',
+        }),
+        cover_alt: fields.text({ label: 'Book cover alt text' }),
+      },
+    }),
     siteSettings: singleton({
       label: 'Site Settings',
       path: 'src/content/site-settings/',
