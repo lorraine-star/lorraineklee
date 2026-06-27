@@ -259,7 +259,7 @@ const finalCtaUrl = cleanUrl(final_cta.cta_url) || '/contact';
 
 			{/* Empty state */}
 			<div class="fi-grid-empty" data-grid-empty hidden>
-				<p>No appearances in this category yet.</p>
+				<p>{appearances_section.empty_state || 'No appearances in this category yet.'}</p>
 			</div>
 		</div>
 	</section>

@@ -137,7 +137,7 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
 								class:list={['coach-tier', { 'coach-tier--featured': tier.featured }]}
 							>
 								{tier.featured && (
-									<span class="coach-tier-badge">Most popular</span>
+									<span class="coach-tier-badge">{tiers_section.featured_badge_label || 'Most popular'}</span>
 								)}
 								<header class="coach-tier-head">
 									<h3 class="coach-tier-name">{tier.name}</h3>

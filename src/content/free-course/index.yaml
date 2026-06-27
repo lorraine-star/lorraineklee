@@ -11,6 +11,12 @@ hero:
   name_placeholder: "First Name"
   email_placeholder: "Enter your best email"
   form_button_label: "SEND ME THE COURSE"
+  stat_value: "250k+"
+  stat_label: "professionals taught\nacross LinkedIn Learning"
+  opt_in_eyebrow: "Free 5-day email course"
+  opt_in_title: "Send me Day 1,"
+  opt_in_title_accent: "free."
+  fineprint: "No spam. Unsubscribe anytime."
 problem:
   heading: "Does This Sound Like ==You?=="
   bullets:
@@ -25,6 +31,11 @@ problem:
 roadmap:
   eyebrow: "Here's How We're Going To Fix That:"
   heading: "Your 5-Day Roadmap From Invisible to Influential"
+  heading_lead: "Your 5-Day Roadmap From "
+  heading_accent: "Invisible to Influential"
+  learn_label: "You'll learn :"
+  image: "/images/free-course/roadmap-photo.png"
+  image_alt: "Lorraine K. Lee holding her book Unforgettable Presence"
 days:
   - day_label: "Day 1"
     title: "How to Articulate Your Value So People Actually Listen"
@@ -98,6 +109,9 @@ final:
   heading: "Ready to go from ==invisible to influential?=="
   lede: "Get my free 5-day course, the same frameworks I teach leaders at Amazon, Cisco, and Fortune 500 companies. Articulate your value. Make promotions inevitable."
   form_button_label: "LET'S DO THIS"
+  opt_in_eyebrow: "Start day 1 today"
+  opt_in_title: "Where should I send the course?"
+  fineprint: "No spam. Unsubscribe anytime."
 thank_you:
   eyebrow: "You're In"
   intro: "I'm glad you're here."

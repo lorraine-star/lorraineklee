@@ -60,6 +60,7 @@ tiers_section:
   lead: >-
     Every engagement is one-on-one and tailored to where you are now and where you
     want to go.
+  featured_badge_label: Most popular
 tiers:
   - name: Essential
     duration: One month

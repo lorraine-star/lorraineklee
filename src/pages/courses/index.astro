@@ -11,7 +11,7 @@ const page = await reader.singletons.coursesPage.read();
 if (!page) {
 	throw new Error('Missing courses page content (src/content/courses-page/index.yaml)');
 }
-const { hero, rating, filter_bar, why_section, final_cta } = page;
+const { hero, rating, filter_bar, why_section, final_cta, labels } = page;
 
 const all = await reader.collections.courses.all();
 const mapped = all
@@ -73,7 +73,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 					</h1>
 					<p class="hero-lead">{hero.lead}</p>
 					<div class="hero-ctas">
-						<a class="btn primary large" href="#course-grid">Explore courses</a>
+						<a class="btn primary large" href="#course-grid">{labels?.explore_courses || 'Explore courses'}</a>
 						<a
 							class="btn outline large"
 							href={linkedinUrl}
@@ -147,7 +147,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 							<div class="featured-wide-text">
 								<div class="eyebrow featured-eyebrow">
 									<span class="featured-eyebrow-dot" aria-hidden="true" />
-									Lorraine's pick &middot; Start here
+									{labels?.featured_badge || "Lorraine's pick · Start here"}
 								</div>
 								<h2 class="featured-title">{featured.title}</h2>
 								<p class="featured-summary">{featured.description}</p>
@@ -155,7 +155,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 									{featured.category && (
 										<li class="featured-tag">{featured.category}</li>
 									)}
-									<li class="featured-tag">Free with LinkedIn Learning</li>
+									<li class="featured-tag">{labels?.free_with_linkedin || 'Free with LinkedIn Learning'}</li>
 								</ul>
 								<div class="featured-meta">
 									<span class="featured-meta-item">LinkedIn Learning</span>
@@ -168,10 +168,10 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 										target={isExternal(courseHref(featured)) ? '_blank' : undefined}
 										rel={isExternal(courseHref(featured)) ? 'noopener noreferrer' : undefined}
 									>
-										Start this course <span aria-hidden="true">&rarr;</span>
+										{labels?.start_this_course || 'Start this course'} <span aria-hidden="true">&rarr;</span>
 									</a>
 									<a class="btn ghost" href={`/courses/${featured.slug}`}>
-										See what's inside <span aria-hidden="true">&rarr;</span>
+										{labels?.see_whats_inside || "See what's inside"} <span aria-hidden="true">&rarr;</span>
 									</a>
 								</div>
 							</div>
@@ -207,7 +207,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 						role="tab"
 						aria-selected="true"
 					>
-						All courses
+						{labels?.all_courses_filter || 'All courses'}
 						<span class="filter-pill-count">{counts.all}</span>
 					</button>
 					{
@@ -242,7 +242,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						View on LinkedIn Learning <span aria-hidden="true">&#8599;</span>
+						{labels?.view_on_linkedin || 'View on LinkedIn Learning'} <span aria-hidden="true">&#8599;</span>
 					</a>
 				</div>
 
@@ -283,7 +283,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 										<h3 class="course-card-title">{c.title}</h3>
 										<p class="course-card-summary">{c.description}</p>
 										<div class="course-card-foot">
-											<span class="course-cta">View course <span aria-hidden="true">&rarr;</span></span>
+											<span class="course-cta">{labels?.view_course || 'View course'} <span aria-hidden="true">&rarr;</span></span>
 										</div>
 									</div>
 								</a>
@@ -292,7 +292,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 					}
 				</div>
 				<div class="grid-empty" data-grid-empty hidden>
-					<p>No courses in this category yet. New ones are added regularly.</p>
+					<p>{labels?.empty_state || 'No courses in this category yet. New ones are added regularly.'}</p>
 				</div>
 			</div>
 		</section>
@@ -378,7 +378,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						See all courses on LinkedIn Learning <span aria-hidden="true">&#8599;</span>
+						{labels?.see_all_courses || 'See all courses on LinkedIn Learning'} <span aria-hidden="true">&#8599;</span>
 					</a>
 					<a class="btn outline-on-brand large" href={finalCtaUrl}>
 						{final_cta.cta_label}

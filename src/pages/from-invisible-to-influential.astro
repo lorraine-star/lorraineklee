@@ -27,7 +27,7 @@ if (!fc) {
 }
 
 const { hero, problem, roadmap, days, trust, different, final } = fc;
-const ROADMAP_IMG = '/images/free-course/roadmap-photo.png';
+const ROADMAP_IMG = roadmap.image || '/images/free-course/roadmap-photo.png';
 
 // Split a credibility item into its bold lead-in (card heading) and the rest.
 const splitLead = (text: string) => {
@@ -36,12 +36,15 @@ const splitLead = (text: string) => {
 };
 const digit = (label: string) => label.replace(/[^0-9]/g, '');
 
-// The roadmap title italicises the "Invisible to Influential" phrase. Split it
-// out so the lead-in stays upright and only the phrase is emphasised.
-const ROADMAP_ITALIC = 'Invisible to Influential';
-const roadmapIdx = roadmap.heading.indexOf(ROADMAP_ITALIC);
-const roadmapTitleLead = roadmapIdx >= 0 ? roadmap.heading.slice(0, roadmapIdx) : roadmap.heading;
-const roadmapTitleItalic = roadmapIdx >= 0 ? roadmap.heading.slice(roadmapIdx) : '';
+// Split a multi-line label so manual line breaks survive as <br>.
+const splitLines = (value: string | null | undefined) =>
+  (value ?? '').split('\n');
+
+// The roadmap title italicises the "Invisible to Influential" phrase. The lead
+// and the italic accent are separate editable fields (plain + _accent) so the
+// emphasis can never silently drop when the heading is edited.
+const roadmapTitleLead = roadmap.heading_lead || 'Your 5-Day Roadmap From ';
+const roadmapTitleItalic = roadmap.heading_accent || 'Invisible to Influential';
 
 // Emoji fallbacks for the credibility cards, in the funnel's default card order.
 // Each trust item also has an optional `icon` image field in Keystatic; when an
@@ -81,8 +84,12 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
               <img src={hero.image_desktop} alt={hero.image_alt} fetchpriority="high" decoding="async" />
             </div>
             <div class="fitf-hero-stat">
-              <span class="num">250k+</span>
-              <span class="lbl">professionals taught<br />across LinkedIn Learning</span>
+              <span class="num">{hero.stat_value || '250k+'}</span>
+              <span class="lbl">
+                {splitLines(hero.stat_label || 'professionals taught\nacross LinkedIn Learning').map((line, j) => (
+                  <Fragment>{j > 0 && <br />}{line}</Fragment>
+                ))}
+              </span>
             </div>
           </div>
         </div>
@@ -94,8 +101,8 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
       <div class="fitf-container">
         <div class="fitf-optin fitf-optin--wide">
           <div class="fitf-optin-intro">
-            <p class="fitf-optin-eyebrow">Free 5-day email course</p>
-            <h3 class="fitf-optin-title">Send me Day 1, <span class="fitf-optin-free">free.</span></h3>
+            <p class="fitf-optin-eyebrow">{hero.opt_in_eyebrow || 'Free 5-day email course'}</p>
+            <h3 class="fitf-optin-title">{hero.opt_in_title || 'Send me Day 1,'} <span class="fitf-optin-free">{hero.opt_in_title_accent || 'free.'}</span></h3>
           </div>
           <div class="fitf-optin-body">
             <FreeCourseForm
@@ -105,7 +112,7 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
               namePlaceholder={hero.name_placeholder}
               emailPlaceholder={hero.email_placeholder}
             />
-            <p class="fitf-fine">No spam. Unsubscribe anytime.</p>
+            <p class="fitf-fine">{hero.fineprint || 'No spam. Unsubscribe anytime.'}</p>
           </div>
         </div>
       </div>
@@ -142,7 +149,7 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
                 {roadmapTitleLead}{roadmapTitleItalic && <em>{roadmapTitleItalic}</em>}
               </h2>
             </div>
-            <img class="fitf-roadmap-photo" src={ROADMAP_IMG} alt="Lorraine K. Lee holding her book Unforgettable Presence" loading="lazy" />
+            <img class="fitf-roadmap-photo" src={ROADMAP_IMG} alt={roadmap.image_alt || 'Lorraine K. Lee holding her book Unforgettable Presence'} loading="lazy" />
             <span class="fitf-spark fitf-spark--1" set:html={SPARK} />
             <span class="fitf-spark fitf-spark--2" set:html={SPARK} />
             <span class="fitf-spark fitf-spark--3" set:html={SPARK} />
@@ -157,7 +164,7 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
                   <div>
                     <h3 class="fitf-day-title">{d.title}</h3>
                     <p class="fitf-day-sub">{d.intro}</p>
-                    <p class="fitf-day-learn">You'll learn :</p>
+                    <p class="fitf-day-learn">{roadmap.learn_label || "You'll learn :"}</p>
                     <ul>
                       {d.bullets.map((b) => (
                         <li>
@@ -251,8 +258,8 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
             {final.lede && <p class="fitf-final-lede">{final.lede}</p>}
           </div>
           <div class="fitf-optin fitf-optin--final">
-            <p class="fitf-optin-eyebrow">Start day 1 today</p>
-            <h3 class="fitf-optin-title">Where should I send the course?</h3>
+            <p class="fitf-optin-eyebrow">{final.opt_in_eyebrow || 'Start day 1 today'}</p>
+            <h3 class="fitf-optin-title">{final.opt_in_title || 'Where should I send the course?'}</h3>
             <div class="fitf-optin-body">
               <FreeCourseForm
                 formId="8913490"
@@ -261,7 +268,7 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
                 namePlaceholder={hero.name_placeholder}
                 emailPlaceholder={hero.email_placeholder}
               />
-              <p class="fitf-fine">No spam. Unsubscribe anytime.</p>
+              <p class="fitf-fine">{final.fineprint || 'No spam. Unsubscribe anytime.'}</p>
             </div>
           </div>
         </div>

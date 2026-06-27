@@ -13,6 +13,9 @@ export async function getStaticPaths() {
 
 const { course } = Astro.props;
 const courseUrl = safeUrl(course.url);
+
+const coursesPage = await reader.singletons.coursesPage.read();
+const labels = coursesPage?.labels;
 ---
 
 <SpeakingLayout
@@ -27,7 +30,7 @@ const courseUrl = safeUrl(course.url);
 					<span aria-hidden="true">&larr;</span> All courses
 				</a>
 				<div class="talk-format">
-					LinkedIn Learning{course.category && <> &middot; {course.category}</>}
+					{labels?.detail_format_prefix || 'LinkedIn Learning'}{course.category && <> &middot; {course.category}</>}
 				</div>
 				<h1>{course.title}</h1>
 				{course.description && <p class="lead-large">{course.description}</p>}
@@ -40,7 +43,7 @@ const courseUrl = safeUrl(course.url);
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								Watch on LinkedIn Learning{' '}
+								{labels?.detail_watch_cta || 'Watch on LinkedIn Learning'}{' '}
 								<span aria-hidden="true">&rarr;</span>
 							</a>
 						)
@@ -51,7 +54,7 @@ const courseUrl = safeUrl(course.url);
 					</a>
 				</div>
 				<p class="learn-hero-trust">
-					Free to watch with a LinkedIn Learning subscription.
+					{labels?.detail_trust_line || 'Free to watch with a LinkedIn Learning subscription.'}
 				</p>
 			</div>
 		</div>
