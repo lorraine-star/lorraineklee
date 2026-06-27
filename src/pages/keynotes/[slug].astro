@@ -36,8 +36,9 @@ const final_cta = speaking?.final_cta;
 				<h1>{keynote.title}</h1>
 				{keynote.description && <p class="lead-large">{keynote.description}</p>}
 				<div class="hero-cta-row">
-					<a class="btn primary large" href="/contact">
-						Book this talk <span aria-hidden="true">&rarr;</span>
+					<a class="btn primary large" href={safeUrl(speaking?.card_cta_url) || '/contact'}>
+						{speaking?.card_cta_label || 'Book this talk'}{' '}
+						<span aria-hidden="true">&rarr;</span>
 					</a>
 					<a class="anchor-link" href="/keynotes">
 						See other keynotes <span class="arrow" aria-hidden="true">&rarr;</span>
@@ -72,7 +73,7 @@ const final_cta = speaking?.final_cta;
 					<div class="talk-page-grid reveal-stagger">
 						{hasTrack && (
 							<div>
-								<h2>Talk track</h2>
+								<h2>{speaking?.talk_track_label || 'Talk track'}</h2>
 								<ol class="talk-page-track">
 									{keynote.talk_track!.map((row) => (
 										<li>
@@ -85,7 +86,7 @@ const final_cta = speaking?.final_cta;
 						)}
 						{hasTakeaways && (
 							<div>
-								<h2>What the audience walks away with</h2>
+								<h2>{speaking?.takeaways_label || 'What the audience walks away with'}</h2>
 								<ul class="talk-page-takeaways">
 									{keynote.takeaways!.map((row) => (
 										<li>{row}</li>

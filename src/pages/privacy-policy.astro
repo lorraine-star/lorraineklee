@@ -23,11 +23,11 @@ const bodyHtml = await renderMarkdoc(policy.body);
 				<div class="page-hero-eyebrow">
 					<span class="dot"></span>
 					<span class="eyebrow" style="color: var(--ink-500);">
-						Legal
+						{policy.eyebrow || "Legal"}
 					</span>
 				</div>
 				<h1>{policy.title}</h1>
-				<p class="legal-effective">Effective Date: {policy.effective_date}</p>
+				<p class="legal-effective">{policy.effective_date_label || "Effective Date:"} {policy.effective_date}</p>
 			</div>
 		</div>
 	</section>

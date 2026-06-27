@@ -447,3 +447,7 @@ final_cta:
   body: "Most engagements lock in 8-14 weeks ahead. Tell me about your audience, the date, and what you want them to walk away with, I'll be back within two business days."
   cta_label: "Start the conversation"
   cta_url: "/contact"
+card_cta_label: "Book this talk"
+card_cta_url: "/contact"
+takeaways_label: "What the audience walks away with"
+talk_track_label: "Talk track"

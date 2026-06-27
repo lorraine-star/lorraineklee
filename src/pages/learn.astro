@@ -10,6 +10,7 @@ if (!learn) {
 
 const {
 	hero,
+	hero_bento,
 	newsletter,
 	courses_section,
 	linkedin_resources,
@@ -74,12 +75,12 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 				<p class="lead-large">{hero.lead}</p>
 				<div class="learn-hero-cta-row">
 					<a class="btn primary large" href="#course">
-						Start the free course <span aria-hidden="true">&rarr;</span>
+						{hero.cta_primary_label || 'Start the free course'} <span aria-hidden="true">&rarr;</span>
 					</a>
-					<a class="btn ghost" href="#courses">Browse courses</a>
+					<a class="btn ghost" href="#courses">{hero.cta_secondary_label || 'Browse courses'}</a>
 				</div>
 				<p class="learn-hero-trust">
-					Join <strong>{hero.trust_count || '12,000+'}</strong> leaders learning with Lorraine.
+					{hero.trust_prefix || 'Join'} <strong>{hero.trust_count || '12,000+'}</strong> {hero.trust_suffix || 'leaders learning with Lorraine.'}
 				</p>
 			</div>
 		</div>
@@ -91,14 +92,14 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 			>
 				<a class="lh-card lh-card--feature bento-feature" href="#course">
 					<div class="lh-card-body">
-						<span class="lh-card-pill">Free · 5-day course</span>
-						<h3 class="lh-card-title">From <em>Invisible</em> to Influential</h3>
+						<span class="lh-card-pill">{hero_bento?.feature_pill || 'Free · 5-day course'}</span>
+						<h3 class="lh-card-title">{hero_bento?.feature_title || 'From'} <em>{hero_bento?.feature_title_accent || 'Invisible'}</em>{hero_bento?.feature_title_suffix || ' to Influential'}</h3>
 						<p class="lh-card-desc">
-							A free 5-day email course that helps you articulate your value
-							and get visible to decision-makers.
+							{hero_bento?.feature_desc ||
+								'A free 5-day email course that helps you articulate your value and get visible to decision-makers.'}
 						</p>
 						<span class="lh-card-cta">
-							Start the course <span aria-hidden="true">&rarr;</span>
+							{hero_bento?.feature_cta_label || 'Start the course'} <span aria-hidden="true">&rarr;</span>
 						</span>
 					</div>
 					{
@@ -106,7 +107,7 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 							<div class="lh-card-media lh-card-media--feature">
 								<img
 									src={newsletter.hero_card_image}
-									alt="Lorraine K. Lee working at her laptop"
+									alt={hero_bento?.feature_image_alt || 'Lorraine K. Lee working at her laptop'}
 									loading="lazy"
 								/>
 							</div>
@@ -115,9 +116,9 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 				</a>
 				<div class="lh-card lh-card--stat bento-stat">
 					<div class="lh-card-body">
-						<span class="lh-card-stat-num">250K<span class="suffix">+</span></span>
+						<span class="lh-card-stat-num">{hero_bento?.stat_num || '250K'}<span class="suffix">{hero_bento?.stat_suffix || '+'}</span></span>
 						<span class="lh-card-stat-label">
-							Students taught on LinkedIn Learning
+							{hero_bento?.stat_label || 'Students taught on LinkedIn Learning'}
 						</span>
 					</div>
 				</div>
@@ -136,7 +137,7 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 						<span class="lh-card-eyebrow">LinkedIn Learning</span>
 						<h3 class="lh-card-title">{totalCourses} on-demand courses</h3>
 						<span class="lh-card-cta">
-							Browse all <span aria-hidden="true">&rarr;</span>
+							{hero_bento?.browse_card_cta_label || 'Browse all'} <span aria-hidden="true">&rarr;</span>
 						</span>
 					</div>
 				</a>
@@ -163,7 +164,7 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 									/>
 								)}
 								<div class="lh-card-overlay">
-									<span class="lh-card-eyebrow">Free resource</span>
+									<span class="lh-card-eyebrow">{hero_bento?.resource_eyebrow || 'Free resource'}</span>
 									<h3 class="lh-card-title">{r.label}</h3>
 									<span class="lh-card-cta">
 										{r.cta_label || 'Get it'}{' '}
@@ -254,7 +255,7 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 				</h2>
 				{courses_section.lead && <p class="lead">{courses_section.lead}</p>}
 				<p class="course-catalog-count">
-					{totalCourses} on-demand courses and counting.
+					{totalCourses} {courses_section.count_caption_suffix || 'on-demand courses and counting.'}
 				</p>
 			</div>
 

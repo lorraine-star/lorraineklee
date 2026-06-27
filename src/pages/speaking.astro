@@ -272,7 +272,8 @@ const clientLogos = past_clients ?? [];
 										{hasTakeaways && (
 											<>
 												<h4 class="topic-panel-label">
-													What the audience walks away with
+													{speaking.takeaways_label ||
+														'What the audience walks away with'}
 												</h4>
 												<ul class="topic-takeaways">
 													{t.takeaways!.map((k) => (
@@ -281,8 +282,9 @@ const clientLogos = past_clients ?? [];
 												</ul>
 											</>
 										)}
-										<a class="btn primary" href="/contact" data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
-											Book this talk <span aria-hidden="true">&rarr;</span>
+										<a class="btn primary" href={safeUrl(speaking.card_cta_url) || '/contact'} data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
+											{speaking.card_cta_label || 'Book this talk'}{' '}
+											<span aria-hidden="true">&rarr;</span>
 										</a>
 									</div>
 								</div>
@@ -444,7 +446,8 @@ const clientLogos = past_clients ?? [];
 														{hasTakeaways && (
 															<>
 																<h4 class="topic-panel-label">
-																	What the audience walks away with
+																	{speaking.takeaways_label ||
+																		'What the audience walks away with'}
 																</h4>
 																<ul class="topic-takeaways">
 																	{talk.takeaways!.map((k) => (
@@ -453,8 +456,8 @@ const clientLogos = past_clients ?? [];
 																</ul>
 															</>
 														)}
-														<a class="btn primary" href="/contact" data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
-															Book this talk{' '}
+														<a class="btn primary" href={safeUrl(speaking.card_cta_url) || '/contact'} data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
+															{speaking.card_cta_label || 'Book this talk'}{' '}
 															<span aria-hidden="true">&rarr;</span>
 														</a>
 													</div>
