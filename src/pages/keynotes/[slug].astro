@@ -19,6 +19,7 @@ const hasTakeaways = (keynote.takeaways ?? []).length > 0;
 // Reuse the shared final CTA authored on the Speaking page.
 const speaking = await reader.singletons.speaking.read();
 const final_cta = speaking?.final_cta;
+const backUrl = safeUrl(speaking?.detail_back_url) || '/keynotes';
 ---
 
 <SpeakingLayout
@@ -29,8 +30,8 @@ const final_cta = speaking?.final_cta;
 	<section class="page-hero page-hero--center">
 		<div class="grid12 page-hero-grid">
 			<div class="talk-page-hero fade-up">
-				<a class="talk-page-back" href="/keynotes">
-					<span aria-hidden="true">&larr;</span> All keynotes
+				<a class="talk-page-back" href={backUrl}>
+					<span aria-hidden="true">&larr;</span> {speaking?.detail_back_label || 'All keynotes'}
 				</a>
 				{keynote.format && <div class="talk-format">{keynote.format}</div>}
 				<h1>{keynote.title}</h1>
@@ -40,8 +41,8 @@ const final_cta = speaking?.final_cta;
 						{speaking?.card_cta_label || 'Book this talk'}{' '}
 						<span aria-hidden="true">&rarr;</span>
 					</a>
-					<a class="anchor-link" href="/keynotes">
-						See other keynotes <span class="arrow" aria-hidden="true">&rarr;</span>
+					<a class="anchor-link" href={backUrl}>
+						{speaking?.detail_more_label || 'See other keynotes'} <span class="arrow" aria-hidden="true">&rarr;</span>
 					</a>
 				</div>
 			</div>

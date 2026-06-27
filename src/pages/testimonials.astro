@@ -3,8 +3,8 @@ import SpeakingLayout from '../layouts/SpeakingLayout.astro';
 import { reader } from '../lib/keystatic';
 import {
 	getTestimonials,
+	getTestimonialSections,
 	initialsFor,
-	TESTIMONIAL_SECTIONS,
 	type TestimonialType,
 } from '../lib/testimonials';
 
@@ -20,11 +20,13 @@ const SECTION_ANCHOR: Record<TestimonialType, string> = {
 	'course-student-review': 'courses',
 };
 
-const sections = TESTIMONIAL_SECTIONS.map((section) => ({
-	...section,
-	anchor: SECTION_ANCHOR[section.type],
-	items: testimonials.filter((t) => t.type === section.type),
-})).filter((section) => section.items.length > 0);
+const sections = (await getTestimonialSections())
+	.map((section) => ({
+		...section,
+		anchor: SECTION_ANCHOR[section.type],
+		items: testimonials.filter((t) => t.type === section.type),
+	}))
+	.filter((section) => section.items.length > 0);
 
 const total = testimonials.length;
 

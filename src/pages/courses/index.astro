@@ -4,14 +4,34 @@ import { reader } from '../../lib/keystatic';
 import { safeUrl } from '../../lib/url';
 import { getTestimonials } from '../../lib/testimonials';
 
-// Category order mirrors the old WordPress /learning-courses/ hub.
-const CATEGORY_ORDER = ['Communication', 'Leadership', 'Management', 'Career'];
-
 const page = await reader.singletons.coursesPage.read();
 if (!page) {
 	throw new Error('Missing courses page content (src/content/courses-page/index.yaml)');
 }
 const { hero, rating, filter_bar, why_section, final_cta, labels } = page;
+
+// Category order mirrors the old WordPress /learning-courses/ hub. Editors can
+// reorder via coursesPage.category_order; any category they leave off is
+// appended in the default order rather than dropped, so no group loses its pill.
+const DEFAULT_CATEGORY_ORDER = ['Communication', 'Leadership', 'Management', 'Career'];
+const CATEGORY_ORDER = (() => {
+	const seen = new Set<string>();
+	const ordered: string[] = [];
+	for (const cat of page.category_order ?? []) {
+		if (DEFAULT_CATEGORY_ORDER.includes(cat) && !seen.has(cat)) {
+			seen.add(cat);
+			ordered.push(cat);
+		}
+	}
+	for (const cat of DEFAULT_CATEGORY_ORDER) {
+		if (!seen.has(cat)) ordered.push(cat);
+	}
+	return ordered;
+})();
+
+// Live grid-count captions (editable; the filter script rebuilds them client-side).
+const gridCountAll = labels?.grid_count_all || 'courses · all categories';
+const gridCountFilteredPrefix = labels?.grid_count_filtered_prefix || 'courses in ';
 
 const all = await reader.collections.courses.all();
 const mapped = all
@@ -234,7 +254,12 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 				<div class="grid-section-head">
 					<div class="grid-section-title">
 						<span class="grid-count" data-grid-count>{counts.all}</span>
-						<span class="grid-count-label" data-grid-label>courses &middot; all categories</span>
+						<span
+							class="grid-count-label"
+							data-grid-label
+							data-label-all={gridCountAll}
+							data-label-filtered-prefix={gridCountFilteredPrefix}
+						>{gridCountAll}</span>
 					</div>
 					<a
 						class="grid-section-link"
@@ -408,6 +433,10 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 			grid.querySelectorAll<HTMLElement>('.course-card')
 		);
 
+		const labelAll = labelEl?.dataset.labelAll ?? 'courses · all categories';
+		const labelFilteredPrefix =
+			labelEl?.dataset.labelFilteredPrefix ?? 'courses in ';
+
 		const apply = (filter: string) => {
 			let shown = 0;
 			for (const card of cards) {
@@ -420,9 +449,9 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 			if (labelEl) {
 				labelEl.textContent = '';
 				if (filter === 'all') {
-					labelEl.append('courses · all categories');
+					labelEl.append(labelAll);
 				} else {
-					labelEl.append('courses in ');
+					labelEl.append(labelFilteredPrefix);
 					const em = document.createElement('em');
 					em.textContent = filter;
 					labelEl.append(em);

@@ -16,6 +16,7 @@ const courseUrl = safeUrl(course.url);
 
 const coursesPage = await reader.singletons.coursesPage.read();
 const labels = coursesPage?.labels;
+const backUrl = safeUrl(labels?.detail_back_url) || '/courses';
 ---
 
 <SpeakingLayout
@@ -26,8 +27,8 @@ const labels = coursesPage?.labels;
 	<section class="page-hero page-hero--center">
 		<div class="grid12 page-hero-grid">
 			<div class="talk-page-hero fade-up">
-				<a class="talk-page-back" href="/courses">
-					<span aria-hidden="true">&larr;</span> All courses
+				<a class="talk-page-back" href={backUrl}>
+					<span aria-hidden="true">&larr;</span> {labels?.detail_back_label || 'All courses'}
 				</a>
 				<div class="talk-format">
 					{labels?.detail_format_prefix || 'LinkedIn Learning'}{course.category && <> &middot; {course.category}</>}
@@ -48,8 +49,8 @@ const labels = coursesPage?.labels;
 							</a>
 						)
 					}
-					<a class="anchor-link" href="/courses">
-						See other courses{' '}
+					<a class="anchor-link" href={backUrl}>
+						{labels?.detail_more_label || 'See other courses'}{' '}
 						<span class="arrow" aria-hidden="true">&rarr;</span>
 					</a>
 				</div>

@@ -8,6 +8,17 @@ import { config, fields, collection, singleton } from '@keystatic/core';
 // To run the admin against local files instead (e.g. offline dev), swap to:
 //   storage: { kind: 'local' },
 
+// Shared option lists kept as single sources of truth so the editable schema
+// and the pages that render the data can't drift (CLI-162).
+const COURSE_CATEGORIES = ['Communication', 'Leadership', 'Management', 'Career'] as const;
+const COURSE_CATEGORY_OPTIONS = COURSE_CATEGORIES.map((value) => ({ label: value, value }));
+
+const APPEARANCE_TYPES = [
+  'Article', 'Podcast', 'Video', 'Interview', 'Book',
+  'Report', 'Resource', 'Award', 'Event', 'Newsletter',
+] as const;
+const APPEARANCE_TYPE_OPTIONS = APPEARANCE_TYPES.map((value) => ({ label: value, value }));
+
 export default config({
   storage: {
     kind: 'cloud',
@@ -186,6 +197,40 @@ export default config({
             href: fields.text({ label: 'Link' }),
           },
           { label: 'Announcement banner' }
+        ),
+        press: fields.object(
+          {
+            eyebrow: fields.text({
+              label: '"As seen in" eyebrow',
+              defaultValue: 'As Seen In',
+            }),
+            logos: fields.array(
+              fields.object({
+                id: fields.text({
+                  label: 'Slug (CSS hook, e.g. "cnn")',
+                  description:
+                    'Stable id used for per-logo CSS tuning (.press-mark--<id>). Changing it drops any custom tuning for that logo.',
+                }),
+                name: fields.text({ label: 'Outlet name' }),
+                src: fields.text({
+                  label: 'Logo image path (e.g. /images/v1/press/cnn.svg)',
+                }),
+                width: fields.integer({ label: 'Width (px)', defaultValue: 160 }),
+                height: fields.integer({ label: 'Height (px)', defaultValue: 32 }),
+              }),
+              {
+                label: 'Press logos',
+                description:
+                  'The sitewide "As Seen In" marquee (home + featured-in). Leave empty to fall back to the built-in lineup.',
+                itemLabel: (props) => props.fields.name.value || 'Logo',
+              }
+            ),
+          },
+          {
+            label: 'Press / "As Seen In" strip',
+            description:
+              'Global trust strip shared across the home and featured-in pages.',
+          }
         ),
       },
     }),
@@ -656,6 +701,21 @@ export default config({
           label: 'Talk track heading',
           description: 'Heading above the talk-track agenda on keynote pages',
           defaultValue: 'Talk track',
+        }),
+        detail_back_label: fields.text({
+          label: 'Keynote detail: back-link label',
+          description: 'Top "all keynotes" link on an individual keynote page.',
+          defaultValue: 'All keynotes',
+        }),
+        detail_back_url: fields.text({
+          label: 'Keynote detail: back-link URL',
+          description:
+            'Route the "all keynotes" links point to (default /keynotes).',
+          defaultValue: '/keynotes',
+        }),
+        detail_more_label: fields.text({
+          label: 'Keynote detail: "see other keynotes" link',
+          defaultValue: 'See other keynotes',
         }),
         hero: fields.object(
           {
@@ -2005,6 +2065,19 @@ export default config({
           },
           { label: 'Category filter bar labels' }
         ),
+        category_order: fields.array(
+          fields.select({
+            label: 'Category',
+            options: COURSE_CATEGORY_OPTIONS,
+            defaultValue: 'Communication',
+          }),
+          {
+            label: 'Category order',
+            description:
+              'Order of the category filter pills and grouped grid. List each course category once, in display order. Values must match the categories on the LinkedIn Courses entries; any category left off is appended in the default order rather than hidden. Leave empty to use the default order.',
+            itemLabel: (props) => props.value || 'Category',
+          }
+        ),
         why_section: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -2104,6 +2177,33 @@ export default config({
               label: 'Course detail: trust line',
               defaultValue:
                 'Free to watch with a LinkedIn Learning subscription.',
+            }),
+            detail_back_label: fields.text({
+              label: 'Course detail: back-link label',
+              description: 'Top "all courses" link on an individual course page.',
+              defaultValue: 'All courses',
+            }),
+            detail_back_url: fields.text({
+              label: 'Course detail: back-link URL',
+              description:
+                'Route the "all courses" links point to (default /courses).',
+              defaultValue: '/courses',
+            }),
+            detail_more_label: fields.text({
+              label: 'Course detail: "see other courses" link',
+              defaultValue: 'See other courses',
+            }),
+            grid_count_all: fields.text({
+              label: 'Grid count caption: all categories',
+              description:
+                'Caption after the live course count when no filter is active.',
+              defaultValue: 'courses · all categories',
+            }),
+            grid_count_filtered_prefix: fields.text({
+              label: 'Grid count caption: filtered (prefix)',
+              description:
+                'Caption after the live count when a category is selected. The category name is appended in italics.',
+              defaultValue: 'courses in ',
             }),
           },
           {
@@ -2700,6 +2800,54 @@ export default config({
           label: 'SEO description',
           multiline: true,
         }),
+        section_headings: fields.object(
+          {
+            clients: fields.object(
+              {
+                eyebrow: fields.text({
+                  label: 'Eyebrow',
+                  defaultValue: 'Clients & organizers',
+                }),
+                heading: fields.text({
+                  label: 'Heading',
+                  defaultValue: 'What event hosts say',
+                }),
+              },
+              { label: 'Clients & organizers group' }
+            ),
+            attendees: fields.object(
+              {
+                eyebrow: fields.text({
+                  label: 'Eyebrow',
+                  defaultValue: 'Attendees',
+                }),
+                heading: fields.text({
+                  label: 'Heading',
+                  defaultValue: 'What audiences say',
+                }),
+              },
+              { label: 'Event attendees group' }
+            ),
+            students: fields.object(
+              {
+                eyebrow: fields.text({
+                  label: 'Eyebrow',
+                  defaultValue: 'LinkedIn Learning',
+                }),
+                heading: fields.text({
+                  label: 'Heading',
+                  defaultValue: 'What students say',
+                }),
+              },
+              { label: 'Course students group' }
+            ),
+          },
+          {
+            label: 'Section headings',
+            description:
+              'Eyebrow + heading for each testimonial group on the Testimonials page.',
+          }
+        ),
       },
     }),
     coaching: singleton({
@@ -2943,6 +3091,23 @@ export default config({
             cta_url: fields.text({ label: 'CTA URL' }),
           },
           { label: 'Final CTA' }
+        ),
+        cta_label_defaults: fields.array(
+          fields.object({
+            type: fields.select({
+              label: 'Appearance type',
+              options: APPEARANCE_TYPE_OPTIONS,
+              defaultValue: 'Article',
+            }),
+            label: fields.text({ label: 'Default CTA label' }),
+          }),
+          {
+            label: 'Default CTA labels by type',
+            description:
+              'Default "read / listen / watch" CTA label per appearance type. Overrides the built-in defaults; an individual appearance can still override its own via its "CTA label" field. Types without an entry keep the built-in default.',
+            itemLabel: (props) =>
+              `${props.fields.type.value || 'Type'} → ${props.fields.label.value || ''}`,
+          }
         ),
       },
     }),
@@ -3316,12 +3481,7 @@ export default config({
           label: 'Category',
           description:
             'Section the course is grouped under on the /courses page (mirrors the old WordPress hub).',
-          options: [
-            { label: 'Communication', value: 'Communication' },
-            { label: 'Leadership', value: 'Leadership' },
-            { label: 'Management', value: 'Management' },
-            { label: 'Career', value: 'Career' },
-          ],
+          options: COURSE_CATEGORY_OPTIONS,
           defaultValue: 'Communication',
         }),
         order: fields.integer({
@@ -3498,18 +3658,7 @@ export default config({
         appearance_type: fields.select({
           label: 'Appearance type',
           description: 'Drives the card chip and the default CTA label.',
-          options: [
-            { label: 'Article', value: 'Article' },
-            { label: 'Podcast', value: 'Podcast' },
-            { label: 'Video', value: 'Video' },
-            { label: 'Interview', value: 'Interview' },
-            { label: 'Book', value: 'Book' },
-            { label: 'Report', value: 'Report' },
-            { label: 'Resource', value: 'Resource' },
-            { label: 'Award', value: 'Award' },
-            { label: 'Event', value: 'Event' },
-            { label: 'Newsletter', value: 'Newsletter' },
-          ],
+          options: APPEARANCE_TYPE_OPTIONS,
           defaultValue: 'Article',
         }),
         date: fields.text({

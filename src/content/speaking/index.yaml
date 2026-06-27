@@ -1,3 +1,6 @@
+detail_back_label: "All keynotes"
+detail_back_url: "/keynotes"
+detail_more_label: "See other keynotes"
 hero:
   eyebrow: "Keynotes / Workshops / Custom Programs"
   headline: "Make the room"

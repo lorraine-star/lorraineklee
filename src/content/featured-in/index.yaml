@@ -34,3 +34,24 @@ final_cta:
     building an unforgettable personal brand. Tell her what you are planning.
   cta_label: Get in touch
   cta_url: /contact
+cta_label_defaults:
+  - type: Article
+    label: Read more
+  - type: Newsletter
+    label: Read more
+  - type: Award
+    label: Read more
+  - type: Podcast
+    label: Listen
+  - type: Video
+    label: Watch
+  - type: Interview
+    label: Watch
+  - type: Book
+    label: Learn more
+  - type: Report
+    label: Read the report
+  - type: Resource
+    label: View resource
+  - type: Event
+    label: Learn more

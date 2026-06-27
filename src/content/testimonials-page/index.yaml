@@ -1,2 +1,12 @@
 seo_title: ""
 seo_description: ""
+section_headings:
+  clients:
+    eyebrow: Clients & organizers
+    heading: What event hosts say
+  attendees:
+    eyebrow: Attendees
+    heading: What audiences say
+  students:
+    eyebrow: LinkedIn Learning
+    heading: What students say
