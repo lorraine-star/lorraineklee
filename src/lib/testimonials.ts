@@ -66,6 +66,37 @@ export const TESTIMONIAL_SECTIONS: {
   },
 ];
 
+/** Stable key linking each testimonial type to its editable heading group. */
+const SECTION_KEY: Record<TestimonialType, 'clients' | 'attendees' | 'students'> = {
+  'client-organizer-speaking': 'clients',
+  'event-attendee': 'attendees',
+  'course-student-review': 'students',
+};
+
+export interface TestimonialSection {
+  type: TestimonialType;
+  eyebrow: string;
+  heading: string;
+}
+
+/**
+ * Section headings merged with the editable overrides on the `testimonialsPage`
+ * singleton (CLI-162). Falls back per field to the code defaults above, so the
+ * grouping renders unchanged until an editor sets a value in Keystatic.
+ */
+export async function getTestimonialSections(): Promise<TestimonialSection[]> {
+  const page = await reader.singletons.testimonialsPage.read();
+  const overrides = page?.section_headings;
+  return TESTIMONIAL_SECTIONS.map((section) => {
+    const override = overrides?.[SECTION_KEY[section.type]];
+    return {
+      type: section.type,
+      eyebrow: override?.eyebrow || section.eyebrow,
+      heading: override?.heading || section.heading,
+    };
+  });
+}
+
 export async function getTestimonials(
   opts: { placement?: Placement; type?: TestimonialType } = {}
 ): Promise<Testimonial[]> {

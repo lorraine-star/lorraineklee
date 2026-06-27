@@ -20,7 +20,8 @@ const cleanUrl = (value: string | null | undefined) => {
 	return url === '#' ? '' : url;
 };
 
-// Default CTA label per appearance type. Editors can override via cta_label.
+// Built-in default CTA label per appearance type. Editors override per type via
+// the Featured In singleton (cta_label_defaults) and per item via cta_label.
 const CTA_DEFAULTS: Record<string, string> = {
 	Article: 'Read more',
 	Newsletter: 'Read more',
@@ -33,6 +34,11 @@ const CTA_DEFAULTS: Record<string, string> = {
 	Resource: 'View resource',
 	Event: 'Learn more',
 };
+// Merge the editor's per-type overrides on top of the built-in defaults.
+const ctaDefaults: Record<string, string> = { ...CTA_DEFAULTS };
+for (const override of page.cta_label_defaults ?? []) {
+	if (override.type && override.label) ctaDefaults[override.type] = override.label;
+}
 
 const all = (await reader.collections.featuredAppearances.all())
 	.map((a) => {
@@ -43,7 +49,7 @@ const all = (await reader.collections.featuredAppearances.all())
 			href,
 			ctaLabel:
 				a.entry.cta_label ||
-				CTA_DEFAULTS[a.entry.appearance_type] ||
+				ctaDefaults[a.entry.appearance_type] ||
 				'Read more',
 		};
 	})

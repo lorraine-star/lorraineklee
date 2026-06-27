@@ -21,6 +21,11 @@ rating:
 filter_bar:
   eyebrow: "Find the right course"
   heading: "Which course is right for you?"
+category_order:
+  - Communication
+  - Leadership
+  - Management
+  - Career
 why_section:
   eyebrow: "Why these courses"
   heading: "Tactics you can"
@@ -60,3 +65,8 @@ labels:
   detail_format_prefix: "LinkedIn Learning"
   detail_watch_cta: "Watch on LinkedIn Learning"
   detail_trust_line: "Free to watch with a LinkedIn Learning subscription."
+  detail_back_label: "All courses"
+  detail_back_url: "/courses"
+  detail_more_label: "See other courses"
+  grid_count_all: "courses · all categories"
+  grid_count_filtered_prefix: "courses in "

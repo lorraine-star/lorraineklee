@@ -103,3 +103,46 @@ banner:
   text_strong: 'Free 5-day course:'
   text: Invisible to Influential
   href: /from-invisible-to-influential
+press:
+  eyebrow: As Seen In
+  logos:
+    - id: inc
+      name: Inc.
+      src: /images/v1/press/inc.svg
+      width: 92
+      height: 30
+    - id: bloomberg
+      name: Bloomberg
+      src: /images/v1/press/bloomberg.svg
+      width: 170
+      height: 24
+    - id: fast-company
+      name: Fast Company
+      src: /images/v1/press/fast-company.png
+      width: 206
+      height: 30
+    - id: cnbc
+      name: CNBC
+      src: /images/v1/press/cnbc-cropped.png
+      width: 110
+      height: 54
+    - id: business-insider
+      name: Business Insider
+      src: /images/v1/press/business-insider.svg
+      width: 228
+      height: 22
+    - id: fox5
+      name: Fox 5 Washington DC
+      src: /images/v1/press/fox5.png
+      width: 134
+      height: 40
+    - id: cnn
+      name: CNN
+      src: /images/v1/press/cnn.svg
+      width: 102
+      height: 28
+    - id: nbc4
+      name: NBC 4
+      src: /images/v1/press/nbc4.svg
+      width: 88
+      height: 58
