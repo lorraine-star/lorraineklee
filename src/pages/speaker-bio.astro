@@ -15,7 +15,7 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 ---
 
 <SpeakingLayout
-	title="Lorraine K. Lee — Speaker bio"
+	title={bio.seo_title || "Lorraine K. Lee | Speaker bio"}
 	description={hero.lead}
 	activeId="speaking"
 >

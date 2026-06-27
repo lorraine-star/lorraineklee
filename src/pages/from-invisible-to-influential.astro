@@ -43,9 +43,11 @@ const roadmapIdx = roadmap.heading.indexOf(ROADMAP_ITALIC);
 const roadmapTitleLead = roadmapIdx >= 0 ? roadmap.heading.slice(0, roadmapIdx) : roadmap.heading;
 const roadmapTitleItalic = roadmapIdx >= 0 ? roadmap.heading.slice(roadmapIdx) : '';
 
-// Emoji credibility icons, in the funnel's fixed card order (the trust list is
-// verbatim-locked, so positional mapping is stable): promotion, book, Stanford,
-// Fortune 500, LinkedIn editor, course reach, follower growth, hired-at-LinkedIn.
+// Emoji fallbacks for the credibility cards, in the funnel's default card order.
+// Each trust item also has an optional `icon` image field in Keystatic; when an
+// icon is uploaded it takes precedence (see the render below) and these emoji are
+// used only as a positional fallback: promotion, book, Stanford, Fortune 500,
+// LinkedIn editor, course reach, follower growth, hired-at-LinkedIn.
 const TRUST_EMOJI = ['📈', '📕', '🎓', '🏢', '✍️', '👥', '🚀', '🤝'];
 
 // Inline Lucide-style icons (no CDN dependency); colored via currentColor.
@@ -185,7 +187,9 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
                   const { head, body } = splitLead(it.text);
                   return (
                     <article class="fitf-trust-card">
-                      <span class="fitf-trust-ico" aria-hidden="true">{TRUST_EMOJI[i] ?? '⭐'}</span>
+                      <span class="fitf-trust-ico" aria-hidden="true">
+                        {it.icon ? <img src={it.icon} alt="" /> : (TRUST_EMOJI[i] ?? '⭐')}
+                      </span>
                       {head && <h3>{head}</h3>}
                       <p set:html={emphasize(body)}></p>
                     </article>
@@ -1008,6 +1012,11 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
     margin-bottom: 18px;
     font-size: 27px;
     line-height: 1;
+  }
+  .fitf-trust-ico img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
   }
   .fitf-trust-card h3 {
     font-family: var(--font-serif);

@@ -57,7 +57,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 ---
 
 <SpeakingLayout
-	title="LinkedIn Learning Courses | Lorraine K. Lee"
+	title={page.seo_title || "LinkedIn Learning Courses | Lorraine K. Lee"}
 	description={hero.lead}
 	activeId="learn"
 >
