@@ -9,6 +9,21 @@ hero:
     the impact your organization needs.
   image: /images/home/hero/image.png
   image_alt: Lorraine K. Lee, keynote speaker
+  meta:
+    - value: 250k+
+      label: |-
+        students taught
+        on LinkedIn Learning
+    - value: '#1'
+      label: |-
+        Amazon bestseller
+        Unforgettable Presence®
+  photo_stat:
+    value: '4.9'
+    suffix: /5
+    label: |-
+      Speaker rating across
+      200+ keynotes
 primary_cta:
   label: Work With Me
   url: /contact
@@ -19,6 +34,9 @@ tertiary_cta:
   label: Watch a keynote clip
   url: /speaking
 four_ways:
+  eyebrow: How I can help
+  heading: Four ways into the
+  heading_accent: work.
   column_1:
     heading: Speaking
     blurb: Keynotes built around what your team actually needs to hear.
@@ -31,3 +49,53 @@ four_ways:
   column_4:
     heading: Custom programs
     blurb: Cohort intensives for managers and high-potentials.
+banner:
+  enabled: true
+  prefix: From
+  strong: Invisible to Influential
+  text: Free 5-Day Email Course
+  href: '#course'
+free_course:
+  eyebrow_pill: Free
+  eyebrow_label: 5-Day Email Course
+  headline: Great at your job but can't
+  headline_accent: talk about it?
+  body: >-
+    You're not alone. Get my free 5-day course. The same frameworks I teach
+    leaders at Amazon, Cisco, and Fortune 500 companies. Articulate your value.
+    Make promotions inevitable.
+  bullets:
+    - Day 1 · Articulate your value so people actually listen
+    - Day 2 · Show up on LinkedIn so opportunities come to you
+    - Day 3 · Get known by the people who decide promotions
+    - Day 4 · Position yourself as the obvious choice
+    - Day 5 · Stay consistent without burning out
+  form_eyebrow: Start tomorrow
+  form_title: Join
+  form_title_accent: 12,000+
+  form_title_tail: leaders.
+  form_email_label: Email address
+  form_email_placeholder: you@company.com
+  form_button_label: Send me Day 1
+  form_fineprint: No spam. Unsubscribe in one click.
+course_popup:
+  eyebrow: Free 5-Day Course
+  title: From invisible to influential.
+  subhead: >-
+    The 5-day system to communicate your value, get visible to decision-makers,
+    and position yourself for the next level.
+  points:
+    - Articulate your value.
+    - Show up on LinkedIn.
+    - Get known by decision-makers.
+  cta_label: Start the free course
+  cta_url: /from-invisible-to-influential?utm_source=lorraineklee_site&utm_medium=popup&utm_campaign=from_invisible_to_influential&utm_content=scroll_modal_v1
+  dismiss_label: Not now
+  meta: Five short emails. Free.
+testimonials_section:
+  eyebrow: What clients say
+  heading: Companies bring her back
+  heading_accent: for more.
+  lead: >-
+    From Fortune 500 leadership programs to high-potential cohorts at
+    fast-growth tech companies, Lorraine's frameworks travel.
