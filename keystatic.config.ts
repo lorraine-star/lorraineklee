@@ -16,6 +16,150 @@ export default config({
     project: 'rise-learning/lorraineklee',
   },
   singletons: {
+    siteSettings: singleton({
+      label: 'Site Settings',
+      path: 'src/content/site-settings/',
+      // Sitewide chrome that used to be hardcoded. The footer is driven from
+      // here (CLI-159); the nav and announcement banner can join this singleton
+      // later. Social icon SVG artwork stays in code (src/lib/social.ts); only
+      // the platform key and URL are editable here.
+      schema: {
+        footer: fields.object(
+          {
+            tagline_before: fields.text({
+              label: 'Tagline (text before the italic word)',
+            }),
+            tagline_emphasis: fields.text({
+              label: 'Tagline italic word',
+            }),
+            tagline_after: fields.text({
+              label: 'Tagline (text after the italic word)',
+            }),
+            socials: fields.array(
+              fields.object({
+                platform: fields.text({
+                  label: 'Platform',
+                  description:
+                    'One of: linkedin, instagram, youtube, x (or twitter). Controls which icon renders.',
+                }),
+                label: fields.text({
+                  label: 'Accessible label',
+                  description: 'Screen-reader label, e.g. "X (Twitter)".',
+                }),
+                url: fields.url({ label: 'URL' }),
+              }),
+              {
+                label: 'Social links',
+                itemLabel: (props) => props.fields.platform.value || 'Link',
+              }
+            ),
+            contact_heading: fields.text({
+              label: 'Get-in-touch heading',
+              defaultValue: 'Get in touch',
+            }),
+            contact_blurb: fields.text({
+              label: 'Get-in-touch blurb',
+              multiline: true,
+            }),
+            contact_links: fields.array(
+              fields.object({
+                label: fields.text({ label: 'Label' }),
+                href: fields.text({
+                  label: 'Link (route, mailto:, or URL)',
+                }),
+              }),
+              {
+                label: 'Get-in-touch links',
+                itemLabel: (props) => props.fields.label.value || 'Link',
+              }
+            ),
+            explore_heading: fields.text({
+              label: 'Explore column heading',
+              defaultValue: 'Explore',
+            }),
+            explore_links: fields.array(
+              fields.object({
+                label: fields.text({ label: 'Label' }),
+                href: fields.text({ label: 'Link' }),
+              }),
+              {
+                label: 'Explore links',
+                itemLabel: (props) => props.fields.label.value || 'Link',
+              }
+            ),
+            legal_entity: fields.text({
+              label: 'Copyright entity (after the auto year)',
+              description:
+                'Rendered as the copyright line after the year, which updates automatically.',
+            }),
+            legal_links: fields.array(
+              fields.object({
+                label: fields.text({ label: 'Label' }),
+                href: fields.text({ label: 'Link' }),
+              }),
+              {
+                label: 'Legal / base links',
+                itemLabel: (props) => props.fields.label.value || 'Link',
+              }
+            ),
+          },
+          { label: 'Footer' }
+        ),
+        nav: fields.object(
+          {
+            items: fields.array(
+              fields.object({
+                id: fields.text({
+                  label: 'ID (stable key for active highlighting)',
+                  description:
+                    'Internal key used to highlight the current page in the nav, e.g. "speaking". Keep existing ids unchanged; new top-level items can use any unique slug.',
+                }),
+                label: fields.text({ label: 'Label' }),
+                href: fields.text({ label: 'Link' }),
+                children: fields.array(
+                  fields.object({
+                    label: fields.text({ label: 'Label' }),
+                    href: fields.text({ label: 'Link' }),
+                  }),
+                  {
+                    label: 'Dropdown items',
+                    itemLabel: (props) => props.fields.label.value || 'Item',
+                  }
+                ),
+              }),
+              {
+                label: 'Nav items',
+                itemLabel: (props) => props.fields.label.value || 'Item',
+              }
+            ),
+            cta_label: fields.text({
+              label: 'CTA button label',
+              defaultValue: 'Contact',
+            }),
+            cta_href: fields.text({
+              label: 'CTA button link',
+              defaultValue: '/contact',
+            }),
+          },
+          { label: 'Navigation' }
+        ),
+        banner: fields.object(
+          {
+            enabled: fields.checkbox({
+              label: 'Show announcement banner',
+              defaultValue: true,
+            }),
+            text_strong: fields.text({
+              label: 'Bold lead-in',
+              description: 'The bold part, e.g. "Free 5-day course:".',
+            }),
+            text: fields.text({ label: 'Text' }),
+            href: fields.text({ label: 'Link' }),
+          },
+          { label: 'Announcement banner' }
+        ),
+      },
+    }),
     home: singleton({
       label: 'Home',
       path: 'src/content/home/',

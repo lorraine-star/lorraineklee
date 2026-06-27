@@ -1,5 +1,6 @@
 ---
 import { isNavChildActive, isNavItemActive, mainNavItems } from '../../lib/nav';
+import { reader } from '../../lib/keystatic';
 
 interface Props {
   activeId?: string;
@@ -11,11 +12,29 @@ interface Props {
 const {
   activeId = 'home',
   logoSrc = '/images/editorial/logo-primary.png',
-  ctaHref = '/contact',
-  ctaLabel = 'Contact',
+  ctaHref,
+  ctaLabel,
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
+
+// Nav is editable via the `siteSettings` singleton (CLI-159). Fall back to the
+// hardcoded mainNavItems (and the Contact CTA defaults) when the CMS entry is
+// missing or empty, so the nav renders identically until edited. Each item's
+// `id` is the stable key the per-page `activeId` matches for highlighting.
+const site = await reader.singletons.siteSettings.read();
+const navItems = site?.nav?.items?.length
+  ? site.nav.items.map((item) => ({
+      id: item.id,
+      label: item.label,
+      href: item.href,
+      children: item.children?.length
+        ? item.children.map((child) => ({ label: child.label, href: child.href }))
+        : undefined,
+    }))
+  : mainNavItems;
+const resolvedCtaHref = ctaHref ?? site?.nav?.cta_href ?? '/contact';
+const resolvedCtaLabel = ctaLabel ?? site?.nav?.cta_label ?? 'Contact';
 ---
 
 <nav class="nav">
@@ -27,7 +46,7 @@ const currentPath = Astro.url.pathname;
       {
         /* Contact is surfaced as the primary CTA button below, so omit the
            duplicate inline link here. */
-        mainNavItems
+        navItems
           .filter((item) => item.id !== 'contact')
           .map((item) => {
           const active =
@@ -101,10 +120,10 @@ const currentPath = Astro.url.pathname;
     </button>
     <a
       class="btn primary"
-      href={ctaHref}
+      href={resolvedCtaHref}
       aria-current={activeId === 'contact' ? 'page' : undefined}
     >
-      {ctaLabel}
+      {resolvedCtaLabel}
     </a>
   </div>
 </nav>
