@@ -1136,6 +1136,13 @@ export default config({
       schema: {
         seo_title: fields.text({ label: 'SEO title' }),
         seo_description: fields.text({ label: 'SEO description', multiline: true }),
+        og_image: fields.image({
+          label: 'Social share image (Open Graph)',
+          description:
+            'Link/social preview image for this page. Leave empty to use the sitewide default.',
+          directory: 'public/images/media-kit',
+          publicPath: '/images/media-kit/',
+        }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -1616,6 +1623,13 @@ export default config({
       schema: {
         title: fields.text({ label: 'Book title' }),
         subtitle: fields.text({ label: 'Subtitle' }),
+        og_image: fields.image({
+          label: 'Social share image (Open Graph)',
+          description:
+            'Link/social preview image for this page. Leave empty to use the sitewide default.',
+          directory: 'public/images/book',
+          publicPath: '/images/book/',
+        }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),

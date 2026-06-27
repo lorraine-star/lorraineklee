@@ -96,6 +96,7 @@ function getInitials(name: string) {
 <SpeakingLayout
 	title={`${title} | Lorraine K. Lee`}
 	description={subtitle}
+	image={book.og_image || undefined}
 	activeId="book"
 >
 	<script type="application/ld+json" set:html={JSON.stringify(bookSchema)} />
