@@ -97,7 +97,7 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 
 <SpeakingLayout
 	title={page.seo_title || "Thought Leadership | Lorraine K. Lee"}
-	description={hero.lead}
+	description={page.seo_description || hero.lead}
 	activeId="thought-leadership"
 >
 	{/* ---------- Hero ---------- */}

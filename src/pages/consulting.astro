@@ -27,7 +27,7 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
 
 <SpeakingLayout
 	title={consulting.seo_title || "Consulting | Lorraine K. Lee"}
-	description={hero.lead}
+	description={consulting.seo_description || hero.lead}
 	activeId="consulting"
 >
 	{/* ---------- Hero ---------- */}

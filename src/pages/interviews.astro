@@ -59,7 +59,7 @@ const guests = (guest_appearances ?? [])
 
 <SpeakingLayout
 	title={page.seo_title || "Guest Interviews | Lorraine K. Lee"}
-	description={hero.lead}
+	description={page.seo_description || hero.lead}
 	activeId="thought-leadership"
 >
 	{/* ---------- Hero ---------- */}

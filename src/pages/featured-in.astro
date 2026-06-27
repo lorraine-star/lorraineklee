@@ -68,7 +68,7 @@ const finalCtaUrl = cleanUrl(final_cta.cta_url) || '/contact';
 
 <SpeakingLayout
 	title={page.seo_title || "Featured In | Lorraine K. Lee"}
-	description={hero.lead}
+	description={page.seo_description || hero.lead}
 	activeId="thought-leadership"
 >
 	{/* ---------- Hero ---------- */}
