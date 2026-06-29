@@ -2,19 +2,19 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #0e1530;
-  --muted: #e8e4d8;
-  --muted-foreground: #6b6a76;
-  --primary: #1a4dff;
+  --foreground: #494b51;
+  --muted: #ebebeb;
+  --muted-foreground: #797b82;
+  --primary: #084af3;
   --primary-foreground: #ffffff;
-  --secondary: #f4f0e6;
-  --secondary-foreground: #0e1530;
-  --accent: #1a4dff;
+  --secondary: #ebebeb;
+  --secondary-foreground: #494b51;
+  --accent: #084af3;
   --accent-foreground: #ffffff;
   --destructive: #b42318;
-  --border: #ded8c9;
-  --input: #ded8c9;
-  --ring: #1a4dff;
+  --border: #ebebeb;
+  --input: #ebebeb;
+  --ring: #084af3;
   --radius: 0.625rem;
 }
 
