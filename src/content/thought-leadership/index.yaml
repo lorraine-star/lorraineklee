@@ -3,9 +3,8 @@ hero:
   headline: Ideas that help leaders
   headline_accent: get seen.
   lead: >-
-    From keynote stages to LinkedIn News, Lorraine shares frameworks on
-    presence, communication, and personal branding that leaders actually use.
-    Here is where her ideas show up.
+    Lorraine shares her frameworks on presence, communication, and personal
+    branding that leaders actually use. Here is where her ideas show up.
   primary_cta_label: Work with Lorraine
   primary_cta_url: /contact
   secondary_cta_label: See where she's featured
@@ -23,9 +22,8 @@ appearances:
   - date: May 2025
     show: Think Fast Talk Smart
     title: 'Own Your Brand: How to Communicate with Presence and Impact'
-    description: ''
+    thumbnail_fit: cover
     youtube_id: MbsUmSfdcrQ
-    url: ''
     cta_label: Watch now
   - date: April 2025
     show: Level Up
@@ -34,8 +32,8 @@ appearances:
       Lorraine and Level Up COO Jason Yoong discuss her bestselling book,
       Unforgettable Presence®: Get Seen, Gain Influence, and Catapult Your
       Career.
+    thumbnail_fit: cover
     youtube_id: t385bkCv7hk
-    url: ''
     cta_label: Watch now
   - date: May 2024
     show: Indeed Job Search Academy
@@ -43,9 +41,8 @@ appearances:
     description: >-
       Lorraine shared tips for personal branding in Indeed's Job Search Academy
       webinar series.
-    thumbnail: /images/thought-leadership/indeed-logo.png
+    thumbnail: /images/thought-leadership/appearances/2/thumbnail.png
     thumbnail_fit: logo
-    youtube_id: ''
     url: >-
       https://www.linkedin.com/events/shinebrighter-refreshingyoupers7183481875833761793/theater/
     cta_label: Watch now
@@ -55,9 +52,8 @@ appearances:
     description: >-
       With host Andrew Seaman, Lorraine shared what to do after a layoff and how
       to prepare for your next role.
-    thumbnail: /images/thought-leadership/get-hired-navigating-life-after-a-layoff.webp
+    thumbnail: /images/thought-leadership/appearances/3/thumbnail.webp
     thumbnail_fit: cover
-    youtube_id: ''
     url: >-
       https://www.linkedin.com/feed/update/urn%3Ali%3Aactivity%3A7226981095974547456/
     cta_label: Watch now
@@ -81,7 +77,7 @@ press_features:
       https://www.forbes.com/sites/kevinkruse/2025/09/29/how-presence-is-changing-in-the-digital-era/
     cta_label: Read more
   - outlet: Indeed
-    title: "'Dream Job' Redefined: How to Build a Career That Shifts With You"
+    title: '''Dream Job'' Redefined: How to Build a Career That Shifts With You'
     url: https://www.indeed.com/career-advice/news/dream-job-flexible-strategy
     cta_label: Read more
   - outlet: Inc.
@@ -93,7 +89,8 @@ press_features:
     cta_label: Read more
   - outlet: PR Daily
     title: Growing a personal brand through the EPIC framework
-    url: https://www.prdaily.com/growing-a-personal-brand-through-the-epic-framework/
+    url: >-
+      https://www.prdaily.com/growing-a-personal-brand-through-the-epic-framework/
     cta_label: Read more
   - outlet: Upworthy
     title: The most likable people share a trait that is nearly impossible to fake
@@ -112,7 +109,7 @@ articles_section:
 authored_articles:
   - date: April 2026
     outlet: Fast Company
-    outlet_logo: /images/featured-in/logos/fast-company.png
+    outlet_logo: /images/featured-in/logos/authored_articles/0/outlet_logo.png
     title: >-
       Call it whatever you like: Personal brand, career brand, or professional
       reputation. Here's how to build it
@@ -121,7 +118,7 @@ authored_articles:
     cta_label: Read more
   - date: March 2026
     outlet: Forbes
-    outlet_logo: /images/featured-in/logos/forbes.png
+    outlet_logo: /images/featured-in/logos/authored_articles/1/outlet_logo.png
     title: >-
       The Secret Language of Work: Why Knowing What to Say Matters More Than You
       Think
@@ -130,21 +127,21 @@ authored_articles:
     cta_label: Read more
   - date: March 2026
     outlet: Forbes
-    outlet_logo: /images/featured-in/logos/forbes.png
+    outlet_logo: /images/featured-in/logos/authored_articles/2/outlet_logo.png
     title: The Best Career Advice Women Leaders 'Give To Gain' In 2026
     url: >-
       https://www.forbes.com/sites/lorraineklee/2026/03/11/the-best-career-advice-women-leaders-give-to-gain-in-2026/
     cta_label: Read more
   - date: February 2026
     outlet: Forbes
-    outlet_logo: /images/featured-in/logos/forbes.png
+    outlet_logo: /images/featured-in/logos/authored_articles/3/outlet_logo.png
     title: What High Performers Who Actually Get Promoted Do Differently
     url: >-
       https://www.forbes.com/sites/lorraineklee/2026/02/23/what-high-performers-who-actually-get-promoted-do-differently/
     cta_label: Read more
   - date: January 2026
     outlet: Forbes
-    outlet_logo: /images/featured-in/logos/forbes.png
+    outlet_logo: /images/featured-in/logos/authored_articles/4/outlet_logo.png
     title: >-
       How To Bounce Back And Rebuild Confidence, Presence And Momentum After A
       Layoff
@@ -153,14 +150,14 @@ authored_articles:
     cta_label: Read more
   - date: January 2026
     outlet: Forbes
-    outlet_logo: /images/featured-in/logos/forbes.png
+    outlet_logo: /images/featured-in/logos/authored_articles/5/outlet_logo.png
     title: Communication Habits To Reduce Overwhelm In Q1
     url: >-
       https://www.forbes.com/sites/lorraineklee/2026/01/20/communication-habits-to-reduce-overwhelm-in-q1/
     cta_label: Read more
   - date: December 2025
     outlet: Forbes
-    outlet_logo: /images/featured-in/logos/forbes.png
+    outlet_logo: /images/featured-in/logos/authored_articles/6/outlet_logo.png
     title: >-
       The 2026 Career Conversation Playbook For Leaders Who Want Their Goals To
       Stick
@@ -169,22 +166,21 @@ authored_articles:
     cta_label: Read more
   - date: December 2025
     outlet: Forbes
-    outlet_logo: /images/featured-in/logos/forbes.png
+    outlet_logo: /images/featured-in/logos/authored_articles/7/outlet_logo.png
     title: How To Use Your Year-End Review To Increase Visibility All Year Long
     url: >-
       https://www.forbes.com/sites/lorraineklee/2025/12/26/how-to-use-your-year-end-review-to-increase-visibility-all-year-long/
     cta_label: Read more
   - date: December 2025
     outlet: Forbes
-    outlet_logo: /images/featured-in/logos/forbes.png
-    title: >-
-      How To Make Your Work More Visible Without Sounding Like You're Bragging
+    outlet_logo: /images/featured-in/logos/authored_articles/8/outlet_logo.png
+    title: How To Make Your Work More Visible Without Sounding Like You're Bragging
     url: >-
       https://www.forbes.com/sites/lorraineklee/2025/12/08/how-to-make-your-work-more-visible-without-sounding-like-youre-bragging/
     cta_label: Read more
   - date: December 2025
     outlet: CNBC
-    outlet_logo: /images/featured-in/logos/cnbc.png
+    outlet_logo: /images/featured-in/logos/authored_articles/9/outlet_logo.png
     title: >-
       Don't 'play it cool': how one job seeker beat out over 1,000 other
       applicants to land the job
@@ -193,14 +189,13 @@ authored_articles:
     cta_label: Read more
   - date: December 2025
     outlet: INTHEBLACK
-    outlet_logo: null
     title: 4 tips to supercharge your LinkedIn presence
     url: >-
       https://intheblack.cpaaustralia.com.au/careers-and-workplace/4-tips-supercharge-your-linkedin-presence
     cta_label: Read more
   - date: November 2025
     outlet: CNBC
-    outlet_logo: /images/featured-in/logos/cnbc.png
+    outlet_logo: /images/featured-in/logos/authored_articles/11/outlet_logo.png
     title: >-
       Highly likable people do these 4 things when talking to others, say
       communication experts
@@ -209,15 +204,15 @@ authored_articles:
     cta_label: Read more
   - date: October 2025
     outlet: Level Up with Ethan Evans
-    outlet_logo: null
     title: >-
       Why Public Speaking Is No Longer Optional, and How to Start Making It Your
       Superpower
-    url: https://levelupwithethanevans.substack.com/p/why-public-speaking-is-no-longer
+    url: >-
+      https://levelupwithethanevans.substack.com/p/why-public-speaking-is-no-longer
     cta_label: Read more
   - date: August 2025
     outlet: CNBC
-    outlet_logo: /images/featured-in/logos/cnbc.png
+    outlet_logo: /images/featured-in/logos/authored_articles/13/outlet_logo.png
     title: >-
       People won't take you seriously if you use 9 phrases: make these
       'powerful' swaps
@@ -226,7 +221,6 @@ authored_articles:
     cta_label: Read more
   - date: June 2025
     outlet: StartupNation
-    outlet_logo: null
     title: >-
       How I Got 300,000 LinkedIn Followers, and the Secrets Every Founder Should
       Steal
@@ -235,7 +229,7 @@ authored_articles:
     cta_label: Read more
   - date: May 2025
     outlet: CNBC
-    outlet_logo: /images/featured-in/logos/cnbc.png
+    outlet_logo: /images/featured-in/logos/authored_articles/15/outlet_logo.png
     title: >-
       Stop saying 'sorry': to sound confident and get respect, make these
       'subtle yet powerful changes'
@@ -244,13 +238,12 @@ authored_articles:
     cta_label: Read more
   - date: April 2025
     outlet: Level Up with Ethan Evans
-    outlet_logo: null
     title: 'The New Rules of Presence: How to Stand Out and Get Ahead'
-    url: https://levelupwithethanevans.substack.com/p/the-new-rules-of-presence-how-to
+    url: >-
+      https://levelupwithethanevans.substack.com/p/the-new-rules-of-presence-how-to
     cta_label: Read more
   - date: March 2025
     outlet: Business Insider
-    outlet_logo: null
     title: >-
       I was blindsided by my tech layoff after a decade in the industry. These 3
       lessons helped me bounce back.
@@ -259,7 +252,7 @@ authored_articles:
     cta_label: Read more
   - date: March 2025
     outlet: CNBC
-    outlet_logo: /images/featured-in/logos/cnbc.png
+    outlet_logo: /images/featured-in/logos/authored_articles/18/outlet_logo.png
     title: >-
       Stop saying 'I think': to sound confident and influence people, use this
       'subtle but powerful' swap
@@ -268,7 +261,7 @@ authored_articles:
     cta_label: Read more
   - date: February 2025
     outlet: CNBC
-    outlet_logo: /images/featured-in/logos/cnbc.png
+    outlet_logo: /images/featured-in/logos/authored_articles/19/outlet_logo.png
     title: >-
       To avoid 'awkward, superficial' small talk, make one little change, says
       communication expert
@@ -277,27 +270,25 @@ authored_articles:
     cta_label: Read more
   - date: January 2024
     outlet: Troop
-    outlet_logo: null
     title: How to Keep and Attract Top Talent in 2024
     url: https://www.troophr.com/blog/how-to-keep-and-attract-top-talent-in-2024
     cta_label: Read more
   - date: November 2023
     outlet: Entrepreneur
-    outlet_logo: /images/featured-in/logos/entrepreneur.png
+    outlet_logo: /images/featured-in/logos/authored_articles/21/outlet_logo.png
     title: Why Your Virtual Presence Is More Important Than Ever
     url: >-
       https://www.entrepreneur.com/growth-strategies/why-your-virtual-presence-is-more-important-than-ever/465375
     cta_label: Read more
   - date: October 2023
     outlet: The Latino Leadership Playbook
-    outlet_logo: null
     title: How to Become A Great Communicator
     url: >-
       https://www.amazon.com/Latino-Leadership-Playbook-Accelerate-Workplace/dp/1959989707
     cta_label: Read more
   - date: July 2022
     outlet: Entrepreneur
-    outlet_logo: /images/featured-in/logos/entrepreneur.png
+    outlet_logo: /images/featured-in/logos/authored_articles/23/outlet_logo.png
     title: >-
       Learning how to facilitate and participate in impactful virtual and hybrid
       meetings
@@ -305,22 +296,20 @@ authored_articles:
     cta_label: Read more
   - date: November 2021
     outlet: Entrepreneur
-    outlet_logo: /images/featured-in/logos/entrepreneur.png
+    outlet_logo: /images/featured-in/logos/authored_articles/24/outlet_logo.png
     title: 6 Ways Virtual Sellers Can Stand Out on LinkedIn
     url: https://www.entrepreneur.com/article/395195
     cta_label: Read more
   - date: November 2021
     outlet: Authority Magazine
-    outlet_logo: null
     title: >-
-      Prezi's Lorraine Lee On How To Advance and Enhance Your Career When You Are
-      Working Remotely
+      Prezi's Lorraine Lee On How To Advance and Enhance Your Career When You
+      Are Working Remotely
     url: >-
       https://medium.com/authority-magazine/remote-career-development-prezis-lorraine-lee-on-how-to-advance-and-enhance-your-career-when-you-deef56cc1dca
     cta_label: Read more
   - date: November 2021
     outlet: Authority Magazine
-    outlet_logo: null
     title: >-
       How to Communicate With Your Team Even If You Are Rarely In The Same
       Physical Space
@@ -329,52 +318,46 @@ authored_articles:
     cta_label: Read more
   - date: October 2021
     outlet: Entrepreneur
-    outlet_logo: /images/featured-in/logos/entrepreneur.png
+    outlet_logo: /images/featured-in/logos/authored_articles/27/outlet_logo.png
     title: 3 Ways to Make a Great First Impression on Video Calls
     url: https://www.entrepreneur.com/article/393777
     cta_label: Read more
   - date: September 2021
     outlet: Entrepreneur
-    outlet_logo: /images/featured-in/logos/entrepreneur.png
+    outlet_logo: /images/featured-in/logos/authored_articles/28/outlet_logo.png
     title: Best Practices and Tools for Hybrid Meetings
     url: https://www.entrepreneur.com/article/383539
     cta_label: Read more
   - date: September 2021
     outlet: Entrepreneur
-    outlet_logo: /images/featured-in/logos/entrepreneur.png
+    outlet_logo: /images/featured-in/logos/authored_articles/29/outlet_logo.png
     title: Reinventing Virtual Meetings and Collaboration for Hybrid Work
     url: https://www.entrepreneur.com/article/386237
     cta_label: Read more
   - date: September 2021
     outlet: Remote-how
-    outlet_logo: null
-    title: >-
-      How to Evaluate Communication in Your Hybrid and Remote Company (excerpt)
+    title: How to Evaluate Communication in Your Hybrid and Remote Company (excerpt)
     url: >-
       https://remote-how.com/wp-content/uploads/How-to-evaluate-communication-in-your-hybrid-and-remote-company.pdf
     cta_label: Read more
   - date: July 2021
     outlet: Ethos3
-    outlet_logo: null
     title: How to Create Engaging Presentations for Hybrid Work
     url: >-
       https://ethos3.com/2021/07/how-to-create-engaging-virtual-presentations-for-hybrid-work/
     cta_label: Read more
   - date: July 2021
     outlet: Relevance
-    outlet_logo: null
     title: How to Stand Out in Virtual Presentations in a Hybrid Office
     url: http://relevance.com/virtual-presentations-video-tips/
     cta_label: Read more
   - date: July 2021
     outlet: Lioness Magazine
-    outlet_logo: null
     title: How to Build Hybrid Teams That Thrive
     url: https://lionessmagazine.com/how-to-build-hybrid-teams-that-thrive/
     cta_label: Read more
   - date: May 2020
     outlet: Poynter
-    outlet_logo: null
     title: 'Business Unusual: How to deal with micromanagers in a COVID-19 world'
     url: >-
       https://www.poynter.org/business-work/2020/how-to-deal-with-micromanagers-in-a-covid-19-world/
@@ -395,8 +378,8 @@ interviews:
       Shelley Zalis, founder of The Female Quotient, has dedicated herself to
       the business of gender equality. She sat down with Lorraine to share
       simple hacks she uses to achieve gender parity at work.
+    thumbnail_fit: cover
     youtube_id: zvplacEd8zs
-    url: ''
     cta_label: Watch now
   - name: Esther Wojcicki
     role: Educator
@@ -404,8 +387,8 @@ interviews:
       Educator Esther Wojcicki has raised three very successful children and is
       asked constantly for her secret. It starts with giving children a sense of
       comfort and control.
+    thumbnail_fit: cover
     youtube_id: 8kBJfLzocHM
-    url: ''
     cta_label: Watch now
   - name: Meena Harris
     role: Phenomenal Woman Action Campaign
@@ -413,8 +396,8 @@ interviews:
       Meena Harris of the Phenomenal Woman Action Campaign joined Lorraine to
       talk diversity and inclusion, and why it starts with looking honestly at
       the numbers.
+    thumbnail_fit: cover
     youtube_id: ODWo8FKAzYM
-    url: ''
     cta_label: Watch now
 final_cta:
   eyebrow: Work with Lorraine
