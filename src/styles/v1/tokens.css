@@ -54,6 +54,9 @@
   --success:      #2E8B57;
   --danger:       #C24545;
 
+  /* Brand blue gradient for dark feature bands and cards */
+  --brand-gradient: linear-gradient(135deg, var(--brand-blue-900) 0%, var(--brand-blue-600) 55%, var(--brand-blue-500) 100%);
+
   /* ============ TYPE — Families ============ */
   --font-serif:   "Playfair Display", "Iowan Old Style", Georgia, "Times New Roman", serif;
   --font-sans:    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;

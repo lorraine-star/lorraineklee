@@ -445,7 +445,7 @@
    ---------------------------------------------------------------- */
 .final-cta {
   grid-column: 1 / -1;
-  background: var(--ink-900);
+  background: var(--brand-gradient);
   color: var(--paper);
   border-radius: 24px;
   padding: clamp(56px, 7vw, 96px) clamp(32px, 5vw, 80px);
@@ -1002,7 +1002,7 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
    ---------------------------------------------------------- */
 .learn-newsletter {
   padding: clamp(36px, 5vw, 60px) 0;
-  background: var(--ink-900);
+  background: var(--brand-gradient);
   color: var(--paper);
   position: relative;
   overflow: hidden;
@@ -1782,7 +1782,7 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   box-shadow: var(--shadow-md);
 }
 .about-final-card.dark {
-  background: var(--ink-900);
+  background: var(--brand-gradient);
   color: var(--paper);
   border-color: var(--ink-900);
 }

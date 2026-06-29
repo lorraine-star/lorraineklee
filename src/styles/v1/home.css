@@ -802,7 +802,8 @@ body {
 /* ---------- FREE COURSE CTA ---------- */
 .course {
   padding: clamp(36px, 5vw, 60px) 0;
-  background: var(--ink-900);
+  /* Brand-blue gradient (shared --brand-gradient token) for dark feature bands. */
+  background: var(--brand-gradient);
   color: var(--paper);
   position: relative;
   overflow: hidden;
