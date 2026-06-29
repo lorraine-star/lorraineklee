@@ -21,7 +21,7 @@
 
 /* --- Nav (dark) --- */
 .variant-bold .nav {
-  background: rgba(14,21,48,0.85);
+  background: rgba(73, 75, 81,0.85);
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 .variant-bold .nav-logo img {
@@ -37,7 +37,7 @@
 }
 .variant-bold .btn.primary:hover {
   background: var(--brand-yellow-400);
-  box-shadow: 0 12px 30px rgba(255,212,59,0.32);
+  box-shadow: 0 12px 30px rgba(252, 224, 54,0.32);
 }
 
 /* --- HERO — magazine cover --- */
@@ -63,7 +63,7 @@
   font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(251,248,242,0.5);
+  color: rgba(249, 249, 249,0.5);
   padding-bottom: 18px;
   border-bottom: 1px solid rgba(255,255,255,0.08);
   margin-bottom: 56px;
@@ -130,7 +130,7 @@
   text-transform: uppercase;
   display: inline-block;
   vertical-align: middle;
-  color: rgba(251,248,242,0.6);
+  color: rgba(249, 249, 249,0.6);
   border: 1px solid rgba(255,255,255,0.2);
   padding: 6px 12px;
   border-radius: 999px;
@@ -138,7 +138,7 @@
 }
 .variant-bold .hero-sub {
   font-family: var(--font-serif);
-  color: rgba(251,248,242,0.78);
+  color: rgba(249, 249, 249,0.78);
   font-size: clamp(18px, 1.5vw, 22px);
   margin-bottom: 32px;
   max-width: 540px;
@@ -158,7 +158,7 @@
   border-top-color: rgba(255,255,255,0.12);
 }
 .variant-bold .hero-meta .num { color: var(--brand-yellow-500); }
-.variant-bold .hero-meta .lbl { color: rgba(251,248,242,0.55); }
+.variant-bold .hero-meta .lbl { color: rgba(249, 249, 249,0.55); }
 .variant-bold .hero-meta .divider { background: rgba(255,255,255,0.12); }
 
 /* photo treated as cover image */
@@ -166,7 +166,7 @@
   border-radius: 0;
   aspect-ratio: 3/4.6;
   width: 100%;
-  background: linear-gradient(180deg, rgba(255,212,59,0.15), rgba(91,133,255,0.12));
+  background: linear-gradient(180deg, rgba(252, 224, 54,0.15), rgba(136, 169, 253,0.12));
   box-shadow: none;
   border: 0;
 }
@@ -205,7 +205,7 @@
   font-size: 32vw;
   line-height: 0.8;
   font-weight: 500;
-  color: rgba(255,212,59,0.06);
+  color: rgba(252, 224, 54,0.06);
   pointer-events: none;
   user-select: none;
   z-index: 0;
@@ -268,7 +268,7 @@
 }
 .variant-bold .testimonials-title { color: var(--paper); }
 .variant-bold .testimonials-title em { color: var(--brand-yellow-500); }
-.variant-bold .testimonials-head .lead { color: rgba(251,248,242,0.7); }
+.variant-bold .testimonials-head .lead { color: rgba(249, 249, 249,0.7); }
 .variant-bold .testimonials-head .eyebrow { color: var(--brand-yellow-500); }
 .variant-bold .t-card {
   background: var(--paper);
@@ -281,9 +281,9 @@
 }
 .variant-bold .t-card.featured .t-quote { color: var(--ink-900); }
 .variant-bold .t-card.featured .t-name { color: var(--ink-900); }
-.variant-bold .t-card.featured .t-role { color: rgba(14,21,48,0.7); }
+.variant-bold .t-card.featured .t-role { color: rgba(73, 75, 81,0.7); }
 .variant-bold .t-card.featured .t-mark { color: var(--ink-900); }
-.variant-bold .t-card.featured .t-divider { background: rgba(14,21,48,0.18); }
+.variant-bold .t-card.featured .t-divider { background: rgba(73, 75, 81,0.18); }
 .variant-bold .t-card.featured .t-avatar { background: var(--ink-900); color: var(--brand-yellow-500); }
 
 /* --- Course --- */
@@ -298,11 +298,11 @@
 .variant-bold .course-form-title em { color: var(--brand-blue-600); }
 .variant-bold .course-eyebrow { color: var(--ink-900); }
 .variant-bold .course-eyebrow .pill { background: var(--ink-900); color: var(--brand-yellow-500); }
-.variant-bold .course-sub { color: rgba(14,21,48,0.78); }
-.variant-bold .course-bullets li { color: rgba(14,21,48,0.85); }
+.variant-bold .course-sub { color: rgba(73, 75, 81,0.78); }
+.variant-bold .course-bullets li { color: rgba(73, 75, 81,0.85); }
 .variant-bold .course-bullets li::before {
   background-color: var(--ink-900);
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFD43B' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fce036' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>");
 }
 .variant-bold .course-form-card {
   background: var(--ink-900);
@@ -313,7 +313,7 @@
 .variant-bold .course-form-eyebrow { color: var(--brand-yellow-500); }
 .variant-bold .course-form-title { color: var(--paper); }
 .variant-bold .course-form-title em { color: var(--brand-yellow-500); }
-.variant-bold .field-label { color: rgba(251,248,242,0.55); }
+.variant-bold .field-label { color: rgba(249, 249, 249,0.55); }
 .variant-bold .btn.yellow { background: var(--brand-yellow-500); color: var(--ink-900); }
 .variant-bold .success-title { color: var(--brand-yellow-500); }
 
@@ -322,17 +322,17 @@
 .variant-bold .footer-wave path { fill: var(--ink-900); }
 .variant-bold .footer { background: var(--ink-900); color: var(--paper); }
 .variant-bold .footer-brand img { filter: brightness(0) invert(1); }
-.variant-bold .footer-tag { color: rgba(251,248,242,0.85); }
+.variant-bold .footer-tag { color: rgba(249, 249, 249,0.85); }
 .variant-bold .footer-tag em { color: var(--brand-yellow-500); }
 .variant-bold .footer-touch h4,
 .variant-bold .footer-explore h4 { color: var(--brand-yellow-500); }
-.variant-bold .footer-touch p { color: rgba(251,248,242,0.65); }
+.variant-bold .footer-touch p { color: rgba(249, 249, 249,0.65); }
 .variant-bold .footer-email { color: var(--paper); }
 .variant-bold .footer-email:hover { color: var(--brand-yellow-500); }
-.variant-bold .footer-explore a { color: rgba(251,248,242,0.7); }
+.variant-bold .footer-explore a { color: rgba(249, 249, 249,0.7); }
 .variant-bold .footer-explore a:hover { color: var(--brand-yellow-500); }
-.variant-bold .footer-base { border-top-color: rgba(255,255,255,0.1); color: rgba(251,248,242,0.45); }
-.variant-bold .footer-base a { color: rgba(251,248,242,0.45); }
+.variant-bold .footer-base { border-top-color: rgba(255,255,255,0.1); color: rgba(249, 249, 249,0.45); }
+.variant-bold .footer-base a { color: rgba(249, 249, 249,0.45); }
 .variant-bold .footer-base a:hover { color: var(--brand-yellow-500); }
 .variant-bold .social-btn {
   background: rgba(255,255,255,0.05);
@@ -366,7 +366,7 @@
 /* --- Nav: minimal --- */
 .variant-min .nav {
   background: #fff;
-  border-bottom: 1px solid #ECEEF3;
+  border-bottom: 1px solid #ebebeb;
 }
 .variant-min .nav-link { font-weight: 500; }
 
@@ -465,9 +465,9 @@
 
 /* --- Trust strip: tight, single static row --- */
 .variant-min .trust {
-  background: #FAFAFA;
-  border-top: 1px solid #ECEEF3;
-  border-bottom: 1px solid #ECEEF3;
+  background: #f9f9f9;
+  border-top: 1px solid #ebebeb;
+  border-bottom: 1px solid #ebebeb;
   padding: 40px 0;
 }
 .variant-min .trust-eyebrow {
@@ -507,13 +507,13 @@
 .variant-min .book-promo {
   background: #fff;
   padding: clamp(80px, 10vw, 120px) 0;
-  border-top: 1px solid #ECEEF3;
+  border-top: 1px solid #ebebeb;
 }
 .variant-min .book-promo .grid12 {
   max-width: 1080px;
 }
 .variant-min .book-cover-stack::before { display: none; }
-.variant-min .book-cover { transform: rotate(0); filter: drop-shadow(0 18px 32px rgba(15,30,75,0.12)); }
+.variant-min .book-cover { transform: rotate(0); filter: drop-shadow(0 18px 32px rgba(73, 75, 81,0.12)); }
 .variant-min .book-cover:hover { transform: translateY(-4px); }
 .variant-min .book-bigtitle { font-size: clamp(32px, 4vw, 52px); }
 .variant-min .book-meta-row { padding: 18px 0; gap: 16px 28px; }
@@ -521,13 +521,13 @@
 
 /* --- Testimonials --- */
 .variant-min .testimonials {
-  background: #FAFAFA;
+  background: #f9f9f9;
   padding: clamp(80px, 10vw, 120px) 0;
 }
 .variant-min .testimonials-grid { gap: 16px; }
 .variant-min .t-card {
   border-radius: 4px;
-  border: 1px solid #ECEEF3;
+  border: 1px solid #ebebeb;
   box-shadow: none;
   padding: 28px;
 }
@@ -550,7 +550,7 @@
   background: #fff;
   color: var(--ink-900);
   padding: clamp(80px, 10vw, 120px) 0;
-  border-top: 1px solid #ECEEF3;
+  border-top: 1px solid #ebebeb;
 }
 .variant-min .course::before { display: none; }
 .variant-min .course-headline { color: var(--ink-900); font-size: clamp(28px, 3.5vw, 44px); }
@@ -561,8 +561,8 @@
 .variant-min .course-bullets li { color: var(--ink-700); }
 .variant-min .course-bullets li::before { background-color: var(--accent); background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>"); }
 .variant-min .course-form-card {
-  background: #FAFAFA;
-  border: 1px solid #ECEEF3;
+  background: #f9f9f9;
+  border: 1px solid #ebebeb;
   border-radius: 8px;
   padding: 28px;
 }
@@ -586,4 +586,4 @@
 
 /* --- Footer (light) --- */
 .variant-min .footer-wave-wrap { display: none; }
-.variant-min .footer { background: #FAFAFA; border-top: 1px solid #ECEEF3; }
+.variant-min .footer { background: #f9f9f9; border-top: 1px solid #ebebeb; }

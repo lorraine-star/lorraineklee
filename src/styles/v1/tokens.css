@@ -15,28 +15,28 @@
   /* Royal blue is the primary accent (logo gradient). Yellow is the
      CTA banner color. Cream is the editorial paper background. */
 
-  --brand-blue-600: #1A4DFF;       /* primary brand blue (logo, CTAs) */
-  --brand-blue-500: #2E64FF;       /* hover */
-  --brand-blue-400: #5B85FF;       /* logo gradient secondary */
-  --brand-blue-300: #A8BDFF;       /* tints / dividers */
-  --brand-blue-100: #E5ECFF;       /* tinted backgrounds */
-  --brand-blue-50:  #F2F5FF;       /* subtle wash */
-  --brand-blue-900: #0B2A99;       /* deep press / text accent */
+  --brand-blue-600: #084af3;       /* primary brand blue (logo, CTAs) */
+  --brand-blue-500: #4175fc;       /* hover */
+  --brand-blue-400: #88a9fd;       /* logo gradient secondary */
+  --brand-blue-300: #c3e2ff;       /* tints / dividers */
+  --brand-blue-100: #e3ecff;       /* tinted backgrounds */
+  --brand-blue-50:  #f1f5ff;       /* subtle wash */
+  --brand-blue-900: #063bc2;       /* deep press / text accent */
 
-  --brand-yellow-500: #FFD43B;     /* free course banner */
-  --brand-yellow-400: #FFE066;     /* hover */
-  --brand-yellow-100: #FFF4C2;     /* tint */
+  --brand-yellow-500: #fce036;     /* free course banner */
+  --brand-yellow-400: #fde968;     /* hover */
+  --brand-yellow-100: #fff7c9;     /* tint */
 
   /* ============ COLOR — Neutrals (warm) ============ */
-  --paper:        #FBF8F2;         /* cream — editorial body bg */
-  --paper-deep:   #F4EFE4;         /* alternate section bg */
-  --ink-900:      #0E1530;         /* deep navy-black headlines */
-  --ink-700:      #2A3147;         /* body text */
-  --ink-500:      #5B6177;         /* secondary text */
-  --ink-300:      #A6ABBC;         /* meta / disabled */
-  --ink-200:      #D4D7E0;         /* divider */
-  --ink-100:      #ECEEF3;         /* hairline / card bg */
-  --white:        #FFFFFF;
+  --paper:        #f9f9f9;         /* off-white editorial body bg */
+  --paper-deep:   #ebebeb;         /* alternate section bg */
+  --ink-900:      #494b51;         /* charcoal headlines */
+  --ink-700:      #5d5f66;         /* body text */
+  --ink-500:      #797b82;         /* secondary text */
+  --ink-300:      #a8aab0;         /* meta / disabled */
+  --ink-200:      #dadbdd;         /* divider */
+  --ink-100:      #ebebeb;         /* hairline / card bg */
+  --white:        #ffffff;
 
   /* ============ COLOR — Semantic ============ */
   --bg:           var(--paper);
@@ -117,12 +117,12 @@
   --radius-pill:  999px;
 
   /* ============ SHADOWS — soft, editorial ============ */
-  --shadow-xs:  0 1px 2px rgba(14, 21, 48, 0.06);
-  --shadow-sm:  0 2px 6px rgba(14, 21, 48, 0.06), 0 1px 2px rgba(14, 21, 48, 0.04);
-  --shadow-md:  0 8px 24px rgba(14, 21, 48, 0.08), 0 2px 6px rgba(14, 21, 48, 0.04);
-  --shadow-lg:  0 18px 48px rgba(14, 21, 48, 0.12), 0 4px 12px rgba(14, 21, 48, 0.06);
-  --shadow-xl:  0 32px 80px rgba(14, 21, 48, 0.18);
-  --shadow-brand: 0 12px 30px rgba(26, 77, 255, 0.22);
+  --shadow-xs:  0 1px 2px rgba(73, 75, 81, 0.06);
+  --shadow-sm:  0 2px 6px rgba(73, 75, 81, 0.06), 0 1px 2px rgba(73, 75, 81, 0.04);
+  --shadow-md:  0 8px 24px rgba(73, 75, 81, 0.08), 0 2px 6px rgba(73, 75, 81, 0.04);
+  --shadow-lg:  0 18px 48px rgba(73, 75, 81, 0.12), 0 4px 12px rgba(73, 75, 81, 0.06);
+  --shadow-xl:  0 32px 80px rgba(73, 75, 81, 0.18);
+  --shadow-brand: 0 12px 30px rgba(8, 74, 243, 0.22);
 
   /* ============ MOTION ============ */
   --ease-out:  cubic-bezier(0.22, 1, 0.36, 1);
