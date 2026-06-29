@@ -1,51 +1,66 @@
 hero:
-  eyebrow: "Newsletter, on-demand courses & free resources"
-  headline: "Learn from"
-  headline_accent: "Lorraine."
-  lead: "Want to keep learning between keynotes? Start with the free 5-day newsletter course, then dig into Lorraine's on-demand LinkedIn Learning courses and LinkedIn resources — all designed to help you communicate with confidence and grow your career on your own schedule."
+  eyebrow: Newsletter, on-demand courses & free resources
+  headline: Learn from
+  headline_accent: Lorraine.
+  lead: >-
+    Want to keep learning between keynotes? Start with the free 5-day newsletter
+    course, then dig into Lorraine's on-demand LinkedIn Learning courses and
+    LinkedIn resources — all designed to help you communicate with confidence
+    and grow your career on your own schedule.
 newsletter:
-  eyebrow_pill: "Free"
-  eyebrow_label: "5-Day Email Course"
-  headline: "Great at your job but can't"
-  headline_accent: "talk about it?"
-  body: "You're not alone. Get Lorraine's free 5-day course — the same frameworks she teaches leaders at Amazon, Cisco, and Fortune 500 companies. Articulate your value. Make promotions inevitable."
+  eyebrow_pill: Free
+  eyebrow_label: 5-Day Email Course
+  headline: Great at your job but can't
+  headline_accent: articulate it?
+  body: >-
+    You're not alone. Get Lorraine's free 5-day course — the same frameworks she
+    teaches leaders at Amazon, Cisco, and Fortune 500 companies. Articulate your
+    value. Make promotions inevitable.
   bullets:
-    - "Day 1 · Articulate your value so people actually listen"
-    - "Day 2 · Show up on LinkedIn so opportunities come to you"
-    - "Day 3 · Get known by the people who decide promotions"
-    - "Day 4 · Position yourself as the obvious choice"
-    - "Day 5 · Stay consistent without burning out"
-  form_eyebrow: "Start tomorrow"
-  form_title: "Join"
-  form_title_accent: "12,000+ leaders."
-  form_button_label: "Send me Day 1"
-  form_fineprint: "No spam. Unsubscribe in one click."
-  success_title: "You're in."
-  success_subtitle_template: "Day 1 is on its way to {email}."
-  hero_card_image: "/images/v1/learn/newsletter-lorraine.webp"
+    - Day 1 · Articulate your value so people actually listen
+    - Day 2 · Show up on LinkedIn so opportunities come to you
+    - Day 3 · Get known by the people who decide promotions
+    - Day 4 · Position yourself as the obvious choice
+    - Day 5 · Stay consistent without burning out
+  form_eyebrow: Start tomorrow
+  form_title: Join
+  form_title_accent: 12,000+ leaders.
+  form_button_label: Send me Day 1
+  form_fineprint: No spam. Unsubscribe in one click.
+  success_title: You're in.
+  success_subtitle_template: Day 1 is on its way to {email}.
+  hero_card_image: /images/v1/learn/newsletter/hero_card_image.webp
 courses_section:
-  eyebrow: "LinkedIn Learning"
-  heading: "On-demand courses on"
-  heading_accent: "LinkedIn Learning."
-  lead: "Bite-sized, on-demand classes taught by Lorraine — watch on your schedule, free with a LinkedIn Learning subscription."
-  hero_card_image: "/images/v1/learn/linkedin-learning-lorraine.webp"
-  cta_label: "See all courses"
-  cta_url: "/courses"
+  eyebrow: LinkedIn Learning
+  heading: On-demand courses on
+  heading_accent: LinkedIn Learning.
+  lead: >-
+    Bite-sized, on-demand classes taught by Lorraine — watch on your schedule,
+    free with a LinkedIn Learning subscription.
+  hero_card_image: /images/v1/learn/courses_section/hero_card_image.webp
+  cta_label: See all courses
+  cta_url: /courses
 linkedin_resources_section:
-  eyebrow: "Free resources"
-  heading: "Show up better on"
-  heading_accent: "LinkedIn."
-  lead: "Free downloads to help you look the part and tell your story — straight from Lorraine's LinkedIn playbook."
+  eyebrow: Free resources
+  heading: Show up better on
+  heading_accent: LinkedIn.
+  lead: >-
+    Free downloads to help you look the part and tell your story — straight from
+    Lorraine's LinkedIn playbook.
 linkedin_resources:
-  - label: "LinkedIn background photo pack"
-    description: "A set of on-brand LinkedIn cover photos you can drop into your profile in minutes — designed to make your page look intentional, not stock."
-    cta_label: "Get the photo pack"
-    url: "/contact"
-    anchor_id: "linkedin-photo-pack"
-    image: "/images/v1/learn/linkedin-photo-pack.webp"
-  - label: "The Digital LinkedIn Guide"
-    description: "Lorraine's step-by-step playbook for building a LinkedIn presence that gets you noticed by decision-makers, recruiters, and clients."
-    cta_label: "Get the guide"
-    url: "/contact"
-    anchor_id: "linkedin-guide"
-    image: "/images/v1/learn/linkedin-guide.webp"
+  - label: LinkedIn background photo pack
+    description: >-
+      A set of on-brand LinkedIn cover photos you can drop into your profile in
+      minutes — designed to make your page look intentional, not stock.
+    cta_label: Get the photo pack
+    url: /contact
+    anchor_id: linkedin-photo-pack
+    image: /images/v1/learn/linkedin_resources/0/image.webp
+  - label: The Digital LinkedIn Guide
+    description: >-
+      Lorraine's step-by-step playbook for building a LinkedIn presence that
+      gets you noticed by decision-makers, recruiters, and clients.
+    cta_label: Get the guide
+    url: /contact
+    anchor_id: linkedin-guide
+    image: /images/v1/learn/linkedin_resources/1/image.webp
