@@ -101,9 +101,7 @@ articles_section:
   eyebrow: In her words
   heading: Authored
   heading_accent: articles.
-  lead: >-
-    Bylines and contributions on presence, communication, and building a career
-    brand.
+  lead: Contributions on presence, communication, and building your brand.
   view_more_label: Read all articles
   view_more_url: /articles
 authored_articles:
