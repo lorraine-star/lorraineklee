@@ -15,7 +15,7 @@
 .testimonials {
   --testimonials-carousel-bg: var(--paper);
   padding: clamp(40px, 5vw, 72px) 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.42) 0%, rgba(245, 240, 233, 0.92) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.42) 0%, rgba(235, 235, 235, 0.92) 100%);
 }
 .testimonials-head {
   grid-column: 1 / span 8;
@@ -75,14 +75,14 @@
 }
 .testimonials-carousel::before {
   left: 0;
-  background: linear-gradient(to right, rgba(251, 248, 242, 0.34), transparent);
+  background: linear-gradient(to right, rgba(249, 249, 249, 0.34), transparent);
   background: linear-gradient(to right, color-mix(in srgb, var(--testimonials-carousel-bg) 34%, transparent), transparent);
   -webkit-mask-image: linear-gradient(to right, #000 38%, transparent);
   mask-image: linear-gradient(to right, #000 38%, transparent);
 }
 .testimonials-carousel::after {
   right: 0;
-  background: linear-gradient(to left, rgba(251, 248, 242, 0.34), transparent);
+  background: linear-gradient(to left, rgba(249, 249, 249, 0.34), transparent);
   background: linear-gradient(to left, color-mix(in srgb, var(--testimonials-carousel-bg) 34%, transparent), transparent);
   -webkit-mask-image: linear-gradient(to left, #000 38%, transparent);
   mask-image: linear-gradient(to left, #000 38%, transparent);
@@ -183,7 +183,7 @@
   flex-shrink: 0;
   object-fit: cover;
   background: var(--ink-100);
-  border: 1px solid rgba(14, 21, 48, 0.08);
+  border: 1px solid rgba(73, 75, 81, 0.08);
 }
 
 /* Optional per-item logo row: company logos and book covers. Renders only when
