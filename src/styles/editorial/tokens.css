@@ -6,28 +6,28 @@
 
 :root {
   /* ============ COLOR — Brand ============ */
-  --brand-blue-600: #1A4DFF;
-  --brand-blue-500: #2E64FF;
-  --brand-blue-400: #5B85FF;
-  --brand-blue-300: #A8BDFF;
-  --brand-blue-100: #E5ECFF;
-  --brand-blue-50:  #F2F5FF;
-  --brand-blue-900: #0B2A99;
+  --brand-blue-600: #084af3;
+  --brand-blue-500: #4175fc;
+  --brand-blue-400: #88a9fd;
+  --brand-blue-300: #c3e2ff;
+  --brand-blue-100: #e3ecff;
+  --brand-blue-50:  #f1f5ff;
+  --brand-blue-900: #063bc2;
 
-  --brand-yellow-500: #FFD43B;
-  --brand-yellow-400: #FFE066;
-  --brand-yellow-100: #FFF4C2;
+  --brand-yellow-500: #fce036;
+  --brand-yellow-400: #fde968;
+  --brand-yellow-100: #fff7c9;
 
   /* ============ COLOR — Neutrals (warm) ============ */
-  --paper:        #FBF8F2;
-  --paper-deep:   #F4EFE4;
-  --ink-900:      #0E1530;
-  --ink-700:      #2A3147;
-  --ink-500:      #5B6177;
-  --ink-300:      #A6ABBC;
-  --ink-200:      #D4D7E0;
-  --ink-100:      #ECEEF3;
-  --white:        #FFFFFF;
+  --paper:        #f9f9f9;
+  --paper-deep:   #ebebeb;
+  --ink-900:      #494b51;
+  --ink-700:      #5d5f66;
+  --ink-500:      #797b82;
+  --ink-300:      #a8aab0;
+  --ink-200:      #dadbdd;
+  --ink-100:      #ebebeb;
+  --white:        #ffffff;
 
   /* ============ COLOR — Semantic ============ */
   --bg:           var(--paper);
