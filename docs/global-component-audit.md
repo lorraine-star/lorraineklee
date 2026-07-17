@@ -96,8 +96,8 @@ Shared sections follow an existing convention:
   `src/pages/index.astro`. When another page needs a shared section, import
   the canonical component rather than copying its markup, and do not redesign
   a global section in isolation.
-- Coordinate edits to global sections via Linear so parallel worktrees do
-  not drift.
+- Coordinate edits to global sections in one place so the shared sections do
+  not drift across pages.
 
 Current registry entries: `trust-as-seen-in`, `testimonials`,
 `student-testimonials`, `book-promo`. **`site-footer` is being added** to
