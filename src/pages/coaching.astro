@@ -23,10 +23,10 @@ const {
 } = coaching;
 
 const isExternal = (url: string) => /^https?:\/\//i.test(url);
-const primaryCtaUrl = safeUrl(hero.primary_cta_url) || '/contact';
-const secondaryCtaUrl = safeUrl(hero.secondary_cta_url) || '#tiers';
-const auditCtaUrl = safeUrl(audit.cta_url) || '/contact';
-const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
+const primaryCtaUrl = safeUrl(hero.primary_cta_url, '/contact');
+const secondaryCtaUrl = safeUrl(hero.secondary_cta_url, '#tiers');
+const auditCtaUrl = safeUrl(audit.cta_url, '/contact');
+const finalCtaUrl = safeUrl(final_cta.cta_url, '/contact');
 ---
 
 <SpeakingLayout

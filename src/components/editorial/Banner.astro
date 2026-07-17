@@ -1,9 +1,11 @@
 ---
 // Dismissible yellow announcement strip. Sits above the nav.
 //
-// Content is editable via the `siteSettings` singleton (CLI-159). Set
-// banner.enabled to false to hide it sitewide. Fields fall back to the previous
-// hardcoded copy so the strip renders identically until edited.
+// Content is editable via the `siteSettings` singleton (CLI-159). This strip is
+// rendered only by SpeakingLayout, so `banner.enabled: false` hides it on the
+// pages that use that layout, NOT sitewide; the home page has its own separate
+// announcement strip controlled by `home.banner.enabled`. Fields fall back to the
+// previous hardcoded copy so the strip renders identically until edited.
 import { reader } from '../../lib/keystatic';
 
 const site = await reader.singletons.siteSettings.read();

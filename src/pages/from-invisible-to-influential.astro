@@ -40,11 +40,15 @@ const digit = (label: string) => label.replace(/[^0-9]/g, '');
 const splitLines = (value: string | null | undefined) =>
   (value ?? '').split('\n');
 
-// The roadmap title italicises the "Invisible to Influential" phrase. The lead
-// and the italic accent are separate editable fields (plain + _accent) so the
-// emphasis can never silently drop when the heading is edited.
+// The roadmap title italicises the "Invisible to Influential" phrase. Lead and
+// accent are separate editable fields. The hardcoded defaults apply only when the
+// lead is left blank; once an editor sets a custom lead, the accent is taken
+// verbatim (blank = no accent) so a cleared accent can't re-inject the old default
+// (CLI-166 review).
 const roadmapTitleLead = roadmap.heading_lead || 'Your 5-Day Roadmap From ';
-const roadmapTitleItalic = roadmap.heading_accent || 'Invisible to Influential';
+const roadmapTitleItalic = roadmap.heading_lead
+  ? (roadmap.heading_accent ?? '')
+  : (roadmap.heading_accent || 'Invisible to Influential');
 
 // Emoji fallbacks for the credibility cards, in the funnel's default card order.
 // Each trust item also has an optional `icon` image field in Keystatic; when an

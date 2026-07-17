@@ -61,13 +61,13 @@ for (const cat of CATEGORY_ORDER) {
 const categories = CATEGORY_ORDER.filter((cat) => counts[cat] > 0);
 
 const isExternal = (url: string) => /^https?:\/\//i.test(url);
-const linkedinUrl = safeUrl(hero.primary_cta_url) || 'https://www.linkedin.com/learning/instructors/lorraine-lee';
-const finalCtaUrl = safeUrl(final_cta.cta_url) || '/from-invisible-to-influential/';
+const linkedinUrl = safeUrl(hero.primary_cta_url, 'https://www.linkedin.com/learning/instructors/lorraine-lee');
+const finalCtaUrl = safeUrl(final_cta.cta_url, '/from-invisible-to-influential/');
 
 // Resolve a course link: prefer the external LinkedIn Learning URL, fall back
 // to the on-site detail page.
 const courseHref = (c: { url?: string | null; slug: string }) =>
-	safeUrl(c.url) || `/courses/${c.slug}`;
+	safeUrl(c.url, `/courses/${c.slug}`);
 
 const whyPoints = why_section?.points ?? [];
 

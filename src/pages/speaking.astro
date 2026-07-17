@@ -65,8 +65,10 @@ const attendeeQuotes = (
 	await getTestimonials({ placement: 'speaking', type: 'event-attendee' })
 ).map(toColumnCard);
 const linkedinRecommendationsUrl =
-	safeUrl(testimonials_section?.linkedin_cta_url) ||
-	'https://www.linkedin.com/in/lorraineklee/details/recommendations/';
+	safeUrl(
+		testimonials_section?.linkedin_cta_url,
+		'https://www.linkedin.com/in/lorraineklee/details/recommendations/',
+	);
 const linkedinTestimonialsLabel =
 	testimonials_section?.linkedin_cta_label ||
 	'View 250+ glowing testimonials on LinkedIn';
@@ -282,7 +284,7 @@ const clientLogos = past_clients ?? [];
 												</ul>
 											</>
 										)}
-										<a class="btn primary" href={safeUrl(speaking.card_cta_url) || '/contact'} data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
+										<a class="btn primary" href={safeUrl(speaking.card_cta_url, '/contact')} data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
 											{speaking.card_cta_label || 'Book this talk'}{' '}
 											<span aria-hidden="true">&rarr;</span>
 										</a>
@@ -456,7 +458,7 @@ const clientLogos = past_clients ?? [];
 																</ul>
 															</>
 														)}
-														<a class="btn primary" href={safeUrl(speaking.card_cta_url) || '/contact'} data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
+														<a class="btn primary" href={safeUrl(speaking.card_cta_url, '/contact')} data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
 															{speaking.card_cta_label || 'Book this talk'}{' '}
 															<span aria-hidden="true">&rarr;</span>
 														</a>
