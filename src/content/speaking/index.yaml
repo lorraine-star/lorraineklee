@@ -462,11 +462,9 @@ stats:
     label: Said they'd take action afterwards
 testimonials_section:
   eyebrow: From the people who book her
-  heading: Event organizers don't
-  heading_accent: regret it.
-  lead: >-
-    A handful of the recent ones, in their own words. References and the full
-    file available on request.
+  heading: Event organizers
+  heading_accent: rave about Lorraine
+  lead: From companies like Zoom, Cisco, Amazon, and more.
 attendee_testimonials_section:
   eyebrow: From the people in the seats
   heading: And the audience
