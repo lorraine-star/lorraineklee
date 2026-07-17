@@ -1,6 +1,11 @@
 ---
 // Canonical shared site footer (data-global-section="site-footer").
 //
+// Content is editable via the `siteSettings` singleton (CLI-159); see
+// keystatic.config.ts and src/content/site-settings/index.yaml. Every field
+// falls back to its previous hardcoded value, so the footer renders identically
+// when the CMS entry is missing or a field is left blank.
+//
 // Styling note: this component is intentionally CSS-agnostic. It relies on the
 // footer classes (footer, footer-wave, footer-grid, footer-brand, footer-tag,
 // footer-socials, social-btn, footer-touch, footer-explore, footer-base,
@@ -9,7 +14,9 @@
 // src/styles/editorial/templates.css for editorial pages (SpeakingLayout). Do
 // NOT add a scoped <style> block here; scoped styles would not match those
 // global selectors and would break the footer.
+import { reader } from '../lib/keystatic';
 import { socialLinks, iconFor } from '../lib/social';
+import { safeUrl } from '../lib/url';
 
 interface Props {
   logoSrc?: string;
@@ -17,6 +24,67 @@ interface Props {
 
 const { logoSrc = '/images/editorial/logo-primary.png' } = Astro.props;
 const year = new Date().getFullYear();
+
+const site = await reader.singletons.siteSettings.read();
+const f = site?.footer;
+
+const taglineBefore = f?.tagline_before || 'Helping leaders build an ';
+const taglineEmphasis = f?.tagline_emphasis || 'unforgettable';
+const taglineAfter = f?.tagline_after || ' presence.';
+
+const socials =
+  f?.socials && f.socials.length
+    ? f.socials.map((s) => ({
+        platform: s.platform,
+        label: s.label || s.platform,
+        url: s.url ?? '',
+      }))
+    : socialLinks.map((s) => ({
+        platform: s.platform,
+        label: s.ariaLabel,
+        url: s.url,
+      }));
+
+const contactHeading = f?.contact_heading || 'Get in touch';
+const contactBlurb =
+  f?.contact_blurb || 'Speaking and coaching inquiries use the contact form.';
+const contactLinks =
+  f?.contact_links && f.contact_links.length
+    ? f.contact_links
+    : [
+        { label: 'Contact Lorraine', href: '/contact' },
+        {
+          label: 'press@lorraineklee.com',
+          href: 'mailto:press@lorraineklee.com',
+        },
+        {
+          label: 'meagan@lorraineklee.com',
+          href: 'mailto:meagan@lorraineklee.com',
+        },
+      ];
+
+const exploreHeading = f?.explore_heading || 'Explore';
+const exploreLinks =
+  f?.explore_links && f.explore_links.length
+    ? f.explore_links
+    : [
+        { label: 'About', href: '/about' },
+        { label: 'Speaking', href: '/speaking' },
+        { label: 'Learn', href: '/learn' },
+        { label: 'The Book', href: '/book' },
+        { label: 'Contact', href: '/contact' },
+      ];
+
+const legalEntity =
+  f?.legal_entity || 'Lorraine Lee · RISE Learning Solutions Corp.';
+const legalLinks =
+  f?.legal_links && f.legal_links.length
+    ? f.legal_links
+    : [
+        { label: 'Terms and Conditions', href: '/terms-privacy-legal/' },
+        { label: 'Privacy Policy', href: '/privacy-policy/' },
+        { label: 'Contact', href: '/contact' },
+      ];
 ---
 
 <div class="footer-wave-wrap">
@@ -33,15 +101,15 @@ const year = new Date().getFullYear();
     <div class="footer-brand">
       <img src={logoSrc} alt="Lorraine Lee" />
       <p class="footer-tag">
-        Helping leaders build an <em>unforgettable</em> presence.
+        {taglineBefore}<em>{taglineEmphasis}</em>{taglineAfter}
       </p>
       <div class="footer-socials">
         {
-          socialLinks.map((s) => (
+          socials.map((s) => (
             <a
               class="social-btn"
-              href={s.url}
-              aria-label={s.ariaLabel}
+              href={safeUrl(s.url)}
+              aria-label={s.label}
               target="_blank"
               rel="noopener noreferrer"
               set:html={iconFor(s.platform)}
@@ -51,30 +119,26 @@ const year = new Date().getFullYear();
       </div>
     </div>
     <div class="footer-touch">
-      <h4>Get in touch</h4>
-      <p>Speaking and coaching inquiries use the contact form.</p>
-      <a class="footer-email" href="/contact">Contact Lorraine</a>
-      <a class="footer-email" href="mailto:press@lorraineklee.com">press@lorraineklee.com</a>
-      <a class="footer-email" href="mailto:meagan@lorraineklee.com">meagan@lorraineklee.com</a>
+      <h4>{contactHeading}</h4>
+      <p>{contactBlurb}</p>
+      {
+        contactLinks.map((l) => (
+          <a class="footer-email" href={l.href}>{l.label}</a>
+        ))
+      }
     </div>
     <div class="footer-explore">
-      <h4>Explore</h4>
+      <h4>{exploreHeading}</h4>
       <ul>
-        <li><a href="/about">About</a></li>
-        <li><a href="/speaking">Speaking</a></li>
-        <li><a href="/learn">Learn</a></li>
-        <li><a href="/book">The Book</a></li>
-        <li><a href="/contact">Contact</a></li>
+        {exploreLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
       </ul>
     </div>
   </div>
   <div class="grid12">
     <div class="footer-base" style="grid-column: 1 / -1;">
-      <div>&copy; {year} Lorraine Lee &middot; RISE Learning Solutions Corp.</div>
+      <div>&copy; {year} {legalEntity}</div>
       <div class="footer-base-links">
-        <a href="/terms-privacy-legal/">Terms and Conditions</a>
-        <a href="/privacy-policy/">Privacy Policy</a>
-        <a href="/contact">Contact</a>
+        {legalLinks.map((l) => <a href={l.href}>{l.label}</a>)}
       </div>
     </div>
   </div>

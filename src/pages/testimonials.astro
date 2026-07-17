@@ -1,11 +1,14 @@
 ---
 import SpeakingLayout from '../layouts/SpeakingLayout.astro';
+import { reader } from '../lib/keystatic';
 import {
 	getTestimonials,
+	getTestimonialSections,
 	initialsFor,
-	TESTIMONIAL_SECTIONS,
 	type TestimonialType,
 } from '../lib/testimonials';
+
+const page = await reader.singletons.testimonialsPage.read();
 
 const testimonials = await getTestimonials({ placement: 'testimonials' });
 
@@ -17,11 +20,13 @@ const SECTION_ANCHOR: Record<TestimonialType, string> = {
 	'course-student-review': 'courses',
 };
 
-const sections = TESTIMONIAL_SECTIONS.map((section) => ({
-	...section,
-	anchor: SECTION_ANCHOR[section.type],
-	items: testimonials.filter((t) => t.type === section.type),
-})).filter((section) => section.items.length > 0);
+const sections = (await getTestimonialSections())
+	.map((section) => ({
+		...section,
+		anchor: SECTION_ANCHOR[section.type],
+		items: testimonials.filter((t) => t.type === section.type),
+	}))
+	.filter((section) => section.items.length > 0);
 
 const total = testimonials.length;
 
@@ -31,8 +36,9 @@ const LONG_QUOTE = 550;
 ---
 
 <SpeakingLayout
-	title="Testimonials | Lorraine K. Lee"
-	description="What clients, event organizers, audiences, and LinkedIn Learning students say about working with and learning from Lorraine K. Lee."
+	title={page?.seo_title || 'Testimonials | Lorraine K. Lee'}
+	description={page?.seo_description ||
+		'What clients, event organizers, audiences, and LinkedIn Learning students say about working with and learning from Lorraine K. Lee.'}
 	activeId="about"
 >
 	{/* ---------- Hero ---------- */}
@@ -203,8 +209,8 @@ const LONG_QUOTE = 550;
 		height: 22px;
 		padding: 0 6px;
 		border-radius: var(--radius-pill);
-		background: var(--brand-blue-50, #eef2ff);
-		color: var(--brand-blue-600, #3a4ed6);
+		background: var(--brand-blue-50, #f1f5ff);
+		color: var(--brand-blue-600, #084af3);
 		font-size: 11px;
 		font-weight: 700;
 	}
@@ -244,7 +250,7 @@ const LONG_QUOTE = 550;
 		font-weight: 500;
 		font-style: italic;
 		line-height: 0.6;
-		color: var(--brand-blue-300, #9db0ff);
+		color: var(--brand-blue-300, #c3e2ff);
 		display: block;
 		margin-bottom: 12px;
 	}
@@ -308,8 +314,8 @@ const LONG_QUOTE = 550;
 		object-fit: cover;
 		background: linear-gradient(
 			135deg,
-			var(--brand-blue-300, #9db0ff),
-			var(--brand-blue-600, #3a4ed6)
+			var(--brand-blue-300, #c3e2ff),
+			var(--brand-blue-600, #084af3)
 		);
 		color: #fff;
 		font-family: var(--font-sans);

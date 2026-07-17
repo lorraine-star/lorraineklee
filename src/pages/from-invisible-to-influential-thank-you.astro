@@ -24,8 +24,9 @@ const isExternal = /^https?:\/\//i.test(ctaUrl);
 ---
 
 <FunnelLayout
-  title="You're in | From Invisible to Influential"
-  description="Thanks for signing up for the free 5-day course. Day 1 is on its way to your inbox."
+  title={fc.thankyou_seo_title || "You're in | From Invisible to Influential"}
+  description={fc.thankyou_seo_description ||
+    'Thanks for signing up for the free 5-day course. Day 1 is on its way to your inbox.'}
 >
   {/* GA4 key event (CLI-51): this page is where Kit redirects after a
       successful free-course signup, so its load is the reliable conversion

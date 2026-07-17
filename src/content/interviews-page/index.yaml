@@ -5,6 +5,11 @@ hero:
   lead: "Watch Lorraine's interviews on LinkedIn Lives, podcasts, and more with industry thought leaders — and her conversations on the other side of the camera, interviewing prominent business leaders."
   cta_label: "Grab my free 5-day email course"
   cta_url: "/learn#course"
+labels:
+  browse_interviews: "Browse interviews"
+  watch_interview: "Watch the interview"
+  watch_here: "Watch it here"
+  video_coming_soon: "Video coming soon"
 featured_section:
   eyebrow: "On the other side of the camera"
   heading: "Lorraine interviews"

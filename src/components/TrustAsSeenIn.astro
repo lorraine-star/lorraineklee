@@ -10,9 +10,13 @@
  * Styles live in src/styles/v1/home.css (.trust, .marquee, .press-mark*).
  * Pages that use this component must include that stylesheet via their
  * layout (HomeLayout already does; SpeakingLayout imports it explicitly).
+ *
+ * The lineup is editable via Keystatic (siteSettings.press.logos); the array
+ * below is the fallback used when that list is empty (CLI-162).
  */
+import { reader } from '../lib/keystatic';
 
-const pressLogos = [
+const DEFAULT_PRESS_LOGOS = [
   { id: 'inc', name: 'Inc.', src: '/images/v1/press/inc.svg', width: 92, height: 30 },
   { id: 'bloomberg', name: 'Bloomberg', src: '/images/v1/press/bloomberg.svg', width: 170, height: 24 },
   { id: 'fast-company', name: 'Fast Company', src: '/images/v1/press/fast-company.png', width: 206, height: 30 },
@@ -22,11 +26,19 @@ const pressLogos = [
   { id: 'cnn', name: 'CNN', src: '/images/v1/press/cnn.svg', width: 102, height: 28 },
   { id: 'nbc4', name: 'NBC 4', src: '/images/v1/press/nbc4.svg', width: 88, height: 58 },
 ];
+
+const settings = await reader.singletons.siteSettings.read();
+const configuredLogos = (settings?.press?.logos ?? []).filter(
+  (logo) => logo.id && logo.src
+);
+const pressLogos =
+  configuredLogos.length > 0 ? configuredLogos : DEFAULT_PRESS_LOGOS;
+const eyebrow = settings?.press?.eyebrow || 'As Seen In';
 const pressMarquee = [...pressLogos, ...pressLogos];
 ---
 
 <section class="trust as-seen-in" data-global-section="trust-as-seen-in">
-  <div class="trust-eyebrow">As Seen In</div>
+  <div class="trust-eyebrow">{eyebrow}</div>
   <div class="marquee-mask">
     <div class="marquee">
       {

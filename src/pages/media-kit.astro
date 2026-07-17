@@ -30,8 +30,9 @@ const pad2 = (n: number) => String(n).padStart(2, '0');
 ---
 
 <SpeakingLayout
-	title="Lorraine K. Lee | Media Kit"
-	description={hero.lead}
+	title={mediaKit.seo_title || "Lorraine K. Lee | Media Kit"}
+	description={mediaKit.seo_description || hero.lead}
+	image={mediaKit.og_image || undefined}
 	activeId="about"
 >
 	{/* ---------- Hero ---------- */}
@@ -141,7 +142,7 @@ const pad2 = (n: number) => String(n).padStart(2, '0');
 					</div>
 					<div class="mk-gallery reveal-stagger">
 						{headshots.map((h) => {
-							const dl = safeUrl(h.download_url) || h.image;
+							const dl = safeUrl(h.download_url, h.image);
 							return (
 								<figure class="mk-shot">
 									<div class="mk-shot-frame">

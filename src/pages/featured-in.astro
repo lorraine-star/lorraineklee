@@ -20,7 +20,8 @@ const cleanUrl = (value: string | null | undefined) => {
 	return url === '#' ? '' : url;
 };
 
-// Default CTA label per appearance type. Editors can override via cta_label.
+// Built-in default CTA label per appearance type. Editors override per type via
+// the Featured In singleton (cta_label_defaults) and per item via cta_label.
 const CTA_DEFAULTS: Record<string, string> = {
 	Article: 'Read more',
 	Newsletter: 'Read more',
@@ -33,6 +34,11 @@ const CTA_DEFAULTS: Record<string, string> = {
 	Resource: 'View resource',
 	Event: 'Learn more',
 };
+// Merge the editor's per-type overrides on top of the built-in defaults.
+const ctaDefaults: Record<string, string> = { ...CTA_DEFAULTS };
+for (const override of page.cta_label_defaults ?? []) {
+	if (override.type && override.label) ctaDefaults[override.type] = override.label;
+}
 
 const all = (await reader.collections.featuredAppearances.all())
 	.map((a) => {
@@ -43,7 +49,7 @@ const all = (await reader.collections.featuredAppearances.all())
 			href,
 			ctaLabel:
 				a.entry.cta_label ||
-				CTA_DEFAULTS[a.entry.appearance_type] ||
+				ctaDefaults[a.entry.appearance_type] ||
 				'Read more',
 		};
 	})
@@ -67,8 +73,8 @@ const finalCtaUrl = cleanUrl(final_cta.cta_url) || '/contact';
 ---
 
 <SpeakingLayout
-	title="Featured In | Lorraine K. Lee"
-	description={hero.lead}
+	title={page.seo_title || "Featured In | Lorraine K. Lee"}
+	description={page.seo_description || hero.lead}
 	activeId="thought-leadership"
 >
 	{/* ---------- Hero ---------- */}
@@ -259,7 +265,7 @@ const finalCtaUrl = cleanUrl(final_cta.cta_url) || '/contact';
 
 			{/* Empty state */}
 			<div class="fi-grid-empty" data-grid-empty hidden>
-				<p>No appearances in this category yet.</p>
+				<p>{appearances_section.empty_state || 'No appearances in this category yet.'}</p>
 			</div>
 		</div>
 	</section>
@@ -345,14 +351,14 @@ const finalCtaUrl = cleanUrl(final_cta.cta_url) || '/contact';
 	}
 	.fi-chip--award {
 		color: var(--accent);
-		background: var(--brand-blue-50, rgba(43, 70, 200, 0.08));
+		background: var(--brand-blue-50, rgba(8, 74, 243, 0.08));
 		border-color: transparent;
 	}
 	.fi-chip--podcast,
 	.fi-chip--video,
 	.fi-chip--interview {
-		color: #8a5a00;
-		background: rgba(245, 178, 41, 0.16);
+		color: var(--ink-700);
+		background: rgba(252, 224, 54, 0.16);
 		border-color: transparent;
 	}
 

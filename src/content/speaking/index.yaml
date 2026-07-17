@@ -1,3 +1,6 @@
+detail_back_label: "All keynotes"
+detail_back_url: "/keynotes"
+detail_more_label: "See other keynotes"
 hero:
   eyebrow: Keynotes / Workshops / Custom Programs
   headline: An
@@ -466,6 +469,8 @@ testimonials_section:
   heading: Event organizers
   heading_accent: rave about Lorraine
   lead: From companies like Zoom, Cisco, Amazon, and more.
+  linkedin_cta_label: "View 250+ glowing testimonials on LinkedIn"
+  linkedin_cta_url: "https://www.linkedin.com/in/lorraineklee/details/recommendations/"
 attendee_testimonials_section:
   eyebrow: From the people in the seats
   heading: And the audience
@@ -569,3 +574,7 @@ final_cta:
     business days.
   cta_label: Start the conversation
   cta_url: /contact
+card_cta_label: "Book this talk"
+card_cta_url: "/contact"
+takeaways_label: "What the audience walks away with"
+talk_track_label: "Talk track"

@@ -24,8 +24,8 @@ const bodyHtml = await renderMarkdoc(about.body);
 ---
 
 <SpeakingLayout
-	title="Lorraine K. Lee | About"
-	description={hero.lead}
+	title={about.seo_title || "Lorraine K. Lee | About"}
+	description={about.seo_description || hero.lead}
 	activeId="about"
 >
 	{/* ---------- Hero ---------- */}

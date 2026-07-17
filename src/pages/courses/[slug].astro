@@ -13,6 +13,10 @@ export async function getStaticPaths() {
 
 const { course } = Astro.props;
 const courseUrl = safeUrl(course.url);
+
+const coursesPage = await reader.singletons.coursesPage.read();
+const labels = coursesPage?.labels;
+const backUrl = safeUrl(labels?.detail_back_url, '/courses');
 ---
 
 <SpeakingLayout
@@ -23,11 +27,11 @@ const courseUrl = safeUrl(course.url);
 	<section class="page-hero page-hero--center">
 		<div class="grid12 page-hero-grid">
 			<div class="talk-page-hero fade-up">
-				<a class="talk-page-back" href="/courses">
-					<span aria-hidden="true">&larr;</span> All courses
+				<a class="talk-page-back" href={backUrl}>
+					<span aria-hidden="true">&larr;</span> {labels?.detail_back_label || 'All courses'}
 				</a>
 				<div class="talk-format">
-					LinkedIn Learning{course.category && <> &middot; {course.category}</>}
+					{labels?.detail_format_prefix || 'LinkedIn Learning'}{course.category && <> &middot; {course.category}</>}
 				</div>
 				<h1>{course.title}</h1>
 				{course.description && <p class="lead-large">{course.description}</p>}
@@ -40,18 +44,18 @@ const courseUrl = safeUrl(course.url);
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								Watch on LinkedIn Learning{' '}
+								{labels?.detail_watch_cta || 'Watch on LinkedIn Learning'}{' '}
 								<span aria-hidden="true">&rarr;</span>
 							</a>
 						)
 					}
-					<a class="anchor-link" href="/courses">
-						See other courses{' '}
+					<a class="anchor-link" href={backUrl}>
+						{labels?.detail_more_label || 'See other courses'}{' '}
 						<span class="arrow" aria-hidden="true">&rarr;</span>
 					</a>
 				</div>
 				<p class="learn-hero-trust">
-					Free to watch with a LinkedIn Learning subscription.
+					{labels?.detail_trust_line || 'Free to watch with a LinkedIn Learning subscription.'}
 				</p>
 			</div>
 		</div>

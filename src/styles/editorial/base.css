@@ -34,7 +34,7 @@ body {
   color: var(--ink-900);
   position: relative;
   z-index: 60;
-  border-bottom: 1px solid rgba(14,21,48,0.08);
+  border-bottom: 1px solid rgba(73,75,81,0.08);
 }
 .banner[hidden] { display: none; }
 .banner-inner {
@@ -87,7 +87,7 @@ body {
   transition: background 240ms var(--ease-out);
   margin-right: -6px;
 }
-.banner-dismiss:hover { background: rgba(14,21,48,0.08); }
+.banner-dismiss:hover { background: rgba(73,75,81,0.08); }
 /* CLI-141: keep the compact 32px glyph but extend the tap target to >=44px.
    The overlay is absolutely positioned, so the thin banner row never grows. */
 .banner-dismiss::after {
@@ -106,7 +106,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(251,248,242,0.85);
+  background: rgba(249,249,249,0.85);
   backdrop-filter: saturate(160%) blur(14px);
   -webkit-backdrop-filter: saturate(160%) blur(14px);
   border-bottom: 1px solid var(--border-soft);
@@ -482,9 +482,9 @@ body {
 }
 .t-card.featured .t-quote { color: var(--paper); }
 .t-card.featured .t-name { color: var(--paper); }
-.t-card.featured .t-role { color: rgba(251,248,242,0.6); }
+.t-card.featured .t-role { color: rgba(249,249,249,0.6); }
 .t-card.featured .t-mark { color: var(--brand-yellow-500); }
-.t-card.featured .t-divider { background: rgba(251,248,242,0.15); }
+.t-card.featured .t-divider { background: rgba(249,249,249,0.15); }
 .t-card.featured .t-avatar { background: linear-gradient(135deg, var(--brand-yellow-500), #ff9900); color: var(--ink-900); }
 .t-mark {
   font-family: var(--font-serif);
@@ -687,7 +687,7 @@ body {
     align-items: stretch;
     gap: 4px;
     padding: 14px var(--grid-pad) 18px;
-    background: rgba(251,248,242,0.98);
+    background: rgba(249,249,249,0.98);
     border-bottom: 1px solid var(--border-soft);
     box-shadow: var(--shadow-sm);
   }

@@ -5,40 +5,52 @@
  * Canonical markup for the shared "The Book" promo. Edit this component when
  * the section needs to change anywhere it appears.
  *
+ * Content is editable via the `bookPromo` singleton (CLI-163); every field
+ * falls back to the previous hardcoded copy so the section renders identically
+ * until edited.
+ *
  * Styling depends on the .book-promo rules in src/styles/v1/home.css.
  */
+import { reader } from '../lib/keystatic';
+
+const bp = await reader.singletons.bookPromo.read();
+
+const eyebrow = bp?.eyebrow || 'The Book';
+const title = bp?.title || 'Unforgettable Presence®';
+const tagline = bp?.tagline || 'Get seen. Gain influence. Catapult your career.';
+const body =
+  bp?.body ||
+  "The operator's manual for getting credit for your work. Used in leadership programs at Zoom, LinkedIn, and Salesforce. Five parts, fifty-two short chapters, no fluff.";
+const quote =
+  bp?.quote ||
+  "The clearest, most actionable book on executive presence I've read in a decade.";
+const quoteAttribution = bp?.quote_attribution || 'VP, People · Fortune 100 Tech';
+const ctaLabel = bp?.cta_label || 'Get your copy';
+const ctaUrl = bp?.cta_url || '/book';
+const coverImage = bp?.cover_image || '/images/v1/book-with-seals.png';
+const coverAlt =
+  bp?.cover_alt || 'Unforgettable Presence by Lorraine K. Lee, book cover';
 ---
 
 <section class="book-promo v3" data-global-section="book-promo">
   <div class="grid12">
     <div class="book-cover-col">
       <div class="book-cover-stack">
-        <img
-          class="book-cover"
-          src="/images/v1/book-with-seals.png"
-          alt="Unforgettable Presence by Lorraine K. Lee, book cover"
-        />
+        <img class="book-cover" src={coverImage} alt={coverAlt} />
       </div>
     </div>
     <div class="book-copy-col">
-      <span class="eyebrow book-eyebrow">The Book</span>
-      <h2 class="book-bigtitle"><em>Unforgettable Presence&reg;</em></h2>
-      <p class="book-tagline">Get seen. Gain influence. Catapult your career.</p>
-      <p class="book-body">
-        The operator's manual for getting credit for your work. Used in
-        leadership programs at Zoom, LinkedIn, and Salesforce. Five parts,
-        fifty-two short chapters, no fluff.
-      </p>
+      <span class="eyebrow book-eyebrow">{eyebrow}</span>
+      <h2 class="book-bigtitle"><em>{title}</em></h2>
+      <p class="book-tagline">{tagline}</p>
+      <p class="book-body">{body}</p>
       <blockquote class="book-blockquote">
-        <p>
-          "The clearest, most actionable book on executive presence I've read
-          in a decade."
-        </p>
-        <footer>VP, People &middot; Fortune 100 Tech</footer>
+        <p>"{quote}"</p>
+        <footer>{quoteAttribution}</footer>
       </blockquote>
       <div class="book-cta-row">
-        <a class="btn primary large" href="/book">
-          Get your copy <span aria-hidden="true">&#8599;</span>
+        <a class="btn primary large" href={ctaUrl}>
+          {ctaLabel} <span aria-hidden="true">&#8599;</span>
         </a>
       </div>
     </div>

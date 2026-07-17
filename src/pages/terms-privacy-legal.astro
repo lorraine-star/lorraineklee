@@ -23,7 +23,7 @@ const bodyHtml = await renderMarkdoc(terms.body);
 				<div class="page-hero-eyebrow">
 					<span class="dot"></span>
 					<span class="eyebrow" style="color: var(--ink-500);">
-						Legal
+						{terms.eyebrow || "Legal"}
 					</span>
 				</div>
 				<h1>{terms.title}</h1>

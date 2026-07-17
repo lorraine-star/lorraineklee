@@ -6,11 +6,11 @@ const isActive = (href: string) =>
   href === '/' ? path === '/' : path === href || path.startsWith(`${href}/`);
 ---
 
-<nav class="border-b border-neutral-200">
+<nav class="border-b border-border">
   <div
     class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-8 gap-y-3 px-6 py-4"
   >
-    <a href="/" class="font-semibold tracking-tight text-neutral-900">
+    <a href="/" class="font-semibold tracking-tight text-foreground">
       Lorraine K. Lee
     </a>
     <ul class="flex flex-wrap gap-x-5 gap-y-1 text-sm">
@@ -21,21 +21,21 @@ const isActive = (href: string) =>
               href={item.href}
               aria-current={isActive(item.href) ? 'page' : undefined}
               class:list={[
-                'transition-colors hover:text-neutral-900',
+                'transition-colors hover:text-foreground',
                 isActive(item.href)
-                  ? 'font-medium text-neutral-900'
-                  : 'text-neutral-500',
+                  ? 'font-medium text-foreground'
+                  : 'text-muted-foreground',
               ]}
             >
               {item.label}
             </a>
             {item.children?.length && (
-              <ul class="absolute left-1/2 top-full z-20 mt-3 hidden min-w-52 -translate-x-1/2 rounded-xl border border-neutral-200 bg-white p-2 shadow-lg group-hover:block group-focus-within:block">
+              <ul class="absolute left-1/2 top-full z-20 mt-3 hidden min-w-52 -translate-x-1/2 rounded-xl border border-border bg-white p-2 shadow-lg group-hover:block group-focus-within:block">
                 {item.children.map((child) => (
                   <li>
                     <a
                       href={child.href}
-                      class="block whitespace-nowrap rounded-lg px-3 py-2 text-neutral-600 transition-colors hover:bg-neutral-50 hover:text-neutral-900"
+                      class="block whitespace-nowrap rounded-lg px-3 py-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                     >
                       {child.label}
                     </a>

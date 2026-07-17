@@ -27,7 +27,7 @@ if (!fc) {
 }
 
 const { hero, problem, roadmap, days, trust, different, final } = fc;
-const ROADMAP_IMG = '/images/free-course/roadmap-photo.png';
+const ROADMAP_IMG = roadmap.image || '/images/free-course/roadmap-photo.png';
 
 // Split a credibility item into its bold lead-in (card heading) and the rest.
 const splitLead = (text: string) => {
@@ -36,16 +36,25 @@ const splitLead = (text: string) => {
 };
 const digit = (label: string) => label.replace(/[^0-9]/g, '');
 
-// The roadmap title italicises the "Invisible to Influential" phrase. Split it
-// out so the lead-in stays upright and only the phrase is emphasised.
-const ROADMAP_ITALIC = 'Invisible to Influential';
-const roadmapIdx = roadmap.heading.indexOf(ROADMAP_ITALIC);
-const roadmapTitleLead = roadmapIdx >= 0 ? roadmap.heading.slice(0, roadmapIdx) : roadmap.heading;
-const roadmapTitleItalic = roadmapIdx >= 0 ? roadmap.heading.slice(roadmapIdx) : '';
+// Split a multi-line label so manual line breaks survive as <br>.
+const splitLines = (value: string | null | undefined) =>
+  (value ?? '').split('\n');
 
-// Emoji credibility icons, in the funnel's fixed card order (the trust list is
-// verbatim-locked, so positional mapping is stable): promotion, book, Stanford,
-// Fortune 500, LinkedIn editor, course reach, follower growth, hired-at-LinkedIn.
+// The roadmap title italicises the "Invisible to Influential" phrase. Lead and
+// accent are separate editable fields. The hardcoded defaults apply only when the
+// lead is left blank; once an editor sets a custom lead, the accent is taken
+// verbatim (blank = no accent) so a cleared accent can't re-inject the old default
+// (CLI-166 review).
+const roadmapTitleLead = roadmap.heading_lead || 'Your 5-Day Roadmap From ';
+const roadmapTitleItalic = roadmap.heading_lead
+  ? (roadmap.heading_accent ?? '')
+  : (roadmap.heading_accent || 'Invisible to Influential');
+
+// Emoji fallbacks for the credibility cards, in the funnel's default card order.
+// Each trust item also has an optional `icon` image field in Keystatic; when an
+// icon is uploaded it takes precedence (see the render below) and these emoji are
+// used only as a positional fallback: promotion, book, Stanford, Fortune 500,
+// LinkedIn editor, course reach, follower growth, hired-at-LinkedIn.
 const TRUST_EMOJI = ['📈', '📕', '🎓', '🏢', '✍️', '👥', '🚀', '🤝'];
 
 // Inline Lucide-style icons (no CDN dependency); colored via currentColor.
@@ -79,8 +88,12 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
               <img src={hero.image_desktop} alt={hero.image_alt} fetchpriority="high" decoding="async" />
             </div>
             <div class="fitf-hero-stat">
-              <span class="num">250k+</span>
-              <span class="lbl">professionals taught<br />across LinkedIn Learning</span>
+              <span class="num">{hero.stat_value || '250k+'}</span>
+              <span class="lbl">
+                {splitLines(hero.stat_label || 'professionals taught\nacross LinkedIn Learning').map((line, j) => (
+                  <Fragment>{j > 0 && <br />}{line}</Fragment>
+                ))}
+              </span>
             </div>
           </div>
         </div>
@@ -92,8 +105,8 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
       <div class="fitf-container">
         <div class="fitf-optin fitf-optin--wide">
           <div class="fitf-optin-intro">
-            <p class="fitf-optin-eyebrow">Free 5-day email course</p>
-            <h3 class="fitf-optin-title">Send me Day 1, <span class="fitf-optin-free">free.</span></h3>
+            <p class="fitf-optin-eyebrow">{hero.opt_in_eyebrow || 'Free 5-day email course'}</p>
+            <h3 class="fitf-optin-title">{hero.opt_in_title || 'Send me Day 1,'} <span class="fitf-optin-free">{hero.opt_in_title_accent || 'free.'}</span></h3>
           </div>
           <div class="fitf-optin-body">
             <FreeCourseForm
@@ -103,7 +116,7 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
               namePlaceholder={hero.name_placeholder}
               emailPlaceholder={hero.email_placeholder}
             />
-            <p class="fitf-fine">No spam. Unsubscribe anytime.</p>
+            <p class="fitf-fine">{hero.fineprint || 'No spam. Unsubscribe anytime.'}</p>
           </div>
         </div>
       </div>
@@ -140,7 +153,7 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
                 {roadmapTitleLead}{roadmapTitleItalic && <em>{roadmapTitleItalic}</em>}
               </h2>
             </div>
-            <img class="fitf-roadmap-photo" src={ROADMAP_IMG} alt="Lorraine K. Lee holding her book Unforgettable Presence" loading="lazy" />
+            <img class="fitf-roadmap-photo" src={ROADMAP_IMG} alt={roadmap.image_alt || 'Lorraine K. Lee holding her book Unforgettable Presence'} loading="lazy" />
             <span class="fitf-spark fitf-spark--1" set:html={SPARK} />
             <span class="fitf-spark fitf-spark--2" set:html={SPARK} />
             <span class="fitf-spark fitf-spark--3" set:html={SPARK} />
@@ -155,7 +168,7 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
                   <div>
                     <h3 class="fitf-day-title">{d.title}</h3>
                     <p class="fitf-day-sub">{d.intro}</p>
-                    <p class="fitf-day-learn">You'll learn :</p>
+                    <p class="fitf-day-learn">{roadmap.learn_label || "You'll learn :"}</p>
                     <ul>
                       {d.bullets.map((b) => (
                         <li>
@@ -185,7 +198,9 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
                   const { head, body } = splitLead(it.text);
                   return (
                     <article class="fitf-trust-card">
-                      <span class="fitf-trust-ico" aria-hidden="true">{TRUST_EMOJI[i] ?? '⭐'}</span>
+                      <span class="fitf-trust-ico" aria-hidden="true">
+                        {it.icon ? <img src={it.icon} alt="" /> : (TRUST_EMOJI[i] ?? '⭐')}
+                      </span>
                       {head && <h3>{head}</h3>}
                       <p set:html={emphasize(body)}></p>
                     </article>
@@ -247,8 +262,8 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
             {final.lede && <p class="fitf-final-lede">{final.lede}</p>}
           </div>
           <div class="fitf-optin fitf-optin--final">
-            <p class="fitf-optin-eyebrow">Start day 1 today</p>
-            <h3 class="fitf-optin-title">Where should I send the course?</h3>
+            <p class="fitf-optin-eyebrow">{final.opt_in_eyebrow || 'Start day 1 today'}</p>
+            <h3 class="fitf-optin-title">{final.opt_in_title || 'Where should I send the course?'}</h3>
             <div class="fitf-optin-body">
               <FreeCourseForm
                 formId="8913490"
@@ -257,7 +272,7 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
                 namePlaceholder={hero.name_placeholder}
                 emailPlaceholder={hero.email_placeholder}
               />
-              <p class="fitf-fine">No spam. Unsubscribe anytime.</p>
+              <p class="fitf-fine">{final.fineprint || 'No spam. Unsubscribe anytime.'}</p>
             </div>
           </div>
         </div>
@@ -509,7 +524,7 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
     object-fit: contain;
     object-position: center bottom;
     display: block;
-    filter: drop-shadow(0 22px 38px rgba(15, 30, 75, 0.22));
+    filter: drop-shadow(0 22px 38px rgba(73, 75, 81, 0.22));
   }
   .fitf-hero-stat {
     position: absolute;
@@ -540,7 +555,7 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
 
   /* ============ Opt-in form (dark) ============ */
   .fitf-optin {
-    background: var(--ink-900);
+    background: var(--brand-gradient);
     color: var(--paper);
     border-radius: var(--radius-xl);
     padding: clamp(26px, 3vw, 36px);
@@ -568,7 +583,7 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
   }
   .fitf-fine {
     font-size: 12px;
-    color: rgba(251, 248, 242, 0.5);
+    color: rgba(249, 249, 249, 0.5);
     margin: 13px 0 0;
   }
 
@@ -636,7 +651,7 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
     transition: border-color var(--dur-fast) var(--ease-out);
   }
   .fitf-optin :global(.fc-input::placeholder) {
-    color: rgba(251, 248, 242, 0.4);
+    color: rgba(249, 249, 249, 0.4);
   }
   .fitf-optin :global(.fc-input:focus),
   .fitf-optin :global(.fc-input:focus-visible) {
@@ -661,7 +676,7 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
     margin: 0;
     font-size: 13px;
     font-weight: 600;
-    color: #ffb4b4;
+    color: var(--danger);
     text-align: center;
   }
   .fitf-optin :global(.fc-form-error[hidden]) {
@@ -1009,6 +1024,11 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
     font-size: 27px;
     line-height: 1;
   }
+  .fitf-trust-ico img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+  }
   .fitf-trust-card h3 {
     font-family: var(--font-serif);
     font-weight: 600;
@@ -1086,7 +1106,7 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
 
   /* ============ 6. Final CTA ============ */
   .fitf-final {
-    background: var(--ink-900);
+    background: var(--brand-gradient);
     color: var(--paper);
   }
   .fitf-final-grid {
@@ -1116,7 +1136,7 @@ const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.8
     font-family: var(--font-serif);
     font-size: 19px;
     line-height: 1.55;
-    color: rgba(251, 248, 242, 0.8);
+    color: rgba(249, 249, 249, 0.8);
     margin: 0;
     max-width: 480px;
   }

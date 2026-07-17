@@ -23,15 +23,15 @@ const {
 } = coaching;
 
 const isExternal = (url: string) => /^https?:\/\//i.test(url);
-const primaryCtaUrl = safeUrl(hero.primary_cta_url) || '/contact';
-const secondaryCtaUrl = safeUrl(hero.secondary_cta_url) || '#tiers';
-const auditCtaUrl = safeUrl(audit.cta_url) || '/contact';
-const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
+const primaryCtaUrl = safeUrl(hero.primary_cta_url, '/contact');
+const secondaryCtaUrl = safeUrl(hero.secondary_cta_url, '#tiers');
+const auditCtaUrl = safeUrl(audit.cta_url, '/contact');
+const finalCtaUrl = safeUrl(final_cta.cta_url, '/contact');
 ---
 
 <SpeakingLayout
-	title="Coaching | Lorraine K. Lee"
-	description={hero.lead}
+	title={coaching.seo_title || "Coaching | Lorraine K. Lee"}
+	description={coaching.seo_description || hero.lead}
 	activeId="coaching"
 >
 	{/* ---------- Hero (shared PageHero shell; copy + CTAs stay page-local) ---------- */}
@@ -137,7 +137,7 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
 								class:list={['coach-tier', { 'coach-tier--featured': tier.featured }]}
 							>
 								{tier.featured && (
-									<span class="coach-tier-badge">Most popular</span>
+									<span class="coach-tier-badge">{tiers_section.featured_badge_label || 'Most popular'}</span>
 								)}
 								<header class="coach-tier-head">
 									<h3 class="coach-tier-name">{tier.name}</h3>
@@ -338,12 +338,12 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
 		border: 1px solid var(--border-soft);
 		border-radius: var(--radius-2xl);
 		padding: clamp(26px, 3vw, 36px);
-		box-shadow: 0 18px 44px -34px rgba(14, 21, 48, 0.4);
+		box-shadow: 0 18px 44px -34px rgba(73, 75, 81, 0.4);
 		height: 100%;
 	}
 	.coach-tier--featured {
 		border-color: var(--brand-yellow-500);
-		box-shadow: 0 26px 60px -34px rgba(14, 21, 48, 0.55);
+		box-shadow: 0 26px 60px -34px rgba(73, 75, 81, 0.55);
 	}
 	.coach-tier-badge {
 		position: absolute;
@@ -499,7 +499,7 @@ const finalCtaUrl = safeUrl(final_cta.cta_url) || '/contact';
 		border: 1px solid var(--border-soft);
 		border-radius: var(--radius-2xl);
 		padding: clamp(28px, 4vw, 48px);
-		box-shadow: 0 18px 44px -34px rgba(14, 21, 48, 0.4);
+		box-shadow: 0 18px 44px -34px rgba(73, 75, 81, 0.4);
 	}
 	.coach-audit-copy .eyebrow {
 		display: block;

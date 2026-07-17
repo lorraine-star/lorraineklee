@@ -2,10 +2,22 @@ import { config, fields, collection, singleton } from '@keystatic/core';
 
 // Storage: Keystatic Cloud. The admin UI at /keystatic authenticates against
 // the Keystatic Cloud project and commits content changes straight to the
-// GitHub repo, so Lorraine can edit without her own GitHub account.
+// GitHub repo. Lorraine owns the Keystatic Cloud project (the `rise-learning`
+// account) and connected it to her own GitHub account during handoff.
 //
 // To run the admin against local files instead (e.g. offline dev), swap to:
 //   storage: { kind: 'local' },
+
+// Shared option lists kept as single sources of truth so the editable schema
+// and the pages that render the data can't drift (CLI-162).
+const COURSE_CATEGORIES = ['Communication', 'Leadership', 'Management', 'Career'] as const;
+const COURSE_CATEGORY_OPTIONS = COURSE_CATEGORIES.map((value) => ({ label: value, value }));
+
+const APPEARANCE_TYPES = [
+  'Article', 'Podcast', 'Video', 'Interview', 'Book',
+  'Report', 'Resource', 'Award', 'Event', 'Newsletter',
+] as const;
+const APPEARANCE_TYPE_OPTIONS = APPEARANCE_TYPES.map((value) => ({ label: value, value }));
 
 export default config({
   storage: {
@@ -15,10 +27,222 @@ export default config({
     project: 'rise-learning/lorraineklee',
   },
   singletons: {
+    bookPromo: singleton({
+      label: 'Book Promo (global section)',
+      path: 'src/content/book-promo/',
+      // Canonical content for the shared "The Book" promo (BookPromo.astro,
+      // data-global-section="book-promo"). Fields fall back to the previous
+      // hardcoded copy so the section renders identically until edited.
+      schema: {
+        eyebrow: fields.text({ label: 'Eyebrow', defaultValue: 'The Book' }),
+        title: fields.text({
+          label: 'Title (shown italic)',
+          defaultValue: 'Unforgettable Presence®',
+        }),
+        tagline: fields.text({ label: 'Tagline' }),
+        body: fields.text({ label: 'Body', multiline: true }),
+        quote: fields.text({
+          label: 'Endorsement quote (quotation marks added automatically)',
+          multiline: true,
+        }),
+        quote_attribution: fields.text({ label: 'Endorsement attribution' }),
+        cta_label: fields.text({ label: 'CTA label', defaultValue: 'Get your copy' }),
+        cta_url: fields.text({ label: 'CTA URL', defaultValue: '/book' }),
+        cover_image: fields.image({
+          label: 'Book cover image',
+          directory: 'public/images/v1',
+          publicPath: '/images/v1/',
+        }),
+        cover_alt: fields.text({ label: 'Book cover alt text' }),
+      },
+    }),
+    siteSettings: singleton({
+      label: 'Site Settings',
+      path: 'src/content/site-settings/',
+      // Sitewide chrome that used to be hardcoded. The footer is driven from
+      // here (CLI-159); the nav and announcement banner can join this singleton
+      // later. Social icon SVG artwork stays in code (src/lib/social.ts); only
+      // the platform key and URL are editable here.
+      schema: {
+        footer: fields.object(
+          {
+            tagline_before: fields.text({
+              label: 'Tagline (text before the italic word)',
+            }),
+            tagline_emphasis: fields.text({
+              label: 'Tagline italic word',
+            }),
+            tagline_after: fields.text({
+              label: 'Tagline (text after the italic word)',
+            }),
+            socials: fields.array(
+              fields.object({
+                platform: fields.text({
+                  label: 'Platform',
+                  description:
+                    'One of: linkedin, instagram, youtube, x (or twitter). Controls which icon renders.',
+                }),
+                label: fields.text({
+                  label: 'Accessible label',
+                  description: 'Screen-reader label, e.g. "X (Twitter)".',
+                }),
+                url: fields.url({ label: 'URL' }),
+              }),
+              {
+                label: 'Social links',
+                itemLabel: (props) => props.fields.platform.value || 'Link',
+              }
+            ),
+            contact_heading: fields.text({
+              label: 'Get-in-touch heading',
+              defaultValue: 'Get in touch',
+            }),
+            contact_blurb: fields.text({
+              label: 'Get-in-touch blurb',
+              multiline: true,
+            }),
+            contact_links: fields.array(
+              fields.object({
+                label: fields.text({ label: 'Label' }),
+                href: fields.text({
+                  label: 'Link (route, mailto:, or URL)',
+                }),
+              }),
+              {
+                label: 'Get-in-touch links',
+                itemLabel: (props) => props.fields.label.value || 'Link',
+              }
+            ),
+            explore_heading: fields.text({
+              label: 'Explore column heading',
+              defaultValue: 'Explore',
+            }),
+            explore_links: fields.array(
+              fields.object({
+                label: fields.text({ label: 'Label' }),
+                href: fields.text({ label: 'Link' }),
+              }),
+              {
+                label: 'Explore links',
+                itemLabel: (props) => props.fields.label.value || 'Link',
+              }
+            ),
+            legal_entity: fields.text({
+              label: 'Copyright entity (after the auto year)',
+              description:
+                'Rendered as the copyright line after the year, which updates automatically.',
+            }),
+            legal_links: fields.array(
+              fields.object({
+                label: fields.text({ label: 'Label' }),
+                href: fields.text({ label: 'Link' }),
+              }),
+              {
+                label: 'Legal / base links',
+                itemLabel: (props) => props.fields.label.value || 'Link',
+              }
+            ),
+          },
+          { label: 'Footer' }
+        ),
+        nav: fields.object(
+          {
+            items: fields.array(
+              fields.object({
+                id: fields.text({
+                  label: 'ID (stable key for active highlighting)',
+                  description:
+                    'Internal key used to highlight the current page in the nav, e.g. "speaking". Keep existing ids unchanged; new top-level items can use any unique slug.',
+                }),
+                label: fields.text({ label: 'Label' }),
+                href: fields.text({ label: 'Link' }),
+                children: fields.array(
+                  fields.object({
+                    label: fields.text({ label: 'Label' }),
+                    href: fields.text({ label: 'Link' }),
+                  }),
+                  {
+                    label: 'Dropdown items',
+                    itemLabel: (props) => props.fields.label.value || 'Item',
+                  }
+                ),
+              }),
+              {
+                label: 'Nav items',
+                itemLabel: (props) => props.fields.label.value || 'Item',
+              }
+            ),
+            cta_label: fields.text({
+              label: 'CTA button label',
+              defaultValue: 'Contact',
+            }),
+            cta_href: fields.text({
+              label: 'CTA button link',
+              defaultValue: '/contact',
+            }),
+          },
+          { label: 'Navigation' }
+        ),
+        banner: fields.object(
+          {
+            enabled: fields.checkbox({
+              label: 'Show announcement banner',
+              defaultValue: true,
+            }),
+            text_strong: fields.text({
+              label: 'Bold lead-in',
+              description: 'The bold part, e.g. "Free 5-day course:".',
+            }),
+            text: fields.text({ label: 'Text' }),
+            href: fields.text({ label: 'Link' }),
+          },
+          { label: 'Announcement banner' }
+        ),
+        press: fields.object(
+          {
+            eyebrow: fields.text({
+              label: '"As seen in" eyebrow',
+              defaultValue: 'As Seen In',
+            }),
+            logos: fields.array(
+              fields.object({
+                id: fields.text({
+                  label: 'Slug (CSS hook, e.g. "cnn")',
+                  description:
+                    'Stable id used for per-logo CSS tuning (.press-mark--<id>). Changing it drops any custom tuning for that logo.',
+                }),
+                name: fields.text({ label: 'Outlet name' }),
+                src: fields.text({
+                  label: 'Logo image path (e.g. /images/v1/press/cnn.svg)',
+                }),
+                width: fields.integer({ label: 'Width (px)', defaultValue: 160 }),
+                height: fields.integer({ label: 'Height (px)', defaultValue: 32 }),
+              }),
+              {
+                label: 'Press logos',
+                description:
+                  'The sitewide "As Seen In" marquee (home + featured-in). Leave empty to fall back to the built-in lineup.',
+                itemLabel: (props) => props.fields.name.value || 'Logo',
+              }
+            ),
+          },
+          {
+            label: 'Press / "As Seen In" strip',
+            description:
+              'Global trust strip shared across the home and featured-in pages.',
+          }
+        ),
+      },
+    }),
     home: singleton({
       label: 'Home',
       path: 'src/content/home/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+        seo_description: fields.text({
+          label: 'SEO description',
+          multiline: true,
+        }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -43,6 +267,32 @@ export default config({
               publicPath: '/images/home/',
             }),
             image_alt: fields.text({ label: 'Hero image alt text' }),
+            meta: fields.array(
+              fields.object({
+                value: fields.text({ label: 'Value (e.g. 250k+)' }),
+                label: fields.text({
+                  label: 'Label',
+                  description: 'Put each line on its own line for a manual break.',
+                  multiline: true,
+                }),
+              }),
+              {
+                label: 'Hero proof stats',
+                itemLabel: (props) => props.fields.value.value || 'Stat',
+              }
+            ),
+            photo_stat: fields.object(
+              {
+                value: fields.text({ label: 'Value (e.g. 4.9)' }),
+                suffix: fields.text({ label: 'Suffix (e.g. /5)' }),
+                label: fields.text({
+                  label: 'Label',
+                  description: 'Put each line on its own line for a manual break.',
+                  multiline: true,
+                }),
+              },
+              { label: 'Hero photo stat badge' }
+            ),
           },
           { label: 'Hero' }
         ),
@@ -67,10 +317,214 @@ export default config({
           },
           { label: 'Tertiary CTA (text link)' }
         ),
-        // The hero meta stats (250k+, #1) and the photo rating stat are still
-        // hardcoded in src/pages/index.astro for now. The "as seen in" logos
-        // render from <TrustAsSeenIn /> and the testimonials carousel from the
-        // shared `testimonials` collection (CLI-118), not from this singleton.
+        // "Four ways into the work" cards below the hero. Only the heading and
+        // blurb of each card are editable; the four columns, their order,
+        // numbering (01–04), links, and styling are fixed in code
+        // (src/pages/index.astro). Modelled as four named objects rather than an
+        // array so an editor cannot add, remove, or reorder columns (CLI-153).
+        four_ways: fields.object(
+          {
+            eyebrow: fields.text({
+              label: 'Section eyebrow',
+              defaultValue: 'How I can help',
+            }),
+            heading: fields.text({
+              label: 'Section heading (plain start)',
+              defaultValue: 'Four ways into the',
+            }),
+            heading_accent: fields.text({
+              label: 'Section heading accent (shown italic)',
+              defaultValue: 'work.',
+            }),
+            column_1: fields.object(
+              {
+                heading: fields.text({
+                  label: 'Heading',
+                  defaultValue: 'Speaking',
+                }),
+                blurb: fields.text({
+                  label: 'Blurb',
+                  multiline: true,
+                  defaultValue:
+                    'Keynotes built around what your team actually needs to hear.',
+                }),
+              },
+              { label: 'Column 1' }
+            ),
+            column_2: fields.object(
+              {
+                heading: fields.text({
+                  label: 'Heading',
+                  description:
+                    'Keep the ® symbol. "Unforgettable Presence®" is a registered trademark and the ® must be preserved.',
+                  defaultValue: 'Unforgettable Presence®',
+                }),
+                blurb: fields.text({
+                  label: 'Blurb',
+                  multiline: true,
+                  defaultValue: 'The book leadership programs already assign.',
+                }),
+              },
+              { label: 'Column 2' }
+            ),
+            column_3: fields.object(
+              {
+                heading: fields.text({
+                  label: 'Heading',
+                  defaultValue: 'Courses',
+                }),
+                blurb: fields.text({
+                  label: 'Blurb',
+                  multiline: true,
+                  defaultValue:
+                    'On-demand training. 250,000+ students on LinkedIn Learning.',
+                }),
+              },
+              { label: 'Column 3' }
+            ),
+            column_4: fields.object(
+              {
+                heading: fields.text({
+                  label: 'Heading',
+                  defaultValue: 'Custom programs',
+                }),
+                blurb: fields.text({
+                  label: 'Blurb',
+                  multiline: true,
+                  defaultValue:
+                    'Cohort intensives for managers and high-potentials.',
+                }),
+              },
+              { label: 'Column 4' }
+            ),
+          },
+          {
+            label: 'Four ways into the work',
+            description:
+              'The four cards below the hero. Headings and blurbs are editable; the number of columns, their order, numbering, links, and styling stay fixed in code.',
+          }
+        ),
+        // The "as seen in" logos render from <TrustAsSeenIn /> and the
+        // testimonials carousel from the shared `testimonials` collection
+        // (CLI-118); only the testimonials heading copy lives here.
+        banner: fields.object(
+          {
+            enabled: fields.checkbox({
+              label: 'Show announcement banner',
+              defaultValue: true,
+            }),
+            prefix: fields.text({
+              label: 'Prefix (hidden on mobile, e.g. "From")',
+            }),
+            strong: fields.text({ label: 'Bold text' }),
+            text: fields.text({ label: 'Text' }),
+            href: fields.text({
+              label: 'Link',
+              description: 'Use #course to jump to the on-page free-course section.',
+            }),
+          },
+          { label: 'Announcement banner' }
+        ),
+        free_course: fields.object(
+          {
+            eyebrow_pill: fields.text({
+              label: 'Eyebrow pill',
+              defaultValue: 'Free',
+            }),
+            eyebrow_label: fields.text({
+              label: 'Eyebrow label',
+              defaultValue: '5-Day Email Course',
+            }),
+            headline: fields.text({ label: 'Headline (plain start)' }),
+            headline_accent: fields.text({
+              label: 'Headline accent (shown italic)',
+            }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            bullets: fields.array(fields.text({ label: 'Bullet' }), {
+              label: 'Course-day bullets',
+              itemLabel: (props) => props.value || 'Bullet',
+            }),
+            form_eyebrow: fields.text({
+              label: 'Form eyebrow',
+              defaultValue: 'Start tomorrow',
+            }),
+            form_title: fields.text({ label: 'Form title (plain)' }),
+            form_title_accent: fields.text({
+              label: 'Form title accent (shown italic)',
+            }),
+            form_title_tail: fields.text({
+              label: 'Form title tail (plain, after the accent)',
+            }),
+            form_email_label: fields.text({
+              label: 'Form email label',
+              defaultValue: 'Email address',
+            }),
+            form_email_placeholder: fields.text({
+              label: 'Form email placeholder',
+              defaultValue: 'you@company.com',
+            }),
+            form_button_label: fields.text({
+              label: 'Form button label',
+              defaultValue: 'Send me Day 1',
+            }),
+            form_fineprint: fields.text({
+              label: 'Form fineprint',
+              defaultValue: 'No spam. Unsubscribe in one click.',
+            }),
+          },
+          {
+            label: 'Free course section',
+            description:
+              'The Kit form action URL is hard-wired in code so copy edits cannot break email capture.',
+          }
+        ),
+        course_popup: fields.object(
+          {
+            eyebrow: fields.text({
+              label: 'Eyebrow',
+              defaultValue: 'Free 5-Day Course',
+            }),
+            title: fields.text({ label: 'Title' }),
+            subhead: fields.text({ label: 'Subhead', multiline: true }),
+            points: fields.array(fields.text({ label: 'Point' }), {
+              label: 'Points',
+              itemLabel: (props) => props.value || 'Point',
+            }),
+            cta_label: fields.text({
+              label: 'CTA label',
+              defaultValue: 'Start the free course',
+            }),
+            cta_url: fields.text({
+              label: 'CTA URL',
+              description:
+                'Where the popup button points. Keep the UTM parameters if you want the click tracked.',
+            }),
+            dismiss_label: fields.text({
+              label: 'Dismiss label',
+              defaultValue: 'Not now',
+            }),
+            meta: fields.text({
+              label: 'Meta line',
+              defaultValue: 'Five short emails. Free.',
+            }),
+          },
+          {
+            label: 'Free course popup',
+            description:
+              'The scroll/time triggers that decide when the popup appears stay in code.',
+          }
+        ),
+        testimonials_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+          },
+          { label: 'Testimonials section heading' }
+        ),
       },
     }),
     about: singleton({
@@ -78,6 +532,8 @@ export default config({
       path: 'src/content/about/',
       format: { contentField: 'body' },
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -221,6 +677,46 @@ export default config({
       label: 'Speaking',
       path: 'src/content/speaking/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
+        card_cta_label: fields.text({
+          label: 'Talk card CTA label',
+          description:
+            'Shared "book this talk" button label used on the keynote/talk cards and on individual keynote pages',
+          defaultValue: 'Book this talk',
+        }),
+        card_cta_url: fields.text({
+          label: 'Talk card CTA URL',
+          description: 'Where the talk card / keynote-page CTA links (default /contact)',
+          defaultValue: '/contact',
+        }),
+        takeaways_label: fields.text({
+          label: 'Takeaways panel label',
+          description:
+            'Heading above the takeaways list in talk cards and keynote pages',
+          defaultValue: 'What the audience walks away with',
+        }),
+        talk_track_label: fields.text({
+          label: 'Talk track heading',
+          description: 'Heading above the talk-track agenda on keynote pages',
+          defaultValue: 'Talk track',
+        }),
+        detail_back_label: fields.text({
+          label: 'Keynote detail: back-link label',
+          description: 'Top "all keynotes" link on an individual keynote page.',
+          defaultValue: 'All keynotes',
+        }),
+        detail_back_url: fields.text({
+          label: 'Keynote detail: back-link URL',
+          description:
+            'Route the "all keynotes" links point to (default /keynotes).',
+          defaultValue: '/keynotes',
+        }),
+        detail_more_label: fields.text({
+          label: 'Keynote detail: "see other keynotes" link',
+          defaultValue: 'See other keynotes',
+        }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -483,6 +979,19 @@ export default config({
               label: 'Heading accent (shown italic)',
             }),
             lead: fields.text({ label: 'Lead', multiline: true }),
+            linkedin_cta_label: fields.text({
+              label: 'LinkedIn testimonials CTA label',
+              description:
+                'Button under the organizer testimonials, e.g. "View 250+ glowing testimonials on LinkedIn".',
+              defaultValue: 'View 250+ glowing testimonials on LinkedIn',
+            }),
+            linkedin_cta_url: fields.text({
+              label: 'LinkedIn testimonials CTA URL',
+              description:
+                'Where the LinkedIn testimonials button points (the LinkedIn recommendations page).',
+              defaultValue:
+                'https://www.linkedin.com/in/lorraineklee/details/recommendations/',
+            }),
           },
           { label: 'Testimonials section heading' }
         ),
@@ -605,6 +1114,9 @@ export default config({
       path: 'src/content/speaker-bio/',
       format: { contentField: 'body' },
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -613,6 +1125,22 @@ export default config({
               label: 'Headline accent (shown italic)',
             }),
             lead: fields.text({ label: 'Lead paragraph', multiline: true }),
+            primary_cta_label: fields.text({
+              label: 'Primary CTA label',
+              defaultValue: 'Book Lorraine',
+            }),
+            primary_cta_url: fields.text({
+              label: 'Primary CTA URL',
+              defaultValue: '/contact',
+            }),
+            secondary_cta_label: fields.text({
+              label: 'Secondary CTA label',
+              defaultValue: 'Back to speaking',
+            }),
+            secondary_cta_url: fields.text({
+              label: 'Secondary CTA URL',
+              defaultValue: '/speaking',
+            }),
             headshot: fields.image({
               label: 'Headshot',
               directory: 'public/images/speaker-bio',
@@ -666,6 +1194,15 @@ export default config({
       label: 'Media Kit',
       path: 'src/content/media-kit/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
+        og_image: fields.image({
+          label: 'Social share image (Open Graph)',
+          description:
+            'Link/social preview image for this page. Leave empty to use the sitewide default.',
+          directory: 'public/images/media-kit',
+          publicPath: '/images/media-kit/',
+        }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -860,6 +1397,14 @@ export default config({
           label: 'Page title',
           defaultValue: 'Privacy Policy',
         }),
+        eyebrow: fields.text({
+          label: 'Hero eyebrow',
+          defaultValue: 'Legal',
+        }),
+        effective_date_label: fields.text({
+          label: 'Effective date label',
+          defaultValue: 'Effective Date:',
+        }),
         effective_date: fields.text({
           label: 'Effective date',
           defaultValue: 'January 1, 2026',
@@ -882,6 +1427,10 @@ export default config({
           label: 'Page title',
           defaultValue: 'Terms and Conditions',
         }),
+        eyebrow: fields.text({
+          label: 'Hero eyebrow',
+          defaultValue: 'Legal',
+        }),
         effective_date: fields.text({
           label: 'Effective date',
           defaultValue: 'January 1, 2026',
@@ -899,6 +1448,9 @@ export default config({
       label: 'Learn',
       path: 'src/content/learn/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -907,6 +1459,32 @@ export default config({
               label: 'Headline accent (shown italic)',
             }),
             lead: fields.text({ label: 'Lead paragraph', multiline: true }),
+            trust_count: fields.text({
+              label: 'Hero trust-line count',
+              description:
+                'The bolded count in "Join 12,000+ leaders learning with Lorraine."',
+              defaultValue: '12,000+',
+            }),
+            cta_primary_label: fields.text({
+              label: 'Hero primary CTA label',
+              description: 'Primary hero button (links to the #course anchor).',
+              defaultValue: 'Start the free course',
+            }),
+            cta_secondary_label: fields.text({
+              label: 'Hero secondary CTA label',
+              description: 'Secondary hero button (links to the #courses anchor).',
+              defaultValue: 'Browse courses',
+            }),
+            trust_prefix: fields.text({
+              label: 'Hero trust-line prefix',
+              description: 'Text before the bolded count, e.g. "Join".',
+              defaultValue: 'Join',
+            }),
+            trust_suffix: fields.text({
+              label: 'Hero trust-line suffix',
+              description: 'Text after the bolded count, e.g. "leaders learning with Lorraine.".',
+              defaultValue: 'leaders learning with Lorraine.',
+            }),
           },
           { label: 'Hero' }
         ),
@@ -986,8 +1564,70 @@ export default config({
               description:
                 'Where the all-courses button points. Update to the dedicated LinkedIn courses page (CLI-87) once it ships.',
             }),
+            count_caption_suffix: fields.text({
+              label: 'Course count caption suffix',
+              description: 'Text after the course count, e.g. "on-demand courses and counting.".',
+              defaultValue: 'on-demand courses and counting.',
+            }),
           },
           { label: 'LinkedIn Learning courses section heading' }
+        ),
+        hero_bento: fields.object(
+          {
+            feature_pill: fields.text({
+              label: 'Feature card pill',
+              defaultValue: 'Free · 5-day course',
+            }),
+            feature_title: fields.text({
+              label: 'Feature card title (plain)',
+              defaultValue: 'From',
+            }),
+            feature_title_accent: fields.text({
+              label: 'Feature card title accent (italic)',
+              defaultValue: 'Invisible',
+            }),
+            feature_title_suffix: fields.text({
+              label: 'Feature card title suffix (after the italic word)',
+              description: 'Trailing plain text after the italic accent, e.g. " to Influential". Keep the leading space.',
+              defaultValue: ' to Influential',
+            }),
+            feature_desc: fields.text({
+              label: 'Feature card description',
+              multiline: true,
+              defaultValue:
+                'A free 5-day email course that helps you articulate your value and get visible to decision-makers.',
+            }),
+            feature_cta_label: fields.text({
+              label: 'Feature card CTA label',
+              defaultValue: 'Start the course',
+            }),
+            feature_image_alt: fields.text({
+              label: 'Feature card image alt text',
+              defaultValue: 'Lorraine K. Lee working at her laptop',
+            }),
+            stat_num: fields.text({
+              label: 'Stat card number',
+              defaultValue: '250K',
+            }),
+            stat_suffix: fields.text({
+              label: 'Stat card number suffix',
+              defaultValue: '+',
+            }),
+            stat_label: fields.text({
+              label: 'Stat card label',
+              defaultValue: 'Students taught on LinkedIn Learning',
+            }),
+            browse_card_cta_label: fields.text({
+              label: 'Browse-all card CTA label',
+              defaultValue: 'Browse all',
+            }),
+            resource_eyebrow: fields.text({
+              label: 'Resource card eyebrow',
+              description: 'Eyebrow shown on each LinkedIn resource bento card.',
+              defaultValue: 'Free resource',
+            }),
+          },
+          { label: 'Hero bento cards' }
         ),
         // The course grid renders from the shared `courses` collection
         // (reader.collections.courses) so the Learn grid and the /courses hub
@@ -1043,6 +1683,13 @@ export default config({
       schema: {
         title: fields.text({ label: 'Book title' }),
         subtitle: fields.text({ label: 'Subtitle' }),
+        og_image: fields.image({
+          label: 'Social share image (Open Graph)',
+          description:
+            'Link/social preview image for this page. Leave empty to use the sitewide default.',
+          directory: 'public/images/book',
+          publicPath: '/images/book/',
+        }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -1201,6 +1848,9 @@ export default config({
               label: 'Count label (e.g. "161 global ratings")',
             }),
             url: fields.url({ label: 'Amazon product URL' }),
+            link_label: fields.text({
+              label: 'Amazon link label (e.g. "See all on Amazon"; arrow added automatically)',
+            }),
           },
           { label: 'Amazon rating snapshot' }
         ),
@@ -1333,6 +1983,8 @@ export default config({
       label: 'Courses Page',
       path: 'src/content/courses-page/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         hero: fields.object(
           {
             eyebrow: fields.text({
@@ -1359,6 +2011,12 @@ export default config({
               publicPath: '/images/v1/courses/',
             }),
             image_alt: fields.text({ label: 'Hero photo alt text' }),
+            credential_pill: fields.text({
+              label: 'Credential pill',
+              description:
+                'Small pill over the hero photo, e.g. "Top-rated LinkedIn Learning instructor".',
+              defaultValue: 'Top-rated LinkedIn Learning instructor',
+            }),
           },
           { label: 'Hero' }
         ),
@@ -1393,6 +2051,32 @@ export default config({
             }),
           },
           { label: 'Rating / social proof' }
+        ),
+        filter_bar: fields.object(
+          {
+            eyebrow: fields.text({
+              label: 'Eyebrow',
+              defaultValue: 'Find the right course',
+            }),
+            heading: fields.text({
+              label: 'Heading',
+              defaultValue: 'Which course is right for you?',
+            }),
+          },
+          { label: 'Category filter bar labels' }
+        ),
+        category_order: fields.array(
+          fields.select({
+            label: 'Category',
+            options: COURSE_CATEGORY_OPTIONS,
+            defaultValue: 'Communication',
+          }),
+          {
+            label: 'Category order',
+            description:
+              'Order of the category filter pills and grouped grid. List each course category once, in display order. Values must match the categories on the LinkedIn Courses entries; any category left off is appended in the default order rather than hidden. Leave empty to use the default order.',
+            itemLabel: (props) => props.value || 'Category',
+          }
         ),
         why_section: fields.object(
           {
@@ -1434,12 +2118,108 @@ export default config({
           },
           { label: 'Final CTA (free course)' }
         ),
+
+        labels: fields.object(
+          {
+            explore_courses: fields.text({
+              label: 'Hero "explore courses" button',
+              defaultValue: 'Explore courses',
+            }),
+            featured_badge: fields.text({
+              label: 'Featured course badge',
+              defaultValue: "Lorraine's pick · Start here",
+            }),
+            free_with_linkedin: fields.text({
+              label: 'Featured "free with LinkedIn Learning" tag',
+              defaultValue: 'Free with LinkedIn Learning',
+            }),
+            start_this_course: fields.text({
+              label: 'Featured "start this course" button',
+              defaultValue: 'Start this course',
+            }),
+            see_whats_inside: fields.text({
+              label: 'Featured "see what\'s inside" button',
+              defaultValue: "See what's inside",
+            }),
+            all_courses_filter: fields.text({
+              label: '"All courses" filter pill',
+              defaultValue: 'All courses',
+            }),
+            view_on_linkedin: fields.text({
+              label: 'Grid "view on LinkedIn Learning" link',
+              defaultValue: 'View on LinkedIn Learning',
+            }),
+            view_course: fields.text({
+              label: 'Course card "view course" link',
+              defaultValue: 'View course',
+            }),
+            empty_state: fields.text({
+              label: 'Empty category message',
+              defaultValue:
+                'No courses in this category yet. New ones are added regularly.',
+              multiline: true,
+            }),
+            see_all_courses: fields.text({
+              label: 'Final CTA "see all courses" button',
+              defaultValue: 'See all courses on LinkedIn Learning',
+            }),
+            detail_format_prefix: fields.text({
+              label: 'Course detail: format prefix',
+              description:
+                'Shown before the category on an individual course page, e.g. "LinkedIn Learning · Communication".',
+              defaultValue: 'LinkedIn Learning',
+            }),
+            detail_watch_cta: fields.text({
+              label: 'Course detail: watch CTA',
+              defaultValue: 'Watch on LinkedIn Learning',
+            }),
+            detail_trust_line: fields.text({
+              label: 'Course detail: trust line',
+              defaultValue:
+                'Free to watch with a LinkedIn Learning subscription.',
+            }),
+            detail_back_label: fields.text({
+              label: 'Course detail: back-link label',
+              description: 'Top "all courses" link on an individual course page.',
+              defaultValue: 'All courses',
+            }),
+            detail_back_url: fields.text({
+              label: 'Course detail: back-link URL',
+              description:
+                'Route the "all courses" links point to (default /courses).',
+              defaultValue: '/courses',
+            }),
+            detail_more_label: fields.text({
+              label: 'Course detail: "see other courses" link',
+              defaultValue: 'See other courses',
+            }),
+            grid_count_all: fields.text({
+              label: 'Grid count caption: all categories',
+              description:
+                'Caption after the live course count when no filter is active.',
+              defaultValue: 'courses · all categories',
+            }),
+            grid_count_filtered_prefix: fields.text({
+              label: 'Grid count caption: filtered (prefix)',
+              description:
+                'Caption after the live count when a category is selected. The category name is appended in italics.',
+              defaultValue: 'courses in ',
+            }),
+          },
+          {
+            label: 'Button & meta labels',
+            description:
+              'Reusable button, tag, and meta strings across the courses hub and individual course pages.',
+          }
+        ),
       },
     }),
     interviewsPage: singleton({
       label: 'Interviews Page',
       path: 'src/content/interviews-page/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         hero: fields.object(
           {
             eyebrow: fields.text({
@@ -1455,6 +2235,33 @@ export default config({
             cta_url: fields.text({ label: 'Primary CTA URL' }),
           },
           { label: 'Hero' }
+        ),
+        labels: fields.object(
+          {
+            browse_interviews: fields.text({
+              label: 'Hero "browse interviews" link label',
+              defaultValue: 'Browse interviews',
+            }),
+            watch_interview: fields.text({
+              label: 'Featured card "watch the interview" label',
+              description:
+                'Shown on a featured interview that links off YouTube (no embed).',
+              defaultValue: 'Watch the interview',
+            }),
+            watch_here: fields.text({
+              label: 'Guest card "watch it here" link label',
+              defaultValue: 'Watch it here',
+            }),
+            video_coming_soon: fields.text({
+              label: 'Featured card "video coming soon" placeholder',
+              defaultValue: 'Video coming soon',
+            }),
+          },
+          {
+            label: 'UI labels',
+            description:
+              'Small reusable button / link microcopy used across the interviews page.',
+          }
         ),
         featured_section: fields.object(
           {
@@ -1555,6 +2362,9 @@ export default config({
       label: 'Contact',
       path: 'src/content/contact/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         eyebrow: fields.text({ label: 'Eyebrow', defaultValue: 'Contact' }),
         headline: fields.text({ label: 'Headline' }),
         headline_accent: fields.text({
@@ -1562,6 +2372,18 @@ export default config({
           description: 'The italicised end of the headline, e.g. "touch."',
         }),
         lead: fields.text({ label: 'Lead paragraph', multiline: true }),
+        brand_deals_label: fields.text({
+          label: 'Brand deals row label',
+          defaultValue: 'Brand deals and partnerships',
+        }),
+        press_label: fields.text({
+          label: 'Press row label',
+          defaultValue: 'Press',
+        }),
+        follow_label: fields.text({
+          label: 'Social links heading',
+          defaultValue: 'Follow along',
+        }),
         press_email: fields.text({ label: 'Press email' }),
         brand_deals_email: fields.text({
           label: 'Brand deals and partnerships email',
@@ -1591,6 +2413,8 @@ export default config({
       // break email capture. Leave it empty to render a clearly-labeled
       // placeholder until the production form ID is supplied.
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         eyebrow: fields.text({
           label: 'Eyebrow',
           defaultValue: 'Weekly Newsletter',
@@ -1632,6 +2456,9 @@ export default config({
       label: 'Consulting',
       path: 'src/content/consulting/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -1742,6 +2569,18 @@ export default config({
           label: 'SEO description',
           multiline: true,
         }),
+
+        thankyou_seo_title: fields.text({
+          label: 'Thank-you page SEO title',
+          description:
+            'Title for the funnel confirmation page (/from-invisible-to-influential-thank-you). Separate from the landing-page SEO title above so the two do not collide.',
+        }),
+        thankyou_seo_description: fields.text({
+          label: 'Thank-you page SEO description',
+          description:
+            'Meta description for the funnel confirmation page, separate from the landing-page SEO description above.',
+          multiline: true,
+        }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -1776,6 +2615,30 @@ export default config({
               label: 'Top form button label',
               defaultValue: 'Send Me the Course',
             }),
+            stat_value: fields.text({
+              label: 'Hero stat value (e.g. "250k+")',
+              defaultValue: '250k+',
+            }),
+            stat_label: fields.text({
+              label: 'Hero stat label (one line per row)',
+              multiline: true,
+            }),
+            opt_in_eyebrow: fields.text({
+              label: 'Opt-in band eyebrow',
+              defaultValue: 'Free 5-day email course',
+            }),
+            opt_in_title: fields.text({
+              label: 'Opt-in band title (plain part)',
+              defaultValue: 'Send me Day 1,',
+            }),
+            opt_in_title_accent: fields.text({
+              label: 'Opt-in band title accent (shown highlighted/italic)',
+              defaultValue: 'free.',
+            }),
+            fineprint: fields.text({
+              label: 'Opt-in fineprint',
+              defaultValue: 'No spam. Unsubscribe anytime.',
+            }),
           },
           { label: 'Hero' }
         ),
@@ -1795,7 +2658,22 @@ export default config({
         roadmap: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
-            heading: fields.text({ label: 'Heading' }),
+            heading_lead: fields.text({
+              label: 'Heading (plain lead-in)',
+            }),
+            heading_accent: fields.text({
+              label: 'Heading accent (shown italic)',
+            }),
+            learn_label: fields.text({
+              label: 'Day-card "You\'ll learn" label',
+              defaultValue: "You'll learn :",
+            }),
+            image: fields.image({
+              label: 'Roadmap cut-out photo',
+              directory: 'public/images/free-course',
+              publicPath: '/images/free-course/',
+            }),
+            image_alt: fields.text({ label: 'Roadmap photo alt text' }),
           },
           { label: '5-day roadmap heading' }
         ),
@@ -1874,6 +2752,18 @@ export default config({
               label: 'Supporting lede paragraph',
               multiline: true,
             }),
+            opt_in_eyebrow: fields.text({
+              label: 'Opt-in eyebrow',
+              defaultValue: 'Start day 1 today',
+            }),
+            opt_in_title: fields.text({
+              label: 'Opt-in title',
+              defaultValue: 'Where should I send the course?',
+            }),
+            fineprint: fields.text({
+              label: 'Opt-in fineprint',
+              defaultValue: 'No spam. Unsubscribe anytime.',
+            }),
             form_button_label: fields.text({
               label: 'Bottom form button label',
               defaultValue: "Let's Do This",
@@ -1900,10 +2790,72 @@ export default config({
         ),
       },
     }),
+    testimonialsPage: singleton({
+      label: 'Testimonials Page',
+      path: 'src/content/testimonials-page/',
+      schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+        seo_description: fields.text({
+          label: 'SEO description',
+          multiline: true,
+        }),
+        section_headings: fields.object(
+          {
+            clients: fields.object(
+              {
+                eyebrow: fields.text({
+                  label: 'Eyebrow',
+                  defaultValue: 'Clients & organizers',
+                }),
+                heading: fields.text({
+                  label: 'Heading',
+                  defaultValue: 'What event hosts say',
+                }),
+              },
+              { label: 'Clients & organizers group' }
+            ),
+            attendees: fields.object(
+              {
+                eyebrow: fields.text({
+                  label: 'Eyebrow',
+                  defaultValue: 'Attendees',
+                }),
+                heading: fields.text({
+                  label: 'Heading',
+                  defaultValue: 'What audiences say',
+                }),
+              },
+              { label: 'Event attendees group' }
+            ),
+            students: fields.object(
+              {
+                eyebrow: fields.text({
+                  label: 'Eyebrow',
+                  defaultValue: 'LinkedIn Learning',
+                }),
+                heading: fields.text({
+                  label: 'Heading',
+                  defaultValue: 'What students say',
+                }),
+              },
+              { label: 'Course students group' }
+            ),
+          },
+          {
+            label: 'Section headings',
+            description:
+              'Eyebrow + heading for each testimonial group on the Testimonials page.',
+          }
+        ),
+      },
+    }),
     coaching: singleton({
       label: 'Coaching',
       path: 'src/content/coaching/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -1964,6 +2916,9 @@ export default config({
               label: 'Heading accent (shown italic)',
             }),
             lead: fields.text({ label: 'Lead', multiline: true }),
+            featured_badge_label: fields.text({
+              label: 'Featured tier badge label (e.g. "Most popular")',
+            }),
           },
           { label: 'Coaching tiers section heading' }
         ),
@@ -2065,6 +3020,9 @@ export default config({
       label: 'Featured In',
       path: 'src/content/featured-in/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -2108,6 +3066,11 @@ export default config({
               label: 'Heading accent (shown italic)',
             }),
             lead: fields.text({ label: 'Lead', multiline: true }),
+            empty_state: fields.text({
+              label: 'Empty filter state',
+              description:
+                'Shown when a filter pill matches no appearances in the grid.',
+            }),
           },
           {
             label: 'All appearances section heading',
@@ -2128,12 +3091,42 @@ export default config({
           },
           { label: 'Final CTA' }
         ),
+        cta_label_defaults: fields.array(
+          fields.object({
+            type: fields.select({
+              label: 'Appearance type',
+              options: APPEARANCE_TYPE_OPTIONS,
+              defaultValue: 'Article',
+            }),
+            label: fields.text({ label: 'Default CTA label' }),
+          }),
+          {
+            label: 'Default CTA labels by type',
+            description:
+              'Default "read / listen / watch" CTA label per appearance type. Overrides the built-in defaults; an individual appearance can still override its own via its "CTA label" field. Types without an entry keep the built-in default.',
+            itemLabel: (props) =>
+              `${props.fields.type.value || 'Type'} → ${props.fields.label.value || ''}`,
+          }
+        ),
       },
     }),
     thoughtLeadership: singleton({
       label: 'Thought Leadership',
       path: 'src/content/thought-leadership/',
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+
+        seo_description: fields.text({
+          label: 'SEO description (Thought Leadership page)',
+          multiline: true,
+        }),
+        articles_seo_title: fields.text({
+          label: 'SEO title (Authored Articles page)',
+        }),
+        articles_seo_description: fields.text({
+          label: 'SEO description (Authored Articles page)',
+          multiline: true,
+        }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -2487,12 +3480,7 @@ export default config({
           label: 'Category',
           description:
             'Section the course is grouped under on the /courses page (mirrors the old WordPress hub).',
-          options: [
-            { label: 'Communication', value: 'Communication' },
-            { label: 'Leadership', value: 'Leadership' },
-            { label: 'Management', value: 'Management' },
-            { label: 'Career', value: 'Career' },
-          ],
+          options: COURSE_CATEGORY_OPTIONS,
           defaultValue: 'Communication',
         }),
         order: fields.integer({
@@ -2669,18 +3657,7 @@ export default config({
         appearance_type: fields.select({
           label: 'Appearance type',
           description: 'Drives the card chip and the default CTA label.',
-          options: [
-            { label: 'Article', value: 'Article' },
-            { label: 'Podcast', value: 'Podcast' },
-            { label: 'Video', value: 'Video' },
-            { label: 'Interview', value: 'Interview' },
-            { label: 'Book', value: 'Book' },
-            { label: 'Report', value: 'Report' },
-            { label: 'Resource', value: 'Resource' },
-            { label: 'Award', value: 'Award' },
-            { label: 'Event', value: 'Event' },
-            { label: 'Newsletter', value: 'Newsletter' },
-          ],
+          options: APPEARANCE_TYPE_OPTIONS,
           defaultValue: 'Article',
         }),
         date: fields.text({
