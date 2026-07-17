@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test:e2e": "momentic run"
+    "test:e2e": "momentic run",
+    "validate:content": "node --experimental-strip-types scripts/validate-keystatic-images.mjs"
   },
   "dependencies": {
     "@astrojs/markdoc": "^1.0.5",

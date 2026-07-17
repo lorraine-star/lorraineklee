@@ -8,14 +8,14 @@ brand_deals_label: Brand deals and partnerships
 press_label: Press
 follow_label: Follow along
 press_email: press@lorraineklee.com
-brand_deals_email: meagan@lorraineklee.com
+brand_deals_email: team@lorraineklee.com
 typeform_id: PJJPZ9iJ
 social_links:
   - platform: LinkedIn
-    url: 'https://linkedin.com/in/lorraineklee'
+    url: https://linkedin.com/in/lorraineklee
   - platform: Instagram
-    url: 'https://instagram.com'
+    url: https://instagram.com
   - platform: YouTube
-    url: 'https://youtube.com'
+    url: https://youtube.com
   - platform: X
-    url: 'https://x.com'
+    url: https://x.com

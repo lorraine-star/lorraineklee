@@ -1,0 +1,30 @@
+name: Validate content
+
+# Guards against the Keystatic save-blocking bug (CLI-165): an image/file field
+# whose stored value drifts outside its managed folder, or points at a missing
+# file, makes every Keystatic save of that page fail with
+# "a path was requested for deletion which does not exist".
+#
+# Runs on pushes to main (where Keystatic Cloud commits content directly) and on
+# pull requests, so a bad asset path is caught before it can block editing.
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  keystatic-images:
+    name: Keystatic image/file paths
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      # Only production deps are needed (the validator imports @keystatic/core);
+      # skipping devDependencies keeps the run fast.
+      - run: npm ci --omit=dev
+      - run: npm run validate:content
