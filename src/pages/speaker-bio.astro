@@ -32,10 +32,10 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 				<h1>{hero.headline} <em>{hero.headline_accent}</em></h1>
 				<p class="lead-large">{hero.lead}</p>
 				<div class="hero-cta-row">
-					<a class="btn primary large" href={safeUrl(hero.primary_cta_url) || '/contact'}>
+					<a class="btn primary large" href={safeUrl(hero.primary_cta_url, '/contact')}>
 						{hero.primary_cta_label || 'Book Lorraine'} <span aria-hidden="true">&rarr;</span>
 					</a>
-					<a class="btn outline" href={safeUrl(hero.secondary_cta_url) || '/speaking'}>
+					<a class="btn outline" href={safeUrl(hero.secondary_cta_url, '/speaking')}>
 						{hero.secondary_cta_label || 'Back to speaking'}
 					</a>
 				</div>

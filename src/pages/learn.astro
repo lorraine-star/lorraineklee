@@ -51,7 +51,7 @@ const countFor = (cat: string) =>
 
 // Prefer the external LinkedIn Learning URL, fall back to the on-site detail page.
 const courseHref = (c: { url?: string | null; slug: string }) =>
-	safeUrl(c.url) || `/courses/${c.slug}`;
+	safeUrl(c.url, `/courses/${c.slug}`);
 ---
 
 <SpeakingLayout
@@ -143,7 +143,7 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 				</a>
 				{
 					linkedin_resources?.map((r, i) => {
-						const url = safeUrl(r.url) || '/contact';
+						const url = safeUrl(r.url, '/contact');
 						const external = isExternal(url);
 						return (
 							<a

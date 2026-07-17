@@ -16,7 +16,7 @@ const courseUrl = safeUrl(course.url);
 
 const coursesPage = await reader.singletons.coursesPage.read();
 const labels = coursesPage?.labels;
-const backUrl = safeUrl(labels?.detail_back_url) || '/courses';
+const backUrl = safeUrl(labels?.detail_back_url, '/courses');
 ---
 
 <SpeakingLayout

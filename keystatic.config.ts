@@ -2658,7 +2658,6 @@ export default config({
         roadmap: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
-            heading: fields.text({ label: 'Heading' }),
             heading_lead: fields.text({
               label: 'Heading (plain lead-in)',
             }),

@@ -63,6 +63,14 @@ const heroMeta =
       ];
 const photoStat = hero?.photo_stat;
 
+// "Four ways" title. Gate the italic accent fallback on whether the heading was
+// customized, so clearing the accent on a custom heading can't re-inject the old
+// default "work."; only emit <em> when the accent is non-empty (CLI-166 review).
+const fourWaysHeading = four_ways?.heading || 'Four ways into the';
+const fourWaysAccent = four_ways?.heading
+  ? (four_ways?.heading_accent ?? '')
+  : (four_ways?.heading_accent || 'work.');
+
 // "Four ways into the work" cards. Heading and blurbs are editable via the home
 // singleton (CLI-153); the number of cards, their order, numbering, and links
 // stay fixed here. Fall back to the original copy if a field is left blank.
@@ -151,8 +159,9 @@ const courseHref =
                     <div>
                       <div class="num">{stat.value}</div>
                       <div class="lbl">
+                        {/* Italicize the ®-suffixed book title line ("Unforgettable Presence®"), matching how the title is styled site-wide (CLI-166 review). */}
                         {splitLines(stat.label).map((line, j) => (
-                          <Fragment>{j > 0 && <br />}{line}</Fragment>
+                          <Fragment>{j > 0 && <br />}{/®\s*$/.test(line) ? <em>{line}</em> : line}</Fragment>
                         ))}
                       </div>
                     </div>
@@ -192,7 +201,7 @@ const courseHref =
         <div class="grid12">
           <div class="four-ways-head">
             <span class="eyebrow">{four_ways?.eyebrow || 'How I can help'}</span>
-            <h2 class="four-ways-title">{four_ways?.heading || 'Four ways into the'} <em>{four_ways?.heading_accent || 'work.'}</em></h2>
+            <h2 class="four-ways-title">{fourWaysHeading} {fourWaysAccent && <em>{fourWaysAccent}</em>}</h2>
           </div>
           <div class="four-ways-grid">
             {
@@ -230,7 +239,7 @@ const courseHref =
       <Testimonials
         eyebrow={testimonials_section?.eyebrow || undefined}
         titleHtml={testimonials_section?.heading
-          ? `${testimonials_section.heading} <em>${testimonials_section.heading_accent ?? ''}</em>`
+          ? `${testimonials_section.heading}${testimonials_section.heading_accent ? ` <em>${testimonials_section.heading_accent}</em>` : ''}`
           : undefined}
         lead={testimonials_section?.lead || undefined}
       />
