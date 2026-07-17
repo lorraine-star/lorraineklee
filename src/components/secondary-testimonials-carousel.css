@@ -30,7 +30,7 @@
   line-height: 1;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  box-shadow: 0 12px 28px -24px rgba(14, 21, 48, 0.65);
+  box-shadow: 0 12px 28px -24px rgba(73, 75, 81, 0.65);
   cursor: pointer;
   transition:
     background-color 180ms var(--ease-out),
@@ -45,7 +45,7 @@
   border-color: color-mix(in srgb, var(--brand-blue-600) 28%, var(--border-soft));
   background: #fff;
   color: var(--ink-900);
-  box-shadow: 0 16px 34px -26px rgba(14, 21, 48, 0.72);
+  box-shadow: 0 16px 34px -26px rgba(73, 75, 81, 0.72);
 }
 
 .secondary-testimonials-toggle:focus-visible {
