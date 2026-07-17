@@ -445,8 +445,8 @@ past_clients:
 show_stats: true
 stats_section:
   eyebrow: By the numbers
-  heading: The proof that travels
-  heading_accent: with her.
+  heading: Audience
+  heading_accent: feedback
 stats:
   - value: '100'
     decimals: 0
