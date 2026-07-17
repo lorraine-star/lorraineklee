@@ -883,9 +883,9 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   display: block;
 }
 
-/* Stat variant: dark */
+/* Stat variant: brand blue */
 .lh-card--stat {
-  background: var(--ink-900);
+  background: linear-gradient(135deg, var(--brand-blue-400), var(--brand-blue-600));
   border-color: transparent;
   color: var(--paper);
 }
@@ -1360,6 +1360,9 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 /* ----- Story: bio body + aside facts ----- */
 .bio-body {
   grid-column: 2 / span 7;
+}
+.bio-body--centered {
+  grid-column: 3 / -3;
 }
 .bio-body p {
   font-family: var(--font-sans);
@@ -2295,6 +2298,7 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 
 @media (max-width: 1100px) {
   .bio-body { grid-column: 1 / span 7; }
+  .bio-body--centered { grid-column: 2 / -2; }
   .bio-aside { grid-column: 9 / span 4; }
   .reviews-grid { grid-template-columns: repeat(2, 1fr); }
   .credibility-grid { grid-template-columns: repeat(2, 1fr); }

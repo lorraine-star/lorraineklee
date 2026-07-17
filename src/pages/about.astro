@@ -21,6 +21,7 @@ const {
 } = about;
 
 const bodyHtml = await renderMarkdoc(about.body);
+const hasStoryFacts = story_facts.length > 0;
 ---
 
 <SpeakingLayout
@@ -72,17 +73,25 @@ const bodyHtml = await renderMarkdoc(about.body);
 					{story_section.heading} <em>{story_section.heading_accent}</em>
 				</h2>
 			</div>
-			<div class="bio-body reveal" set:html={bodyHtml} />
-			<div class="bio-aside reveal">
-				{
-					story_facts.map((f) => (
-						<div class="aside-item">
-							<div class="aside-k">{f.label}</div>
-							<div class="aside-v">{f.value}</div>
-						</div>
-					))
-				}
-			</div>
+			<div
+				class:list={[
+					'bio-body reveal',
+					{ 'bio-body--centered': !hasStoryFacts },
+				]}
+				set:html={bodyHtml}
+			/>
+			{
+				hasStoryFacts && (
+					<div class="bio-aside reveal">
+						{story_facts.map((f) => (
+							<div class="aside-item">
+								<div class="aside-k">{f.label}</div>
+								<div class="aside-v">{f.value}</div>
+							</div>
+						))}
+					</div>
+				)
+			}
 		</div>
 	</section>
 
