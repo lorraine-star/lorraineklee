@@ -262,6 +262,15 @@
   font-size: 16px;
   line-height: 1.45;
   margin-bottom: 16px;
+  /* Cap very long quotes. The track aligns cards to the start (flex-start) and
+     sizes to the tallest card, so a single outlier quote (e.g. a 1200+ char one)
+     made the whole carousel tall and left dead space under the shorter cards
+     (CLI-169). Clamp on desktop like mobile does below; the full testimonials
+     live on LinkedIn via the section CTA. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 14;
+  overflow: hidden;
 }
 
 @media (max-width: 900px) {
