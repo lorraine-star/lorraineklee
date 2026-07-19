@@ -464,6 +464,8 @@ testimonials_section:
   heading: Event organizers
   heading_accent: rave about Lorraine
   lead: From companies like Zoom, Cisco, Amazon, and more.
+  linkedin_cta_url: >-
+    https://www.linkedin.com/in/lorraineklee/details/recommendations/?detailScreenTabIndex=0
 attendee_testimonials_section:
   eyebrow: From the people in the seats
   heading: And the audience
