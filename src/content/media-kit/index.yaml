@@ -12,13 +12,7 @@ hero:
   headshot_alt: Headshot of Lorraine K. Lee
   stat_value: 200+
   stat_label: keynotes delivered for Cisco, Google, Zoom & more
-quick_facts:
-  - label: Full name
-    value: Lorraine K. Lee
-  - label: Pronouns
-    value: she / her
-  - label: Title
-    value: Keynote Speaker & Bestselling Author, Unforgettable Presence®
+quick_facts: []
 bios_section:
   eyebrow: Approved bios
   heading: Copy-and-paste
