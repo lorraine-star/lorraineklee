@@ -34,8 +34,8 @@ tertiary_cta:
   url: /speaking
 four_ways:
   eyebrow: How I can help
-  heading: Four ways into the
-  heading_accent: work.
+  heading: Four ways we can
+  heading_accent: partner together.
   column_1:
     heading: Speaking
     blurb: Keynotes built around what your team actually needs to hear.
@@ -88,7 +88,8 @@ course_popup:
     - Show up on LinkedIn.
     - Get known by decision-makers.
   cta_label: Start the free course
-  cta_url: /from-invisible-to-influential?utm_source=lorraineklee_site&utm_medium=popup&utm_campaign=from_invisible_to_influential&utm_content=scroll_modal_v1
+  cta_url: >-
+    /from-invisible-to-influential?utm_source=lorraineklee_site&utm_medium=popup&utm_campaign=from_invisible_to_influential&utm_content=scroll_modal_v1
   dismiss_label: Not now
   meta: Five short emails. Free.
 testimonials_section:
