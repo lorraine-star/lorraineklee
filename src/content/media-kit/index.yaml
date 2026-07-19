@@ -2,16 +2,13 @@ hero:
   eyebrow: Press & Media Kit
   headline: Everything you need
   headline_accent: in one place.
-  lead: >-
-    Bios, approved headshots, brand assets, and booking details for event
-    organizers, producers, and press. Need something you don't see here? Email
-    press@lorraineklee.com and Lorraine's team will send it directly.
+  lead: Need something you don't see here? Email team@lorraineklee.com.
   primary_cta_label: Book Lorraine
   primary_cta_url: /contact
   secondary_cta_label: Email press
-  secondary_cta_url: 'mailto:press@lorraineklee.com'
+  secondary_cta_url: mailto:press@lorraineklee.com
   contact_note: 'Press & media: press@lorraineklee.com · Typical lead time 8–14 weeks'
-  headshot: /images/media-kit/lorraine-headshot.png
+  headshot: /images/media-kit/hero/headshot.png
   headshot_alt: Headshot of Lorraine K. Lee
   stat_value: 200+
   stat_label: keynotes delivered for Cisco, Google, Zoom & more
@@ -91,14 +88,12 @@ headshots_section:
   heading: Approved
   heading_accent: headshots.
 headshots:
-  - image: /images/media-kit/lorraine-headshot.png
+  - image: /images/media-kit/headshots/0/image.png
     alt: Lorraine K. Lee, primary headshot
     label: Primary headshot
-    download_url: ''
-  - image: /images/media-kit/lorraine-headshot-alt.png
+  - image: /images/media-kit/headshots/1/image.png
     alt: Lorraine K. Lee, alternate headshot
     label: Alternate headshot
-    download_url: ''
 assets_section:
   eyebrow: Brand assets
   heading: Logos &
@@ -117,7 +112,7 @@ assets:
     format: SVG
     url: '#'
   - label: Book cover — Unforgettable Presence®
-    description: High-resolution cover art for the Amazon #1 bestseller.
+    description: High-resolution cover art for the Amazon
     format: JPG
     url: /book
 topics_section:
