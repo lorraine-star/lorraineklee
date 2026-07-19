@@ -14,8 +14,8 @@ hero:
   photo_stat_value: 100%
   photo_stat_label: learned something new
   meta:
-    - value: 200+
-      label: keynotes delivered since 2018
+    - value: 250+
+      label: glowing testimonials
     - value: 4.9/5
       label: average speaker rating
 reel_section:
