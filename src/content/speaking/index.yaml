@@ -505,14 +505,17 @@ repeats_section:
   heading_accent: book her again.
 repeats:
   - name: LinkedIn
-    multiplier: 6×
-    label: Booked back
+    multiplier: 7×
   - name: Cisco
-    multiplier: 5×
-    label: Booked back
+    multiplier: 7×
   - name: Google
     multiplier: 4×
-    label: Booked back
+  - name: Zoom
+    multiplier: 5x
+  - name: ServiceNow
+    multiplier: 4x
+  - name: Amazon
+    multiplier: 3x
 as_seen_in_eyebrow: As seen in
 as_seen_in:
   - id: inc
