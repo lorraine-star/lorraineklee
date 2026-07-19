@@ -38,16 +38,20 @@ four_ways:
   heading_accent: partner together.
   column_1:
     heading: Speaking
-    blurb: Keynotes built around what your team actually needs to hear.
+    blurb: >-
+      Keynotes and fireside chats that drive action. 100% of attendees learn
+      something new, 98% say they'll take action.
   column_2:
     heading: Unforgettable Presence®
-    blurb: The book leadership programs already assign.
+    blurb: >-
+      The go-to presence book for leaders at Amazon, Boston Scientific, and
+      Fortune 500 organizations.
   column_3:
     heading: Courses
-    blurb: On-demand training. 250,000+ students on LinkedIn Learning.
+    blurb: '250,000+ students trained on LinkedIn Learning. '
   column_4:
     heading: Custom programs
-    blurb: Cohort intensives for managers and high-potentials.
+    blurb: Team training that turns strong contributors into standout leaders.
 banner:
   enabled: true
   prefix: From
