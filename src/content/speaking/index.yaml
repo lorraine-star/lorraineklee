@@ -1,6 +1,3 @@
-detail_back_label: "All keynotes"
-detail_back_url: "/keynotes"
-detail_more_label: "See other keynotes"
 hero:
   eyebrow: Keynotes / Workshops / Custom Programs
   headline: An
@@ -13,15 +10,14 @@ hero:
   secondary_cta_label: View speaker one-pager
   secondary_cta_url: /speaker-sheet
   testimonials_anchor_label: Read testimonials
-  image: /images/speaking/lorraine-hero-speaking.webp
   image_alt: Lorraine K. Lee on stage
   photo_stat_value: 100%
   photo_stat_label: learned something new
   meta:
     - value: 200+
       label: keynotes delivered since 2018
-    - value: 5/5
-      label: average speaker rating (2023)
+    - value: 4.9/5
+      label: average speaker rating
 reel_section:
   eyebrow: Speaker reel
   heading: Watch Lorraine
@@ -469,8 +465,6 @@ testimonials_section:
   heading: Event organizers
   heading_accent: rave about Lorraine
   lead: From companies like Zoom, Cisco, Amazon, and more.
-  linkedin_cta_label: "View 250+ glowing testimonials on LinkedIn"
-  linkedin_cta_url: "https://www.linkedin.com/in/lorraineklee/details/recommendations/"
 attendee_testimonials_section:
   eyebrow: From the people in the seats
   heading: And the audience
@@ -508,10 +502,6 @@ repeats_section:
   eyebrow: Clients keep coming back
   heading: The same companies
   heading_accent: book her again.
-  lead: >-
-    Repeat invitations are the cleanest signal a corporate speaker can earn.
-    Here's how often a few of the companies she works with keep bringing her
-    back.
 repeats:
   - name: LinkedIn
     multiplier: 6×
@@ -574,7 +564,3 @@ final_cta:
     business days.
   cta_label: Start the conversation
   cta_url: /contact
-card_cta_label: "Book this talk"
-card_cta_url: "/contact"
-takeaways_label: "What the audience walks away with"
-talk_track_label: "Talk track"
