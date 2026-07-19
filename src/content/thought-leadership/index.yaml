@@ -1,10 +1,8 @@
 hero:
   eyebrow: Thought Leadership
-  headline: Ideas that help leaders
-  headline_accent: get seen.
-  lead: >-
-    Lorraine shares her frameworks on presence, communication, and personal
-    branding that leaders actually use. Here is where you'll find her ideas.
+  headline: 'Articles, interviews, and ideas on '
+  headline_accent: presence and leadership.
+  lead: Ideas worth stealing.
   primary_cta_label: Work with Lorraine
   primary_cta_url: /contact
   secondary_cta_label: See where she's featured
