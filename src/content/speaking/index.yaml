@@ -344,9 +344,8 @@ other_talks:
         Tips and tricks for sharing video content on LinkedIn to reach a larger
         audience.
 clients_section:
-  eyebrow: Trusted by
-  heading: The rooms
-  heading_accent: she's been in.
+  heading: Trusted
+  heading_accent: By
 past_clients:
   - name: Zoom
     logo_src: /images/clients/zoom.svg
