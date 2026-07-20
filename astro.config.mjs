@@ -35,6 +35,8 @@ export default defineConfig({
   // consolidate to a single Speaking page and preserve any external links.
   redirects: {
     '/keynotes': '/speaking',
+    // The archived media kit overlaps the Bio and Headshot page.
+    '/media-kit': '/speaker-bio',
     ...shortlinkRedirects,
   },
 

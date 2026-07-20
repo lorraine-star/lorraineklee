@@ -1,4 +1,6 @@
 ---
+// This page is intentionally outside src/pages so it is not published.
+// Its content overlaps the Bio and Headshot page at /speaker-bio.
 import SpeakingLayout from '../layouts/SpeakingLayout.astro';
 import TrustAsSeenIn from '../components/TrustAsSeenIn.astro';
 import { reader } from '../lib/keystatic';
@@ -327,7 +329,7 @@ const pad2 = (n: number) => String(n).padStart(2, '0');
 
 <style>
 	/* ================================================================
-	   Media Kit — page-specific sections.
+	   Media Kit: page-specific sections.
 	   Primitives (page-hero, about-hero-photo, section--*, section-head,
 	   eyebrow, learn-list, final-cta, btn) come from styles/editorial/.
 	   ================================================================ */

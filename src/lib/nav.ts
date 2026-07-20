@@ -69,7 +69,6 @@ export const mainNavItems: NavItem[] = [
     children: [
       { label: 'Awards and Accolades', href: '/about#awards' },
       { label: 'Testimonials', href: '/testimonials' },
-      { label: 'Media Kit', href: '/media-kit' },
     ],
   },
   { id: 'book', label: 'Book', href: '/book' },
