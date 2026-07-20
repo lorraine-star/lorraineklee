@@ -781,7 +781,7 @@ export default config({
             embed_url: fields.text({
               label: 'Reel embed URL',
               description:
-                'YouTube or Vimeo embed URL (e.g. https://www.youtube.com/embed/VIDEO_ID).',
+                'Paste the YouTube or Vimeo link straight from the Share button. Watch links, youtu.be links, and embed links all work.',
             }),
             caption: fields.text({ label: 'Caption under reel' }),
           },
@@ -3587,9 +3587,9 @@ export default config({
           multiline: true,
         }),
         clip_url: fields.text({
-          label: 'Talk clip embed URL (optional)',
+          label: 'Talk video (optional)',
           description:
-            'YouTube or Vimeo embed URL shown on the keynote detail page.',
+            'The recording shown on this keynote page. Paste the YouTube or Vimeo link straight from the Share button. Watch links, youtu.be links, and embed links all work.',
         }),
         takeaways: fields.array(fields.text({ label: 'Takeaway' }), {
           label: 'Audience takeaways',

@@ -1,7 +1,7 @@
 ---
 import SpeakingLayout from '../../layouts/SpeakingLayout.astro';
 import { reader } from '../../lib/keystatic';
-import { safeUrl } from '../../lib/url';
+import { safeUrl, toEmbedUrl } from '../../lib/url';
 
 export async function getStaticPaths() {
 	const keynotes = await reader.collections.keynotes.all();
@@ -12,7 +12,8 @@ export async function getStaticPaths() {
 }
 
 const { keynote } = Astro.props;
-const clipEmbed = safeUrl(keynote.clip_url);
+// Editors paste share links, which YouTube will not frame; normalize first.
+const clipEmbed = toEmbedUrl(keynote.clip_url);
 const hasTrack = (keynote.talk_track ?? []).length > 0;
 const hasTakeaways = (keynote.takeaways ?? []).length > 0;
 
