@@ -1,10 +1,10 @@
 ---
 // Canonical shared site footer (data-global-section="site-footer").
 //
-// Content is editable via the `siteSettings` singleton (CLI-159); see
-// keystatic.config.ts and src/content/site-settings/index.yaml. Every field
-// falls back to its previous hardcoded value, so the footer renders identically
-// when the CMS entry is missing or a field is left blank.
+// Content comes entirely from the `siteSettings` singleton (CLI-159); see
+// keystatic.config.ts and src/content/site-settings/index.yaml. There are no
+// hardcoded content fallbacks: the singleton is the single source of truth,
+// and clearing a field in Keystatic removes it from the rendered footer.
 //
 // Styling note: this component is intentionally CSS-agnostic. It relies on the
 // footer classes (footer, footer-wave, footer-grid, footer-brand, footer-tag,
@@ -15,7 +15,7 @@
 // NOT add a scoped <style> block here; scoped styles would not match those
 // global selectors and would break the footer.
 import { reader } from '../lib/keystatic';
-import { socialLinks, iconFor } from '../lib/social';
+import { iconFor } from '../lib/social';
 import { safeUrl } from '../lib/url';
 
 interface Props {
@@ -28,63 +28,25 @@ const year = new Date().getFullYear();
 const site = await reader.singletons.siteSettings.read();
 const f = site?.footer;
 
-const taglineBefore = f?.tagline_before || 'Helping leaders build an ';
-const taglineEmphasis = f?.tagline_emphasis || 'unforgettable';
-const taglineAfter = f?.tagline_after || ' presence.';
+const taglineBefore = f?.tagline_before ?? '';
+const taglineEmphasis = f?.tagline_emphasis ?? '';
+const taglineAfter = f?.tagline_after ?? '';
 
-const socials =
-  f?.socials && f.socials.length
-    ? f.socials.map((s) => ({
-        platform: s.platform,
-        label: s.label || s.platform,
-        url: s.url ?? '',
-      }))
-    : socialLinks.map((s) => ({
-        platform: s.platform,
-        label: s.ariaLabel,
-        url: s.url,
-      }));
+const socials = (f?.socials ?? []).map((s) => ({
+  platform: s.platform,
+  label: s.label || s.platform,
+  url: s.url ?? '',
+}));
 
-const contactHeading = f?.contact_heading || 'Get in touch';
-const contactBlurb =
-  f?.contact_blurb || 'Speaking and coaching inquiries use the contact form.';
-const contactLinks =
-  f?.contact_links && f.contact_links.length
-    ? f.contact_links
-    : [
-        { label: 'Contact Lorraine', href: '/contact' },
-        {
-          label: 'press@lorraineklee.com',
-          href: 'mailto:press@lorraineklee.com',
-        },
-        {
-          label: 'meagan@lorraineklee.com',
-          href: 'mailto:meagan@lorraineklee.com',
-        },
-      ];
+const contactHeading = f?.contact_heading ?? '';
+const contactBlurb = f?.contact_blurb ?? '';
+const contactLinks = f?.contact_links ?? [];
 
-const exploreHeading = f?.explore_heading || 'Explore';
-const exploreLinks =
-  f?.explore_links && f.explore_links.length
-    ? f.explore_links
-    : [
-        { label: 'About', href: '/about' },
-        { label: 'Speaking', href: '/speaking' },
-        { label: 'Learn', href: '/learn' },
-        { label: 'The Book', href: '/book' },
-        { label: 'Contact', href: '/contact' },
-      ];
+const exploreHeading = f?.explore_heading ?? '';
+const exploreLinks = f?.explore_links ?? [];
 
-const legalEntity =
-  f?.legal_entity || 'Lorraine Lee · RISE Learning Solutions Corp.';
-const legalLinks =
-  f?.legal_links && f.legal_links.length
-    ? f.legal_links
-    : [
-        { label: 'Terms and Conditions', href: '/terms-privacy-legal/' },
-        { label: 'Privacy Policy', href: '/privacy-policy/' },
-        { label: 'Contact', href: '/contact' },
-      ];
+const legalEntity = f?.legal_entity ?? '';
+const legalLinks = f?.legal_links ?? [];
 ---
 
 <div class="footer-wave-wrap">
@@ -100,9 +62,13 @@ const legalLinks =
   <div class="grid12 footer-grid">
     <div class="footer-brand">
       <img src={logoSrc} alt="Lorraine Lee" />
-      <p class="footer-tag">
-        {taglineBefore}<em>{taglineEmphasis}</em>{taglineAfter}
-      </p>
+      {
+        (taglineBefore || taglineEmphasis || taglineAfter) && (
+          <p class="footer-tag">
+            {taglineBefore}<em>{taglineEmphasis}</em>{taglineAfter}
+          </p>
+        )
+      }
       <div class="footer-socials">
         {
           socials.map((s) => (
@@ -119,8 +85,8 @@ const legalLinks =
       </div>
     </div>
     <div class="footer-touch">
-      <h4>{contactHeading}</h4>
-      <p>{contactBlurb}</p>
+      {contactHeading && <h4>{contactHeading}</h4>}
+      {contactBlurb && <p>{contactBlurb}</p>}
       {
         contactLinks.map((l) => (
           <a class="footer-email" href={l.href}>{l.label}</a>
@@ -128,10 +94,14 @@ const legalLinks =
       }
     </div>
     <div class="footer-explore">
-      <h4>{exploreHeading}</h4>
-      <ul>
-        {exploreLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
-      </ul>
+      {exploreHeading && <h4>{exploreHeading}</h4>}
+      {
+        exploreLinks.length > 0 && (
+          <ul>
+            {exploreLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+          </ul>
+        )
+      }
     </div>
   </div>
   <div class="grid12">
