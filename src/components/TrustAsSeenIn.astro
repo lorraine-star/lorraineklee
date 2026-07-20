@@ -60,7 +60,25 @@ const configuredLogos = (settings?.press?.logos ?? []).filter(
 const pressLogos =
   configuredLogos.length > 0 ? configuredLogos : DEFAULT_PRESS_LOGOS;
 const eyebrow = settings?.press?.eyebrow || 'As Seen In';
-const pressMarquee = [...pressLogos, ...pressLogos];
+
+/**
+ * How many times the lineup is repeated across the track (CLI-183).
+ *
+ * The animation advances by exactly one copy, so after a wrap the remaining
+ * MARQUEE_COPIES - 1 copies must still cover the viewport or the end of the
+ * track scrolls into view as dead space. One copy of the current eight logos
+ * is about 1416px, so 4 copies keeps three copies (~4250px) in reserve and
+ * stays seamless well past 4K. Two copies, the previous value, left 544px of
+ * blank at the wrap on a 1920px screen.
+ *
+ * This must stay in sync with --press-copies in the CSS below, which is what
+ * turns it into the animation distance.
+ */
+const MARQUEE_COPIES = 4;
+const pressMarquee = Array.from(
+  { length: MARQUEE_COPIES * pressLogos.length },
+  (_, i) => pressLogos[i % pressLogos.length]
+);
 
 /**
  * Keystatic bounds this field too, but clamp again here so a hand-edited YAML
@@ -126,6 +144,9 @@ const scaleStyle = (scale: unknown) => {
     --press-frame-h: 56px;
     --press-cap-h: 30px;
     --press-cap-w: 150px;
+    --press-gap: 80px;
+    /* Must equal MARQUEE_COPIES in the frontmatter above. */
+    --press-copies: 4;
   }
   .trust-eyebrow {
     text-align: center;
@@ -152,18 +173,26 @@ const scaleStyle = (scale: unknown) => {
     mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
     -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
   }
+  /* Advance by exactly one copy of the lineup, not by half the track. Half the
+     track only wraps cleanly at 2 copies, and 2 copies is too narrow to fill a
+     wide screen; stepping one copy lets the extra copies act as reserve. */
   @keyframes marquee {
     from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
+    to   { transform: translateX(calc(-100% / var(--press-copies, 4))); }
   }
   .marquee {
     display: flex;
-    gap: 80px;
-    animation: marquee 50s linear infinite;
+    animation: marquee 52s linear infinite;
     width: max-content;
     align-items: center;
     will-change: transform;
   }
+  /* Spacing as a trailing margin rather than flex `gap` (CLI-183). With `gap`,
+     N items have only N-1 gaps, so the track is half a gap shorter than N whole
+     periods and every wrap jumped back 40px. A margin on each item, including
+     the last, makes one copy exactly (items + gaps) wide, so the wrap is
+     seamless at any gap value. Visible spacing between logos is unchanged. */
+  .marquee > .press-mark-frame { margin-right: var(--press-gap, 80px); }
   .marquee-mask:hover .marquee { animation-play-state: paused; }
 
   /* Fixed row height keeps the strip a stable height whatever the lineup is;
@@ -222,8 +251,8 @@ const scaleStyle = (scale: unknown) => {
       --press-frame-h: 46px;
       --press-cap-h: 24px;
       --press-cap-w: 116px;
+      --press-gap: 56px;
     }
-    .marquee { gap: 56px; }
   }
 
   @media (prefers-reduced-motion: reduce) {

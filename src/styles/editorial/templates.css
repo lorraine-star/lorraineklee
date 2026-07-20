@@ -3515,17 +3515,20 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   border-bottom: 1px solid var(--border-soft);
   background: var(--paper);
 }
+/* Steps one copy of the lineup, matching the component's own keyframes. It has
+   to, not just for speed: at -50% the track wraps half a gap early and, with
+   only half the copies left to cover the screen, shows dead space on a wide
+   viewport (CLI-183). */
 @keyframes editorial-marquee {
   from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  to   { transform: translateX(calc(-100% / var(--press-copies, 4))); }
 }
 /* Only the animation differs; the flex layout comes from the component.
-   30s, not the 60s this page used before: the old forked markup built a
-   four-copy track, the shared component builds two, and translateX(-50%)
-   therefore covers half the distance. Halving the duration keeps the original
-   scroll speed (about 46 px/s) rather than the 23 px/s the swap would give. */
+   31s covers one copy (about 1416px) at roughly 46 px/s, the speed this page
+   scrolled at before it moved onto the shared component. The component's own
+   default is 52s, a more restrained 27 px/s. */
 .editorial-trust .marquee {
-  animation: editorial-marquee 30s linear infinite;
+  animation: editorial-marquee 31s linear infinite;
 }
 /* Load-bearing on top of the component's reduced-motion rule: the selector
    above outranks it, so without this the 60s loop would keep running. */
