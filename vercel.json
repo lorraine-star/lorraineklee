@@ -43,7 +43,7 @@
     { "source": "/keynote/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "destination": "/keynotes/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "permanent": true },
     { "source": "/keynotes_v2/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "destination": "/keynotes/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "permanent": true },
 
-    { "source": "/bio-and-headshot", "destination": "/media-kit", "permanent": true },
+    { "source": "/bio-and-headshot", "destination": "/speaker-bio", "permanent": true },
     { "source": "/consulting-and-coaching", "destination": "/consulting", "permanent": true },
     { "source": "/async-linkedin-profile-audit-assessment", "destination": "/coaching#linkedin-audit", "permanent": true },
 
