@@ -14,8 +14,25 @@ footer:
       url: https://youtube.com/@lorraineklee
   contact_heading: Get in touch
   contact_blurb: Speaking and coaching inquiries use the contact form.
-  contact_links: []
-  explore_links: []
+  contact_links:
+    - label: Contact Lorraine
+      href: /contact
+    - label: press@lorraineklee.com
+      href: mailto:press@lorraineklee.com
+    - label: meagan@lorraineklee.com
+      href: mailto:meagan@lorraineklee.com
+  explore_heading: Explore
+  explore_links:
+    - label: About
+      href: /about
+    - label: Speaking
+      href: /speaking
+    - label: Learn
+      href: /learn
+    - label: The Book
+      href: /book
+    - label: Contact
+      href: /contact
   legal_entity: Lorraine K. Lee · RISE Learning Solutions Corp.
   legal_links:
     - label: Terms and Conditions
