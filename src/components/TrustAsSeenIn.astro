@@ -2,29 +2,55 @@
 /**
  * Global "As Seen In" press marquee.
  *
- * Canonical markup for the trust strip. Used on the home page and on any
- * other page that needs the same press lineup. If you change the markup,
- * styling, or logo list here, coordinate via Linear so parallel worktrees
- * don't drift.
+ * Canonical markup AND canonical styles for the trust strip. Used on the home,
+ * about, featured-in and speaking pages. If you change the markup, styling, or
+ * logo list here, coordinate via Linear so parallel worktrees don't drift.
  *
- * Styles live in src/styles/v1/home.css (.trust, .marquee, .press-mark*).
- * Pages that use this component must include that stylesheet via their
- * layout (HomeLayout already does; SpeakingLayout imports it explicitly).
+ * Styles live in the is:global block below and nowhere else (CLI-176). They
+ * used to be mirrored into src/styles/v1/home.css and, for the editorial
+ * variant, src/styles/editorial/templates.css. Both copies were deleted
+ * because three copies of the same rules drifted. templates.css still owns the
+ * .editorial-trust *container* treatment (padding, background, slower loop),
+ * which is a real variant difference rather than a duplicate.
+ *
+ * Sizing model (CLI-176): every logo is auto-fit by a shared height cap and
+ * width cap, so an upload of any dimensions lands at a consistent optical
+ * weight with no pre-sizing. The caps are a pair on purpose. A lone height cap
+ * lets a wide wordmark (Business Insider at 11:1) dominate while a compact
+ * square mark (NBC 4) shrinks, because bounding-box area is not optical mass.
+ * The 150/30 pair puts the wordmark-vs-mark crossover at aspect ratio 5.0.
+ * Measured in-browser (each logo drawn to a canvas at its rendered size, alpha
+ * channel summed), that takes the lineup from a 3.30x spread in alpha-weighted
+ * ink mass down to 1.32x. Compact marks are the exception the caps can't reach,
+ * so the CMS carries an optional per-logo `scale` nudge for them; cnbc and nbc4
+ * are the only two that currently use it.
  *
  * The lineup is editable via Keystatic (siteSettings.press.logos); the array
  * below is the fallback used when that list is empty (CLI-162).
  */
 import { reader } from '../lib/keystatic';
 
+interface Props {
+  /**
+   * "editorial" adds the .editorial-trust container treatment used by pages on
+   * the editorial template (roomier padding, paper background, slower loop).
+   * Added so the speaking page can share this component instead of forking the
+   * markup, per the shared-section rule in AGENTS.md.
+   */
+  variant?: 'default' | 'editorial';
+}
+
+const { variant = 'default' } = Astro.props;
+
 const DEFAULT_PRESS_LOGOS = [
-  { id: 'inc', name: 'Inc.', src: '/images/v1/press/inc.svg', width: 92, height: 30 },
-  { id: 'bloomberg', name: 'Bloomberg', src: '/images/v1/press/bloomberg.svg', width: 170, height: 24 },
-  { id: 'fast-company', name: 'Fast Company', src: '/images/v1/press/fast-company.png', width: 206, height: 30 },
-  { id: 'cnbc', name: 'CNBC', src: '/images/v1/press/cnbc-cropped.png', width: 110, height: 54 },
-  { id: 'business-insider', name: 'Business Insider', src: '/images/v1/press/business-insider.svg', width: 228, height: 22 },
-  { id: 'fox5', name: 'Fox 5 Washington DC', src: '/images/v1/press/fox5.png', width: 134, height: 40 },
-  { id: 'cnn', name: 'CNN', src: '/images/v1/press/cnn.svg', width: 102, height: 28 },
-  { id: 'nbc4', name: 'NBC 4', src: '/images/v1/press/nbc4.svg', width: 88, height: 58 },
+  { id: 'inc', name: 'Inc.', src: '/images/v1/press/inc.svg', scale: 1 },
+  { id: 'bloomberg', name: 'Bloomberg', src: '/images/v1/press/bloomberg.svg', scale: 1 },
+  { id: 'fast-company', name: 'Fast Company', src: '/images/v1/press/fast-company.png', scale: 1 },
+  { id: 'cnbc', name: 'CNBC', src: '/images/v1/press/cnbc-cropped.png', scale: 1.3 },
+  { id: 'business-insider', name: 'Business Insider', src: '/images/v1/press/business-insider.svg', scale: 1 },
+  { id: 'fox5', name: 'Fox 5 Washington DC', src: '/images/v1/press/fox5.png', scale: 1 },
+  { id: 'cnn', name: 'CNN', src: '/images/v1/press/cnn.svg', scale: 1 },
+  { id: 'nbc4', name: 'NBC 4', src: '/images/v1/press/nbc4.svg', scale: 1.4 },
 ];
 
 const settings = await reader.singletons.siteSettings.read();
@@ -35,9 +61,30 @@ const pressLogos =
   configuredLogos.length > 0 ? configuredLogos : DEFAULT_PRESS_LOGOS;
 const eyebrow = settings?.press?.eyebrow || 'As Seen In';
 const pressMarquee = [...pressLogos, ...pressLogos];
+
+/**
+ * Keystatic bounds this field too, but clamp again here so a hand-edited YAML
+ * or an older entry can't break the layout: past roughly 1.87 the logo outgrows
+ * --press-frame-h and collides with the eyebrow above it. Only emit the custom
+ * property when it would actually change something, so the common case stays a
+ * bare <span>, and drop null/0/negative/non-numeric values that would otherwise
+ * collapse the logo to nothing.
+ */
+const SCALE_MIN = 0.5;
+const SCALE_MAX = 1.8;
+const scaleStyle = (scale: unknown) => {
+  if (typeof scale !== 'number' || !Number.isFinite(scale) || scale <= 0) {
+    return undefined;
+  }
+  const clamped = Math.min(SCALE_MAX, Math.max(SCALE_MIN, scale));
+  return clamped === 1 ? undefined : `--logo-scale: ${clamped};`;
+};
 ---
 
-<section class="trust as-seen-in" data-global-section="trust-as-seen-in">
+<section
+  class:list={['trust', 'as-seen-in', variant === 'editorial' && 'editorial-trust']}
+  data-global-section="trust-as-seen-in"
+>
   <div class="trust-eyebrow">{eyebrow}</div>
   <div class="marquee-mask">
     <div class="marquee">
@@ -45,9 +92,14 @@ const pressMarquee = [...pressLogos, ...pressLogos];
         pressMarquee.map((logo, i) => (
           <span
             class={`press-mark-frame press-mark-frame--${logo.id}`}
-            style={`--mark-height: ${logo.height}px; --mark-width: ${logo.width}px;`}
+            style={scaleStyle(logo.scale)}
             aria-hidden={i >= pressLogos.length ? 'true' : undefined}
           >
+            {/* Deliberately eager. These carry no width/height attribute, so
+                an unloaded logo occupies zero width and the max-content
+                marquee track would resize as each one arrives. The whole
+                lineup is about 200KB and sits near the fold on the home
+                page. */}
             <img
               class={`press-mark press-mark--${logo.id}`}
               src={logo.src}
@@ -61,14 +113,19 @@ const pressMarquee = [...pressLogos, ...pressLogos];
 </section>
 
 <style is:global>
-  /* TrustAsSeenIn — ships the trust strip + press marquee styles wherever
-     this component is used. Mirrors the rules in src/styles/v1/home.css so
-     the home page is unaffected, and editorial pages (which don't import
-     home.css) still render correctly. */
+  /* TrustAsSeenIn — the only definition of the trust strip styles. Every page
+     that renders this component gets them, so there is no stylesheet import to
+     keep in sync. */
   .trust {
     padding: 36px 0 38px;
     border-top: 1px solid var(--border-soft);
     border-bottom: 1px solid var(--border-soft);
+
+    /* Sizing knobs. Declared here so a media query or a page variant can
+       retune the whole strip in one place; they inherit down to .press-mark. */
+    --press-frame-h: 56px;
+    --press-cap-h: 30px;
+    --press-cap-w: 150px;
   }
   .trust-eyebrow {
     text-align: center;
@@ -79,6 +136,16 @@ const pressMarquee = [...pressLogos, ...pressLogos];
     text-transform: uppercase;
     color: var(--accent);
     margin-bottom: 24px;
+  }
+  .trust-eyebrow em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--ink-900);
+    font-size: 15px;
+    margin: 0 6px;
   }
   .marquee-mask {
     overflow: hidden;
@@ -98,20 +165,37 @@ const pressMarquee = [...pressLogos, ...pressLogos];
     will-change: transform;
   }
   .marquee-mask:hover .marquee { animation-play-state: paused; }
+
+  /* Fixed row height keeps the strip a stable height whatever the lineup is;
+     the frame shrink-wraps its logo horizontally so the 80px gap reads as an
+     even gap between artwork rather than between padded boxes. */
   .press-mark-frame {
-    width: var(--mark-width, 160px);
-    height: var(--mark-height, 32px);
+    height: var(--press-frame-h, 56px);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     flex: 0 0 auto;
     transition: transform 240ms var(--ease-out);
   }
+  /* The auto-fit. A definite height (not max-height) is deliberate and matches
+     .cred-logo in templates.css: bloomberg.svg carries a viewBox but no
+     width/height, so it has an intrinsic ratio and no intrinsic size, and
+     `height: auto` inside a shrink-wrapped frame collapses it to 0x0.
+
+     Width then derives from the ratio and is capped by --press-cap-w. When a
+     wide wordmark hits that cap the box is clamped to cap-w by cap-h, and
+     object-fit: contain letterboxes the artwork inside it rather than
+     squashing it, so an 11:1 mark lands ~150x13 instead of dominating. That
+     clamp is what keeps wordmarks and compact marks at comparable ink mass. */
   .press-mark {
     width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
+    height: calc(var(--press-cap-h, 30px) * var(--logo-scale, 1));
+    max-width: calc(var(--press-cap-w, 150px) * var(--logo-scale, 1));
+    /* `auto` first, so a loaded image uses its own intrinsic ratio and this
+       3/1 only applies before it resolves. Without it an unresolved image has
+       no width at all and the max-content track reflows as each one lands. */
+    aspect-ratio: auto 3 / 1;
+    object-fit: contain;
     display: block;
     opacity: 0.74;
     filter: grayscale(1);
@@ -123,11 +207,24 @@ const pressMarquee = [...pressLogos, ...pressLogos];
     opacity: 1;
     filter: none;
   }
+  /* Per-logo ink-weight tuning. fox5 is pure white artwork and is invisible on
+     the paper background without the brightness knock-down, so that rule is
+     load-bearing rather than cosmetic. */
   .press-mark--fox5 { filter: grayscale(1) brightness(0.18); }
   .press-mark-frame--fox5:hover .press-mark { filter: brightness(0); }
   .press-mark--cnn { filter: grayscale(1) brightness(0.62); }
   .press-mark--business-insider { opacity: 0.7; }
   .press-mark--nbc4 { opacity: 0.86; }
+
+  /* Retune the whole strip for narrow screens by overriding the knobs only. */
+  @media (max-width: 600px) {
+    .trust {
+      --press-frame-h: 46px;
+      --press-cap-h: 24px;
+      --press-cap-w: 116px;
+    }
+    .marquee { gap: 56px; }
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .marquee { animation: none; }

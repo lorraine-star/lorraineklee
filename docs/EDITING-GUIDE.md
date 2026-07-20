@@ -154,6 +154,7 @@ Use this as your "I want to change X, so I edit Y" cheat sheet.
 | An **interview Lorraine hosted** (leaders she interviewed)          | **Interviews**              | The "leaders Lorraine has interviewed" block on the **Interviews** page      |
 | A **testimonial / review**                                          | **Testimonials**            | The **Testimonials** page (and home / speaking / courses if you tick the boxes) |
 | A **branded short link** (like `/book`)                             | **Shortlinks**              | Redirects visitors, see [section 6](#6-branded-short-links) |
+| A **logo in the "As Seen In" strip**                                | **Site Settings**           | The scrolling logo row on **home**, **about**, **featured in** and **speaking** |
 
 > **Two things named "Interviews," explained.** **Interviews Page** is the page
 > itself (its headline, section intros, and the list of shows where Lorraine was
@@ -233,10 +234,35 @@ part is left off below so it does not repeat ten times.
    field; otherwise the name shows as styled text.
 4. Save.
 
-> The row of press logos on the **home page** ("as seen in") is part of the site
-> design rather than a simple list, so changing that specific strip is a
-> developer task. The Speaking page client list above is the one you manage
-> yourself.
+### Add a press logo ("As Seen In" strip)
+
+This is the scrolling row of outlet logos that appears on the home, about,
+featured-in and speaking pages. All four read the same list, so you only edit it
+once.
+
+1. Open **Site Settings**.
+2. Find **Press / "As Seen In" strip**, then the **Press logos** list.
+3. Add an entry and fill in:
+   - **Slug** - a short lowercase id like `cnn`. Pick one and leave it alone;
+     it is what the site uses to remember any custom styling for that logo.
+   - **Outlet name** - the full name, for example `Fast Company`. This is also
+     what screen readers announce.
+   - **Logo image** - upload the file.
+4. Save.
+
+**You do not need to resize or crop the logo before uploading.** Upload whatever
+you have and the strip fits it to match the others automatically. A transparent
+PNG or an SVG looks best, because a white or colored background box will show as
+a rectangle behind the logo.
+
+**If one logo still looks off**, use the **Size nudge** field on that entry. Leave
+it at `1` for almost every logo. Compact square logos sometimes read a little
+small next to the wide word-style ones, so try `1.3` to `1.5` for those. Go below
+`1` if a logo looks too heavy. Change it, save, and check the page.
+
+> Note: the logos are shown in grey and lighten to full color when you hover
+> over them. That is intentional, so a colorful logo will look grey on the live
+> site until you point at it.
 
 ### Update a button or link (a "CTA")
 
