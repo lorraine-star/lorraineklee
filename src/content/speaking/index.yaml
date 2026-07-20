@@ -471,25 +471,6 @@ attendee_testimonials_section:
   eyebrow: From the people in the seats
   heading: And the audience
   heading_accent: agrees.
-moderation_section:
-  eyebrow: On the panel side of the mic
-  heading: She
-  heading_accent: moderates
-  heading_suffix: too
-  lead: >-
-    Lorraine also moderates panels and fireside chats for corporate events and
-    media partners, including a recurring series with Robert Half.
-moderation_clips:
-  - title: 'Robert Half × Lorraine: Kat Cole'
-    embed_url: https://www.youtube.com/embed/592bSyMteLE
-    caption: >-
-      Lorraine in conversation with the former COO and President of FOCUS Brands
-      (Cinnabon, Jamba) on leading through change.
-  - title: 'Robert Half × Lorraine: Chelsea Clinton'
-    embed_url: https://www.youtube.com/embed/W0_QWjYWPuE
-    caption: >-
-      An on-stage interview with Chelsea Clinton for Robert Half's leadership
-      series.
 bio_callout:
   eyebrow: For event organizers
   heading: Bio, headshot,

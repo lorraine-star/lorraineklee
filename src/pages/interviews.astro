@@ -107,11 +107,11 @@ const guests = (guest_appearances ?? [])
 						</h2>
 						{featured_section.lead && <p class="lead">{featured_section.lead}</p>}
 					</div>
-					<div class="moderation-grid reveal-stagger">
+					<div class="clip-grid reveal-stagger">
 						{interviews.map((it) => {
 							const link = it.video_url ? safeUrl(it.video_url) : '';
 							return (
-								<div class="moderation-card" id={it.slug}>
+								<div class="clip-card" id={it.slug}>
 									<div class="clip-frame">
 										{it.youtube_id ? (
 											<iframe
