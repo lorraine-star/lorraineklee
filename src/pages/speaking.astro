@@ -24,8 +24,6 @@ const {
 	show_stats,
 	stats_section,
 	stats,
-	moderation_section,
-	moderation_clips,
 	testimonials_section,
 	attendee_testimonials_section,
 	repeats_section,
@@ -539,58 +537,6 @@ const clientLogos = past_clients ?? [];
 								<div class="stat-lbl">{s.label}</div>
 							</div>
 						))}
-					</div>
-				</div>
-			</section>
-		)
-	}
-
-	{/* ---------- Moderation ---------- */}
-	{
-		moderation_section && moderation_clips?.length > 0 && (
-			<section class="section section--tight">
-				<div class="grid12">
-					<div class="section-head section-head--center">
-						<span class="eyebrow">{moderation_section.eyebrow}</span>
-						<h2>
-							{moderation_section.heading}{' '}
-							<em>{moderation_section.heading_accent}</em>
-							{moderation_section.heading_suffix && (
-								<> {moderation_section.heading_suffix}</>
-							)}
-						</h2>
-						{moderation_section.lead && (
-							<p class="lead">{moderation_section.lead}</p>
-						)}
-					</div>
-					<div class="moderation-grid reveal-stagger">
-						{moderation_clips.map((clip) => {
-							const embed = safeUrl(clip.embed_url);
-							return (
-								<div class="moderation-card">
-									<div class="clip-frame">
-										{embed ? (
-											<iframe
-												src={embed}
-												title={clip.title}
-												allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-												allowfullscreen
-												loading="lazy"
-											/>
-										) : (
-											<div class="reel-placeholder">
-												<div class="play-ring" aria-hidden="true">&#9654;</div>
-												<div class="note">Clip embed coming soon</div>
-											</div>
-										)}
-									</div>
-									<div class="clip-body">
-										<h3>{clip.title}</h3>
-										{clip.caption && <p>{clip.caption}</p>}
-									</div>
-								</div>
-							);
-						})}
 					</div>
 				</div>
 			</section>

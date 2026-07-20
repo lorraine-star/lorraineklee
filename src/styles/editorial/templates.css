@@ -2956,14 +2956,14 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   .trigger-chevron { transition-duration: 0ms; }
 }
 
-/* Moderation */
-.moderation-grid {
+/* Video clip cards (used by the Interviews page featured grid) */
+.clip-grid {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 28px;
 }
-.moderation-card {
+.clip-card {
   background: #fff;
   border: 1px solid var(--border-soft);
   border-radius: 16px;
@@ -2971,13 +2971,13 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   display: flex;
   flex-direction: column;
 }
-.moderation-card .clip-frame {
+.clip-card .clip-frame {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
   background: var(--ink-900);
 }
-.moderation-card .clip-frame iframe {
+.clip-card .clip-frame iframe {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -2985,11 +2985,11 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   border: 0;
   display: block;
 }
-.moderation-card .clip-frame .reel-placeholder { font-size: 13px; }
-.moderation-card .clip-body {
+.clip-card .clip-frame .reel-placeholder { font-size: 13px; }
+.clip-card .clip-body {
   padding: 22px 24px 26px;
 }
-.moderation-card .clip-body h3 {
+.clip-card .clip-body h3 {
   font-family: var(--font-serif);
   font-weight: 500;
   font-size: 22px;
@@ -2997,7 +2997,7 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   color: var(--ink-900);
   margin: 0 0 8px;
 }
-.moderation-card .clip-body p {
+.clip-card .clip-body p {
   font-family: var(--font-sans);
   font-size: 14px;
   line-height: 1.55;
@@ -3440,7 +3440,7 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   .custom-programs-grid { grid-template-columns: 1fr; gap: 28px; }
   .other-talks-list { grid-template-columns: 1fr; }
   .other-talks-list .talk-row { border-right: 0; }
-  .moderation-grid { grid-template-columns: 1fr; }
+  .clip-grid { grid-template-columns: 1fr; }
   .attendee-masonry { column-count: 1; }
   .bio-callout {
     grid-template-columns: 1fr;

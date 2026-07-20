@@ -1012,34 +1012,6 @@ export default config({
         ),
         // Attendee testimonials likewise come from the shared collection via
         // getTestimonials({ placement: 'speaking', type: 'event-attendee' }).
-        moderation_section: fields.object(
-          {
-            eyebrow: fields.text({ label: 'Eyebrow' }),
-            heading: fields.text({ label: 'Heading' }),
-            heading_accent: fields.text({
-              label: 'Heading accent (shown italic)',
-            }),
-            heading_suffix: fields.text({
-              label: 'Heading suffix (plain text after the accent)',
-            }),
-            lead: fields.text({ label: 'Lead', multiline: true }),
-          },
-          { label: 'Moderation section heading' }
-        ),
-        moderation_clips: fields.array(
-          fields.object({
-            title: fields.text({ label: 'Clip title' }),
-            embed_url: fields.text({
-              label: 'Embed URL',
-              description: 'YouTube/Vimeo embed URL.',
-            }),
-            caption: fields.text({ label: 'Caption', multiline: true }),
-          }),
-          {
-            label: 'Moderation clips',
-            itemLabel: (props) => props.fields.title.value || 'Clip',
-          }
-        ),
         bio_callout: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
