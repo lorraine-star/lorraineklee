@@ -49,6 +49,8 @@ const toParagraphs = (text?: string | null): string[] =>
 		.filter(Boolean);
 
 const reelEmbed = safeUrl(reel_section?.embed_url);
+const heroImage =
+	hero.image || '/images/v1/lorraine-hero-speaking.webp';
 
 // Testimonial copy comes from the shared collection (CLI-118); the section
 // heading/lead copy above still lives in the speaking singleton.
@@ -86,111 +88,6 @@ const clientLogos = past_clients ?? [];
 	description={speaking.seo_description || hero.lead}
 	activeId="speaking"
 >
-	{/* ---------- Hero ---------- */}
-	<section class="page-hero">
-		<div class="grid12 page-hero-grid">
-			<div class="page-hero-copy fade-up">
-				<div class="page-hero-eyebrow">
-					<span class="dot"></span>
-					<span class="eyebrow" style="color: var(--ink-500);">
-						{hero.eyebrow}
-					</span>
-				</div>
-				<h1>{hero.headline} <em>{hero.headline_accent}</em></h1>
-				<p class="lead-large">{hero.lead}</p>
-				<div class="hero-cta-row">
-					<a class="btn primary large" href={safeUrl(hero.cta_url)} data-ga-event="speaking_inquiry" data-ga-label="speaking-hero">
-						{hero.cta_label} <span aria-hidden="true">&rarr;</span>
-					</a>
-					{
-						hero.secondary_cta_label && (
-							<a
-								class="btn outline"
-								href={safeUrl(hero.secondary_cta_url) || '#'}
-							>
-								{hero.secondary_cta_label}
-							</a>
-						)
-					}
-					{
-						hero.testimonials_anchor_label && (
-							<a class="anchor-link" href="#testimonials">
-								{hero.testimonials_anchor_label}{' '}
-								<span class="arrow" aria-hidden="true">&darr;</span>
-							</a>
-						)
-					}
-				</div>
-				<div class="hero-meta">
-					{
-						hero.meta.map((m, i) => (
-							<Fragment>
-								{i > 0 && <div class="divider" aria-hidden="true" />}
-								<div>
-									<div class="num">{m.value}</div>
-									<div class="lbl">{m.label}</div>
-								</div>
-							</Fragment>
-						))
-					}
-				</div>
-			</div>
-			<div class="page-hero-aside fade-up" style="animation-delay: 120ms;">
-				<div class="photo-card">
-					<img src={hero.image} alt={hero.image_alt} />
-					<div
-						class="photo-stat"
-						style="background: var(--brand-yellow-500); color: var(--ink-900); border-color: var(--brand-yellow-500);"
-					>
-						<div class="num" style="color: var(--ink-900);">
-							{hero.photo_stat_value}
-						</div>
-						<div class="lbl" style="color: var(--ink-900); opacity: 0.78;">
-							{hero.photo_stat_label}
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	{/* ---------- Speaker reel ---------- */}
-	{
-		reel_section && (
-			<section class="section section--tight">
-				<div class="grid12">
-					<div class="section-head section-head--center">
-						<span class="eyebrow">{reel_section.eyebrow}</span>
-						<h2>
-							{reel_section.heading} <em>{reel_section.heading_accent}</em>
-						</h2>
-						{reel_section.body && <p class="lead">{reel_section.body}</p>}
-					</div>
-					<div class="reel-frame reveal">
-						{reelEmbed ? (
-							<iframe
-								src={reelEmbed}
-								title="Lorraine K. Lee speaker reel"
-								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-								allowfullscreen
-								loading="lazy"
-							/>
-						) : (
-							<div class="reel-placeholder">
-								<div class="play-ring" aria-hidden="true">&#9654;</div>
-								<div>Speaker reel embed coming soon.</div>
-								<div class="note">Lorraine — add the embed URL in Keystatic.</div>
-							</div>
-						)}
-					</div>
-					{reel_section.caption && (
-						<p class="reel-caption">{reel_section.caption}</p>
-					)}
-				</div>
-			</section>
-		)
-	}
-
 	{/* ---------- Signature keynotes ---------- */}
 	<section class="section section--compact section--cream" id="past-talks">
 		<div class="grid12">
@@ -297,6 +194,111 @@ const clientLogos = past_clients ?? [];
 			</div>
 		</div>
 	</section>
+
+	{/* ---------- Hero ---------- */}
+	<section class="page-hero">
+		<div class="grid12 page-hero-grid">
+			<div class="page-hero-copy fade-up">
+				<div class="page-hero-eyebrow">
+					<span class="dot"></span>
+					<span class="eyebrow" style="color: var(--ink-500);">
+						{hero.eyebrow}
+					</span>
+				</div>
+				<h1>{hero.headline} <em>{hero.headline_accent}</em></h1>
+				<p class="lead-large">{hero.lead}</p>
+				<div class="hero-cta-row">
+					<a class="btn primary large" href={safeUrl(hero.cta_url)} data-ga-event="speaking_inquiry" data-ga-label="speaking-hero">
+						{hero.cta_label} <span aria-hidden="true">&rarr;</span>
+					</a>
+					{
+						hero.secondary_cta_label && (
+							<a
+								class="btn outline"
+								href={safeUrl(hero.secondary_cta_url) || '#'}
+							>
+								{hero.secondary_cta_label}
+							</a>
+						)
+					}
+					{
+						hero.testimonials_anchor_label && (
+							<a class="anchor-link" href="#testimonials">
+								{hero.testimonials_anchor_label}{' '}
+								<span class="arrow" aria-hidden="true">&darr;</span>
+							</a>
+						)
+					}
+				</div>
+				<div class="hero-meta">
+					{
+						hero.meta.map((m, i) => (
+							<Fragment>
+								{i > 0 && <div class="divider" aria-hidden="true" />}
+								<div>
+									<div class="num">{m.value}</div>
+									<div class="lbl">{m.label}</div>
+								</div>
+							</Fragment>
+						))
+					}
+				</div>
+			</div>
+			<div class="page-hero-aside fade-up" style="animation-delay: 120ms;">
+				<div class="photo-card">
+					<img src={heroImage} alt={hero.image_alt} />
+					<div
+						class="photo-stat"
+						style="background: var(--brand-yellow-500); color: var(--ink-900); border-color: var(--brand-yellow-500);"
+					>
+						<div class="num" style="color: var(--ink-900);">
+							{hero.photo_stat_value}
+						</div>
+						<div class="lbl" style="color: var(--ink-900); opacity: 0.78;">
+							{hero.photo_stat_label}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Speaker reel ---------- */}
+	{
+		reel_section && (
+			<section class="section section--tight">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{reel_section.eyebrow}</span>
+						<h2>
+							{reel_section.heading} <em>{reel_section.heading_accent}</em>
+						</h2>
+						{reel_section.body && <p class="lead">{reel_section.body}</p>}
+					</div>
+					<div class="reel-frame reveal">
+						{reelEmbed ? (
+							<iframe
+								src={reelEmbed}
+								title="Lorraine K. Lee speaker reel"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+								allowfullscreen
+								loading="lazy"
+							/>
+						) : (
+							<div class="reel-placeholder">
+								<div class="play-ring" aria-hidden="true">&#9654;</div>
+								<div>Speaker reel embed coming soon.</div>
+								<div class="note">Lorraine — add the embed URL in Keystatic.</div>
+							</div>
+						)}
+					</div>
+					{reel_section.caption && (
+						<p class="reel-caption">{reel_section.caption}</p>
+					)}
+				</div>
+			</section>
+		)
+	}
 
 	{/* ---------- Custom programs ---------- */}
 	{
