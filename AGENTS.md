@@ -108,6 +108,24 @@ shortlinks, and the contact form).
   confirm in plain language ("this will update the live website, ready?") or
   show the preview URL first. Never force-push or rewrite history on `main`.
 
+## Permanent branches (never delete)
+
+`main` and `dev` are permanent branches. Never delete them, force-push to
+them, or rewrite their history, locally or on GitHub. Every other branch is a
+disposable feature branch.
+
+Guardrails in this repo:
+
+- A committed pre-push hook in `.githooks/` refuses any push that would
+  delete or force-push `main` or `dev`. It is wired up automatically when you
+  run `npm install` (the `prepare` script points `core.hooksPath` at
+  `.githooks`). Do not bypass it with `--no-verify`.
+- `.claude/settings.json` denies the common branch-deleting and force-push
+  commands for AI agents working in this repo.
+
+If one of these branches ever looks deleted or broken, stop and tell the
+repo owner or their developer instead of trying to recreate it yourself.
+
 ## Shared / global sections (do not break these)
 
 Several sections appear on more than one page (the press marquee, testimonials,

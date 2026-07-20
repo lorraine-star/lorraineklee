@@ -48,6 +48,7 @@ lorraineklee_verified_inventory_package/
 /assets/
 .claude/*
 !.claude/launch.json
+!.claude/settings.json
 !review/v1/assets/
 !review/v1/assets/press/
 !review/v1/assets/press/**
