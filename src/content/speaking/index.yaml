@@ -440,6 +440,8 @@ past_clients:
   - name: INBOUND
     style: mono
   - logo_image: /images/clients/past_clients/31/logo_image.png
+  - name: Lumi2
+    logo_image: /images/clients/past_clients/32/logo_image.png
 show_stats: true
 stats_section:
   eyebrow: By the numbers
