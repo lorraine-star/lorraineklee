@@ -483,10 +483,12 @@ const clientLogos = past_clients ?? [];
 				{
 					clientLogos.map((l) => (
 						<span class="client-logo-frame" data-client={l.name}>
-							{l.logo_src ? (
+							{/* Prefer an uploaded logo image; fall back to a pasted URL
+						    (such as a Brandfetch link), then to the styled wordmark. */}
+						{(l.logo_image || l.logo_src) ? (
 								<img
 									class={`client-logo${l.style === 'mono' ? ' client-logo--mono' : ''}${l.style === 'color' ? ' client-logo--color' : ''}`}
-									src={l.logo_src}
+									src={l.logo_image || l.logo_src}
 									alt={l.name}
 									loading="lazy"
 									referrerpolicy="no-referrer"

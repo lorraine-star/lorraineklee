@@ -229,10 +229,16 @@ part is left off below so it does not repeat ten times.
 ### Add a client logo (Speaking page)
 
 1. Open the **Speaking** page.
-2. Find the **Past clients** list.
-3. Add the client's **name**. If you have a logo image URL, paste it in the logo
-   field; otherwise the name shows as styled text.
-4. Save.
+2. Find the **Past clients** list and add an item (or open one to edit it).
+3. Add the client's **name**.
+4. Give it a logo one of two ways:
+   - **Logo image (upload):** the easiest option, and it works for any brand
+     whether or not its logo is on a CDN. Upload your file at any size.
+   - **Logo image URL:** or paste a URL, such as a Brandfetch CDN link.
+
+   If you do both, the uploaded image is used. Leave both empty and the client
+   name shows as styled text instead.
+5. Save.
 
 ### Add a press logo ("As Seen In" strip)
 
