@@ -439,9 +439,6 @@ past_clients:
     style: mono
   - name: INBOUND
     style: mono
-  - name: Figma
-    logo_src: >-
-      https://cdn.brandfetch.io/idZHcZ_i7F/theme/dark/symbol.svg?c=1bxid64Mup7aczewSAYMX&t=1729268241679
 show_stats: true
 stats_section:
   eyebrow: By the numbers
