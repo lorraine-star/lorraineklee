@@ -11,6 +11,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "test:e2e": "momentic run",
+    "test:unit": "node --experimental-strip-types scripts/test-url.mjs",
     "validate:content": "node --experimental-strip-types scripts/validate-keystatic-images.mjs"
   },
   "dependencies": {
