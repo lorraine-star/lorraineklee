@@ -417,9 +417,6 @@ past_clients:
   - name: Culture Amp
     logo_src: /images/clients/culture-amp.webp
     style: mono
-  - name: Chief
-    logo_src: /images/clients/chief.webp
-    style: mono
   - name: PowerToFly
     logo_src: /images/clients/powertofly.webp
     style: color
