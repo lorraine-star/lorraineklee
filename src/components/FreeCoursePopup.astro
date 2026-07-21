@@ -22,8 +22,11 @@
  * Self-contained: it ships its own styles (including the embedded form's), so
  * it renders correctly in every layout it's dropped into and never shows on the
  * active signup-flow pages (funnel / thank-you / /subscribe) via the script's
- * path denylist. Rendered in Layout, HomeLayout, and SpeakingLayout — NOT
- * FunnelLayout.
+ * path denylist. Rendered in Layout and SpeakingLayout — NOT FunnelLayout, and
+ * NOT HomeLayout: the home page has its own course popup (src/pages/index.astro)
+ * and rendering both would stack two dialogs. The home popup reads and writes
+ * this component's SEEN/SUBSCRIBED keys, so the once-per-7-days cadence holds
+ * across both.
  */
 import FreeCourseForm from './FreeCourseForm.astro';
 
