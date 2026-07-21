@@ -939,13 +939,20 @@ export default config({
         past_clients: fields.array(
           fields.object({
             name: fields.text({ label: 'Client name' }),
-            logo_src: fields.text({
-              label: 'Logo image URL (e.g. Brandfetch CDN URL)',
+            logo_image: fields.image({
+              label: 'Logo image (upload)',
               description:
-                'Optional. If set, the logo image renders in place of the wordmark.',
+                'Upload the logo here. Easiest option, and it works for any brand whether or not the logo is on a CDN. Used in place of the URL below when both are set. Leave empty to paste a URL instead.',
+              directory: 'public/images/clients',
+              publicPath: '/images/clients/',
+            }),
+            logo_src: fields.text({
+              label: 'Logo image URL',
+              description:
+                'Optional alternative to uploading: paste a logo URL, such as a Brandfetch CDN link. Ignored when an image is uploaded above. Leave both empty to show the client name as styled text.',
             }),
             style: fields.text({
-              label: 'Logo style (CSS classes: bold, caps, serif, italic). Used only when logo_src is empty.',
+              label: 'Logo style (CSS classes: bold, caps, serif, italic). Used only when no logo image or URL is set.',
             }),
           }),
           {
