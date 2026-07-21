@@ -439,8 +439,7 @@ past_clients:
     style: mono
   - name: INBOUND
     style: mono
-  - name: Lumigrid
-    logo_image: /images/clients/past_clients/31/logo_image.png
+  - logo_image: /images/clients/past_clients/31/logo_image.png
 show_stats: true
 stats_section:
   eyebrow: By the numbers
