@@ -212,16 +212,29 @@ export default config({
                     'Stable id used for per-logo CSS tuning (.press-mark--<id>). Changing it drops any custom tuning for that logo.',
                 }),
                 name: fields.text({ label: 'Outlet name' }),
-                src: fields.text({
-                  label: 'Logo image path (e.g. /images/v1/press/cnn.svg)',
+                src: fields.image({
+                  label: 'Logo image',
+                  description:
+                    'Upload the logo at whatever size you have. The strip resizes it for you, so there is no need to shrink or crop it first. A transparent PNG or an SVG reads best.',
+                  directory: 'public/images/v1/press',
+                  publicPath: '/images/v1/press/',
                 }),
-                width: fields.integer({ label: 'Width (px)', defaultValue: 160 }),
-                height: fields.integer({ label: 'Height (px)', defaultValue: 32 }),
+                scale: fields.number({
+                  label: 'Size nudge (optional)',
+                  description:
+                    'Leave this at 1 for almost every logo. Raise it if a compact square logo looks small next to the wide ones (1.3 to 1.5 is typical), lower it if one looks too heavy.',
+                  defaultValue: 1,
+                  step: 0.05,
+                  // Bounded so a typo can't break the layout: above ~1.87 the
+                  // logo outgrows its row and collides with the eyebrow above.
+                  // The component clamps to the same range defensively.
+                  validation: { min: 0.5, max: 1.8 },
+                }),
               }),
               {
                 label: 'Press logos',
                 description:
-                  'The sitewide "As Seen In" marquee (home + featured-in). Leave empty to fall back to the built-in lineup.',
+                  'The sitewide "As Seen In" marquee (home, about, featured-in and speaking). Leave empty to fall back to the built-in lineup.',
                 itemLabel: (props) => props.fields.name.value || 'Logo',
               }
             ),
@@ -229,7 +242,7 @@ export default config({
           {
             label: 'Press / "As Seen In" strip',
             description:
-              'Global trust strip shared across the home and featured-in pages.',
+              'Global trust strip shared across the home, about, featured-in and speaking pages. Editing it here updates all four.',
           }
         ),
       },
@@ -1050,22 +1063,10 @@ export default config({
             itemLabel: (props) => props.fields.name.value || 'Client',
           }
         ),
-        as_seen_in_eyebrow: fields.text({ label: '"As seen in" eyebrow' }),
-        as_seen_in: fields.array(
-          fields.object({
-            id: fields.text({ label: 'Slug (for CSS hooks, e.g. "cnn")' }),
-            name: fields.text({ label: 'Outlet name' }),
-            src: fields.text({
-              label: 'Logo image path (e.g. /images/v1/press/cnn.svg)',
-            }),
-            width: fields.integer({ label: 'Width (px)', defaultValue: 160 }),
-            height: fields.integer({ label: 'Height (px)', defaultValue: 32 }),
-          }),
-          {
-            label: 'As seen in',
-            itemLabel: (props) => props.fields.name.value || 'Outlet',
-          }
-        ),
+        // The "as seen in" strip on this page renders from <TrustAsSeenIn />
+        // and reads the shared siteSettings.press lineup. It used to have a
+        // duplicate as_seen_in list here, which meant editing the press logos
+        // in Site Settings silently left this page behind (CLI-176).
         final_cta: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),

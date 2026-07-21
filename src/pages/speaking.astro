@@ -2,6 +2,7 @@
 import SpeakingLayout from '../layouts/SpeakingLayout.astro';
 import HomeTestimonialsCarousel from '../components/HomeTestimonialsCarousel';
 import SpeakingAttendeeQuotes from '../components/SpeakingAttendeeQuotes.astro';
+import TrustAsSeenIn from '../components/TrustAsSeenIn.astro';
 import { reader } from '../lib/keystatic';
 import { getTestimonials, toCarouselCard, toColumnCard } from '../lib/testimonials';
 import { safeUrl } from '../lib/url';
@@ -28,8 +29,6 @@ const {
 	attendee_testimonials_section,
 	repeats_section,
 	repeats,
-	as_seen_in_eyebrow,
-	as_seen_in,
 	bio_callout,
 	final_cta,
 } = speaking;
@@ -72,11 +71,6 @@ const linkedinRecommendationsUrl =
 const linkedinTestimonialsLabel =
 	testimonials_section?.linkedin_cta_label ||
 	'View 250+ glowing testimonials on LinkedIn';
-
-const pressMarquee = as_seen_in
-	? [...as_seen_in, ...as_seen_in, ...as_seen_in, ...as_seen_in]
-	: [];
-const pressLogosLen = as_seen_in?.length ?? 0;
 
 const clientLogos = past_clients ?? [];
 ---
@@ -621,30 +615,8 @@ const clientLogos = past_clients ?? [];
 		</div>
 	</section>
 
-	{/* ---------- As seen in (marquee, matches Home) ---------- */}
-	<section class="trust as-seen-in editorial-trust">
-		<div class="trust-eyebrow">{as_seen_in_eyebrow}</div>
-		<div class="marquee-mask">
-			<div class="marquee">
-				{
-					pressMarquee.map((logo, i) => (
-						<span
-							class={`press-mark-frame press-mark-frame--${logo.id}`}
-							style={`--mark-height: ${logo.height}px; --mark-width: ${logo.width}px;`}
-							aria-hidden={i >= pressLogosLen ? 'true' : undefined}
-						>
-							<img
-								class={`press-mark press-mark--${logo.id}`}
-								src={logo.src}
-								alt={i < pressLogosLen ? logo.name : ''}
-								loading="lazy"
-							/>
-						</span>
-					))
-				}
-			</div>
-		</div>
-	</section>
+	{/* ---------- As seen in (shared global section) ---------- */}
+	<TrustAsSeenIn variant="editorial" />
 
 	{/* ---------- Speaker bio callout ---------- */}
 	{

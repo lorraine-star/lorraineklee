@@ -514,49 +514,10 @@ body {
 .fade-up { animation: fadeUp 600ms var(--ease-out) backwards; }
 
 /* ---------- TRUST STRIP ---------- */
-.trust {
-  padding: 36px 0 38px;
-  border-top: 1px solid var(--border-soft);
-  border-bottom: 1px solid var(--border-soft);
-}
-.trust-eyebrow {
-  text-align: center;
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 24px;
-}
-.trust-eyebrow em {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 500;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--ink-900);
-  font-size: 15px;
-  margin: 0 6px;
-}
-.marquee-mask {
-  overflow: hidden;
-  mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
-  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
-}
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-.marquee {
-  display: flex;
-  gap: 80px;
-  animation: marquee 50s linear infinite;
-  width: max-content;
-  align-items: center;
-  will-change: transform;
-}
-.marquee-mask:hover .marquee { animation-play-state: paused; }
+/* The .trust / .marquee / .press-mark* rules used to live here as a mirror of
+   the copy in TrustAsSeenIn.astro. The two drifted, so the component is now
+   the single source of truth and ships its own is:global styles (CLI-176).
+   Do not re-add them here. */
 .logo-word {
   font-family: var(--font-sans);
   font-size: 28px;
@@ -1550,48 +1511,8 @@ body {
   opacity: 0.65;
   filter: grayscale(1);
 }
-.press-mark-frame {
-  width: var(--mark-width, 160px);
-  height: var(--mark-height, 32px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-  transition: transform 240ms var(--ease-out);
-}
-.press-mark {
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
-  display: block;
-  opacity: 0.74;
-  filter: grayscale(1);
-  pointer-events: none;
-  transition: opacity 240ms var(--ease-out), filter 240ms var(--ease-out);
-}
-.press-mark-frame:hover {
-  transform: translateY(-1px);
-}
-.press-mark-frame:hover .press-mark {
-  opacity: 1;
-  filter: none;
-}
-.press-mark--fox5 {
-  filter: grayscale(1) brightness(0.18);
-}
-.press-mark-frame--fox5:hover .press-mark {
-  filter: brightness(0);
-}
-.press-mark--cnn {
-  filter: grayscale(1) brightness(0.62);
-}
-.press-mark--business-insider {
-  opacity: 0.7;
-}
-.press-mark--nbc4 {
-  opacity: 0.86;
-}
+/* .press-mark-frame / .press-mark and their per-logo tuning now live only in
+   TrustAsSeenIn.astro (CLI-176). */
 
 /* ---------- Four ways into the work (slim) ---------- */
 .four-ways {
