@@ -442,6 +442,8 @@ past_clients:
   - logo_image: /images/clients/past_clients/31/logo_image.png
   - name: Lumi2
     logo_image: /images/clients/past_clients/32/logo_image.png
+  - name: Lumi3
+    logo_image: /images/clients/past_clients/33/logo_image.png
 show_stats: true
 stats_section:
   eyebrow: By the numbers
