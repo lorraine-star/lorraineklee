@@ -4,7 +4,7 @@ import HomeTestimonialsCarousel from '../components/HomeTestimonialsCarousel';
 import SpeakingAttendeeQuotes from '../components/SpeakingAttendeeQuotes.astro';
 import { reader } from '../lib/keystatic';
 import { getTestimonials, toCarouselCard, toColumnCard } from '../lib/testimonials';
-import { safeUrl } from '../lib/url';
+import { safeUrl, toEmbedUrl } from '../lib/url';
 
 const speaking = await reader.singletons.speaking.read();
 if (!speaking) {
@@ -46,7 +46,18 @@ const toParagraphs = (text?: string | null): string[] =>
 		.map((p) => p.replace(/\s+/g, ' ').trim())
 		.filter(Boolean);
 
-const reelEmbed = safeUrl(reel_section?.embed_url);
+// Optional per-talk link to that talk's track (CLI-173). safeUrl falls back to
+// the '#' sentinel for unsafe or unparseable values, so treat that as "no link"
+// and render nothing rather than a dead anchor.
+const talkTrackHref = (value?: string | null): string => {
+	const href = safeUrl(value);
+	return href && href !== '#' ? href : '';
+};
+const talkTrackLinkLabel =
+	speaking.talk_track_link_label || 'See the talk track';
+
+// Editors paste share links, which YouTube will not frame; normalize first.
+const reelEmbed = toEmbedUrl(reel_section?.embed_url);
 const heroImage =
 	hero.image || '/images/v1/lorraine-hero-speaking.webp';
 
@@ -105,6 +116,7 @@ const clientLogos = past_clients ?? [];
 						const panelId = `topic-panel-${i}`;
 						const hasTakeaways = (t.takeaways ?? []).length > 0;
 						const paragraphs = toParagraphs(t.description);
+						const trackUrl = talkTrackHref(t.talk_track_url);
 						return (
 							<div class="topic-card topic-acc" data-open="false">
 								{t.gif && (
@@ -179,10 +191,18 @@ const clientLogos = past_clients ?? [];
 												</ul>
 											</>
 										)}
-										<a class="btn primary" href={safeUrl(speaking.card_cta_url, '/contact')} data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
-											{speaking.card_cta_label || 'Book this talk'}{' '}
-											<span aria-hidden="true">&rarr;</span>
-										</a>
+										<div class="topic-cta-row">
+											<a class="btn primary" href={safeUrl(speaking.card_cta_url, '/contact')} data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
+												{speaking.card_cta_label || 'Book this talk'}{' '}
+												<span aria-hidden="true">&rarr;</span>
+											</a>
+											{trackUrl && (
+												<a class="btn ghost" href={trackUrl} data-ga-event="speaking_talk_track" data-ga-label="speaking-talk-track">
+													{talkTrackLinkLabel}{' '}
+													<span aria-hidden="true">&rarr;</span>
+												</a>
+											)}
+										</div>
 									</div>
 								</div>
 							</div>
@@ -380,6 +400,7 @@ const clientLogos = past_clients ?? [];
 										const panelId = `other-talk-panel-${i}`;
 										const hasTakeaways = (talk.takeaways ?? []).length > 0;
 										const paragraphs = toParagraphs(talk.description);
+										const trackUrl = talkTrackHref(talk.talk_track_url);
 										return (
 											<div
 												class="topic-card topic-acc other-talk-card"
@@ -458,10 +479,18 @@ const clientLogos = past_clients ?? [];
 																</ul>
 															</>
 														)}
-														<a class="btn primary" href={safeUrl(speaking.card_cta_url, '/contact')} data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
-															{speaking.card_cta_label || 'Book this talk'}{' '}
-															<span aria-hidden="true">&rarr;</span>
-														</a>
+														<div class="topic-cta-row">
+															<a class="btn primary" href={safeUrl(speaking.card_cta_url, '/contact')} data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
+																{speaking.card_cta_label || 'Book this talk'}{' '}
+																<span aria-hidden="true">&rarr;</span>
+															</a>
+															{trackUrl && (
+																<a class="btn ghost" href={trackUrl} data-ga-event="speaking_talk_track" data-ga-label="speaking-talk-track">
+																	{talkTrackLinkLabel}{' '}
+																	<span aria-hidden="true">&rarr;</span>
+																</a>
+															)}
+														</div>
 													</div>
 												</div>
 											</div>

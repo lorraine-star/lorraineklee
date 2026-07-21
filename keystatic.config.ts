@@ -702,6 +702,12 @@ export default config({
           description: 'Heading above the talk-track agenda on keynote pages',
           defaultValue: 'Talk track',
         }),
+        talk_track_link_label: fields.text({
+          label: 'Talk track link label',
+          description:
+            'Shared wording for the link on a talk card that points to that talk\'s track. Only shows on talks that have a link set.',
+          defaultValue: 'See the talk track',
+        }),
         detail_back_label: fields.text({
           label: 'Keynote detail: back-link label',
           description: 'Top "all keynotes" link on an individual keynote page.',
@@ -775,7 +781,7 @@ export default config({
             embed_url: fields.text({
               label: 'Reel embed URL',
               description:
-                'YouTube or Vimeo embed URL (e.g. https://www.youtube.com/embed/VIDEO_ID).',
+                'Paste the YouTube or Vimeo link straight from the Share button. Watch links, youtu.be links, and embed links all work.',
             }),
             caption: fields.text({ label: 'Caption under reel' }),
           },
@@ -844,6 +850,12 @@ export default config({
                   props.fields.label.value || 'Track item',
               }
             ),
+            talk_track_url: fields.text({
+              label: 'Talk track link (optional)',
+              description:
+                'Where this talk links to so people can find its talk track, for example "/keynotes/how-to-lead-with-impact" or a full video URL. Leave blank to show no link.',
+              defaultValue: '',
+            }),
             takeaways: fields.array(fields.text({ label: 'Takeaway' }), {
               label: 'Audience takeaways',
               itemLabel: (props) => props.value || 'Takeaway',
@@ -902,6 +914,12 @@ export default config({
               label: 'Description',
               multiline: true,
               description: 'Separate paragraphs with a blank line.',
+            }),
+            talk_track_url: fields.text({
+              label: 'Talk track link (optional)',
+              description:
+                'Where this talk links to so people can find its talk track, for example "/keynotes/how-to-present-like-a-pro" or a full video URL. Leave blank to show no link.',
+              defaultValue: '',
             }),
             takeaways: fields.array(fields.text({ label: 'Takeaway' }), {
               label: 'Audience takeaways',
@@ -3569,9 +3587,9 @@ export default config({
           multiline: true,
         }),
         clip_url: fields.text({
-          label: 'Talk clip embed URL (optional)',
+          label: 'Talk video (optional)',
           description:
-            'YouTube or Vimeo embed URL shown on the keynote detail page.',
+            'The recording shown on this keynote page. Paste the YouTube or Vimeo link straight from the Share button. Watch links, youtu.be links, and embed links all work.',
         }),
         takeaways: fields.array(fields.text({ label: 'Takeaway' }), {
           label: 'Audience takeaways',

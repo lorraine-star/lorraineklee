@@ -12,6 +12,7 @@
     "astro": "astro",
     "prepare": "git config core.hooksPath .githooks || exit 0",
     "test:e2e": "momentic run",
+    "test:unit": "node --experimental-strip-types scripts/test-url.mjs",
     "validate:content": "node --experimental-strip-types scripts/validate-keystatic-images.mjs"
   },
   "dependencies": {
