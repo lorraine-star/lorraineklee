@@ -6,10 +6,12 @@ A reference for Lorraine. This is the companion to
 guide covers your site's **design**: colors, fonts, sizes, spacing, layout, and
 anything else about how the site looks and behaves.
 
-Design changes are made by talking to **Claude**, an AI assistant that runs in
-an app on your Mac and knows your website inside and out. You describe what you
-want in plain English. Claude does the technical work, shows you the result on
-a private link, and nothing touches your live site until you say so.
+Design changes are made by talking to **Claude**, an AI assistant you reach
+through an app on your Mac. The app is on your Mac, but the work happens
+safely online: Claude works on your website's master copy in the cloud, and it
+knows the site inside and out. You describe what you want in plain English.
+Claude does the technical work, shows you the result on a private link, and
+nothing touches your live site until you say so.
 
 You will never see or touch code. If Claude ever shows you something that looks
 like code, you can ignore it. The plain-English summary is the part for you.
@@ -82,23 +84,19 @@ in place and you never redo it. For the record, here is what "set up" means:
    own Claude account (this account has a paid plan on it, which is what powers
    the assistant).
 
-2. **Your website's files live in a folder on your Mac.** Claude reads and
-   edits this folder when you ask for changes.
-   _[Ryan: fill in the folder's location here during setup.]_
+2. **Claude is connected to your website.** Your website's master copy lives
+   online, on a service called GitHub that was connected to your account
+   during your original Keystatic setup. Claude works on that master copy
+   directly, in the cloud. Nothing about your website is stored on your Mac,
+   so there is nothing on your computer to look after, and even a brand new
+   laptop someday just means installing the app and signing in again.
 
-   Two things to know about this folder:
+3. **You have done one test change together**, end to end, so you have seen
+   the whole loop once before doing it alone.
 
-   - **Do not move, rename, or delete it.** Claude expects it where it is.
-   - **It is only a working copy.** The master copy of your website lives
-     safely online (on a service called GitHub, connected to your account
-     during your original Keystatic setup). If anything ever happened to your
-     Mac, nothing would be lost, and Claude can re-download the folder.
-
-3. **You have done one test change together**, end to end, so you have seen the
-   whole loop once before doing it alone.
-
-If any of these ever stops being true (new Mac, signed out and stuck, folder
-missing), see [section 8](#8-if-something-goes-wrong) for who to contact.
+If any of these ever stops being true (signed out and stuck, or your website
+no longer shows up in the app), see
+[section 8](#8-if-something-goes-wrong) for who to contact.
 
 ---
 
@@ -108,21 +106,22 @@ This is the everyday loop. It is the same every time.
 
 1. **Open the Claude app** on your Mac.
 
-2. **Open your website's project.** It appears in the app's recent list, so
-   after the first time this is one click.
+2. **Choose your website.** The website appears in the app's project list, so
+   this is one click.
 
 3. **Start a new conversation** and type what you want changed, in plain
    English, the way you would tell a designer. Section 4 has real examples.
 
 4. **Let Claude work.** You will see it thinking, looking through the site,
    and making edits. This can take a few minutes for bigger changes. You do
-   not need to watch it.
+   not need to watch it: the work happens in the cloud, so you can switch to
+   something else, or even close your laptop, and the finished result will be
+   waiting when you come back.
 
-5. **Approve when Claude checks with you.** Claude asks permission before
-   doing things on your Mac, so you may see small "Allow?" style prompts.
-   For normal website work, approving is fine. If a request ever seems odd or
-   you do not understand it, ask Claude to explain it in plain words first.
-   You can always say no.
+5. **Approve if Claude checks with you.** Claude sometimes pauses to confirm
+   before a bigger step. For normal website work, approving is fine. If a
+   question ever seems odd or you do not understand it, ask Claude to explain
+   it in plain words first. You can always say no.
 
 6. **Read the summary and open the preview link.** When Claude finishes, it
    tells you what it changed in plain language and gives you a private link to
@@ -293,9 +292,10 @@ help:
 > **Who to contact:** Ryan, your developer.
 > _[Add Ryan's preferred email or Slack here before sharing this doc.]_
 
-**Something about the setup itself broke** (new Mac, signed out of the app and
-stuck, the website folder is missing): same contact as above. These are
-five-minute fixes for a developer and not something to puzzle through alone.
+**Something about the setup itself broke** (signed out of the app and stuck,
+or your website no longer shows up in the app): same contact as above. These
+are five-minute fixes for a developer and not something to puzzle through
+alone.
 
 ---
 
@@ -319,8 +319,9 @@ The three sentences that run everything:
 ## 10. Quick glossary
 
 - **Claude:** the AI assistant in the app on your Mac. Your design department.
-- **The website folder:** the working copy of your site's files on your Mac
-  that Claude edits. Do not move or rename it; the master copy lives online.
+- **The cloud:** where Claude actually does its work: on your website's
+  master copy, which is stored online under your own account. Nothing about
+  the website lives on your Mac.
 - **Preview link:** a private address showing one change before it exists
   anywhere real. Only for your eyes.
 - **Practice site (Dev):** the full, private rehearsal copy of your website.
