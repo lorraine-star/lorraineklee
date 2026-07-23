@@ -3041,6 +3041,11 @@ export default config({
               label: 'Heading accent (shown italic)',
             }),
             lead: fields.text({ label: 'Lead', multiline: true }),
+            cta_label: fields.text({
+              label: 'Jump-to-full-list CTA label',
+              description:
+                'Button below the highlight cards that scrolls down to the "Everywhere else" section. Leave blank to hide it.',
+            }),
           },
           {
             label: 'Highlights section heading',
@@ -3057,9 +3062,9 @@ export default config({
             }),
             lead: fields.text({ label: 'Lead', multiline: true }),
             empty_state: fields.text({
-              label: 'Empty filter state',
+              label: 'Empty state',
               description:
-                'Shown when a filter pill matches no appearances in the grid.',
+                'Shown in place of the grid when there are no non-highlighted appearances to list.',
             }),
           },
           {
