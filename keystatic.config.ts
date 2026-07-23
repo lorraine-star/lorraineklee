@@ -2228,10 +2228,6 @@ export default config({
         ),
         labels: fields.object(
           {
-            browse_interviews: fields.text({
-              label: 'Hero "browse interviews" link label',
-              defaultValue: 'Browse interviews',
-            }),
             watch_here: fields.text({
               label: 'Guest card "watch it here" link label',
               defaultValue: 'Watch it here',

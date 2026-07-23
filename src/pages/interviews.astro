@@ -19,7 +19,6 @@ const {
 
 // Small reusable UI microcopy (editable via Keystatic, with literal fallbacks).
 const labels = page.labels ?? {};
-const browseInterviewsLabel = labels.browse_interviews || 'Browse interviews';
 const watchHereLabel = labels.watch_here || 'Watch it here';
 
 const heroCtaUrl = safeUrl(hero.cta_url, '/learn#course');
@@ -74,10 +73,6 @@ const guests = (guest_appearances ?? [])
 								rel={isExternal(heroCtaUrl) ? 'noopener noreferrer' : undefined}
 							>
 								{hero.cta_label} <span aria-hidden="true">&rarr;</span>
-							</a>
-							<a class="anchor-link" href="#guest-interviews">
-								{browseInterviewsLabel}{' '}
-								<span class="arrow" aria-hidden="true">&rarr;</span>
 							</a>
 						</div>
 					)
