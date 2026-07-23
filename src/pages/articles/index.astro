@@ -37,6 +37,14 @@ const posts = collection
 const items = [...authored, ...posts];
 const isExternal = (href: string) => /^https?:\/\//i.test(href);
 
+// Hero image is Keystatic-editable (CLI-188); the committed default lives in
+// the field's managed folder so saves in the admin stay valid (see CLI-165).
+const heroImage =
+	tl?.articles_hero_image || '/images/thought-leadership/articles-hero.webp';
+const heroImageAlt =
+	tl?.articles_hero_image_alt ||
+	'Lorraine K. Lee seated in a studio interview, with her book Unforgettable Presence displayed beside her.';
+
 // Show an initial batch and reveal the rest behind a "See more" button. The
 // remaining cards are still rendered into the DOM (hidden) so they need no
 // fetch and stay available without JS once the toggle is activated.
@@ -49,19 +57,29 @@ const hasMore = items.length > INITIAL_COUNT;
 	description={tl?.articles_seo_description || "Bylines and features Lorraine K. Lee has written across leading outlets."}
 	activeId="thought-leadership"
 >
-	<section class="section section--compact">
-		<div class="grid12">
-			<header class="articles-head">
+	{/* ---------- Hero ---------- */}
+	<section class="page-hero">
+		<div class="grid12 page-hero-grid">
+			<div class="page-hero-copy fade-up">
 				<div class="page-hero-eyebrow">
 					<span class="dot"></span>
 					<span class="eyebrow" style="color: var(--ink-500);">Thought Leadership</span>
 				</div>
 				<h1>Authored <em>Articles</em>.</h1>
-				<p class="lead">
+				<p class="lead-large">
 					Bylines and features Lorraine has written across leading outlets.
 				</p>
-			</header>
+			</div>
+			<div class="page-hero-aside fade-up" style="animation-delay: 120ms;">
+				<div class="photo-card">
+					<img src={heroImage} alt={heroImageAlt} />
+				</div>
+			</div>
+		</div>
+	</section>
 
+	<section class="section section--compact">
+		<div class="grid12">
 			{
 				items.length === 0 ? (
 					<p class="articles-empty">No articles published yet.</p>
@@ -148,14 +166,6 @@ const hasMore = items.length > INITIAL_COUNT;
 </SpeakingLayout>
 
 <style>
-	.articles-head {
-		grid-column: 1 / -1;
-		max-width: 62ch;
-		margin-bottom: clamp(20px, 3vw, 36px);
-	}
-	.articles-head h1 {
-		margin: 12px 0 16px;
-	}
 	.articles-list {
 		grid-column: 1 / -1;
 		list-style: none;

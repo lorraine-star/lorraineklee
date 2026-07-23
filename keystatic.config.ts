@@ -3122,6 +3122,14 @@ export default config({
           label: 'SEO description (Authored Articles page)',
           multiline: true,
         }),
+        articles_hero_image: fields.image({
+          label: 'Hero image (Authored Articles page)',
+          directory: 'public/images/thought-leadership',
+          publicPath: '/images/thought-leadership/',
+        }),
+        articles_hero_image_alt: fields.text({
+          label: 'Hero image alt text (Authored Articles page)',
+        }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
