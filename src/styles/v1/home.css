@@ -322,7 +322,8 @@ body {
 .btn.ghost {
   background: transparent;
   color: var(--accent);
-  padding: 12px 0;
+  border: 1.5px solid currentColor;
+  padding: 12px 24px;
   letter-spacing: 0.04em;
   text-transform: none;
   font-weight: 600;
