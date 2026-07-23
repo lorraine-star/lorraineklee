@@ -7,14 +7,7 @@ hero:
   cta_url: "/learn#course"
 labels:
   browse_interviews: "Browse interviews"
-  watch_interview: "Watch the interview"
   watch_here: "Watch it here"
-  video_coming_soon: "Video coming soon"
-featured_section:
-  eyebrow: "On the other side of the camera"
-  heading: "Lorraine interviews"
-  heading_accent: "leaders she admires."
-  lead: "From her years in the LinkedIn newsroom and beyond — conversations with prominent leaders shaping business, culture, and the future of work."
 guest_section:
   eyebrow: "Select guest interviews"
   heading: "Featured guest on shows"
@@ -137,6 +130,16 @@ guest_appearances:
     title: "Be the Most Charismatic Person in the Room"
     youtube_id: "serICVZnvfo"
     url: ""
+  - show: "Shelley Zalis"
+    title: "Hacks to tackle gender equality at work"
+    youtube_id: "zvplacEd8zs"
+    url: ""
+    description: "The Female Quotient founder and CEO Shelley Zalis on practical, everyday hacks leaders and teams can use to close the gender gap at work."
+  - show: "Justin Baldoni"
+    title: '"Man Enough" wants to redefine masculinity'
+    youtube_id: ""
+    url: "https://www.linkedin.com/pulse/man-enough-wants-redefine-masculinity-actor-justin-baldoni-lee"
+    description: "Actor Justin Baldoni shares what those changes mean for the workplace."
 final_cta:
   eyebrow: "Free 5-day course"
   heading: "Great at your job but can't"
