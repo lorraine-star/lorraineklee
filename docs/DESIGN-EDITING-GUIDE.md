@@ -289,8 +289,7 @@ the same way over and over. Note what you asked for, start a brand new
 conversation, and describe the goal fresh. If it fails twice, stop and get
 help:
 
-> **Who to contact:** Ryan, your developer.
-> _[Add Ryan's preferred email or Slack here before sharing this doc.]_
+> **Who to contact:** Ryan, your developer, at **ryanflash166@gmail.com**.
 
 **Something about the setup itself broke** (signed out of the app and stuck,
 or your website no longer shows up in the app): same contact as above. These

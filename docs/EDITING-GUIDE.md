@@ -342,8 +342,7 @@ page's text freely.
 turns red, or a page looks broken after you publish, do not keep retrying or keep
 editing. Note what you changed and contact:
 
-> **Who to contact:** Ryan, your developer.
-> _[Add Ryan's preferred email or Slack here before sharing this doc.]_
+> **Who to contact:** Ryan, your developer, at **ryanflash166@gmail.com**.
 
 ---
 
