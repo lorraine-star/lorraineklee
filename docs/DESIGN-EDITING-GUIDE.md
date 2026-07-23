@@ -82,13 +82,9 @@ in place and you never redo it. For the record, here is what "set up" means:
    own Claude account (this account has a paid plan on it, which is what powers
    the assistant).
 
-   > 📸 **Screenshot to add:** the Claude app icon in the Dock.
-
 2. **Your website's files live in a folder on your Mac.** Claude reads and
    edits this folder when you ask for changes.
-
-   > 📸 **Screenshot to add:** the website folder in Finder, with its location
-   > visible. _[Ryan: fill in the actual folder path here during setup.]_
+   _[Ryan: fill in the folder's location here during setup.]_
 
    Two things to know about this folder:
 
@@ -112,19 +108,11 @@ This is the everyday loop. It is the same every time.
 
 1. **Open the Claude app** on your Mac.
 
-   > 📸 **Screenshot to add:** the app freshly opened.
-
 2. **Open your website's project.** It appears in the app's recent list, so
    after the first time this is one click.
 
-   > 📸 **Screenshot to add:** the recent-projects list with the website
-   > project highlighted.
-
 3. **Start a new conversation** and type what you want changed, in plain
    English, the way you would tell a designer. Section 4 has real examples.
-
-   > 📸 **Screenshot to add:** the message box with an example request typed
-   > in.
 
 4. **Let Claude work.** You will see it thinking, looking through the site,
    and making edits. This can take a few minutes for bigger changes. You do
@@ -135,8 +123,6 @@ This is the everyday loop. It is the same every time.
    For normal website work, approving is fine. If a request ever seems odd or
    you do not understand it, ask Claude to explain it in plain words first.
    You can always say no.
-
-   > 📸 **Screenshot to add:** a typical permission prompt.
 
 6. **Read the summary and open the preview link.** When Claude finishes, it
    tells you what it changed in plain language and gives you a private link to
@@ -201,9 +187,6 @@ address showing your site with the change in place.
 - **Not right yet?** Say so in the same conversation and Claude adjusts. Each
   round gets a fresh preview.
 - **Lost the link?** Ask: "give me the preview link again."
-
-> 📸 **Screenshot to add:** a Claude reply containing a preview link, with the
-> link circled.
 
 ---
 
