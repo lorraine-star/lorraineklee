@@ -6,7 +6,6 @@ hero:
   cta_label: "Grab my free 5-day email course"
   cta_url: "/learn#course"
 labels:
-  browse_interviews: "Browse interviews"
   watch_here: "Watch it here"
 guest_section:
   eyebrow: "Select guest interviews"
