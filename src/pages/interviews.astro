@@ -11,7 +11,6 @@ if (!page) {
 }
 const {
 	hero,
-	featured_section,
 	guest_section,
 	podcast_section,
 	guest_appearances,
@@ -20,20 +19,12 @@ const {
 
 // Small reusable UI microcopy (editable via Keystatic, with literal fallbacks).
 const labels = page.labels ?? {};
-const browseInterviewsLabel = labels.browse_interviews || 'Browse interviews';
-const watchInterviewLabel = labels.watch_interview || 'Watch the interview';
 const watchHereLabel = labels.watch_here || 'Watch it here';
-const videoComingSoonLabel = labels.video_coming_soon || 'Video coming soon';
-
-const interviews = (await reader.collections.interviews.all())
-	.map((i) => ({ slug: i.slug, ...i.entry }))
-	.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
 const heroCtaUrl = safeUrl(hero.cta_url, '/learn#course');
 const finalCtaUrl = safeUrl(final_cta.cta_url, '/learn#course');
 const isExternal = (url: string) => /^https?:\/\//i.test(url);
 
-const embedUrl = (id: string) => `https://www.youtube.com/embed/${id}`;
 const watchUrl = (id: string) => `https://www.youtube.com/watch?v=${id}`;
 const thumbUrl = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 
@@ -83,91 +74,12 @@ const guests = (guest_appearances ?? [])
 							>
 								{hero.cta_label} <span aria-hidden="true">&rarr;</span>
 							</a>
-							<a class="anchor-link" href="#guest-interviews">
-								{browseInterviewsLabel}{' '}
-								<span class="arrow" aria-hidden="true">&rarr;</span>
-							</a>
 						</div>
 					)
 				}
 			</div>
 		</div>
 	</section>
-
-	{/* ---------- Featured interviews (CMS collection) ---------- */}
-	{
-		interviews.length > 0 && (
-			<section class="section section--compact anchor-target" id="featured-interviews">
-				<div class="grid12">
-					<div class="section-head section-head--center">
-						<span class="eyebrow">{featured_section.eyebrow}</span>
-						<h2>
-							{featured_section.heading}{' '}
-							<em>{featured_section.heading_accent}</em>
-						</h2>
-						{featured_section.lead && <p class="lead">{featured_section.lead}</p>}
-					</div>
-					<div class="clip-grid reveal-stagger">
-						{interviews.map((it) => {
-							const link = it.video_url ? safeUrl(it.video_url) : '';
-							return (
-								<div class="clip-card" id={it.slug}>
-									<div class="clip-frame">
-										{it.youtube_id ? (
-											<iframe
-												src={embedUrl(it.youtube_id)}
-												title={it.title}
-												allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-												allowfullscreen
-												loading="lazy"
-											/>
-										) : link ? (
-											<a
-												class:list={['clip-link', { 'has-poster': it.thumbnail }]}
-												href={link}
-												target="_blank"
-												rel="noopener noreferrer"
-												aria-label={`Watch: ${it.title}`}
-											>
-												{it.thumbnail && (
-													<img
-														class="clip-poster"
-														src={it.thumbnail}
-														alt=""
-														loading="lazy"
-													/>
-												)}
-												<span class="play-ring" aria-hidden="true">&#9654;</span>
-												<span class="note">{watchInterviewLabel} &#8599;</span>
-											</a>
-										) : (
-											<div class:list={['reel-placeholder', { 'has-poster': it.thumbnail }]}>
-												{it.thumbnail && (
-													<img
-														class="clip-poster"
-														src={it.thumbnail}
-														alt=""
-														loading="lazy"
-													/>
-												)}
-												<div class="play-ring" aria-hidden="true">&#9654;</div>
-												<div class="note">{videoComingSoonLabel}</div>
-											</div>
-										)}
-									</div>
-									<div class="clip-body">
-										{it.guest && <span class="clip-guest">{it.guest}</span>}
-										<h3>{it.title}</h3>
-										{it.description && <p>{it.description}</p>}
-									</div>
-								</div>
-							);
-						})}
-					</div>
-				</div>
-			</section>
-		)
-	}
 
 	{/* ---------- Guest appearances (Lorraine as guest) ---------- */}
 	{
@@ -210,6 +122,9 @@ const guests = (guest_appearances ?? [])
 								<div class="interview-card-body">
 									{g.show && <span class="interview-show">{g.show}</span>}
 									<h3>{g.title}</h3>
+									{g.description && (
+										<p class="interview-desc">{g.description}</p>
+									)}
 									<span class="interview-link">
 										{watchHereLabel} <span aria-hidden="true">&#8599;</span>
 									</span>
@@ -283,75 +198,6 @@ const guests = (guest_appearances ?? [])
 </SpeakingLayout>
 
 <style>
-	/* Guest / interviewer label above the title in featured cards. */
-	.clip-guest {
-		display: inline-block;
-		font-family: var(--font-sans);
-		font-size: 12px;
-		font-weight: 700;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: var(--accent);
-		margin-bottom: 8px;
-	}
-	/* Link-style placeholder for a featured interview hosted off YouTube. */
-	.clip-frame .clip-link {
-		position: absolute;
-		inset: 0;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: 12px;
-		color: #fff;
-		text-decoration: none;
-		background: var(--ink-900);
-		transition: background 0.25s ease;
-	}
-	.clip-frame .clip-link:hover {
-		background: #2e3033;
-	}
-	.clip-frame .clip-link .play-ring {
-		display: grid;
-		place-items: center;
-		width: 56px;
-		height: 56px;
-		border-radius: 50%;
-		border: 2px solid rgba(255, 255, 255, 0.7);
-		font-size: 18px;
-		padding-left: 4px;
-	}
-	.clip-frame .clip-link .note {
-		font-family: var(--font-sans);
-		font-size: 13px;
-		font-weight: 600;
-		letter-spacing: 0.02em;
-	}
-	/* Optional poster image for a non-YouTube featured interview (no auto
-	   thumbnail). Sits behind the play ring + label, with a scrim for legibility. */
-	.clip-frame .clip-poster {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		z-index: 0;
-	}
-	.clip-frame .has-poster::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(180deg, rgba(73, 75, 81, 0.25), rgba(73, 75, 81, 0.62));
-		z-index: 1;
-	}
-	.clip-frame .has-poster .play-ring,
-	.clip-frame .has-poster .note {
-		position: relative;
-		z-index: 2;
-	}
-	.clip-frame .clip-link.has-poster:hover { background: var(--ink-900); }
-	.clip-frame .clip-link.has-poster:hover .clip-poster { opacity: 0.92; }
-
 	/* Guest-appearance cards: lightweight thumbnail links (no embedded iframes).
 	   Must span the full 12-col .grid12 track; without grid-column the grid
 	   collapses to a single auto column (CLI-85). */
@@ -456,6 +302,13 @@ const guests = (guest_appearances ?? [])
 		color: var(--ink-900);
 		margin: 0;
 		flex: 1;
+	}
+	.interview-desc {
+		font-family: var(--font-sans);
+		font-size: 14.5px;
+		line-height: 1.55;
+		color: var(--ink-700);
+		margin: 0;
 	}
 	.interview-link {
 		font-family: var(--font-sans);

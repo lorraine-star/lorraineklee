@@ -63,6 +63,8 @@ topics:
       organization.
     format: Keynote / Workshop
     talk_track: []
+    talk_track_url: >-
+      /keynotes/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work
     takeaways:
       - >-
         Uncover common communication pitfalls that undermine your presence, and
@@ -101,6 +103,7 @@ topics:
       Learning and Stanford Continuing Studies.
     format: Keynote / Workshop
     talk_track: []
+    talk_track_url: /keynotes/how-to-build-influence-in-the-hybrid-office
     takeaways:
       - The RAVE Model and how to apply it to your daily life.
       - >-
@@ -138,6 +141,8 @@ topics:
       team up for success and continue growing as a leader.
     format: Keynote / Manager training
     talk_track: []
+    talk_track_url: >-
+      /keynotes/how-to-lead-with-impact-strategies-to-build-collaboration-and-trust-on-your-team
     takeaways:
       - >-
         Cut the uncertainty: use three foundational moves, 30-60-90 resets,
@@ -181,6 +186,8 @@ topics:
       have an overall more positive experience at work.
     format: Keynote / Workshop
     talk_track: []
+    talk_track_url: >-
+      /keynotes/9-essential-tips-for-more-effective-hybrid-and-virtual-meetings
     takeaways:
       - Make virtual meetings more engaging and efficient.
       - Capture and keep your audience's attention.
@@ -209,6 +216,7 @@ topics:
       social network.
     format: Keynote / Workshop
     talk_track: []
+    talk_track_url: /keynotes/how-to-build-your-linkedin-presence
     takeaways:
       - How to optimize your profile to get more opportunities.
       - Best practices for sharing content to grow your audience and visibility.
@@ -256,6 +264,8 @@ other_talks:
       Join Lorraine, a top-rated virtual speaker and video communications
       expert, who will distill everything she's learned in an easily digestible
       way with tips you can implement right after the session.
+    talk_track_url: >-
+      /keynotes/make-a-memorable-first-impression-on-video-the-tea-method
     takeaways:
       - What the TEA Method is and how it can help you capture attention.
       - Ways to appear more professional, memorable, and confident on video.
@@ -283,6 +293,7 @@ other_talks:
       powerhouses including SlideShare and Prezi, and discover strategies and
       frameworks to present with confidence and create virtual presentations
       that capture audience attention and inspire change and action.
+    talk_track_url: /keynotes/how-to-present-like-a-pro
     takeaways:
       - How to feel and exude confidence during your next presentation.
       - Why presenting virtually is different, and how to leverage its benefits.
@@ -315,6 +326,7 @@ other_talks:
       delivering a webinar, or pitching to clients, so that you exude confidence
       and professionalism knowing that you're presenting your best self in a
       virtual world.
+    talk_track_url: /keynotes/communicate-with-confidence-in-a-virtual-world
     takeaways:
       - How to appear more confident and competent on video.
       - Tips and tricks to keep your audience engaged with your content.
@@ -338,6 +350,8 @@ other_talks:
       Join Lorraine K. Lee, a top-rated virtual keynote speaker, former LinkedIn
       editor, and popular LinkedIn Learning Instructor, for a webinar designed
       to help you become a more effective virtual presenter.
+    talk_track_url: >-
+      /keynotes/how-to-stand-out-virtually-video-and-linkedin-essentials
     takeaways:
       - How to be more confident on video and keep your audience engaged.
       - Best practices for video meetings and events.

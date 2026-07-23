@@ -338,6 +338,17 @@
 .topic-panel-inner .btn {
   align-self: flex-start;
 }
+/* Talk card actions: "book this talk" plus the optional talk-track link. */
+.topic-panel-inner .topic-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 20px;
+  align-self: flex-start;
+}
+.topic-panel-inner .topic-cta-row .btn {
+  align-self: center;
+}
 
 /* ----------------------------------------------------------------
    Logo grid - past clients

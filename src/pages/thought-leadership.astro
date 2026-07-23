@@ -24,6 +24,12 @@ const {
 } = page;
 
 const isExternal = (url: string) => /^https?:\/\//i.test(url);
+
+// Arrow glyph for a CTA button: on-site links get a forward arrow, links that
+// leave the site get the "opens elsewhere" arrow. Pairs with the target/rel
+// treatment applied to the same links.
+const ctaArrow = (url: string) => (isExternal(url) ? '↗' : '→');
+
 const watchUrl = (id: string) => `https://www.youtube.com/watch?v=${id}`;
 const thumbUrl = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 
@@ -75,7 +81,6 @@ const articles = (authored_articles ?? [])
 	.filter((a) => a.href);
 
 const primaryCtaUrl = resolveUrl(hero.primary_cta_url) || '/contact';
-const secondaryCtaUrl = resolveUrl(hero.secondary_cta_url) || '#press';
 const finalCtaUrl = resolveUrl(final_cta.cta_url) || '/contact';
 
 const appearancesMore = resolveUrl(appearances_section.view_more_url);
@@ -121,14 +126,6 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 					>
 						{hero.primary_cta_label} <span aria-hidden="true">&rarr;</span>
 					</a>
-					{
-						hero.secondary_cta_label && (
-							<a class="anchor-link" href={secondaryCtaUrl}>
-								{hero.secondary_cta_label}{' '}
-								<span class="arrow" aria-hidden="true">&rarr;</span>
-							</a>
-						)
-					}
 				</div>
 			</div>
 		</div>
@@ -196,7 +193,7 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 					{appearancesMore && appearances_section.view_more_label && (
 						<div class="tl-view-more">
 							<a
-								class="anchor-link"
+								class="btn outline"
 								href={appearancesMore}
 								target={isExternal(appearancesMore) ? '_blank' : undefined}
 								rel={
@@ -206,7 +203,7 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 								}
 							>
 								{appearances_section.view_more_label}{' '}
-								<span class="arrow" aria-hidden="true">&rarr;</span>
+								<span aria-hidden="true">{ctaArrow(appearancesMore)}</span>
 							</a>
 						</div>
 					)}
@@ -248,13 +245,13 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 					{pressMore && press_section.view_more_label && (
 						<div class="tl-view-more">
 							<a
-								class="anchor-link"
+								class="btn outline"
 								href={pressMore}
 								target={isExternal(pressMore) ? '_blank' : undefined}
 								rel={isExternal(pressMore) ? 'noopener noreferrer' : undefined}
 							>
 								{press_section.view_more_label}{' '}
-								<span class="arrow" aria-hidden="true">&rarr;</span>
+								<span aria-hidden="true">{ctaArrow(pressMore)}</span>
 							</a>
 						</div>
 					)}
@@ -302,7 +299,7 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 					{articlesMore && articles_section.view_more_label && (
 						<div class="tl-view-more">
 							<a
-								class="anchor-link"
+								class="btn outline"
 								href={articlesMore}
 								target={isExternal(articlesMore) ? '_blank' : undefined}
 								rel={
@@ -310,7 +307,7 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 								}
 							>
 								{articles_section.view_more_label}{' '}
-								<span class="arrow" aria-hidden="true">&rarr;</span>
+								<span aria-hidden="true">{ctaArrow(articlesMore)}</span>
 							</a>
 						</div>
 					)}
@@ -377,7 +374,7 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 					{interviewsMore && interviews_section.view_more_label && (
 						<div class="tl-view-more">
 							<a
-								class="anchor-link"
+								class="btn outline"
 								href={interviewsMore}
 								target={isExternal(interviewsMore) ? '_blank' : undefined}
 								rel={
@@ -387,7 +384,7 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 								}
 							>
 								{interviews_section.view_more_label}{' '}
-								<span class="arrow" aria-hidden="true">&rarr;</span>
+								<span aria-hidden="true">{ctaArrow(interviewsMore)}</span>
 							</a>
 						</div>
 					)}
@@ -422,36 +419,25 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 
 <style>
 	.tl-view-more {
+		/* Span the full grid like the card rows above it. Without this the row
+		   lands in a single 12-column track (~166px on a phone) and squeezes
+		   the CTA into a narrow, off-center column. */
+		grid-column: 1 / -1;
 		display: flex;
 		justify-content: center;
 		margin-top: clamp(20px, 2.5vw, 32px);
 	}
 
-	/* Every per-section "view all" link uses the text-with-arrow anchor-link
-	   role. The base .anchor-link rule in templates.css is scoped to
-	   .hero-cta-row, so restate it here for the links inside .tl-view-more so
-	   all four sections read as one consistent, aligned CTA style. */
-	.tl-view-more .anchor-link {
-		font-family: var(--font-sans);
-		font-size: 13px;
-		font-weight: 600;
-		letter-spacing: 0.01em;
-		color: var(--accent);
-		text-decoration: none;
-		padding: 12px 4px;
-		display: inline-flex;
-		align-items: center;
-		gap: 6px;
-		transition: color 200ms var(--ease-out);
-	}
-	.tl-view-more .anchor-link:hover {
-		color: var(--brand-blue-900);
-	}
-	.tl-view-more .anchor-link .arrow {
-		transition: transform 200ms var(--ease-out);
-	}
-	.tl-view-more .anchor-link:hover .arrow {
-		transform: translateX(3px);
+	/* Every per-section "view all" CTA uses the site's secondary button
+	   (.btn.outline), the same treatment the section-footer CTAs on /articles,
+	   /interviews, and /speaking already use, so the look comes from base.css.
+	   The one override: these labels are editable in Keystatic, and .btn is
+	   nowrap by default, so let a long label wrap instead of pushing the page
+	   sideways on a narrow phone. */
+	.tl-view-more .btn {
+		max-width: 100%;
+		white-space: normal;
+		text-align: center;
 	}
 
 	/* Media cards — lightweight YouTube/link thumbnails for appearances and
@@ -557,11 +543,9 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 		margin: 0;
 		flex: 1;
 	}
+	/* In-card CTA pill (see the shared rule further down, next to
+	   .tl-link-cta). */
 	.tl-media-link {
-		font-family: var(--font-sans);
-		font-size: 13px;
-		font-weight: 600;
-		color: var(--accent);
 		margin-top: auto;
 	}
 
@@ -606,10 +590,55 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 		flex: 1;
 	}
 	.tl-link-cta {
+		margin-top: 8px;
+	}
+
+	/* Card CTAs ("Watch now", "Read more").
+
+	   These stay <span>s on purpose: the whole card is already the <a>, so a
+	   nested anchor here would be invalid HTML and would break the card-wide
+	   click target. They are the visible affordance for that link, so they
+	   carry the tertiary button look (.btn.ghost's outlined pill) and fill in
+	   on card hover/focus to confirm the card is interactive. */
+	.tl-media-link,
+	.tl-link-cta {
+		align-self: flex-start;
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
 		font-family: var(--font-sans);
 		font-size: 13px;
 		font-weight: 600;
-		color: var(--ink-700);
-		margin-top: 4px;
+		letter-spacing: 0.04em;
+		color: var(--accent);
+		background: transparent;
+		border: 1.5px solid currentColor;
+		border-radius: 999px;
+		padding: 9px 18px;
+		transition: background 240ms var(--ease-out), color 240ms var(--ease-out),
+			border-color 240ms var(--ease-out);
+	}
+	.tl-media-card:hover .tl-media-link,
+	.tl-media-card:focus-visible .tl-media-link,
+	.tl-link-card:hover .tl-link-cta,
+	.tl-link-card:focus-visible .tl-link-cta {
+		background: var(--accent);
+		border-color: var(--accent);
+		color: #fff;
+	}
+
+	/* Keyboard users get the same button feedback as mouse users: the card's
+	   own focus ring plus the filled CTA above. */
+	.tl-media-card:focus-visible,
+	.tl-link-card:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 3px;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.tl-media-link,
+		.tl-link-cta {
+			transition: none;
+		}
 	}
 </style>

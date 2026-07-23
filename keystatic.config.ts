@@ -715,6 +715,12 @@ export default config({
           description: 'Heading above the talk-track agenda on keynote pages',
           defaultValue: 'Talk track',
         }),
+        talk_track_link_label: fields.text({
+          label: 'Talk track link label',
+          description:
+            'Shared wording for the link on a talk card that points to that talk\'s track. Only shows on talks that have a link set.',
+          defaultValue: 'See the talk track',
+        }),
         detail_back_label: fields.text({
           label: 'Keynote detail: back-link label',
           description: 'Top "all keynotes" link on an individual keynote page.',
@@ -788,7 +794,7 @@ export default config({
             embed_url: fields.text({
               label: 'Reel embed URL',
               description:
-                'YouTube or Vimeo embed URL (e.g. https://www.youtube.com/embed/VIDEO_ID).',
+                'Paste the YouTube or Vimeo link straight from the Share button. Watch links, youtu.be links, and embed links all work.',
             }),
             caption: fields.text({ label: 'Caption under reel' }),
           },
@@ -857,6 +863,12 @@ export default config({
                   props.fields.label.value || 'Track item',
               }
             ),
+            talk_track_url: fields.text({
+              label: 'Talk track link (optional)',
+              description:
+                'Where this talk links to so people can find its talk track, for example "/keynotes/how-to-lead-with-impact" or a full video URL. Leave blank to show no link.',
+              defaultValue: '',
+            }),
             takeaways: fields.array(fields.text({ label: 'Takeaway' }), {
               label: 'Audience takeaways',
               itemLabel: (props) => props.value || 'Takeaway',
@@ -915,6 +927,12 @@ export default config({
               label: 'Description',
               multiline: true,
               description: 'Separate paragraphs with a blank line.',
+            }),
+            talk_track_url: fields.text({
+              label: 'Talk track link (optional)',
+              description:
+                'Where this talk links to so people can find its talk track, for example "/keynotes/how-to-present-like-a-pro" or a full video URL. Leave blank to show no link.',
+              defaultValue: '',
             }),
             takeaways: fields.array(fields.text({ label: 'Takeaway' }), {
               label: 'Audience takeaways',
@@ -2218,44 +2236,15 @@ export default config({
         ),
         labels: fields.object(
           {
-            browse_interviews: fields.text({
-              label: 'Hero "browse interviews" link label',
-              defaultValue: 'Browse interviews',
-            }),
-            watch_interview: fields.text({
-              label: 'Featured card "watch the interview" label',
-              description:
-                'Shown on a featured interview that links off YouTube (no embed).',
-              defaultValue: 'Watch the interview',
-            }),
             watch_here: fields.text({
               label: 'Guest card "watch it here" link label',
               defaultValue: 'Watch it here',
-            }),
-            video_coming_soon: fields.text({
-              label: 'Featured card "video coming soon" placeholder',
-              defaultValue: 'Video coming soon',
             }),
           },
           {
             label: 'UI labels',
             description:
               'Small reusable button / link microcopy used across the interviews page.',
-          }
-        ),
-        featured_section: fields.object(
-          {
-            eyebrow: fields.text({ label: 'Eyebrow' }),
-            heading: fields.text({ label: 'Heading (plain)' }),
-            heading_accent: fields.text({
-              label: 'Heading accent (italic)',
-            }),
-            lead: fields.text({ label: 'Lead', multiline: true }),
-          },
-          {
-            label: 'Featured interviews section heading',
-            description:
-              'Heading for the block that renders the "Interviews" CMS collection — the leaders Lorraine has interviewed.',
           }
         ),
         guest_section: fields.object(
@@ -2315,6 +2304,11 @@ export default config({
               label: 'Watch URL (optional)',
               description:
                 'External link used when the appearance is not on YouTube (e.g. a LinkedIn event or post). Falls back to the YouTube link when a video ID is set.',
+            }),
+            description: fields.text({
+              label: 'Description (optional)',
+              description: 'Optional one-liner shown under the title on the card.',
+              multiline: true,
             }),
           }),
           {
@@ -3031,6 +3025,11 @@ export default config({
               label: 'Heading accent (shown italic)',
             }),
             lead: fields.text({ label: 'Lead', multiline: true }),
+            cta_label: fields.text({
+              label: 'Jump-to-full-list CTA label',
+              description:
+                'Button below the highlight cards that scrolls down to the "Everywhere else" section. Leave blank to hide it.',
+            }),
           },
           {
             label: 'Highlights section heading',
@@ -3047,9 +3046,9 @@ export default config({
             }),
             lead: fields.text({ label: 'Lead', multiline: true }),
             empty_state: fields.text({
-              label: 'Empty filter state',
+              label: 'Empty state',
               description:
-                'Shown when a filter pill matches no appearances in the grid.',
+                'Shown in place of the grid when there are no non-highlighted appearances to list.',
             }),
           },
           {
@@ -3107,6 +3106,14 @@ export default config({
           label: 'SEO description (Authored Articles page)',
           multiline: true,
         }),
+        articles_hero_image: fields.image({
+          label: 'Hero image (Authored Articles page)',
+          directory: 'public/images/thought-leadership',
+          publicPath: '/images/thought-leadership/',
+        }),
+        articles_hero_image_alt: fields.text({
+          label: 'Hero image alt text (Authored Articles page)',
+        }),
         hero: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -3117,13 +3124,6 @@ export default config({
             lead: fields.text({ label: 'Lead paragraph', multiline: true }),
             primary_cta_label: fields.text({ label: 'Primary CTA label' }),
             primary_cta_url: fields.text({ label: 'Primary CTA URL' }),
-            secondary_cta_label: fields.text({
-              label: 'Secondary CTA label',
-            }),
-            secondary_cta_url: fields.text({
-              label: 'Secondary CTA URL',
-              description: 'Internal route, anchor (e.g. #press), or external URL.',
-            }),
           },
           { label: 'Hero' }
         ),
@@ -3498,53 +3498,6 @@ export default config({
         }),
       },
     }),
-    interviews: collection({
-      label: 'Interviews',
-      slugField: 'title',
-      path: 'src/content/interviews/*',
-      format: { data: 'yaml' },
-      schema: {
-        title: fields.slug({
-          name: { label: 'Title' },
-          slug: {
-            label: 'URL slug',
-            description:
-              'Anchor id on the /interviews page, e.g. "chelsea-clinton". The old WordPress /youtube-video/* URLs 301 to /interviews in vercel.json.',
-          },
-        }),
-        guest: fields.text({
-          label: 'Guest',
-          description: 'The person Lorraine interviews, e.g. "Chelsea Clinton".',
-        }),
-        order: fields.integer({
-          label: 'Sort order',
-          description: 'Lower numbers appear first.',
-          defaultValue: 0,
-        }),
-        youtube_id: fields.text({
-          label: 'YouTube video ID (optional)',
-          description:
-            'The 11-character ID from the watch URL, e.g. "W0_QWjYWPuE". Leave empty if the interview lives elsewhere (set the external link below instead).',
-        }),
-        video_url: fields.text({
-          label: 'External video / article URL (optional)',
-          description:
-            'Used when the interview is not on YouTube (e.g. a LinkedIn post). Ignored when a YouTube video ID is set.',
-        }),
-        thumbnail: fields.image({
-          label: 'Thumbnail / poster image (optional)',
-          description:
-            'Cover image for the card. Only used when there is no YouTube video ID (YouTube videos auto-pull their own thumbnail). Recommended 16:9.',
-          directory: 'public/images/interviews',
-          publicPath: '/images/interviews/',
-        }),
-        description: fields.text({ label: 'Description', multiline: true }),
-        date: fields.text({
-          label: 'Date label (optional)',
-          description: 'Free text, e.g. "2019".',
-        }),
-      },
-    }),
     keynotes: collection({
       label: 'Keynotes',
       slugField: 'title',
@@ -3577,9 +3530,9 @@ export default config({
           multiline: true,
         }),
         clip_url: fields.text({
-          label: 'Talk clip embed URL (optional)',
+          label: 'Talk video (optional)',
           description:
-            'YouTube or Vimeo embed URL shown on the keynote detail page.',
+            'The recording shown on this keynote page. Paste the YouTube or Vimeo link straight from the Share button. Watch links, youtu.be links, and embed links all work.',
         }),
         takeaways: fields.array(fields.text({ label: 'Takeaway' }), {
           label: 'Audience takeaways',

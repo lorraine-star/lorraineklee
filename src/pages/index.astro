@@ -373,6 +373,15 @@ const courseHref =
     const DELAY_MS = 18 * 1000;
     const SCROLL_DEPTH = 0.35;
 
+    // Keys shared with the sitewide FreeCoursePopup component (CLI-146), which
+    // renders on every non-funnel page except this one. Honoring them here (and
+    // writing SHARED_SEEN_KEY on open) keeps the sitewide cadence to one course
+    // popup per 7-day window no matter which page a visit starts on, and a
+    // signup from any entry point permanently silences this popup too.
+    const SHARED_SEEN_KEY = 'll:free-course-popup:seenAt';
+    const SHARED_SUBSCRIBED_KEY = 'll:free-course-popup:subscribed';
+    const SHARED_SEEN_MS = 7 * 24 * 60 * 60 * 1000;
+
     function readTs(key: string): number {
       try {
         const raw = window.localStorage.getItem(key);
@@ -389,8 +398,18 @@ const courseHref =
         /* storage unavailable, popup behaves ephemerally */
       }
     }
+    function readRaw(key: string): string | null {
+      try {
+        return window.localStorage.getItem(key);
+      } catch {
+        return null;
+      }
+    }
     function suppressed(): boolean {
       const now = Date.now();
+      if (readRaw(SHARED_SUBSCRIBED_KEY)) return true;
+      const seen = readTs(SHARED_SEEN_KEY);
+      if (seen && now - seen < SHARED_SEEN_MS) return true;
       const d = readTs(DISMISSED_KEY);
       if (d && now - d < DISMISS_MS) return true;
       const e = readTs(ENGAGED_KEY);
@@ -412,6 +431,9 @@ const courseHref =
     function open() {
       if (done || courseSeen || !timeReady || !scrollReady) return;
       done = true;
+      // Start the shared 7-day window so the sitewide FreeCoursePopup stays
+      // quiet on other pages for the rest of this visit (and vice versa).
+      writeTs(SHARED_SEEN_KEY);
       if (typeof dialog.showModal === 'function') dialog.showModal();
       else dialog.setAttribute('open', 'open');
       document.body.style.overflow = 'hidden';

@@ -8,6 +8,11 @@ this?" and "how do I do that?" any time.
 No coding or GitHub knowledge needed. If a step ever feels technical, it is
 probably one of the few things flagged below as "leave this to the developer."
 
+> **This guide covers your site's content: words, images, and links.** To
+> change the **design** (colors, fonts, sizes, spacing, layout), use Claude
+> instead. That has its own companion guide:
+> [Changing Your Website's Design](DESIGN-EDITING-GUIDE.md).
+
 > **New here? Watch these first, in order.**
 >
 > 1. **Part 1, The Editor:** logging in, the dashboard, and making your first
@@ -369,8 +374,7 @@ page's text freely.
 turns red, or a page looks broken after you publish, do not keep retrying or keep
 editing. Note what you changed and contact:
 
-> **Who to contact:** Ryan, your developer.
-> _[Add Ryan's preferred email or Slack here before sharing this doc.]_
+> **Who to contact:** Ryan, your developer, at **ryanflash166@gmail.com**.
 
 ---
 
