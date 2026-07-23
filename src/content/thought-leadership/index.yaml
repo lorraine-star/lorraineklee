@@ -5,6 +5,10 @@ hero:
   lead: Ideas worth stealing.
   primary_cta_label: Work with Lorraine
   primary_cta_url: /contact
+articles_hero_image: /images/thought-leadership/articles-hero.webp
+articles_hero_image_alt: >-
+  Lorraine K. Lee seated in a studio interview, with her book Unforgettable
+  Presence displayed beside her.
 appearances_section:
   eyebrow: On the mic
   heading: Recent
