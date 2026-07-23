@@ -75,7 +75,6 @@ const articles = (authored_articles ?? [])
 	.filter((a) => a.href);
 
 const primaryCtaUrl = resolveUrl(hero.primary_cta_url) || '/contact';
-const secondaryCtaUrl = resolveUrl(hero.secondary_cta_url) || '#press';
 const finalCtaUrl = resolveUrl(final_cta.cta_url) || '/contact';
 
 const appearancesMore = resolveUrl(appearances_section.view_more_url);
@@ -121,14 +120,6 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 					>
 						{hero.primary_cta_label} <span aria-hidden="true">&rarr;</span>
 					</a>
-					{
-						hero.secondary_cta_label && (
-							<a class="anchor-link" href={secondaryCtaUrl}>
-								{hero.secondary_cta_label}{' '}
-								<span class="arrow" aria-hidden="true">&rarr;</span>
-							</a>
-						)
-					}
 				</div>
 			</div>
 		</div>

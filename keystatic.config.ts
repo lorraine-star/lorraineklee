@@ -3127,13 +3127,6 @@ export default config({
             lead: fields.text({ label: 'Lead paragraph', multiline: true }),
             primary_cta_label: fields.text({ label: 'Primary CTA label' }),
             primary_cta_url: fields.text({ label: 'Primary CTA URL' }),
-            secondary_cta_label: fields.text({
-              label: 'Secondary CTA label',
-            }),
-            secondary_cta_url: fields.text({
-              label: 'Secondary CTA URL',
-              description: 'Internal route, anchor (e.g. #press), or external URL.',
-            }),
           },
           { label: 'Hero' }
         ),
