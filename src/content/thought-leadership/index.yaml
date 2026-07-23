@@ -13,7 +13,7 @@ appearances_section:
     Lorraine joins top podcasts, webinars, and live shows to talk presence,
     communication, and career growth.
   view_more_label: View all interviews
-  view_more_url: /interviews
+  view_more_url: /interviews#guest-interviews
 appearances:
   - date: May 2025
     show: Think Fast Talk Smart

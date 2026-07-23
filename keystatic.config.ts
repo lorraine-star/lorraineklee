@@ -2232,40 +2232,15 @@ export default config({
               label: 'Hero "browse interviews" link label',
               defaultValue: 'Browse interviews',
             }),
-            watch_interview: fields.text({
-              label: 'Featured card "watch the interview" label',
-              description:
-                'Shown on a featured interview that links off YouTube (no embed).',
-              defaultValue: 'Watch the interview',
-            }),
             watch_here: fields.text({
               label: 'Guest card "watch it here" link label',
               defaultValue: 'Watch it here',
-            }),
-            video_coming_soon: fields.text({
-              label: 'Featured card "video coming soon" placeholder',
-              defaultValue: 'Video coming soon',
             }),
           },
           {
             label: 'UI labels',
             description:
               'Small reusable button / link microcopy used across the interviews page.',
-          }
-        ),
-        featured_section: fields.object(
-          {
-            eyebrow: fields.text({ label: 'Eyebrow' }),
-            heading: fields.text({ label: 'Heading (plain)' }),
-            heading_accent: fields.text({
-              label: 'Heading accent (italic)',
-            }),
-            lead: fields.text({ label: 'Lead', multiline: true }),
-          },
-          {
-            label: 'Featured interviews section heading',
-            description:
-              'Heading for the block that renders the "Interviews" CMS collection — the leaders Lorraine has interviewed.',
           }
         ),
         guest_section: fields.object(
@@ -2325,6 +2300,11 @@ export default config({
               label: 'Watch URL (optional)',
               description:
                 'External link used when the appearance is not on YouTube (e.g. a LinkedIn event or post). Falls back to the YouTube link when a video ID is set.',
+            }),
+            description: fields.text({
+              label: 'Description (optional)',
+              description: 'Optional one-liner shown under the title on the card.',
+              multiline: true,
             }),
           }),
           {
@@ -3498,53 +3478,6 @@ export default config({
           description:
             'Show this course as the large highlighted block above the category grids.',
           defaultValue: false,
-        }),
-      },
-    }),
-    interviews: collection({
-      label: 'Interviews',
-      slugField: 'title',
-      path: 'src/content/interviews/*',
-      format: { data: 'yaml' },
-      schema: {
-        title: fields.slug({
-          name: { label: 'Title' },
-          slug: {
-            label: 'URL slug',
-            description:
-              'Anchor id on the /interviews page, e.g. "chelsea-clinton". The old WordPress /youtube-video/* URLs 301 to /interviews in vercel.json.',
-          },
-        }),
-        guest: fields.text({
-          label: 'Guest',
-          description: 'The person Lorraine interviews, e.g. "Chelsea Clinton".',
-        }),
-        order: fields.integer({
-          label: 'Sort order',
-          description: 'Lower numbers appear first.',
-          defaultValue: 0,
-        }),
-        youtube_id: fields.text({
-          label: 'YouTube video ID (optional)',
-          description:
-            'The 11-character ID from the watch URL, e.g. "W0_QWjYWPuE". Leave empty if the interview lives elsewhere (set the external link below instead).',
-        }),
-        video_url: fields.text({
-          label: 'External video / article URL (optional)',
-          description:
-            'Used when the interview is not on YouTube (e.g. a LinkedIn post). Ignored when a YouTube video ID is set.',
-        }),
-        thumbnail: fields.image({
-          label: 'Thumbnail / poster image (optional)',
-          description:
-            'Cover image for the card. Only used when there is no YouTube video ID (YouTube videos auto-pull their own thumbnail). Recommended 16:9.',
-          directory: 'public/images/interviews',
-          publicPath: '/images/interviews/',
-        }),
-        description: fields.text({ label: 'Description', multiline: true }),
-        date: fields.text({
-          label: 'Date label (optional)',
-          description: 'Free text, e.g. "2019".',
         }),
       },
     }),
