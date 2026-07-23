@@ -6,7 +6,6 @@ import CookieBanner from '../components/CookieBanner.astro';
 import ClarityAnalytics from '../components/ClarityAnalytics.astro';
 import ScrollToTop from '../components/ScrollToTop.astro';
 import GoogleAnalytics from '../components/GoogleAnalytics.astro';
-import FreeCoursePopup from '../components/FreeCoursePopup.astro';
 import Seo from '../components/Seo.astro';
 
 interface Props {
@@ -40,6 +39,10 @@ const { title = 'Lorraine K. Lee', description } = Astro.props;
     <slot />
     <CookieBanner />
     <ScrollToTop />
-    <FreeCoursePopup />
+    {/* No FreeCoursePopup here: the home page ships its own course popup
+        (src/pages/index.astro), and both auto-open, so rendering the shared
+        one too would stack two dialogs in a single visit. The home popup
+        shares FreeCoursePopup's seenAt/subscribed keys to keep the sitewide
+        frequency cap intact. */}
   </body>
 </html>
