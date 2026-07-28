@@ -19,8 +19,6 @@ footer:
       href: /contact
     - label: press@lorraineklee.com
       href: mailto:press@lorraineklee.com
-    - label: meagan@lorraineklee.com
-      href: mailto:meagan@lorraineklee.com
   explore_heading: Explore
   explore_links:
     - label: About
@@ -103,33 +101,33 @@ press:
   logos:
     - id: inc
       name: Inc.
-      src: /images/v1/press/inc.svg
+      src: /images/v1/press/press/logos/0/src.svg
       scale: 1
     - id: bloomberg
       name: Bloomberg
-      src: /images/v1/press/bloomberg.svg
+      src: /images/v1/press/press/logos/1/src.svg
       scale: 1
     - id: fast-company
       name: Fast Company
-      src: /images/v1/press/fast-company.png
+      src: /images/v1/press/press/logos/2/src.png
       scale: 1
     - id: cnbc
       name: CNBC
-      src: /images/v1/press/cnbc-cropped.png
+      src: /images/v1/press/press/logos/3/src.png
       scale: 1.3
     - id: business-insider
       name: Business Insider
-      src: /images/v1/press/business-insider.svg
+      src: /images/v1/press/press/logos/4/src.svg
       scale: 1
     - id: fox5
       name: Fox 5 Washington DC
-      src: /images/v1/press/fox5.png
+      src: /images/v1/press/press/logos/5/src.png
       scale: 1
     - id: cnn
       name: CNN
-      src: /images/v1/press/cnn.svg
+      src: /images/v1/press/press/logos/6/src.svg
       scale: 1
     - id: nbc4
       name: NBC 4
-      src: /images/v1/press/nbc4.svg
+      src: /images/v1/press/press/logos/7/src.svg
       scale: 1.4
