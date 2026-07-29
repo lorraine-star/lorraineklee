@@ -17,6 +17,10 @@ hero:
       label: |-
         Amazon bestseller
         Unforgettable Presence®
+    - value: '#7'
+      label: |-
+        Global Communication
+        coach
   photo_stat:
     value: '4.9'
     suffix: /5
