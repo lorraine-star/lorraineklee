@@ -253,6 +253,13 @@ The full set:
 > **Speaking** page are edited inside the **Speaking** entry's own list, not in
 > the **Keynotes** collection. The Keynotes collection is the catalog behind the
 > individual keynote pages under `/keynotes/`.
+>
+> Because those are two separate entries, each talk's **description and
+> takeaways live in both places**, and they can't update each other
+> automatically. When you change a talk's description or takeaways, make the
+> same edit twice: once on the talk's card inside the **Speaking** entry, and
+> once in that talk's **Keynotes** entry. If you only edit one, the Speaking
+> page and the keynote page will show different text.
 
 ---
 
