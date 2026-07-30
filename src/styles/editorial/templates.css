@@ -2661,6 +2661,10 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 .hero-cta-row .anchor-link .arrow { transition: transform 200ms var(--ease-out); }
 .hero-cta-row .anchor-link:hover .arrow { transform: translateY(2px); }
 
+/* On the dark Final CTA panel the accent blue is invisible — go light. */
+.final-cta .anchor-link { color: var(--paper); }
+.final-cta .anchor-link:hover { color: var(--brand-yellow-500); }
+
 /* Speaker reel */
 .reel-frame {
   grid-column: 1 / -1;

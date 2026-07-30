@@ -1,5 +1,12 @@
 seo_title: ""
 seo_description: ""
+hero:
+  eyebrow: Testimonials
+  headline: Don't just take her word for it.
+  headline_accent: Hear it from them.
+  lead: >-
+    {count} testimonials from the clients who book her, the audiences who show
+    up, and the students who keep coming back to her LinkedIn Learning courses.
 section_headings:
   clients:
     eyebrow: Clients & organizers
