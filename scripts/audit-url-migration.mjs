@@ -150,6 +150,14 @@ const isExternal = (v) => {
 	}
 };
 
+const hostOf = (u) => {
+	try {
+		return new URL(u).hostname;
+	} catch {
+		return '';
+	}
+};
+
 // ---------------------------------------------------------------- 1. redirect config
 
 /** Vercel platform redirects. `permanent: true` is emitted as a 308 by Vercel. */
@@ -353,12 +361,22 @@ function resolveStatic(startPath, bySource) {
 
 // ---------------------------------------------------------------- 5. live checks
 
+// Vercel preview deployments sit behind SSO. Without a bypass token every
+// request 302s to vercel.com/sso-api and lands on a login page that answers
+// 200 — which silently reads as "every URL is fine" when nothing was measured.
+// --bypass sends the project's Protection Bypass for Automation secret
+// (Vercel project settings -> Deployment Protection).
+const BYPASS = arg('bypass', process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? null);
+const SSO_HOSTS = /(^|\.)vercel\.com$/i;
+
 function request(url) {
 	return new Promise((resolve) => {
 		const lib = url.startsWith('https:') ? https : http;
+		const headers = { 'user-agent': 'lkl-url-audit/1.0' };
+		if (BYPASS) headers['x-vercel-protection-bypass'] = BYPASS;
 		const req = lib.request(
 			url,
-			{ method: 'GET', headers: { 'user-agent': 'lkl-url-audit/1.0' } },
+			{ method: 'GET', headers },
 			(res) => {
 				let body = '';
 				let bytes = 0;
@@ -602,6 +620,32 @@ if (DO_LIVE && !REUSE) {
 		targets.push({ rec, form: 'slash', url: `${ORIGIN}${rec.path}/` });
 		targets.push({ rec, form: 'bare', url: `${ORIGIN}${rec.path}` });
 	}
+	// Probe one URL first. If it lands on a Vercel auth wall, every subsequent
+	// result would be that login page answering 200 — a clean-looking report
+	// measuring nothing. Refuse to produce it.
+	const probe = await trace(`${ORIGIN}/`);
+	if (SSO_HOSTS.test(hostOf(probe.final)) && !SITE_HOSTS.test(hostOf(ORIGIN))) {
+		console.error(
+			[
+				'',
+				`Deployment protection is blocking ${ORIGIN}`,
+				`  ${ORIGIN}/ -> ${probe.hops.map((h) => h.status).join(' -> ')} -> ${probe.final}`,
+				'',
+				'Every request would land on the Vercel login page, which answers 200 — the',
+				'report would show every URL healthy while having measured nothing.',
+				'',
+				'Fix one of:',
+				'  1. Vercel project -> Settings -> Deployment Protection -> Protection Bypass',
+				'     for Automation. Then re-run with --bypass <secret> (or set',
+				'     VERCEL_AUTOMATION_BYPASS_SECRET).',
+				'  2. Set Vercel Authentication to "Only Production" so previews are public.',
+				'  3. Point --origin at production, which is not protected.',
+				'',
+			].join('\n')
+		);
+		process.exit(2);
+	}
+
 	process.stderr.write(`Live-checking ${targets.length} URLs against ${ORIGIN} ...\n`);
 	let done = 0;
 	await pool(
@@ -631,13 +675,6 @@ if (DO_LIVE && !REUSE) {
 
 // ---------------------------------------------------------------- verdicts
 
-const hostOf = (u) => {
-	try {
-		return new URL(u).hostname;
-	} catch {
-		return '';
-	}
-};
 const onOurSite = (u) => SITE_HOSTS.test(hostOf(u));
 
 // External hosts answer an unauthenticated bot with a gate, not a verdict on the
