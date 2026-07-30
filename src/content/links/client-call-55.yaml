@@ -1,4 +1,4 @@
 slug: client-call-55
-destination: https://app.lorraineklee.com/client-call-55mins
-active: true
-note: 'Booking link (legacy app.lorraineklee.com - verify still live)'
+destination: 'https://app.lorraineklee.com/client-call-55mins'
+active: false
+note: 'Deactivated 2026-07-29: destination 404s and no 55-min booking widget exists anymore. Re-activate with a new destination if a replacement is set up.'

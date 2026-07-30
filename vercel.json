@@ -184,6 +184,7 @@
     { "source": "/from-the-archive-polish-your-presence-for-remote-interviews-with-this-video-setup", "destination": "/articles", "permanent": true },
 
     { "source": "/free-quiz", "destination": "/learn", "permanent": true },
+    { "source": "/quiz", "destination": "/learn", "permanent": true },
     { "source": "/book-resources", "destination": "/book", "permanent": true },
 
     { "source": "/about-2", "destination": "/about", "permanent": true },
