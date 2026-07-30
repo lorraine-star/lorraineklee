@@ -2773,6 +2773,31 @@ export default config({
           label: 'SEO description',
           multiline: true,
         }),
+        hero: fields.object(
+          {
+            eyebrow: fields.text({
+              label: 'Eyebrow',
+              defaultValue: 'Testimonials',
+            }),
+            headline: fields.text({
+              label: 'Headline',
+              defaultValue: "Don't just take her word for it.",
+            }),
+            headline_accent: fields.text({
+              label: 'Headline accent (shown italic)',
+              defaultValue: 'Hear it from them.',
+            }),
+            lead: fields.text({
+              label: 'Lead paragraph',
+              multiline: true,
+              description:
+                'Write {count} where the live testimonial count should appear.',
+              defaultValue:
+                '{count} testimonials from the clients who book her, the audiences who show up, and the students who keep coming back to her LinkedIn Learning courses.',
+            }),
+          },
+          { label: 'Hero' }
+        ),
         section_headings: fields.object(
           {
             clients: fields.object(
