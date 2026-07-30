@@ -3551,7 +3551,7 @@ export default config({
         description: fields.text({
           label: 'Description',
           description:
-            'Short summary shown on the catalog card and used as the page meta description.',
+            'Full talk description, same copy as the Speaking page card. Separate paragraphs with a blank line. The first paragraph doubles as the page meta description.',
           multiline: true,
         }),
         clip_url: fields.text({

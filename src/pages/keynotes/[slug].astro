@@ -17,6 +17,14 @@ const clipEmbed = toEmbedUrl(keynote.clip_url);
 const hasTrack = (keynote.talk_track ?? []).length > 0;
 const hasTakeaways = (keynote.takeaways ?? []).length > 0;
 
+// Split a multi-paragraph description (blank-line separated) into paragraphs.
+const toParagraphs = (text?: string | null): string[] =>
+	(text ?? '')
+		.split(/\n\s*\n/)
+		.map((p) => p.replace(/\s+/g, ' ').trim())
+		.filter(Boolean);
+const paragraphs = toParagraphs(keynote.description);
+
 // Reuse the shared final CTA authored on the Speaking page.
 const speaking = await reader.singletons.speaking.read();
 const final_cta = speaking?.final_cta;
@@ -25,7 +33,7 @@ const backUrl = safeUrl(speaking?.detail_back_url, '/keynotes');
 
 <SpeakingLayout
 	title={`Lorraine K. Lee — ${keynote.title}`}
-	description={keynote.description}
+	description={paragraphs[0] ?? ''}
 	activeId="speaking"
 >
 	<section class="page-hero page-hero--center">
@@ -36,7 +44,9 @@ const backUrl = safeUrl(speaking?.detail_back_url, '/keynotes');
 				</a>
 				{keynote.format && <div class="talk-format">{keynote.format}</div>}
 				<h1>{keynote.title}</h1>
-				{keynote.description && <p class="lead-large">{keynote.description}</p>}
+				{paragraphs.map((p) => (
+					<p class="lead-large">{p}</p>
+				))}
 				<div class="hero-cta-row">
 					<a class="btn primary large" href={safeUrl(speaking?.card_cta_url, '/contact')}>
 						{speaking?.card_cta_label || 'Book this talk'}{' '}
