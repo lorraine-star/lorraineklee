@@ -114,7 +114,22 @@ function readCsv(file) {
 
 // Only the apex and www serve this site. app./courses./my. are third-party
 // services on a vanity subdomain — as external as amazon.com for audit purposes.
-const SITE_HOSTS = /^(www\.)?lorraineklee\.com$/i;
+//
+// The host under audit counts as ours too: running against a preview
+// deployment, a 404 on <hash>.vercel.app is our own missing route, not a dead
+// third-party destination, and conflating the two turns a clean preview report
+// into a list of phantom broken links.
+const PRODUCTION_HOSTS = /^(www\.)?lorraineklee\.com$/i;
+const ORIGIN_HOST = (() => {
+	try {
+		return new URL(ORIGIN).hostname.toLowerCase();
+	} catch {
+		return '';
+	}
+})();
+const SITE_HOSTS = {
+	test: (host) => PRODUCTION_HOSTS.test(host) || (host && host.toLowerCase() === ORIGIN_HOST),
+};
 
 /** Strip host + query + hash, collapse to a leading-slash path. */
 function toPath(value) {
@@ -624,7 +639,9 @@ if (DO_LIVE && !REUSE) {
 	// result would be that login page answering 200 — a clean-looking report
 	// measuring nothing. Refuse to produce it.
 	const probe = await trace(`${ORIGIN}/`);
-	if (SSO_HOSTS.test(hostOf(probe.final)) && !SITE_HOSTS.test(hostOf(ORIGIN))) {
+	// PRODUCTION_HOSTS, not SITE_HOSTS — the latter counts the origin as ours by
+	// definition, which would make this guard unconditionally false.
+	if (SSO_HOSTS.test(hostOf(probe.final)) && !PRODUCTION_HOSTS.test(hostOf(ORIGIN))) {
 		console.error(
 			[
 				'',
