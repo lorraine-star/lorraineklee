@@ -1,4 +1,8 @@
+# The Sitemap URL must name the host that serves 200. The apex 308s to www, so
+# pointing this at the apex sent every crawler through a redirect to reach the
+# sitemap (CLI-206). This file is static, so it does not pick up `site` from
+# astro.config.mjs -- if the canonical host changes, change it here too.
 User-agent: *
 Allow: /
 
-Sitemap: https://lorraineklee.com/sitemap-index.xml
+Sitemap: https://www.lorraineklee.com/sitemap-index.xml
