@@ -27,7 +27,7 @@ export interface ShortlinkRedirect {
  * list if a capitalised link turns up that is not here; do not add lowercase
  * ones, they already resolve.
  */
-const LEGACY_CASE_ALIASES = [
+export const LEGACY_CASE_ALIASES = [
   'CC-feedback',
   'NISM-discount',
   'NUL-feedback',
@@ -39,35 +39,38 @@ const LEGACY_CASE_ALIASES = [
 ];
 
 /**
- * CLI-199: republish the capitalised forms WordPress used to serve.
+ * CLI-199 / CLI-208: which capitalised paths vercel.json is expected to serve.
  *
- * Mutates `redirects` in place, adding one entry per alias whose lowercase twin
- * is already live, and returns a warning for each alias that had nothing to
- * mirror. Driven off the generated entries on purpose: an alias can never
- * outlive, contradict, or reactivate the shortlink it mirrors, because if the
- * lowercase slug was skipped (inactive, colliding, no destination) there is
- * simply nothing here to copy.
+ * These aliases are NOT added to the Astro `redirects` config. Astro's router
+ * matches paths case-insensitively, so declaring both "/cc-feedback" and
+ * "/CC-feedback" reads as one route defined twice — Astro warns today and says
+ * it becomes a hard error in a future version. Vercel matches case-sensitively,
+ * which is the only reason the aliases work at all, so they live in vercel.json
+ * where Astro never sees them.
  *
- * Exported so scripts/test-shortlinks.mjs can exercise it without a Keystatic
- * reader — the rest of getShortlinkRedirects() needs the filesystem, this does
- * not.
+ * That split means the destination is written in vercel.json rather than derived
+ * from the Keystatic entry, so this function exists to make drift detectable:
+ * `npm run validate:shortlinks` compares what vercel.json actually serves against
+ * what this says it should, and fails on a mismatch.
+ *
+ * Returns only aliases whose lowercase twin is live. If the twin was skipped
+ * (inactive, colliding, no destination) the alias must not exist either — a
+ * capitalised route pointing at something the site no longer publishes is worse
+ * than a 404.
  */
-export function applyLegacyCaseAliases(
+export function expectedLegacyAliasRedirects(
   redirects: Record<string, ShortlinkRedirect>,
   aliases: readonly string[] = LEGACY_CASE_ALIASES
-): string[] {
-  const warnings: string[] = [];
+): Record<string, string> {
+  const expected: Record<string, string> = {};
 
   for (const alias of aliases) {
     const canonical = redirects[`/${alias.toLowerCase()}`];
-    if (!canonical) {
-      warnings.push(`legacy alias "/${alias}" has no active lowercase shortlink to mirror; skipped.`);
-      continue;
-    }
-    redirects[`/${alias}`] = { ...canonical };
+    if (!canonical) continue;
+    expected[`/${alias}`] = canonical.destination;
   }
 
-  return warnings;
+  return expected;
 }
 
 // Single-segment paths a shortlink must never shadow: real top-level pages, the
@@ -95,8 +98,15 @@ function reservedSegments(): Set<string> {
     const vercelConfig = JSON.parse(
       fs.readFileSync(path.join(process.cwd(), 'vercel.json'), 'utf8')
     ) as { redirects?: Array<{ source?: string }> };
+    const aliasSources = new Set(LEGACY_CASE_ALIASES.map((a) => `/${a}`));
     for (const redirect of vercelConfig.redirects ?? []) {
-      const singleSegment = String(redirect?.source ?? '').match(/^\/([^/]+)\/?$/);
+      const source = String(redirect?.source ?? '');
+      // The CLI-208 case aliases live in vercel.json but are not real routes --
+      // each one exists precisely to mirror a shortlink. Treating them as
+      // reserved would make every alias evict the shortlink it mirrors, taking
+      // out the lowercase form the alias depends on.
+      if (aliasSources.has(source)) continue;
+      const singleSegment = source.match(/^\/([^/]+)\/?$/);
       if (singleSegment) reserved.add(singleSegment[1].toLowerCase());
     }
   } catch {
@@ -165,7 +175,8 @@ export async function getShortlinkRedirects(): Promise<{
     redirects[`/${cleanSlug}`] = { status: 301, destination: entry.destination };
   }
 
-  warnings.push(...applyLegacyCaseAliases(redirects));
+  // The capitalised aliases are deliberately NOT added here — see
+  // expectedLegacyAliasRedirects() for why they live in vercel.json instead.
 
   return { redirects, warnings, skipped };
 }
