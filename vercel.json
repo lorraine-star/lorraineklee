@@ -183,6 +183,8 @@
     { "source": "/from-the-archive-avoid-this-resume-trap", "destination": "/articles/from-the-archive-avoid-this-resume-trap", "permanent": true },
     { "source": "/from-the-archive-polish-your-presence-for-remote-interviews-with-this-video-setup", "destination": "/articles/from-the-archive-polish-your-presence-for-remote-interviews-with-this-video-setup", "permanent": true },
 
+    { "source": "/payment-policy", "destination": "/terms-privacy-legal", "permanent": true },
+
     { "source": "/free-quiz", "destination": "/learn", "permanent": true },
     { "source": "/quiz", "destination": "/learn", "permanent": true },
 

@@ -6,7 +6,8 @@ name: Validate content
 #    field whose stored value drifts outside its managed folder, or points at a
 #    missing file, makes every Keystatic save of that page fail with
 #    "a path was requested for deletion which does not exist".
-# 2. unit-tests -- src/lib/url.ts (CLI-173): toEmbedUrl() rewrites editor-supplied
+# 2. unit-tests -- src/lib/url.ts (CLI-173) and the shortlink case aliases
+#    (CLI-199). toEmbedUrl() rewrites editor-supplied
 #    video links into framable /embed/ form, and a silent regression there breaks
 #    every keynote clip and the speaker reel. Also asserts an unsafe URL can never
 #    become embeddable.
@@ -39,7 +40,7 @@ jobs:
       - run: npm run validate:content
 
   unit-tests:
-    name: Unit tests (url helpers)
+    name: Unit tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
