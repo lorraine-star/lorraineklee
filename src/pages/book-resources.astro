@@ -216,6 +216,9 @@ const kitFormId = (page.resources_section?.kit_form_id ?? '').trim();
 <style>
 	.kit-hero-copy {
 		grid-column: 1 / span 7;
+		/* The badge is a tall portrait render, so it sets the row height. Without
+		   this the copy pins to the top and leaves a large gap beneath it. */
+		align-self: center;
 	}
 	.kit-hero-badge {
 		grid-column: 9 / -1;
