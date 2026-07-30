@@ -48,13 +48,13 @@ four_ways:
   column_2:
     heading: Unforgettable Presence®
     blurb: >-
-      The go-to presence book for leaders at Amazon, Boston Scientific, and
-      Fortune 500 organizations.
+      The go-to presence book for rising and senior leaders at Fortune 500
+      organizations.
   column_3:
     heading: Courses
     blurb: >-
-      On-demand and live training available on LinkedIn Learning, MasterClass,
-      and Stanford Continuing Studies. 250,000+ students trained.
+      On-demand and live training available on LinkedIn Learning, Stanford, and
+      MasterClass.
   column_4:
     heading: Custom programs
     blurb: Team training that turns strong contributors into standout leaders.
@@ -81,7 +81,7 @@ free_course:
     - Day 5 · Stay consistent without burning out
   form_eyebrow: Start tomorrow
   form_title: Join
-  form_title_accent: 12,000+
+  form_title_accent: 14,000+
   form_title_tail: leaders.
   form_email_label: Email address
   form_email_placeholder: you@company.com
