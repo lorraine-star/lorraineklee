@@ -185,7 +185,6 @@
 
     { "source": "/free-quiz", "destination": "/learn", "permanent": true },
     { "source": "/quiz", "destination": "/learn", "permanent": true },
-    { "source": "/book-resources", "destination": "/book", "permanent": true },
 
     { "source": "/about-2", "destination": "/about", "permanent": true },
     { "source": "/about-2024", "destination": "/about", "permanent": true },

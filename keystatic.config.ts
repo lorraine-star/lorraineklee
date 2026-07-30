@@ -2528,6 +2528,111 @@ export default config({
         ),
       },
     }),
+    bookResources: singleton({
+      label: 'Book Resources (Kit)',
+      path: 'src/content/book-resources/',
+      // The landing page unforgettablepresencekit.com forwards to. It lived at
+      // /book-resources on WordPress and was folded into /book during the
+      // migration, which left that domain pointing at the book page instead of
+      // the kit. Rebuilt here at the original path so the existing GoDaddy
+      // forward keeps working untouched.
+      //
+      // NOTE: the resources themselves are delivered by the Kit (ConvertKit)
+      // form, not from this site. `kit_form_uid` is the form's id -- changing it
+      // changes which list subscribers land on and which resources they are
+      // sent, so only change it to another live Kit form.
+      schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
+        hero: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+            badge_image: fields.image({
+              label: 'Award badge image',
+              directory: 'public/images/book-resources',
+              publicPath: '/images/book-resources/',
+            }),
+            badge_alt: fields.text({ label: 'Award badge alt text' }),
+          },
+          { label: 'Hero' }
+        ),
+        video_section: fields.object(
+          {
+            heading: fields.text({ label: 'Heading' }),
+            youtube_url: fields.text({
+              label: 'YouTube URL',
+              description: 'Any share form (youtu.be/…, watch?v=…) — converted to an embed automatically.',
+            }),
+            overlay_image: fields.image({
+              label: 'Video thumbnail',
+              directory: 'public/images/book-resources',
+              publicPath: '/images/book-resources/',
+            }),
+          },
+          { label: 'Message from Lorraine' }
+        ),
+        resources_section: fields.object(
+          {
+            heading: fields.text({ label: 'Heading' }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+            preview_image: fields.image({
+              label: 'Resources preview image',
+              directory: 'public/images/book-resources',
+              publicPath: '/images/book-resources/',
+            }),
+            kit_form_uid: fields.text({
+              label: 'Kit form ID',
+              description:
+                'The id from your Kit form embed URL, e.g. 1315c490cf in lorraineklee.kit.com/1315c490cf. This is what delivers the resources.',
+            }),
+          },
+          { label: 'Resources + signup' }
+        ),
+        resources: fields.array(fields.text({ label: 'Resource' }), {
+          label: "What's in the kit",
+          itemLabel: (props) => props.value || 'Resource',
+        }),
+        author_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            book_title: fields.text({ label: 'Book title' }),
+            book_subtitle: fields.text({ label: 'Book subtitle' }),
+            bio: fields.text({ label: 'Bio', multiline: true }),
+            photo: fields.image({
+              label: 'Author photo',
+              directory: 'public/images/book-resources',
+              publicPath: '/images/book-resources/',
+            }),
+          },
+          { label: 'About the author' }
+        ),
+        work_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading' }),
+          },
+          { label: 'Work with me heading' }
+        ),
+        work_cards: fields.array(
+          fields.object({
+            title: fields.text({ label: 'Title' }),
+            description: fields.text({ label: 'Description', multiline: true }),
+            cta_label: fields.text({ label: 'Button label' }),
+            cta_url: fields.text({ label: 'Button URL' }),
+            image: fields.image({
+              label: 'Card image',
+              directory: 'public/images/book-resources',
+              publicPath: '/images/book-resources/',
+            }),
+          }),
+          {
+            label: 'Work with me cards',
+            itemLabel: (props) => props.fields.title.value || 'Card',
+          }
+        ),
+      },
+    }),
     freeCourse: singleton({
       label: 'Free Course (Funnel)',
       path: 'src/content/free-course/',
