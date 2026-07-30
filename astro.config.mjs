@@ -27,6 +27,22 @@ export default defineConfig({
   // emit absolute URLs; the domain resolves here after the CLI-66 DNS cutover.
   site: 'https://lorraineklee.com',
 
+  // CLI-198: the slash-less URL is canonical, and this line is what makes every
+  // redirect reachable from the URL form WordPress actually indexed.
+  //
+  // WordPress served and canonicalised with a trailing slash ("/mentorship/"),
+  // but every redirect source in vercel.json is written slash-less. Vercel only
+  // emits its trailing-slash normalisation routes when trailingSlash is
+  // configured, and it never was — so "/mentorship/" matched no redirect, fell
+  // through to the filesystem and 404d. 279 of 319 known old URLs.
+  //
+  // Setting this makes the Vercel adapter emit `^/(.*)/$ -> /$1` (308) as the
+  // FIRST route in .vercel/output/config.json, ahead of the redirect table.
+  // It also moves Seo.astro's canonical and the sitemap off the "/about/" form,
+  // which that route now redirects away from. Verify with
+  // `node scripts/audit-url-migration.mjs` after deploying, not by reading config.
+  trailingSlash: 'never',
+
   // Site pages prerender to static HTML; the Keystatic admin routes
   // (/keystatic, /api/keystatic) are server-rendered, which the adapter serves.
   adapter: vercel(),
