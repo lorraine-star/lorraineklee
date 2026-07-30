@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { reader } from './keystatic';
+// Explicit .ts extension so this module also resolves under Node's type-stripping
+// loader, which scripts/validate-shortlinks.mjs uses. Vite resolves it the same way.
+import { reader } from './keystatic.ts';
 
 export interface ShortlinkRedirect {
   status: number;
@@ -35,6 +37,38 @@ const LEGACY_CASE_ALIASES = [
   'catch-up-APAC-timezone-30min',
   'cisco-linkedin-DD',
 ];
+
+/**
+ * CLI-199: republish the capitalised forms WordPress used to serve.
+ *
+ * Mutates `redirects` in place, adding one entry per alias whose lowercase twin
+ * is already live, and returns a warning for each alias that had nothing to
+ * mirror. Driven off the generated entries on purpose: an alias can never
+ * outlive, contradict, or reactivate the shortlink it mirrors, because if the
+ * lowercase slug was skipped (inactive, colliding, no destination) there is
+ * simply nothing here to copy.
+ *
+ * Exported so scripts/test-shortlinks.mjs can exercise it without a Keystatic
+ * reader — the rest of getShortlinkRedirects() needs the filesystem, this does
+ * not.
+ */
+export function applyLegacyCaseAliases(
+  redirects: Record<string, ShortlinkRedirect>,
+  aliases: readonly string[] = LEGACY_CASE_ALIASES
+): string[] {
+  const warnings: string[] = [];
+
+  for (const alias of aliases) {
+    const canonical = redirects[`/${alias.toLowerCase()}`];
+    if (!canonical) {
+      warnings.push(`legacy alias "/${alias}" has no active lowercase shortlink to mirror; skipped.`);
+      continue;
+    }
+    redirects[`/${alias}`] = { ...canonical };
+  }
+
+  return warnings;
+}
 
 // Single-segment paths a shortlink must never shadow: real top-level pages, the
 // Keystatic admin/API, and existing one-segment redirect sources in vercel.json.
@@ -72,26 +106,39 @@ function reservedSegments(): Set<string> {
   return reserved;
 }
 
+export type ShortlinkSkipReason = 'reserved-collision' | 'no-destination' | 'inactive';
+
+export interface SkippedShortlink {
+  slug: string;
+  reason: ShortlinkSkipReason;
+}
+
 /**
  * Read the Keystatic `links` (Shortlinks) collection and turn each active,
  * non-colliding entry into a 301 redirect for the Astro `redirects` config.
  *
  * Returns `warnings` for entries skipped because of a reserved-route collision
- * or a missing destination, so astro.config can log them at build time.
+ * or a missing destination, so astro.config can log them at build time, and
+ * `skipped` as the same information in structured form. CLI-202: a skipped
+ * shortlink looks saved and active in the Keystatic admin but silently does
+ * nothing, so `npm run validate:shortlinks` turns a collision into a failed
+ * check rather than a warning nobody reads.
  */
 export async function getShortlinkRedirects(): Promise<{
   redirects: Record<string, ShortlinkRedirect>;
   warnings: string[];
+  skipped: SkippedShortlink[];
 }> {
   const redirects: Record<string, ShortlinkRedirect> = {};
   const warnings: string[] = [];
+  const skipped: SkippedShortlink[] = [];
 
   let entries: Awaited<ReturnType<typeof reader.collections.links.all>> = [];
   try {
     entries = await reader.collections.links.all();
   } catch {
     // Collection folder absent (e.g. before the first shortlink is created).
-    return { redirects, warnings };
+    return { redirects, warnings, skipped };
   }
 
   const reserved = reservedSegments();
@@ -99,34 +146,26 @@ export async function getShortlinkRedirects(): Promise<{
   for (const { slug, entry } of entries) {
     const cleanSlug = (slug ?? '').trim().toLowerCase().replace(/^\/+/, '');
     if (!cleanSlug) continue;
-    if (!entry.active) continue;
+    if (!entry.active) {
+      skipped.push({ slug: cleanSlug, reason: 'inactive' });
+      continue;
+    }
     if (!entry.destination) {
       warnings.push(`"/${cleanSlug}" has no destination URL; skipped.`);
+      skipped.push({ slug: cleanSlug, reason: 'no-destination' });
       continue;
     }
     if (reserved.has(cleanSlug)) {
       warnings.push(
         `"/${cleanSlug}" matches an existing page or redirect; skipped so the real route still wins.`
       );
+      skipped.push({ slug: cleanSlug, reason: 'reserved-collision' });
       continue;
     }
     redirects[`/${cleanSlug}`] = { status: 301, destination: entry.destination };
   }
 
-  // CLI-199: republish the capitalised forms WordPress used to serve. Driven off
-  // the canonical entries above, so an alias can never outlive, contradict, or
-  // reactivate the shortlink it mirrors — if the lowercase slug was skipped as
-  // inactive or colliding, there is nothing here to alias.
-  for (const alias of LEGACY_CASE_ALIASES) {
-    const canonical = redirects[`/${alias.toLowerCase()}`];
-    if (!canonical) {
-      warnings.push(
-        `legacy alias "/${alias}" has no active lowercase shortlink to mirror; skipped.`
-      );
-      continue;
-    }
-    redirects[`/${alias}`] = { ...canonical };
-  }
+  warnings.push(...applyLegacyCaseAliases(redirects));
 
-  return { redirects, warnings };
+  return { redirects, warnings, skipped };
 }

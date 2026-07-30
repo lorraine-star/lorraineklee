@@ -156,11 +156,11 @@
     { "source": "/thank-you-for-sharing-your-interest", "destination": "/contact", "permanent": true },
     { "source": "/thank-you-youre-still-on-the-list", "destination": "/contact", "permanent": true },
 
-    { "source": "/issue-42-why-youre-feeling-burnt-out-and-how-to-fix-it", "destination": "/articles", "permanent": true },
-    { "source": "/issue-43-what-your-linkedin-headline-is-missing", "destination": "/articles", "permanent": true },
-    { "source": "/issue-44-how-to-create-a-superpowered-agenda", "destination": "/articles", "permanent": true },
-    { "source": "/issue-45-have-you-taken-advantage-of-this-linkedin-feature", "destination": "/articles", "permanent": true },
-    { "source": "/tools-and-techniques-for-smarter-work", "destination": "/articles", "permanent": true },
+    { "source": "/issue-42-why-youre-feeling-burnt-out-and-how-to-fix-it", "destination": "/articles/issue-42-why-youre-feeling-burnt-out-and-how-to-fix-it", "permanent": true },
+    { "source": "/issue-43-what-your-linkedin-headline-is-missing", "destination": "/articles/issue-43-what-your-linkedin-headline-is-missing", "permanent": true },
+    { "source": "/issue-44-how-to-create-a-superpowered-agenda", "destination": "/articles/issue-44-how-to-create-a-superpowered-agenda", "permanent": true },
+    { "source": "/issue-45-have-you-taken-advantage-of-this-linkedin-feature", "destination": "/articles/issue-45-have-you-taken-advantage-of-this-linkedin-feature", "permanent": true },
+    { "source": "/tools-and-techniques-for-smarter-work", "destination": "/articles/tools-and-techniques-for-smarter-work", "permanent": true },
     { "source": "/category/:slug", "destination": "/articles", "permanent": true },
     { "source": "/tag/:slug", "destination": "/articles", "permanent": true },
 
@@ -179,13 +179,14 @@
     { "source": "/ecamm-workshop", "destination": "/", "permanent": true },
     { "source": "/ecamm-bonuses", "destination": "/", "permanent": true },
 
-    { "source": "/from-the-archive-one-easy-way-to-expand-your-network-on-linkedin", "destination": "/articles", "permanent": true },
-    { "source": "/from-the-archive-avoid-this-resume-trap", "destination": "/articles", "permanent": true },
-    { "source": "/from-the-archive-polish-your-presence-for-remote-interviews-with-this-video-setup", "destination": "/articles", "permanent": true },
+    { "source": "/from-the-archive-one-easy-way-to-expand-your-network-on-linkedin", "destination": "/articles/from-the-archive-one-easy-way-to-expand-your-network-on-linkedin", "permanent": true },
+    { "source": "/from-the-archive-avoid-this-resume-trap", "destination": "/articles/from-the-archive-avoid-this-resume-trap", "permanent": true },
+    { "source": "/from-the-archive-polish-your-presence-for-remote-interviews-with-this-video-setup", "destination": "/articles/from-the-archive-polish-your-presence-for-remote-interviews-with-this-video-setup", "permanent": true },
+
+    { "source": "/payment-policy", "destination": "/terms-privacy-legal", "permanent": true },
 
     { "source": "/free-quiz", "destination": "/learn", "permanent": true },
     { "source": "/quiz", "destination": "/learn", "permanent": true },
-    { "source": "/book-resources", "destination": "/book", "permanent": true },
 
     { "source": "/about-2", "destination": "/about", "permanent": true },
     { "source": "/about-2024", "destination": "/about", "permanent": true },
@@ -212,11 +213,11 @@
     { "source": "/ecamm-workshop-new-upsells", "destination": "/", "permanent": true },
     { "source": "/payment-form-copy2", "destination": "/", "permanent": true },
     { "source": "/payment-form-ecamm", "destination": "/", "permanent": true },
-    { "source": "/issue-20-boost-your-bottom-line-with-the-revenue-optimization-canvas-copy-5", "destination": "/articles", "permanent": true },
-    { "source": "/issue-20-boost-your-bottom-line-with-the-revenue-optimization-canvas-copy-6", "destination": "/articles", "permanent": true },
-    { "source": "/issue-20-boost-your-bottom-line-with-the-revenue-optimization-canvas-copy-7", "destination": "/articles", "permanent": true },
-    { "source": "/issue-20-boost-your-bottom-line-with-the-revenue-optimization-canvas-copy-8", "destination": "/articles", "permanent": true },
-    { "source": "/what-your-linkedin-headline-is-missing", "destination": "/articles", "permanent": true },
-    { "source": "/how-to-create-a-superpowered-agenda", "destination": "/articles", "permanent": true }
+    { "source": "/issue-20-boost-your-bottom-line-with-the-revenue-optimization-canvas-copy-5", "destination": "/articles/issue-42-why-youre-feeling-burnt-out-and-how-to-fix-it", "permanent": true },
+    { "source": "/issue-20-boost-your-bottom-line-with-the-revenue-optimization-canvas-copy-6", "destination": "/articles/issue-43-what-your-linkedin-headline-is-missing", "permanent": true },
+    { "source": "/issue-20-boost-your-bottom-line-with-the-revenue-optimization-canvas-copy-7", "destination": "/articles/issue-44-how-to-create-a-superpowered-agenda", "permanent": true },
+    { "source": "/issue-20-boost-your-bottom-line-with-the-revenue-optimization-canvas-copy-8", "destination": "/articles/issue-45-have-you-taken-advantage-of-this-linkedin-feature", "permanent": true },
+    { "source": "/what-your-linkedin-headline-is-missing", "destination": "/articles/issue-43-what-your-linkedin-headline-is-missing", "permanent": true },
+    { "source": "/how-to-create-a-superpowered-agenda", "destination": "/articles/issue-44-how-to-create-a-superpowered-agenda", "permanent": true }
   ]
 }

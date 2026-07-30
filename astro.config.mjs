@@ -25,7 +25,13 @@ for (const warning of shortlinkWarnings) {
 export default defineConfig({
   // CLI-64: canonical production URL. Required by @astrojs/sitemap and used to
   // emit absolute URLs; the domain resolves here after the CLI-66 DNS cutover.
-  site: 'https://lorraineklee.com',
+  //
+  // CLI-206: this must name the host that actually answers 200. The apex 308s to
+  // www, so pointing `site` at the apex made every canonical, og:url and sitemap
+  // <loc> declare a URL that redirects — the one signal whose whole job is to be
+  // unambiguous. If the apex is ever made the serving host instead (a Vercel
+  // domain setting, not a code change), flip this back in the same commit.
+  site: 'https://www.lorraineklee.com',
 
   // CLI-198: the slash-less URL is canonical, and this line is what makes every
   // redirect reachable from the URL form WordPress actually indexed.

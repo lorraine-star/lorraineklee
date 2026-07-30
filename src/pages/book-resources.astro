@@ -1,0 +1,398 @@
+---
+// The landing page unforgettablepresencekit.com forwards to.
+//
+// It lived at this exact path on WordPress and was folded into /book during the
+// migration, which left the domain resolving to the book page instead of the
+// kit. Rebuilding it here rather than at a new slug means the existing GoDaddy
+// forward keeps working with no registrar change, and the /book-resources ->
+// /book redirect could be dropped instead of another one added.
+//
+// The resources are delivered by Kit (ConvertKit), not from this site: the form
+// below posts to Lorraine's list and Kit sends the files. Nothing to host here.
+import '../styles/global.css';
+import SpeakingLayout from '../layouts/SpeakingLayout.astro';
+import { reader } from '../lib/keystatic';
+import { safeUrl, toEmbedUrl } from '../lib/url';
+
+const page = await reader.singletons.bookResources.read();
+if (!page) {
+	throw new Error('Missing book resources content (src/content/book-resources/index.yaml)');
+}
+
+const videoEmbed = toEmbedUrl(page.video_section?.youtube_url ?? '');
+const kitFormUid = (page.resources_section?.kit_form_uid ?? '').trim();
+const kitScript = kitFormUid ? `https://lorraineklee.kit.com/${kitFormUid}/index.js` : '';
+---
+
+<SpeakingLayout
+	title={page.seo_title || 'Grab your book resources | Lorraine K. Lee'}
+	description={page.seo_description}
+	activeId="book"
+>
+	<section class="page-hero kit-hero">
+		<div class="grid12">
+			<div class="kit-hero-copy fade-up">
+				{
+					page.hero?.eyebrow && (
+						<div class="page-hero-eyebrow">
+							<span class="dot" />
+							<span class="eyebrow" style="color: var(--ink-500);">
+								{page.hero.eyebrow}
+							</span>
+						</div>
+					)
+				}
+				<h1>{page.hero?.heading}</h1>
+			</div>
+			{
+				page.hero?.badge_image && (
+					<div class="kit-hero-badge fade-up">
+						<img src={page.hero.badge_image} alt={page.hero.badge_alt || ''} loading="eager" />
+					</div>
+				)
+			}
+		</div>
+	</section>
+
+	{
+		videoEmbed && videoEmbed !== '#' && (
+			<section class="section">
+				<div class="grid12">
+					<div class="kit-video reveal">
+						<h2>{page.video_section?.heading}</h2>
+						{/*
+						  Click-to-play, matching the overlay the WordPress page used. It also
+						  keeps YouTube's iframe (and its cookies) off the page until someone
+						  actually asks for the video. Without JS the poster is a plain link
+						  to YouTube, so the video is never unreachable.
+						*/}
+						<div
+							class="kit-video-frame"
+							data-video-embed={videoEmbed}
+							data-video-title={page.video_section?.heading || 'A message from Lorraine'}
+						>
+							<a class="kit-video-poster" href={page.video_section?.youtube_url}>
+								{page.video_section?.overlay_image && (
+									<img src={page.video_section.overlay_image} alt="" loading="lazy" />
+								)}
+								<span class="kit-video-play" aria-hidden="true">▶</span>
+								<span class="sr-only">Play: {page.video_section?.heading || 'a message from Lorraine'}</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	<section class="section section--cream" id="get-the-kit">
+		<div class="grid12">
+			<div class="kit-grab reveal">
+				<h2>{page.resources_section?.heading}</h2>
+				{page.resources_section?.lead && <p class="kit-lead">{page.resources_section.lead}</p>}
+
+				{
+					page.resources?.length > 0 && (
+						<ul class="kit-list">
+							{page.resources.map((item) => (
+								<li>{item}</li>
+							))}
+						</ul>
+					)
+				}
+
+				{
+					kitScript ? (
+						<div class="kit-form">
+							<script async data-uid={kitFormUid} src={kitScript} />
+						</div>
+					) : (
+						<p class="kit-form-missing">
+							The signup form is not configured. Add the Kit form ID in Keystatic.
+						</p>
+					)
+				}
+			</div>
+
+			{
+				page.resources_section?.preview_image && (
+					<div class="kit-preview reveal">
+						<img src={page.resources_section.preview_image} alt="" loading="lazy" />
+					</div>
+				)
+			}
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="grid12">
+			{
+				page.author_section?.photo && (
+					<div class="kit-author-photo reveal">
+						<img src={page.author_section.photo} alt="Lorraine K. Lee" loading="lazy" />
+					</div>
+				)
+			}
+			<div class="kit-author-copy reveal">
+				{
+					page.author_section?.eyebrow && (
+						<span class="eyebrow" style="color: var(--ink-500);">
+							{page.author_section.eyebrow}
+						</span>
+					)
+				}
+				<h2>{page.author_section?.book_title}</h2>
+				{page.author_section?.book_subtitle && <p class="kit-book-sub">{page.author_section.book_subtitle}</p>}
+				<p>{page.author_section?.bio}</p>
+			</div>
+		</div>
+	</section>
+
+	<script>
+		// Swap the poster for the real embed on click. Kept inside the slotted
+		// markup on purpose — a <script> placed as a sibling of the layout lands
+		// after </html> and never runs.
+		document.querySelectorAll('.kit-video-frame').forEach((frame) => {
+			const poster = frame.querySelector('.kit-video-poster');
+			const embed = frame.getAttribute('data-video-embed');
+			if (!poster || !embed) return;
+			poster.addEventListener('click', (event) => {
+				event.preventDefault();
+				const iframe = document.createElement('iframe');
+				iframe.src = embed + (embed.includes('?') ? '&' : '?') + 'autoplay=1';
+				iframe.title = frame.getAttribute('data-video-title') || 'Video';
+				iframe.allow =
+					'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+				iframe.allowFullscreen = true;
+				frame.replaceChildren(iframe);
+			});
+		});
+	</script>
+
+	{
+		page.work_cards?.length > 0 && (
+			<section class="section section--cream">
+				<div class="grid12">
+					<div class="kit-work-head reveal">
+						{page.work_section?.eyebrow && (
+							<span class="eyebrow" style="color: var(--ink-500);">
+								{page.work_section.eyebrow}
+							</span>
+						)}
+						<h2>{page.work_section?.heading}</h2>
+					</div>
+					<ul class="kit-work-cards reveal">
+						{page.work_cards.map((card) => (
+							<li class="kit-work-card">
+								{card.image && <img src={card.image} alt="" loading="lazy" />}
+								<div class="kit-work-card-body">
+									<h3>{card.title}</h3>
+									<p>{card.description}</p>
+									{card.cta_label && card.cta_url && (
+										<a class="btn btn--ghost" href={safeUrl(card.cta_url)}>
+											{card.cta_label}
+										</a>
+									)}
+								</div>
+							</li>
+						))}
+					</ul>
+				</div>
+			</section>
+		)
+	}
+</SpeakingLayout>
+
+<style>
+	.kit-hero-copy {
+		grid-column: 1 / span 7;
+	}
+	.kit-hero-badge {
+		grid-column: 9 / -1;
+		align-self: center;
+	}
+	.kit-hero-badge img {
+		width: 100%;
+		height: auto;
+		border-radius: 12px;
+	}
+	.kit-video,
+	.kit-grab,
+	.kit-author-copy,
+	.kit-work-head {
+		grid-column: 1 / -1;
+	}
+	.kit-video-frame {
+		position: relative;
+		width: 100%;
+		max-width: 860px;
+		margin: 20px auto 0;
+		aspect-ratio: 16 / 9;
+		border-radius: 16px;
+		overflow: hidden;
+		background: var(--ink-900);
+	}
+	.kit-video-frame iframe {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		border: 0;
+	}
+	.kit-video-poster {
+		position: absolute;
+		inset: 0;
+		display: grid;
+		place-items: center;
+		cursor: pointer;
+	}
+	.kit-video-poster img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	.kit-video-play {
+		position: relative;
+		display: grid;
+		place-items: center;
+		width: 74px;
+		height: 74px;
+		border-radius: 50%;
+		background: rgb(255 255 255 / 0.92);
+		color: var(--ink-900);
+		font-size: 24px;
+		padding-left: 5px;
+		transition: transform 0.2s ease;
+	}
+	.kit-video-poster:hover .kit-video-play {
+		transform: scale(1.08);
+	}
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+	.kit-lead {
+		color: var(--ink-700);
+		max-width: 60ch;
+		margin-top: 10px;
+	}
+	.kit-list {
+		list-style: none;
+		padding: 0;
+		margin: 22px 0 28px;
+		display: grid;
+		gap: 8px 24px;
+		grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+		max-width: 760px;
+	}
+	.kit-list li {
+		position: relative;
+		padding-left: 26px;
+		color: var(--ink-700);
+	}
+	.kit-list li::before {
+		content: '✓';
+		position: absolute;
+		left: 0;
+		color: var(--accent);
+		font-weight: 700;
+	}
+	.kit-form {
+		max-width: 560px;
+	}
+	.kit-form-missing {
+		color: var(--ink-500);
+		font-style: italic;
+	}
+	.kit-preview {
+		grid-column: 1 / -1;
+		margin-top: 28px;
+	}
+	.kit-preview img {
+		max-width: 320px;
+		width: 100%;
+		height: auto;
+		border-radius: 14px;
+	}
+	.kit-author-photo {
+		grid-column: 1 / span 4;
+	}
+	.kit-author-photo img {
+		width: 100%;
+		height: auto;
+		border-radius: 16px;
+	}
+	.kit-author-copy {
+		grid-column: 6 / -1;
+	}
+	.kit-book-sub {
+		color: var(--ink-500);
+		font-size: 1.05rem;
+		margin: 0 0 14px;
+	}
+	.kit-work-cards {
+		grid-column: 1 / -1;
+		list-style: none;
+		margin: 24px 0 0;
+		padding: 0;
+		display: grid;
+		gap: 20px;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	}
+	.kit-work-card {
+		display: flex;
+		flex-direction: column;
+		border: 1px solid var(--border-soft);
+		border-radius: 16px;
+		overflow: hidden;
+		background: var(--paper);
+	}
+	.kit-work-card img {
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+	}
+	.kit-work-card-body {
+		padding: 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		flex: 1;
+	}
+	.kit-work-card-body h3 {
+		margin: 0;
+	}
+	.kit-work-card-body p {
+		color: var(--ink-700);
+		font-size: 0.95rem;
+		flex: 1;
+		margin: 0;
+	}
+	.kit-work-card-body .btn {
+		align-self: flex-start;
+	}
+
+	@media (max-width: 860px) {
+		.kit-hero-copy,
+		.kit-hero-badge,
+		.kit-author-photo,
+		.kit-author-copy {
+			grid-column: 1 / -1;
+		}
+		.kit-hero-badge img {
+			max-width: 300px;
+		}
+		.kit-author-photo img {
+			max-width: 320px;
+		}
+	}
+</style>
