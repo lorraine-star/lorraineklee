@@ -30,6 +30,18 @@ const sections = (await getTestimonialSections())
 
 const total = testimonials.length;
 
+// Hero copy is editable in Keystatic; fall back to the original copy so the
+// page never renders empty if the singleton is missing.
+const hero = {
+	eyebrow: page?.hero?.eyebrow || 'Testimonials',
+	headline: page?.hero?.headline || "Don't just take her word for it.",
+	headline_accent: page?.hero?.headline_accent || 'Hear it from them.',
+	lead: (
+		page?.hero?.lead ||
+		'{count} testimonials from the clients who book her, the audiences who show up, and the students who keep coming back to her LinkedIn Learning courses.'
+	).replace('{count}', String(total)),
+};
+
 // Quotes longer than this get a collapse/expand toggle so a single long
 // testimonial never turns a mobile column into an unreadable wall of text.
 const LONG_QUOTE = 550;
@@ -47,14 +59,10 @@ const LONG_QUOTE = 550;
 			<div class="page-hero-copy fade-up">
 				<div class="page-hero-eyebrow">
 					<span class="dot"></span>
-					<span class="eyebrow" style="color: var(--ink-500);">Testimonials</span>
+					<span class="eyebrow" style="color: var(--ink-500);">{hero.eyebrow}</span>
 				</div>
-				<h1>Don't just take her word for it. <em>Hear it from them.</em></h1>
-				<p class="lead-large">
-					{total} testimonials from the clients who book her, the audiences who
-					show up, and the students who keep coming back to her LinkedIn Learning
-					courses.
-				</p>
+				<h1>{hero.headline} <em>{hero.headline_accent}</em></h1>
+				<p class="lead-large">{hero.lead}</p>
 				<nav class="tm-jump" aria-label="Jump to testimonial type">
 					{
 						sections.map((section) => (
