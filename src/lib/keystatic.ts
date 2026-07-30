@@ -1,6 +1,6 @@
 import { createReader } from '@keystatic/core/reader';
 import Markdoc from '@markdoc/markdoc';
-import keystaticConfig from '../../keystatic.config';
+import keystaticConfig from '../../keystatic.config.ts';
 
 export const reader = createReader(process.cwd(), keystaticConfig);
 

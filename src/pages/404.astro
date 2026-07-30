@@ -1,0 +1,103 @@
+---
+// CLI-205: without this page a miss falls through to Astro's bare SSR 404 --
+// white page, no branding, no way back into the site. Old inbound links are the
+// main audience for it, so it leads with the places that traffic was most likely
+// looking for rather than a generic apology.
+import '../styles/global.css';
+import SpeakingLayout from '../layouts/SpeakingLayout.astro';
+
+const destinations = [
+	{ href: '/speaking', label: 'Speaking', blurb: 'Keynotes, workshops and past clients.' },
+	{ href: '/book', label: 'Unforgettable Presence', blurb: 'The book, and where to get it.' },
+	{ href: '/articles', label: 'Articles', blurb: 'Newsletter issues and writing.' },
+	{ href: '/courses', label: 'Courses', blurb: 'LinkedIn Learning courses.' },
+	{ href: '/about', label: 'About', blurb: 'Background, awards and press.' },
+	{ href: '/contact', label: 'Contact', blurb: 'Get in touch about an event.' },
+];
+---
+
+<SpeakingLayout
+	title="Page not found | Lorraine K. Lee"
+	description="That page has moved or no longer exists. Here is where to find what you were looking for."
+>
+	<section class="page-hero">
+		<div class="grid12">
+			<div class="notfound-copy fade-up">
+				<div class="page-hero-eyebrow">
+					<span class="dot"></span>
+					<span class="eyebrow" style="color: var(--ink-500);">404</span>
+				</div>
+				<h1>That page has moved</h1>
+				<p class="notfound-lede">
+					The site was rebuilt recently, so a few older links no longer point anywhere.
+					Here is where everything lives now.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="section section--cream">
+		<div class="grid12">
+			<ul class="notfound-list reveal">
+				{
+					destinations.map((d) => (
+						<li>
+							<a href={d.href}>
+								<span class="notfound-list-label">{d.label}</span>
+								<span class="notfound-list-blurb">{d.blurb}</span>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+</SpeakingLayout>
+
+<style>
+	.notfound-copy {
+		grid-column: 1 / -1;
+		max-width: 62ch;
+	}
+	.notfound-lede {
+		color: var(--ink-700);
+		font-size: 1.05rem;
+		line-height: 1.7;
+		margin-top: 12px;
+	}
+	.notfound-list {
+		grid-column: 1 / -1;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 12px;
+		grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+	}
+	.notfound-list a {
+		display: block;
+		height: 100%;
+		padding: 18px 20px;
+		border: 1px solid var(--border-soft);
+		border-radius: 14px;
+		background: var(--paper);
+		text-decoration: none;
+		transition: border-color 0.2s ease, transform 0.2s ease;
+	}
+	.notfound-list a:hover {
+		border-color: var(--accent);
+		transform: translateY(-2px);
+	}
+	.notfound-list-label {
+		display: block;
+		font-weight: 600;
+		color: var(--ink-900);
+		margin-bottom: 4px;
+	}
+	.notfound-list-blurb {
+		display: block;
+		font-size: 0.9rem;
+		color: var(--ink-500);
+		line-height: 1.5;
+	}
+</style>

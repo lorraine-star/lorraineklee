@@ -10,6 +10,10 @@ name: Validate content
 #    video links into framable /embed/ form, and a silent regression there breaks
 #    every keynote clip and the speaker reel. Also asserts an unsafe URL can never
 #    become embeddable.
+# 3. shortlinks -- CLI-202: a shortlink whose slug collides with a real page is
+#    skipped at build so the page wins, but from the Keystatic admin it still
+#    looks saved and active. Without this check the only signal is a console.warn
+#    in the build log, and the link the editor just handed out 404s.
 #
 # main is where Keystatic Cloud commits content directly, so both run there too.
 
@@ -47,3 +51,17 @@ jobs:
       # production deps are all it needs; --omit=dev keeps the run fast.
       - run: npm ci --omit=dev
       - run: npm run test:unit
+
+  shortlinks:
+    name: Shortlinks resolve
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      # Reads the links collection through @keystatic/core, same as the
+      # image validator above, so production deps are enough.
+      - run: npm ci --omit=dev
+      - run: npm run validate:shortlinks

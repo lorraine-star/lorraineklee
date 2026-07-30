@@ -13,7 +13,8 @@
     "prepare": "git config core.hooksPath .githooks || exit 0",
     "test:e2e": "momentic run",
     "test:unit": "node --experimental-strip-types scripts/test-url.mjs",
-    "validate:content": "node --experimental-strip-types scripts/validate-keystatic-images.mjs"
+    "validate:content": "node --experimental-strip-types scripts/validate-keystatic-images.mjs",
+    "validate:shortlinks": "node --experimental-strip-types scripts/validate-shortlinks.mjs"
   },
   "dependencies": {
     "@astrojs/markdoc": "^1.0.5",
