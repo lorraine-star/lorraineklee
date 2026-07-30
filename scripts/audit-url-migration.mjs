@@ -46,7 +46,17 @@ const REPO = path.resolve(HERE, '..');
 
 function arg(name, fallback) {
 	const i = process.argv.indexOf(`--${name}`);
-	return i !== -1 && process.argv[i + 1] ? process.argv[i + 1] : fallback;
+	if (i === -1) return fallback;
+	const value = process.argv[i + 1];
+	// Swallowing the next flag as a value is worse than missing the value: a
+	// mistyped `--bypass --out x` would send "--out" as the bypass secret, the
+	// deployment would reject it, and the run would fail citing deployment
+	// protection rather than the actual typo.
+	if (!value || value.startsWith('--')) {
+		console.error(`--${name} expects a value`);
+		process.exit(1);
+	}
+	return value;
 }
 const FLAGS = new Set(process.argv.filter((a) => a.startsWith('--')));
 
@@ -128,7 +138,8 @@ const ORIGIN_HOST = (() => {
 	}
 })();
 const SITE_HOSTS = {
-	test: (host) => PRODUCTION_HOSTS.test(host) || (host && host.toLowerCase() === ORIGIN_HOST),
+	test: (host) =>
+		Boolean(host) && (PRODUCTION_HOSTS.test(host) || host.toLowerCase() === ORIGIN_HOST),
 };
 
 /** Strip host + query + hash, collapse to a leading-slash path. */
@@ -139,7 +150,7 @@ function toPath(value) {
 	if (/^https?:\/\//i.test(v)) {
 		try {
 			const u = new URL(v);
-			if (!SITE_HOSTS.test(u.hostname)) return v; // external
+			if (!PRODUCTION_HOSTS.test(u.hostname)) return v; // external
 			v = u.pathname + u.search + u.hash;
 		} catch {
 			return v;
@@ -159,7 +170,7 @@ function normalize(p) {
 const isExternal = (v) => {
 	if (!/^https?:\/\//i.test(v)) return false;
 	try {
-		return !SITE_HOSTS.test(new URL(v).hostname);
+		return !PRODUCTION_HOSTS.test(new URL(v).hostname);
 	} catch {
 		return true;
 	}
@@ -258,7 +269,36 @@ function loadShortlinks(reservedSegments) {
 						: null,
 		});
 	}
+
+	// CLI-199: shortlinks.ts also republishes a fixed list of capitalised slugs
+	// that WordPress served, each mirroring its lowercase entry. Read that list
+	// from the source rather than restating it here — a second copy would drift,
+	// and the first version of this script did exactly that, reporting the eight
+	// aliases as "no redirect and no page" while they were resolving in
+	// production. Same approach as loadAstroRedirects(): parse the real config.
+	for (const alias of legacyCaseAliases()) {
+		const canonical = out.find((r) => r.source === `/${alias.toLowerCase()}` && !r.skipped);
+		if (!canonical) continue;
+		out.push({
+			...canonical,
+			source: `/${alias}`,
+			declaredNote: 'shortlinks.ts LEGACY_CASE_ALIASES',
+		});
+	}
+
 	return out;
+}
+
+/** The LEGACY_CASE_ALIASES literal in src/lib/shortlinks.ts. */
+function legacyCaseAliases() {
+	try {
+		const src = fs.readFileSync(path.join(REPO, 'src', 'lib', 'shortlinks.ts'), 'utf8');
+		const block = src.match(/const LEGACY_CASE_ALIASES\s*=\s*\[([\s\S]*?)\]/);
+		if (!block) return [];
+		return [...block[1].matchAll(/'([^']+)'/g)].map((m) => m[1]);
+	} catch {
+		return [];
+	}
 }
 
 // ---------------------------------------------------------------- 2. built routes
@@ -384,11 +424,20 @@ function resolveStatic(startPath, bySource) {
 const BYPASS = arg('bypass', process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? null);
 const SSO_HOSTS = /(^|\.)vercel\.com$/i;
 
+// The bypass secret grants access to every protected preview deployment, so it
+// must never leave the deployment under audit. trace() follows redirects
+// off-domain — /amazon ends at amazon.com, /CC-feedback at docs.google.com — and
+// a header set unconditionally would be handed to each of those hosts in turn.
+function mayReceiveBypass(url) {
+	const host = hostOf(url);
+	return Boolean(host) && (host === ORIGIN_HOST || /\.vercel\.app$/i.test(host));
+}
+
 function request(url) {
 	return new Promise((resolve) => {
 		const lib = url.startsWith('https:') ? https : http;
 		const headers = { 'user-agent': 'lkl-url-audit/1.0' };
-		if (BYPASS) headers['x-vercel-protection-bypass'] = BYPASS;
+		if (BYPASS && mayReceiveBypass(url)) headers['x-vercel-protection-bypass'] = BYPASS;
 		const req = lib.request(
 			url,
 			{ method: 'GET', headers },
@@ -612,6 +661,17 @@ if (REUSE && !fs.existsSync(REUSE)) {
 }
 if (REUSE) {
 	const prev = JSON.parse(fs.readFileSync(REUSE, 'utf8'));
+	// Replaying measurements taken against a different deployment would produce
+	// a report headed with this run's origin and populated with another one's
+	// results — the same shape of false reading as counting an SSO login page
+	// as a healthy 200. Refuse rather than silently mislabel.
+	if (prev.summary?.origin && prev.summary.origin !== ORIGIN) {
+		console.error(
+			`--reuse origin mismatch: ${REUSE} was recorded against ${prev.summary.origin}, ` +
+				`but --origin is ${ORIGIN}. Re-run live, or pass --origin ${prev.summary.origin}.`
+		);
+		process.exit(1);
+	}
 	const byPath = new Map(prev.records.map((r) => [r.path, r.live]));
 	let hits = 0;
 	for (const rec of records) {

@@ -1,5 +1,15 @@
 # WordPress → Astro URL migration audit — findings
 
+> **This is the pre-fix baseline, captured 2026-07-30 before PR #215.** It is kept
+> as the record of what the migration looked like on the day it was audited — the
+> present-tense findings below describe production at that moment, not now.
+>
+> **Superseded by PR #215** (CLI-198, CLI-199), which took the P0 and P3 items:
+> the trailing-slash failure is fixed by `trailingSlash: 'never'` alone, *not* by
+> the `vercel.json` rule proposed under P0 below — that rule was written first and
+> dropped once the Astro adapter was confirmed to emit the same normalisation
+> itself. Re-run `node scripts/audit-url-migration.mjs` for current numbers.
+
 **Date:** 2026-07-30
 **Audited against:** `https://lorraineklee.com` (production, Vercel deployment `e4be32f`)
 **Full per-URL table:** [url-migration-audit.md](url-migration-audit.md) (319 rows)
