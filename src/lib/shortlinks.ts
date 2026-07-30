@@ -7,6 +7,35 @@ export interface ShortlinkRedirect {
   destination: string;
 }
 
+/**
+ * CLI-199: slugs that WordPress served with capitals.
+ *
+ * The WP Redirection plugin stored these mixed-case and matched them exactly,
+ * so on WordPress the capitalised form was the one that worked — and it is the
+ * form printed on workshop slides and pasted into follow-up emails. This module
+ * lowercases every slug (Keystatic slugs are lowercase by convention), and
+ * Vercel matches redirect sources case-sensitively, so the port silently
+ * inverted which casing resolves and the handed-out links began 404ing.
+ *
+ * Each entry re-publishes the original casing alongside the canonical lowercase
+ * slug, pointing at the same destination — one hop, no duplicated URLs, and no
+ * extra rows cluttering the Shortlinks collection in the Keystatic admin.
+ *
+ * Sourced from the enabled mixed-case rules in the WordPress export. Add to this
+ * list if a capitalised link turns up that is not here; do not add lowercase
+ * ones, they already resolve.
+ */
+const LEGACY_CASE_ALIASES = [
+  'CC-feedback',
+  'NISM-discount',
+  'NUL-feedback',
+  'SASE-resources',
+  'SASE-workbook',
+  'WS-feedback',
+  'catch-up-APAC-timezone-30min',
+  'cisco-linkedin-DD',
+];
+
 // Single-segment paths a shortlink must never shadow: real top-level pages, the
 // Keystatic admin/API, and existing one-segment redirect sources in vercel.json.
 // A shortlink whose slug matches one of these is skipped at build so the real
@@ -82,6 +111,21 @@ export async function getShortlinkRedirects(): Promise<{
       continue;
     }
     redirects[`/${cleanSlug}`] = { status: 301, destination: entry.destination };
+  }
+
+  // CLI-199: republish the capitalised forms WordPress used to serve. Driven off
+  // the canonical entries above, so an alias can never outlive, contradict, or
+  // reactivate the shortlink it mirrors — if the lowercase slug was skipped as
+  // inactive or colliding, there is nothing here to alias.
+  for (const alias of LEGACY_CASE_ALIASES) {
+    const canonical = redirects[`/${alias.toLowerCase()}`];
+    if (!canonical) {
+      warnings.push(
+        `legacy alias "/${alias}" has no active lowercase shortlink to mirror; skipped.`
+      );
+      continue;
+    }
+    redirects[`/${alias}`] = { ...canonical };
   }
 
   return { redirects, warnings };
