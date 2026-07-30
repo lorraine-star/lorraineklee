@@ -1,0 +1,80 @@
+seo_title: Grab your book resources | Unforgettable Presence
+seo_description: >-
+  The Unforgettable Presence book kit — checklists, templates, frameworks and
+  workbooks to help you get seen, gain influence, and catapult your career.
+hero:
+  eyebrow: Unforgettable Presence
+  heading: Grab your BOOK RESOURCES
+  badge_image: /images/book-resources/book-badge.webp
+  badge_alt: >-
+    Unforgettable Presence — Next Big Idea Club Must-Read and Amazon Bestseller
+video_section:
+  heading: A message from Lorraine
+  youtube_url: https://youtu.be/P0gD1I_dnK8
+  overlay_image: /images/book-resources/video-overlay.webp
+resources_section:
+  heading: Grab your book resources below!
+  lead: >-
+    Enter your email and I'll send the full kit straight to your inbox — every
+    checklist, template and framework that goes with the book.
+  preview_image: /images/book-resources/resources-preview.webp
+  kit_form_uid: 1315c490cf
+resources:
+  - Career Brand Growth Kit
+  - Video Presence Checklist + Tools List
+  - Small Talk Conversation Starters
+  - 25+ LinkedIn Banner Photo Templates
+  - Ultimate Guide to LinkedIn (Part 1)
+  - Confident Communicator Cheat Sheet
+  - Impromptu Speaking Frameworks
+  - Memorable Meeting Checklist
+  - RAVE Influence Workbook
+  - Outreach Organizer
+  - One-on-One Meeting Blueprint
+  - And more!
+author_section:
+  eyebrow: About the author
+  book_title: Unforgettable Presence
+  book_subtitle: Get Seen, Gain Influence, and Catapult Your Career
+  bio: >-
+    Lorraine K. Lee is a keynote speaker and the bestselling author of
+    Unforgettable Presence: Get Seen, Gain Influence, and Catapult Your Career
+    (Wiley). She also teaches popular courses at Stanford Continuing Studies and
+    LinkedIn Learning. She is passionate about empowering leaders to elevate
+    their presence, influence, and impact. Her frameworks have been adopted by
+    globally recognized organizations like Zoom, Amazon, Cisco, and McKinsey &
+    Company. Lorraine is recognized as a LinkedIn Top Voice with hundreds of
+    thousands of followers, and previously spent over a decade as a founding
+    editor at companies including LinkedIn and Prezi. Her insights are featured
+    in top media outlets including CNBC, Bloomberg, and Fast Company.
+  photo: /images/book-resources/about-the-author.webp
+work_section:
+  eyebrow: Work with me
+  heading: Here's How I Can Help You
+work_cards:
+  - title: Speaking
+    description: >-
+      Lorraine is a highly sought-after keynote speaker. She has received rave
+      reviews from Fortune 500 companies to startups for her engaging
+      presentations and actionable advice.
+    cta_label: Learn more
+    cta_url: /speaking
+    image: /images/book-resources/card-speaking.webp
+  - title: Courses
+    description: >-
+      Lorraine teaches popular courses with LinkedIn Learning (15+ courses
+      published) and Stanford Continuing Studies. Watch her courses and gain
+      valuable career, management, and leadership skills you can immediately
+      implement.
+    cta_label: See courses
+    cta_url: /courses
+    image: /images/book-resources/card-courses.webp
+  - title: Custom programs
+    description: >-
+      Bring Lorraine in as a communications advisor, career brand-building
+      expert, or an executive presence coach and create a custom program for
+      your organization. Options include workshop learning series, cohort
+      trainings, customized courses, and more.
+    cta_label: Contact Lorraine
+    cta_url: /contact
+    image: /images/book-resources/card-custom-programs.webp
