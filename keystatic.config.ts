@@ -2581,10 +2581,10 @@ export default config({
               directory: 'public/images/book-resources',
               publicPath: '/images/book-resources/',
             }),
-            kit_form_uid: fields.text({
+            kit_form_id: fields.text({
               label: 'Kit form ID',
               description:
-                'The id from your Kit form embed URL, e.g. 1315c490cf in lorraineklee.kit.com/1315c490cf. This is what delivers the resources.',
+                'The numeric id of the Kit form that delivers the resources, e.g. 7948678. Find it in Kit under the form, or in its embed code as data-sv-form. Changing this changes which list people join and which resources Kit sends them.',
             }),
           },
           { label: 'Resources + signup' }
