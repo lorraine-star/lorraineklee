@@ -526,7 +526,16 @@ for (const name of fs.readdirSync(path.join(REPO, 'src', 'pages'))) {
 	if (seg !== 'index') reservedSegments.add(seg.toLowerCase());
 }
 const vercelRules = loadVercelRedirects();
+// Mirror the carve-out in src/lib/shortlinks.ts reservedSegments(). The CLI-208
+// capitalised aliases live in vercel.json but are not real routes -- each exists
+// purely to mirror a shortlink. Lowercasing their sources into the reserved set
+// makes every alias look like it evicts the shortlink it mirrors, which reported
+// all eight twins as "skipped at build" while they were serving 301 in
+// production. This set has to stay in step with the real module; the shared
+// invariant is that an alias source never reserves anything.
+const aliasSources = new Set(legacyCaseAliases().map((a) => `/${a}`));
 for (const r of vercelRules) {
+	if (aliasSources.has(r.source)) continue;
 	const single = r.source.match(/^\/([^/]+)\/?$/);
 	if (single) reservedSegments.add(single[1].toLowerCase());
 }
