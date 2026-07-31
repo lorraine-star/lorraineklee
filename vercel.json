@@ -22,6 +22,9 @@
     { "source": "/free-course", "destination": "/from-invisible-to-influential", "permanent": true },
     { "source": "/landing-01", "destination": "/from-invisible-to-influential", "permanent": true },
     { "source": "/5-day-course", "destination": "/from-invisible-to-influential?utm_source=linkedin&utm_medium=awaymessage&utm_campaign=5daycourse", "permanent": true },
+    { "source": "/grab-course", "destination": "/from-invisible-to-influential?utm_source=comment&utm_medium=linkedin&utm_campaign=invisible-to-influential", "permanent": true },
+    { "source": "/li-live", "destination": "/from-invisible-to-influential?utm_source=social&utm_medium=linkedin&utm_campaign=li-live-2026-07-23", "permanent": true },
+    { "source": "/ig-free-course", "destination": "/from-invisible-to-influential", "permanent": true },
 
     { "source": "/keynotes-archive", "destination": "/speaking", "permanent": true },
 
