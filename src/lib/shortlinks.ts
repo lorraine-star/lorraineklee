@@ -33,8 +33,7 @@ export const LEGACY_CASE_ALIASES = [
   'NUL-feedback',
   'SASE-resources',
   'SASE-workbook',
-  'WS-feedback',
-  'catch-up-APAC-timezone-30min',
+  'WS-feedback',
   'cisco-linkedin-DD',
 ];
 
