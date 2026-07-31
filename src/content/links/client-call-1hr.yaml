@@ -1,4 +1,4 @@
 slug: client-call-1hr
-destination: https://my.onlinebusinessautomator.com/widget/bookings/clientcall-lorraine-1hour
-active: false
-note: 'Retired 2026-07-31 (CLI-200): the booking calendar behind this link no longer exists. Lorraine confirmed the live set is /discovery, /intro, /partnership, /1-hour-coaching, /coaching-20-mins, /debrief, /catch-up-30-mins, /catch-up-15-mins. Turned off rather than deleted so it can be repointed and switched back on.'
+destination: 'https://www.lorraineklee.com/'
+active: true
+note: 'Retired booking link, repointed to the homepage 2026-07-31 (CLI-211) at Lorraine''s request: the booking calendar behind it no longer exists, so rather than 404 for anyone still holding the link it now lands on the site. Original destination was https://my.onlinebusinessautomator.com/widget/bookings/clientcall-lorraine-1hour — repoint here and the link works again, no code change needed.'
