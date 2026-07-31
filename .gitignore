@@ -59,3 +59,9 @@ lorraineklee_verified_inventory_package/
 docs/url-migration-audit.json
 /url-audit.json
 /url-audit.md
+
+# WordPress source exports (WXR) and Redirection plugin dumps. These are large
+# re-downloadable inputs to the migration audit, not source. The WXR files run
+# to tens of MB and the browser appends " (1)" on re-download, so match loosely.
+*.WordPress.*.xml
+redirection-export*.json
