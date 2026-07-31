@@ -1,4 +1,4 @@
 slug: client-call-30min
 destination: https://my.onlinebusinessautomator.com/widget/bookings/clientcall-lorraine-30mins
-active: true
-note: 'Booking link'
+active: false
+note: 'Retired 2026-07-31 (CLI-200): the booking calendar behind this link no longer exists. Lorraine confirmed the live set is /discovery, /intro, /partnership, /1-hour-coaching, /coaching-20-mins, /debrief, /catch-up-30-mins, /catch-up-15-mins. Turned off rather than deleted so it can be repointed and switched back on.'
