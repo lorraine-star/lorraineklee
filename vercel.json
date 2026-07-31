@@ -56,7 +56,8 @@
 
     { "source": "/bio-and-headshot", "destination": "/speaker-bio", "permanent": true },
     { "source": "/consulting-and-coaching", "destination": "/consulting", "permanent": true },
-    { "source": "/async-linkedin-profile-audit-assessment", "destination": "/coaching#linkedin-audit", "permanent": true },
+    { "source": "/coaching", "destination": "/contact", "permanent": true },
+    { "source": "/async-linkedin-profile-audit-assessment", "destination": "/contact", "permanent": true },
 
     { "source": "/learning-courses", "destination": "/courses", "permanent": true },
     { "source": "/linkedin-learning-courses", "destination": "/courses", "permanent": true },
@@ -200,7 +201,7 @@
 
     { "source": "/about-2", "destination": "/about", "permanent": true },
     { "source": "/about-2024", "destination": "/about", "permanent": true },
-    { "source": "/your-questions-answered", "destination": "/coaching", "permanent": true },
+    { "source": "/your-questions-answered", "destination": "/contact", "permanent": true },
     { "source": "/testimonials-copy", "destination": "/testimonials", "permanent": true },
     { "source": "/testimonials-3", "destination": "/testimonials", "permanent": true },
     { "source": "/thought-leadership-new", "destination": "/thought-leadership", "permanent": true },
