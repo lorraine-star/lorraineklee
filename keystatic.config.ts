@@ -1386,6 +1386,32 @@ export default config({
         ),
       },
     }),
+    paymentPolicy: singleton({
+      label: 'Payment Policy',
+      path: 'src/content/payment-policy/',
+      // Restored 2026-07-31 at Lorraine's request. The page existed on
+      // WordPress at this same path, was folded into a redirect during the
+      // migration (CLI-204), and is her own previously published wording
+      // brought back verbatim -- not newly drafted legal copy.
+      format: { contentField: 'body' },
+      schema: {
+        title: fields.text({ label: 'Page title', defaultValue: 'Payment Policy' }),
+        eyebrow: fields.text({ label: 'Hero eyebrow', defaultValue: 'Legal' }),
+        effective_date_label: fields.text({
+          label: 'Effective date label',
+          defaultValue: 'Effective Date:',
+        }),
+        effective_date: fields.text({
+          label: 'Effective date',
+          defaultValue: 'November 6, 2023',
+        }),
+        description: fields.text({
+          label: 'Meta description',
+          multiline: true,
+        }),
+        body: fields.markdoc({ label: 'Policy body' }),
+      },
+    }),
     privacyPolicy: singleton({
       label: 'Privacy Policy',
       path: 'src/content/privacy-policy/',
