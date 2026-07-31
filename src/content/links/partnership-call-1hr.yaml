@@ -1,4 +1,4 @@
 slug: partnership-call-1hr
-destination: 'https://www.lorraineklee.com/'
+destination: 'https://my.onlinebusinessautomator.com/widget/bookings/partnershipcall-lorraine-30mins'
 active: true
-note: 'Retired booking link, repointed to the homepage 2026-07-31 (CLI-211) at Lorraine''s request: the booking calendar behind it no longer exists, so rather than 404 for anyone still holding the link it now lands on the site. Original destination was https://my.onlinebusinessautomator.com/widget/bookings/partnershipcall-lorraine-1hour — repoint here and the link works again, no code change needed.'
+note: 'Repointed 2026-07-31 (CLI-212) at Lorraine''s request: the calendar this originally booked was deleted, and the 30-minute partnership call (/partnership) replaced it, so the link now goes there instead of the homepage. Change the destination here if that mapping is ever wrong.'
