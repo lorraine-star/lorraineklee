@@ -11,6 +11,7 @@
 // below posts to Lorraine's list and Kit sends the files. Nothing to host here.
 import '../styles/global.css';
 import SpeakingLayout from '../layouts/SpeakingLayout.astro';
+import FreeCourseForm from '../components/FreeCourseForm.astro';
 import { reader } from '../lib/keystatic';
 import { safeUrl, toEmbedUrl } from '../lib/url';
 
@@ -20,8 +21,12 @@ if (!page) {
 }
 
 const videoEmbed = toEmbedUrl(page.video_section?.youtube_url ?? '');
-const kitFormUid = (page.resources_section?.kit_form_uid ?? '').trim();
-const kitScript = kitFormUid ? `https://lorraineklee.kit.com/${kitFormUid}/index.js` : '';
+// Posts straight to Kit like every other signup on the site (subscribe, the
+// free-course funnel), rather than dropping in Kit's own JS embed. The embed
+// ships its own stylesheet — a yellow button and its own input styling — which
+// read as a third-party widget bolted onto the page. Same Kit form either way,
+// so the list and the resource delivery are unchanged.
+const kitFormId = (page.resources_section?.kit_form_id ?? '').trim();
 ---
 
 <SpeakingLayout
@@ -102,9 +107,14 @@ const kitScript = kitFormUid ? `https://lorraineklee.kit.com/${kitFormUid}/index
 				}
 
 				{
-					kitScript ? (
+					kitFormId ? (
 						<div class="kit-form">
-							<script async data-uid={kitFormUid} src={kitScript} />
+							<FreeCourseForm
+								formId={kitFormId}
+								buttonLabel="Send me my resources"
+								emailPlaceholder="Enter your best email"
+								idPrefix="kit"
+							/>
 						</div>
 					) : (
 						<p class="kit-form-missing">
@@ -206,6 +216,9 @@ const kitScript = kitFormUid ? `https://lorraineklee.kit.com/${kitFormUid}/index
 <style>
 	.kit-hero-copy {
 		grid-column: 1 / span 7;
+		/* The badge is a tall portrait render, so it sets the row height. Without
+		   this the copy pins to the top and leaves a large gap beneath it. */
+		align-self: center;
 	}
 	.kit-hero-badge {
 		grid-column: 9 / -1;
@@ -217,10 +230,19 @@ const kitScript = kitFormUid ? `https://lorraineklee.kit.com/${kitFormUid}/index
 		border-radius: 12px;
 	}
 	.kit-video,
-	.kit-grab,
 	.kit-author-copy,
 	.kit-work-head {
 		grid-column: 1 / -1;
+	}
+	/* The signup and the kit artwork are one unit: the image sat in its own
+	   full-width row before, which left the form stranded on the left of an
+	   empty band and gave a tall portrait render a whole screen to itself. */
+	.kit-grab {
+		grid-column: 1 / span 7;
+	}
+	.kit-preview {
+		grid-column: 9 / -1;
+		align-self: center;
 	}
 	.kit-video-frame {
 		position: relative;
@@ -307,21 +329,41 @@ const kitScript = kitFormUid ? `https://lorraineklee.kit.com/${kitFormUid}/index
 		font-weight: 700;
 	}
 	.kit-form {
-		max-width: 560px;
+		max-width: 460px;
+	}
+	.kit-form :global(.fc-input) {
+		width: 100%;
+		font-family: var(--font-sans);
+		font-size: 15px;
+		color: var(--ink-900);
+		background: var(--paper);
+		border: 1px solid var(--ink-200);
+		border-radius: 10px;
+		padding: 14px 15px;
+		transition: box-shadow 160ms ease, border-color 160ms ease;
+	}
+	.kit-form :global(.fc-input:focus-visible) {
+		outline: none;
+		border-color: var(--accent);
+		box-shadow: 0 0 0 3px rgb(8 74 243 / 0.18);
+	}
+	.kit-form :global(.fc-field) {
+		margin-bottom: 12px;
+	}
+	.kit-form :global(.fc-submit) {
+		justify-content: center;
+		width: 100%;
 	}
 	.kit-form-missing {
 		color: var(--ink-500);
 		font-style: italic;
 	}
-	.kit-preview {
-		grid-column: 1 / -1;
-		margin-top: 28px;
-	}
 	.kit-preview img {
-		max-width: 320px;
 		width: 100%;
+		max-width: 340px;
 		height: auto;
-		border-radius: 14px;
+		display: block;
+		margin-inline: auto;
 	}
 	.kit-author-photo {
 		grid-column: 1 / span 4;
@@ -385,8 +427,16 @@ const kitScript = kitFormUid ? `https://lorraineklee.kit.com/${kitFormUid}/index
 		.kit-hero-copy,
 		.kit-hero-badge,
 		.kit-author-photo,
-		.kit-author-copy {
+		.kit-author-copy,
+		.kit-grab,
+		.kit-preview {
 			grid-column: 1 / -1;
+		}
+		.kit-preview {
+			margin-top: 28px;
+		}
+		.kit-preview img {
+			max-width: 260px;
 		}
 		.kit-hero-badge img {
 			max-width: 300px;
