@@ -11,7 +11,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "prepare": "git config core.hooksPath .githooks || exit 0",
-    "test:e2e": "momentic run",
+    "test:e2e": "npx --yes momentic run",
     "test:unit": "node --experimental-strip-types scripts/test-url.mjs && node --experimental-strip-types scripts/test-shortlinks.mjs",
     "validate:content": "node --experimental-strip-types scripts/validate-keystatic-images.mjs",
     "validate:shortlinks": "node --experimental-strip-types scripts/validate-shortlinks.mjs"
@@ -40,8 +40,5 @@
     "react-dom": "^19.2.6",
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.3.0"
-  },
-  "devDependencies": {
-    "momentic": "latest"
   }
 }
