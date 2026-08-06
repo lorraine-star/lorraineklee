@@ -67,7 +67,7 @@ linkedin_resources:
       A set of on-brand LinkedIn cover photos you can drop into your profile in
       minutes — designed to make your page look intentional, not stock.
     cta_label: Get the photo pack
-    url: /contact
+    url: /background-photo
     anchor_id: linkedin-photo-pack
     image: /images/v1/learn/linkedin_resources/0/image.webp
   - label: The Ultimate LinkedIn Guide
