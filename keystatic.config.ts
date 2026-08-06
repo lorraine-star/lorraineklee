@@ -1674,6 +1674,11 @@ export default config({
               label: 'Description',
               multiline: true,
             }),
+            eyebrow: fields.text({
+              label: 'Card eyebrow (optional)',
+              description:
+                'Overrides the shared "Resource card eyebrow" for this card only. Use it when a card is not a free resource, e.g. the paid LinkedIn guide.',
+            }),
             cta_label: fields.text({
               label: 'CTA label',
               defaultValue: 'Get the pack',
@@ -1697,6 +1702,166 @@ export default config({
             label: 'LinkedIn resources / lead magnets',
             itemLabel: (props) => props.fields.label.value || 'Resource',
           }
+        ),
+      },
+    }),
+    ultimateLinkedinGuide: singleton({
+      label: 'Ultimate LinkedIn Guide',
+      path: 'src/content/ultimate-linkedin-guide/',
+      // CLI-214: the guide page was dropped from the nav in May and ended up in
+      // the redirect map, so /ultimate-linkedin-guide 301'd to /learn and the
+      // product had no on-site description or buy path. Copy here is carried
+      // over from the original WordPress page (trimmed, not rewritten). The buy
+      // CTA points at the external Topmate listing, so it lives in a field
+      // rather than the template -- if Lorraine moves the product, that is a
+      // content edit, not a code change.
+      schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+        seo_description: fields.text({
+          label: 'SEO description',
+          multiline: true,
+        }),
+        hero: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            headline: fields.text({ label: 'Headline (plain)' }),
+            headline_accent: fields.text({
+              label: 'Headline accent (shown italic)',
+            }),
+            lead: fields.text({ label: 'Lead paragraph', multiline: true }),
+            price: fields.text({
+              label: 'Price',
+              description:
+                'Shown next to the buy button. Keep this in step with the Topmate listing.',
+              defaultValue: '$29',
+            }),
+            price_note: fields.text({
+              label: 'Price note',
+              defaultValue: 'One-time payment · Instant download',
+            }),
+            cta_label: fields.text({
+              label: 'Buy CTA label',
+              defaultValue: 'Get the guide',
+            }),
+            cta_url: fields.text({
+              label: 'Buy CTA URL',
+              description:
+                'Where the buy button sends people. Currently the Topmate listing.',
+              defaultValue: 'https://topmate.io/lorraineklee/150949',
+            }),
+            preview_label: fields.text({
+              label: 'Free-preview link label',
+              description: 'Optional. Leave empty to hide the free-preview link.',
+              defaultValue: 'Not ready to buy? Grab the first part free',
+            }),
+            preview_url: fields.text({
+              label: 'Free-preview link URL',
+              defaultValue: 'https://lorraineklee.kit.com/ultimate-guide-preview',
+            }),
+            cover_image: fields.image({
+              label: 'Guide cover image',
+              directory: 'public/images/v1/ultimate-linkedin-guide',
+              publicPath: '/images/v1/ultimate-linkedin-guide/',
+            }),
+            cover_alt: fields.text({ label: 'Guide cover alt text' }),
+          },
+          { label: 'Hero' }
+        ),
+        audience_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({ label: 'Heading accent (italic)' }),
+          },
+          { label: '"This guide is for you if" heading' }
+        ),
+        audience_points: fields.array(fields.text({ label: 'Point' }), {
+          label: '"This guide is for you if" points',
+          itemLabel: (props) => props.value || 'Point',
+        }),
+        about: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({ label: 'Heading accent (italic)' }),
+            body: fields.text({
+              label: 'Body (one paragraph per blank line)',
+              multiline: true,
+            }),
+          },
+          { label: 'About the guide' }
+        ),
+        included_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({ label: 'Heading accent (italic)' }),
+          },
+          { label: '"What you get" heading' }
+        ),
+        included_points: fields.array(fields.text({ label: 'Point' }), {
+          label: '"What you get" points',
+          itemLabel: (props) => props.value || 'Point',
+        }),
+        sections_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({ label: 'Heading accent (italic)' }),
+          },
+          { label: '"What you\'ll learn" heading' }
+        ),
+        sections: fields.array(
+          fields.object({
+            title: fields.text({ label: 'Section title' }),
+            description: fields.text({
+              label: 'Section description',
+              multiline: true,
+            }),
+          }),
+          {
+            label: "What you'll learn (guide sections)",
+            itemLabel: (props) => props.fields.title.value || 'Section',
+          }
+        ),
+        testimonials_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({ label: 'Heading accent (italic)' }),
+          },
+          { label: 'Testimonials heading' }
+        ),
+        testimonials: fields.array(
+          fields.object({
+            quote: fields.text({
+              label: 'Quote (quotation marks added automatically)',
+              multiline: true,
+            }),
+            author: fields.text({ label: 'Author' }),
+            title: fields.text({ label: 'Author title / company' }),
+          }),
+          {
+            label: 'Testimonials',
+            itemLabel: (props) => props.fields.author.value || 'Testimonial',
+          }
+        ),
+        final_cta: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({ label: 'Heading accent (italic)' }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            cta_label: fields.text({
+              label: 'CTA label',
+              defaultValue: 'Get the guide',
+            }),
+            cta_url: fields.text({
+              label: 'CTA URL',
+              defaultValue: 'https://topmate.io/lorraineklee/150949',
+            }),
+          },
+          { label: 'Closing CTA' }
         ),
       },
     }),
