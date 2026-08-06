@@ -194,7 +194,7 @@ Crawl flagged these as stale, event-specific, or thin. Default: **noindex +
 | `/linkedin-replay/`, `/linkedin-training-replay/`, `/linkedin-training/` | `/speaking` | **301** |
 | `/ecamm-workshop/`, `/ecamm-bonuses/` | `/` | **301** (confirm if workshop still sold) |
 | `/from-invisible-to-influential/`, `/from-invisible-to-influential-thank-you/` | `/learn` | **301** (active 5-day course — confirm canonical home) |
-| `/ultimate-linkedin-guide/`, `/ultimate-guide-to-linkedin-free-version/` | `/learn` | **301** |
+| `/ultimate-linkedin-guide/` | `/ultimate-linkedin-guide` | preserve | **Superseded by CLI-214.** Planned as a 301 to `/learn` while the guide was out of the nav; the page was rebuilt in Aug 2026, so this URL serves again. `/ultimate-guide/`, `/ultimate-linkedin-guide-copy2/`, `/ultimate-guide-to-linkedin-free-version/` and `/unforgettable-presence-linkedin-guide-payment/` now 301 here instead of to `/learn` or `/`. |
 | `/unforgettable-presence-masterclass/` | `/book` | **301** |
 | `/from-the-archive-*` (3 URLs) | `/articles/{slug}` ⏳ | **301** |
 | `/email-me-with-your-topic-of-interest/`, `/thank-you-for-sharing-your-interest/`, `/thank-you-youre-still-on-the-list/`, `/linkedin-workshop-video/`, `/key-takeaways-download/` | `/contact` or `/learn` | **301** (thin utility pages) |
