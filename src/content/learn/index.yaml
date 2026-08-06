@@ -70,11 +70,12 @@ linkedin_resources:
     url: /contact
     anchor_id: linkedin-photo-pack
     image: /images/v1/learn/linkedin_resources/0/image.webp
-  - label: The Digital LinkedIn Guide
+  - label: The Ultimate LinkedIn Guide
     description: >-
       Lorraine's step-by-step playbook for building a LinkedIn presence that
       gets you noticed by decision-makers, recruiters, and clients.
-    cta_label: Get the guide
-    url: /contact
+    eyebrow: "Paid guide · $29"
+    cta_label: See the guide
+    url: /ultimate-linkedin-guide
     anchor_id: linkedin-guide
     image: /images/v1/learn/linkedin_resources/1/image.webp

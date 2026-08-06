@@ -1,0 +1,480 @@
+---
+/**
+ * CLI-214: standalone page for the Ultimate LinkedIn Guide.
+ *
+ * The guide came out of the nav in May (CLI-130) but was never rebuilt, so the
+ * URL sat in the redirect map and 301'd to /learn. That left a product with
+ * real inbound links (podcast show notes, Medium posts, LinkedIn Pulse) with no
+ * description and no buy path on the site. This restores the page; the nav is
+ * deliberately unchanged, so it is reachable by direct link and from the /learn
+ * resource grid only.
+ *
+ * Copy is carried over from the original WordPress page, trimmed for length.
+ * Checkout stays external: the buy CTA is a Keystatic field pointing at the
+ * Topmate listing.
+ */
+import SpeakingLayout from '../layouts/SpeakingLayout.astro';
+import { reader } from '../lib/keystatic';
+import { safeUrl } from '../lib/url';
+
+const guide = await reader.singletons.ultimateLinkedinGuide.read();
+if (!guide) {
+	throw new Error(
+		'Missing Ultimate LinkedIn Guide content (src/content/ultimate-linkedin-guide/index.yaml)'
+	);
+}
+
+const {
+	hero,
+	audience_section,
+	audience_points,
+	about,
+	sections_section,
+	sections,
+	included_section,
+	included_points,
+	testimonials_section,
+	testimonials,
+	final_cta,
+} = guide;
+
+const isExternal = (url: string) => /^https?:\/\//i.test(url);
+
+// Every buy path leads off-site, so a broken CTA URL must not collapse to '#'.
+const TOPMATE_LISTING = 'https://topmate.io/lorraineklee/150949';
+const buyUrl = safeUrl(hero.cta_url, TOPMATE_LISTING);
+const finalCtaUrl = safeUrl(final_cta.cta_url, TOPMATE_LISTING);
+const previewUrl = safeUrl(hero.preview_url);
+
+// The about copy is one multiline field; blank lines separate paragraphs.
+const aboutParagraphs = (about.body ?? '')
+	.split(/\n\s*\n/)
+	.map((p) => p.trim())
+	.filter(Boolean);
+---
+
+<SpeakingLayout
+	title={guide.seo_title || 'The Ultimate LinkedIn Guide | Lorraine K. Lee'}
+	description={guide.seo_description || hero.lead}
+	activeId="learn"
+	image={hero.cover_image || undefined}
+>
+	{/* ---------- Hero ---------- */}
+	<section class="page-hero">
+		<div class="grid12 page-hero-grid">
+			<div class="page-hero-copy fade-up">
+				<div class="page-hero-eyebrow">
+					<span class="dot"></span>
+					<span class="eyebrow" style="color: var(--ink-500);">
+						{hero.eyebrow}
+					</span>
+				</div>
+				<h1>{hero.headline} <em>{hero.headline_accent}</em></h1>
+				<p class="lead-large">{hero.lead}</p>
+				<div class="guide-buy">
+					<a
+						class="btn primary large"
+						href={buyUrl}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						{hero.cta_label || 'Get the guide'}
+						{hero.price && <span class="guide-buy-price">{hero.price}</span>}
+					</a>
+					{hero.price_note && (
+						<span class="guide-buy-note">{hero.price_note}</span>
+					)}
+				</div>
+				{
+					hero.preview_label && previewUrl && (
+						<p class="guide-preview">
+							<a
+								href={previewUrl}
+								target={isExternal(previewUrl) ? '_blank' : undefined}
+								rel={isExternal(previewUrl) ? 'noopener noreferrer' : undefined}
+							>
+								{hero.preview_label}{' '}
+								<span aria-hidden="true">&rarr;</span>
+							</a>
+						</p>
+					)
+				}
+			</div>
+			{
+				hero.cover_image && (
+					<div class="page-hero-aside fade-up" style="animation-delay: 80ms;">
+						<img
+							class="guide-cover"
+							src={hero.cover_image}
+							alt={hero.cover_alt || 'The Ultimate LinkedIn Guide'}
+							width="760"
+							height="760"
+						/>
+					</div>
+				)
+			}
+		</div>
+	</section>
+
+	{/* ---------- Who it's for ---------- */}
+	{
+		audience_points?.length > 0 && (
+			<section class="section section--compact section--cream">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{audience_section.eyebrow}</span>
+						<h2>
+							{audience_section.heading}{' '}
+							<em>{audience_section.heading_accent}</em>
+						</h2>
+					</div>
+					<ul class="guide-checklist reveal-stagger">
+						{audience_points.map((point) => (
+							<li class="guide-checklist-item">
+								<span class="guide-check" aria-hidden="true">
+									<svg
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2.5"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
+										<polyline points="20 6 9 17 4 12" />
+									</svg>
+								</span>
+								<span>{point}</span>
+							</li>
+						))}
+					</ul>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- About the guide ---------- */}
+	{
+		aboutParagraphs.length > 0 && (
+			<section class="section section--tight">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{about.eyebrow}</span>
+						<h2>
+							{about.heading} <em>{about.heading_accent}</em>
+						</h2>
+					</div>
+					<div class="guide-prose fade-up">
+						{aboutParagraphs.map((p) => (
+							<p>{p}</p>
+						))}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- What you'll learn ---------- */}
+	{
+		sections?.length > 0 && (
+			<section class="section section--compact section--cream">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{sections_section.eyebrow}</span>
+						<h2>
+							{sections_section.heading}{' '}
+							<em>{sections_section.heading_accent}</em>
+						</h2>
+					</div>
+					<div class="guide-sections reveal-stagger">
+						{sections.map((s, i) => (
+							<article class="guide-section-card">
+								<span class="guide-section-num" aria-hidden="true">
+									{`Section ${String(i + 1).padStart(2, '0')}`}
+								</span>
+								<h3 class="guide-section-title">{s.title}</h3>
+								<p class="guide-section-desc">{s.description}</p>
+							</article>
+						))}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- What's included ---------- */}
+	{
+		included_points?.length > 0 && (
+			<section class="section section--tight">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{included_section.eyebrow}</span>
+						<h2>
+							{included_section.heading}{' '}
+							<em>{included_section.heading_accent}</em>
+						</h2>
+					</div>
+					<ul class="guide-checklist reveal-stagger">
+						{included_points.map((point) => (
+							<li class="guide-checklist-item">
+								<span class="guide-check" aria-hidden="true">
+									<svg
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2.5"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
+										<polyline points="20 6 9 17 4 12" />
+									</svg>
+								</span>
+								<span>{point}</span>
+							</li>
+						))}
+					</ul>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Testimonials ---------- */}
+	{
+		testimonials?.length > 0 && (
+			<section class="section section--compact section--cream">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{testimonials_section.eyebrow}</span>
+						<h2>
+							{testimonials_section.heading}{' '}
+							<em>{testimonials_section.heading_accent}</em>
+						</h2>
+					</div>
+					<div class="guide-quotes reveal-stagger">
+						{testimonials.map((t) => (
+							<figure class="guide-quote">
+								<blockquote>“{t.quote}”</blockquote>
+								<figcaption>
+									<span class="guide-quote-author">{t.author}</span>
+									{t.title && (
+										<span class="guide-quote-role">{t.title}</span>
+									)}
+								</figcaption>
+							</figure>
+						))}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Final CTA ---------- */}
+	<section class="section section--generous">
+		<div class="grid12">
+			<div class="final-cta">
+				<div class="final-cta-inner">
+					<span class="eyebrow">{final_cta.eyebrow}</span>
+					<h2>
+						{final_cta.heading} <em>{final_cta.heading_accent}</em>
+					</h2>
+					<p>{final_cta.body}</p>
+					<a
+						class="btn yellow large"
+						href={finalCtaUrl}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						{final_cta.cta_label || 'Get the guide'}
+						{hero.price && <span class="guide-buy-price">{hero.price}</span>}
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</SpeakingLayout>
+
+<style>
+	/* Hero buy row: price rides inside the button, note sits beneath it. */
+	.guide-buy {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 16px;
+		margin-bottom: 14px;
+	}
+	.guide-buy-price {
+		font-variant-numeric: tabular-nums;
+		opacity: 0.85;
+	}
+	.guide-buy-price::before {
+		content: '·';
+		margin: 0 8px 0 10px;
+		opacity: 0.6;
+	}
+	.guide-buy-note {
+		font-family: var(--font-sans);
+		font-size: 13.5px;
+		color: var(--ink-500);
+	}
+	.guide-preview {
+		font-family: var(--font-sans);
+		font-size: 14.5px;
+		margin: 0;
+	}
+	.guide-preview a {
+		color: var(--accent);
+		font-weight: 600;
+		text-decoration: none;
+	}
+	.guide-preview a:hover {
+		text-decoration: underline;
+	}
+	.guide-preview a:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 3px;
+	}
+
+	/* Cover art: the source asset is square with its own padded backdrop. */
+	.guide-cover {
+		display: block;
+		width: 100%;
+		max-width: 420px;
+		height: auto;
+		margin: 0 auto;
+		border-radius: var(--radius-2xl);
+	}
+
+	/* Checklists, shared by "who it's for" and "what's included". */
+	.guide-checklist {
+		grid-column: 1 / -1;
+		list-style: none;
+		margin: clamp(8px, 1.5vw, 16px) auto 0;
+		padding: 0;
+		max-width: 720px;
+		display: grid;
+		gap: 14px;
+	}
+	.guide-checklist-item {
+		display: flex;
+		align-items: flex-start;
+		gap: 14px;
+		font-family: var(--font-sans);
+		font-size: 16.5px;
+		line-height: 1.5;
+		color: var(--ink-700);
+	}
+	.guide-check {
+		flex: none;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 26px;
+		height: 26px;
+		border-radius: 999px;
+		background: var(--brand-yellow-500);
+		color: var(--ink-900);
+		margin-top: 1px;
+	}
+	.guide-check svg {
+		width: 15px;
+		height: 15px;
+	}
+
+	/* About copy. */
+	.guide-prose {
+		grid-column: 1 / -1;
+		max-width: 720px;
+		margin: 0 auto;
+	}
+	.guide-prose p {
+		font-family: var(--font-sans);
+		font-size: 16.5px;
+		line-height: 1.68;
+		color: var(--ink-700);
+		margin: 0 0 18px;
+	}
+	.guide-prose p:last-child {
+		margin-bottom: 0;
+	}
+
+	/* The four guide sections. */
+	.guide-sections {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+		gap: clamp(16px, 2vw, 24px);
+		margin-top: clamp(8px, 1.5vw, 16px);
+	}
+	.guide-section-card {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		background: var(--bg-card);
+		border: 1px solid var(--border-soft);
+		border-radius: var(--radius-2xl);
+		padding: clamp(24px, 3vw, 32px);
+		box-shadow: 0 18px 44px -34px rgba(73, 75, 81, 0.4);
+	}
+	.guide-section-num {
+		font-family: var(--font-mono, monospace);
+		font-size: 12px;
+		font-weight: 500;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--accent);
+	}
+	.guide-section-title {
+		font-family: var(--font-serif);
+		font-weight: 600;
+		font-size: clamp(19px, 2vw, 23px);
+		line-height: 1.2;
+		letter-spacing: -0.01em;
+		color: var(--ink-900);
+		margin: 0;
+	}
+	.guide-section-desc {
+		font-family: var(--font-sans);
+		font-size: 15.5px;
+		line-height: 1.62;
+		color: var(--ink-700);
+		margin: 0;
+	}
+
+	/* Testimonials. */
+	.guide-quotes {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+		gap: clamp(16px, 2vw, 24px);
+		margin-top: clamp(8px, 1.5vw, 16px);
+	}
+	.guide-quote {
+		margin: 0;
+		background: var(--bg-card);
+		border: 1px solid var(--border-soft);
+		border-radius: var(--radius-2xl);
+		padding: clamp(24px, 3vw, 34px);
+	}
+	.guide-quote blockquote {
+		font-family: var(--font-serif);
+		font-size: clamp(17px, 1.8vw, 20px);
+		line-height: 1.5;
+		color: var(--ink-900);
+		margin: 0 0 18px;
+	}
+	.guide-quote figcaption {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+	.guide-quote-author {
+		font-family: var(--font-sans);
+		font-weight: 700;
+		font-size: 15px;
+		color: var(--ink-900);
+	}
+	.guide-quote-role {
+		font-family: var(--font-sans);
+		font-size: 13px;
+		color: var(--ink-500);
+	}
+</style>

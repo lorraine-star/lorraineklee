@@ -164,7 +164,9 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 									/>
 								)}
 								<div class="lh-card-overlay">
-									<span class="lh-card-eyebrow">{hero_bento?.resource_eyebrow || 'Free resource'}</span>
+									{/* Per-card eyebrow wins so a paid item (the LinkedIn guide)
+									    is not mislabelled by the shared "Free resource" default. */}
+									<span class="lh-card-eyebrow">{r.eyebrow || hero_bento?.resource_eyebrow || 'Free resource'}</span>
 									<h3 class="lh-card-title">{r.label}</h3>
 									<span class="lh-card-cta">
 										{r.cta_label || 'Get it'}{' '}
