@@ -1731,9 +1731,13 @@ export default config({
             lead: fields.text({ label: 'Lead paragraph', multiline: true }),
             price: fields.text({
               label: 'Price',
+              // CLI-215: no default. The real price lives on the Topmate
+              // listing, so a number baked in here is a second copy that goes
+              // stale silently. This is the only place the price is authored;
+              // it renders on the buy button and the closing CTA, and nowhere
+              // else on the site quotes it. Empty simply hides it.
               description:
-                'Shown next to the buy button. Keep this in step with the Topmate listing.',
-              defaultValue: '$29',
+                'Shown next to the buy button. Include the currency symbol. This is the only place the price is set on the site, so keep it in step with the Topmate listing. Leave empty to hide it.',
             }),
             price_note: fields.text({
               label: 'Price note',
