@@ -104,9 +104,21 @@ articles_section:
   view_more_label: Read all articles
   view_more_url: /articles
 authored_articles:
+  - date: July 29, 2026
+    outlet: LinkedIn News
+    title: In a crowded job market, how you present yourself matters
+    url: >-
+      https://www.linkedin.com/posts/linkedin-news_in-a-crowded-job-market-how-you-present-activity
+    cta_label: Read more
+  - date: July 22, 2026
+    outlet: LinkedIn
+    title: 'I was ranked #7 globally, and #5 among public speaking coaches in the U.S.'
+    url: >-
+      https://www.linkedin.com/posts/lorraineklee_i-was-ranked-7-globally-and-5-among-public-activity-7485695252872183809-J1AY
+    cta_label: Read more
   - date: April 2026
     outlet: Fast Company
-    outlet_logo: /images/featured-in/logos/authored_articles/0/outlet_logo.png
+    outlet_logo: /images/featured-in/logos/authored_articles/2/outlet_logo.png
     title: >-
       Call it whatever you like: Personal brand, career brand, or professional
       reputation. Here's how to build it
@@ -115,7 +127,7 @@ authored_articles:
     cta_label: Read more
   - date: March 2026
     outlet: Forbes
-    outlet_logo: /images/featured-in/logos/authored_articles/1/outlet_logo.png
+    outlet_logo: /images/featured-in/logos/authored_articles/3/outlet_logo.png
     title: >-
       The Secret Language of Work: Why Knowing What to Say Matters More Than You
       Think
@@ -124,21 +136,21 @@ authored_articles:
     cta_label: Read more
   - date: March 2026
     outlet: Forbes
-    outlet_logo: /images/featured-in/logos/authored_articles/2/outlet_logo.png
+    outlet_logo: /images/featured-in/logos/authored_articles/4/outlet_logo.png
     title: The Best Career Advice Women Leaders 'Give To Gain' In 2026
     url: >-
       https://www.forbes.com/sites/lorraineklee/2026/03/11/the-best-career-advice-women-leaders-give-to-gain-in-2026/
     cta_label: Read more
   - date: February 2026
     outlet: Forbes
-    outlet_logo: /images/featured-in/logos/authored_articles/3/outlet_logo.png
+    outlet_logo: /images/featured-in/logos/authored_articles/5/outlet_logo.png
     title: What High Performers Who Actually Get Promoted Do Differently
     url: >-
       https://www.forbes.com/sites/lorraineklee/2026/02/23/what-high-performers-who-actually-get-promoted-do-differently/
     cta_label: Read more
   - date: January 2026
     outlet: Forbes
-    outlet_logo: /images/featured-in/logos/authored_articles/4/outlet_logo.png
+    outlet_logo: /images/featured-in/logos/authored_articles/6/outlet_logo.png
     title: >-
       How To Bounce Back And Rebuild Confidence, Presence And Momentum After A
       Layoff
@@ -147,14 +159,14 @@ authored_articles:
     cta_label: Read more
   - date: January 2026
     outlet: Forbes
-    outlet_logo: /images/featured-in/logos/authored_articles/5/outlet_logo.png
+    outlet_logo: /images/featured-in/logos/authored_articles/7/outlet_logo.png
     title: Communication Habits To Reduce Overwhelm In Q1
     url: >-
       https://www.forbes.com/sites/lorraineklee/2026/01/20/communication-habits-to-reduce-overwhelm-in-q1/
     cta_label: Read more
   - date: December 2025
     outlet: Forbes
-    outlet_logo: /images/featured-in/logos/authored_articles/6/outlet_logo.png
+    outlet_logo: /images/featured-in/logos/authored_articles/8/outlet_logo.png
     title: >-
       The 2026 Career Conversation Playbook For Leaders Who Want Their Goals To
       Stick
@@ -163,21 +175,21 @@ authored_articles:
     cta_label: Read more
   - date: December 2025
     outlet: Forbes
-    outlet_logo: /images/featured-in/logos/authored_articles/7/outlet_logo.png
+    outlet_logo: /images/featured-in/logos/authored_articles/9/outlet_logo.png
     title: How To Use Your Year-End Review To Increase Visibility All Year Long
     url: >-
       https://www.forbes.com/sites/lorraineklee/2025/12/26/how-to-use-your-year-end-review-to-increase-visibility-all-year-long/
     cta_label: Read more
   - date: December 2025
     outlet: Forbes
-    outlet_logo: /images/featured-in/logos/authored_articles/8/outlet_logo.png
+    outlet_logo: /images/featured-in/logos/authored_articles/10/outlet_logo.png
     title: How To Make Your Work More Visible Without Sounding Like You're Bragging
     url: >-
       https://www.forbes.com/sites/lorraineklee/2025/12/08/how-to-make-your-work-more-visible-without-sounding-like-youre-bragging/
     cta_label: Read more
   - date: December 2025
     outlet: CNBC
-    outlet_logo: /images/featured-in/logos/authored_articles/9/outlet_logo.png
+    outlet_logo: /images/featured-in/logos/authored_articles/11/outlet_logo.png
     title: >-
       Don't 'play it cool': how one job seeker beat out over 1,000 other
       applicants to land the job
@@ -192,7 +204,7 @@ authored_articles:
     cta_label: Read more
   - date: November 2025
     outlet: CNBC
-    outlet_logo: /images/featured-in/logos/authored_articles/11/outlet_logo.png
+    outlet_logo: /images/featured-in/logos/authored_articles/13/outlet_logo.png
     title: >-
       Highly likable people do these 4 things when talking to others, say
       communication experts
@@ -209,7 +221,7 @@ authored_articles:
     cta_label: Read more
   - date: August 2025
     outlet: CNBC
-    outlet_logo: /images/featured-in/logos/authored_articles/13/outlet_logo.png
+    outlet_logo: /images/featured-in/logos/authored_articles/15/outlet_logo.png
     title: >-
       People won't take you seriously if you use 9 phrases: make these
       'powerful' swaps
@@ -226,7 +238,7 @@ authored_articles:
     cta_label: Read more
   - date: May 2025
     outlet: CNBC
-    outlet_logo: /images/featured-in/logos/authored_articles/15/outlet_logo.png
+    outlet_logo: /images/featured-in/logos/authored_articles/17/outlet_logo.png
     title: >-
       Stop saying 'sorry': to sound confident and get respect, make these
       'subtle yet powerful changes'
@@ -249,7 +261,7 @@ authored_articles:
     cta_label: Read more
   - date: March 2025
     outlet: CNBC
-    outlet_logo: /images/featured-in/logos/authored_articles/18/outlet_logo.png
+    outlet_logo: /images/featured-in/logos/authored_articles/20/outlet_logo.png
     title: >-
       Stop saying 'I think': to sound confident and influence people, use this
       'subtle but powerful' swap
@@ -258,7 +270,7 @@ authored_articles:
     cta_label: Read more
   - date: February 2025
     outlet: CNBC
-    outlet_logo: /images/featured-in/logos/authored_articles/19/outlet_logo.png
+    outlet_logo: /images/featured-in/logos/authored_articles/21/outlet_logo.png
     title: >-
       To avoid 'awkward, superficial' small talk, make one little change, says
       communication expert
@@ -272,7 +284,7 @@ authored_articles:
     cta_label: Read more
   - date: November 2023
     outlet: Entrepreneur
-    outlet_logo: /images/featured-in/logos/authored_articles/21/outlet_logo.png
+    outlet_logo: /images/featured-in/logos/authored_articles/23/outlet_logo.png
     title: Why Your Virtual Presence Is More Important Than Ever
     url: >-
       https://www.entrepreneur.com/growth-strategies/why-your-virtual-presence-is-more-important-than-ever/465375
@@ -285,7 +297,7 @@ authored_articles:
     cta_label: Read more
   - date: July 2022
     outlet: Entrepreneur
-    outlet_logo: /images/featured-in/logos/authored_articles/23/outlet_logo.png
+    outlet_logo: /images/featured-in/logos/authored_articles/25/outlet_logo.png
     title: >-
       Learning how to facilitate and participate in impactful virtual and hybrid
       meetings
@@ -293,7 +305,7 @@ authored_articles:
     cta_label: Read more
   - date: November 2021
     outlet: Entrepreneur
-    outlet_logo: /images/featured-in/logos/authored_articles/24/outlet_logo.png
+    outlet_logo: /images/featured-in/logos/authored_articles/26/outlet_logo.png
     title: 6 Ways Virtual Sellers Can Stand Out on LinkedIn
     url: https://www.entrepreneur.com/article/395195
     cta_label: Read more
@@ -315,19 +327,19 @@ authored_articles:
     cta_label: Read more
   - date: October 2021
     outlet: Entrepreneur
-    outlet_logo: /images/featured-in/logos/authored_articles/27/outlet_logo.png
+    outlet_logo: /images/featured-in/logos/authored_articles/29/outlet_logo.png
     title: 3 Ways to Make a Great First Impression on Video Calls
     url: https://www.entrepreneur.com/article/393777
     cta_label: Read more
   - date: September 2021
     outlet: Entrepreneur
-    outlet_logo: /images/featured-in/logos/authored_articles/28/outlet_logo.png
+    outlet_logo: /images/featured-in/logos/authored_articles/30/outlet_logo.png
     title: Best Practices and Tools for Hybrid Meetings
     url: https://www.entrepreneur.com/article/383539
     cta_label: Read more
   - date: September 2021
     outlet: Entrepreneur
-    outlet_logo: /images/featured-in/logos/authored_articles/29/outlet_logo.png
+    outlet_logo: /images/featured-in/logos/authored_articles/31/outlet_logo.png
     title: Reinventing Virtual Meetings and Collaboration for Hybrid Work
     url: https://www.entrepreneur.com/article/386237
     cta_label: Read more
@@ -358,18 +370,6 @@ authored_articles:
     title: 'Business Unusual: How to deal with micromanagers in a COVID-19 world'
     url: >-
       https://www.poynter.org/business-work/2020/how-to-deal-with-micromanagers-in-a-covid-19-world/
-    cta_label: Read more
-  - date: July 29, 2026
-    outlet: LinkedIn News
-    title: In a crowded job market, how you present yourself matters
-    url: >-
-      https://www.linkedin.com/posts/linkedin-news_in-a-crowded-job-market-how-you-present-activity
-    cta_label: Read more
-  - date: July 22, 2026
-    outlet: LinkedIn
-    title: 'I was ranked #7 globally, and #5 among public speaking coaches in the U.S.'
-    url: >-
-      https://www.linkedin.com/posts/lorraineklee_i-was-ranked-7-globally-and-5-among-public-activity-7485695252872183809-J1AY
     cta_label: Read more
 interviews_section:
   eyebrow: The other side of the camera
