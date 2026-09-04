@@ -31,7 +31,7 @@ primary_cta:
   label: Work With Me
   url: /contact
 secondary_cta:
-  label: Learn More
+  label: View speaking topics
   url: /speaking
 tertiary_cta:
   label: See speaking & keynotes
