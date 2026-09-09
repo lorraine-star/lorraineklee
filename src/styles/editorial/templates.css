@@ -2855,6 +2855,8 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 }
 .trigger-label { display: inline-block; }
 .trigger-chevron {
+     transform: rotate(0deg);
+   
   width: 32px;
   height: 32px;
   border-radius: 999px;
