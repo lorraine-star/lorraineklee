@@ -91,121 +91,7 @@ const clientLogos = past_clients ?? [];
 	description={speaking.seo_description || hero.lead}
 	activeId="speaking"
 >
-	{/* ---------- Signature keynotes ---------- */}
-	<section class="section section--compact section--cream" id="past-talks">
-		<div class="grid12">
-			<div class="section-head">
-				<span class="eyebrow">{topics_section.eyebrow}</span>
-				<h2>
-					{topics_section.heading}
-					{topics_section.heading_accent && (
-						<em>{topics_section.heading_accent}</em>
-					)}
-				</h2>
-				{topics_section.lead && <p class="lead">{topics_section.lead}</p>}
-			</div>
-			<div class="topic-grid topic-bento reveal-stagger">
-				{
-					topics.map((t, i) => {
-						const panelId = `topic-panel-${i}`;
-						const hasTakeaways = (t.takeaways ?? []).length > 0;
-						const paragraphs = toParagraphs(t.description);
-						const trackUrl = talkTrackHref(t.talk_track_url);
-						return (
-							<div class="topic-card topic-acc" data-open="false">
-								{t.gif && (
-									<div class="topic-media">
-										<img
-											src={t.gif}
-											alt={t.gif_alt || t.title}
-											width="600"
-											height="338"
-											loading="lazy"
-											decoding="async"
-										/>
-									</div>
-								)}
-								<div
-									class="topic-acc-trigger"
-									role="button"
-									tabindex="0"
-									aria-expanded="false"
-									aria-controls={panelId}
-								>
-									<div class="topic-card-head">
-										<span class="topic-num">&#8470; {t.number}</span>
-										{t.tag && <span class="topic-tag">{t.tag}</span>}
-									</div>
-									<h3>{t.title}</h3>
-									{t.subtitle && <p class="topic-subtitle">{t.subtitle}</p>}
-									{t.note && <p class="topic-note">{t.note}</p>}
-									<div class="topic-meta">
-										<span>{t.format}</span>
-										<span class="topic-toggle" style="margin-left: auto;">
-											Details
-											<span class="trigger-chevron" aria-hidden="true">
-												<svg viewBox="0 0 16 16" width="14" height="14">
-													<path
-														d="M3 5.5 L8 10.5 L13 5.5"
-														fill="none"
-														stroke="currentColor"
-														stroke-width="2"
-														stroke-linecap="round"
-														stroke-linejoin="round"
-													/>
-												</svg>
-											</span>
-										</span>
-									</div>
-								</div>
-								<div
-									class="topic-panel"
-									id={panelId}
-									role="region"
-									aria-hidden="true"
-								>
-									<div class="topic-panel-inner">
-										{paragraphs.length > 0 && (
-											<div class="topic-fulldesc">
-												{paragraphs.map((p) => (
-													<p>{p}</p>
-												))}
-											</div>
-										)}
-										{hasTakeaways && (
-											<>
-												<h4 class="topic-panel-label">
-													{speaking.takeaways_label ||
-														'What the audience walks away with'}
-												</h4>
-												<ul class="topic-takeaways">
-													{t.takeaways!.map((k) => (
-														<li>{k}</li>
-													))}
-												</ul>
-											</>
-										)}
-										<div class="topic-cta-row">
-											<a class="btn primary" href={safeUrl(speaking.card_cta_url, '/contact')} data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
-												{speaking.card_cta_label || 'Book this talk'}{' '}
-												<span aria-hidden="true">&rarr;</span>
-											</a>
-											{trackUrl && (
-												<a class="btn ghost" href={trackUrl} data-ga-event="speaking_talk_track" data-ga-label="speaking-talk-track">
-													{talkTrackLinkLabel}{' '}
-													<span aria-hidden="true">&rarr;</span>
-												</a>
-											)}
-										</div>
-									</div>
-								</div>
-							</div>
-						);
-					})
-				}
-			</div>
-		</div>
-	</section>
+	
 
 	{/* ---------- Hero ---------- */}
 	<section class="page-hero">
@@ -622,7 +508,121 @@ const clientLogos = past_clients ?? [];
 		)
 	}
 
-	{/* ---------- Repeat bookings ---------- */}
+	{/* ---------- Signature keynotes ---------- */}
+	<section class="section section--compact section--cream" id="past-talks">
+		<div class="grid12">
+			<div class="section-head">
+				<span class="eyebrow">{topics_section.eyebrow}</span>
+				<h2>
+					{topics_section.heading}
+					{topics_section.heading_accent && (
+						<em>{topics_section.heading_accent}</em>
+					)}
+				</h2>
+				{topics_section.lead && <p class="lead">{topics_section.lead}</p>}
+			</div>
+			<div class="topic-grid topic-bento reveal-stagger">
+				{
+					topics.map((t, i) => {
+						const panelId = `topic-panel-${i}`;
+						const hasTakeaways = (t.takeaways ?? []).length > 0;
+						const paragraphs = toParagraphs(t.description);
+						const trackUrl = talkTrackHref(t.talk_track_url);
+						return (
+							<div class="topic-card topic-acc" data-open="false">
+								{t.gif && (
+									<div class="topic-media">
+										<img
+											src={t.gif}
+											alt={t.gif_alt || t.title}
+											width="600"
+											height="338"
+											loading="lazy"
+											decoding="async"
+										/>
+									</div>
+								)}
+								<div
+									class="topic-acc-trigger"
+									role="button"
+									tabindex="0"
+									aria-expanded="false"
+									aria-controls={panelId}
+								>
+									<div class="topic-card-head">
+										<span class="topic-num">&#8470; {t.number}</span>
+										{t.tag && <span class="topic-tag">{t.tag}</span>}
+									</div>
+									<h3>{t.title}</h3>
+									{t.subtitle && <p class="topic-subtitle">{t.subtitle}</p>}
+									{t.note && <p class="topic-note">{t.note}</p>}
+									<div class="topic-meta">
+										<span>{t.format}</span>
+										<span class="topic-toggle" style="margin-left: auto;">
+											Details
+											<span class="trigger-chevron" aria-hidden="true">
+												<svg viewBox="0 0 16 16" width="14" height="14">
+													<path
+														d="M3 5.5 L8 10.5 L13 5.5"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="2"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													/>
+												</svg>
+											</span>
+										</span>
+									</div>
+								</div>
+								<div
+									class="topic-panel"
+									id={panelId}
+									role="region"
+									aria-hidden="true"
+								>
+									<div class="topic-panel-inner">
+										{paragraphs.length > 0 && (
+											<div class="topic-fulldesc">
+												{paragraphs.map((p) => (
+													<p>{p}</p>
+												))}
+											</div>
+										)}
+										{hasTakeaways && (
+											<>
+												<h4 class="topic-panel-label">
+													{speaking.takeaways_label ||
+														'What the audience walks away with'}
+												</h4>
+												<ul class="topic-takeaways">
+													{t.takeaways!.map((k) => (
+														<li>{k}</li>
+													))}
+												</ul>
+											</>
+										)}
+										<div class="topic-cta-row">
+											<a class="btn primary" href={safeUrl(speaking.card_cta_url, '/contact')} data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
+												{speaking.card_cta_label || 'Book this talk'}{' '}
+												<span aria-hidden="true">&rarr;</span>
+											</a>
+											{trackUrl && (
+												<a class="btn ghost" href={trackUrl} data-ga-event="speaking_talk_track" data-ga-label="speaking-talk-track">
+													{talkTrackLinkLabel}{' '}
+													<span aria-hidden="true">&rarr;</span>
+												</a>
+											)}
+										</div>
+									</div>
+								</div>
+							</div>
+						);
+					})
+				}
+			</div>
+		</div>
+	</section>{/* ---------- Repeat bookings ---------- */}
 	<section class="section section--compact section--cream">
 		<div class="grid12">
 			<div class="section-head section-head--center">
