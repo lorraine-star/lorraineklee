@@ -15,184 +15,188 @@
 
 /* Aligned to the shared default section scale (CLI-123, retuned in CLI-104). */
 .testimonials {
-  --testimonials-carousel-bg: var(--paper);
-  padding: clamp(40px, 5vw, 72px) 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.42) 0%, rgba(235, 235, 235, 0.92) 100%);
+     --testimonials-carousel-bg: var(--paper);
+     padding: clamp(40px, 5vw, 72px) 0;
+     background: linear-gradient(180deg, rgba(255, 255, 255, 0.42) 0%, rgba(235, 235, 235, 0.92) 100%);
 }
 .testimonials-head {
-  grid-column: 1 / span 8;
-  margin-bottom: 48px;
+     grid-column: 1 / span 8;
+     margin-bottom: 48px;
 }
 .testimonials-carousel {
-  grid-column: 1 / -1;
-  --testimonials-carousel-bg: var(--paper);
-  position: relative;
-  justify-self: center;
-  /* Reserve ~80px gutters each side (the 160px) so the outside arrows never
-     overflow the page. The 1040px term is a safety ceiling only; under the
-     current 1240px grid the gutter term always wins (CLI-154). */
+     grid-column: 1 / -1;
+     --testimonials-carousel-bg: var(--paper);
+     position: relative;
+     justify-self: center;
+     /* Reserve ~80px gutters each side (the 160px) so the outside arrows never
+        overflow the page. The 1040px term is a safety ceiling only; under the
+        current 1240px grid the gutter term always wins (CLI-154). */
   width: min(100% - 160px, 1040px);
-  min-width: 0;
-  overflow: visible;
+     min-width: 0;
+     /* Prevent Clarity mobile sideways scroll from dragging the page. */
+  overflow-x: clip;
+     overflow-y: visible;
 }
 .section--cream .testimonials-carousel {
-  --testimonials-carousel-bg: var(--paper-deep);
+     --testimonials-carousel-bg: var(--paper-deep);
 }
 .testimonials-track {
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding: 8px 12px 24px;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  outline: none;
+     display: flex;
+     align-items: flex-start;
+     gap: 20px;
+     overflow-x: auto;
+     overscroll-behavior-x: contain;
+     touch-action: pan-x pinch-zoom;
+     scroll-snap-type: x mandatory;
+     padding: 8px 12px 24px;
+     scroll-behavior: smooth;
+     scrollbar-width: none;
+     -ms-overflow-style: none;
+     outline: none;
 }
 .testimonials-track::-webkit-scrollbar {
-  display: none;
+     display: none;
 }
 .testimonials-track:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 6px;
-  border-radius: 12px;
+     outline: 2px solid var(--accent);
+     outline-offset: 6px;
+     border-radius: 12px;
 }
 /* Three cards per view on desktop (two 20px gaps). Cards size to their own
-   content height because the track aligns items to the start (CLI-154). */
+   content height because the track aligns items to the start (flex-start). */
 .testimonials-carousel-slide {
-  flex: 0 0 calc((100% - 40px) / 3);
-  min-width: 0;
-  display: flex;
-  scroll-snap-align: center;
+     flex: 0 0 calc((100% - 40px) / 3);
+     min-width: 0;
+     display: flex;
+     scroll-snap-align: center;
 }
 .testimonials-controls {
-  position: absolute;
-  inset: 8px 0 24px;
-  z-index: 2;
-  pointer-events: none;
+     position: absolute;
+     inset: 8px 0 24px;
+     z-index: 2;
+     pointer-events: none;
 }
 .testimonial-control {
-  position: absolute;
-  top: 42%;
-  z-index: 3;
-  width: 48px;
-  height: 48px;
-  padding: 0;
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-pill);
-  background: #fff;
-  color: var(--ink-900);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-sans);
-  font-size: 20px;
-  line-height: 1;
-  cursor: pointer;
-  pointer-events: auto;
-  transform: translateY(-50%);
-  box-shadow: var(--shadow-md);
-  transition: background var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out);
+     position: absolute;
+     top: 42%;
+     z-index: 3;
+     width: 48px;
+     height: 48px;
+     padding: 0;
+     border: 1px solid var(--border-soft);
+     border-radius: var(--radius-pill);
+     background: #fff;
+     color: var(--ink-900);
+     display: inline-flex;
+     align-items: center;
+     justify-content: center;
+     font-family: var(--font-sans);
+     font-size: 20px;
+     line-height: 1;
+     cursor: pointer;
+     pointer-events: auto;
+     transform: translateY(-50%);
+     box-shadow: var(--shadow-md);
+     transition: background var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out);
 }
 .testimonial-control.prev {
-  left: -66px;
+     left: -66px;
 }
 .testimonial-control.next {
-  right: -66px;
+     right: -66px;
 }
 .testimonial-control:hover,
 .testimonial-control:focus-visible {
-  background: var(--ink-900);
-  color: #fff;
+     background: var(--ink-900);
+     color: #fff;
 }
 .testimonial-control:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
+     outline: 2px solid var(--accent);
+     outline-offset: 3px;
 }
 .testimonial-control:disabled {
-  opacity: 0.38;
-  cursor: not-allowed;
+     opacity: 0.38;
+     cursor: not-allowed;
 }
 .testimonial-control svg {
-  width: 22px;
-  height: 22px;
+     width: 22px;
+     height: 22px;
 }
 .testimonial-control .sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+     position: absolute;
+     width: 1px;
+     height: 1px;
+     padding: 0;
+     margin: -1px;
+     overflow: hidden;
+     clip: rect(0, 0, 0, 0);
+     white-space: nowrap;
+     border: 0;
 }
 .testimonials-head .lead {
-  font-family: var(--font-sans);
-  font-size: clamp(17px, 1.3vw, 19px);
-  line-height: 1.55;
-  color: var(--ink-700);
-  margin: 18px 0 0;
-  max-width: 560px;
+     font-family: var(--font-sans);
+     font-size: clamp(17px, 1.3vw, 19px);
+     line-height: 1.55;
+     color: var(--ink-700);
+     margin: 18px 0 0;
+     max-width: 560px;
 }
 .testimonials-title {
-  font-family: var(--font-serif);
-  font-weight: 500;
-  font-size: clamp(36px, 4.5vw, 60px);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  margin: 14px 0 0;
-  color: var(--ink-900);
-  text-wrap: balance;
+     font-family: var(--font-serif);
+     font-weight: 500;
+     font-size: clamp(36px, 4.5vw, 60px);
+     line-height: 1.05;
+     letter-spacing: -0.02em;
+     margin: 14px 0 0;
+     color: var(--ink-900);
+     text-wrap: balance;
 }
 .testimonials-title em {
-  font-style: italic;
-  color: var(--accent);
-  font-weight: 400;
+     font-style: italic;
+     color: var(--accent);
+     font-weight: 400;
 }
 
 /* Circular headshot. base.css styles .t-avatar (initials fallback) but not
    .t-headshot, so the photo variant is owned here. */
 .t-headshot {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  object-fit: cover;
-  background: var(--ink-100);
-  border: 1px solid rgba(73, 75, 81, 0.08);
+     width: 56px;
+     height: 56px;
+     border-radius: 50%;
+     flex-shrink: 0;
+     object-fit: cover;
+     background: var(--ink-100);
+     border: 1px solid rgba(73, 75, 81, 0.08);
 }
 
 /* Optional per-item logo row: company logos and book covers. Renders only when
    an item has logos, so testimonials without them are unaffected. */
 .t-logos {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 16px 20px;
-  margin-top: 20px;
-  padding-top: 18px;
-  border-top: 1px solid var(--border-soft);
+     display: flex;
+     flex-wrap: wrap;
+     align-items: center;
+     gap: 16px 20px;
+     margin-top: 20px;
+     padding-top: 18px;
+     border-top: 1px solid var(--border-soft);
 }
 .t-logo {
-  display: block;
-  max-height: 40px;
-  width: auto;
-  max-width: 160px;
-  object-fit: contain;
+     display: block;
+     max-height: 40px;
+     width: auto;
+     max-width: 160px;
+     object-fit: contain;
 }
 /* Book covers (tall aspect) read better a little larger than wordmarks. */
 .t-logos .t-logo[alt$="book cover"],
 .t-logos .t-logo[alt$="books"] {
-  max-height: 58px;
+     max-height: 58px;
 }
 
 @media (max-width: 1100px) {
-  .testimonials-head {
-    grid-column: 1 / -1;
-  }
+     .testimonials-head {
+            grid-column: 1 / -1;
+     }
 }
 
 /* Tablet and mobile: collapse the three-up row to a single centered card with a
@@ -200,39 +204,40 @@
    odd count (1 or 3) fills cleanly; arrows move just inside the edges since
    there is no room for the outside arrows on a narrow screen. */
 @media (max-width: 900px) {
-  .testimonials-head {
-    margin-bottom: 20px;
-    text-align: left;
-  }
-  .testimonials-title,
-  .testimonials-head .lead {
-    margin-left: 0;
-    margin-right: 0;
-    text-align: left;
-  }
-  .testimonials-carousel {
-    width: min(100%, calc(100vw - (var(--grid-pad) * 2)));
-  }
-  .testimonials-track {
-    gap: 16px;
-    padding-left: 0;
-    padding-right: 0;
-  }
-  .testimonials-carousel-slide {
-    flex-basis: 82%;
-  }
-  /* Smaller controls sit inside the edges over the peek; the reduced reach
-     keeps them clear of the quote text even on the narrowest phones. */
+     .testimonials-head {
+            margin-bottom: 20px;
+            text-align: left;
+     }
+     .testimonials-title,
+     .testimonials-head .lead {
+            margin-left: 0;
+            margin-right: 0;
+            text-align: left;
+     }
+     .testimonials-carousel {
+            width: 100%;
+            max-width: 100%;
+     }
+     .testimonials-track {
+            gap: 16px;
+            padding-left: 0;
+            padding-right: 0;
+     }
+     .testimonials-carousel-slide {
+            flex-basis: 82%;
+     }
+     /* Smaller controls sit inside the edges over the peek; the reduced reach
+        keeps them clear of the quote text even on the narrowest phones. */
   .testimonial-control {
-    width: 40px;
-    height: 40px;
+         width: 40px;
+         height: 40px;
   }
-  .testimonial-control.prev {
-    left: 4px;
-  }
-  .testimonial-control.next {
-    right: 4px;
-  }
+     .testimonial-control.prev {
+            left: 4px;
+     }
+     .testimonial-control.next {
+            right: 4px;
+     }
 }
 
 /* CLI-138: shorter client testimonial cards, and a sans-serif quote for
@@ -240,58 +245,58 @@
    primitives in home.css / base.css on every layout, without a broad
    sitewide patch to the shared .t-* classes. */
 .testimonials-carousel .t-card {
-  background: rgba(255, 255, 255, 0.66);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-  backdrop-filter: blur(18px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.72);
-  border-radius: var(--radius-lg);
-  padding: 22px 26px;
-  box-shadow: var(--shadow-md);
+     background: rgba(255, 255, 255, 0.66);
+     -webkit-backdrop-filter: blur(18px) saturate(140%);
+     backdrop-filter: blur(18px) saturate(140%);
+     border: 1px solid rgba(255, 255, 255, 0.72);
+     border-radius: var(--radius-lg);
+     padding: 22px 26px;
+     box-shadow: var(--shadow-md);
 }
 .testimonials-carousel .t-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+     transform: translateY(-2px);
+     box-shadow: var(--shadow-lg);
 }
 .testimonials-carousel .t-mark {
-  font-size: 36px;
-  margin-bottom: 8px;
+     font-size: 36px;
+     margin-bottom: 8px;
 }
 .testimonials-carousel .t-quote {
-  font-family: var(--font-sans);
-  font-style: normal;
-  font-size: 16px;
-  line-height: 1.45;
-  margin-bottom: 16px;
-  /* Cap very long quotes. The track aligns cards to the start (flex-start) and
-     sizes to the tallest card, so a single outlier quote (e.g. a 1200+ char one)
-     made the whole carousel tall and left dead space under the shorter cards
-     (CLI-169). Clamp on desktop like mobile does below; the full testimonials
-     live on LinkedIn via the section CTA. */
+     font-family: var(--font-sans);
+     font-style: normal;
+     font-size: 16px;
+     line-height: 1.45;
+     margin-bottom: 16px;
+     /* Cap very long quotes. The track aligns cards to the start (flex-start) and
+        sizes to the tallest card, so a single outlier quote (e.g. a 1200+ char one)
+        made the whole carousel tall and left dead space under the shorter cards
+        (CLI-169). Clamp on desktop like mobile does below; the full testimonials
+        live on LinkedIn via the section CTA. */
   display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 14;
-  overflow: hidden;
+     -webkit-box-orient: vertical;
+     -webkit-line-clamp: 14;
+     overflow: hidden;
 }
 
 @media (max-width: 900px) {
-  .testimonials-carousel .t-card {
-    padding: 18px 20px;
-  }
-  .testimonials-carousel .t-mark {
-    font-size: 32px;
-    margin-bottom: 6px;
-  }
-  .testimonials-carousel .t-quote {
-    font-size: 15px;
-    line-height: 1.45;
-    margin-bottom: 14px;
-    /* Cap long quotes on mobile so a single card never runs the whole screen.
-       flex:none stops the quote from stretching the card; the clamp bounds the
-       height and adds an ellipsis on the few very long quotes. */
-    flex: none;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 7;
-    overflow: hidden;
-  }
+     .testimonials-carousel .t-card {
+            padding: 18px 20px;
+     }
+     .testimonials-carousel .t-mark {
+            font-size: 32px;
+            margin-bottom: 6px;
+     }
+     .testimonials-carousel .t-quote {
+            font-size: 15px;
+            line-height: 1.45;
+            margin-bottom: 14px;
+            /* Cap long quotes on mobile so a single card never runs the whole screen.
+               flex:none stops the quote from stretching the card; the clamp bounds the
+               height and adds an ellipsis on the few very long quotes. */
+       flex: none;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 7;
+            overflow: hidden;
+     }
 }
