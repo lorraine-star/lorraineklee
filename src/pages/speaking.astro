@@ -7,9 +7,10 @@ import { reader } from '../lib/keystatic';
 import { getTestimonials, toCarouselCard, toColumnCard } from '../lib/testimonials';
 import { safeUrl, toEmbedUrl } from '../lib/url';
 
+
 const speaking = await reader.singletons.speaking.read();
 if (!speaking) {
-	throw new Error('Missing speaking content (src/content/speaking/index.yaml)');
+	throw new Error('Missing speaking content (src/content/speaking/index.yaml)');}
 
 
 const {
@@ -550,7 +551,7 @@ const clientLogos = past_clients ?? [];
 									aria-controls={panelId}
 								>
 									<div class="topic-card-head">
-										<span class="topic-num">&#8470; {t.number}</span>
+										
 										{t.tag && <span class="topic-tag">{t.tag}</span>}
 									</div>
 									<h3>{t.title}</h3>
