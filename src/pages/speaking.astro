@@ -10,7 +10,7 @@ import { safeUrl, toEmbedUrl } from '../lib/url';
 const speaking = await reader.singletons.speaking.read();
 if (!speaking) {
 	throw new Error('Missing speaking content (src/content/speaking/index.yaml)');
-}
+
 
 const {
 	hero,
