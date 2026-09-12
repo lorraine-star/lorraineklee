@@ -78,8 +78,26 @@ topics:
   - number: '1'
     slug: stand-out-in-the-age-of-ai
     title: Stand Out in the Age of AI
-    talk_track: []
-    takeaways: []
+    format: Keynote / Workshop
+    description: >-
+      AI can enhance your work—but it can't replace how you show up. In today's
+      workplace, where outputs are increasingly similar, your presence is your
+      greatest competitive advantage. Whether you're interviewing, positioning
+      yourself for promotion, or building your personal brand, how you communicate
+      your impact and connect with others is what sets you apart.
+
+
+      Join Lorraine K. Lee—keynote speaker, bestselling author of Unforgettable
+      Presence, and Stanford instructor—for actionable frameworks to stand out in an
+      AI-driven environment: make your work visible with the lighthouse moment
+      framework, command attention through video presence and vocal delivery, craft
+      a unique and powerful introduction, and build your career brand on LinkedIn.
+    talk_track_url: /keynotes/stand-out-in-the-age-of-ai
+    takeaways:
+      - Apply the lighthouse moment framework to share work with key stakeholders without coming across as self-promotional.
+      - Use framing, eye contact, body language, and pitch to command attention on camera and in meetings.
+      - Develop a UPI that clearly communicates who you are, what you do, and why it matters.
+      - Build a memorable career brand through intentional, high-quality LinkedIn engagement.
   - number: '02'
     title: How To Build Influence in the Hybrid Office
     note: For General Audiences and AAPI Groups
@@ -166,7 +184,6 @@ topics:
     note: >-
       Lorraine is a LinkedIn Learning instructor for two popular meeting courses
       (40,000+ learners).
-    tag: '#2 Most Popular'
     gif: /images/speaking/keynotes/effective-meetings.webp
     gif_alt: Lorraine K. Lee presenting tips for more effective virtual meetings
     description: >
@@ -300,9 +317,7 @@ other_talks:
     takeaways:
       - Present in person with captivating openers, gesture planes, and moving with intent.
       - Shape virtual content with think/do/feel, movement, and state changes.
-      - >-
-        The 5-Step Presentation Attention Framework to build and deliver a
-        captivating and persuasive presentation.
+      - Connect over video with eye contact, smiling, and hand gestures.
   - title: Communicate with Confidence In a Virtual World
     format: Keynote / Workshop
     gif: /images/speaking/keynotes/stanford-class.webp
