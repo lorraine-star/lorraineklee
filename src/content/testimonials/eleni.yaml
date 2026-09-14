@@ -1,9 +1,6 @@
 author: Eleni
-quote: I really enjoyed Lorraine's thoughtful Poynter Institute session. She
-  offered an engaging presentation, helpful resources, and actionable tips to
-  enhance workplace communication and team bonding. I've already put some of her
-  advice into action and I'm seeing great results. Highly recommend Lorraine as
-  a speaker and knowledge expert.
+quote: >-
+  Lorraine's Poynter Institute session was engaging and full of actionable tips for workplace communication. I've already put her advice into action and am seeing great results.
 roleOrCompany: McKinsey & Company
 type: event-attendee
 order: 23
@@ -18,5 +15,5 @@ sourceUrl: https://lorraineklee.com/testimonials/
 matchedCptUrl: ""
 showOnHomepage: true
 showOnTestimonials: true
-showOnSpeaking: true
+showOnSpeaking: false
 showOnCourses: false

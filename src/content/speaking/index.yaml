@@ -366,12 +366,6 @@ past_clients:
   - name: ServiceNow
     logo_src: /images/clients/servicenow.svg
     style: bold
-  - name: ASICS
-    logo_src: /images/clients/asics.svg
-    style: caps
-  - name: Henry Schein
-    logo_src: /images/clients/henry-schein.svg
-    style: serif
   - name: Google
     logo_src: /images/clients/google.svg
     style: serif
@@ -387,12 +381,6 @@ past_clients:
   - name: Adobe
     logo_src: /images/clients/adobe.svg
     style: serif
-  - name: Robert Half
-    logo_src: /images/clients/robert-half.svg
-    style: caps
-  - name: Indeed
-    logo_src: /images/clients/indeed.svg
-    style: bold
   - name: Amazon
     logo_src: /images/clients/amazon.webp
     style: mono
@@ -413,40 +401,6 @@ past_clients:
     style: mono
   - name: Prezi
     logo_src: /images/clients/prezi.webp
-    style: mono
-  - name: American Family Insurance
-    logo_src: /images/clients/american-family.webp
-    style: mono
-  - name: Ragan Communications
-    logo_src: /images/clients/ragan.webp
-    style: color
-  - name: Addepar
-    logo_src: /images/clients/addepar.webp
-    style: mono
-  - name: Culture Amp
-    logo_src: /images/clients/culture-amp.webp
-    style: mono
-  - name: PowerToFly
-    logo_src: /images/clients/powertofly.webp
-    style: color
-  - name: Quarles & Brady
-    logo_src: /images/clients/quarles.webp
-    style: mono
-  - name: SXSW
-    logo_src: /images/clients/sxsw.webp
-    style: mono
-  - name: LinkedIn Learning
-    logo_src: /images/clients/linkedin-learning.webp
-    style: mono
-  - name: HerWorkplace
-    logo_src: /images/clients/herworkplace.webp
-    style: mono
-  - name: Chief of Staff Network
-    logo_src: /images/clients/chief-of-staff.webp
-    style: mono
-  - name: Florida Virtual School
-    style: mono
-  - name: INBOUND
     style: mono
 show_stats: true
 stats_section:

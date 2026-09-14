@@ -104,28 +104,6 @@ const courseHref =
   description={home.seo_description || "Keynotes, workshops, and coaching that help your managers and high-potentials stop being the best-kept secret at work."}
 >
   <div class="shell variant-editorial">
-    {/* ---------- Banner ---------- */}
-    {
-      showBanner && (
-        <div class="banner" id="site-banner">
-          <div class="banner-inner">
-            <a class="banner-link" href={banner?.href || '#course'}>
-              <span class="pre-mobile-hide">{banner?.prefix ?? 'From'}</span>
-              <strong>{banner?.strong || 'Invisible to Influential'}</strong>
-              <span>{banner?.text || 'Free 5-Day Email Course'}</span>
-              <span class="arrow" aria-hidden="true">&rarr;</span>
-            </a>
-            <button class="banner-dismiss" aria-label="Dismiss announcement" data-banner-dismiss>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            </button>
-          </div>
-        </div>
-      )
-    }
-
     <EditorialNav activeId="home" logoSrc="/images/v1/logo-primary.png" />
 
     <main>
@@ -187,6 +165,28 @@ const courseHref =
           </div>
         </div>
       </section>
+
+      {/* ---------- Banner ---------- */}
+      {
+        showBanner && (
+          <div class="banner" id="site-banner">
+            <div class="banner-inner">
+              <a class="banner-link" href={banner?.href || '#course'}>
+                <span class="pre-mobile-hide">{banner?.prefix ?? 'From'}</span>
+                <strong>{banner?.strong || 'Invisible to Influential'}</strong>
+                <span>{banner?.text || 'Free 5-Day Email Course'}</span>
+                <span class="arrow" aria-hidden="true">&rarr;</span>
+              </a>
+              <button class="banner-dismiss" aria-label="Dismiss announcement" data-banner-dismiss>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
+        )
+      }
 
       {/* ============================================================
            GLOBAL SECTION: trust / as-seen-in (press marquee)
