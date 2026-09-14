@@ -67,18 +67,22 @@ topics:
       /keynotes/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work
     takeaways:
       - >-
-        Uncover common communication pitfalls that undermine your presence, and
+        Uncover common communication pitfalls that undermine  your
+        presence, and
         learn strategies for turning them into your strength.
       - >-
         Define your UPI (your Unique and Powerful Introduction) that succinctly
         captures your professional identity and value.
       - >-
         Discover how to build stronger relationships and grow trust with
+        
         teammates.
   - number: '1'
     slug: stand-out-in-the-age-of-ai
     title: Stand Out in the Age of AI
     format: Keynote / Workshop
+    gif: /images/speaking/keynotes/stand-out-in-the-age-of-ai.webp
+    gif_alt: Lorraine K. Lee presenting Stand Out in the Age of AI
     description: >-
       AI can enhance your work—but it can't replace how you show up. In today's
       workplace, where outputs are increasingly similar, your presence is your
