@@ -1,12 +1,6 @@
 author: Sulbha M.
-quote: I needed to update my LinkedIn profile after several years of neglect,
-  especially when I was notified that my position was affected. That's when I
-  came across Lorraine Lee, who conducted two informative classes on how to
-  revamp profiles. Her approach was refreshingly simple yet effective. She
-  explained various tricks and techniques, ensuring that everyone could follow
-  along effortlessly. Her cheerful demeanor and engaging style made what seemed
-  like a daunting task remarkably easy. Thank you, Lorraine, for your invaluable
-  guidance and support throughout the process. I highly recommend her.
+quote: >-
+  Lorraine's LinkedIn classes made revamping a neglected profile feel remarkably simple. Her cheerful, engaging style made a daunting task easy.
 roleOrCompany: IT Manager at KPMG
 type: event-attendee
 order: 21
@@ -21,5 +15,5 @@ sourceUrl: https://lorraineklee.com/testimonials/
 matchedCptUrl: https://lorraineklee.com/testimonial/sulbha-m/
 showOnHomepage: true
 showOnTestimonials: true
-showOnSpeaking: true
+showOnSpeaking: false
 showOnCourses: false
