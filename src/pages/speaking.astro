@@ -199,193 +199,6 @@ const clientLogos = past_clients ?? [];
 		)
 	}
 
-	{/* ---------- Custom programs ---------- */}
-	{
-		custom_programs_section && (
-			<section class="section section--tight">
-				<div class="grid12">
-					<div class="custom-programs-grid">
-						<div class="custom-programs-copy reveal">
-							<span class="eyebrow">{custom_programs_section.eyebrow}</span>
-							<h2>
-								{custom_programs_section.heading}{' '}
-								<em>{custom_programs_section.heading_accent}</em>
-							</h2>
-							<p>{custom_programs_section.body}</p>
-							{custom_programs_section.cta_label && (
-								<a
-									class="btn primary large"
-									href={safeUrl(custom_programs_section.cta_url)} data-ga-event="speaking_inquiry" data-ga-label="speaking-custom-programs"
-								>
-									{custom_programs_section.cta_label}{' '}
-									<span aria-hidden="true">&rarr;</span>
-								</a>
-							)}
-						</div>
-						<ul class="custom-programs-list reveal-stagger">
-							{custom_programs_section.bullets?.map((b) => <li>{b}</li>)}
-						</ul>
-					</div>
-				</div>
-			</section>
-		)
-	}
-
-	{/* ---------- All other talks ---------- */}
-	{
-		other_talks_section && other_talks?.length > 0 && (
-			<section class="section section--compact">
-				<div class="grid12">
-					<div class="section-head section-head--center">
-						<span class="eyebrow">{other_talks_section.eyebrow}</span>
-						<h2>
-							{other_talks_section.heading}{' '}
-							<em>{other_talks_section.heading_accent}</em>
-						</h2>
-						{other_talks_section.lead && (
-							<p class="lead">{other_talks_section.lead}</p>
-						)}
-					</div>
-					<div class="other-talks reveal">
-						<div class="other-talks-acc" data-open="false">
-							<button
-								class="other-talks-trigger"
-								type="button"
-								aria-expanded="false"
-								aria-controls="other-talks-panel"
-							>
-								<span class="trigger-label">
-									{other_talks_section.summary_label || 'See all other talks'}
-								</span>
-								<span class="trigger-chevron" aria-hidden="true">
-									<svg viewBox="0 0 16 16" width="14" height="14">
-										<path
-											d="M3 5.5 L8 10.5 L13 5.5"
-											fill="none"
-											stroke="currentColor"
-											stroke-width="2"
-											stroke-linecap="round"
-											stroke-linejoin="round"
-										/>
-									</svg>
-								</span>
-							</button>
-							<div
-								class="other-talks-panel"
-								id="other-talks-panel"
-								role="region"
-								aria-hidden="true"
-							>
-								<div class="other-talks-list topic-grid topic-bento">
-									{other_talks.map((talk, i) => {
-										const panelId = `other-talk-panel-${i}`;
-										const hasTakeaways = (talk.takeaways ?? []).length > 0;
-										const paragraphs = toParagraphs(talk.description);
-										const trackUrl = talkTrackHref(talk.talk_track_url);
-										return (
-											<div
-												class="topic-card topic-acc other-talk-card"
-												data-open="false"
-											>
-												{talk.gif && (
-													<div class="topic-media">
-														<img
-															src={talk.gif}
-															alt={talk.gif_alt || talk.title}
-															width="600"
-															height="338"
-															loading="lazy"
-															decoding="async"
-														/>
-													</div>
-												)}
-												<div
-													class="topic-acc-trigger"
-													role="button"
-													tabindex="0"
-													aria-expanded="false"
-													aria-controls={panelId}
-												>
-													<h4>{talk.title}</h4>
-													{talk.subtitle && (
-														<p class="topic-subtitle">{talk.subtitle}</p>
-													)}
-													{talk.note && <p class="topic-note">{talk.note}</p>}
-													<div class="topic-meta">
-														{talk.format && <span>{talk.format}</span>}
-														<span
-															class="topic-toggle"
-															style="margin-left: auto;"
-														>
-															Details
-															<span class="trigger-chevron" aria-hidden="true">
-																<svg viewBox="0 0 16 16" width="14" height="14">
-																	<path
-																		d="M3 5.5 L8 10.5 L13 5.5"
-																		fill="none"
-																		stroke="currentColor"
-																		stroke-width="2"
-																		stroke-linecap="round"
-																		stroke-linejoin="round"
-																	/>
-																</svg>
-															</span>
-														</span>
-													</div>
-												</div>
-												<div
-													class="topic-panel"
-													id={panelId}
-													role="region"
-													aria-hidden="true"
-												>
-													<div class="topic-panel-inner">
-														{paragraphs.length > 0 && (
-															<div class="topic-fulldesc">
-																{paragraphs.map((p) => (
-																	<p>{p}</p>
-																))}
-															</div>
-														)}
-														{hasTakeaways && (
-															<>
-																<h4 class="topic-panel-label">
-																	{speaking.takeaways_label ||
-																		'What the audience walks away with'}
-																</h4>
-																<ul class="topic-takeaways">
-																	{talk.takeaways!.map((k) => (
-																		<li>{k}</li>
-																	))}
-																</ul>
-															</>
-														)}
-														<div class="topic-cta-row">
-															<a class="btn primary" href={safeUrl(speaking.card_cta_url, '/contact')} data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
-																{speaking.card_cta_label || 'Book this talk'}{' '}
-																<span aria-hidden="true">&rarr;</span>
-															</a>
-															{trackUrl && (
-																<a class="btn ghost" href={trackUrl} data-ga-event="speaking_talk_track" data-ga-label="speaking-talk-track">
-																	{talkTrackLinkLabel}{' '}
-																	<span aria-hidden="true">&rarr;</span>
-																</a>
-															)}
-														</div>
-													</div>
-												</div>
-											</div>
-										);
-									})}
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-		)
-	}
-
 	{/* ---------- Past clients (static grid: every logo, no marquee) ---------- */}
 	<section class="section section--compact client-marquee-section">
 		<div class="grid12">
@@ -451,60 +264,6 @@ const clientLogos = past_clients ?? [];
 							</div>
 						))}
 					</div>
-				</div>
-			</section>
-		)
-	}
-
-	{/* ---------- Testimonials (organizers) ---------- */}
-	<section class="section" id="testimonials">
-		<div class="grid12">
-			<div class="section-head">
-				<span class="eyebrow">{testimonials_section.eyebrow}</span>
-				<h2>
-					{testimonials_section.heading}{' '}
-					<em>{testimonials_section.heading_accent}</em>
-				</h2>
-				{testimonials_section.lead && (
-					<p class="lead">{testimonials_section.lead}</p>
-				)}
-			</div>
-		</div>
-		<div class="grid12">
-			<HomeTestimonialsCarousel client:load testimonials={organizerCarousel} />
-		</div>
-		<div class="grid12">
-			<div class="testimonials-cta reveal">
-				<a
-					class="btn outline"
-					href={linkedinRecommendationsUrl}
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					{linkedinTestimonialsLabel}
-					<span aria-hidden="true">&rarr;</span>
-				</a>
-			</div>
-		</div>
-	</section>
-
-	{
-		attendee_testimonials_section && attendeeQuotes.length > 0 && (
-			<section class="section section--tight section--cream attendee-testimonials">
-				<div class="grid12">
-					<div class="section-head">
-						<span class="eyebrow">{attendee_testimonials_section.eyebrow}</span>
-						<h2>
-							{attendee_testimonials_section.heading}{' '}
-							<em>{attendee_testimonials_section.heading_accent}</em>
-						</h2>
-						{attendee_testimonials_section.lead && (
-							<p class="lead">{attendee_testimonials_section.lead}</p>
-						)}
-					</div>
-				</div>
-				<div class="grid12">
-					<SpeakingAttendeeQuotes cards={attendeeQuotes} />
 				</div>
 			</section>
 		)
@@ -624,7 +383,214 @@ const clientLogos = past_clients ?? [];
 				}
 			</div>
 		</div>
-	</section>{/* ---------- Repeat bookings ---------- */}
+	</section>
+
+	{/* ---------- All other talks ---------- */}
+	{
+		other_talks_section && other_talks?.length > 0 && (
+			<section class="section section--compact">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<span class="eyebrow">{other_talks_section.eyebrow}</span>
+						<h2>
+							{other_talks_section.heading}{' '}
+							<em>{other_talks_section.heading_accent}</em>
+						</h2>
+						{other_talks_section.lead && (
+							<p class="lead">{other_talks_section.lead}</p>
+						)}
+					</div>
+					<div class="other-talks-list topic-grid topic-bento reveal-stagger">
+						{other_talks.map((talk, i) => {
+							const panelId = `other-talk-panel-${i}`;
+							const hasTakeaways = (talk.takeaways ?? []).length > 0;
+							const paragraphs = toParagraphs(talk.description);
+							const trackUrl = talkTrackHref(talk.talk_track_url);
+							return (
+								<div class="topic-card topic-acc other-talk-card" data-open="false">
+									{talk.gif && (
+										<div class="topic-media">
+											<img
+												src={talk.gif}
+												alt={talk.gif_alt || talk.title}
+												width="600"
+												height="338"
+												loading="lazy"
+												decoding="async"
+											/>
+										</div>
+									)}
+									<div
+										class="topic-acc-trigger"
+										role="button"
+										tabindex="0"
+										aria-expanded="false"
+										aria-controls={panelId}
+									>
+										<div class="topic-card-head">
+											{talk.tag && <span class="topic-tag">{talk.tag}</span>}
+										</div>
+										<h3>{talk.title}</h3>
+										{talk.subtitle && (
+											<p class="topic-subtitle">{talk.subtitle}</p>
+										)}
+										{talk.note && <p class="topic-note">{talk.note}</p>}
+										<div class="topic-meta">
+											{talk.format && <span>{talk.format}</span>}
+											<span class="topic-toggle" style="margin-left: auto;">
+												Details
+												<span class="trigger-chevron" aria-hidden="true">
+													<svg viewBox="0 0 16 16" width="14" height="14">
+														<path
+															d="M3 5.5 L8 10.5 L13 5.5"
+															fill="none"
+															stroke="currentColor"
+															stroke-width="2"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														/>
+													</svg>
+												</span>
+											</span>
+										</div>
+									</div>
+									<div
+										class="topic-panel"
+										id={panelId}
+										role="region"
+										aria-hidden="true"
+									>
+										<div class="topic-panel-inner">
+											{paragraphs.length > 0 && (
+												<div class="topic-fulldesc">
+													{paragraphs.map((p) => (
+														<p>{p}</p>
+													))}
+												</div>
+											)}
+											{hasTakeaways && (
+												<>
+													<h4 class="topic-panel-label">
+														{speaking.takeaways_label ||
+															'What the audience walks away with'}
+													</h4>
+													<ul class="topic-takeaways">
+														{talk.takeaways!.map((k) => (
+															<li>{k}</li>
+														))}
+													</ul>
+												</>
+											)}
+											<div class="topic-cta-row">
+												<a class="btn primary" href={safeUrl(speaking.card_cta_url, '/contact')} data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
+													{speaking.card_cta_label || 'Book this talk'}{' '}
+													<span aria-hidden="true">&rarr;</span>
+												</a>
+												{trackUrl && (
+													<a class="btn ghost" href={trackUrl} data-ga-event="speaking_talk_track" data-ga-label="speaking-talk-track">
+														{talkTrackLinkLabel}{' '}
+														<span aria-hidden="true">&rarr;</span>
+													</a>
+												)}
+											</div>
+										</div>
+									</div>
+								</div>
+							);
+						})}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Custom programs ---------- */}
+	{
+		custom_programs_section && (
+			<section class="section section--tight">
+				<div class="grid12">
+					<div class="custom-programs-grid">
+						<div class="custom-programs-copy reveal">
+							<span class="eyebrow">{custom_programs_section.eyebrow}</span>
+							<h2>
+								{custom_programs_section.heading}{' '}
+								<em>{custom_programs_section.heading_accent}</em>
+							</h2>
+							<p>{custom_programs_section.body}</p>
+							{custom_programs_section.cta_label && (
+								<a
+									class="btn primary large"
+									href={safeUrl(custom_programs_section.cta_url)} data-ga-event="speaking_inquiry" data-ga-label="speaking-custom-programs"
+								>
+									{custom_programs_section.cta_label}{' '}
+									<span aria-hidden="true">&rarr;</span>
+								</a>
+							)}
+						</div>
+						<ul class="custom-programs-list reveal-stagger">
+							{custom_programs_section.bullets?.map((b) => <li>{b}</li>)}
+						</ul>
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Testimonials (organizers) ---------- */}
+	<section class="section" id="testimonials">
+		<div class="grid12">
+			<div class="section-head">
+				<span class="eyebrow">{testimonials_section.eyebrow}</span>
+				<h2>
+					{testimonials_section.heading}{' '}
+					<em>{testimonials_section.heading_accent}</em>
+				</h2>
+				{testimonials_section.lead && (
+					<p class="lead">{testimonials_section.lead}</p>
+				)}
+			</div>
+		</div>
+		<div class="grid12">
+			<HomeTestimonialsCarousel client:load testimonials={organizerCarousel} />
+		</div>
+		<div class="grid12">
+			<div class="testimonials-cta reveal">
+				<a
+					class="btn outline"
+					href={linkedinRecommendationsUrl}
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					{linkedinTestimonialsLabel}
+					<span aria-hidden="true">&rarr;</span>
+				</a>
+			</div>
+		</div>
+	</section>
+
+	{
+		attendee_testimonials_section && attendeeQuotes.length > 0 && (
+			<section class="section section--tight section--cream attendee-testimonials">
+				<div class="grid12">
+					<div class="section-head">
+						<span class="eyebrow">{attendee_testimonials_section.eyebrow}</span>
+						<h2>
+							{attendee_testimonials_section.heading}{' '}
+							<em>{attendee_testimonials_section.heading_accent}</em>
+						</h2>
+						{attendee_testimonials_section.lead && (
+							<p class="lead">{attendee_testimonials_section.lead}</p>
+						)}
+					</div>
+				</div>
+				<div class="grid12">
+					<SpeakingAttendeeQuotes cards={attendeeQuotes} />
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Repeat bookings ---------- */}
 	<section class="section section--compact section--cream">
 		<div class="grid12">
 			<div class="section-head section-head--center">
