@@ -246,30 +246,9 @@ topics:
       - How to optimize your profile to get more opportunities.
       - Best practices for sharing content to grow your audience and visibility.
       - Techniques to build credibility and be recognized as a thought leader.
-custom_programs_section:
-  eyebrow: Built for your team
-  heading: Custom leadership
-  heading_accent: programs.
-  body: >-
-    When you want more than a single keynote, Lorraine builds multi-session
-    programs tailored to your needs and audience.
-  bullets:
-    - Multi-session manager and high-potential cohorts
-    - Executive team intensives focused on presence and communication
-    - Custom workshops co-designed with L&D and people partners
-    - Practice labs that run between live sessions to lock in habits
-  cta_label: Ask about custom programs
-  cta_url: /contact
-other_talks_section:
-  eyebrow: More from the catalog
-  heading: All other talks
-  heading_accent: and workshops.
-  lead: >-
-    Beyond the signature keynotes, Lorraine offers a number of other popular
-    sessions.
-  summary_label: See all other talks
-other_talks:
   - title: 'Make a Memorable First Impression On Video: The TEA Method'
+    number: '06'
+    tag: Popular
     note: 'Bonus: a TEA Method checklist to make sure you''re set up for success.'
     format: Keynote / Workshop
     gif: /images/speaking/keynotes/tea-method.webp
@@ -295,6 +274,8 @@ other_talks:
       - Ways to appear more professional, memorable, and confident on video.
       - How to create the perfect video setup.
   - title: How To Present Like a Pro
+    number: '07'
+    tag: Popular
     format: Keynote / Workshop
     gif: /images/speaking/keynotes/present-like-a-pro.webp
     gif_alt: Lorraine K. Lee presenting on stage
@@ -322,6 +303,29 @@ other_talks:
       - Present in person with captivating openers, gesture planes, and moving with intent.
       - Shape virtual content with think/do/feel, movement, and state changes.
       - Connect over video with eye contact, smiling, and hand gestures.
+custom_programs_section:
+  eyebrow: Built for your team
+  heading: Custom leadership
+  heading_accent: programs.
+  body: >-
+    When you want more than a single keynote, Lorraine builds multi-session
+    programs tailored to your needs and audience.
+  bullets:
+    - Multi-session manager and high-potential cohorts
+    - Executive team intensives focused on presence and communication
+    - Custom workshops co-designed with L&D and people partners
+    - Practice labs that run between live sessions to lock in habits
+  cta_label: Ask about custom programs
+  cta_url: /contact
+other_talks_section:
+  eyebrow: More from the catalog
+  heading: All other talks
+  heading_accent: and workshops.
+  lead: >-
+    Beyond the signature keynotes, Lorraine offers a number of other popular
+    sessions.
+  summary_label: See all other talks
+other_talks:
   - title: Communicate with Confidence In a Virtual World
     format: Keynote / Workshop
     gif: /images/speaking/keynotes/stanford-class.webp
