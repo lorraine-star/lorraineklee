@@ -177,6 +177,41 @@ Then report what you verified, in plain language, when you hand the change back.
 - Never use em dashes in prose, comments, documentation, or interface copy. Use
   commas, parentheses, or separate sentences instead.
 
+### Words to avoid (AI tells)
+
+These words read as machine-written. They show up constantly in AI drafts and
+almost never in Lorraine's own writing, so they undercut her voice the moment a
+reader hits one. Avoid them in site copy, articles, social posts, scripts, and
+anything else written in her voice.
+
+- landed (as in "the talk landed")
+- surfaced (as in "it surfaced a question")
+- delve
+- leverage (as a verb)
+- unlock
+- elevate
+- harness
+- streamline
+- seamless
+- robust
+- transformative
+- resonate
+- underscore
+- foster
+- pivotal
+- crucial
+- realm
+- testament
+- tapestry
+- navigate (when used figuratively, not about actual navigation)
+
+Replace them with the plain, concrete word a person would actually say. "The
+talk landed" becomes "the talk worked" or, better, the specific thing that
+happened in the room. "It surfaced a question" becomes "it found a question" or
+"it pulled up a question."
+
+This is a living list. When Lorraine flags another word, add it here.
+
 ## Your workflow and tools (optional)
 
 This section is a placeholder for the site owner or their developer. Add
