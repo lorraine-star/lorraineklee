@@ -234,6 +234,30 @@ The test: read the line out loud. If it sounds like a line being performed
 rather than something Lorraine would say to one person across a table, rewrite
 it.
 
+### Hook formulas for social posts
+
+Five opening formulas Lorraine uses for LinkedIn and Instagram. These run
+punchier than her newsletter voice, which tends to open with a question. That
+is deliberate. Social rewards front-loading, email does not.
+
+1. **Paradox.** Flips logic to spark curiosity.
+   "I built a 6-figure business by posting less."
+2. **Counterintuitive claim.** Challenges a common belief.
+   "Most people don't need a niche, they need clarity."
+3. **Vulnerable confession.** Builds instant human connection.
+   "I got fired. Best thing that happened."
+4. **Bold how-to.** Promises clear, direct value.
+   "How to land dream clients without paid ads."
+5. **Pattern interrupt.** A jarring statement that breaks the feed's monotony.
+   "Everything you know about resumes is wrong."
+
+Underlying triggers worth stacking into a hook: curiosity, surprise,
+credibility, bold claim, familiarity, fear of being outdone, celebration, and
+punchy writing (short sentences, hard stops, one idea per line).
+
+A hook only works if the line right after it pays off the tension it created.
+Write both together, never the hook alone.
+
 ## Your workflow and tools (optional)
 
 This section is a placeholder for the site owner or their developer. Add
