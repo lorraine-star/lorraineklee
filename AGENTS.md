@@ -177,6 +177,139 @@ Then report what you verified, in plain language, when you hand the change back.
 - Never use em dashes in prose, comments, documentation, or interface copy. Use
   commas, parentheses, or separate sentences instead.
 
+### Words to avoid (AI tells)
+
+These words read as machine-written. They show up constantly in AI drafts and
+almost never in Lorraine's own writing, so they undercut her voice the moment a
+reader hits one. Avoid them in site copy, articles, social posts, scripts, and
+anything else written in her voice.
+
+- landed (as in "the talk landed")
+- delve
+- leverage (as a verb)
+- unlock
+- elevate
+- harness
+- streamline
+- seamless
+- robust
+- transformative
+- resonate
+- underscore
+- foster
+- pivotal
+- crucial
+- realm
+- testament
+- tapestry
+- navigate (when used figuratively, not about actual navigation)
+
+Replace them with the plain, concrete word a person would actually say. "The
+talk landed" becomes "the talk worked" or, better, the specific thing that
+happened in the room.
+
+Note: "surfaced" was considered for this list and ruled out. Lorraine uses it,
+so it stays. Before adding a word here, check whether it appears in her own
+drafts first.
+
+This is a living list. When Lorraine flags another word, add it here.
+
+### Phrases and constructions to avoid (AI tells)
+
+Whole phrases give a draft away faster than single words do. Avoid these, and
+avoid close variants of them.
+
+- "past the room", "beyond the room", "outside the room" (as in "did it make it
+  past the room"). Say what actually happened instead: "how much of it have you
+  used since", "what happened to it after".
+- "Here's what I mean.", "Here's what made it different:", "Here's why that
+  matters." The whole "Here's what / Here's why" connective is throat-clearing.
+  Cut it and go straight to the next thought. Lorraine's own writing moves from
+  a statement to the point with no bridge sentence.
+- "the kind of X where", "that X where you can feel it". Constructed and
+  writerly. Name the thing plainly.
+- "It's not just X, it's Y." and "This isn't about X. It's about Y."
+- "Let that sink in."
+- "The result?" or "The best part?" as a one-word question used as a transition.
+
+The test: read the line out loud. If it sounds like a line being performed
+rather than something Lorraine would say to one person across a table, rewrite
+it.
+
+### Sentence rhythm (do not write in fragments)
+
+Lorraine writes in full, connected sentences joined by "and", "but", "when",
+"whenever", "so", and "which". Her real openers run long:
+
+- "I've certainly been there, and through that, I've learned that taking the
+  time to find the right tools and strategies can seriously change your game."
+- "When you're job-searching, it can be easy to start sending LinkedIn
+  connection requests left and right, hoping that the next request will yield a
+  lead to your next role."
+- "Yes, it will take a bit of additional upfront effort to set up the systems
+  that'll save you time in the long run, but trust me, it's worth it!"
+
+Do not write body copy as stacked fragments ("My outline. My speaker notes.
+Posts I'd already written."). That staccato rhythm is advertising copy, not her
+voice, and it reads as machine-written for the same reason the phrases above
+do. Join the ideas with the connective a person would actually say.
+
+The one exception is a hook, where short clipped lines are the point. The hook
+can be clipped. Everything after it flows.
+
+### Lorraine's own edits are the reference for how a person talks
+
+When Lorraine rewrites a line, that rewrite is the target, not a draft to
+improve on. Her corrections are consistently plainer than what an AI draft
+reaches for, and they are the best available record of how she actually speaks.
+
+What her edits show:
+
+- **She states her reasoning directly, in plain declarative sentences.** "I
+  spent hours creating this presentation, so I'm not going to let it go to
+  waste." The humanity is in saying what she thinks, not in crafting an image
+  around it.
+- **She writes clean comma-separated lists.** "LinkedIn posts, newsletter
+  issues, event abstracts, and attendee follow-ups." Do not convert these into
+  "and X and Y and Z" in the name of sounding conversational. She reverted
+  exactly that change.
+- **She is comfortable with ordinary connective phrasing** such as "after the
+  fact" and "meant hours of rebuilding the exact same core concept from
+  scratch." Plain is not the same as stiff.
+- **She does not use writerly flourishes.** No "it hit me", no wry asides, no
+  physical metaphor standing in for a feeling. Reaching for texture is the most
+  common way an agent draft stops sounding like her.
+
+The rule that follows from this: when a line of hers survives into a draft,
+keep it. Rewrite only what she has asked to have rewritten, and when she
+supplies wording, use her wording rather than a more polished version of it.
+
+### Hook formulas for social posts
+
+Five opening formulas Lorraine uses for LinkedIn and Instagram. These run
+punchier than her newsletter voice, which tends to open with a question. That
+is deliberate. Social rewards front-loading, email does not.
+
+1. **Paradox.** Flips logic to spark curiosity.
+   "I built a 6-figure business by posting less."
+2. **Counterintuitive claim.** Challenges a common belief.
+   "Most people don't need a niche, they need clarity."
+3. **Vulnerable confession.** Builds instant human connection.
+   "I got fired. Best thing that happened."
+4. **Bold how-to.** Promises clear, direct value.
+   "How to land dream clients without paid ads."
+5. **Pattern interrupt.** A jarring statement that breaks the feed's monotony.
+   "Everything you know about resumes is wrong."
+
+Underlying triggers worth stacking into a hook: curiosity, surprise,
+credibility, bold claim, familiarity, fear of being outdone, and celebration.
+
+Short, clipped lines belong in the hook only. See the rhythm rule below: the
+body of a post is not written that way.
+
+A hook only works if the line right after it pays off the tension it created.
+Write both together, never the hook alone.
+
 ## Your workflow and tools (optional)
 
 This section is a placeholder for the site owner or their developer. Add
