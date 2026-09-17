@@ -212,6 +212,28 @@ happened in the room. "It surfaced a question" becomes "it found a question" or
 
 This is a living list. When Lorraine flags another word, add it here.
 
+### Phrases and constructions to avoid (AI tells)
+
+Whole phrases give a draft away faster than single words do. Avoid these, and
+avoid close variants of them.
+
+- "past the room", "beyond the room", "outside the room" (as in "did it make it
+  past the room"). Say what actually happened instead: "how much of it have you
+  used since", "what happened to it after".
+- "Here's what I mean.", "Here's what made it different:", "Here's why that
+  matters." The whole "Here's what / Here's why" connective is throat-clearing.
+  Cut it and go straight to the next thought. Lorraine's own writing moves from
+  a statement to the point with no bridge sentence.
+- "the kind of X where", "that X where you can feel it". Constructed and
+  writerly. Name the thing plainly.
+- "It's not just X, it's Y." and "This isn't about X. It's about Y."
+- "Let that sink in."
+- "The result?" or "The best part?" as a one-word question used as a transition.
+
+The test: read the line out loud. If it sounds like a line being performed
+rather than something Lorraine would say to one person across a table, rewrite
+it.
+
 ## Your workflow and tools (optional)
 
 This section is a placeholder for the site owner or their developer. Add
