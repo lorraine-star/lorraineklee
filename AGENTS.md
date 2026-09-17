@@ -234,6 +234,27 @@ The test: read the line out loud. If it sounds like a line being performed
 rather than something Lorraine would say to one person across a table, rewrite
 it.
 
+### Sentence rhythm (do not write in fragments)
+
+Lorraine writes in full, connected sentences joined by "and", "but", "when",
+"whenever", "so", and "which". Her real openers run long:
+
+- "I've certainly been there, and through that, I've learned that taking the
+  time to find the right tools and strategies can seriously change your game."
+- "When you're job-searching, it can be easy to start sending LinkedIn
+  connection requests left and right, hoping that the next request will yield a
+  lead to your next role."
+- "Yes, it will take a bit of additional upfront effort to set up the systems
+  that'll save you time in the long run, but trust me, it's worth it!"
+
+Do not write body copy as stacked fragments ("My outline. My speaker notes.
+Posts I'd already written."). That staccato rhythm is advertising copy, not her
+voice, and it reads as machine-written for the same reason the phrases above
+do. Join the ideas with the connective a person would actually say.
+
+The one exception is a hook, where short clipped lines are the point. The hook
+can be clipped. Everything after it flows.
+
 ### Hook formulas for social posts
 
 Five opening formulas Lorraine uses for LinkedIn and Instagram. These run
@@ -252,8 +273,10 @@ is deliberate. Social rewards front-loading, email does not.
    "Everything you know about resumes is wrong."
 
 Underlying triggers worth stacking into a hook: curiosity, surprise,
-credibility, bold claim, familiarity, fear of being outdone, celebration, and
-punchy writing (short sentences, hard stops, one idea per line).
+credibility, bold claim, familiarity, fear of being outdone, and celebration.
+
+Short, clipped lines belong in the hook only. See the rhythm rule below: the
+body of a post is not written that way.
 
 A hook only works if the line right after it pays off the tension it created.
 Write both together, never the hook alone.
