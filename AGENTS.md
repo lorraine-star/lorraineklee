@@ -185,7 +185,6 @@ reader hits one. Avoid them in site copy, articles, social posts, scripts, and
 anything else written in her voice.
 
 - landed (as in "the talk landed")
-- surfaced (as in "it surfaced a question")
 - delve
 - leverage (as a verb)
 - unlock
@@ -207,8 +206,11 @@ anything else written in her voice.
 
 Replace them with the plain, concrete word a person would actually say. "The
 talk landed" becomes "the talk worked" or, better, the specific thing that
-happened in the room. "It surfaced a question" becomes "it found a question" or
-"it pulled up a question."
+happened in the room.
+
+Note: "surfaced" was considered for this list and ruled out. Lorraine uses it,
+so it stays. Before adding a word here, check whether it appears in her own
+drafts first.
 
 This is a living list. When Lorraine flags another word, add it here.
 
