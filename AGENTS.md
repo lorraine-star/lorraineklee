@@ -255,6 +255,33 @@ do. Join the ideas with the connective a person would actually say.
 The one exception is a hook, where short clipped lines are the point. The hook
 can be clipped. Everything after it flows.
 
+### Lorraine's own edits are the reference for how a person talks
+
+When Lorraine rewrites a line, that rewrite is the target, not a draft to
+improve on. Her corrections are consistently plainer than what an AI draft
+reaches for, and they are the best available record of how she actually speaks.
+
+What her edits show:
+
+- **She states her reasoning directly, in plain declarative sentences.** "I
+  spent hours creating this presentation, so I'm not going to let it go to
+  waste." The humanity is in saying what she thinks, not in crafting an image
+  around it.
+- **She writes clean comma-separated lists.** "LinkedIn posts, newsletter
+  issues, event abstracts, and attendee follow-ups." Do not convert these into
+  "and X and Y and Z" in the name of sounding conversational. She reverted
+  exactly that change.
+- **She is comfortable with ordinary connective phrasing** such as "after the
+  fact" and "meant hours of rebuilding the exact same core concept from
+  scratch." Plain is not the same as stiff.
+- **She does not use writerly flourishes.** No "it hit me", no wry asides, no
+  physical metaphor standing in for a feeling. Reaching for texture is the most
+  common way an agent draft stops sounding like her.
+
+The rule that follows from this: when a line of hers survives into a draft,
+keep it. Rewrite only what she has asked to have rewritten, and when she
+supplies wording, use her wording rather than a more polished version of it.
+
 ### Hook formulas for social posts
 
 Five opening formulas Lorraine uses for LinkedIn and Instagram. These run
