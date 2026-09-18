@@ -27,11 +27,11 @@ Recurring identity anchors she uses as credibility, never as bragging:
 
 Most of her best posts follow this shape:
 
-1. **A flat opening line.** One sentence, on its own, then a line break. It
-   names a loss, a mistake, or a surprising fact. No throat-clearing, no
-   "In today's world." Examples: "I waited far too long to tell my manager I
-   wanted a promotion." / "For five years, I watched a colleague do everything
-   right." / "Leaders are judging your AI-written memos more than you realize."
+1. **A concrete opening line.** One sentence, on its own, then a line break.
+   This is the highest-leverage line in the post and the easiest one to get
+   wrong, so it has its own rules below. The short version: it states an
+   observable fact with a specific in it, usually a number, and it never
+   states a feeling.
 2. **The setup.** Two or three short lines establishing what she assumed or
    what everyone assumes.
 3. **The turn.** The assumption flips. "To my manager, it read as someone
@@ -46,6 +46,48 @@ Most of her best posts follow this shape:
    Let me know in the comments 👇"
 
 Not every post needs all seven. Every post needs 1, 4, and 5.
+
+## The opening line (read this before drafting one)
+
+Her openers are specific first and emotional never. Across her published
+posts, eight of eleven carry a number or a named particular within the first
+two lines, and not one of them opens by naming how she felt.
+
+What she actually writes:
+
+- "I waited far too long to tell my manager I wanted a promotion." (a named
+  action, not "I made a mistake early in my career")
+- "For five years, I watched a colleague do everything right." (five years)
+- "Last year I posted a job listing and more than 1,000 people applied. / But
+  only 10 of them sent me a message on LinkedIn." (two numbers, and the second
+  line flips the first)
+- "Uber just cut 3,300 jobs and flattened 20% of its management layer."
+  (3,300 and 20%)
+- "Somewhere last quarter, an opportunity you'd have been perfect for went to
+  someone else." (last quarter)
+- "I recently asked my team to use Google Slides for a project thinking I was
+  making their lives easier. But it did just the opposite!" (the real tool, the
+  real task, and the flip inside two sentences)
+
+The test: **could this line open anybody's post?** If yes, it is not hers yet.
+
+Lines that fail the test, and are the exact shape an AI drafts by default:
+
+- "I didn't see it coming."
+- "I learned this the hard way."
+- "Nobody tells you this, but..."
+- "Here's what nobody talks about."
+- "It changed everything."
+- "I'll never forget the day..."
+
+Each one summarizes a feeling and withholds the detail. Hers do the reverse:
+they hand over the detail and let the reader feel it. When the specific is
+missing, the fix is never a better adjective, it is going and getting the
+actual number, date, tool, or sentence somebody said.
+
+A second pattern worth copying: the two-line opener where line one sets a
+number and line two undercuts it ("more than 1,000 people applied" / "only 10
+of them sent me a message"). It does the setup and the turn in eleven words.
 
 ## Sentence and paragraph rhythm
 
@@ -148,6 +190,23 @@ stuff.
 - Over-polished copy. Her live posts contain small typos and she leaves them.
   Do not sand the writing down until it sounds like nobody wrote it.
 - Talking down to the reader, or moralizing.
+
+## Never invent her specifics
+
+Her voice runs on concrete personal detail, which creates a trap: the way to
+make a draft sound like her is to add specifics, and the fastest way to add
+specifics is to make them up. Do not.
+
+If a draft needs a number, a date, a company, a conversation, or a detail from
+her own career that is not already documented (in this file, on the site, or in
+something she has said in the conversation), leave a clearly marked blank and
+ask her for it. A bracketed [X years] she fills in is fine. A plausible
+invention she has to catch is not, and she will not always catch it.
+
+Documented and safe to use: she was laid off and made a free LinkedIn Learning
+course afterward, she worked at LinkedIn and Prezi, she is an introvert, she
+has lived in SF for nearly 15 years, she wrote Unforgettable Presence®.
+Anything more specific than that needs to come from her.
 
 ## Note on em dashes
 
