@@ -60,6 +60,14 @@ for (const cat of CATEGORY_ORDER) {
 }
 const categories = CATEGORY_ORDER.filter((cat) => counts[cat] > 0);
 
+// Catalog-size label: the library is marketed as a floor ("20+") rather than
+// an exact count, so round down to the nearest ten. Per-category pill counts
+// stay exact. Applies to the hero stat, the "All courses" pill, and the grid
+// count (including when the filter script resets to "all").
+const catalogCountLabel = (n: number) => (n >= 10 ? `${Math.floor(n / 10) * 10}+` : String(n));
+const totalCoursesLabel = catalogCountLabel(mapped.length);
+const hubCoursesLabel = catalogCountLabel(counts.all);
+
 const isExternal = (url: string) => /^https?:\/\//i.test(url);
 const linkedinUrl = safeUrl(hero.primary_cta_url, 'https://www.linkedin.com/learning/instructors/lorraine-lee');
 const finalCtaUrl = safeUrl(final_cta.cta_url, '/from-invisible-to-influential/');
@@ -113,7 +121,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 									</div>
 								)}
 								<div class="hero-stat">
-									<div class="hero-stat-num">{mapped.length}</div>
+									<div class="hero-stat-num">{totalCoursesLabel}</div>
 									<div class="hero-stat-label">LinkedIn Learning courses</div>
 								</div>
 								<div class="hero-stat">
@@ -228,7 +236,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 						aria-selected="true"
 					>
 						{labels?.all_courses_filter || 'All courses'}
-						<span class="filter-pill-count">{counts.all}</span>
+						<span class="filter-pill-count">{hubCoursesLabel}</span>
 					</button>
 					{
 						categories.map((cat) => (
@@ -253,7 +261,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 			<div class="container">
 				<div class="grid-section-head">
 					<div class="grid-section-title">
-						<span class="grid-count" data-grid-count>{counts.all}</span>
+						<span class="grid-count" data-grid-count data-count-all={hubCoursesLabel}>{hubCoursesLabel}</span>
 						<span
 							class="grid-count-label"
 							data-grid-label
@@ -445,7 +453,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 				if (match) shown++;
 			}
 			if (empty) empty.hidden = shown !== 0;
-			if (countEl) countEl.textContent = String(shown);
+			if (countEl) countEl.textContent = filter === 'all' ? (countEl.dataset.countAll ?? String(shown)) : String(shown);
 			if (labelEl) {
 				labelEl.textContent = '';
 				if (filter === 'all') {
