@@ -205,9 +205,9 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 							</div>
 							<div class="featured-wide-image">
 								<div class="featured-wide-bg" aria-hidden="true" />
-								{featured.thumbnail && (
+								{(featured.featured_image || featured.thumbnail) && (
 									<img
-										src={featured.thumbnail}
+										src={featured.featured_image || featured.thumbnail}
 										alt={featured.title}
 										class="featured-wide-photo"
 										loading="lazy"
