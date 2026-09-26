@@ -3627,6 +3627,11 @@ export default config({
           description: 'Lower numbers appear first within the course category.',
           defaultValue: 0,
         }),
+        rank: fields.integer({
+          label: 'Pinned grid position (optional)',
+          description:
+            'Global pinned position on the /courses grid: ranked courses appear first, lowest number first, ahead of the normal category grouping. Leave empty for the standard category order.',
+        }),
         description: fields.text({ label: 'Description', multiline: true }),
         url: fields.url({
           label: 'LinkedIn Learning course URL',
