@@ -167,7 +167,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 								{rating?.value && (
 									<div class="cred-pill">
 										<span class="cred-star" aria-hidden="true">&#9733;</span>
-										{rating.value}{rating.scale} across the library
+										{rating.value}{rating.scale} on every course
 									</div>
 								)}
 							</div>
@@ -381,8 +381,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 								<span class="proof-strip-unit">{rating.scale}</span>
 							</div>
 							<div class="proof-strip-stat-label">
-								{rating.value_label} across
-								<br />
+								{rating.value_label}<br />
 								<strong>{rating.students_value} learners</strong> on LinkedIn Learning
 							</div>
 						</div>

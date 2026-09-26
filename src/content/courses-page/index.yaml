@@ -10,9 +10,9 @@ hero:
   image_alt: "Lorraine K. Lee teaching with a microphone"
   credential_pill: "Top-rated LinkedIn Learning instructor"
 rating:
-  value: "4.7"
+  value: "4.7+"
   scale: "/5"
-  value_label: "Average course rating"
+  value_label: "Every course rated 4.7 or higher"
   students_value: "500,000+"
   students_label: "Students taught"
   note: "More courses coming soon."
