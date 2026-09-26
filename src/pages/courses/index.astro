@@ -46,13 +46,24 @@ const featured = mapped.filter((c) => c.featured).slice(0, 1)[0] ?? null;
 // category then in-category order so the unfiltered grid still groups cleanly.
 // The featured course is kept in the grid too (it stays browsable under its
 // category) per the design.
+// Pinned positions (optional `rank`) lead the grid in global order, ahead of
+// the normal category grouping; unranked courses keep category-then-order.
+const byRankThenCategory = (a: any, b: any) => {
+	const ra: number | null = a.rank ?? null;
+	const rb: number | null = b.rank ?? null;
+	if (ra !== null || rb !== null) {
+		if (ra === null) return 1;
+		if (rb === null) return -1;
+		return ra - rb;
+	}
+	return (
+		CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category) ||
+		(a.order ?? 0) - (b.order ?? 0)
+	);
+};
 const hubCourses = mapped
 	.filter((c) => c.show_on_hub !== false)
-	.sort(
-		(a, b) =>
-			CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category) ||
-			(a.order ?? 0) - (b.order ?? 0)
-	);
+	.sort(byRankThenCategory);
 
 const counts: Record<string, number> = { all: hubCourses.length };
 for (const cat of CATEGORY_ORDER) {
