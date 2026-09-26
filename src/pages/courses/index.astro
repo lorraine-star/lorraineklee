@@ -3,6 +3,8 @@ import SpeakingLayout from '../../layouts/SpeakingLayout.astro';
 import { reader } from '../../lib/keystatic';
 import { safeUrl } from '../../lib/url';
 import { getTestimonials } from '../../lib/testimonials';
+import { existsSync } from 'node:fs';
+import path from 'node:path';
 
 const page = await reader.singletons.coursesPage.read();
 if (!page) {
@@ -37,6 +39,22 @@ const all = await reader.collections.courses.all();
 const mapped = all
 	.map((c) => ({ slug: c.slug, ...c.entry }))
 	.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+// Reframed 16:10 card art: when a -card.svg sibling exists in
+// public/images/v1/courses, prefer it over the original thumbnail so card
+// art renders fully framed instead of clipped. Falls back to the original
+// image when no reframed sibling exists yet.
+const reframedCard = (p?: string) => {
+	if (!p) return p;
+	const stem = p.replace(/^.*\//, '').replace(/\.webp$/, '');
+	if (stem === p) return p;
+	const card = `/images/v1/courses/${stem}-card.svg`;
+	return existsSync(path.join(process.cwd(), 'public', card)) ? card : p;
+};
+for (const c of mapped) {
+	(c as any).thumbnail = reframedCard((c as any).thumbnail);
+	(c as any).featured_image = reframedCard((c as any).featured_image);
+}
 
 // Featured block: at most one course, derived from the full set (independent
 // of show_on_hub) so a featured course can never silently vanish from the page.
