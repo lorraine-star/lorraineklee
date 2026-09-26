@@ -41,6 +41,11 @@ const hubCourses = allCourses
 
 const DEFAULT_VISIBLE = 6;
 const totalCourses = hubCourses.length;
+// Catalog-size label: market the library as a floor ("20+") rather than an
+// exact count, matching the courses page. Per-category pill counts and the
+// expand control stay exact.
+const catalogCountLabel = (n: number) => (n >= 10 ? `${Math.floor(n / 10) * 10}+` : String(n));
+const totalCoursesLabel = catalogCountLabel(totalCourses);
 
 // Filter pills: only categories that actually have courses, in canonical order.
 const categories = CATEGORY_ORDER.filter((cat) =>
@@ -135,7 +140,7 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 					}
 					<div class="lh-card-overlay">
 						<span class="lh-card-eyebrow">LinkedIn Learning</span>
-						<h3 class="lh-card-title">{totalCourses} on-demand courses</h3>
+						<h3 class="lh-card-title">{totalCoursesLabel} on-demand courses</h3>
 						<span class="lh-card-cta">
 							{hero_bento?.browse_card_cta_label || 'Browse all'} <span aria-hidden="true">&rarr;</span>
 						</span>
@@ -257,7 +262,7 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 				</h2>
 				{courses_section.lead && <p class="lead">{courses_section.lead}</p>}
 				<p class="course-catalog-count">
-					{totalCourses} {courses_section.count_caption_suffix || 'on-demand courses and counting.'}
+					{totalCoursesLabel} {courses_section.count_caption_suffix || 'on-demand courses and counting.'}
 				</p>
 			</div>
 
@@ -276,7 +281,7 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 					data-filter="all"
 					aria-pressed="true"
 				>
-					All <span class="course-filter-num">{totalCourses}</span>
+					All <span class="course-filter-num">{totalCoursesLabel}</span>
 				</button>
 				{
 					categories.map((cat) => (
