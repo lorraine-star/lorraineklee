@@ -46,19 +46,38 @@ const featured = mapped.filter((c) => c.featured).slice(0, 1)[0] ?? null;
 // category then in-category order so the unfiltered grid still groups cleanly.
 // The featured course is kept in the grid too (it stays browsable under its
 // category) per the design.
+// Pinned positions (optional `rank`) lead the grid in global order, ahead of
+// the normal category grouping; unranked courses keep category-then-order.
+const byRankThenCategory = (a: any, b: any) => {
+	const ra: number | null = a.rank ?? null;
+	const rb: number | null = b.rank ?? null;
+	if (ra !== null || rb !== null) {
+		if (ra === null) return 1;
+		if (rb === null) return -1;
+		return ra - rb;
+	}
+	return (
+		CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category) ||
+		(a.order ?? 0) - (b.order ?? 0)
+	);
+};
 const hubCourses = mapped
 	.filter((c) => c.show_on_hub !== false)
-	.sort(
-		(a, b) =>
-			CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category) ||
-			(a.order ?? 0) - (b.order ?? 0)
-	);
+	.sort(byRankThenCategory);
 
 const counts: Record<string, number> = { all: hubCourses.length };
 for (const cat of CATEGORY_ORDER) {
 	counts[cat] = hubCourses.filter((c) => c.category === cat).length;
 }
 const categories = CATEGORY_ORDER.filter((cat) => counts[cat] > 0);
+
+// Catalog-size label: the library is marketed as a floor ("20+") rather than
+// an exact count, so round down to the nearest ten. Per-category pill counts
+// stay exact. Applies to the hero stat, the "All courses" pill, and the grid
+// count (including when the filter script resets to "all").
+const catalogCountLabel = (n: number) => (n >= 10 ? `${Math.floor(n / 10) * 10}+` : String(n));
+const totalCoursesLabel = catalogCountLabel(mapped.length);
+const hubCoursesLabel = catalogCountLabel(counts.all);
 
 const isExternal = (url: string) => /^https?:\/\//i.test(url);
 const linkedinUrl = safeUrl(hero.primary_cta_url, 'https://www.linkedin.com/learning/instructors/lorraine-lee');
@@ -113,7 +132,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 									</div>
 								)}
 								<div class="hero-stat">
-									<div class="hero-stat-num">{mapped.length}</div>
+									<div class="hero-stat-num">{totalCoursesLabel}</div>
 									<div class="hero-stat-label">LinkedIn Learning courses</div>
 								</div>
 								<div class="hero-stat">
@@ -197,9 +216,9 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 							</div>
 							<div class="featured-wide-image">
 								<div class="featured-wide-bg" aria-hidden="true" />
-								{featured.thumbnail && (
+								{(featured.featured_image || featured.thumbnail) && (
 									<img
-										src={featured.thumbnail}
+										src={featured.featured_image || featured.thumbnail}
 										alt={featured.title}
 										class="featured-wide-photo"
 										loading="lazy"
@@ -228,7 +247,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 						aria-selected="true"
 					>
 						{labels?.all_courses_filter || 'All courses'}
-						<span class="filter-pill-count">{counts.all}</span>
+						<span class="filter-pill-count">{hubCoursesLabel}</span>
 					</button>
 					{
 						categories.map((cat) => (
@@ -253,7 +272,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 			<div class="container">
 				<div class="grid-section-head">
 					<div class="grid-section-title">
-						<span class="grid-count" data-grid-count>{counts.all}</span>
+						<span class="grid-count" data-grid-count data-count-all={hubCoursesLabel}>{hubCoursesLabel}</span>
 						<span
 							class="grid-count-label"
 							data-grid-label
@@ -445,7 +464,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 				if (match) shown++;
 			}
 			if (empty) empty.hidden = shown !== 0;
-			if (countEl) countEl.textContent = String(shown);
+			if (countEl) countEl.textContent = filter === 'all' ? (countEl.dataset.countAll ?? String(shown)) : String(shown);
 			if (labelEl) {
 				labelEl.textContent = '';
 				if (filter === 'all') {

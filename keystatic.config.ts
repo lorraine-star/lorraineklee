@@ -3627,6 +3627,11 @@ export default config({
           description: 'Lower numbers appear first within the course category.',
           defaultValue: 0,
         }),
+        rank: fields.integer({
+          label: 'Pinned grid position (optional)',
+          description:
+            'Global pinned position on the /courses grid: ranked courses appear first, lowest number first, ahead of the normal category grouping. Leave empty for the standard category order.',
+        }),
         description: fields.text({ label: 'Description', multiline: true }),
         url: fields.url({
           label: 'LinkedIn Learning course URL',
@@ -3639,6 +3644,13 @@ export default config({
           label: 'Course thumbnail (optional)',
           description:
             'Course art shown on the card. Falls back to the decorative letter when empty.',
+          directory: 'public/images/v1/courses',
+          publicPath: '/images/v1/courses/',
+        }),
+        featured_image: fields.image({
+          label: 'Featured-block image (optional)',
+          description:
+            'Larger composed art for the big featured block at the top of /courses (square-ish). Falls back to the card thumbnail when empty.',
           directory: 'public/images/v1/courses',
           publicPath: '/images/v1/courses/',
         }),
