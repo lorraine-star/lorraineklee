@@ -3642,6 +3642,13 @@ export default config({
           directory: 'public/images/v1/courses',
           publicPath: '/images/v1/courses/',
         }),
+        featured_image: fields.image({
+          label: 'Featured-block image (optional)',
+          description:
+            'Larger composed art for the big featured block at the top of /courses (square-ish). Falls back to the card thumbnail when empty.',
+          directory: 'public/images/v1/courses',
+          publicPath: '/images/v1/courses/',
+        }),
         duration: fields.text({ label: 'Duration (optional)' }),
         show_on_hub: fields.checkbox({
           label: 'Show on the /courses hub',
