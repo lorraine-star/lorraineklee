@@ -235,12 +235,21 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 							<div class="featured-wide-image">
 								<div class="featured-wide-bg" aria-hidden="true" />
 								{(featured.featured_image || featured.thumbnail) && (
-									<img
-										src={featured.featured_image || featured.thumbnail}
-										alt={featured.title}
-										class="featured-wide-photo"
-										loading="lazy"
-									/>
+									<>
+										<img
+											src={featured.featured_image || featured.thumbnail}
+											alt=""
+											aria-hidden="true"
+											class="featured-wide-photo-blur"
+											loading="lazy"
+										/>
+										<img
+											src={featured.featured_image || featured.thumbnail}
+											alt={featured.title}
+											class="featured-wide-photo"
+											loading="lazy"
+										/>
+									</>
 								)}
 							</div>
 						</div>
@@ -750,15 +759,29 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 			radial-gradient(80% 80% at 75% 70%, var(--brand-blue-300) 0%, transparent 60%),
 			linear-gradient(135deg, var(--brand-blue-100) 0%, var(--brand-blue-400) 100%);
 	}
-	/* Real course art fills the panel (cover), so the gradient is just a
-	   fallback behind it. */
-	.featured-wide-photo {
+	/* Desktop: the panel is taller than the square card art, so show the whole
+	   art (contain) instead of cover-cropping its title and name pill. Behind
+	   it, a scaled-up blurred copy of the same art fills the panel (Lorraine's
+	   preferred backdrop treatment). Stacked/mobile layouts keep cover (below). */
+	.featured-wide-photo-blur {
 		position: absolute;
 		inset: 0;
 		z-index: 1;
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+		filter: blur(36px) saturate(1.4) brightness(0.72);
+		transform: scale(2.2);
+		object-position: center 15%;
+		display: block;
+	}
+	.featured-wide-photo {
+		position: absolute;
+		inset: 0;
+		z-index: 2;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
 		display: block;
 	}
 
@@ -1184,6 +1207,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 
 		.featured-wide { grid-template-columns: 1fr; }
 		.featured-wide-image { min-height: 240px; order: -1; }
+		.featured-wide-photo { object-fit: cover; }
 
 		.filter-bar-inner { grid-template-columns: 1fr; gap: 16px; }
 		.filter-pills { justify-content: flex-start; }
