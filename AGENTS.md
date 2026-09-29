@@ -176,6 +176,11 @@ Then report what you verified, in plain language, when you hand the change back.
 
 - Never use em dashes in prose, comments, documentation, or interface copy. Use
   commas, parentheses, or separate sentences instead.
+- **Writing in Lorraine's voice** (social captions, newsletter blurbs, page
+  copy, anything that sounds like her speaking) follows
+  [docs/VOICE-GUIDE.md](docs/VOICE-GUIDE.md). Read it before drafting that kind
+  of copy. It is the one place her voice is documented, so update it there
+  rather than describing her voice somewhere new.
 
 ## Your workflow and tools (optional)
 
