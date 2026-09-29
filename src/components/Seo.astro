@@ -16,13 +16,15 @@ interface Props {
   image?: string;
   /** Open Graph type, e.g. "website" or "profile". */
   type?: string;
+  /** Set true to keep this page out of search engines. */
+  noindex?: boolean;
 }
 
 const {
   title,
   description,
   image = '/images/about/lorraine-hero.jpg',
-  type = 'website',
+  type = 'website', noindex = false,
 } = Astro.props;
 
 const site = Astro.site ?? new URL('https://lorraineklee.com');
@@ -65,6 +67,8 @@ const website = {
 ---
 
 <link rel="canonical" href={canonical} />
+
+{noindex && <meta name="robots" content="noindex" />}
 
 <meta property="og:type" content={type} />
 <meta property="og:site_name" content="Lorraine K. Lee" />

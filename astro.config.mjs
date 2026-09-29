@@ -156,7 +156,7 @@ export default defineConfig({
     
     // of the public sitemap.
     
-    filter: (page) => !page.includes('/keystatic'),
+    filter: (page) => !page.includes('/keystatic') && !page.includes('/consulting'),
     
   })]
     

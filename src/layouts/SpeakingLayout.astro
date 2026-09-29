@@ -18,9 +18,11 @@ interface Props {
   activeId?: string;
   /** Optional per-page Open Graph image; falls back to the Seo default. */
   image?: string;
+  /** When true, render a robots noindex meta tag. */
+  noindex?: boolean;
 }
 
-const { title, description, activeId = 'home', image } = Astro.props;
+const { title, description, activeId = 'home', image, noindex = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -38,7 +40,7 @@ const { title, description, activeId = 'home', image } = Astro.props;
     />
     {description && <meta name="description" content={description} />}
     <title>{title}</title>
-    <Seo title={title} description={description} image={image} />
+    <Seo title={title} description={description} image={image} noindex={noindex} />
     <GoogleAnalytics />
     <ClarityAnalytics />
   </head>
