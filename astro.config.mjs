@@ -77,7 +77,8 @@ export default defineConfig({
 
   integrations: [mdx(), react(), markdoc(), keystatic(), sitemap({
     // Keep the Keystatic admin (/keystatic) and its API (/api/keystatic) out
-    // of the public sitemap.
-    filter: (page) => !page.includes('/keystatic'),
+    // of the public sitemap. Also keep the hidden Unlock Your Impact sales
+    // page out until it is ready to launch (remove that clause then).
+    filter: (page) => !page.includes('/keystatic') && !page.includes('/unlock-your-impact'),
   })]
 });
