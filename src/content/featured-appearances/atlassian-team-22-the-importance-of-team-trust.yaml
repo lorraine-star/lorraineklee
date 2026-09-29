@@ -8,5 +8,5 @@ logo: null
 image: null
 cta_label: ""
 priority: 380
-featured: true
+featured: false
 needs_review: false
