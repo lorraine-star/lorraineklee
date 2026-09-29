@@ -1,12 +1,12 @@
 title: "Named a 2020 top virtual speaker"
-source_name: "Read Write Web"
-appearance_type: Award
+source_name: "ReadWrite"
+appearance_type: Article
 date: "2020"
 description: "Recognized as a 2020 top virtual speaker alongside WSJ best-selling author Nir Eyal."
 url: ""
-logo: null
+logo: "/images/featured-in/logos/readwrite.svg"
 image: null
 cta_label: ""
 priority: 10
 featured: true
-needs_review: true
+needs_review: false
