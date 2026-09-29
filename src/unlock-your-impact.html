@@ -112,7 +112,7 @@ h2 { font-size: clamp(1.75rem, 4.2vw, 2.5rem); font-weight: 800; margin-bottom: 
 .rating strong { font: 800 clamp(3rem, 8vw, 4.5rem)/1 var(--font-display); color: var(--accent); }
 .rating span { color: var(--muted); max-width: 22em; }
 .quote-grid { display: grid; gap: 20px; }
-@media (min-width: 820px) { .quote-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 820px) { .quote-grid { display: block; columns: 2; column-gap: 20px; } .quote-grid blockquote { break-inside: avoid; margin-bottom: 20px; } }
 blockquote { position: relative; margin: 0; background: var(--tint); border-radius: 16px; padding: 56px 26px 26px; font-size: 1.125rem; line-height: 1.55; }
 blockquote::before { content: "\201C"; position: absolute; top: 12px; left: 24px; font: 800 4rem/1 var(--font-display); color: var(--accent); opacity: .4; }
 blockquote footer { font-weight: 600; margin-top: 14px; font-size: .9375rem; color: var(--muted); }
@@ -289,12 +289,28 @@ footer.foot { padding-block: 28px 110px; color: var(--muted); font-size: .875rem
     <div class="rating"><strong>4.9/5</strong><span>Average rating from past participants</span></div>
     <div class="quote-grid">
       <blockquote>
+        “I'm definitely more confident in how I show up professionally. Recently, I walked past a former director from my old company… Usually I'd ramble. This time, I had a concise, confident answer ready… That few-second conversation led to a coffee meeting to explore potential opportunities.”
+        <footer>Clara <span class="tbd">add last initial</span></footer>
+      </blockquote>
+      <blockquote>
         “It was genuinely one of the most enjoyable and valuable professional development experiences I've had. … I've been to plenty of workshops that inspire but don't equip; yours did both!”
         <footer>Real Estate Professional</footer>
       </blockquote>
       <blockquote>
+        “The most valuable part was the realisation that presence is a learnable skill with a systematic framework, not an innate trait some people have and others don't.”
+        <footer>Past participant</footer>
+      </blockquote>
+      <blockquote>
         “Lorraine's workshop was immensely helpful in enabling me to reframe what I do, to myself and to others. … I can better demonstrate value and be more strategic in everyday conversations at work and on LinkedIn.”
         <footer>Product Marketing Lead at Google</footer>
+      </blockquote>
+      <blockquote>
+        “More clarity on how to frame and talk about what I do and, more importantly, the value I bring and the business impact.”
+        <footer>Past participant</footer>
+      </blockquote>
+      <blockquote>
+        “I have more confidence to move forward with tools and techniques I learned during workshop.”
+        <footer>Jaime M.</footer>
       </blockquote>
     </div>
   </div>
