@@ -216,6 +216,22 @@ footer.foot { padding-block: 28px 110px; color: var(--muted); font-size: .875rem
 .sticky .free { font-weight: 600; font-size: .9375rem; white-space: nowrap; }
 @media (min-width: 900px) { .sticky { display: none; } footer.foot { padding-bottom: 40px; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn, .sticky { transition: none; } }
+
+/* Motion: every effect ends in the normal, fully visible state, and all of it is off for reduced-motion. */
+@keyframes hl-sweep { from { background-size: 0% 100%; } }
+@keyframes rise-in { from { opacity: 0; transform: translateY(18px); } }
+@keyframes hop { 0% { transform: translateY(0); } 35% { transform: translateY(-7px); } 65% { transform: translateY(-2px); } 100% { transform: translateY(-4px); } }
+@keyframes fade-open { from { opacity: 0; transform: translateY(-4px); } }
+.hl { background-repeat: no-repeat; background-size: 100% 100%; animation: hl-sweep .9s cubic-bezier(.3, .7, .2, 1) .4s backwards; }
+.btn:hover { animation: hop .4s ease forwards; box-shadow: 0 8px 14px rgba(8, 74, 243, .22); }
+.btn:active { animation: none; transform: translateY(0); }
+details[open] > .det-body { animation: fade-open .25s ease; }
+@supports (animation-timeline: view()) {
+  section > .wrap { animation: rise-in linear both; animation-timeline: view(); animation-range: entry 0% entry 30%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hl, .btn:hover, details[open] > .det-body, section > .wrap { animation: none; }
+}
 </style>
 </head>
 <body>
@@ -549,6 +565,26 @@ Thanks!
       navigator.clipboard.writeText(note.innerText).then(function () { done('Copied!'); }, function () { selectNote(); done('Press Cmd/Ctrl+C'); });
     } else { selectNote(); done('Press Cmd/Ctrl+C'); }
   });
+  // Rating count-up: the text is already 4.9/5 in the page, so it reads fine without this.
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var counters = Array.prototype.slice.call(document.querySelectorAll('.hero .proof b, .rating strong'));
+    var runCount = function (el) {
+      var t0 = null, dur = 1000;
+      var step = function (t) {
+        if (t0 === null) t0 = t;
+        var p = Math.min((t - t0) / dur, 1), e = 1 - Math.pow(1 - p, 3);
+        el.textContent = (4.9 * e).toFixed(1) + '/5';
+        if (p < 1) requestAnimationFrame(step); else el.textContent = '4.9/5';
+      };
+      requestAnimationFrame(step);
+    };
+    if ('IntersectionObserver' in window) {
+      var co = new IntersectionObserver(function (es) {
+        es.forEach(function (x) { if (x.isIntersecting) { co.unobserve(x.target); runCount(x.target); } });
+      }, { threshold: 0.6 });
+      counters.forEach(function (c) { co.observe(c); });
+    }
+  }
 })();
 </script>
 
