@@ -131,3 +131,7 @@ press:
       name: NBC 4
       src: /images/v1/press/press/logos/7/src.svg
       scale: 1.4
+    - id: financial-times
+      name: Financial Times
+      src: /images/featured-in/logos/financial-times.svg
+      scale: 1
