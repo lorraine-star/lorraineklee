@@ -1,0 +1,107 @@
+name: site-updates
+
+on:
+
+  workflow_dispatch:
+  
+permissions:
+
+  contents: write
+  
+jobs:
+
+  apply:
+  
+    runs-on: ubuntu-latest
+    
+    steps:
+    
+      - uses: actions/checkout@v4
+      
+      - run: |
+      
+          echo "iVBORw0KGgoAAAANSUhEUgAAAD4AAAA+CAYAAABzwahEAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAANTSURBVHgB7VtLchwhDJWYXCyp8nGSXT6brLLxOrdJ5WpJyNCD8EOI9giXqzDdr8oDw69HSOhHm99//hPpgAh0UJyEHw0n4UfDSfjR8M4z+MenC/G1/He1/HytxFx+//n31v/xQtsAuhXiIEj/THARzpmakEquiUsI4WkziPIeTOoeuQjfzgXfaGGoCzhvhkgDERUJmA0+juePQkus6ZKN2caIRKzAcea6rmkKvD9nJrgJZ/UdgYTLWZ81AvKdcdFmudSECeFFB9AiHA+i2AwCCdrTWY+TEixwK7fCQW4VtpYImTMjxjhOmS7FchT1MPH5TvCbM6jr86vN3czS/iKtrhEmP9cIv6jL2bVsNpbLKbdNZUMDHGThOAYwa3luSCD0B27HLmPHN4A2Z6XVO8IwHcbseEeEN+WHm0LzYthzszgqcfqGvAFLODDFnHWIKnmsN2DWhhyYIu7pC7C9bAwowSW0OrqsJGWo+7d2dG1Xis4KYtsv4MkVnP+MV4a77scgZRtPqzgw5aONxRN0IiLSvP77UHqZgPNVHi5/VDpgpfRyQmQ7r94ad5oS41lWVSZIyqkcibhQslHfE1gXCtKfNmHWyzm/r260CQL3+2bDsKhbqHQAraTcjLDUujQkUq7rhBi24+VSQfXz3lmYCEPRWVQ+uSDoXcidvx4vpalekO4/CjtjJc2V/h6+3ncXP2THK/qs6Kw00LPAmxndLktYAQ9OiewXrCHlViURMTrTvwih7toKQQw+PXAVg5wI83Gs1Efyej6OyxsPRA3nyWjDHxU1IbpueUS4NNv1nSm78HFcv+aRgKLeTLD7enUr8CHaJww3wWM5XY5V4rg4MemBSZnxzgrF+t35i7Q3uDfNGuPh/FCWFUUVH/bhy3xvN/UwFJbqDXiLGPLcignKZ/7346UkFkXxCXRbpfCUfsB1dZpadlkHRZWneMXDt1ew41qbF8WS43DzIlFpMrbquH5VeVq7d0kxekU1dFtqaVLMrOo+QWEcSEszLrbrRWXfoxrTxMp3wEW4PKz3LIuDjdQa9rrn7VVDO5LT9N2J4TyB1ugCi8tY9yhE4aw2h2w806tohwnvPYifmeNhTu+q2dpcL9P5/C+kg+Ek/Gg4CT8aTsKPhv84kM4/JMu2tAAAAABJRU5ErkJggg==" | base64 -d > public/images/editorial/favicon.png
+          
+          echo "iVBORw0KGgoAAAANSUhEUgAAAD4AAAA+CAYAAABzwahEAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAANTSURBVHgB7VtLchwhDJWYXCyp8nGSXT6brLLxOrdJ5WpJyNCD8EOI9giXqzDdr8oDw69HSOhHm99//hPpgAh0UJyEHw0n4UfDSfjR8M4z+MenC/G1/He1/HytxFx+//n31v/xQtsAuhXiIEj/THARzpmakEquiUsI4WkziPIeTOoeuQjfzgXfaGGoCzhvhkgDERUJmA0+juePQkus6ZKN2caIRKzAcea6rmkKvD9nJrgJZ/UdgYTLWZ81AvKdcdFmudSECeFFB9AiHA+i2AwCCdrTWY+TEixwK7fCQW4VtpYImTMjxjhOmS7FchT1MPH5TvCbM6jr86vN3czS/iKtrhEmP9cIv6jL2bVsNpbLKbdNZUMDHGThOAYwa3luSCD0B27HLmPHN4A2Z6XVO8IwHcbseEeEN+WHm0LzYthzszgqcfqGvAFLODDFnHWIKnmsN2DWhhyYIu7pC7C9bAwowSW0OrqsJGWo+7d2dG1Xis4KYtsv4MkVnP+MV4a77scgZRtPqzgw5aONxRN0IiLSvP77UHqZgPNVHi5/VDpgpfRyQmQ7r94ad5oS41lWVSZIyqkcibhQslHfE1gXCtKfNmHWyzm/r260CQL3+2bDsKhbqHQAraTcjLDUujQkUq7rhBi24+VSQfXz3lmYCEPRWVQ+uSDoXcidvx4vpalekO4/CjtjJc2V/h6+3ncXP2THK/qs6Kw00LPAmxndLktYAQ9OiewXrCHlViURMTrTvwih7toKQQw+PXAVg5wI83Gs1Efyej6OyxsPRA3nyWjDHxU1IbpueUS4NNv1nSm78HFcv+aRgKLeTLD7enUr8CHaJww3wWM5XY5V4rg4MemBSZnxzgrF+t35i7Q3uDfNGuPh/FCWFUUVH/bhy3xvN/UwFJbqDXiLGPLcignKZ/7346UkFkXxCXRbpfCUfsB1dZpadlkHRZWneMXDt1ew41qbF8WS43DzIlFpMrbquH5VeVq7d0kxekU1dFtqaVLMrOo+QWEcSEszLrbrRWXfoxrTxMp3wEW4PKz3LIuDjdQa9rrn7VVDO5LT9N2J4TyB1ugCi8tY9yhE4aw2h2w806tohwnvPYifmeNhTu+q2dpcL9P5/C+kg+Ek/Gg4CT8aTsKPhv84kM4/JMu2tAAAAABJRU5ErkJggg==" | base64 -d > public/images/v1/favicon.png
+          
+          echo "AAABAAIAEBAAAAAAIACOAQAAJgAAACAgAAAAACAAVwIAALQBAACJUE5HDQoaCgAAAA1JSERSAAAAEAAAABAIBgAAAB/z/2EAAAFVSURBVHiclZO7TgMxEEXPjL27CUoTFB5CkSig5tFBQZGP4ANo+AKo+C1qGio6JCqaVEihIk3EQ5u1KcZ5aoEwkmVb3nt975219K7HkVQxAgKkWfi7dH7jPaiAdzavUioC5Rg6beHm0nF6JFxdOE4OlPdPUP2DYCLdO9hah1YDttuw1kiW/mNBo/nW5YNfLaSFALkDJ1B4cDrNcjUFChTOPBeJaCUFkG4SyJzdXHgjWCUDP10JZGrA3KVWqhEuV4gzcj+HJ0/9LxTKEoYjU1aFGVgi5DkUWereAoFCw4MXOD8TjveU3JtFgBBM0e1D5O4x0mrOWwBchNEH3D9FuhvQ7SzmECJkHpp5jQVVk9s7FPoD6L9CVbHQxxgto+EoZTOxIALjCgZvsLsp7O/Yx8udrALkGTy/RMrKcDJ5jYI9phB+/oEiFnIVaixE4KusQdWwiNgA+Aa7CV84Ka32jgAAAABJRU5ErkJggolQTkcNChoKAAAADUlIRFIAAAAgAAAAIAgGAAAAc3p69AAAAh5JREFUeJzNl7+O00AQh7+ZdUIQJySQQAjRQckT0NFQ0gBCouYJkCip4DXyCPSUVAjxAIiCConTIcHldPy5E9g7FLOLfRf7QkLsMJLlOE40387vt7O7cvNxaWwwdJPJ/wuAou1LM78ARPyKMb0UUOkJQBV+HML1a8KdW0qM8P6D8fJN5OHdQDTY24fp86ofAPCRT8Zw5aKPerYPReHPlcFktLbc7QAZoiz9Hisg3WNMz70CmGteqAOEZNNRcMeGNdu2tQIZoIpuOMmJDcIaDdgKYHhCFf+g+D0IoANWIAiI+swAKKSuTP8A+EjFjknAenvAYoDoEgwPkCWQJEEqvZhL0StANuEfgCRBBhjUhGhd8pD7whAS5IREH72QSi/1rOgVoLMPyAAeyK04aALR2gMkD6ziA6OxpHcBNAfXNCFAACwZce/b8gCqcGayACCT5lmQJcg+UGDrNNy+8fc6ZON+PYDX72yuj3TPAjgyC2L0xencFjx5sLwGOzPj3lMjjOrdVjcA9WZRBUaFl3Dcww6yswIkCFXY2YVXbw2z+l1bZPmaEdN68mk2X/5ugMafL5yFS+eF6QsjrnKCSNA/S0P1aPlbAYy0Czb4VcHVy8L00b9P/u1d4/6zyHiRBwwvuwqc6uyTy0fVsZecSxEEvh/Cx89QxnoD0qZvWzR/Z/hoVWD7S7t/pO1saMZqep8Quasej5NXwwFi42fDjQP8BnFtmo3gSOpcAAAAAElFTkSuQmCC" | base64 -d > public/favicon.ico
+          
+      - run: |
+      
+          python3 - << 'PYEOF'
+          
+          import io
+          
+          def patch(path, old, new):
+          
+              s = io.open(path, encoding='utf-8').read()
+              
+              assert old in s, path + ': pattern missing'
+              
+              assert s.count(old) == 1, path + ': pattern not unique'
+              
+              io.open(path, 'w', encoding='utf-8').write(s.replace(old, new, 1))
+              
+              print('patched', path)
+              
+          patch('astro.config.mjs', "filter: (page) => !page.includes('/keystatic'),", "filter: (page) => !page.includes('/keystatic') && !page.includes('/consulting'),")
+          
+          patch('src/components/Seo.astro', '  type?: string;', '  type?: string;\n  /** Set true to keep this page out of search engines. */\n  noindex?: boolean;')
+          
+          patch('src/components/Seo.astro', "  type = 'website',", "  type = 'website', noindex = false,")
+          
+          patch('src/components/Seo.astro', '<link rel="canonical" href={canonical} />', '<link rel="canonical" href={canonical} />\n\n{noindex && <meta name="robots" content="noindex" />}')
+          
+          patch('src/layouts/SpeakingLayout.astro', '  image?: string;', '  image?: string;\n  /** When true, render a robots noindex meta tag. */\n  noindex?: boolean;')
+          
+          patch('src/layouts/SpeakingLayout.astro', "const { title, description, activeId = 'home', image } = Astro.props;", "const { title, description, activeId = 'home', image, noindex = false } = Astro.props;")
+          
+          patch('src/layouts/SpeakingLayout.astro', '<Seo title={title} description={description} image={image} />', '<Seo title={title} description={description} image={image} noindex={noindex} />')
+          
+          patch('src/pages/consulting.astro', '\tactiveId="consulting"', '\tactiveId="consulting"\n\tnoindex={true}')
+          
+          PYEOF
+          
+      - run: |
+      
+          git config user.name lorraine-star
+          
+          git config user.email lorraine-star@users.noreply.github.com
+          
+          git add -A
+          
+          git commit -m "Swap favicon to medium-blue bug; noindex consulting page"
+          
+          git push
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
