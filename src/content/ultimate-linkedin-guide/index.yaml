@@ -1,6 +1,6 @@
 seo_title: "The Ultimate LinkedIn Guide | Lorraine K. Lee"
 seo_description: >-
-  A 40+ page guide from a former LinkedIn editor and LinkedIn Learning
+  A free 40+ page guide from a former LinkedIn editor and LinkedIn Learning
   instructor, covering profile optimization, content, and growing your network
   on LinkedIn.
 hero:
@@ -11,11 +11,11 @@ hero:
     A former LinkedIn editor shares her tips, tricks, and best practices. 40+
     pages of actionable advice for the busy professional who wants to be seen
     and heard on LinkedIn but isn't sure where to start.
-  price: "$29"
-  price_note: One-time payment · Instant download
-  cta_label: Get the guide
-  cta_url: https://topmate.io/lorraineklee/150949
-  preview_label: "Not ready to buy? Grab the first part free"
+  price: ""
+  price_note: Free · Sign up and confirm your email to download the full guide
+  cta_label: Get the full guide free
+  cta_url: https://lorraineklee.kit.com/ultimate-guide-preview
+  preview_label: ""
   preview_url: https://lorraineklee.kit.com/ultimate-guide-preview
   cover_image: /images/v1/ultimate-linkedin-guide/cover_image.webp
   cover_alt: >-
@@ -129,5 +129,5 @@ final_cta:
     from profile optimization and recommendations to content creation and
     expanding your network, in a reader-friendly format you can follow from
     home.
-  cta_label: Get the guide
-  cta_url: https://topmate.io/lorraineklee/150949
+  cta_label: Get the full guide free
+  cta_url: https://lorraineklee.kit.com/ultimate-guide-preview
