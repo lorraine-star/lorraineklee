@@ -2,7 +2,7 @@
   "framework": "astro",
   "redirects": [
     { "source": "/CC-feedback", "destination": "https://docs.google.com/forms/d/e/1FAIpQLScVud1hRIwxEuY5MdeQqibNrEgoJSSX2iuWW0eQSCdagRDSNg/viewform?usp=sf_link", "permanent": true },
-    { "source": "/NISM-discount", "destination": "https://topmate.io/lorraineklee/150949?coupon_code=DocumentDiscount_10", "permanent": true },
+    { "source": "/NISM-discount", "destination": "https://lorraineklee.kit.com/ultimate-guide-preview", "permanent": true },
     { "source": "/NUL-feedback", "destination": "https://docs.google.com/forms/d/e/1FAIpQLSdTUNk-kfPiJUZyLhxPY3Ke-i5iDsCqVgbVdIT7x_BesjEMKA/viewform?usp=sf_link", "permanent": true },
     { "source": "/SASE-resources", "destination": "https://www.lorraineklee.com/", "permanent": true },
     { "source": "/SASE-workbook", "destination": "https://docs.google.com/document/d/19MZq4YkFFc1tUrMKygqcvHspbZpZf1vkfCSBod3woWg/edit", "permanent": true },
