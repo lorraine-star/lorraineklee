@@ -12,4 +12,10 @@ hero:
   price: ""
   price_note: Free · Sign up to download the full guide
   cta_label: Get the full guide free
-  cta_url: https://lorraineklee.com/ultimate-linkedin-guide
+  cta_url: https://lorraineklee.kit.com/ultimate-guide-preview
+  preview_label: ""
+  preview_url: https://lorraineklee.kit.com/ultimate-guide-preview
+  cover_image: /images/v1/ultimate-linkedin-guide/cover_image.webp
+  cover_alt: >-
+    Cover of "How to Leverage LinkedIn and Build Your Presence", the Ultimate
+    LinkedIn Guide for the busy professional
