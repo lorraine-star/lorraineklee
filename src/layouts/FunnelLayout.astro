@@ -21,9 +21,10 @@ interface Props {
   title: string;
   description?: string;
   activeId?: string;
+  noindex?: boolean;
 }
 
-const { title, description, activeId = 'learn' } = Astro.props;
+const { title, description, activeId = 'learn', noindex = false } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
@@ -42,7 +43,7 @@ const year = new Date().getFullYear();
     />
     {description && <meta name="description" content={description} />}
     <title>{title}</title>
-    <Seo title={title} description={description} />
+    <Seo title={title} description={description} noindex={noindex} />
     <GoogleAnalytics />
     <ClarityAnalytics />
   </head>
