@@ -63,12 +63,16 @@ const aboutParagraphs = (about.body ?? '')
 	<section class="page-hero">
 		<div class="grid12 page-hero-grid">
 			<div class="page-hero-copy fade-up">
-				<div class="page-hero-eyebrow">
-					<span class="dot"></span>
-					<span class="eyebrow" style="color: var(--ink-500);">
-						{hero.eyebrow}
-					</span>
-				</div>
+				{/* This page sets no hero eyebrow, and rendering the row anyway left
+				    the blue dot sitting on its own above the headline. */}
+				{hero.eyebrow && (
+					<div class="page-hero-eyebrow">
+						<span class="dot"></span>
+						<span class="eyebrow" style="color: var(--ink-500);">
+							{hero.eyebrow}
+						</span>
+					</div>
+				)}
 				<h1>{hero.headline} <em>{hero.headline_accent}</em></h1>
 				<p class="lead-large">{hero.lead}</p>
 				<div class="guide-buy">
