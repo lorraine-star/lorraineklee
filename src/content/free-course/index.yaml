@@ -16,7 +16,7 @@ hero:
   name_placeholder: First Name
   email_placeholder: Enter your best email
   form_button_label: SEND ME THE COURSE
-  stat_value: 250k+
+  stat_value: 500k+
   stat_label: |-
     professionals taught
     across LinkedIn Learning
@@ -179,9 +179,16 @@ thank_you:
     of.
   closing: See you in your inbox, Lorraine 💙
   partnerships_headline: Bring Unforgettable Presence® to your team
+  partnerships_eyebrow: Speaking & team training
   partnerships_body: >-
-    Want to bring my Unforgettable Presence® signature program to your team or
-    organization? Reach out to my partnerships team to learn more!
+    Unforgettable Presence® is my signature training program for teams and
+    organizations. Built on the same frameworks and strategies that've taught
+    over 500,000 professionals worldwide, it goes beyond a one-off keynote:
+    your team learns the skills, then keeps practicing them with follow-up
+    coaching and feedback. Your people develop a stronger executive presence
+    and become more confident, compelling speakers and presenters - in every
+    meeting, room, and stage they walk into. Reach out to my partnerships team
+    to bring the program to your organization.
   partnerships_cta_label: Contact Lorraine's team
   partnerships_cta_url: /contact
   partnerships_email: lorraine@wishlygroup.ca

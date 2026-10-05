@@ -61,31 +61,40 @@ const partnerSocials = socialLinks.filter((s) =>
       {
         ty.partnerships_headline && (
           <div class="ty-partner fade-up" style="animation-delay: 140ms;">
+            {ty.partnerships_eyebrow && (
+              <span class="eyebrow ty-partner-eyebrow">{ty.partnerships_eyebrow}</span>
+            )}
             <h2 class="ty-partner-headline">{ty.partnerships_headline}</h2>
-            {ty.partnerships_body && <p class="ty-partner-body">{ty.partnerships_body}</p>}
-            <a class="btn primary large ty-cta" href={partnerUrl}>
-              {ty.partnerships_cta_label || "Contact Lorraine's team"}{' '}
-              <span aria-hidden="true">&rarr;</span>
-            </a>
-            {partnerEmail && (
-              <p class="ty-partner-email">
-                Or reach out to <a href={`mailto:${partnerEmail}`}>{partnerEmail}</a>
-              </p>
-            )}
-            {partnerSocials.length > 0 && (
-              <div class="ty-partner-socials">
-                {partnerSocials.map((sl) => (
-                  <a
-                    class="social-btn"
-                    href={safeUrl(sl.url)}
-                    aria-label={sl.ariaLabel}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    set:html={iconFor(sl.platform)}
-                  />
-                ))}
+            <div class="ty-partner-cols">
+              <div class="ty-partner-text">
+                {ty.partnerships_body && <p class="ty-partner-body">{ty.partnerships_body}</p>}
               </div>
-            )}
+              <div class="ty-partner-action">
+                <a class="btn primary large ty-cta" href={partnerUrl}>
+                  {ty.partnerships_cta_label || "Contact Lorraine's team"}{' '}
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
+                {partnerEmail && (
+                  <p class="ty-partner-email">
+                    Or reach out to <a href={`mailto:${partnerEmail}`}>{partnerEmail}</a>
+                  </p>
+                )}
+                {partnerSocials.length > 0 && (
+                  <div class="ty-partner-socials">
+                    {partnerSocials.map((sl) => (
+                      <a
+                        class="social-btn"
+                        href={safeUrl(sl.url)}
+                        aria-label={sl.ariaLabel}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        set:html={iconFor(sl.platform)}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         )
       }
@@ -150,10 +159,16 @@ const partnerSocials = socialLinks.filter((s) =>
   .ty-partner {
     grid-column: 1 / -1;
     margin: 8px 0 0;
-    padding: clamp(24px, 3vw, 36px);
-    border: 1px solid var(--border-soft);
+    padding: clamp(28px, 3.4vw, 44px);
+    border: 0;
     border-radius: var(--radius-2xl);
-    background: var(--surface-alt, #fff);
+    background: var(--brand-gradient);
+    box-shadow: 0 24px 60px rgba(8, 74, 243, 0.28);
+  }
+  .ty-partner-eyebrow {
+    display: block;
+    color: var(--brand-yellow-500);
+    margin-bottom: 12px;
   }
   .ty-partner-headline {
     font-family: var(--font-serif);
@@ -161,30 +176,60 @@ const partnerSocials = socialLinks.filter((s) =>
     font-size: clamp(22px, 2.2vw, 30px);
     line-height: 1.2;
     letter-spacing: -0.01em;
-    color: var(--ink-900);
+    color: #fff;
     margin: 0 0 12px;
     text-wrap: balance;
+  }
+  /* Two columns inside the panel. Running the paragraph the full width would
+     push lines past 130 characters, which is tiring to read, so the copy keeps
+     a comfortable measure and the action block fills the rest. */
+  .ty-partner-cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.85fr);
+    gap: clamp(28px, 4vw, 56px);
+    align-items: start;
+  }
+  .ty-partner-action {
+    padding-top: 2px;
   }
   .ty-partner-body {
     font-family: var(--font-sans);
     font-size: clamp(15px, 1.1vw, 17px);
-    line-height: 1.6;
-    color: var(--ink-700);
-    margin: 0 0 20px;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.92);
+    margin: 0;
   }
   .ty-partner-email {
     font-family: var(--font-sans);
     font-size: 14px;
-    color: var(--ink-500);
+    color: rgba(255, 255, 255, 0.78);
     margin: 14px 0 0;
   }
   .ty-partner-email a {
-    color: inherit;
+    color: #fff;
     text-decoration: underline;
     text-underline-offset: 3px;
   }
   .ty-partner-email a:hover {
-    color: var(--accent);
+    color: var(--brand-yellow-500);
+  }
+  /* Yellow button on the blue panel: the strongest contrast pair in the
+     palette, and it puts the accent on the thing being clicked. */
+  .ty-partner .ty-cta {
+    background: var(--brand-yellow-500);
+    color: #121212;
+  }
+  .ty-partner .ty-cta:hover {
+    background: var(--brand-yellow-400);
+  }
+  .ty-partner .social-btn {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.35);
+    color: #fff;
+  }
+  .ty-partner .social-btn:hover {
+    background: #fff;
+    color: var(--brand-blue-600);
   }
   /* Follow links sit under the email line as icons, so they stay available
      without competing with the enquiry button above them. */
@@ -214,6 +259,10 @@ const partnerSocials = socialLinks.filter((s) =>
     }
     .ty-partner {
       order: 3;
+    }
+    .ty-partner-cols {
+      grid-template-columns: 1fr;
+      gap: 24px;
     }
   }
 </style>

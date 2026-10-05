@@ -3052,6 +3052,7 @@ export default config({
             closing: fields.text({ label: 'Closing line' }),
             // The partnerships block is the page's main call to action. The
             // LinkedIn CTA below it is deliberately the quieter of the two.
+            partnerships_eyebrow: fields.text({ label: 'Partnerships eyebrow' }),
             partnerships_headline: fields.text({ label: 'Partnerships headline' }),
             partnerships_body: fields.text({
               label: 'Partnerships body',
