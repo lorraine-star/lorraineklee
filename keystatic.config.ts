@@ -3062,8 +3062,6 @@ export default config({
             partnerships_email: fields.text({
               label: 'Partnerships email (shown under the button)',
             }),
-            cta_label: fields.text({ label: 'LinkedIn CTA label (secondary)' }),
-            cta_url: fields.text({ label: 'LinkedIn CTA URL (secondary)' }),
             image: fields.image({
               label: 'Image',
               directory: 'public/images/free-course',
