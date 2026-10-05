@@ -3050,8 +3050,20 @@ export default config({
             intro: fields.text({ label: 'Intro line' }),
             headline: fields.text({ label: 'Headline', multiline: true }),
             closing: fields.text({ label: 'Closing line' }),
-            cta_label: fields.text({ label: 'CTA label' }),
-            cta_url: fields.text({ label: 'CTA URL' }),
+            // The partnerships block is the page's main call to action. The
+            // LinkedIn CTA below it is deliberately the quieter of the two.
+            partnerships_headline: fields.text({ label: 'Partnerships headline' }),
+            partnerships_body: fields.text({
+              label: 'Partnerships body',
+              multiline: true,
+            }),
+            partnerships_cta_label: fields.text({ label: 'Partnerships button label' }),
+            partnerships_cta_url: fields.text({ label: 'Partnerships button URL' }),
+            partnerships_email: fields.text({
+              label: 'Partnerships email (shown under the button)',
+            }),
+            cta_label: fields.text({ label: 'LinkedIn CTA label (secondary)' }),
+            cta_url: fields.text({ label: 'LinkedIn CTA URL (secondary)' }),
             image: fields.image({
               label: 'Image',
               directory: 'public/images/free-course',

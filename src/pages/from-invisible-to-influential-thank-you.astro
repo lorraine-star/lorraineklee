@@ -21,6 +21,16 @@ const safeCta = safeUrl(ty.cta_url);
 const ctaUrl =
   safeCta && safeCta !== '#' ? safeCta : 'https://linkedin.com/in/lorraineklee';
 const isExternal = /^https?:\/\//i.test(ctaUrl);
+
+// Partnerships is the page's primary action. Nearly every tap from this page
+// used to go to LinkedIn, which is the least valuable of the two outcomes, so
+// the speaking enquiry now leads and LinkedIn sits under it as an outline
+// button.
+const partnerUrl = (() => {
+  const safe = safeUrl(ty.partnerships_cta_url);
+  return safe && safe !== '#' ? safe : '/contact';
+})();
+const partnerEmail = ty.partnerships_email;
 ---
 
 <FunnelLayout
@@ -41,14 +51,31 @@ const isExternal = /^https?:\/\//i.test(ctaUrl);
         <h1 class="ty-headline">{ty.headline}</h1>
         <p class="ty-closing">{ty.closing}</p>
         {
+          ty.partnerships_headline && (
+            <div class="ty-partner">
+              <h2 class="ty-partner-headline">{ty.partnerships_headline}</h2>
+              {ty.partnerships_body && <p class="ty-partner-body">{ty.partnerships_body}</p>}
+              <a class="btn primary large ty-cta" href={partnerUrl}>
+                {ty.partnerships_cta_label || "Contact Lorraine's team"}{' '}
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+              {partnerEmail && (
+                <p class="ty-partner-email">
+                  Or reach out to <a href={`mailto:${partnerEmail}`}>{partnerEmail}</a>
+                </p>
+              )}
+            </div>
+          )
+        }
+        {
           ty.cta_label && (
             <a
-              class="btn primary large ty-cta"
+              class="btn outline ty-linkedin"
               href={ctaUrl}
               target={isExternal ? '_blank' : undefined}
               rel={isExternal ? 'noopener noreferrer' : undefined}
             >
-              {ty.cta_label} <span aria-hidden="true">&rarr;</span>
+              {ty.cta_label}
             </a>
           )
         }
@@ -114,6 +141,50 @@ const isExternal = /^https?:\/\//i.test(ctaUrl);
     font-size: clamp(16px, 1.2vw, 18px);
     color: var(--ink-700);
     margin: 0 0 28px;
+  }
+  /* Partnerships block: the primary action on this page. */
+  .ty-partner {
+    margin: 0 0 24px;
+    padding: 28px;
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-2xl);
+    background: var(--surface-alt, #fff);
+  }
+  .ty-partner-headline {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: clamp(22px, 2.2vw, 30px);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--ink-900);
+    margin: 0 0 12px;
+    text-wrap: balance;
+  }
+  .ty-partner-body {
+    font-family: var(--font-sans);
+    font-size: clamp(15px, 1.1vw, 17px);
+    line-height: 1.6;
+    color: var(--ink-700);
+    margin: 0 0 20px;
+  }
+  .ty-partner-email {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--ink-500);
+    margin: 14px 0 0;
+  }
+  .ty-partner-email a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .ty-partner-email a:hover {
+    color: var(--accent);
+  }
+  /* LinkedIn sits below the partnerships block and reads as the quieter
+     option, so the two never compete for the same tap. */
+  .ty-linkedin {
+    display: inline-flex;
   }
   .ty-img {
     width: 100%;
