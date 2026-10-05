@@ -187,10 +187,16 @@ const partnerSocials = socialLinks.filter((s) =>
     display: grid;
     grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.85fr);
     gap: clamp(28px, 4vw, 56px);
-    align-items: start;
+    /* Centred, not top aligned: the copy column is the taller of the two, and
+       hanging the shorter one from the top left a ragged 99px of empty panel
+       under it against 44px under the copy. */
+    align-items: center;
   }
-  .ty-partner-action {
-    padding-top: 2px;
+  /* The button fills its column so the panel has a clean right edge rather
+     than the pill stopping short of it. */
+  .ty-partner-action .ty-cta {
+    width: 100%;
+    justify-content: center;
   }
   .ty-partner-body {
     font-family: var(--font-sans);
