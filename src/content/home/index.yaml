@@ -28,14 +28,15 @@ hero:
       Speaker rating across
       200+ keynotes
 primary_cta:
-  label: Work With Me
+  label: Book me to speak
   url: /contact
-secondary_cta:
-  label: View speaking topics
-  url: /speaking
-tertiary_cta:
-  label: See speaking & keynotes
-  url: /speaking
+hero_links:
+  - label: Speaking topics
+    url: /speaking
+  - label: Free course
+    url: /from-invisible-to-influential
+  - label: Get the book
+    url: /book
 four_ways:
   eyebrow: How I can help
   heading: Four ways we can

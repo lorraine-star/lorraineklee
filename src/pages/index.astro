@@ -34,8 +34,7 @@ if (!home) {
 const {
   hero,
   primary_cta,
-  secondary_cta,
-  tertiary_cta,
+  hero_links,
   four_ways,
   banner,
   free_course,
@@ -54,6 +53,17 @@ const showBanner = banner?.enabled !== false;
 
 // Hero proof stats (250k+, #1). Editable via the home singleton; fall back to
 // the original copy when unset.
+// The three links under the hero button. Destinations match the main
+// navigation: Speaking, Learn > Free Course, and Book.
+const heroLinks = (hero_links && hero_links.length
+  ? hero_links
+  : [
+      { label: 'Speaking topics', url: '/speaking' },
+      { label: 'Free course', url: '/from-invisible-to-influential' },
+      { label: 'Get the book', url: '/book' },
+    ]
+).filter((link) => link?.label && link?.url);
+
 const heroMeta =
   hero?.meta && hero.meta.length
     ? hero.meta
@@ -124,10 +134,11 @@ const courseHref =
             </p>
             <div class="hero-cta-row">
               <a class="btn primary large" href={primary_cta?.url ?? '/contact'}>
-                {primary_cta?.label ?? 'Work With Me'} <span aria-hidden="true">&rarr;</span>
+                {primary_cta?.label ?? 'Book me to speak'} <span aria-hidden="true">&rarr;</span>
               </a>
-              <a class="btn outline" href={secondary_cta?.url ?? '/book'}>{secondary_cta?.label ?? 'Get the Book'}</a>
-              <a class="btn ghost" href={tertiary_cta?.url ?? '/speaking'}>{tertiary_cta?.label ?? 'Watch a keynote clip'}</a>
+            </div>
+            <div class="hero-links">
+              {heroLinks.map((link) => <a href={link.url}>{link.label}</a>)}
             </div>
             <div class="hero-meta">
               {

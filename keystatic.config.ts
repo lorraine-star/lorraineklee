@@ -316,19 +316,18 @@ export default config({
           },
           { label: 'Primary CTA (filled button)' }
         ),
-        secondary_cta: fields.object(
-          {
+        // The hero carries one button and a row of plain text links beneath it.
+        // Add, reorder or rename the links here; the button is the Primary CTA
+        // above.
+        hero_links: fields.array(
+          fields.object({
             label: fields.text({ label: 'Label' }),
             url: fields.text({ label: 'URL' }),
-          },
-          { label: 'Secondary CTA (outline button)' }
-        ),
-        tertiary_cta: fields.object(
+          }),
           {
-            label: fields.text({ label: 'Label' }),
-            url: fields.text({ label: 'URL' }),
-          },
-          { label: 'Tertiary CTA (text link)' }
+            label: 'Hero text links (under the button)',
+            itemLabel: (props) => props.fields.label.value || 'Link',
+          }
         ),
         // "Four ways into the work" cards below the hero. Only the heading and
         // blurb of each card are editable; the four columns, their order,

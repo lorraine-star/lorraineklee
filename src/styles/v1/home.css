@@ -404,6 +404,32 @@ body {
   flex-wrap: wrap;
   align-items: center;
 }
+/* Plain text links under the hero button. The 30px here matches the 30px
+   bottom margin on .hero-sub above the button, so the button sits with equal
+   space on both sides. */
+.hero-links {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 22px;
+}
+.hero-links a {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink-900);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+.hero-links a:hover {
+  color: var(--brand-blue-600);
+}
+.hero-links a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
 .hero-meta {
   margin-top: 30px;
   display: inline-flex;
