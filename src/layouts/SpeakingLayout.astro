@@ -221,10 +221,72 @@ const { title, description, activeId = 'home', image, noindex = false } = Astro.
         }
       }
 
+      // --- Deep links to a single talk. A card carries its own id, so
+      // /speaking#how-to-present-like-a-pro opens that card and scrolls to it.
+      // Cards inside the "See all other talks" disclosure need their ancestor
+      // opened first, otherwise the panel is collapsed and the scroll lands
+      // nowhere.
+      function openFromHash(smooth: boolean) {
+        const id = decodeURIComponent(location.hash.slice(1));
+        if (!id) return;
+        const card = document.getElementById(id);
+        if (!card || !card.matches('.topic-acc')) return;
+
+        const chain: HTMLElement[] = [];
+        let node: HTMLElement | null = card;
+        while (node) {
+          chain.push(node);
+          node = node.parentElement?.closest<HTMLElement>('.topic-acc, .other-talks-acc') ?? null;
+        }
+        // Outermost first, so each panel is measured once its parent is open.
+        chain.reverse().forEach((acc) => {
+          if (acc.dataset.open === 'true') return;
+          const trigger = acc.querySelector<HTMLElement>(
+            ':scope > .topic-acc-trigger, :scope > .other-talks-trigger'
+          );
+          trigger?.click();
+        });
+
+        // Wait for the open transition before scrolling, or the target moves
+        // under the scroll.
+        setTimeout(() => {
+          card.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+          card.classList.add('anchor-pulse');
+          setTimeout(() => card.classList.remove('anchor-pulse'), 1400);
+        }, 260);
+      }
+
+      // --- Copy a link straight to one talk.
+      function setupCopyLinks() {
+        document.querySelectorAll<HTMLButtonElement>('.topic-copy-link').forEach((btn) => {
+          btn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            e.stopPropagation();          // never toggle the card underneath
+            const id = btn.dataset.copyTarget;
+            if (!id) return;
+            const url = location.origin + location.pathname + '#' + id;
+            const label = btn.querySelector('.topic-copy-label');
+            const previous = label?.textContent ?? 'Copy link';
+            try {
+              await navigator.clipboard.writeText(url);
+              if (label) label.textContent = 'Copied';
+            } catch {
+              // Clipboard can be blocked; still give the person the URL.
+              history.replaceState(null, '', '#' + id);
+              if (label) label.textContent = 'Link in address bar';
+            }
+            setTimeout(() => { if (label) label.textContent = previous; }, 1800);
+          });
+        });
+      }
+
       initReveals();
       setupCounts();
       setupAnchors();
       setupAccordions();
+      setupCopyLinks();
+      openFromHash(false);
+      window.addEventListener('hashchange', () => openFromHash(true));
     </script>
   </body>
 </html>

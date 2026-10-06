@@ -84,6 +84,17 @@ const linkedinTestimonialsLabel =
 	testimonials_section?.linkedin_cta_label ||
 	'View 250+ glowing testimonials on LinkedIn';
 
+// Stable anchor for each talk so a single card can be linked to directly.
+// Prefers an explicit slug from the CMS; otherwise derives one from the title,
+// which keeps older links working as long as the title does not change.
+const talkSlug = (t: { slug?: string | null; title?: string | null }) =>
+  (t.slug && t.slug.trim()) ||
+  String(t.title ?? '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 60);
+
 const clientLogos = past_clients ?? [];
 ---
 
@@ -300,8 +311,9 @@ const clientLogos = past_clients ?? [];
 						const hasTakeaways = (t.takeaways ?? []).length > 0;
 						const paragraphs = toParagraphs(t.description);
 						const trackUrl = talkTrackHref(t.talk_track_url);
+						const cardId = talkSlug(t);
 						return (
-							<div class="topic-card topic-acc" data-open="false">
+							<div class="topic-card topic-acc" id={cardId} data-open="false">
 								{t.gif && (
 									<div class="topic-media">
 										<img
@@ -330,6 +342,24 @@ const clientLogos = past_clients ?? [];
 									{t.note && <p class="topic-note">{t.note}</p>}
 									<div class="topic-meta">
 										<span>{t.format}</span>
+										<button
+											type="button"
+											class="topic-copy-link"
+											data-copy-target={cardId}
+											aria-label={`Copy a link to ${t.title}`}
+											title="Copy a link straight to this talk"
+										>
+											<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
+												<path
+													d="M6.5 9.5a3 3 0 0 0 4.24 0l2-2a3 3 0 1 0-4.24-4.25l-.7.71M9.5 6.5a3 3 0 0 0-4.24 0l-2 2a3 3 0 1 0 4.24 4.25l.7-.71"
+													fill="none"
+													stroke="currentColor"
+													stroke-width="1.6"
+													stroke-linecap="round"
+												/>
+											</svg>
+											<span class="topic-copy-label">Copy link</span>
+										</button>
 										<span class="topic-toggle" style="margin-left: auto;">
 											Details
 											<span class="trigger-chevron" aria-hidden="true">
@@ -417,8 +447,9 @@ const clientLogos = past_clients ?? [];
 							const hasTakeaways = (talk.takeaways ?? []).length > 0;
 							const paragraphs = toParagraphs(talk.description);
 							const trackUrl = talkTrackHref(talk.talk_track_url);
+							const cardId = talkSlug(talk);
 							return (
-								<div class="topic-card topic-acc other-talk-card" data-open="false">
+								<div class="topic-card topic-acc other-talk-card" id={cardId} data-open="false">
 									{talk.gif && (
 										<div class="topic-media">
 											<img
@@ -448,6 +479,24 @@ const clientLogos = past_clients ?? [];
 										{talk.note && <p class="topic-note">{talk.note}</p>}
 										<div class="topic-meta">
 											{talk.format && <span>{talk.format}</span>}
+											<button
+												type="button"
+												class="topic-copy-link"
+												data-copy-target={cardId}
+												aria-label={`Copy a link to ${talk.title}`}
+												title="Copy a link straight to this talk"
+											>
+												<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
+													<path
+														d="M6.5 9.5a3 3 0 0 0 4.24 0l2-2a3 3 0 1 0-4.24-4.25l-.7.71M9.5 6.5a3 3 0 0 0-4.24 0l-2 2a3 3 0 1 0 4.24 4.25l.7-.71"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="1.6"
+														stroke-linecap="round"
+													/>
+												</svg>
+												<span class="topic-copy-label">Copy link</span>
+											</button>
 											<span class="topic-toggle" style="margin-left: auto;">
 												Details
 												<span class="trigger-chevron" aria-hidden="true">
