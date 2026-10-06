@@ -193,7 +193,7 @@
 .uyi-page .final::before { content: ""; position: absolute; right: -90px; top: -110px; width: 340px; height: 340px; border-radius: 50%; background: rgba(255,255,255,.09); }
 .uyi-page .final::after { content: ""; position: absolute; right: 150px; bottom: -70px; width: 150px; height: 150px; border-radius: 50%; background: var(--yellow); opacity: .9; }
 .uyi-page .final .wrap { position: relative; z-index: 1; }
-.uyi-page .final h2 { max-width: 16ch; }
+.uyi-page .final h2 { max-width: 16ch; color: #fff; }
 .uyi-page .final p { color: #d3e0ff; max-width: 34em; }
 .uyi-page .final .cta-row { margin-top: 28px; }
 .uyi-page .final .btn-primary { background: var(--yellow); color: #15181f; }
