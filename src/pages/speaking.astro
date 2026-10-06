@@ -47,16 +47,6 @@ const toParagraphs = (text?: string | null): string[] =>
 		.map((p) => p.replace(/\s+/g, ' ').trim())
 		.filter(Boolean);
 
-// Optional per-talk link to that talk's track (CLI-173). safeUrl falls back to
-// the '#' sentinel for unsafe or unparseable values, so treat that as "no link"
-// and render nothing rather than a dead anchor.
-const talkTrackHref = (value?: string | null): string => {
-	const href = safeUrl(value);
-	return href && href !== '#' ? href : '';
-};
-const talkTrackLinkLabel =
-	speaking.talk_track_link_label || 'See the talk track';
-
 // Editors paste share links, which YouTube will not frame; normalize first.
 const reelEmbed = toEmbedUrl(reel_section?.embed_url);
 const heroImage =
@@ -315,7 +305,6 @@ const cardEyebrow = (format?: string | null) =>
 						const panelId = `topic-panel-${i}`;
 						const hasTakeaways = (t.takeaways ?? []).length > 0;
 						const paragraphs = toParagraphs(t.description);
-						const trackUrl = talkTrackHref(t.talk_track_url);
 						const cardId = talkSlug(t);
 						return (
 							<div class="topic-card topic-acc" id={cardId} data-open="false">
@@ -410,12 +399,6 @@ const cardEyebrow = (format?: string | null) =>
 												{speaking.card_cta_label || 'Book this talk'}{' '}
 												<span aria-hidden="true">&rarr;</span>
 											</a>
-											{trackUrl && (
-												<a class="btn ghost" href={trackUrl} data-ga-event="speaking_talk_track" data-ga-label="speaking-talk-track">
-													{talkTrackLinkLabel}{' '}
-													<span aria-hidden="true">&rarr;</span>
-												</a>
-											)}
 										</div>
 									</div>
 								</div>
@@ -447,7 +430,6 @@ const cardEyebrow = (format?: string | null) =>
 							const panelId = `other-talk-panel-${i}`;
 							const hasTakeaways = (talk.takeaways ?? []).length > 0;
 							const paragraphs = toParagraphs(talk.description);
-							const trackUrl = talkTrackHref(talk.talk_track_url);
 							const cardId = talkSlug(talk);
 							return (
 								<div class="topic-card topic-acc other-talk-card" id={cardId} data-open="false">
@@ -540,12 +522,6 @@ const cardEyebrow = (format?: string | null) =>
 													{speaking.card_cta_label || 'Book this talk'}{' '}
 													<span aria-hidden="true">&rarr;</span>
 												</a>
-												{trackUrl && (
-													<a class="btn ghost" href={trackUrl} data-ga-event="speaking_talk_track" data-ga-label="speaking-talk-track">
-														{talkTrackLinkLabel}{' '}
-														<span aria-hidden="true">&rarr;</span>
-													</a>
-												)}
 											</div>
 										</div>
 									</div>
