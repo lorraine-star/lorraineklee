@@ -24,8 +24,29 @@ byline:
     ®, instructor on MasterClass and LinkedIn Learning, and LinkedIn Top Voice
     with more than 340,000 followers.
 testimonials_eyebrow: From readers
-testimonials_heading: ''
-testimonials: []
+testimonials_heading: What readers say.
+testimonials:
+  - quote: >-
+      Since adopting your “weekly email to the boss” practice a few months ago,
+      I have been added to the President's Extended Cabinet at my institution
+      and to the Senior Leadership Team for my division. This came after 23
+      years at the institution, including more than 10 years as a department
+      head.
+    author: M.B.
+    roleOrCompany: Department head, higher education
+  - quote: >-
+      I just want to let you know that I have grown sooooo much as a
+      professional since subscribing to your emails - your “professional”
+      career tips are a LIFESAVER
+    author: T.A.
+    roleOrCompany: Career Bites reader
+  - quote: >-
+      I just had a meeting with our director of manufacturing and as I was
+      explaining some preliminary budget data, I was thinking of you and your
+      advice and twice remembered to say, “do you have any questions?” instead
+      of my usual, “does that make sense to you.” So far, so good!
+    author: J.M.
+    roleOrCompany: ''
 kit_form_id: '5057243'
 form_button_label: Send me Career Bites
 name_placeholder: First Name
