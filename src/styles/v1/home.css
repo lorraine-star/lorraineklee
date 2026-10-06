@@ -1247,6 +1247,31 @@ body {
 .footer-base a:hover { color: var(--accent); }
 .footer-base-links { display: flex; gap: 24px; }
 
+/* Wishly nav redesign: grouped footer links (Footer.astro adds
+   .footer-grid--groups when Site Settings has explore groups). The explore
+   area widens to hold three labelled columns; it stacks on smaller screens. */
+.footer-grid--groups .footer-brand { grid-column: 1 / span 3; }
+.footer-grid--groups .footer-touch { grid-column: 4 / span 3; }
+.footer-grid--groups .footer-explore { grid-column: 7 / span 6; }
+.footer-explore--groups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px 24px;
+}
+@media (max-width: 1100px) {
+  .footer-grid--groups .footer-brand { grid-column: 1 / span 6; }
+  .footer-grid--groups .footer-touch { grid-column: 7 / span 6; }
+  .footer-grid--groups .footer-explore { grid-column: 1 / -1; }
+}
+@media (max-width: 900px) {
+  .footer-grid--groups .footer-brand,
+  .footer-grid--groups .footer-touch,
+  .footer-grid--groups .footer-explore { grid-column: 1 / -1; }
+}
+@media (max-width: 600px) {
+  .footer-explore--groups { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 /* CLI-141: enlarge inline footer link tap targets to >=44px on touch widths
    (where the footer already stacks). Type stays the same size; only the hit
    area grows, so the desktop footer spacing is unchanged. */
