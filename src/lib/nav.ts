@@ -38,7 +38,7 @@ export const mainNavItems: NavItem[] = [
     label: 'Speaking',
     href: '/speaking',
     children: [
-      { label: 'Keynotes and Trainings', href: '/speaking#past-talks' },
+      { label: 'Keynotes and Trainings', href: '/speaking' },
       { label: 'Bio and Headshot', href: '/speaker-bio' },
     ],
   },
