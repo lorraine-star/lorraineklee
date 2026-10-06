@@ -3,6 +3,7 @@ import SpeakingLayout from '../layouts/SpeakingLayout.astro';
 import HomeTestimonialsCarousel from '../components/HomeTestimonialsCarousel';
 import SpeakingAttendeeQuotes from '../components/SpeakingAttendeeQuotes.astro';
 import TrustAsSeenIn from '../components/TrustAsSeenIn.astro';
+import TalkTitleCard from '../components/TalkTitleCard.astro';
 import { reader } from '../lib/keystatic';
 import { getTestimonials, toCarouselCard, toColumnCard } from '../lib/testimonials';
 import { safeUrl, toEmbedUrl } from '../lib/url';
@@ -46,16 +47,6 @@ const toParagraphs = (text?: string | null): string[] =>
 		.map((p) => p.replace(/\s+/g, ' ').trim())
 		.filter(Boolean);
 
-// Optional per-talk link to that talk's track (CLI-173). safeUrl falls back to
-// the '#' sentinel for unsafe or unparseable values, so treat that as "no link"
-// and render nothing rather than a dead anchor.
-const talkTrackHref = (value?: string | null): string => {
-	const href = safeUrl(value);
-	return href && href !== '#' ? href : '';
-};
-const talkTrackLinkLabel =
-	speaking.talk_track_link_label || 'See the talk track';
-
 // Editors paste share links, which YouTube will not frame; normalize first.
 const reelEmbed = toEmbedUrl(reel_section?.embed_url);
 const heroImage =
@@ -84,7 +75,22 @@ const linkedinTestimonialsLabel =
 	testimonials_section?.linkedin_cta_label ||
 	'View 250+ glowing testimonials on LinkedIn';
 
+// Stable anchor for each talk so a single card can be linked to directly.
+// Prefers an explicit slug from the CMS; otherwise derives one from the title,
+// which keeps older links working as long as the title does not change.
+const talkSlug = (t: { slug?: string | null; title?: string | null }) =>
+  (t.slug && t.slug.trim()) ||
+  String(t.title ?? '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 60);
+
 const clientLogos = past_clients ?? [];
+
+// Eyebrow on the branded talk card: "Keynote / Workshop" -> "Keynote · Workshop".
+const cardEyebrow = (format?: string | null) =>
+  (format || 'Keynote').replace(/\s*\/\s*/g, ' · ');
 ---
 
 <SpeakingLayout
@@ -134,10 +140,22 @@ const clientLogos = past_clients ?? [];
 						hero.meta.map((m, i) => (
 							<Fragment>
 								{i > 0 && <div class="divider" aria-hidden="true" />}
-								<div>
-									<div class="num">{m.value}</div>
-									<div class="lbl">{m.label}</div>
-								</div>
+								{m.url ? (
+									<a
+										class="hero-meta-link"
+										href={safeUrl(m.url)}
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										<div class="num">{m.value}</div>
+										<div class="lbl">{m.label}</div>
+									</a>
+								) : (
+									<div>
+										<div class="num">{m.value}</div>
+										<div class="lbl">{m.label}</div>
+									</div>
+								)}
 							</Fragment>
 						))
 					}
@@ -207,7 +225,6 @@ const clientLogos = past_clients ?? [];
 				<h2>
 					{clients_section.heading} <em>{clients_section.heading_accent}</em>
 				</h2>
-				<p class="lead">Trusted by enterprise teams, universities, and communities, and more.</p>
 			</div>
 			<div class="client-grid reveal">
 				{
@@ -288,21 +305,17 @@ const clientLogos = past_clients ?? [];
 						const panelId = `topic-panel-${i}`;
 						const hasTakeaways = (t.takeaways ?? []).length > 0;
 						const paragraphs = toParagraphs(t.description);
-						const trackUrl = talkTrackHref(t.talk_track_url);
+						const cardId = talkSlug(t);
 						return (
-							<div class="topic-card topic-acc" data-open="false">
-								{t.gif && (
-									<div class="topic-media">
-										<img
-											src={t.gif}
-											alt={t.gif_alt || t.title}
-											width="600"
-											height="338"
-											loading="lazy"
-											decoding="async"
-										/>
-									</div>
-								)}
+							<div class="topic-card topic-acc" id={cardId} data-open="false">
+								{/* Branded title card instead of the old webcam capture
+								    (Wishly review). The `gif` field is kept in Keystatic
+								    but no longer rendered. */}
+								<TalkTitleCard
+									title={t.title}
+									eyebrow={cardEyebrow(t.format)}
+									variant={i}
+								/>
 								<div
 									class="topic-acc-trigger"
 									role="button"
@@ -319,6 +332,24 @@ const clientLogos = past_clients ?? [];
 									{t.note && <p class="topic-note">{t.note}</p>}
 									<div class="topic-meta">
 										<span>{t.format}</span>
+										<button
+											type="button"
+											class="topic-copy-link"
+											data-copy-target={cardId}
+											aria-label={`Copy a link to ${t.title}`}
+											title="Copy a link straight to this talk"
+										>
+											<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
+												<path
+													d="M6.5 9.5a3 3 0 0 0 4.24 0l2-2a3 3 0 1 0-4.24-4.25l-.7.71M9.5 6.5a3 3 0 0 0-4.24 0l-2 2a3 3 0 1 0 4.24 4.25l.7-.71"
+													fill="none"
+													stroke="currentColor"
+													stroke-width="1.6"
+													stroke-linecap="round"
+												/>
+											</svg>
+											<span class="topic-copy-label">Copy link</span>
+										</button>
 										<span class="topic-toggle" style="margin-left: auto;">
 											Details
 											<span class="trigger-chevron" aria-hidden="true">
@@ -368,12 +399,6 @@ const clientLogos = past_clients ?? [];
 												{speaking.card_cta_label || 'Book this talk'}{' '}
 												<span aria-hidden="true">&rarr;</span>
 											</a>
-											{trackUrl && (
-												<a class="btn ghost" href={trackUrl} data-ga-event="speaking_talk_track" data-ga-label="speaking-talk-track">
-													{talkTrackLinkLabel}{' '}
-													<span aria-hidden="true">&rarr;</span>
-												</a>
-											)}
 										</div>
 									</div>
 								</div>
@@ -405,21 +430,14 @@ const clientLogos = past_clients ?? [];
 							const panelId = `other-talk-panel-${i}`;
 							const hasTakeaways = (talk.takeaways ?? []).length > 0;
 							const paragraphs = toParagraphs(talk.description);
-							const trackUrl = talkTrackHref(talk.talk_track_url);
+							const cardId = talkSlug(talk);
 							return (
-								<div class="topic-card topic-acc other-talk-card" data-open="false">
-									{talk.gif && (
-										<div class="topic-media">
-											<img
-												src={talk.gif}
-												alt={talk.gif_alt || talk.title}
-												width="600"
-												height="338"
-												loading="lazy"
-												decoding="async"
-											/>
-										</div>
-									)}
+								<div class="topic-card topic-acc other-talk-card" id={cardId} data-open="false">
+									<TalkTitleCard
+										title={talk.title}
+										eyebrow={cardEyebrow(talk.format)}
+										variant={i + topics.length}
+									/>
 									<div
 										class="topic-acc-trigger"
 										role="button"
@@ -437,6 +455,24 @@ const clientLogos = past_clients ?? [];
 										{talk.note && <p class="topic-note">{talk.note}</p>}
 										<div class="topic-meta">
 											{talk.format && <span>{talk.format}</span>}
+											<button
+												type="button"
+												class="topic-copy-link"
+												data-copy-target={cardId}
+												aria-label={`Copy a link to ${talk.title}`}
+												title="Copy a link straight to this talk"
+											>
+												<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
+													<path
+														d="M6.5 9.5a3 3 0 0 0 4.24 0l2-2a3 3 0 1 0-4.24-4.25l-.7.71M9.5 6.5a3 3 0 0 0-4.24 0l-2 2a3 3 0 1 0 4.24 4.25l.7-.71"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="1.6"
+														stroke-linecap="round"
+													/>
+												</svg>
+												<span class="topic-copy-label">Copy link</span>
+											</button>
 											<span class="topic-toggle" style="margin-left: auto;">
 												Details
 												<span class="trigger-chevron" aria-hidden="true">
@@ -486,12 +522,6 @@ const clientLogos = past_clients ?? [];
 													{speaking.card_cta_label || 'Book this talk'}{' '}
 													<span aria-hidden="true">&rarr;</span>
 												</a>
-												{trackUrl && (
-													<a class="btn ghost" href={trackUrl} data-ga-event="speaking_talk_track" data-ga-label="speaking-talk-track">
-														{talkTrackLinkLabel}{' '}
-														<span aria-hidden="true">&rarr;</span>
-													</a>
-												)}
 											</div>
 										</div>
 									</div>

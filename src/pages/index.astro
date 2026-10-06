@@ -34,8 +34,7 @@ if (!home) {
 const {
   hero,
   primary_cta,
-  secondary_cta,
-  tertiary_cta,
+  hero_links,
   four_ways,
   banner,
   free_course,
@@ -52,13 +51,24 @@ const splitLines = (value: string | null | undefined) =>
 // Editable via the home singleton; hidden when `enabled` is false.
 const showBanner = banner?.enabled !== false;
 
-// Hero proof stats (250k+, #1). Editable via the home singleton; fall back to
+// Hero proof stats (500k+, #1). Editable via the home singleton; fall back to
 // the original copy when unset.
+// The three links under the hero button. Destinations match the main
+// navigation and footer: Speaking, Free Course, and The Book.
+const heroLinks = (hero_links && hero_links.length
+  ? hero_links
+  : [
+      { label: 'Speaking topics', url: '/speaking' },
+      { label: 'Free course', url: '/from-invisible-to-influential' },
+      { label: 'Get the book', url: '/book' },
+    ]
+).filter((link) => link?.label && link?.url);
+
 const heroMeta =
   hero?.meta && hero.meta.length
     ? hero.meta
     : [
-        { value: '250k+', label: 'students taught\non LinkedIn Learning' },
+        { value: '500k+', label: 'students taught\non LinkedIn Learning' },
         { value: '#1', label: 'Amazon bestseller\nUnforgettable Presence®' },
       ];
 const photoStat = hero?.photo_stat;
@@ -124,10 +134,11 @@ const courseHref =
             </p>
             <div class="hero-cta-row">
               <a class="btn primary large" href={primary_cta?.url ?? '/contact'}>
-                {primary_cta?.label ?? 'Work With Me'} <span aria-hidden="true">&rarr;</span>
+                {primary_cta?.label ?? 'Book me to speak'} <span aria-hidden="true">&rarr;</span>
               </a>
-              <a class="btn outline" href={secondary_cta?.url ?? '/book'}>{secondary_cta?.label ?? 'Get the Book'}</a>
-              <a class="btn ghost" href={tertiary_cta?.url ?? '/speaking'}>{tertiary_cta?.label ?? 'Watch a keynote clip'}</a>
+            </div>
+            <div class="hero-links">
+              {heroLinks.map((link) => <a href={link.url}>{link.label}</a>)}
             </div>
             <div class="hero-meta">
               {
@@ -258,7 +269,7 @@ const courseHref =
             </h2>
             <p class="course-sub">
               {free_course?.body ||
-                "You're not alone. Get my free 5-day course. The same frameworks I teach leaders at Amazon, Cisco, and Fortune 500 companies. Articulate your value. Make promotions inevitable."}
+                "You're not alone. Get my free 5-day course. The same frameworks I teach leaders at Amazon, Cisco, and Fortune 500 companies. Articulate your value and make it impossible to miss."}
             </p>
             <ul class="course-bullets">
               {courseDays.map((day) => <li>{day}</li>)}

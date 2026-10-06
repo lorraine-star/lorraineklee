@@ -384,16 +384,74 @@ body {
   justify-content: center;
   margin: 0 -8% 0 0;
   width: 130%;
-  min-height: 620px;
+  /* Cap the height rather than setting a floor. At 3/4 the photo stood 786px
+     against a 589px copy column, which left 166px of empty hero below the
+     stats. The image is object-fit: cover, so capping crops it rather than
+     squashing it, and the copy now sets the height of the row. */
+  max-height: 620px;
 }
+/* A hero stat that links out. Keeps the stat's own type and spacing; the
+   underline appears on hover so the row still reads as stats, not navigation. */
+.hero-meta-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  border-radius: 8px;
+}
+.hero-meta-link:hover .num,
+.hero-meta-link:focus-visible .num {
+  color: var(--accent);
+}
+.hero-meta-link:hover .lbl {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.hero-meta-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+/* Copy-link control on a talk card. Sits quietly in the meta row and only
+   gains colour on hover, so it never competes with the Details toggle. */
+.topic-copy-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 14px;
+  padding: 2px 4px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  color: var(--ink-500);
+  border-radius: 6px;
+  transition: color 160ms var(--ease-out);
+}
+.topic-copy-link:hover,
+.topic-copy-link:focus-visible {
+  color: var(--accent);
+}
+.topic-copy-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+@media (max-width: 640px) {
+  .topic-copy-label { display: none; }
+}
+
 .photo-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center top;
   display: block;
-  -webkit-mask-image: radial-gradient(ellipse 60% 65% at 50% 42%, #000 30%, rgba(0,0,0,0.6) 60%, transparent 92%);
-  mask-image: radial-gradient(ellipse 60% 65% at 50% 42%, #000 30%, rgba(0,0,0,0.6) 60%, transparent 92%);
+  /* Soften the rim only. The old ellipse kept its opaque core between 32%
+     and 52% of the frame while Lorraine's head sits at 8%, so her face was
+     in the fade and the top of her head was transparent. This holds solid
+     from about 4% to 89% and fades over the last third of the radius. */
+  -webkit-mask-image: radial-gradient(ellipse 92% 125% at 50% 46%, #000 68%, transparent 100%);
+  mask-image: radial-gradient(ellipse 92% 125% at 50% 46%, #000 68%, transparent 100%);
 }
 .photo-stat {
   position: absolute;
@@ -651,6 +709,31 @@ body {
 .footer-base a { color: var(--fg-muted); text-decoration: none; }
 .footer-base a:hover { color: var(--accent); }
 .footer-base-links { display: flex; gap: 24px; }
+
+/* Wishly nav redesign: grouped footer links (Footer.astro adds
+   .footer-grid--groups when Site Settings has explore groups). The explore
+   area widens to hold three labelled columns; it stacks on smaller screens. */
+.footer-grid--groups .footer-brand { grid-column: 1 / span 3; }
+.footer-grid--groups .footer-touch { grid-column: 4 / span 3; }
+.footer-grid--groups .footer-explore { grid-column: 7 / span 6; }
+.footer-explore--groups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px 24px;
+}
+@media (max-width: 1100px) {
+  .footer-grid--groups .footer-brand { grid-column: 1 / span 6; }
+  .footer-grid--groups .footer-touch { grid-column: 7 / span 6; }
+  .footer-grid--groups .footer-explore { grid-column: 1 / -1; }
+}
+@media (max-width: 900px) {
+  .footer-grid--groups .footer-brand,
+  .footer-grid--groups .footer-touch,
+  .footer-grid--groups .footer-explore { grid-column: 1 / -1; }
+}
+@media (max-width: 600px) {
+  .footer-explore--groups { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
 /* CLI-141: enlarge inline footer link tap targets to >=44px on touch widths
    (where the footer already stacks). Type stays the same size; only the hit

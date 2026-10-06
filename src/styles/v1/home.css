@@ -404,6 +404,32 @@ body {
   flex-wrap: wrap;
   align-items: center;
 }
+/* Plain text links under the hero button. The 30px here matches the 30px
+   bottom margin on .hero-sub above the button, so the button sits with equal
+   space on both sides. */
+.hero-links {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 22px;
+}
+.hero-links a {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink-900);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+.hero-links a:hover {
+  color: var(--brand-blue-600);
+}
+.hero-links a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
 .hero-meta {
   margin-top: 30px;
   display: inline-flex;
@@ -443,10 +469,12 @@ body {
   margin: 0 -8% 0 0;
   width: 130%;
   min-height: 620px;
-  /* CLI-104 polish: align photo top with the hero H1's top line. Using a
-     transform instead of margin so the grid track height stays put and the
-     hero copy doesn't drift downward. */
-  transform: translateY(90px);
+  /* Align the top of Lorraine's head with the hero H1's top line. The 90px
+     here was tuned for an older photo that carried a lot of empty ceiling
+     above her; the current crop leaves only 7%, so the offset comes off.
+     Still a transform rather than a margin, so the grid track height stays
+     put and the hero copy doesn't drift down. */
+  transform: translateY(8px);
 }
 .photo-card img {
   width: 100%;
@@ -454,8 +482,13 @@ body {
   object-fit: cover;
   object-position: center top;
   display: block;
-  -webkit-mask-image: radial-gradient(ellipse 60% 65% at 50% 42%, #000 30%, rgba(0,0,0,0.6) 60%, transparent 92%);
-  mask-image: radial-gradient(ellipse 60% 65% at 50% 42%, #000 30%, rgba(0,0,0,0.6) 60%, transparent 92%);
+  /* Soften only the outer rim. The previous ellipse held its fully opaque
+     core between 32% and 52% of the frame, which put Lorraine's face, at
+     roughly 7% to 30%, inside the fade and washed it out. This one stays
+     solid from about 7% to 81%, so the face is clear, and spends the
+     remaining 38% of the radius fading, which keeps a soft rim. */
+  -webkit-mask-image: radial-gradient(ellipse 90% 120% at 50% 44%, #000 62%, transparent 100%);
+  mask-image: radial-gradient(ellipse 90% 120% at 50% 44%, #000 62%, transparent 100%);
 }
 .photo-bg-shape {
   display: none;
@@ -1213,6 +1246,31 @@ body {
 .footer-base a { color: var(--fg-muted); text-decoration: none; }
 .footer-base a:hover { color: var(--accent); }
 .footer-base-links { display: flex; gap: 24px; }
+
+/* Wishly nav redesign: grouped footer links (Footer.astro adds
+   .footer-grid--groups when Site Settings has explore groups). The explore
+   area widens to hold three labelled columns; it stacks on smaller screens. */
+.footer-grid--groups .footer-brand { grid-column: 1 / span 3; }
+.footer-grid--groups .footer-touch { grid-column: 4 / span 3; }
+.footer-grid--groups .footer-explore { grid-column: 7 / span 6; }
+.footer-explore--groups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px 24px;
+}
+@media (max-width: 1100px) {
+  .footer-grid--groups .footer-brand { grid-column: 1 / span 6; }
+  .footer-grid--groups .footer-touch { grid-column: 7 / span 6; }
+  .footer-grid--groups .footer-explore { grid-column: 1 / -1; }
+}
+@media (max-width: 900px) {
+  .footer-grid--groups .footer-brand,
+  .footer-grid--groups .footer-touch,
+  .footer-grid--groups .footer-explore { grid-column: 1 / -1; }
+}
+@media (max-width: 600px) {
+  .footer-explore--groups { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
 /* CLI-141: enlarge inline footer link tap targets to >=44px on touch widths
    (where the footer already stacks). Type stays the same size; only the hit

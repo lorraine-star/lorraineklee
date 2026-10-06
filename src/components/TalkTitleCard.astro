@@ -1,0 +1,158 @@
+---
+/**
+ * Branded title card for a keynote / talk thumbnail on the Speaking page.
+ *
+ * Replaces the old webcam (Zoom-style) screen captures per the Wishly review:
+ * "Instead of Zoom screenshots for keynote thumbnails, maybe try branded
+ * cards." Pure HTML/CSS using the site's brand tokens (brand blue / yellow,
+ * Playfair Display + Inter) and the primary logo, so there is no image to
+ * design or export and the card always matches the talk title in Keystatic.
+ *
+ * The card sits inside the existing `.topic-media` slot (16:9 frame from
+ * templates.css). It is decorative: the talk title is already the card's
+ * heading, so the art is hidden from screen readers.
+ *
+ * Props:
+ *  - title:    talk title shown on the card
+ *  - eyebrow:  small label above the title (defaults to "Keynote")
+ *  - variant:  0 = blue gradient, 1 = yellow, 2 = soft blue (rotate by index)
+ *  - videoHref: if the thumbnail should link to a video, pass the URL and the
+ *               card renders as a link with a play icon. (No current talk
+ *               thumbnail is a video link, but the option keeps one working.)
+ */
+interface Props {
+  title: string;
+  eyebrow?: string;
+  variant?: number;
+  videoHref?: string;
+}
+
+const { title, eyebrow = 'Keynote', variant = 0, videoHref } = Astro.props;
+const tone = ['blue', 'yellow', 'soft'][((variant % 3) + 3) % 3];
+const Tag = videoHref ? 'a' : 'div';
+const linkProps = videoHref
+  ? {
+      href: videoHref,
+      target: '_blank',
+      rel: 'noopener noreferrer',
+      'aria-label': `Watch ${title}`,
+    }
+  : { 'aria-hidden': 'true' };
+---
+
+<Tag class:list={['topic-media', 'talk-title-card', `talk-title-card--${tone}`]} {...linkProps}>
+  <span class="ttc-eyebrow">{eyebrow}</span>
+  <span class="ttc-title">{title}</span>
+  <span class="ttc-foot">
+    <img class="ttc-logo" src="/images/editorial/logo-primary.png" alt="" width="1165" height="453" loading="lazy" decoding="async" />
+    {videoHref && (
+      <span class="ttc-play" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M8 5v14l11-7z" fill="currentColor" /></svg>
+      </span>
+    )}
+  </span>
+</Tag>
+
+<style>
+  .talk-title-card {
+    container-type: inline-size;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    padding: clamp(16px, 6cqi, 36px);
+    text-decoration: none;
+    isolation: isolate;
+  }
+  /* Decorative rings echoing the logo's stacked-L geometry. */
+  .talk-title-card::before,
+  .talk-title-card::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+  }
+  .talk-title-card::before {
+    width: 70cqi;
+    height: 70cqi;
+    right: -22cqi;
+    top: -30cqi;
+    border: 1.5px solid currentColor;
+    opacity: 0.16;
+  }
+  .talk-title-card::after {
+    width: 40cqi;
+    height: 40cqi;
+    right: -6cqi;
+    top: -14cqi;
+    background: currentColor;
+    opacity: 0.07;
+  }
+
+  .ttc-eyebrow {
+    position: relative;
+    align-self: flex-start;
+    font-family: var(--font-sans);
+    font-size: clamp(10px, 2.6cqi, 13px);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--ttc-accent);
+  }
+  .ttc-title {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: clamp(19px, 7.2cqi, 46px);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    max-width: 92%;
+    text-wrap: balance;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .ttc-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .ttc-logo {
+    height: clamp(16px, 5.4cqi, 30px);
+    width: auto;
+    display: block;
+  }
+  .ttc-play {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(34px, 10cqi, 52px);
+    height: clamp(34px, 10cqi, 52px);
+    border-radius: 50%;
+    background: var(--ttc-accent);
+    color: var(--ink-900);
+  }
+
+  .talk-title-card--blue {
+    background: var(--brand-gradient);
+    color: #fff;
+    --ttc-accent: var(--brand-yellow-500);
+  }
+  /* White logo on the blue card. */
+  .talk-title-card--blue .ttc-logo { filter: brightness(0) invert(1); }
+
+  .talk-title-card--yellow {
+    background: var(--brand-yellow-500);
+    color: var(--ink-900);
+    --ttc-accent: var(--brand-blue-600);
+  }
+  .talk-title-card--yellow .ttc-title { color: var(--brand-blue-900); }
+
+  .talk-title-card--soft {
+    background: linear-gradient(160deg, var(--brand-blue-50) 0%, var(--brand-blue-100) 100%);
+    color: var(--brand-blue-900);
+    --ttc-accent: var(--brand-yellow-500);
+  }
+</style>

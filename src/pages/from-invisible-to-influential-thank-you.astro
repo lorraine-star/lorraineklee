@@ -9,18 +9,28 @@
 import FunnelLayout from '../layouts/FunnelLayout.astro';
 import { reader } from '../lib/keystatic';
 import { safeUrl } from '../lib/url';
+import { socialLinks, iconFor } from '../lib/social';
 
 const fc = await reader.singletons.freeCourse.read();
 if (!fc) {
   throw new Error('Missing free-course content (src/content/free-course/index.yaml)');
 }
 const ty = fc.thank_you;
-// safeUrl() collapses unsafe/invalid values to '#', which is truthy, so guard
-// against it explicitly to keep the LinkedIn fallback meaningful.
-const safeCta = safeUrl(ty.cta_url);
-const ctaUrl =
-  safeCta && safeCta !== '#' ? safeCta : 'https://linkedin.com/in/lorraineklee';
-const isExternal = /^https?:\/\//i.test(ctaUrl);
+// Partnerships is the page's primary action. Nearly every tap from this page
+// used to go to LinkedIn, which is the least valuable of the two outcomes, so
+// the speaking enquiry now leads and LinkedIn sits under it as an outline
+// button.
+const partnerUrl = (() => {
+  const safe = safeUrl(ty.partnerships_cta_url);
+  return safe && safe !== '#' ? safe : '/contact';
+})();
+const partnerEmail = ty.partnerships_email;
+
+// LinkedIn and Instagram come from the canonical list in lib/social, the same
+// source the shared footer uses, so the destinations cannot drift.
+const partnerSocials = socialLinks.filter((s) =>
+  ['linkedin', 'instagram'].includes(s.platform)
+);
 ---
 
 <FunnelLayout
@@ -40,23 +50,51 @@ const isExternal = /^https?:\/\//i.test(ctaUrl);
         <p class="ty-intro">{ty.intro}</p>
         <h1 class="ty-headline">{ty.headline}</h1>
         <p class="ty-closing">{ty.closing}</p>
-        {
-          ty.cta_label && (
-            <a
-              class="btn primary large ty-cta"
-              href={ctaUrl}
-              target={isExternal ? '_blank' : undefined}
-              rel={isExternal ? 'noopener noreferrer' : undefined}
-            >
-              {ty.cta_label} <span aria-hidden="true">&rarr;</span>
-            </a>
-          )
-        }
       </div>
       {
         ty.image && (
           <div class="ty-media fade-up" style="animation-delay: 80ms;">
             <img class="ty-img" src={ty.image} alt={ty.image_alt} decoding="async" />
+          </div>
+        )
+      }
+      {
+        ty.partnerships_headline && (
+          <div class="ty-partner fade-up" style="animation-delay: 140ms;">
+            {ty.partnerships_eyebrow && (
+              <span class="eyebrow ty-partner-eyebrow">{ty.partnerships_eyebrow}</span>
+            )}
+            <h2 class="ty-partner-headline">{ty.partnerships_headline}</h2>
+            <div class="ty-partner-cols">
+              <div class="ty-partner-text">
+                {ty.partnerships_body && <p class="ty-partner-body">{ty.partnerships_body}</p>}
+              </div>
+              <div class="ty-partner-action">
+                <a class="btn primary large ty-cta" href={partnerUrl}>
+                  {ty.partnerships_cta_label || "Contact Lorraine's team"}{' '}
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
+                {partnerEmail && (
+                  <p class="ty-partner-email">
+                    Or reach out to <a href={`mailto:${partnerEmail}`}>{partnerEmail}</a>
+                  </p>
+                )}
+                {partnerSocials.length > 0 && (
+                  <div class="ty-partner-socials">
+                    {partnerSocials.map((sl) => (
+                      <a
+                        class="social-btn"
+                        href={safeUrl(sl.url)}
+                        aria-label={sl.ariaLabel}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        set:html={iconFor(sl.platform)}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         )
       }
@@ -115,6 +153,100 @@ const isExternal = /^https?:\/\//i.test(ctaUrl);
     color: var(--ink-700);
     margin: 0 0 28px;
   }
+  /* Partnerships block: the primary action on this page. It spans the full
+     grid on its own row beneath the copy and the image, so its edges line up
+     with the section above rather than sitting inside the text column. */
+  .ty-partner {
+    grid-column: 1 / -1;
+    margin: 8px 0 0;
+    padding: clamp(28px, 3.4vw, 44px);
+    border: 0;
+    border-radius: var(--radius-2xl);
+    background: var(--brand-gradient);
+    box-shadow: 0 24px 60px rgba(8, 74, 243, 0.28);
+  }
+  .ty-partner-eyebrow {
+    display: block;
+    color: var(--brand-yellow-500);
+    margin-bottom: 12px;
+  }
+  .ty-partner-headline {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: clamp(22px, 2.2vw, 30px);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: #fff;
+    margin: 0 0 12px;
+    text-wrap: balance;
+  }
+  /* Two columns inside the panel. Running the paragraph the full width would
+     push lines past 130 characters, which is tiring to read, so the copy keeps
+     a comfortable measure and the action block fills the rest. */
+  .ty-partner-cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.85fr);
+    gap: clamp(28px, 4vw, 56px);
+    /* Centred, not top aligned: the copy column is the taller of the two, and
+       hanging the shorter one from the top left a ragged 99px of empty panel
+       under it against 44px under the copy. */
+    align-items: center;
+  }
+  /* The button fills its column so the panel has a clean right edge rather
+     than the pill stopping short of it. */
+  .ty-partner-action .ty-cta {
+    width: 100%;
+    justify-content: center;
+  }
+  .ty-partner-body {
+    font-family: var(--font-sans);
+    font-size: clamp(15px, 1.1vw, 17px);
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.92);
+    margin: 0;
+  }
+  .ty-partner-email {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.78);
+    margin: 14px 0 0;
+    text-align: center;
+  }
+  .ty-partner-email a {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .ty-partner-email a:hover {
+    color: var(--brand-yellow-500);
+  }
+  /* Yellow button on the blue panel: the strongest contrast pair in the
+     palette, and it puts the accent on the thing being clicked. */
+  .ty-partner .ty-cta {
+    background: var(--brand-yellow-500);
+    color: #121212;
+  }
+  .ty-partner .ty-cta:hover {
+    background: var(--brand-yellow-400);
+  }
+  .ty-partner .social-btn {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.35);
+    color: #fff;
+  }
+  .ty-partner .social-btn:hover {
+    background: #fff;
+    color: var(--brand-blue-600);
+  }
+  /* Follow links sit under the email line as icons, so they stay available
+     without competing with the enquiry button above them. */
+  .ty-partner-socials {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 18px;
+    justify-content: center;
+  }
   .ty-img {
     width: 100%;
     height: auto;
@@ -132,6 +264,27 @@ const isExternal = /^https?:\/\//i.test(ctaUrl);
       order: 1;
       max-width: 420px;
       margin: 0 auto;
+    }
+    .ty-partner {
+      order: 3;
+    }
+    /* minmax(0, 1fr) rather than 1fr: a plain 1fr track refuses to shrink
+       below its content's minimum, and the button's single line of spaced
+       capitals is 315px wide, which pushed the whole column past the panel's
+       right padding. The button is also allowed to wrap and given tighter
+       side padding so it can never force the overflow again. */
+    .ty-partner-cols {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+    }
+    .ty-partner {
+      padding: 24px;
+    }
+    .ty-partner .ty-cta {
+      white-space: normal;
+      padding-left: 18px;
+      padding-right: 18px;
+      text-align: center;
     }
   }
 </style>

@@ -11,7 +11,19 @@ export interface NavItem {
   children?: NavChild[];
 }
 
-// Route map (CLI-130): nav reflects Lorraine's May 28 IA feedback.
+// Wishly nav redesign (Oct 2026): six flat destinations plus the "Book
+// Lorraine" button (the Contact item renders as that CTA in EditorialNav), and
+// no dropdowns. Following the Wishly review: Courses is promoted to the top
+// level, the three Thought Leadership pages sit behind one "Media" link (the
+// /thought-leadership hub already indexes interviews, press and articles),
+// Awards links to the awards section on About, and Home is the logo. Links
+// that left the top bar (Bio and Headshot, Testimonials, Free Course,
+// Newsletter, Learn, Guest Interviews, Featured In, Authored Articles) live in
+// the grouped footer (siteSettings.footer.explore_groups) and inside the
+// relevant pages, so no page lost its link. The live nav is read from
+// src/content/site-settings/index.yaml; this array is the fallback.
+//
+// Earlier history, route map (CLI-130): nav reflected Lorraine's May 28 IA feedback.
 // - "Work With Me" removed; Speaking already has its own top-level link and
 //   Coaching/Consulting are no longer surfaced in the nav.
 // - Every children-having parent label is a real link to its `href`. The
@@ -32,46 +44,12 @@ export interface NavItem {
 // the old `/speaking#bio` fragment had no matching anchor on the Speaking
 // page, so it just dumped users at the top of /speaking.
 export const mainNavItems: NavItem[] = [
-  { id: 'home', label: 'Home', href: '/' },
-  {
-    id: 'speaking',
-    label: 'Speaking',
-    href: '/speaking',
-    children: [
-      { label: 'Keynotes and Trainings', href: '/speaking#past-talks' },
-      { label: 'Bio and Headshot', href: '/speaker-bio' },
-    ],
-  },
-  {
-    id: 'thought-leadership',
-    label: 'Thought Leadership',
-    href: '/thought-leadership',
-    children: [
-      { label: 'Guest Interviews', href: '/interviews' },
-      { label: 'Featured In', href: '/featured-in' },
-      { label: 'Authored Articles', href: '/articles' },
-    ],
-  },
-  {
-    id: 'learn',
-    label: 'Learn',
-    href: '/learn',
-    children: [
-      { label: 'Free Course', href: '/from-invisible-to-influential' },
-      { label: 'Learning Courses', href: '/courses' },
-      { label: 'Newsletter', href: '/subscribe/' },
-    ],
-  },
-  {
-    id: 'about',
-    label: 'About',
-    href: '/about',
-    children: [
-      { label: 'Awards and Accolades', href: '/about#awards' },
-      { label: 'Testimonials', href: '/testimonials' },
-    ],
-  },
-  { id: 'book', label: 'Book', href: '/book' },
+  { id: 'speaking', label: 'Speaking', href: '/speaking' },
+  { id: 'courses', label: 'Courses', href: '/courses' },
+  { id: 'book', label: 'The Book', href: '/book' },
+  { id: 'about', label: 'About', href: '/about' },
+  { id: 'thought-leadership', label: 'Media', href: '/thought-leadership' },
+  { id: 'awards', label: 'Awards', href: '/about#awards' },
   { id: 'contact', label: 'Contact', href: '/contact' },
 ];
 

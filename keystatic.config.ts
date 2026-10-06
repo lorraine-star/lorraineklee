@@ -124,7 +124,33 @@ export default config({
               }),
               {
                 label: 'Explore links',
+                description:
+                  'Single-column link list. Ignored when Explore link groups below has any groups.',
                 itemLabel: (props) => props.fields.label.value || 'Link',
+              }
+            ),
+            // Wishly nav redesign: links that left the top nav (Bio and
+            // Headshot, Testimonials, Free Course, Newsletter, the three media
+            // pages) live here in labelled groups so every page stays reachable.
+            explore_groups: fields.array(
+              fields.object({
+                heading: fields.text({ label: 'Group heading' }),
+                links: fields.array(
+                  fields.object({
+                    label: fields.text({ label: 'Label' }),
+                    href: fields.text({ label: 'Link' }),
+                  }),
+                  {
+                    label: 'Links',
+                    itemLabel: (props) => props.fields.label.value || 'Link',
+                  }
+                ),
+              }),
+              {
+                label: 'Explore link groups',
+                description:
+                  'Grouped footer links, each with its own small heading. When any group exists, these replace the single Explore list.',
+                itemLabel: (props) => props.fields.heading.value || 'Group',
               }
             ),
             legal_entity: fields.text({
@@ -316,19 +342,18 @@ export default config({
           },
           { label: 'Primary CTA (filled button)' }
         ),
-        secondary_cta: fields.object(
-          {
+        // The hero carries one button and a row of plain text links beneath it.
+        // Add, reorder or rename the links here; the button is the Primary CTA
+        // above.
+        hero_links: fields.array(
+          fields.object({
             label: fields.text({ label: 'Label' }),
             url: fields.text({ label: 'URL' }),
-          },
-          { label: 'Secondary CTA (outline button)' }
-        ),
-        tertiary_cta: fields.object(
+          }),
           {
-            label: fields.text({ label: 'Label' }),
-            url: fields.text({ label: 'URL' }),
-          },
-          { label: 'Tertiary CTA (text link)' }
+            label: 'Hero text links (under the button)',
+            itemLabel: (props) => props.fields.label.value || 'Link',
+          }
         ),
         // "Four ways into the work" cards below the hero. Only the heading and
         // blurb of each card are editable; the four columns, their order,
@@ -774,6 +799,10 @@ export default config({
               fields.object({
                 value: fields.text({ label: 'Value' }),
                 label: fields.text({ label: 'Label', multiline: true }),
+                url: fields.text({
+                  label: 'Link (optional)',
+                  description: 'If set, the stat becomes a link.',
+                }),
               }),
               {
                 label: 'Hero meta stats',
@@ -836,9 +865,9 @@ export default config({
                 'Small chip on the card, e.g. "Most Popular" or "#2 Most Popular". Leave blank for none.',
             }),
             gif: fields.text({
-              label: 'Animated clip (optional)',
+              label: 'Animated clip (optional, not shown)',
               description:
-                'Path to the animated WebP clip shown on the card, e.g. "/images/speaking/keynotes/exec-presence.webp".',
+                'Not shown right now: talk cards display a branded title card built from the title. Kept so the old clip can be restored, e.g. "/images/speaking/keynotes/exec-presence.webp".',
             }),
             gif_alt: fields.text({ label: 'Animated clip alt text' }),
             description: fields.text({
@@ -918,9 +947,9 @@ export default config({
             note: fields.text({ label: 'Context note (optional)' }),
             format: fields.text({ label: 'Format (optional)' }),
             gif: fields.text({
-              label: 'Animated clip (optional)',
+              label: 'Animated clip (optional, not shown)',
               description:
-                'Path to the animated WebP clip, e.g. "/images/speaking/keynotes/tea-method.webp".',
+                'Not shown right now: talk cards display a branded title card built from the title. Kept so the old clip can be restored, e.g. "/images/speaking/keynotes/tea-method.webp".',
             }),
             gif_alt: fields.text({ label: 'Animated clip alt text' }),
             description: fields.text({
@@ -3051,8 +3080,19 @@ export default config({
             intro: fields.text({ label: 'Intro line' }),
             headline: fields.text({ label: 'Headline', multiline: true }),
             closing: fields.text({ label: 'Closing line' }),
-            cta_label: fields.text({ label: 'CTA label' }),
-            cta_url: fields.text({ label: 'CTA URL' }),
+            // The partnerships block is the page's main call to action. The
+            // LinkedIn CTA below it is deliberately the quieter of the two.
+            partnerships_eyebrow: fields.text({ label: 'Partnerships eyebrow' }),
+            partnerships_headline: fields.text({ label: 'Partnerships headline' }),
+            partnerships_body: fields.text({
+              label: 'Partnerships body',
+              multiline: true,
+            }),
+            partnerships_cta_label: fields.text({ label: 'Partnerships button label' }),
+            partnerships_cta_url: fields.text({ label: 'Partnerships button URL' }),
+            partnerships_email: fields.text({
+              label: 'Partnerships email (shown under the button)',
+            }),
             image: fields.image({
               label: 'Image',
               directory: 'public/images/free-course',

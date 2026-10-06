@@ -16,7 +16,7 @@ hero:
   name_placeholder: First Name
   email_placeholder: Enter your best email
   form_button_label: SEND ME THE COURSE
-  stat_value: 250k+
+  stat_value: 500k+
   stat_label: |-
     professionals taught
     across LinkedIn Learning
@@ -164,8 +164,8 @@ final:
   heading: Ready to go from ==invisible to influential?==
   lede: >-
     Get my free 5-day course, the same frameworks I teach leaders at Amazon,
-    Cisco, and Fortune 500 companies. Articulate your value. Make promotions
-    inevitable.
+    Cisco, and Fortune 500 companies. Articulate your value and make it
+    impossible to miss.
   opt_in_eyebrow: Start day 1 today
   opt_in_title: Where should I send the course?
   fineprint: No spam. Unsubscribe anytime.
@@ -178,7 +178,19 @@ thank_you:
     clearly and confidently, so the right people finally see what you're capable
     of.
   closing: See you in your inbox, Lorraine 💙
-  cta_label: FOLLOW LORRAINE ON LINKEDIN
-  cta_url: https://linkedin.com/in/lorraineklee
+  partnerships_headline: Bring Unforgettable Presence® to your team
+  partnerships_eyebrow: Speaking & team training
+  partnerships_body: >-
+    Unforgettable Presence® is my signature training program for teams and
+    organizations. Built on the same frameworks and strategies that've taught
+    over 500,000 professionals worldwide, it goes beyond a one-off keynote:
+    your team learns the skills, then keeps practicing them with follow-up
+    coaching and feedback. Your people develop a stronger executive presence
+    and become more confident, compelling speakers and presenters - in every
+    meeting, room, and stage they walk into. Reach out to my partnerships team
+    to bring the program to your organization.
+  partnerships_cta_label: Contact Lorraine's team
+  partnerships_cta_url: /contact
+  partnerships_email: lorraine@wishlygroup.ca
   image: /images/free-course/thank_you/image.jpg
   image_alt: Lorraine K. Lee

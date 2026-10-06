@@ -1,137 +1,418 @@
 footer:
+
   tagline_before: 'Helping leaders build an '
+  
   tagline_emphasis: unforgettable
+  
   tagline_after: ' presence.'
+  
   socials:
+  
     - platform: linkedin
+    
       label: LinkedIn
+      
       url: https://linkedin.com/in/lorraineklee
+      
     - platform: instagram
+    
       label: Instagram
+      
       url: https://instagram.com/lorraineklee
+      
     - platform: youtube
+    
       label: YouTube
+      
       url: https://youtube.com/@lorraineklee
+      
   contact_heading: Get in touch
+  
   contact_blurb: Speaking and coaching inquiries use the contact form.
+  
   contact_links:
+  
     - label: Contact Lorraine
+    
       href: /contact
+      
     - label: press@lorraineklee.com
+    
       href: mailto:press@lorraineklee.com
+      
   explore_heading: Explore
-  explore_links:
-    - label: About
-      href: /about
-    - label: Speaking
-      href: /speaking
-    - label: Learn
-      href: /learn
-    - label: The Book
-      href: /book
-    - label: Contact
-      href: /contact
-  legal_entity: Lorraine K. Lee · RISE Learning Solutions Corp.
-  legal_links:
-    - label: Terms and Conditions
-      href: /terms-privacy-legal/
-    - label: Privacy Policy
-      href: /privacy-policy/
-    - label: Contact
-      href: /contact
-nav:
-  items:
-    - id: home
-      label: Home
-      href: /
-      children: []
-    - id: speaking
-      label: Speaking
-      href: /speaking
-      children:
-        - label: Keynotes and Trainings
-          href: /speaking#past-talks
+
+  explore_links: []
+
+  explore_groups:
+
+    - heading: Work with me
+
+      links:
+
+        - label: Speaking
+
+          href: /speaking
+
         - label: Bio and Headshot
+
           href: /speaker-bio
-    - id: thought-leadership
-      label: Thought Leadership
-      href: /thought-leadership
-      children:
-        - label: Guest Interviews
-          href: /interviews
-        - label: Featured In
-          href: /featured-in
-        - label: Authored Articles
-          href: /articles
-    - id: learn
-      label: Learn
-      href: /learn
-      children:
-        - label: Free Course
-          href: /from-invisible-to-influential
-        - label: Learning Courses
-          href: /courses
-        - label: Newsletter
-          href: /subscribe/
-    - id: about
-      label: About
-      href: /about
-      children:
-        - label: Awards and Accolades
-          href: /about#awards
+
         - label: Testimonials
+
           href: /testimonials
-    - id: book
-      label: Book
-      href: /book
-      children: []
-    - id: contact
-      label: Contact
+
+        - label: Contact
+
+          href: /contact
+
+    - heading: Learn
+
+      links:
+
+        - label: Courses
+
+          href: /courses
+
+        - label: Free Course
+
+          href: /from-invisible-to-influential
+
+        - label: Learn with Lorraine
+
+          href: /learn
+
+        - label: Newsletter
+
+          href: /subscribe/
+
+        - label: The Book
+
+          href: /book
+
+    - heading: About
+
+      links:
+
+        - label: About Lorraine
+
+          href: /about
+
+        - label: Awards and Accolades
+
+          href: /about#awards
+
+        - label: Media
+
+          href: /thought-leadership
+
+        - label: Guest Interviews
+
+          href: /interviews
+
+        - label: Featured In
+
+          href: /featured-in
+
+        - label: Authored Articles
+
+          href: /articles
+
+  legal_entity: Lorraine K. Lee · RISE Learning Solutions Corp.
+  
+  legal_links:
+  
+    - label: Terms and Conditions
+    
+      href: /terms-privacy-legal/
+      
+    - label: Privacy Policy
+    
+      href: /privacy-policy/
+      
+    - label: Contact
+    
       href: /contact
+      
+nav:
+
+  items:
+
+    - id: speaking
+
+      label: Speaking
+
+      href: /speaking
+
       children: []
-  cta_label: Contact
+
+    - id: courses
+
+      label: Courses
+
+      href: /courses
+
+      children: []
+
+    - id: book
+
+      label: The Book
+
+      href: /book
+
+      children: []
+
+    - id: about
+
+      label: About
+
+      href: /about
+
+      children: []
+
+    - id: thought-leadership
+
+      label: Media
+
+      href: /thought-leadership
+
+      children: []
+
+    - id: awards
+
+      label: Awards
+
+      href: /about#awards
+
+      children: []
+
+    - id: contact
+
+      label: Contact
+
+      href: /contact
+
+      children: []
+
+  cta_label: Book Lorraine
+
   cta_href: /contact
+
 banner:
+
   enabled: true
+  
   text_strong: 'Free 5-day course:'
+  
   text: Invisible to Influential
+  
   href: /from-invisible-to-influential
+  
 press:
+
   eyebrow: As Seen In
+  
   logos:
+  
     - id: inc
+    
       name: Inc.
+      
       src: /images/v1/press/press/logos/0/src.svg
+      
       scale: 1
+      
     - id: bloomberg
+    
       name: Bloomberg
+      
       src: /images/v1/press/press/logos/1/src.svg
+      
       scale: 1
+      
     - id: fast-company
+    
       name: Fast Company
+      
       src: /images/v1/press/press/logos/2/src.png
+      
       scale: 1
+      
     - id: cnbc
+    
       name: CNBC
+      
       src: /images/v1/press/press/logos/3/src.png
+      
       scale: 1.3
+      
     - id: business-insider
+    
       name: Business Insider
+      
       src: /images/v1/press/press/logos/4/src.svg
+      
       scale: 1
+      
     - id: fox5
+    
       name: Fox 5 Washington DC
+      
       src: /images/v1/press/press/logos/5/src.png
+      
       scale: 1
+      
     - id: cnn
+    
       name: CNN
+      
       src: /images/v1/press/press/logos/6/src.svg
+      
       scale: 1
+      
     - id: nbc4
+    
       name: NBC 4
+      
       src: /images/v1/press/press/logos/7/src.svg
+      
       scale: 1.4
+      
     - id: financial-times
+    
       name: Financial Times
-      src: /images/featured-in/logos/financial-times.svg
+      
+      src: /images/v1/press/press/logos/8/src.svg
+      
       scale: 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
