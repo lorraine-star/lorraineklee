@@ -268,9 +268,23 @@ const partnerSocials = socialLinks.filter((s) =>
     .ty-partner {
       order: 3;
     }
+    /* minmax(0, 1fr) rather than 1fr: a plain 1fr track refuses to shrink
+       below its content's minimum, and the button's single line of spaced
+       capitals is 315px wide, which pushed the whole column past the panel's
+       right padding. The button is also allowed to wrap and given tighter
+       side padding so it can never force the overflow again. */
     .ty-partner-cols {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
       gap: 24px;
+    }
+    .ty-partner {
+      padding: 24px;
+    }
+    .ty-partner .ty-cta {
+      white-space: normal;
+      padding-left: 18px;
+      padding-right: 18px;
+      text-align: center;
     }
   }
 </style>
