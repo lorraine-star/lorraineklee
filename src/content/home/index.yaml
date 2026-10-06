@@ -49,16 +49,20 @@ four_ways:
   column_2:
     heading: Unforgettable Presence®
     blurb: >-
-      The go-to presence book for rising and senior leaders at Fortune 500
-      organizations.
+      The #1 Amazon bestseller and Next Big Idea Club must-read for rising and
+      senior leaders who want to get seen and gain influence.
   column_3:
     heading: Courses
     blurb: >-
-      On-demand and live training available on LinkedIn Learning, Stanford, and
-      MasterClass.
+      Live and on-demand training on LinkedIn Learning, Stanford, and
+      MasterClass. 500,000+ LinkedIn Learning students, with courses rated 4.7+
+      stars.
   column_4:
     heading: Custom programs
-    blurb: Team training that turns strong contributors into standout leaders.
+    blurb: >-
+      Team training that turns strong contributors into standout leaders.
+      Amazon, Google, Cisco, and LinkedIn have all brought me in to train their
+      teams.
 banner:
   enabled: true
   prefix: From
@@ -73,7 +77,7 @@ free_course:
   body: >-
     You're not alone. Get my free 5-day course to learn the same frameworks I
     teach leaders at Amazon, Cisco, and other Fortune 500 companies. Articulate
-    your value. Make promotions inevitable.
+    your value and make it impossible to miss.
   bullets:
     - Day 1 · Articulate your value so people actually listen
     - Day 2 · Show up on LinkedIn so opportunities come to you

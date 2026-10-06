@@ -31,8 +31,9 @@
     { "source": "/keynote-category/featured", "destination": "/speaking", "permanent": true },
     { "source": "/keynote-category/most-popular", "destination": "/speaking", "permanent": true },
 
-    { "source": "/keynote/9-essential-tips-for-more-effective-hybrid-and-virtual-meetings", "destination": "/keynotes/9-essential-tips-for-more-effective-hybrid-and-virtual-meetings", "permanent": true },
-    { "source": "/keynotes_v2/9-essential-tips-for-more-effective-hybrid-and-virtual-meetings", "destination": "/keynotes/9-essential-tips-for-more-effective-hybrid-and-virtual-meetings", "permanent": true },
+    { "source": "/keynotes/9-essential-tips-for-more-effective-hybrid-and-virtual-meetings", "destination": "/keynotes/make-every-meeting-count", "permanent": true },
+    { "source": "/keynote/9-essential-tips-for-more-effective-hybrid-and-virtual-meetings", "destination": "/keynotes/make-every-meeting-count", "permanent": true },
+    { "source": "/keynotes_v2/9-essential-tips-for-more-effective-hybrid-and-virtual-meetings", "destination": "/keynotes/make-every-meeting-count", "permanent": true },
 
     { "source": "/keynote/communicate-with-confidence-in-a-virtual-world", "destination": "/keynotes/communicate-with-confidence-in-a-virtual-world", "permanent": true },
 

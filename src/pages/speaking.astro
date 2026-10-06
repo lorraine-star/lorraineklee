@@ -3,6 +3,7 @@ import SpeakingLayout from '../layouts/SpeakingLayout.astro';
 import HomeTestimonialsCarousel from '../components/HomeTestimonialsCarousel';
 import SpeakingAttendeeQuotes from '../components/SpeakingAttendeeQuotes.astro';
 import TrustAsSeenIn from '../components/TrustAsSeenIn.astro';
+import TalkTitleCard from '../components/TalkTitleCard.astro';
 import { reader } from '../lib/keystatic';
 import { getTestimonials, toCarouselCard, toColumnCard } from '../lib/testimonials';
 import { safeUrl, toEmbedUrl } from '../lib/url';
@@ -96,6 +97,10 @@ const talkSlug = (t: { slug?: string | null; title?: string | null }) =>
     .slice(0, 60);
 
 const clientLogos = past_clients ?? [];
+
+// Eyebrow on the branded talk card: "Keynote / Workshop" -> "Keynote · Workshop".
+const cardEyebrow = (format?: string | null) =>
+  (format || 'Keynote').replace(/\s*\/\s*/g, ' · ');
 ---
 
 <SpeakingLayout
@@ -314,18 +319,14 @@ const clientLogos = past_clients ?? [];
 						const cardId = talkSlug(t);
 						return (
 							<div class="topic-card topic-acc" id={cardId} data-open="false">
-								{t.gif && (
-									<div class="topic-media">
-										<img
-											src={t.gif}
-											alt={t.gif_alt || t.title}
-											width="600"
-											height="338"
-											loading="lazy"
-											decoding="async"
-										/>
-									</div>
-								)}
+								{/* Branded title card instead of the old webcam capture
+								    (Wishly review). The `gif` field is kept in Keystatic
+								    but no longer rendered. */}
+								<TalkTitleCard
+									title={t.title}
+									eyebrow={cardEyebrow(t.format)}
+									variant={i}
+								/>
 								<div
 									class="topic-acc-trigger"
 									role="button"
@@ -450,18 +451,11 @@ const clientLogos = past_clients ?? [];
 							const cardId = talkSlug(talk);
 							return (
 								<div class="topic-card topic-acc other-talk-card" id={cardId} data-open="false">
-									{talk.gif && (
-										<div class="topic-media">
-											<img
-												src={talk.gif}
-												alt={talk.gif_alt || talk.title}
-												width="600"
-												height="338"
-												loading="lazy"
-												decoding="async"
-											/>
-										</div>
-									)}
+									<TalkTitleCard
+										title={talk.title}
+										eyebrow={cardEyebrow(talk.format)}
+										variant={i + topics.length}
+									/>
 									<div
 										class="topic-acc-trigger"
 										role="button"

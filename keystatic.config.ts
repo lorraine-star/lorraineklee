@@ -124,7 +124,33 @@ export default config({
               }),
               {
                 label: 'Explore links',
+                description:
+                  'Single-column link list. Ignored when Explore link groups below has any groups.',
                 itemLabel: (props) => props.fields.label.value || 'Link',
+              }
+            ),
+            // Wishly nav redesign: links that left the top nav (Bio and
+            // Headshot, Testimonials, Free Course, Newsletter, the three media
+            // pages) live here in labelled groups so every page stays reachable.
+            explore_groups: fields.array(
+              fields.object({
+                heading: fields.text({ label: 'Group heading' }),
+                links: fields.array(
+                  fields.object({
+                    label: fields.text({ label: 'Label' }),
+                    href: fields.text({ label: 'Link' }),
+                  }),
+                  {
+                    label: 'Links',
+                    itemLabel: (props) => props.fields.label.value || 'Link',
+                  }
+                ),
+              }),
+              {
+                label: 'Explore link groups',
+                description:
+                  'Grouped footer links, each with its own small heading. When any group exists, these replace the single Explore list.',
+                itemLabel: (props) => props.fields.heading.value || 'Group',
               }
             ),
             legal_entity: fields.text({
@@ -839,9 +865,9 @@ export default config({
                 'Small chip on the card, e.g. "Most Popular" or "#2 Most Popular". Leave blank for none.',
             }),
             gif: fields.text({
-              label: 'Animated clip (optional)',
+              label: 'Animated clip (optional, not shown)',
               description:
-                'Path to the animated WebP clip shown on the card, e.g. "/images/speaking/keynotes/exec-presence.webp".',
+                'Not shown right now: talk cards display a branded title card built from the title. Kept so the old clip can be restored, e.g. "/images/speaking/keynotes/exec-presence.webp".',
             }),
             gif_alt: fields.text({ label: 'Animated clip alt text' }),
             description: fields.text({
@@ -921,9 +947,9 @@ export default config({
             note: fields.text({ label: 'Context note (optional)' }),
             format: fields.text({ label: 'Format (optional)' }),
             gif: fields.text({
-              label: 'Animated clip (optional)',
+              label: 'Animated clip (optional, not shown)',
               description:
-                'Path to the animated WebP clip, e.g. "/images/speaking/keynotes/tea-method.webp".',
+                'Not shown right now: talk cards display a branded title card built from the title. Kept so the old clip can be restored, e.g. "/images/speaking/keynotes/tea-method.webp".',
             }),
             gif_alt: fields.text({ label: 'Animated clip alt text' }),
             description: fields.text({

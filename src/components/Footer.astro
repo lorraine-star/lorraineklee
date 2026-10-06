@@ -8,7 +8,8 @@
 //
 // Styling note: this component is intentionally CSS-agnostic. It relies on the
 // footer classes (footer, footer-wave, footer-grid, footer-brand, footer-tag,
-// footer-socials, social-btn, footer-touch, footer-explore, footer-base,
+// footer-socials, social-btn, footer-touch, footer-explore, footer-explore--groups,
+// footer-explore-group, footer-grid--groups, footer-base,
 // footer-base-links) being defined in the per-design-system global stylesheet
 // loaded by the page: src/styles/v1/home.css for the homepage (HomeLayout) and
 // src/styles/editorial/templates.css for editorial pages (SpeakingLayout). Do
@@ -44,6 +45,16 @@ const contactLinks = f?.contact_links ?? [];
 
 const exploreHeading = f?.explore_heading ?? '';
 const exploreLinks = f?.explore_links ?? [];
+// Grouped footer links (Wishly nav redesign). When any group has links, the
+// groups replace the single Explore list, and the footer grid switches to a
+// wider explore area via `footer-grid--groups` (styles in both footer sheets).
+const exploreGroups = (f?.explore_groups ?? [])
+  .map((g) => ({
+    heading: g.heading ?? '',
+    links: (g.links ?? []).filter((l) => l.label && l.href),
+  }))
+  .filter((g) => g.links.length > 0);
+const hasGroups = exploreGroups.length > 0;
 
 const legalEntity = f?.legal_entity ?? '';
 const legalLinks = f?.legal_links ?? [];
@@ -59,7 +70,7 @@ const legalLinks = f?.legal_links ?? [];
 </div>
 
 <footer class="footer" data-global-section="site-footer">
-  <div class="grid12 footer-grid">
+  <div class:list={['grid12', 'footer-grid', { 'footer-grid--groups': hasGroups }]}>
     <div class="footer-brand">
       <img src={logoSrc} alt="Lorraine Lee" />
       {
@@ -93,16 +104,31 @@ const legalLinks = f?.legal_links ?? [];
         ))
       }
     </div>
-    <div class="footer-explore">
-      {exploreHeading && <h4>{exploreHeading}</h4>}
-      {
-        exploreLinks.length > 0 && (
-          <ul>
-            {exploreLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
-          </ul>
-        )
-      }
-    </div>
+    {
+      hasGroups ? (
+        <nav class="footer-explore footer-explore--groups" aria-label="Footer">
+          {exploreGroups.map((g) => (
+            <div class="footer-explore-group">
+              {g.heading && <h4>{g.heading}</h4>}
+              <ul>
+                {g.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+              </ul>
+            </div>
+          ))}
+        </nav>
+      ) : (
+        <div class="footer-explore">
+          {exploreHeading && <h4>{exploreHeading}</h4>}
+          {
+            exploreLinks.length > 0 && (
+              <ul>
+                {exploreLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+              </ul>
+            )
+          }
+        </div>
+      )
+    }
   </div>
   <div class="grid12">
     <div class="footer-base" style="grid-column: 1 / -1;">
