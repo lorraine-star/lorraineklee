@@ -134,10 +134,22 @@ const clientLogos = past_clients ?? [];
 						hero.meta.map((m, i) => (
 							<Fragment>
 								{i > 0 && <div class="divider" aria-hidden="true" />}
-								<div>
-									<div class="num">{m.value}</div>
-									<div class="lbl">{m.label}</div>
-								</div>
+								{m.url ? (
+									<a
+										class="hero-meta-link"
+										href={safeUrl(m.url)}
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										<div class="num">{m.value}</div>
+										<div class="lbl">{m.label}</div>
+									</a>
+								) : (
+									<div>
+										<div class="num">{m.value}</div>
+										<div class="lbl">{m.label}</div>
+									</div>
+								)}
 							</Fragment>
 						))
 					}

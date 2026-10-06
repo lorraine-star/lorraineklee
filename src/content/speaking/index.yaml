@@ -17,6 +17,8 @@ hero:
   meta:
     - value: 250+
       label: glowing testimonials
+      url: >-
+        https://www.linkedin.com/in/lorraineklee/details/recommendations/?detailScreenTabIndex=0
     - value: 4.9/5
       label: average speaker rating
 reel_section:
@@ -104,7 +106,6 @@ topics:
       - Build a memorable career brand through intentional, high-quality LinkedIn engagement.
   - number: '02'
     title: How To Build Influence in the Hybrid Office
-    note: For General Audiences and AAPI Groups
     gif: /images/speaking/keynotes/build-influence.webp
     gif_alt: Lorraine K. Lee presenting on building influence at work
     description: >
@@ -139,7 +140,6 @@ topics:
       - Mistakes you may be making that are hurting your influence.
   - number: '05'
     title: How To Transform Your LinkedIn Presence
-    note: 'Optional Add-On: LinkedIn Workbook'
     gif: /images/speaking/keynotes/linkedin-presence.webp
     gif_alt: Lorraine K. Lee presenting on building a LinkedIn presence
     description: >

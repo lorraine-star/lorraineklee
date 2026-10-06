@@ -469,10 +469,12 @@ body {
   margin: 0 -8% 0 0;
   width: 130%;
   min-height: 620px;
-  /* CLI-104 polish: align photo top with the hero H1's top line. Using a
-     transform instead of margin so the grid track height stays put and the
-     hero copy doesn't drift downward. */
-  transform: translateY(90px);
+  /* Align the top of Lorraine's head with the hero H1's top line. The 90px
+     here was tuned for an older photo that carried a lot of empty ceiling
+     above her; the current crop leaves only 7%, so the offset comes off.
+     Still a transform rather than a margin, so the grid track height stays
+     put and the hero copy doesn't drift down. */
+  transform: translateY(8px);
 }
 .photo-card img {
   width: 100%;

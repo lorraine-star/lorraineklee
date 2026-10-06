@@ -773,6 +773,10 @@ export default config({
               fields.object({
                 value: fields.text({ label: 'Value' }),
                 label: fields.text({ label: 'Label', multiline: true }),
+                url: fields.text({
+                  label: 'Link (optional)',
+                  description: 'If set, the stat becomes a link.',
+                }),
               }),
               {
                 label: 'Hero meta stats',

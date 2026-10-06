@@ -384,8 +384,33 @@ body {
   justify-content: center;
   margin: 0 -8% 0 0;
   width: 130%;
-  min-height: 620px;
+  /* Cap the height rather than setting a floor. At 3/4 the photo stood 786px
+     against a 589px copy column, which left 166px of empty hero below the
+     stats. The image is object-fit: cover, so capping crops it rather than
+     squashing it, and the copy now sets the height of the row. */
+  max-height: 620px;
 }
+/* A hero stat that links out. Keeps the stat's own type and spacing; the
+   underline appears on hover so the row still reads as stats, not navigation. */
+.hero-meta-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  border-radius: 8px;
+}
+.hero-meta-link:hover .num,
+.hero-meta-link:focus-visible .num {
+  color: var(--accent);
+}
+.hero-meta-link:hover .lbl {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.hero-meta-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
 .photo-card img {
   width: 100%;
   height: 100%;
