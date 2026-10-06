@@ -1,16 +1,33 @@
 eyebrow: Weekly Newsletter
-headline: Get
-headline_accent: Career Bites.
+headline: Stop being the
+headline_accent: best-kept secret at work.
 lead: >-
-  Practical, bite-sized advice on communication, executive presence, and
-  building your personal brand, delivered to your inbox every week. Join
-  thousands of professionals leveling up their careers.
+  Career Bites is the weekly email 70,000+ professionals read to get the
+  recognition they deserve.
+intro: >-
+  You do great work, but the people who decide promotions don't know it. Every
+  Wednesday I send one short email on how to say what you do without bragging,
+  show up on LinkedIn without feeling salesy, and get on the radar of senior
+  leaders. Written for introverts and people who hate self-promotion. ;)
+benefits_heading: What you'll get
 benefits:
-  - Actionable tips you can use the same day
-  - Behind-the-scenes lessons from Lorraine's own career
-  - First access to new courses, talks, and resources
+  - How to talk about your wins so people listen
+  - What to post on LinkedIn so opportunities find you
+  - How to get known by the people who decide your next promotion
+byline:
+  text_before: >-
+    Written by Lorraine K. Lee, former founding editor at LinkedIn, author of
+    the bestseller
+  link_label: Unforgettable Presence
+  link_url: https://amzn.to/3Hdv79r
+  text_after: >-
+    ®, instructor on MasterClass and LinkedIn Learning, and LinkedIn Top Voice
+    with more than 340,000 followers.
+testimonials_eyebrow: From readers
+testimonials_heading: ''
+testimonials: []
 kit_form_id: '5057243'
-form_button_label: Subscribe
+form_button_label: Send me Career Bites
 name_placeholder: First Name
 email_placeholder: Enter your best email
-fineprint: No spam. Unsubscribe in one click.
+fineprint: Free. One email a week. Unsubscribe anytime.

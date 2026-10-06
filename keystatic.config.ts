@@ -2623,10 +2623,63 @@ export default config({
           description: 'The italicised end of the headline, e.g. "Career Bites".',
         }),
         lead: fields.text({ label: 'Lead paragraph', multiline: true }),
+        intro: fields.text({
+          label: 'Intro paragraph',
+          multiline: true,
+          description:
+            'Optional longer paragraph under the lead. Leave empty to hide it.',
+        }),
+        benefits_heading: fields.text({
+          label: 'Benefits heading',
+          defaultValue: "What you'll get",
+        }),
         benefits: fields.array(fields.text({ label: 'Benefit' }), {
           label: 'What subscribers get',
           itemLabel: (props) => props.value || 'Benefit',
         }),
+        // Split into four parts rather than one rich-text field so this
+        // singleton stays a plain .yaml file. A markdoc field would migrate it
+        // to .mdoc and change how the page reads it.
+        byline: fields.object(
+          {
+            text_before: fields.text({
+              label: 'Text before the book link',
+              multiline: true,
+            }),
+            link_label: fields.text({ label: 'Book link text' }),
+            link_url: fields.text({ label: 'Book link URL' }),
+            text_after: fields.text({
+              label: 'Text after the book link',
+              multiline: true,
+            }),
+          },
+          {
+            label: 'Byline',
+            description:
+              'The "Written by Lorraine K. Lee..." credibility line under the benefits. Leave the text fields empty to hide it.',
+          }
+        ),
+        testimonials_eyebrow: fields.text({
+          label: 'Testimonials eyebrow',
+          defaultValue: 'From readers',
+        }),
+        testimonials_heading: fields.text({
+          label: 'Testimonials heading',
+          description: 'Shown above the reader quotes.',
+        }),
+        testimonials: fields.array(
+          fields.object({
+            quote: fields.text({ label: 'Quote', multiline: true }),
+            author: fields.text({ label: 'Name' }),
+            roleOrCompany: fields.text({ label: 'Role or company' }),
+          }),
+          {
+            label: 'Reader testimonials',
+            description:
+              'Quotes from Career Bites readers. The whole section is hidden while this is empty.',
+            itemLabel: (props) => props.fields.author.value || 'Testimonial',
+          }
+        ),
         kit_form_id: fields.text({
           label: 'Kit / ConvertKit form ID',
           description:
