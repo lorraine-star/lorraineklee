@@ -1399,6 +1399,11 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   color: var(--accent);
   font-style: italic;
 }
+.bio-cta-row {
+  grid-column: 1 / -1;
+  margin-top: 2rem;
+  justify-content: flex-start;
+}
 .bio-aside {
   grid-column: 10 / span 3;
   border-left: 1px solid var(--border-soft);
@@ -1746,28 +1751,27 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   max-width: 46px;
   object-fit: contain;
   display: block;
-  /* Muted by default so logos read as supporting proof, not headline.
-     0.74 + grayscale matches the press-mark treatment in TrustAsSeenIn. */
-  opacity: 0.74;
-  filter: grayscale(1);
-  transition: opacity 240ms var(--ease-out), filter 240ms var(--ease-out);
+  /* These marks carry real brand recognition, so they run in full colour
+     rather than greyed out. A slight opacity lift on hover keeps the card
+     feeling interactive without the colour swap doing the work. */
+  opacity: 0.92;
+  transition: opacity 240ms var(--ease-out);
 }
 .credibility-card:hover .cred-logo {
   opacity: 1;
-  filter: grayscale(0);
 }
 /* Per-asset optical normalization. Mixed png/svg marks don't share an ink
    weight or aspect ratio, so the outliers are nudged here. Mirrors the
    press-mark--<id> convention in TrustAsSeenIn.astro. Tuned against the
    rendered page (luminance + bounding box measured in-browser). */
 
-/* MasterClass symbol ("M") only ships in a light (white) variant, which is
-   invisible on the light footer. Invert it to dark ink. grayscale(1) then
-   invert(1) turns the white mark black; hover keeps the invert. */
-.cred-logo--masterclass {
-  filter: grayscale(1) invert(1);
+/* MasterClass only ships a white wordmark, which would be invisible on the
+   light card, so this one stays inverted to dark ink while the rest run in
+   colour. */
+.cred-logo--masterclass,
+.credibility-card:hover .cred-logo--masterclass {
+  filter: invert(1);
 }
-.credibility-card:hover .cred-logo--masterclass { filter: invert(1); }
 
 /* Light-toned award badge. Lift opacity so it doesn't wash out at grayscale. */
 .cred-logo--asian-creator-awards { opacity: 0.9; }
@@ -2311,6 +2315,10 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   .bio-body { grid-column: 1 / span 7; }
   .bio-body--centered { grid-column: 2 / -2; }
   .bio-aside { grid-column: 9 / span 4; }
+  /* The button used to auto-place into the free track beside the aside, which
+     read as a stray item floating to the right of the facts list. It belongs
+     under the story, aligned with the text column. */
+  .bio-cta-row { grid-column: 1 / span 7; }
   .reviews-grid { grid-template-columns: repeat(2, 1fr); }
   .credibility-grid { grid-template-columns: repeat(2, 1fr); }
   .highlight-grid { grid-template-columns: repeat(2, 1fr); }

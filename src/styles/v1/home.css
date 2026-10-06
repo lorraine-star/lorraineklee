@@ -482,13 +482,10 @@ body {
   object-fit: cover;
   object-position: center top;
   display: block;
-  /* Soften only the outer rim. The previous ellipse held its fully opaque
-     core between 32% and 52% of the frame, which put Lorraine's face, at
-     roughly 7% to 30%, inside the fade and washed it out. This one stays
-     solid from about 7% to 81%, so the face is clear, and spends the
-     remaining 38% of the radius fading, which keeps a soft rim. */
-  -webkit-mask-image: radial-gradient(ellipse 90% 120% at 50% 44%, #000 62%, transparent 100%);
-  mask-image: radial-gradient(ellipse 90% 120% at 50% 44%, #000 62%, transparent 100%);
+  /* No CSS mask here. The soft white rim is baked into the source image, so
+     a mask on top of it would fade the edges twice and creep back onto her
+     face. If the photo is ever swapped for one with hard edges, the fade has
+     to be added to the new file rather than reinstated here. */
 }
 .photo-bg-shape {
   display: none;

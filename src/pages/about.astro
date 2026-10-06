@@ -92,7 +92,7 @@ const hasStoryFacts = story_facts.length > 0;
 					</div>
 				)
 			}
-			<div class="hero-cta-row" style="margin-top: 2rem;">
+			<div class="hero-cta-row bio-cta-row">
 				<a class="btn primary" href="/speaking">See Lorraine speak <span aria-hidden="true">&rarr;</span></a>
 			</div>
 		</div>
@@ -158,7 +158,14 @@ const hasStoryFacts = story_facts.length > 0;
 									]}
 								>
 									{c.logos.map((l) => {
-										const key = l.src.split('/').pop()?.replace(/\.[^.]+$/, '') ?? '';
+										/* Keyed off the logo's name, not its filename: Keystatic
+										   stores every upload as "src.<ext>", so the old filename
+										   version produced "src" for all of them and the
+										   per-logo rules below never matched anything. */
+										const key = (l.alt ?? '')
+											.toLowerCase()
+											.replace(/[^a-z0-9]+/g, '-')
+											.replace(/^-|-$/g, '');
 										return (
 											<span class:list={['cred-logo-frame', `cred-logo-frame--${key}`]}>
 												<img

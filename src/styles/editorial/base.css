@@ -453,6 +453,19 @@ body {
   -webkit-mask-image: radial-gradient(ellipse 92% 125% at 50% 46%, #000 68%, transparent 100%);
   mask-image: radial-gradient(ellipse 92% 125% at 50% 46%, #000 68%, transparent 100%);
 }
+/* The speaking hero's soft white rim is baked into the image file, so the
+   mask above would fade it a second time and wash out her face. The Articles
+   hero still uses a plain photo and keeps the mask. */
+.photo-card--prefaded img {
+  -webkit-mask-image: none;
+  mask-image: none;
+  /* contain, not cover: max-height leaves the card at roughly 0.95 and the
+     photo at 3/4, so cover would crop the baked fade off whichever pair of
+     edges overflows, and which pair that is changes with the viewport. The
+     page behind is white, so the letterboxing contain leaves is invisible. */
+  object-fit: contain;
+  object-position: center top;
+}
 .photo-stat {
   position: absolute;
   bottom: 24px;
