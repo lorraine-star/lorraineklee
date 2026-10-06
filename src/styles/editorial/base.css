@@ -459,12 +459,17 @@ body {
 .photo-card--prefaded img {
   -webkit-mask-image: none;
   mask-image: none;
-  /* contain, not cover: max-height leaves the card at roughly 0.95 and the
-     photo at 3/4, so cover would crop the baked fade off whichever pair of
-     edges overflows, and which pair that is changes with the viewport. The
-     page behind is white, so the letterboxing contain leaves is invisible. */
-  object-fit: contain;
+  /* The photo is exported at the card's own ratio (1180x1240 against a
+     589x620 box), so cover fills it edge to edge without cropping the baked
+     fade away. Replacing it with a differently shaped photo would start
+     cropping that fade again. */
+  object-fit: cover;
   object-position: center top;
+  /* The photo's rim fades to pure white, but the page sits on #f9f9f9, so the
+     faded area read as a brighter rectangle with visible straight edges.
+     Multiply blends white into whatever is behind it exactly, so the rim
+     disappears into the page at any background colour. */
+  mix-blend-mode: multiply;
 }
 .photo-stat {
   position: absolute;

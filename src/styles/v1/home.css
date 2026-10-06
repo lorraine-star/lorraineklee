@@ -482,6 +482,11 @@ body {
   object-fit: cover;
   object-position: center top;
   display: block;
+  /* The photo's rim fades to pure white, but the page sits on #f9f9f9, so the
+     faded area read as a brighter rectangle with visible straight edges.
+     Multiply blends white into whatever is behind it exactly, so the rim
+     disappears into the page at any background colour. */
+  mix-blend-mode: multiply;
   /* No CSS mask here. The soft white rim is baked into the source image, so
      a mask on top of it would fade the edges twice and creep back onto her
      face. If the photo is ever swapped for one with hard edges, the fade has
