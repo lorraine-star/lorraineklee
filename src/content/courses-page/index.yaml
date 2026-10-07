@@ -6,8 +6,8 @@ hero:
   lead: ""
   primary_cta_label: "Start on LinkedIn Learning"
   primary_cta_url: "https://www.linkedin.com/learning/instructors/lorraine-lee"
-  image: "/images/v1/courses/lorraine-speaking.webp"
-  image_alt: "Lorraine K. Lee teaching with a microphone"
+  image: "/images/v1/courses/lorraine-laptop.webp"
+  image_alt: "Lorraine K. Lee smiling at her laptop in a sunny office"
   credential_pill: "Top-rated LinkedIn Learning instructor"
 rating:
   value: "4.7+"

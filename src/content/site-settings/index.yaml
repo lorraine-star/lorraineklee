@@ -204,12 +204,8 @@ nav:
       
       href: /about
       
-      children:
+      children: []
       
-        - label: Testimonials
-        
-          href: /testimonials
-          
     - id: book
     
       label: Book

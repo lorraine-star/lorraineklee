@@ -1,237 +1,940 @@
 {
   "framework": "astro",
   "redirects": [
-    { "source": "/li-testimonials", "destination": "https://www.linkedin.com/in/lorraineklee/details/recommendations/?detailScreenTabIndex=0", "statusCode": 301 },
-    { "source": "/CC-feedback", "destination": "https://docs.google.com/forms/d/e/1FAIpQLScVud1hRIwxEuY5MdeQqibNrEgoJSSX2iuWW0eQSCdagRDSNg/viewform?usp=sf_link", "permanent": true },
-    { "source": "/NISM-discount", "destination": "https://lorraineklee.kit.com/ultimate-guide-preview", "permanent": true },
-    { "source": "/NUL-feedback", "destination": "https://docs.google.com/forms/d/e/1FAIpQLSdTUNk-kfPiJUZyLhxPY3Ke-i5iDsCqVgbVdIT7x_BesjEMKA/viewform?usp=sf_link", "permanent": true },
-    { "source": "/SASE-resources", "destination": "https://www.lorraineklee.com/", "permanent": true },
-    { "source": "/SASE-workbook", "destination": "https://docs.google.com/document/d/19MZq4YkFFc1tUrMKygqcvHspbZpZf1vkfCSBod3woWg/edit", "permanent": true },
-    { "source": "/WS-feedback", "destination": "https://docs.google.com/forms/d/e/1FAIpQLSc15itUl2oxNuI33rw_z5zPiitzSl4qqWJF4_Xvh6Jkj7ynag/viewform?usp=sf_link", "permanent": true },
-    { "source": "/catch-up-APAC-timezone-30min", "destination": "https://www.lorraineklee.com/", "permanent": true },
-    { "source": "/cisco-linkedin-DD", "destination": "https://forms.gle/vRKUPE2xqAff8DBp9", "permanent": true },
-
+    {
+      "source": "/keynotes/communicate-with-confidence-in-a-virtual-world",
+      "destination": "/speaking#communicate-with-confidence-in-a-virtual-world",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes/how-to-build-influence-in-the-hybrid-office",
+      "destination": "/speaking#how-to-build-influence-in-the-hybrid-office",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes/how-to-build-your-linkedin-presence",
+      "destination": "/speaking#how-to-transform-your-linkedin-presence",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes/how-to-lead-with-impact-strategies-to-build-collaboration-and-trust-on-your-team",
+      "destination": "/speaking#how-to-lead-with-impact",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes/how-to-present-like-a-pro",
+      "destination": "/speaking#how-to-present-like-a-pro",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes/make-a-memorable-first-impression-on-video-the-tea-method",
+      "destination": "/speaking#make-a-memorable-first-impression-on-video-the-tea-method",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes/make-every-meeting-count",
+      "destination": "/speaking#make-every-meeting-count",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes/stand-out-in-the-age-of-ai",
+      "destination": "/speaking#stand-out-in-the-age-of-ai",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work",
+      "destination": "/speaking#supercharge-your-executive-presence",
+      "permanent": true
+    },
+    {
+      "source": "/li-testimonials",
+      "destination": "https://www.linkedin.com/in/lorraineklee/details/recommendations/?detailScreenTabIndex=0",
+      "statusCode": 301
+    },
+    {
+      "source": "/CC-feedback",
+      "destination": "https://docs.google.com/forms/d/e/1FAIpQLScVud1hRIwxEuY5MdeQqibNrEgoJSSX2iuWW0eQSCdagRDSNg/viewform?usp=sf_link",
+      "permanent": true
+    },
+    {
+      "source": "/NISM-discount",
+      "destination": "https://lorraineklee.kit.com/ultimate-guide-preview",
+      "permanent": true
+    },
+    {
+      "source": "/NUL-feedback",
+      "destination": "https://docs.google.com/forms/d/e/1FAIpQLSdTUNk-kfPiJUZyLhxPY3Ke-i5iDsCqVgbVdIT7x_BesjEMKA/viewform?usp=sf_link",
+      "permanent": true
+    },
+    {
+      "source": "/SASE-resources",
+      "destination": "https://www.lorraineklee.com/",
+      "permanent": true
+    },
+    {
+      "source": "/SASE-workbook",
+      "destination": "https://docs.google.com/document/d/19MZq4YkFFc1tUrMKygqcvHspbZpZf1vkfCSBod3woWg/edit",
+      "permanent": true
+    },
+    {
+      "source": "/WS-feedback",
+      "destination": "https://docs.google.com/forms/d/e/1FAIpQLSc15itUl2oxNuI33rw_z5zPiitzSl4qqWJF4_Xvh6Jkj7ynag/viewform?usp=sf_link",
+      "permanent": true
+    },
+    {
+      "source": "/catch-up-APAC-timezone-30min",
+      "destination": "https://www.lorraineklee.com/",
+      "permanent": true
+    },
+    {
+      "source": "/cisco-linkedin-DD",
+      "destination": "https://forms.gle/vRKUPE2xqAff8DBp9",
+      "permanent": true
+    },
     {
       "source": "/the-thought-leadership",
       "destination": "/thought-leadership",
       "permanent": true
     },
-
-    { "source": "/newsletter", "destination": "/subscribe", "permanent": true },
-    { "source": "/newsletter-back-issues", "destination": "/articles", "permanent": true },
-
-    { "source": "/free-course", "destination": "/from-invisible-to-influential", "permanent": true },
-    { "source": "/landing-01", "destination": "/from-invisible-to-influential", "permanent": true },
-    { "source": "/5-day-course", "destination": "/from-invisible-to-influential?utm_source=linkedin&utm_medium=awaymessage&utm_campaign=5daycourse", "permanent": true },
-    { "source": "/grab-course", "destination": "/from-invisible-to-influential?utm_source=comment&utm_medium=linkedin&utm_campaign=invisible-to-influential", "permanent": true },
-    { "source": "/li-live", "destination": "/from-invisible-to-influential?utm_source=social&utm_medium=linkedin&utm_campaign=li-live-2026-07-23", "permanent": true },
-    { "source": "/ig-free-course", "destination": "/from-invisible-to-influential", "permanent": true },
-
-    { "source": "/keynotes-archive", "destination": "/speaking", "permanent": true },
-
-    { "source": "/keynote-category/featured", "destination": "/speaking", "permanent": true },
-    { "source": "/keynote-category/most-popular", "destination": "/speaking", "permanent": true },
-
-    { "source": "/keynotes/9-essential-tips-for-more-effective-hybrid-and-virtual-meetings", "destination": "/keynotes/make-every-meeting-count", "permanent": true },
-    { "source": "/keynote/9-essential-tips-for-more-effective-hybrid-and-virtual-meetings", "destination": "/keynotes/make-every-meeting-count", "permanent": true },
-    { "source": "/keynotes_v2/9-essential-tips-for-more-effective-hybrid-and-virtual-meetings", "destination": "/keynotes/make-every-meeting-count", "permanent": true },
-
-    { "source": "/keynote/communicate-with-confidence-in-a-virtual-world", "destination": "/keynotes/communicate-with-confidence-in-a-virtual-world", "permanent": true },
-
-    { "source": "/keynote/how-to-build-influence-in-the-hybrid-office", "destination": "/keynotes/how-to-build-influence-in-the-hybrid-office", "permanent": true },
-    { "source": "/keynotes_v2/how-to-build-influence-in-the-hybrid-office", "destination": "/keynotes/how-to-build-influence-in-the-hybrid-office", "permanent": true },
-
-    { "source": "/keynote/how-to-build-your-linkedin-presence", "destination": "/keynotes/how-to-build-your-linkedin-presence", "permanent": true },
-    { "source": "/keynotes_v2/how-to-build-your-linkedin-presence", "destination": "/keynotes/how-to-build-your-linkedin-presence", "permanent": true },
-
-    { "source": "/keynote/how-to-lead-with-impact-strategies-to-build-collaboration-and-trust-on-your-team", "destination": "/keynotes/how-to-lead-with-impact-strategies-to-build-collaboration-and-trust-on-your-team", "permanent": true },
-    { "source": "/keynotes_v2/how-to-lead-with-impact-strategies-to-build-collaboration-and-trust-on-your-team", "destination": "/keynotes/how-to-lead-with-impact-strategies-to-build-collaboration-and-trust-on-your-team", "permanent": true },
-
-    { "source": "/keynote/how-to-present-like-a-pro", "destination": "/keynotes/how-to-present-like-a-pro", "permanent": true },
-    { "source": "/keynotes_v2/how-to-present-like-a-pro", "destination": "/keynotes/how-to-present-like-a-pro", "permanent": true },
-
-    { "source": "/keynote/how-to-stand-out-virtually-video-and-linkedin-essentials", "destination": "/keynotes/how-to-stand-out-virtually-video-and-linkedin-essentials", "permanent": true },
-
-    { "source": "/keynote/make-a-memorable-first-impression-on-video-the-tea-method", "destination": "/keynotes/make-a-memorable-first-impression-on-video-the-tea-method", "permanent": true },
-
-    { "source": "/keynote/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "destination": "/keynotes/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "permanent": true },
-    { "source": "/keynotes_v2/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "destination": "/keynotes/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work", "permanent": true },
-
-    { "source": "/bio-and-headshot", "destination": "/speaker-bio", "permanent": true },
-    { "source": "/consulting-and-coaching", "destination": "/consulting", "permanent": true },
-    { "source": "/coaching", "destination": "/contact", "permanent": true },
-    { "source": "/async-linkedin-profile-audit-assessment", "destination": "/contact", "permanent": true },
-
-    { "source": "/learning-courses", "destination": "/courses", "permanent": true },
-    { "source": "/linkedin-learning-courses", "destination": "/courses", "permanent": true },
-    { "source": "/linkedin-courses", "destination": "/courses", "permanent": true },
-
-    { "source": "/linkedin-courses/nano-tips-for-better-business-writing-with-lorraine-k-lee", "destination": "/courses/better-business-writing", "permanent": true },
-    { "source": "/linkedin-courses/nano-tips-for-better-business-writing", "destination": "/courses/better-business-writing", "permanent": true },
-
-    { "source": "/linkedin-courses/nano-tips-for-communicating-with-executives-with-lorraine-k-lee", "destination": "/courses/communicating-with-executives", "permanent": true },
-
-    { "source": "/linkedin-courses/nano-tips-to-stand-out-as-an-introvert-with-lorraine-k-lee", "destination": "/courses/stand-out-as-an-introvert", "permanent": true },
-    { "source": "/linkedin-courses/nano-tips-to-stand-out-as-an-introvert", "destination": "/courses/stand-out-as-an-introvert", "permanent": true },
-
-    { "source": "/linkedin-courses/nano-tips-for-new-managers-with-lorraine-k-lee", "destination": "/courses/new-managers", "permanent": true },
-    { "source": "/linkedin-courses/nano-tips-for-new-managers", "destination": "/courses/new-managers", "permanent": true },
-
-    { "source": "/linkedin-courses/nano-tips-for-creating-captivating-virtual-presentations-with-lorraine-k-lee", "destination": "/courses/captivating-virtual-presentations", "permanent": true },
-    { "source": "/linkedin-courses/nano-tips-for-captivating-virtual-presentations", "destination": "/courses/captivating-virtual-presentations", "permanent": true },
-
-    { "source": "/linkedin-courses/how-to-speak-so-others-will-listen-nano-tips-with-lorraine-k-lee", "destination": "/courses/how-to-speak-so-others-will-listen", "permanent": true },
-    { "source": "/linkedin-courses/how-to-speak-so-others-will-listen-nano-tips", "destination": "/courses/how-to-speak-so-others-will-listen", "permanent": true },
-
-    { "source": "/linkedin-courses/nano-tips-for-managing-up-with-lorraine-k-lee", "destination": "/courses/managing-up", "permanent": true },
-
-    { "source": "/linkedin-courses/nano-tips-for-giving-and-receiving-feedback-with-lorraine-k-lee", "destination": "/courses/giving-and-receiving-feedback", "permanent": true },
-
-    { "source": "/linkedin-courses/nano-tips-for-effective-collaboration-with-lorraine-k-lee", "destination": "/courses/effective-collaboration", "permanent": true },
-    { "source": "/linkedin-courses/nano-tips-for-better-collaboration", "destination": "/courses/effective-collaboration", "permanent": true },
-
-    { "source": "/linkedin-courses/nano-tips-for-leading-with-positivity-with-lorraine-k-lee", "destination": "/courses/leading-with-positivity", "permanent": true },
-
-    { "source": "/linkedin-courses/nano-tips-for-delegating-as-a-manager-with-lorraine-k-lee", "destination": "/courses/delegating-as-a-manager", "permanent": true },
-
-    { "source": "/linkedin-courses/nano-tips-for-resilient-communication-with-lorraine-k-lee", "destination": "/courses/resilient-communication", "permanent": true },
-
-    { "source": "/linkedin-courses/nano-tips-for-quick-decision-making-with-lorraine-k-lee", "destination": "/courses/quick-decision-making", "permanent": true },
-
-    { "source": "/linkedin-courses/nano-tips-to-improve-adaptability-and-flexibility-with-lorraine-k-lee", "destination": "/courses/adaptability-and-flexibility", "permanent": true },
-
-    { "source": "/linkedin-courses/nano-tips-for-self-motivation-with-lorraine-k-lee", "destination": "/courses/self-motivation", "permanent": true },
-
-    { "source": "/linkedin-courses/how-to-run-efficient-hybrid-meetings-nano-tips-with-lorraine-k-lee", "destination": "/courses/efficient-hybrid-meetings", "permanent": true },
-    { "source": "/linkedin-courses/how-to-run-efficient-hybrid-meetings-nano-tips", "destination": "/courses/efficient-hybrid-meetings", "permanent": true },
-
-    { "source": "/linkedin-courses/virtual-and-hybrid-meeting-essentials", "destination": "/courses/virtual-and-hybrid-meeting-essentials", "permanent": true },
-    { "source": "/linkedin-courses/virtual-and-hybrid-meeting-essentials-2", "destination": "/courses/virtual-and-hybrid-meeting-essentials", "permanent": true },
-
-    { "source": "/linkedin-courses/nano-tips-for-navigating-life-after-layoff-with-lorraine-k-lee", "destination": "/courses/navigating-life-after-layoff", "permanent": true },
-    { "source": "/linkedin-courses/nano-tips-for-navigating-life-after-a-layoff", "destination": "/courses/navigating-life-after-layoff", "permanent": true },
-
-    { "source": "/youtube-video/hacks-to-tackle-gender-equality-at-work", "destination": "/interviews", "permanent": true },
-    { "source": "/youtube-video/former-focus-brands-cinnabon-jamba-brands-etc-coo-and-president-kat-cole", "destination": "/interviews", "permanent": true },
-    { "source": "/youtube-video/an-interview-with-chelsea-clinton", "destination": "/interviews", "permanent": true },
-    { "source": "/youtube-video/actor-justin-baldoni", "destination": "/interviews", "permanent": true },
-
-    { "source": "/testimonials-old", "destination": "/testimonials", "permanent": true },
-
-    { "source": "/testimonial/raechel-h", "destination": "/testimonials#raechel-h", "permanent": true },
-    { "source": "/testimonial/apurva-bhagali", "destination": "/testimonials#apurva-b", "permanent": true },
-    { "source": "/testimonial/jean-kang-figma", "destination": "/testimonials#jean-k", "permanent": true },
-    { "source": "/testimonial/shreya-linkedin", "destination": "/testimonials#shreya", "permanent": true },
-    { "source": "/testimonial/sulbha-m", "destination": "/testimonials#sulbha-m", "permanent": true },
-    { "source": "/testimonial/attendee-cisco", "destination": "/testimonials#attendee", "permanent": true },
-    { "source": "/testimonial/nicole-h", "destination": "/testimonials#nicole-h", "permanent": true },
-    { "source": "/testimonial/elisa-c", "destination": "/testimonials#elisa-c", "permanent": true },
-    { "source": "/testimonial/jennifer-c", "destination": "/testimonials#jennifer-c", "permanent": true },
-
-    { "source": "/amy-j", "destination": "/testimonials#amy-j", "permanent": true },
-    { "source": "/apurva-bhagali", "destination": "/testimonials#apurva-b", "permanent": true },
-    { "source": "/dorienne-b", "destination": "/testimonials#dorie-b", "permanent": true },
-    { "source": "/jason-r", "destination": "/testimonials#jason-r", "permanent": true },
-    { "source": "/rachel-h", "destination": "/testimonials#raechel-h", "permanent": true },
-    { "source": "/samantha-l", "destination": "/testimonials#samantha-l", "permanent": true },
-    { "source": "/sulbha-m", "destination": "/testimonials#sulbha-m", "permanent": true },
-    { "source": "/teju-k", "destination": "/testimonials#teju-k", "permanent": true },
-    { "source": "/women-leaders-in-data-al", "destination": "/testimonials#julie-h", "permanent": true },
-
-    { "source": "/mentorship", "destination": "/about", "permanent": true },
-    { "source": "/awardsandaccolades", "destination": "/about", "permanent": true },
-    { "source": "/author/lorraineklee", "destination": "/about", "permanent": true },
-
-    { "source": "/unforgettable-presence", "destination": "/book", "permanent": true },
-    { "source": "/unforgettable-presence-masterclass", "destination": "/book", "permanent": true },
-    { "source": "/staging-for-unforgettable-presence-tm", "destination": "/book", "permanent": true },
-
-    { "source": "/free-resources", "destination": "/learn", "permanent": true },
-    { "source": "/your-preferences-updated", "destination": "/learn", "permanent": true },
-    { "source": "/key-takeaways-download", "destination": "/learn", "permanent": true },
-    { "source": "/survey-ultimate-guide", "destination": "/learn", "permanent": true },
-    { "source": "/linkedin-workshop-video", "destination": "/learn", "permanent": true },
-
-    { "source": "/ultimate-guide-to-linkedin-free-version", "destination": "/ultimate-linkedin-guide", "permanent": true },
-
-    { "source": "/portfolio-2", "destination": "/speaking", "permanent": true },
-    { "source": "/training-old", "destination": "/speaking", "permanent": true },
-    { "source": "/linkedin-replay", "destination": "/speaking", "permanent": true },
-    { "source": "/linkedin-training-replay", "destination": "/speaking", "permanent": true },
-    { "source": "/linkedin-training", "destination": "/speaking", "permanent": true },
-    { "source": "/linkedin-presence-training", "destination": "/speaking", "permanent": true },
-    { "source": "/video-communications-training", "destination": "/speaking", "permanent": true },
-    { "source": "/prezi-presentation-design-services", "destination": "/speaking", "permanent": true },
-    { "source": "/googlefireside2025", "destination": "/speaking", "permanent": true },
-    { "source": "/servicenow-linkedin-2025", "destination": "/speaking", "permanent": true },
-    { "source": "/hercareerstory-may2025", "destination": "/speaking", "permanent": true },
-    { "source": "/zoomies", "destination": "/speaking", "permanent": true },
-
-    { "source": "/email-me-with-your-topic-of-interest", "destination": "/contact", "permanent": true },
-    { "source": "/thank-you-for-sharing-your-interest", "destination": "/contact", "permanent": true },
-    { "source": "/thank-you-youre-still-on-the-list", "destination": "/contact", "permanent": true },
-
-    { "source": "/issue-42-why-youre-feeling-burnt-out-and-how-to-fix-it", "destination": "/articles/issue-42-why-youre-feeling-burnt-out-and-how-to-fix-it", "permanent": true },
-    { "source": "/issue-43-what-your-linkedin-headline-is-missing", "destination": "/articles/issue-43-what-your-linkedin-headline-is-missing", "permanent": true },
-    { "source": "/issue-44-how-to-create-a-superpowered-agenda", "destination": "/articles/issue-44-how-to-create-a-superpowered-agenda", "permanent": true },
-    { "source": "/issue-45-have-you-taken-advantage-of-this-linkedin-feature", "destination": "/articles/issue-45-have-you-taken-advantage-of-this-linkedin-feature", "permanent": true },
-    { "source": "/tools-and-techniques-for-smarter-work", "destination": "/articles/tools-and-techniques-for-smarter-work", "permanent": true },
-    { "source": "/category/:slug", "destination": "/articles", "permanent": true },
-    { "source": "/tag/:slug", "destination": "/articles", "permanent": true },
-
-    { "source": "/cart", "destination": "/", "permanent": true },
-    { "source": "/checkout", "destination": "/", "permanent": true },
-    { "source": "/shop", "destination": "/", "permanent": true },
-    { "source": "/my-account", "destination": "/", "permanent": true },
-    { "source": "/payment-form", "destination": "/", "permanent": true },
-    { "source": "/payment-form-ecamm-bundle", "destination": "/", "permanent": true },
-    { "source": "/payment-form-for-purchasing-the-recording", "destination": "/", "permanent": true },
-    { "source": "/payment-form-for-qa-and-an-additional-live-qa-session", "destination": "/", "permanent": true },
-    { "source": "/unforgettable-presence-linkedin-guide-payment", "destination": "/ultimate-linkedin-guide", "permanent": true },
-    { "source": "/masterclass-checkout", "destination": "/", "permanent": true },
-    { "source": "/payment-confirmation", "destination": "/", "permanent": true },
-    { "source": "/payment-failed", "destination": "/", "permanent": true },
-    { "source": "/ecamm-workshop", "destination": "/", "permanent": true },
-    { "source": "/ecamm-bonuses", "destination": "/", "permanent": true },
-
-    { "source": "/from-the-archive-one-easy-way-to-expand-your-network-on-linkedin", "destination": "/articles/from-the-archive-one-easy-way-to-expand-your-network-on-linkedin", "permanent": true },
-    { "source": "/from-the-archive-avoid-this-resume-trap", "destination": "/articles/from-the-archive-avoid-this-resume-trap", "permanent": true },
-    { "source": "/from-the-archive-polish-your-presence-for-remote-interviews-with-this-video-setup", "destination": "/articles/from-the-archive-polish-your-presence-for-remote-interviews-with-this-video-setup", "permanent": true },
-
-
-    { "source": "/free-quiz", "destination": "/learn", "permanent": true },
-    { "source": "/quiz", "destination": "/learn", "permanent": true },
-
-    { "source": "/about-2", "destination": "/about", "permanent": true },
-    { "source": "/about-2024", "destination": "/about", "permanent": true },
-    { "source": "/your-questions-answered", "destination": "/contact", "permanent": true },
-    { "source": "/testimonials-copy", "destination": "/testimonials", "permanent": true },
-    { "source": "/testimonials-3", "destination": "/testimonials", "permanent": true },
-    { "source": "/thought-leadership-new", "destination": "/thought-leadership", "permanent": true },
-    { "source": "/thought-leadership-2", "destination": "/thought-leadership", "permanent": true },
-    { "source": "/portfolio", "destination": "/speaking", "permanent": true },
-    { "source": "/ultimate-guide", "destination": "/ultimate-linkedin-guide", "permanent": true },
-    { "source": "/ultimate-linkedin-guide-copy2", "destination": "/ultimate-linkedin-guide", "permanent": true },
-    { "source": "/learn-free-resources", "destination": "/learn", "permanent": true },
-    { "source": "/training", "destination": "/speaking", "permanent": true },
-    { "source": "/trainings", "destination": "/speaking", "permanent": true },
-    { "source": "/speaking-2024-denzil-temp", "destination": "/speaking", "permanent": true },
-    { "source": "/linkedin-training-2", "destination": "/speaking", "permanent": true },
-    { "source": "/linkedin-presence-training-2", "destination": "/speaking", "permanent": true },
-    { "source": "/transform-your-linkedin-presence-in-just-90-minutes", "destination": "/speaking", "permanent": true },
-    { "source": "/transform-your-linkedin-presence-in-just-90-minutes-replay", "destination": "/speaking", "permanent": true },
-    { "source": "/book-zoom", "destination": "/speaking", "permanent": true },
-    { "source": "/thinkific-masterclass-2", "destination": "/book", "permanent": true },
-    { "source": "/ecamm", "destination": "/", "permanent": true },
-    { "source": "/ecamm-workshop-2", "destination": "/", "permanent": true },
-    { "source": "/ecamm-workshop-new-upsells", "destination": "/", "permanent": true },
-    { "source": "/payment-form-copy2", "destination": "/", "permanent": true },
-    { "source": "/payment-form-ecamm", "destination": "/", "permanent": true },
-    { "source": "/issue-20-boost-your-bottom-line-with-the-revenue-optimization-canvas-copy-5", "destination": "/articles/issue-42-why-youre-feeling-burnt-out-and-how-to-fix-it", "permanent": true },
-    { "source": "/issue-20-boost-your-bottom-line-with-the-revenue-optimization-canvas-copy-6", "destination": "/articles/issue-43-what-your-linkedin-headline-is-missing", "permanent": true },
-    { "source": "/issue-20-boost-your-bottom-line-with-the-revenue-optimization-canvas-copy-7", "destination": "/articles/issue-44-how-to-create-a-superpowered-agenda", "permanent": true },
-    { "source": "/issue-20-boost-your-bottom-line-with-the-revenue-optimization-canvas-copy-8", "destination": "/articles/issue-45-have-you-taken-advantage-of-this-linkedin-feature", "permanent": true },
-    { "source": "/what-your-linkedin-headline-is-missing", "destination": "/articles/issue-43-what-your-linkedin-headline-is-missing", "permanent": true },
-    { "source": "/how-to-create-a-superpowered-agenda", "destination": "/articles/issue-44-how-to-create-a-superpowered-agenda", "permanent": true }
+    {
+      "source": "/newsletter",
+      "destination": "/subscribe",
+      "permanent": true
+    },
+    {
+      "source": "/newsletter-back-issues",
+      "destination": "/articles",
+      "permanent": true
+    },
+    {
+      "source": "/free-course",
+      "destination": "/from-invisible-to-influential",
+      "permanent": true
+    },
+    {
+      "source": "/landing-01",
+      "destination": "/from-invisible-to-influential",
+      "permanent": true
+    },
+    {
+      "source": "/5-day-course",
+      "destination": "/from-invisible-to-influential?utm_source=linkedin&utm_medium=awaymessage&utm_campaign=5daycourse",
+      "permanent": true
+    },
+    {
+      "source": "/grab-course",
+      "destination": "/from-invisible-to-influential?utm_source=comment&utm_medium=linkedin&utm_campaign=invisible-to-influential",
+      "permanent": true
+    },
+    {
+      "source": "/li-live",
+      "destination": "/from-invisible-to-influential?utm_source=social&utm_medium=linkedin&utm_campaign=li-live-2026-07-23",
+      "permanent": true
+    },
+    {
+      "source": "/ig-free-course",
+      "destination": "/from-invisible-to-influential",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes-archive",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/keynote-category/featured",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/keynote-category/most-popular",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes/9-essential-tips-for-more-effective-hybrid-and-virtual-meetings",
+      "destination": "/speaking#make-every-meeting-count",
+      "permanent": true
+    },
+    {
+      "source": "/keynote/9-essential-tips-for-more-effective-hybrid-and-virtual-meetings",
+      "destination": "/speaking#make-every-meeting-count",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes_v2/9-essential-tips-for-more-effective-hybrid-and-virtual-meetings",
+      "destination": "/speaking#make-every-meeting-count",
+      "permanent": true
+    },
+    {
+      "source": "/keynote/communicate-with-confidence-in-a-virtual-world",
+      "destination": "/speaking#communicate-with-confidence-in-a-virtual-world",
+      "permanent": true
+    },
+    {
+      "source": "/keynote/how-to-build-influence-in-the-hybrid-office",
+      "destination": "/speaking#how-to-build-influence-in-the-hybrid-office",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes_v2/how-to-build-influence-in-the-hybrid-office",
+      "destination": "/speaking#how-to-build-influence-in-the-hybrid-office",
+      "permanent": true
+    },
+    {
+      "source": "/keynote/how-to-build-your-linkedin-presence",
+      "destination": "/speaking#how-to-transform-your-linkedin-presence",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes_v2/how-to-build-your-linkedin-presence",
+      "destination": "/speaking#how-to-transform-your-linkedin-presence",
+      "permanent": true
+    },
+    {
+      "source": "/keynote/how-to-lead-with-impact-strategies-to-build-collaboration-and-trust-on-your-team",
+      "destination": "/speaking#how-to-lead-with-impact",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes_v2/how-to-lead-with-impact-strategies-to-build-collaboration-and-trust-on-your-team",
+      "destination": "/speaking#how-to-lead-with-impact",
+      "permanent": true
+    },
+    {
+      "source": "/keynote/how-to-present-like-a-pro",
+      "destination": "/speaking#how-to-present-like-a-pro",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes_v2/how-to-present-like-a-pro",
+      "destination": "/speaking#how-to-present-like-a-pro",
+      "permanent": true
+    },
+    {
+      "source": "/keynote/how-to-stand-out-virtually-video-and-linkedin-essentials",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/keynote/make-a-memorable-first-impression-on-video-the-tea-method",
+      "destination": "/speaking#make-a-memorable-first-impression-on-video-the-tea-method",
+      "permanent": true
+    },
+    {
+      "source": "/keynote/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work",
+      "destination": "/speaking#supercharge-your-executive-presence",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes_v2/supercharge-your-executive-presence-a-leaders-guide-to-managing-your-brand-at-work",
+      "destination": "/speaking#supercharge-your-executive-presence",
+      "permanent": true
+    },
+    {
+      "source": "/bio-and-headshot",
+      "destination": "/speaker-bio",
+      "permanent": true
+    },
+    {
+      "source": "/consulting-and-coaching",
+      "destination": "/consulting",
+      "permanent": true
+    },
+    {
+      "source": "/coaching",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/async-linkedin-profile-audit-assessment",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/learning-courses",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-learning-courses",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/nano-tips-for-better-business-writing-with-lorraine-k-lee",
+      "destination": "/courses/better-business-writing",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/nano-tips-for-better-business-writing",
+      "destination": "/courses/better-business-writing",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/nano-tips-for-communicating-with-executives-with-lorraine-k-lee",
+      "destination": "/courses/communicating-with-executives",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/nano-tips-to-stand-out-as-an-introvert-with-lorraine-k-lee",
+      "destination": "/courses/stand-out-as-an-introvert",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/nano-tips-to-stand-out-as-an-introvert",
+      "destination": "/courses/stand-out-as-an-introvert",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/nano-tips-for-new-managers-with-lorraine-k-lee",
+      "destination": "/courses/new-managers",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/nano-tips-for-new-managers",
+      "destination": "/courses/new-managers",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/nano-tips-for-creating-captivating-virtual-presentations-with-lorraine-k-lee",
+      "destination": "/courses/captivating-virtual-presentations",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/nano-tips-for-captivating-virtual-presentations",
+      "destination": "/courses/captivating-virtual-presentations",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/how-to-speak-so-others-will-listen-nano-tips-with-lorraine-k-lee",
+      "destination": "/courses/how-to-speak-so-others-will-listen",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/how-to-speak-so-others-will-listen-nano-tips",
+      "destination": "/courses/how-to-speak-so-others-will-listen",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/nano-tips-for-managing-up-with-lorraine-k-lee",
+      "destination": "/courses/managing-up",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/nano-tips-for-giving-and-receiving-feedback-with-lorraine-k-lee",
+      "destination": "/courses/giving-and-receiving-feedback",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/nano-tips-for-effective-collaboration-with-lorraine-k-lee",
+      "destination": "/courses/effective-collaboration",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/nano-tips-for-better-collaboration",
+      "destination": "/courses/effective-collaboration",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/nano-tips-for-leading-with-positivity-with-lorraine-k-lee",
+      "destination": "/courses/leading-with-positivity",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/nano-tips-for-delegating-as-a-manager-with-lorraine-k-lee",
+      "destination": "/courses/delegating-as-a-manager",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/nano-tips-for-resilient-communication-with-lorraine-k-lee",
+      "destination": "/courses/resilient-communication",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/nano-tips-for-quick-decision-making-with-lorraine-k-lee",
+      "destination": "/courses/quick-decision-making",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/nano-tips-to-improve-adaptability-and-flexibility-with-lorraine-k-lee",
+      "destination": "/courses/adaptability-and-flexibility",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/nano-tips-for-self-motivation-with-lorraine-k-lee",
+      "destination": "/courses/self-motivation",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/how-to-run-efficient-hybrid-meetings-nano-tips-with-lorraine-k-lee",
+      "destination": "/courses/efficient-hybrid-meetings",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/how-to-run-efficient-hybrid-meetings-nano-tips",
+      "destination": "/courses/efficient-hybrid-meetings",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/virtual-and-hybrid-meeting-essentials",
+      "destination": "/courses/virtual-and-hybrid-meeting-essentials",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/virtual-and-hybrid-meeting-essentials-2",
+      "destination": "/courses/virtual-and-hybrid-meeting-essentials",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/nano-tips-for-navigating-life-after-layoff-with-lorraine-k-lee",
+      "destination": "/courses/navigating-life-after-layoff",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-courses/nano-tips-for-navigating-life-after-a-layoff",
+      "destination": "/courses/navigating-life-after-layoff",
+      "permanent": true
+    },
+    {
+      "source": "/youtube-video/hacks-to-tackle-gender-equality-at-work",
+      "destination": "/interviews",
+      "permanent": true
+    },
+    {
+      "source": "/youtube-video/former-focus-brands-cinnabon-jamba-brands-etc-coo-and-president-kat-cole",
+      "destination": "/interviews",
+      "permanent": true
+    },
+    {
+      "source": "/youtube-video/an-interview-with-chelsea-clinton",
+      "destination": "/interviews",
+      "permanent": true
+    },
+    {
+      "source": "/youtube-video/actor-justin-baldoni",
+      "destination": "/interviews",
+      "permanent": true
+    },
+    {
+      "source": "/testimonials-old",
+      "destination": "/testimonials",
+      "permanent": true
+    },
+    {
+      "source": "/testimonial/raechel-h",
+      "destination": "/testimonials#raechel-h",
+      "permanent": true
+    },
+    {
+      "source": "/testimonial/apurva-bhagali",
+      "destination": "/testimonials#apurva-b",
+      "permanent": true
+    },
+    {
+      "source": "/testimonial/jean-kang-figma",
+      "destination": "/testimonials#jean-k",
+      "permanent": true
+    },
+    {
+      "source": "/testimonial/shreya-linkedin",
+      "destination": "/testimonials#shreya",
+      "permanent": true
+    },
+    {
+      "source": "/testimonial/sulbha-m",
+      "destination": "/testimonials#sulbha-m",
+      "permanent": true
+    },
+    {
+      "source": "/testimonial/attendee-cisco",
+      "destination": "/testimonials#attendee",
+      "permanent": true
+    },
+    {
+      "source": "/testimonial/nicole-h",
+      "destination": "/testimonials#nicole-h",
+      "permanent": true
+    },
+    {
+      "source": "/testimonial/elisa-c",
+      "destination": "/testimonials#elisa-c",
+      "permanent": true
+    },
+    {
+      "source": "/testimonial/jennifer-c",
+      "destination": "/testimonials#jennifer-c",
+      "permanent": true
+    },
+    {
+      "source": "/amy-j",
+      "destination": "/testimonials#amy-j",
+      "permanent": true
+    },
+    {
+      "source": "/apurva-bhagali",
+      "destination": "/testimonials#apurva-b",
+      "permanent": true
+    },
+    {
+      "source": "/dorienne-b",
+      "destination": "/testimonials#dorie-b",
+      "permanent": true
+    },
+    {
+      "source": "/jason-r",
+      "destination": "/testimonials#jason-r",
+      "permanent": true
+    },
+    {
+      "source": "/rachel-h",
+      "destination": "/testimonials#raechel-h",
+      "permanent": true
+    },
+    {
+      "source": "/samantha-l",
+      "destination": "/testimonials#samantha-l",
+      "permanent": true
+    },
+    {
+      "source": "/sulbha-m",
+      "destination": "/testimonials#sulbha-m",
+      "permanent": true
+    },
+    {
+      "source": "/teju-k",
+      "destination": "/testimonials#teju-k",
+      "permanent": true
+    },
+    {
+      "source": "/women-leaders-in-data-al",
+      "destination": "/testimonials#julie-h",
+      "permanent": true
+    },
+    {
+      "source": "/mentorship",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/awardsandaccolades",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/author/lorraineklee",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/unforgettable-presence",
+      "destination": "/book",
+      "permanent": true
+    },
+    {
+      "source": "/unforgettable-presence-masterclass",
+      "destination": "/book",
+      "permanent": true
+    },
+    {
+      "source": "/staging-for-unforgettable-presence-tm",
+      "destination": "/book",
+      "permanent": true
+    },
+    {
+      "source": "/free-resources",
+      "destination": "/learn",
+      "permanent": true
+    },
+    {
+      "source": "/your-preferences-updated",
+      "destination": "/learn",
+      "permanent": true
+    },
+    {
+      "source": "/key-takeaways-download",
+      "destination": "/learn",
+      "permanent": true
+    },
+    {
+      "source": "/survey-ultimate-guide",
+      "destination": "/learn",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-workshop-video",
+      "destination": "/learn",
+      "permanent": true
+    },
+    {
+      "source": "/ultimate-guide-to-linkedin-free-version",
+      "destination": "/ultimate-linkedin-guide",
+      "permanent": true
+    },
+    {
+      "source": "/portfolio-2",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/training-old",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-replay",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-training-replay",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-training",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-presence-training",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/video-communications-training",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/prezi-presentation-design-services",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/googlefireside2025",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/servicenow-linkedin-2025",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/hercareerstory-may2025",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/zoomies",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/email-me-with-your-topic-of-interest",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/thank-you-for-sharing-your-interest",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/thank-you-youre-still-on-the-list",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/issue-42-why-youre-feeling-burnt-out-and-how-to-fix-it",
+      "destination": "/articles/issue-42-why-youre-feeling-burnt-out-and-how-to-fix-it",
+      "permanent": true
+    },
+    {
+      "source": "/issue-43-what-your-linkedin-headline-is-missing",
+      "destination": "/articles/issue-43-what-your-linkedin-headline-is-missing",
+      "permanent": true
+    },
+    {
+      "source": "/issue-44-how-to-create-a-superpowered-agenda",
+      "destination": "/articles/issue-44-how-to-create-a-superpowered-agenda",
+      "permanent": true
+    },
+    {
+      "source": "/issue-45-have-you-taken-advantage-of-this-linkedin-feature",
+      "destination": "/articles/issue-45-have-you-taken-advantage-of-this-linkedin-feature",
+      "permanent": true
+    },
+    {
+      "source": "/tools-and-techniques-for-smarter-work",
+      "destination": "/articles/tools-and-techniques-for-smarter-work",
+      "permanent": true
+    },
+    {
+      "source": "/category/:slug",
+      "destination": "/articles",
+      "permanent": true
+    },
+    {
+      "source": "/tag/:slug",
+      "destination": "/articles",
+      "permanent": true
+    },
+    {
+      "source": "/cart",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/checkout",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/shop",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/my-account",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/payment-form",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/payment-form-ecamm-bundle",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/payment-form-for-purchasing-the-recording",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/payment-form-for-qa-and-an-additional-live-qa-session",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/unforgettable-presence-linkedin-guide-payment",
+      "destination": "/ultimate-linkedin-guide",
+      "permanent": true
+    },
+    {
+      "source": "/masterclass-checkout",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/payment-confirmation",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/payment-failed",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/ecamm-workshop",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/ecamm-bonuses",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/from-the-archive-one-easy-way-to-expand-your-network-on-linkedin",
+      "destination": "/articles/from-the-archive-one-easy-way-to-expand-your-network-on-linkedin",
+      "permanent": true
+    },
+    {
+      "source": "/from-the-archive-avoid-this-resume-trap",
+      "destination": "/articles/from-the-archive-avoid-this-resume-trap",
+      "permanent": true
+    },
+    {
+      "source": "/from-the-archive-polish-your-presence-for-remote-interviews-with-this-video-setup",
+      "destination": "/articles/from-the-archive-polish-your-presence-for-remote-interviews-with-this-video-setup",
+      "permanent": true
+    },
+    {
+      "source": "/free-quiz",
+      "destination": "/learn",
+      "permanent": true
+    },
+    {
+      "source": "/quiz",
+      "destination": "/learn",
+      "permanent": true
+    },
+    {
+      "source": "/about-2",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/about-2024",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/your-questions-answered",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/testimonials-copy",
+      "destination": "/testimonials",
+      "permanent": true
+    },
+    {
+      "source": "/testimonials-3",
+      "destination": "/testimonials",
+      "permanent": true
+    },
+    {
+      "source": "/thought-leadership-new",
+      "destination": "/thought-leadership",
+      "permanent": true
+    },
+    {
+      "source": "/thought-leadership-2",
+      "destination": "/thought-leadership",
+      "permanent": true
+    },
+    {
+      "source": "/portfolio",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/ultimate-guide",
+      "destination": "/ultimate-linkedin-guide",
+      "permanent": true
+    },
+    {
+      "source": "/ultimate-linkedin-guide-copy2",
+      "destination": "/ultimate-linkedin-guide",
+      "permanent": true
+    },
+    {
+      "source": "/learn-free-resources",
+      "destination": "/learn",
+      "permanent": true
+    },
+    {
+      "source": "/training",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/trainings",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/speaking-2024-denzil-temp",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-training-2",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/linkedin-presence-training-2",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/transform-your-linkedin-presence-in-just-90-minutes",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/transform-your-linkedin-presence-in-just-90-minutes-replay",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/book-zoom",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/thinkific-masterclass-2",
+      "destination": "/book",
+      "permanent": true
+    },
+    {
+      "source": "/ecamm",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/ecamm-workshop-2",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/ecamm-workshop-new-upsells",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/payment-form-copy2",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/payment-form-ecamm",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/issue-20-boost-your-bottom-line-with-the-revenue-optimization-canvas-copy-5",
+      "destination": "/articles/issue-42-why-youre-feeling-burnt-out-and-how-to-fix-it",
+      "permanent": true
+    },
+    {
+      "source": "/issue-20-boost-your-bottom-line-with-the-revenue-optimization-canvas-copy-6",
+      "destination": "/articles/issue-43-what-your-linkedin-headline-is-missing",
+      "permanent": true
+    },
+    {
+      "source": "/issue-20-boost-your-bottom-line-with-the-revenue-optimization-canvas-copy-7",
+      "destination": "/articles/issue-44-how-to-create-a-superpowered-agenda",
+      "permanent": true
+    },
+    {
+      "source": "/issue-20-boost-your-bottom-line-with-the-revenue-optimization-canvas-copy-8",
+      "destination": "/articles/issue-45-have-you-taken-advantage-of-this-linkedin-feature",
+      "permanent": true
+    },
+    {
+      "source": "/what-your-linkedin-headline-is-missing",
+      "destination": "/articles/issue-43-what-your-linkedin-headline-is-missing",
+      "permanent": true
+    },
+    {
+      "source": "/how-to-create-a-superpowered-agenda",
+      "destination": "/articles/issue-44-how-to-create-a-superpowered-agenda",
+      "permanent": true
+    }
   ]
 }
