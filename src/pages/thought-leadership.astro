@@ -57,7 +57,21 @@ const toMedia = (items: typeof appearances) =>
 		})
 		.filter((item) => item.href);
 
-const guestAppearances = toMedia(appearances);
+// "Recent appearances" is ordered by hand in Keystatic, so the top three were
+// whatever happened to be entered first, including a 2024 item. Sort newest
+// first so the teaser is actually recent. Dates are free text ("May 2025"), so
+// anything unparseable sorts last rather than throwing.
+const MONTHS = ['january','february','march','april','may','june','july',
+	'august','september','october','november','december'];
+const dateRank = (d?: string | null): number => {
+	const m = /^\s*([a-z]+)\s+(\d{4})/i.exec(d ?? '');
+	if (!m) return -1;
+	const month = MONTHS.indexOf(m[1].toLowerCase());
+	return month < 0 ? -1 : Number(m[2]) * 12 + month;
+};
+const guestAppearances = toMedia(appearances).sort(
+	(a, b) => dateRank(b.date) - dateRank(a.date)
+);
 const conductedInterviews = toMedia(
 	(interviews ?? []).map((i) => ({
 		// Map interview fields onto the shared media shape (show/title).
@@ -106,7 +120,7 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 	activeId="thought-leadership"
 >
 	{/* ---------- Hero ---------- */}
-	<section class="page-hero page-hero--center">
+	<section class="page-hero page-hero--center" id="top">
 		<div class="grid12 page-hero-grid">
 			<div class="page-hero-copy fade-up">
 				<div class="page-hero-eyebrow">
@@ -130,6 +144,33 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 			</div>
 		</div>
 	</section>
+
+	{/* ---------- Section index ----------
+	    The page runs to four near-identical card grids, so without this a
+	    visitor has no idea what is below or how far it goes. */}
+	<nav class="tl-index" aria-label="Sections on this page">
+		<div class="grid12">
+			<ul class="tl-index-list">
+				{
+					[
+						/* Short fixed labels. The section headings are split into a
+						   plain half and an italic half, so reusing either one gave
+						   fragments like "appearances" and "interviewed". */
+						{ id: 'appearances', label: 'Podcasts & shows', show: guestAppearances.length > 0 },
+						{ id: 'press', label: 'Press & features', show: pressFeatures.length > 0 },
+						{ id: 'articles', label: 'Articles', show: articles.length > 0 },
+						{ id: 'interviews-conducted', label: 'Interviews by Lorraine', show: conductedInterviews.length > 0 },
+					]
+						.filter((i) => i.show)
+						.map((i) => (
+							<li>
+								<a href={`#${i.id}`}>{i.label}</a>
+							</li>
+						))
+				}
+			</ul>
+		</div>
+	</nav>
 
 	{/* ---------- Guest appearances (Lorraine as guest) ---------- */}
 	{
@@ -207,6 +248,11 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 							</a>
 						</div>
 					)}
+					<div class="tl-back-to-top">
+						<a href="#top">
+							<span aria-hidden="true">&uarr;</span> Back to top
+						</a>
+					</div>
 				</div>
 			</section>
 		)
@@ -255,6 +301,11 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 							</a>
 						</div>
 					)}
+					<div class="tl-back-to-top">
+						<a href="#top">
+							<span aria-hidden="true">&uarr;</span> Back to top
+						</a>
+					</div>
 				</div>
 			</section>
 		)
@@ -263,7 +314,7 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 	{/* ---------- Authored articles ---------- */}
 	{
 		articles.length > 0 && (
-			<section class="section section--compact">
+			<section class="section section--compact anchor-target" id="articles">
 				<div class="grid12">
 					<div class="section-head section-head--center">
 						<span class="eyebrow">{articles_section.eyebrow}</span>
@@ -311,6 +362,11 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 							</a>
 						</div>
 					)}
+					<div class="tl-back-to-top">
+						<a href="#top">
+							<span aria-hidden="true">&uarr;</span> Back to top
+						</a>
+					</div>
 				</div>
 			</section>
 		)
@@ -319,7 +375,7 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 	{/* ---------- Interviews Lorraine has conducted ---------- */}
 	{
 		conductedInterviews.length > 0 && (
-			<section class="section section--compact section--cream">
+			<section class="section section--compact section--cream anchor-target" id="interviews-conducted">
 				<div class="grid12">
 					<div class="section-head section-head--center">
 						<span class="eyebrow">{interviews_section.eyebrow}</span>
@@ -388,6 +444,11 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 							</a>
 						</div>
 					)}
+					<div class="tl-back-to-top">
+						<a href="#top">
+							<span aria-hidden="true">&uarr;</span> Back to top
+						</a>
+					</div>
 				</div>
 			</section>
 		)
@@ -640,5 +701,54 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 		.tl-link-cta {
 			transition: none;
 		}
+	}
+
+	/* Section index: a compact row under the hero so the shape of the page is
+	   visible before scrolling through four near-identical card grids. */
+	.tl-index {
+		padding: 0 0 clamp(8px, 1.6vw, 20px);
+	}
+	.tl-index-list {
+		grid-column: 1 / -1;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 10px 12px;
+	}
+	.tl-index-list a {
+		display: inline-block;
+		font-family: var(--font-sans);
+		font-size: 13.5px;
+		line-height: 1;
+		color: var(--ink-700);
+		background: #fff;
+		border: 1px solid var(--border-soft);
+		border-radius: var(--radius-pill);
+		padding: 10px 16px;
+		text-decoration: none;
+		transition: background 160ms var(--ease-out), color 160ms var(--ease-out),
+			border-color 160ms var(--ease-out);
+	}
+	.tl-index-list a:hover,
+	.tl-index-list a:focus-visible {
+		background: var(--ink-900);
+		border-color: var(--ink-900);
+		color: #fff;
+	}
+	.tl-back-to-top {
+		margin-top: clamp(20px, 2.4vw, 30px);
+		text-align: center;
+	}
+	.tl-back-to-top a {
+		font-family: var(--font-sans);
+		font-size: 13px;
+		color: var(--ink-500);
+		text-decoration: none;
+	}
+	.tl-back-to-top a:hover {
+		color: var(--accent);
 	}
 </style>
