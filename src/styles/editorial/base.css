@@ -456,20 +456,23 @@ body {
 /* The speaking hero's soft white rim is baked into the image file, so the
    mask above would fade it a second time and wash out her face. The Articles
    hero still uses a plain photo and keeps the mask. */
+/* Directional fade, matching the homepage: only the edge facing the copy
+   dissolves and the photo runs hard off the other three. It is a mask, so the
+   soft edge is transparency rather than a fade baked to white, and there is
+   no background colour for it to mismatch. The photo file is a plain photo
+   cut to the card's ratio. */
 .photo-card--prefaded img {
-  -webkit-mask-image: none;
-  mask-image: none;
-  /* The photo is exported at the card's own ratio (1180x1240 against a
-     589x620 box), so cover fills it edge to edge without cropping the baked
-     fade away. Replacing it with a differently shaped photo would start
-     cropping that fade again. */
   object-fit: cover;
   object-position: center top;
-  /* The photo's rim fades to pure white, but the page sits on #f9f9f9, so the
-     faded area read as a brighter rectangle with visible straight edges.
-     Multiply blends white into whatever is behind it exactly, so the rim
-     disappears into the page at any background colour. */
-  mix-blend-mode: multiply;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 26%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 26%);
+}
+/* Stacked below 900px, so the fade moves to the edge that now meets the copy. */
+@media (max-width: 900px) {
+  .photo-card--prefaded img {
+    -webkit-mask-image: linear-gradient(to bottom, #000 74%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 74%, transparent 100%);
+  }
 }
 .photo-stat {
   position: absolute;
