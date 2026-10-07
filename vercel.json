@@ -1,6 +1,7 @@
 {
   "framework": "astro",
   "redirects": [
+    { "source": "/li-testimonials", "destination": "https://www.linkedin.com/in/lorraineklee/details/recommendations/?detailScreenTabIndex=0", "statusCode": 301 },
     { "source": "/CC-feedback", "destination": "https://docs.google.com/forms/d/e/1FAIpQLScVud1hRIwxEuY5MdeQqibNrEgoJSSX2iuWW0eQSCdagRDSNg/viewform?usp=sf_link", "permanent": true },
     { "source": "/NISM-discount", "destination": "https://lorraineklee.kit.com/ultimate-guide-preview", "permanent": true },
     { "source": "/NUL-feedback", "destination": "https://docs.google.com/forms/d/e/1FAIpQLSdTUNk-kfPiJUZyLhxPY3Ke-i5iDsCqVgbVdIT7x_BesjEMKA/viewform?usp=sf_link", "permanent": true },
