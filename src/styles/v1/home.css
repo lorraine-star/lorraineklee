@@ -482,15 +482,13 @@ body {
   object-fit: cover;
   object-position: center top;
   display: block;
-  /* The photo's rim fades to pure white, but the page sits on #f9f9f9, so the
-     faded area read as a brighter rectangle with visible straight edges.
-     Multiply blends white into whatever is behind it exactly, so the rim
-     disappears into the page at any background colour. */
-  mix-blend-mode: multiply;
-  /* No CSS mask here. The soft white rim is baked into the source image, so
-     a mask on top of it would fade the edges twice and creep back onto her
-     face. If the photo is ever swapped for one with hard edges, the fade has
-     to be added to the new file rather than reinstated here. */
+  /* Directional fade: only the edge facing the copy dissolves, and the photo
+     runs hard off the other three. This is transparency rather than a fade
+     baked to white, so there is no background colour to match and the soft
+     edge cannot read as a pale rectangle the way a baked rim did. The photo
+     file is a plain photo with no fade of its own. */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 26%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 26%);
 }
 .photo-bg-shape {
   display: none;
@@ -1298,6 +1296,14 @@ body {
 }
 
 /* ---------- RESPONSIVE ---------- */
+/* The hero stacks below 900px, so the photo no longer sits beside the copy
+   and the fade belongs on the bottom edge instead of the left one. */
+@media (max-width: 900px) {
+  .photo-card img {
+    -webkit-mask-image: linear-gradient(to bottom, #000 74%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 74%, transparent 100%);
+  }
+}
 @media (max-width: 1100px) {
   .hero-copy { grid-column: 1 / span 7; }
   .hero-photo-wrap { grid-column: 8 / span 5; }
