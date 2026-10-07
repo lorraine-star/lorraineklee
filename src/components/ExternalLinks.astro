@@ -1,0 +1,54 @@
+---
+/*
+ * Sends every link that leaves lorraineklee.com to a new tab.
+ *
+ * Most links across the site already carry target="_blank" because they were
+ * written that way by hand, but 23 did not: links inside article bodies and
+ * other Markdoc content are authored as plain markdown, which cannot express a
+ * target, so each new article would reintroduce the problem. Doing it here
+ * covers hand-written markup and generated content alike, including anything
+ * added later.
+ *
+ * Anything already carrying a target is left alone, so a deliberate choice in
+ * a page is never overridden. rel="noopener noreferrer" goes on with it: a
+ * page opened via target="_blank" can otherwise reach back through
+ * window.opener.
+ *
+ * Links still work with JavaScript disabled; they open in the same tab.
+ */
+---
+
+<script is:inline>
+  (() => {
+    const markExternalLinks = () => {
+      for (const a of document.querySelectorAll('a[href]')) {
+        if (a.hasAttribute('target')) continue;
+        let url;
+        try {
+          url = new URL(a.href, window.location.href);
+        } catch {
+          continue; // malformed href, leave it alone
+        }
+        // Only http(s). mailto:, tel: and anchors are not "leaving the site".
+        if (url.protocol !== 'http:' && url.protocol !== 'https:') continue;
+        if (url.hostname === window.location.hostname) continue;
+        // Treat the bare and www forms of the live domain as the same site.
+        if (url.hostname.replace(/^www\./, '') === 'lorraineklee.com') continue;
+        a.setAttribute('target', '_blank');
+        const rel = new Set((a.getAttribute('rel') || '').split(/\s+/).filter(Boolean));
+        rel.add('noopener');
+        rel.add('noreferrer');
+        a.setAttribute('rel', [...rel].join(' '));
+      }
+    };
+    // This component renders in <head>, so the body is not parsed yet on the
+    // first pass; without the readiness check it finds no links at all.
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', markExternalLinks);
+    } else {
+      markExternalLinks();
+    }
+    // Re-run if the site ever adopts view transitions.
+    document.addEventListener('astro:page-load', markExternalLinks);
+  })();
+</script>

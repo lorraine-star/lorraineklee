@@ -6,6 +6,7 @@ import CookieBanner from '../components/CookieBanner.astro';
 import ClarityAnalytics from '../components/ClarityAnalytics.astro';
 import ScrollToTop from '../components/ScrollToTop.astro';
 import GoogleAnalytics from '../components/GoogleAnalytics.astro';
+import ExternalLinks from '../components/ExternalLinks.astro';
 import Seo from '../components/Seo.astro';
 
 interface Props {
@@ -33,6 +34,7 @@ const { title = 'Lorraine K. Lee', description } = Astro.props;
     <title>{title}</title>
     <Seo title={title} description={description} />
     <GoogleAnalytics />
+		<ExternalLinks />
     <ClarityAnalytics />
   </head>
   <body>

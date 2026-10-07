@@ -5,6 +5,7 @@ import CookieBanner from '../components/CookieBanner.astro';
 import ClarityAnalytics from '../components/ClarityAnalytics.astro';
 import ScrollToTop from '../components/ScrollToTop.astro';
 import GoogleAnalytics from '../components/GoogleAnalytics.astro';
+import ExternalLinks from '../components/ExternalLinks.astro';
 import FreeCoursePopup from '../components/FreeCoursePopup.astro';
 import Seo from '../components/Seo.astro';
 
@@ -28,6 +29,7 @@ const { title, description } = Astro.props;
 		<title>{title}</title>
 		<Seo title={title} description={description} />
 		<GoogleAnalytics />
+		<ExternalLinks />
 		<ClarityAnalytics />
 	</head>
 	<body class="flex min-h-screen flex-col bg-white text-foreground">
