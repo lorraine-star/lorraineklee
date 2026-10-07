@@ -955,14 +955,19 @@ export default config({
         ),
         other_talks: fields.array(
           fields.object({
+            slug: fields.text({
+              label: 'Anchor slug (optional)',
+              description:
+                'Fixes the #anchor used to link straight to this talk. Set it when the title changes, so links already shared keep working. Defaults to the title.',
+            }),
             title: fields.text({ label: 'Title' }),
             subtitle: fields.text({ label: 'Subtitle (optional)' }),
             note: fields.text({ label: 'Context note (optional)' }),
             format: fields.text({ label: 'Format (optional)' }),
             gif: fields.text({
-              label: 'Animated clip (optional, not shown)',
+              label: 'Animated clip (optional)',
               description:
-                'Not shown right now: talk cards display a branded title card built from the title. Kept so the old clip can be restored, e.g. "/images/speaking/keynotes/tea-method.webp".',
+                'Shown at the top of the talk card, e.g. "/images/speaking/keynotes/tea-method.webp". Talks without one fall back to a branded title card.',
             }),
             gif_alt: fields.text({ label: 'Animated clip alt text' }),
             description: fields.text({

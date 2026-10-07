@@ -446,11 +446,27 @@ const cardEyebrow = (format?: string | null) =>
 							const cardId = talkSlug(talk);
 							return (
 								<div class="topic-card topic-acc other-talk-card" id={cardId} data-open="false">
-									<TalkTitleCard
-										title={talk.title}
-										eyebrow={cardEyebrow(talk.format)}
-										variant={i + topics.length}
-									/>
+									{/* Same as the signature keynotes above: show the clip of
+									    Lorraine delivering the talk, and fall back to the
+									    branded card for any talk without one. */}
+									{talk.gif ? (
+										<div class="topic-media">
+											<img
+												src={talk.gif}
+												alt={talk.gif_alt || talk.title}
+												width="600"
+												height="338"
+												loading="lazy"
+												decoding="async"
+											/>
+										</div>
+									) : (
+										<TalkTitleCard
+											title={talk.title}
+											eyebrow={cardEyebrow(talk.format)}
+											variant={i + topics.length}
+										/>
+									)}
 									<div
 										class="topic-acc-trigger"
 										role="button"
