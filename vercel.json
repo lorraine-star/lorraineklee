@@ -2,6 +2,46 @@
   "framework": "astro",
   "redirects": [
     {
+      "source": "/articles/from-the-archive-avoid-this-resume-trap",
+      "destination": "/articles",
+      "permanent": true
+    },
+    {
+      "source": "/articles/from-the-archive-one-easy-way-to-expand-your-network-on-linkedin",
+      "destination": "/articles",
+      "permanent": true
+    },
+    {
+      "source": "/articles/from-the-archive-polish-your-presence-for-remote-interviews-with-this-video-setup",
+      "destination": "/articles",
+      "permanent": true
+    },
+    {
+      "source": "/articles/issue-42-why-youre-feeling-burnt-out-and-how-to-fix-it",
+      "destination": "/articles",
+      "permanent": true
+    },
+    {
+      "source": "/articles/issue-43-what-your-linkedin-headline-is-missing",
+      "destination": "/articles",
+      "permanent": true
+    },
+    {
+      "source": "/articles/issue-44-how-to-create-a-superpowered-agenda",
+      "destination": "/articles",
+      "permanent": true
+    },
+    {
+      "source": "/articles/issue-45-have-you-taken-advantage-of-this-linkedin-feature",
+      "destination": "/articles",
+      "permanent": true
+    },
+    {
+      "source": "/articles/tools-and-techniques-for-smarter-work",
+      "destination": "/articles",
+      "permanent": true
+    },
+    {
       "source": "/keynotes/communicate-with-confidence-in-a-virtual-world",
       "destination": "/speaking#communicate-with-confidence-in-a-virtual-world",
       "permanent": true
