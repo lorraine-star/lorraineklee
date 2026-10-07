@@ -1402,7 +1402,7 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 .bio-cta-row {
   grid-column: 1 / -1;
   margin-top: 2rem;
-  justify-content: flex-start;
+  justify-content: center;
 }
 .bio-aside {
   grid-column: 10 / span 3;
@@ -2316,9 +2316,9 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   .bio-body--centered { grid-column: 2 / -2; }
   .bio-aside { grid-column: 9 / span 4; }
   /* The button used to auto-place into the free track beside the aside, which
-     read as a stray item floating to the right of the facts list. It belongs
-     under the story, aligned with the text column. */
-  .bio-cta-row { grid-column: 1 / span 7; }
+     read as a stray item floating to the right of the facts list. It now sits
+     under the story, centred across the full width. */
+  .bio-cta-row { grid-column: 1 / -1; }
   .reviews-grid { grid-template-columns: repeat(2, 1fr); }
   .credibility-grid { grid-template-columns: repeat(2, 1fr); }
   .highlight-grid { grid-template-columns: repeat(2, 1fr); }

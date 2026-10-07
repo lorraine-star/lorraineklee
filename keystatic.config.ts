@@ -654,6 +654,19 @@ export default config({
             itemLabel: (props) => props.fields.value.value || 'Highlight',
           }
         ),
+        testimonials_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({ label: 'Heading accent (italic)' }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+          },
+          {
+            label: 'Testimonials section',
+            description:
+              'Which quotes appear is set per testimonial, with the "Show on the /about page" checkbox. Leave the heading empty to hide the section.',
+          }
+        ),
         credibility_section: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
@@ -3684,6 +3697,10 @@ export default config({
         }),
         showOnCourses: fields.checkbox({
           label: 'Show on the /courses page',
+          defaultValue: false,
+        }),
+        showOnAbout: fields.checkbox({
+          label: 'Show on the /about page',
           defaultValue: false,
         }),
       },

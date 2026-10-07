@@ -70,7 +70,7 @@ footer:
 
           href: /courses
 
-        - label: Free Course
+        - label: Free Email Course
 
           href: /from-invisible-to-influential
 
@@ -186,7 +186,7 @@ nav:
       
       children:
       
-        - label: Free Course
+        - label: Free Email Course
         
           href: /from-invisible-to-influential
           
@@ -206,10 +206,6 @@ nav:
       
       children:
       
-        - label: Awards and Accolades
-        
-          href: /about#awards
-          
         - label: Testimonials
         
           href: /testimonials

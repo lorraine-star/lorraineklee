@@ -15,7 +15,7 @@ export type TestimonialType =
   | 'event-attendee'
   | 'course-student-review';
 
-export type Placement = 'homepage' | 'testimonials' | 'speaking' | 'courses';
+export type Placement = 'homepage' | 'testimonials' | 'speaking' | 'courses' | 'about';
 
 export interface Testimonial {
   slug: string;
@@ -34,6 +34,7 @@ export interface Testimonial {
   showOnTestimonials: boolean;
   showOnSpeaking: boolean;
   showOnCourses: boolean;
+  showOnAbout: boolean;
 }
 
 const PLACEMENT_FLAG: Record<Placement, keyof Testimonial> = {
@@ -41,6 +42,7 @@ const PLACEMENT_FLAG: Record<Placement, keyof Testimonial> = {
   testimonials: 'showOnTestimonials',
   speaking: 'showOnSpeaking',
   courses: 'showOnCourses',
+  about: 'showOnAbout',
 };
 
 /** Section metadata for grouping testimonials by type, in display order. */

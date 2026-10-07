@@ -1,7 +1,9 @@
 ---
 import SpeakingLayout from '../layouts/SpeakingLayout.astro';
 import TrustAsSeenIn from '../components/TrustAsSeenIn.astro';
+import HomeTestimonialsCarousel from '../components/HomeTestimonialsCarousel';
 import { reader, renderMarkdoc } from '../lib/keystatic';
+import { getTestimonials, toCarouselCard } from '../lib/testimonials';
 import { safeUrl } from '../lib/url';
 
 const about = await reader.singletons.about.read();
@@ -15,10 +17,17 @@ const {
 	story_facts,
 	career_section,
 	career_highlights,
+	testimonials_section,
 	credibility_section,
 	credibility,
 	final_ctas,
 } = about;
+
+// Proof in someone else's voice, on the page where people decide whether to
+// trust her. Which quotes appear is set per testimonial in Keystatic.
+const aboutTestimonials = (
+	await getTestimonials({ placement: 'about' })
+).map(toCarouselCard);
 
 const bodyHtml = await renderMarkdoc(about.body);
 const hasStoryFacts = story_facts.length > 0;
@@ -97,6 +106,31 @@ const hasStoryFacts = story_facts.length > 0;
 			</div>
 		</div>
 	</section>
+
+	{/* ---------- Testimonials ---------- */}
+	{
+		testimonials_section?.heading && aboutTestimonials.length > 0 && (
+			<section class="section section--tight" id="testimonials">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						{testimonials_section.eyebrow && (
+							<span class="eyebrow">{testimonials_section.eyebrow}</span>
+						)}
+						<h2>
+							{testimonials_section.heading}{' '}
+							<em>{testimonials_section.heading_accent}</em>
+						</h2>
+						{testimonials_section.lead && (
+							<p class="lead">{testimonials_section.lead}</p>
+						)}
+					</div>
+				</div>
+				<div class="grid12">
+					<HomeTestimonialsCarousel client:load testimonials={aboutTestimonials} />
+				</div>
+			</section>
+		)
+	}
 
 	{/* ---------- Career highlights ---------- */}
 	<section class="section section--tight" id="awards">

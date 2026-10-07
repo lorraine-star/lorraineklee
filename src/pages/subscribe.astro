@@ -241,11 +241,15 @@ const quotes = (testimonials ?? []).filter((t) => t?.quote && t.quote.trim());
   .sub-copy h1 {
     margin: 14px 0 0;
   }
+  /* This is the subhead carrying the whole offer, so it is the darkest and
+     largest of the three text blocks. It was the lightest, which left the page
+     getting darker as it went down and the least important line shouting
+     loudest. */
   .sub-lead {
     margin: 18px 0 0;
-    font-size: clamp(15px, 1.2vw, 17px);
-    line-height: 1.6;
-    color: var(--ink-500);
+    font-size: clamp(16px, 1.35vw, 19px);
+    line-height: 1.55;
+    color: var(--ink-900);
     max-width: 52ch;
   }
   .sub-benefits {

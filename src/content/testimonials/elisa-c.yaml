@@ -18,3 +18,4 @@ showOnHomepage: false
 showOnTestimonials: true
 showOnSpeaking: false
 showOnCourses: true
+showOnAbout: false
