@@ -33,9 +33,13 @@
         current 1240px grid the gutter term always wins (CLI-154). */
   width: min(100% - 160px, 1040px);
      min-width: 0;
-     /* Prevent Clarity mobile sideways scroll from dragging the page. */
-  overflow-x: clip;
-     overflow-y: visible;
+     /* No clipping here. The arrows are deliberately placed outside this box
+        (prev at -66px, next at -66px), so clipping the x-axis hid both of them
+        on desktop and the carousel looked like three static cards with no way
+        to reach the other ten. The clip exists to stop a sideways page drag on
+        mobile, where the arrows are moved inside the edges instead, so it is
+        applied at that breakpoint only. */
+  overflow: visible;
 }
 .section--cream .testimonials-carousel {
      --testimonials-carousel-bg: var(--paper-deep);
@@ -217,6 +221,9 @@
      .testimonials-carousel {
             width: 100%;
             max-width: 100%;
+            /* Safe here: the controls sit inside the edges at this width. */
+            overflow-x: clip;
+            overflow-y: visible;
      }
      .testimonials-track {
             gap: 16px;

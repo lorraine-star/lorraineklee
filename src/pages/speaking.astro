@@ -308,14 +308,27 @@ const cardEyebrow = (format?: string | null) =>
 						const cardId = talkSlug(t);
 						return (
 							<div class="topic-card topic-acc" id={cardId} data-open="false">
-								{/* Branded title card instead of the old webcam capture
-								    (Wishly review). The `gif` field is kept in Keystatic
-								    but no longer rendered. */}
-								<TalkTitleCard
-									title={t.title}
-									eyebrow={cardEyebrow(t.format)}
-									variant={i}
-								/>
+								{/* The clip shows Lorraine actually delivering the talk,
+								    which sells it better than a title card. Talks without
+								    one fall back to the branded card. */}
+								{t.gif ? (
+									<div class="topic-media">
+										<img
+											src={t.gif}
+											alt={t.gif_alt || t.title}
+											width="600"
+											height="338"
+											loading="lazy"
+											decoding="async"
+										/>
+									</div>
+								) : (
+									<TalkTitleCard
+										title={t.title}
+										eyebrow={cardEyebrow(t.format)}
+										variant={i}
+									/>
+								)}
 								<div
 									class="topic-acc-trigger"
 									role="button"
