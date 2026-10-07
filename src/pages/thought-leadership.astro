@@ -18,7 +18,6 @@ const {
 	press_features,
 	articles_section,
 	authored_articles,
-	interviews_section,
 	interviews,
 	final_cta,
 } = page;
@@ -72,20 +71,6 @@ const dateRank = (d?: string | null): number => {
 const guestAppearances = toMedia(appearances).sort(
 	(a, b) => dateRank(b.date) - dateRank(a.date)
 );
-const conductedInterviews = toMedia(
-	(interviews ?? []).map((i) => ({
-		// Map interview fields onto the shared media shape (show/title).
-		show: i.role,
-		title: i.name,
-		description: i.description,
-		thumbnail: i.thumbnail,
-		thumbnail_fit: i.thumbnail_fit,
-		youtube_id: i.youtube_id,
-		url: i.url,
-		cta_label: i.cta_label,
-		date: '',
-	}))
-);
 
 const pressFeatures = (press_features ?? [])
 	.map((f) => ({ ...f, href: resolveUrl(f.url) }))
@@ -100,7 +85,6 @@ const finalCtaUrl = resolveUrl(final_cta.cta_url) || '/contact';
 const appearancesMore = resolveUrl(appearances_section.view_more_url);
 const pressMore = resolveUrl(press_section.view_more_url);
 const articlesMore = resolveUrl(articles_section.view_more_url);
-const interviewsMore = resolveUrl(interviews_section.view_more_url);
 
 // This page is an overview hub, not the canonical full inventory. The
 // standalone pages (/articles/, /featured-in/, /interviews/) own the complete
@@ -111,7 +95,6 @@ const TEASER_COUNT = 3;
 const appearancesTeaser = guestAppearances.slice(0, TEASER_COUNT);
 const pressTeaser = pressFeatures.slice(0, TEASER_COUNT);
 const articlesTeaser = articles.slice(0, TEASER_COUNT);
-const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 ---
 
 <SpeakingLayout
@@ -159,7 +142,6 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 						{ id: 'appearances', label: 'Podcasts & shows', show: guestAppearances.length > 0 },
 						{ id: 'press', label: 'Press & features', show: pressFeatures.length > 0 },
 						{ id: 'articles', label: 'Articles', show: articles.length > 0 },
-						{ id: 'interviews-conducted', label: 'Interviews by Lorraine', show: conductedInterviews.length > 0 },
 					]
 						.filter((i) => i.show)
 						.map((i) => (
@@ -359,88 +341,6 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 							>
 								{articles_section.view_more_label}{' '}
 								<span aria-hidden="true">{ctaArrow(articlesMore)}</span>
-							</a>
-						</div>
-					)}
-					<div class="tl-back-to-top">
-						<a href="#top">
-							<span aria-hidden="true">&uarr;</span> Back to top
-						</a>
-					</div>
-				</div>
-			</section>
-		)
-	}
-
-	{/* ---------- Interviews Lorraine has conducted ---------- */}
-	{
-		conductedInterviews.length > 0 && (
-			<section class="section section--compact section--cream anchor-target" id="interviews-conducted">
-				<div class="grid12">
-					<div class="section-head section-head--center">
-						<span class="eyebrow">{interviews_section.eyebrow}</span>
-						<h2>
-							{interviews_section.heading}{' '}
-							<em>{interviews_section.heading_accent}</em>
-						</h2>
-						{interviews_section.lead && (
-							<p class="lead">{interviews_section.lead}</p>
-						)}
-					</div>
-					<div class="tl-media-cards reveal-stagger">
-						{interviewsTeaser.map((it) => (
-							<a
-								class="tl-media-card"
-								href={it.href}
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								<div class:list={['tl-media-thumb', { 'tl-media-thumb--logo': it.isLogo }]}>
-									{it.image ? (
-										<img
-											src={it.image}
-											alt=""
-											loading="lazy"
-											width="480"
-											height="360"
-										/>
-									) : (
-										<div class="tl-media-thumb-deco" aria-hidden="true" />
-									)}
-									<span class="tl-media-play" aria-hidden="true">
-										<svg viewBox="0 0 24 24" fill="currentColor">
-											<path d="M8 5v14l11-7z" />
-										</svg>
-									</span>
-								</div>
-								<div class="tl-media-body">
-									<span class="tl-media-meta">{it.show}</span>
-									<h3>{it.title}</h3>
-									{it.description && (
-										<p class="tl-media-desc">{it.description}</p>
-									)}
-									<span class="tl-media-link">
-										{it.cta_label || 'Watch now'}{' '}
-										<span aria-hidden="true">&#8599;</span>
-									</span>
-								</div>
-							</a>
-						))}
-					</div>
-					{interviewsMore && interviews_section.view_more_label && (
-						<div class="tl-view-more">
-							<a
-								class="btn outline"
-								href={interviewsMore}
-								target={isExternal(interviewsMore) ? '_blank' : undefined}
-								rel={
-									isExternal(interviewsMore)
-										? 'noopener noreferrer'
-										: undefined
-								}
-							>
-								{interviews_section.view_more_label}{' '}
-								<span aria-hidden="true">{ctaArrow(interviewsMore)}</span>
 							</a>
 						</div>
 					)}
@@ -739,6 +639,9 @@ const interviewsTeaser = conductedInterviews.slice(0, TEASER_COUNT);
 		color: #fff;
 	}
 	.tl-back-to-top {
+		/* It sits inside .grid12, so without this it takes a single column and
+		   the label wraps onto two lines against the left edge. */
+		grid-column: 1 / -1;
 		margin-top: clamp(20px, 2.4vw, 30px);
 		text-align: center;
 	}
