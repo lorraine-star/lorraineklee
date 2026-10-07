@@ -177,24 +177,32 @@ const articlesTeaser = articles.slice(0, TEASER_COUNT);
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								<div class:list={['tl-media-thumb', { 'tl-media-thumb--logo': g.isLogo }]}>
-									{g.image ? (
-										<img
-											src={g.image}
-											alt=""
-											loading="lazy"
-											width="480"
-											height="360"
-										/>
-									) : (
-										<div class="tl-media-thumb-deco" aria-hidden="true" />
-									)}
-									<span class="tl-media-play" aria-hidden="true">
-										<svg viewBox="0 0 24 24" fill="currentColor">
-											<path d="M8 5v14l11-7z" />
-										</svg>
-									</span>
-								</div>
+								{/* The play badge only belongs on something playable. An item
+								    with no cover and no video, such as a LinkedIn post, used to
+								    render an empty grey box with a play button on it, which read
+								    as a broken video. */}
+								{(g.image || g.id) && (
+									<div class:list={['tl-media-thumb', { 'tl-media-thumb--logo': g.isLogo }]}>
+										{g.image ? (
+											<img
+												src={g.image}
+												alt=""
+												loading="lazy"
+												width="480"
+												height="360"
+											/>
+										) : (
+											<div class="tl-media-thumb-deco" aria-hidden="true" />
+										)}
+										{g.id && (
+											<span class="tl-media-play" aria-hidden="true">
+												<svg viewBox="0 0 24 24" fill="currentColor">
+													<path d="M8 5v14l11-7z" />
+												</svg>
+											</span>
+										)}
+									</div>
+								)}
 								<div class="tl-media-body">
 									<span class="tl-media-meta">
 										{g.show}
