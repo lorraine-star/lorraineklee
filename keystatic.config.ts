@@ -2637,28 +2637,22 @@ export default config({
           label: 'What subscribers get',
           itemLabel: (props) => props.value || 'Benefit',
         }),
-        // Split into four parts rather than one rich-text field so this
-        // singleton stays a plain .yaml file. A markdoc field would migrate it
+        // Plain text with markdown links rather than a rich-text field, so
+        // this singleton stays a .yaml file. A markdoc field would migrate it
         // to .mdoc and change how the page reads it.
-        byline: fields.object(
-          {
-            text_before: fields.text({
-              label: 'Text before the book link',
-              multiline: true,
-            }),
-            link_label: fields.text({ label: 'Book link text' }),
-            link_url: fields.text({ label: 'Book link URL' }),
-            text_after: fields.text({
-              label: 'Text after the book link',
-              multiline: true,
-            }),
-          },
-          {
-            label: 'Byline',
-            description:
-              'The "Written by Lorraine K. Lee..." credibility line under the benefits. Leave the text fields empty to hide it.',
-          }
-        ),
+        byline: fields.text({
+          label: 'Byline',
+          multiline: true,
+          description:
+            'The "Written by Lorraine K. Lee..." credibility line under the benefits. Links are written as [text](https://example.com). Leave empty to hide it.',
+        }),
+        hero_image: fields.image({
+          label: 'Signup card image',
+          directory: 'public/images/subscribe',
+          publicPath: '/images/subscribe/',
+          description: 'Optional photo across the top of the signup card.',
+        }),
+        hero_image_alt: fields.text({ label: 'Signup card image alt text' }),
         testimonials_eyebrow: fields.text({
           label: 'Testimonials eyebrow',
           defaultValue: 'From readers',

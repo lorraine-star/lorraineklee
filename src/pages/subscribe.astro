@@ -32,6 +32,8 @@ const {
   benefits_heading,
   benefits,
   byline,
+  hero_image,
+  hero_image_alt,
   testimonials_eyebrow,
   testimonials_heading,
   testimonials,
@@ -45,13 +47,47 @@ const {
 const formId = kit_form_id?.trim() ?? '';
 const items = (benefits ?? []).filter((b) => b && b.trim());
 
-// The byline is assembled from four fields so this singleton can stay a plain
-// .yaml file; see the note in keystatic.config.ts.
-const bylineBefore = byline?.text_before?.trim() ?? '';
-const bylineAfter = byline?.text_after?.trim() ?? '';
-const bylineLink = byline?.link_label?.trim() ?? '';
-const bylineUrl = safeUrl(byline?.link_url ?? '');
-const hasByline = Boolean(bylineBefore || bylineAfter || bylineLink);
+// The byline is plain text with markdown links so it can stay in .yaml and
+// carry more than one link; see the note in keystatic.config.ts. Only links
+// and single-asterisk emphasis are supported, which is all this line needs,
+// and the text is still rendered as text so nothing here can inject markup.
+type BylinePart =
+  | { kind: 'text'; text: string; em: boolean }
+  | { kind: 'link'; text: string; href: string; em: boolean };
+
+function parseByline(src: string): BylinePart[] {
+  const parts: BylinePart[] = [];
+  // [label](url) or *emphasis*, where a label may itself be wrapped in *.
+  const token = /\*?\[([^\]]+)\]\(([^)]+)\)\*?|\*([^*]+)\*/g;
+  let last = 0;
+  for (let m = token.exec(src); m; m = token.exec(src)) {
+    if (m.index > last) {
+      parts.push({ kind: 'text', text: src.slice(last, m.index), em: false });
+    }
+    if (m[1] !== undefined) {
+      const href = safeUrl(m[2]);
+      const em = m[0].startsWith('*');
+      parts.push(
+        href && href !== '#'
+          ? { kind: 'link', text: m[1], href, em }
+          : { kind: 'text', text: m[1], em }
+      );
+    } else {
+      parts.push({ kind: 'text', text: m[3], em: true });
+    }
+    last = m.index + m[0].length;
+  }
+  if (last < src.length) {
+    parts.push({ kind: 'text', text: src.slice(last), em: false });
+  }
+  return parts;
+}
+
+const bylineText = byline?.trim() ?? '';
+const bylineParts = bylineText ? parseByline(bylineText) : [];
+const hasByline = bylineParts.length > 0;
+
+const cardImage = hero_image?.trim() ?? '';
 
 // The quotes are reader-supplied, so the whole section stays hidden until
 // there is at least one rather than rendering an empty heading.
@@ -98,19 +134,18 @@ const quotes = (testimonials ?? []).filter((t) => t?.quote && t.quote.trim());
             )
           }
 
-          {/* The book link and the text after it sit on one line on purpose.
-              The sentence continues straight into the registered mark, and a
-              newline between them would render as an unwanted space. */}
           {
             hasByline && (
               <p class="sub-byline">
-                {bylineBefore}{' '}
-                {bylineLink &&
-                  (bylineUrl && bylineUrl !== '#' ? (
-                    <a href={bylineUrl} target="_blank" rel="noopener noreferrer"><em>{bylineLink}</em></a>
+                {bylineParts.map((part) =>
+                  part.kind === 'link' ? (
+                    <a href={part.href} target="_blank" rel="noopener noreferrer">{part.em ? <em>{part.text}</em> : part.text}</a>
+                  ) : part.em ? (
+                    <em>{part.text}</em>
                   ) : (
-                    <em>{bylineLink}</em>
-                  ))}{bylineAfter}
+                    part.text
+                  )
+                )}
               </p>
             )
           }
@@ -118,6 +153,18 @@ const quotes = (testimonials ?? []).filter((t) => t?.quote && t.quote.trim());
 
         {/* ---------- Right: signup form ---------- */}
         <div class="sub-form-card fade-up" style="animation-delay: 120ms;">
+          {
+            cardImage && (
+              <img
+                class="sub-card-img"
+                src={cardImage}
+                alt={hero_image_alt || ''}
+                loading="eager"
+                decoding="async"
+              />
+            )
+          }
+          <div class="sub-form-body">
           {
             formId ? (
               <>
@@ -144,6 +191,7 @@ const quotes = (testimonials ?? []).filter((t) => t?.quote && t.quote.trim());
               </div>
             )
           }
+          </div>
         </div>
       </div>
     </div>
@@ -186,7 +234,7 @@ const quotes = (testimonials ?? []).filter((t) => t?.quote && t.quote.trim());
   .sub-grid {
     grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
     gap: clamp(28px, 4vw, 64px);
     align-items: start;
   }
@@ -239,8 +287,21 @@ const quotes = (testimonials ?? []).filter((t) => t?.quote && t.quote.trim());
     background: var(--white, #fff);
     border: 1px solid var(--border-soft);
     border-radius: 18px;
-    padding: clamp(22px, 2.6vw, 32px);
     box-shadow: var(--shadow-md);
+    /* The photo runs to the card's edges, so the card clips it to the rounded
+       corners and the padding lives on the inner body instead. */
+    overflow: hidden;
+  }
+  .sub-form-body {
+    padding: clamp(22px, 2.6vw, 32px);
+  }
+  /* Natural height rather than a fixed band: the photo runs from her face
+     down to the stack of books, and any crop tight enough to be a banner
+     loses one end or the other. */
+  .sub-card-img {
+    display: block;
+    width: 100%;
+    height: auto;
   }
   .sub-form-card :global(.fc-form) {
     display: flex;
