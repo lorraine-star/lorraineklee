@@ -41,11 +41,8 @@ const hubCourses = allCourses
 
 const DEFAULT_VISIBLE = 6;
 const totalCourses = hubCourses.length;
-// Catalog-size label: market the library as a floor ("20+") rather than an
-// exact count, matching the courses page. Per-category pill counts and the
-// expand control stay exact.
-const catalogCountLabel = (n: number) => (n >= 10 ? `${Math.floor(n / 10) * 10}+` : String(n));
-const totalCoursesLabel = catalogCountLabel(totalCourses);
+// Keep the displayed catalog size in sync with the actual visible courses.
+const totalCoursesLabel = String(totalCourses);
 
 // Filter pills: only categories that actually have courses, in canonical order.
 const categories = CATEGORY_ORDER.filter((cat) =>
@@ -85,7 +82,7 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 					<a class="btn ghost" href="#courses">{hero.cta_secondary_label || 'Browse courses'}</a>
 				</div>
 				<p class="learn-hero-trust">
-					{hero.trust_prefix || 'Join'} <strong>{hero.trust_count || '12,000+'}</strong> {hero.trust_suffix || 'leaders learning with Lorraine.'}
+					{hero.trust_prefix || 'Join'} <strong>{hero.trust_count || '14,000+'}</strong> {hero.trust_suffix || 'leaders learning with Lorraine.'}
 				</p>
 			</div>
 		</div>

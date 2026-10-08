@@ -24,6 +24,7 @@ export interface Testimonial {
   roleOrCompany: string;
   type: TestimonialType;
   order: number;
+  homepageOrder?: number;
   image: string;
   imageAlt: string;
   priority: 'High' | 'Medium' | 'Low';
@@ -117,7 +118,11 @@ export async function getTestimonials(
     list = list.filter((t) => t.type === opts.type);
   }
 
-  return list.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  const sortOrder = (testimonial: Testimonial) =>
+    opts.placement === 'homepage'
+      ? (testimonial.homepageOrder ?? testimonial.order ?? 0)
+      : (testimonial.order ?? 0);
+  return list.sort((a, b) => sortOrder(a) - sortOrder(b));
 }
 
 /** Two-letter initials fallback for testimonials without a headshot. */

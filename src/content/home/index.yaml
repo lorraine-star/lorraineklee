@@ -39,25 +39,23 @@ hero_links:
     url: /book
 four_ways:
   eyebrow: How I can help
-  heading: Four ways we can
+  heading: Three ways we can
   heading_accent: partner together.
   column_1:
+    audience: For event organizers
     heading: Speaking
     blurb: >-
       Keynotes and fireside chats that drive action. 100% of attendees learn
       something new, 98% say they'll take action.
-  column_2:
-    heading: Unforgettable Presence®
-    blurb: >-
-      The #1 Amazon bestseller and Next Big Idea Club must-read for rising and
-      senior leaders who want to get seen and gain influence.
   column_3:
+    audience: For individuals
     heading: Courses
     blurb: >-
       Live and on-demand training on LinkedIn Learning, Stanford, and
       MasterClass. 500,000+ LinkedIn Learning students, with courses rated 4.7+
       stars.
   column_4:
+    audience: For L&D teams
     heading: Custom programs
     blurb: >-
       Team training that turns strong contributors into standout leaders.

@@ -1,6 +1,6 @@
 hero:
   eyebrow: Featured In
-  headline: Press, podcasts, and
+  headline: Press, features, and
   headline_accent: proof.
   lead: ''
   primary_cta_label: Book Lorraine to speak
@@ -16,17 +16,17 @@ highlights_section:
     industry awards and top-viewed conference sessions.
   cta_label: See all appearances
 appearances_section:
-  eyebrow: The full list
-  heading: Everywhere
-  heading_accent: else.
+  eyebrow: More features
+  heading: Other
+  heading_accent: appearances.
   lead: >-
-    Articles, podcasts, interviews, books, and resources that have featured or
+    Articles, interviews, books, and resources that have featured or
     quoted Lorraine over the years.
   empty_state: No appearances yet.
 final_cta:
   eyebrow: Work with Lorraine
   heading: Want her on your
-  heading_accent: stage or podcast?
+  heading_accent: stage or show?
   body: >-
     Lorraine speaks, guests, and contributes on presence, communication, and
     building an unforgettable personal brand. Tell her what you are planning.

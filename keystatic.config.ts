@@ -308,7 +308,7 @@ export default config({
             image_alt: fields.text({ label: 'Hero image alt text' }),
             meta: fields.array(
               fields.object({
-                value: fields.text({ label: 'Value (e.g. 250k+)' }),
+                value: fields.text({ label: 'Value (e.g. 500k+)' }),
                 label: fields.text({
                   label: 'Label',
                   description: 'Put each line on its own line for a manual break.',
@@ -355,11 +355,7 @@ export default config({
             itemLabel: (props) => props.fields.label.value || 'Link',
           }
         ),
-        // "Four ways into the work" cards below the hero. Only the heading and
-        // blurb of each card are editable; the four columns, their order,
-        // numbering (01–04), links, and styling are fixed in code
-        // (src/pages/index.astro). Modelled as four named objects rather than an
-        // array so an editor cannot add, remove, or reorder columns (CLI-153).
+        // Three audience routes. Existing field keys preserve saved content.
         four_ways: fields.object(
           {
             eyebrow: fields.text({
@@ -368,14 +364,15 @@ export default config({
             }),
             heading: fields.text({
               label: 'Section heading (plain start)',
-              defaultValue: 'Four ways into the',
+              defaultValue: 'Three ways we can',
             }),
             heading_accent: fields.text({
               label: 'Section heading accent (shown italic)',
-              defaultValue: 'work.',
+              defaultValue: 'partner together.',
             }),
             column_1: fields.object(
               {
+                audience: fields.text({ label: 'Audience label' }),
                 heading: fields.text({
                   label: 'Heading',
                   defaultValue: 'Speaking',
@@ -387,41 +384,11 @@ export default config({
                     'Keynotes built around what your team actually needs to hear.',
                 }),
               },
-              { label: 'Column 1' }
-            ),
-            column_2: fields.object(
-              {
-                heading: fields.text({
-                  label: 'Heading',
-                  description:
-                    'Keep the ® symbol. "Unforgettable Presence®" is a registered trademark and the ® must be preserved.',
-                  defaultValue: 'Unforgettable Presence®',
-                }),
-                blurb: fields.text({
-                  label: 'Blurb',
-                  multiline: true,
-                  defaultValue: 'The book leadership programs already assign.',
-                }),
-              },
-              { label: 'Column 2' }
-            ),
-            column_3: fields.object(
-              {
-                heading: fields.text({
-                  label: 'Heading',
-                  defaultValue: 'Courses',
-                }),
-                blurb: fields.text({
-                  label: 'Blurb',
-                  multiline: true,
-                  defaultValue:
-                    'On-demand training. 250,000+ students on LinkedIn Learning.',
-                }),
-              },
-              { label: 'Column 3' }
+              { label: 'Speaking, for event organizers' }
             ),
             column_4: fields.object(
               {
+                audience: fields.text({ label: 'Audience label' }),
                 heading: fields.text({
                   label: 'Heading',
                   defaultValue: 'Custom programs',
@@ -433,13 +400,29 @@ export default config({
                     'Cohort intensives for managers and high-potentials.',
                 }),
               },
-              { label: 'Column 4' }
+              { label: 'Custom programs, for L&D teams' }
+            ),
+            column_3: fields.object(
+              {
+                audience: fields.text({ label: 'Audience label' }),
+                heading: fields.text({
+                  label: 'Heading',
+                  defaultValue: 'Courses',
+                }),
+                blurb: fields.text({
+                  label: 'Blurb',
+                  multiline: true,
+                  defaultValue:
+                    'On-demand training. 500,000+ students on LinkedIn Learning.',
+                }),
+              },
+              { label: 'Courses, for individuals' }
             ),
           },
           {
-            label: 'Four ways into the work',
+            label: 'Three audience routes',
             description:
-              'The four cards below the hero. Headings and blurbs are editable; the number of columns, their order, numbering, links, and styling stay fixed in code.',
+              'Three cards below the hero for event organizers, L&D teams, and individuals. Audience labels, headings, and blurbs are editable; destinations and order stay fixed.',
           }
         ),
         // The "as seen in" logos render from <TrustAsSeenIn /> and the
@@ -1533,8 +1516,8 @@ export default config({
             trust_count: fields.text({
               label: 'Hero trust-line count',
               description:
-                'The bolded count in "Join 12,000+ leaders learning with Lorraine."',
-              defaultValue: '12,000+',
+                'The bolded count in "Join 14,000+ leaders learning with Lorraine."',
+              defaultValue: '14,000+',
             }),
             cta_primary_label: fields.text({
               label: 'Hero primary CTA label',
@@ -1678,7 +1661,7 @@ export default config({
             }),
             stat_num: fields.text({
               label: 'Stat card number',
-              defaultValue: '250K',
+              defaultValue: '500K',
             }),
             stat_suffix: fields.text({
               label: 'Stat card number suffix',
@@ -2272,7 +2255,7 @@ export default config({
               defaultValue: 'Average course rating',
             }),
             students_value: fields.text({
-              label: 'Students value (e.g. 250,000+)',
+              label: 'Students value (e.g. 500,000+)',
             }),
             students_label: fields.text({
               label: 'Students caption (e.g. Students taught)',
@@ -2984,8 +2967,8 @@ export default config({
               defaultValue: 'Send Me the Course',
             }),
             stat_value: fields.text({
-              label: 'Hero stat value (e.g. "250k+")',
-              defaultValue: '250k+',
+              label: 'Hero stat value (e.g. "500k+")',
+              defaultValue: '500k+',
             }),
             stat_label: fields.text({
               label: 'Hero stat label (one line per row)',
@@ -3687,6 +3670,10 @@ export default config({
         matchedCptUrl: fields.text({
           label: 'Matched WordPress CPT URL (optional)',
           description: 'The old /testimonial/* URL this record was migrated from, if any.',
+        }),
+        homepageOrder: fields.integer({
+          label: 'Homepage sort order',
+          description: 'Lower numbers appear first on the homepage only. Other pages keep their existing sort order.',
         }),
         showOnHomepage: fields.checkbox({
           label: 'Show on homepage carousel',

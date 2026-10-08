@@ -15,6 +15,7 @@ topicTags:
 sourceUrl: ""
 matchedCptUrl: ""
 showOnHomepage: true
+homepageOrder: 1
 showOnTestimonials: true
 showOnSpeaking: true
 showOnCourses: false

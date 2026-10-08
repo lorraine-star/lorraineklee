@@ -89,13 +89,9 @@ for (const cat of CATEGORY_ORDER) {
 }
 const categories = CATEGORY_ORDER.filter((cat) => counts[cat] > 0);
 
-// Catalog-size label: the library is marketed as a floor ("20+") rather than
-// an exact count, so round down to the nearest ten. Per-category pill counts
-// stay exact. Applies to the hero stat, the "All courses" pill, and the grid
-// count (including when the filter script resets to "all").
-const catalogCountLabel = (n: number) => (n >= 10 ? `${Math.floor(n / 10) * 10}+` : String(n));
-const totalCoursesLabel = catalogCountLabel(mapped.length);
-const hubCoursesLabel = catalogCountLabel(counts.all);
+// Exact catalog totals stay in sync when courses are added or hidden.
+const totalCoursesLabel = String(mapped.length);
+const hubCoursesLabel = String(counts.all);
 
 const isExternal = (url: string) => /^https?:\/\//i.test(url);
 const linkedinUrl = safeUrl(hero.primary_cta_url, 'https://www.linkedin.com/learning/instructors/lorraine-lee');

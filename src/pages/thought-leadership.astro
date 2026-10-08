@@ -15,10 +15,8 @@ const {
 	appearances_section,
 	appearances,
 	press_section,
-	press_features,
 	articles_section,
 	authored_articles,
-	interviews,
 	final_cta,
 } = page;
 
@@ -72,9 +70,22 @@ const guestAppearances = toMedia(appearances).sort(
 	(a, b) => dateRank(b.date) - dateRank(a.date)
 );
 
-const pressFeatures = (press_features ?? [])
-	.map((f) => ({ ...f, href: resolveUrl(f.url) }))
-	.filter((f) => f.href);
+// Keep the Media hub aligned with the curated Featured In highlights.
+const pressFeatures = (await reader.collections.featuredAppearances.all())
+	.map(({ entry }) => ({
+		...entry,
+		outlet: entry.source_name,
+		href: resolveUrl(entry.url),
+		cta_label: entry.cta_label || (['Video', 'Interview'].includes(entry.appearance_type) ? 'Watch' : 'Read more'),
+	}))
+	.filter((f) => f.featured && f.href)
+	.sort((a, b) => (a.priority ?? 100) - (b.priority ?? 100));
+
+const interviewsPage = await reader.singletons.interviewsPage.read();
+const spotifyId = (interviewsPage?.podcast_section?.spotify_playlist_id ?? '').trim();
+const spotifyEmbedUrl = /^[A-Za-z0-9]+$/.test(spotifyId)
+	? `https://open.spotify.com/embed/playlist/${spotifyId}?utm_source=generator`
+	: '';
 const articles = (authored_articles ?? [])
 	.map((a) => ({ ...a, href: resolveUrl(a.url) }))
 	.filter((a) => a.href);
@@ -93,7 +104,7 @@ const articlesMore = resolveUrl(articles_section.view_more_url);
 // data stays intact and editors can keep curating the full set.
 const TEASER_COUNT = 3;
 const appearancesTeaser = guestAppearances.slice(0, TEASER_COUNT);
-const pressTeaser = pressFeatures.slice(0, TEASER_COUNT);
+const pressTeaser = pressFeatures;
 const articlesTeaser = articles.slice(0, TEASER_COUNT);
 ---
 
@@ -139,9 +150,10 @@ const articlesTeaser = articles.slice(0, TEASER_COUNT);
 						/* Short fixed labels. The section headings are split into a
 						   plain half and an italic half, so reusing either one gave
 						   fragments like "appearances" and "interviewed". */
-						{ id: 'appearances', label: 'Podcasts & shows', show: guestAppearances.length > 0 },
+						{ id: 'appearances', label: 'Interviews & shows', show: guestAppearances.length > 0 },
 						{ id: 'press', label: 'Press & features', show: pressFeatures.length > 0 },
 						{ id: 'articles', label: 'Articles', show: articles.length > 0 },
+						{ id: 'listen', label: 'Listen', show: Boolean(spotifyEmbedUrl) },
 					]
 						.filter((i) => i.show)
 						.map((i) => (
@@ -300,6 +312,22 @@ const articlesTeaser = articles.slice(0, TEASER_COUNT);
 			</section>
 		)
 	}
+
+	{/* ---------- Spotify listening playlist ---------- */}
+	{spotifyEmbedUrl && (
+		<section class="section section--compact anchor-target" id="listen">
+			<div class="grid12">
+				<div class="section-head section-head--center">
+					<span class="eyebrow">Listen on Spotify</span>
+					<h2>Conversations to <em>take with you.</em></h2>
+					<p class="lead">Listen to Lorraine's conversations on presence, communication, and career growth.</p>
+				</div>
+				<div style="grid-column: 1 / -1; width: 100%; max-width: 900px; margin: 0 auto;">
+					<iframe src={spotifyEmbedUrl} title="Lorraine K. Lee interviews on Spotify" width="100%" height="420" loading="lazy" style="border: 0; border-radius: 12px;" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen />
+				</div>
+			</div>
+		</section>
+	)}
 
 	{/* ---------- Authored articles ---------- */}
 	{

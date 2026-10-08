@@ -52,40 +52,57 @@ const resolvedCtaLabel = ctaLabel ?? site?.nav?.cta_label ?? 'Contact';
           const active =
             isNavItemActive(item, activeId) ||
             !!item.children?.some((child) => isNavChildActive(child, currentPath));
+          const disclosureOnly = item.id === 'learn';
+          const submenuId = `nav-submenu-${item.id}`;
           return item.children?.length ? (
-            <div class:list={['nav-item', 'nav-menu-item', { active }]} data-nav-menu-item>
-              {/* CLI-130: the parent label is a real link to its own page,
-                  so clicking it navigates directly. The chevron is a
-                  separate small button so mobile users can still expand
-                  the submenu without leaving the page. Desktop continues
-                  to open the dropdown on hover/focus. */}
-              <div class="nav-summary">
-                <a
-                  class:list={['nav-link', 'nav-summary-link', { active }]}
-                  href={item.href}
-                  aria-current={active ? 'page' : undefined}
-                >
-                  {item.label}
-                </a>
+            <div
+              class:list={['nav-item', 'nav-menu-item', { active }]}
+              data-nav-menu-item
+              data-nav-disclosure={disclosureOnly ? '' : undefined}
+            >
+              {/* Learn opens its choices without navigating to /learn.
+                  Other parent links keep their existing split controls. */}
+              {disclosureOnly ? (
                 <button
-                  class="nav-submenu-toggle"
+                  class:list={['nav-link', 'nav-submenu-toggle', 'nav-disclosure-toggle', { active }]}
                   type="button"
-                  aria-haspopup="menu"
                   aria-expanded="false"
-                  aria-label={`Toggle ${item.label} menu`}
+                  aria-controls={submenuId}
                   data-nav-submenu-toggle
                 >
+                  {item.label}
                   <span class="nav-chevron" aria-hidden="true">&#9662;</span>
                 </button>
-              </div>
-              <div class="nav-dropdown" role="menu">
+              ) : (
+                <div class="nav-summary">
+                  <a
+                    class:list={['nav-link', 'nav-summary-link', { active }]}
+                    href={item.href}
+                    aria-current={active ? 'page' : undefined}
+                  >
+                    {item.label}
+                  </a>
+                  <button
+                    class="nav-submenu-toggle"
+                    type="button"
+                    aria-haspopup="menu"
+                    aria-expanded="false"
+                    aria-controls={submenuId}
+                    aria-label={`Toggle ${item.label} menu`}
+                    data-nav-submenu-toggle
+                  >
+                    <span class="nav-chevron" aria-hidden="true">&#9662;</span>
+                  </button>
+                </div>
+              )}
+              <div class="nav-dropdown" id={submenuId} role={disclosureOnly ? undefined : 'menu'}>
                 {item.children.map((child) => {
                   const childActive = isNavChildActive(child, currentPath);
                   return (
                     <a
                       class:list={['nav-dropdown-link', { active: childActive }]}
                       href={child.href}
-                      role="menuitem"
+                      role={disclosureOnly ? undefined : 'menuitem'}
                       aria-current={childActive ? 'page' : undefined}
                     >
                       {child.label}
@@ -155,54 +172,76 @@ const resolvedCtaLabel = ctaLabel ?? site?.nav?.cta_label ?? 'Contact';
       const expanded = toggle.getAttribute('aria-expanded') === 'true';
       toggle.setAttribute('aria-expanded', String(!expanded));
       nav.classList.toggle('nav-open', !expanded);
+      if (expanded) closeSubmenus();
     });
 
     menuItems.forEach((item) => {
       const submenuToggle = item.querySelector<HTMLButtonElement>(
         '[data-nav-submenu-toggle]'
       );
+      const disclosureOnly = item.hasAttribute('data-nav-disclosure');
 
       item.addEventListener('mouseenter', () => {
-        if (!desktopQuery.matches) return;
+        if (disclosureOnly || !desktopQuery.matches) return;
         closeSubmenus(item);
         setItemOpen(item, true);
       });
 
       item.addEventListener('mouseleave', () => {
-        if (!desktopQuery.matches) return;
+        if (disclosureOnly || !desktopQuery.matches) return;
         setItemOpen(item, false);
       });
 
       item.addEventListener('focusin', () => {
-        if (!desktopQuery.matches) return;
+        if (disclosureOnly || !desktopQuery.matches) return;
         closeSubmenus(item);
         setItemOpen(item, true);
       });
 
       item.addEventListener('focusout', (event) => {
-        if (!desktopQuery.matches) return;
+        if (!disclosureOnly && !desktopQuery.matches) return;
         const nextTarget = event.relatedTarget as Node | null;
         if (!nextTarget || !item.contains(nextTarget)) setItemOpen(item, false);
       });
 
       submenuToggle?.addEventListener('click', () => {
-        if (desktopQuery.matches) return;
+        if (!disclosureOnly && desktopQuery.matches) return;
         const expanded = submenuToggle.getAttribute('aria-expanded') === 'true';
         closeSubmenus(item);
         setItemOpen(item, !expanded);
       });
 
       submenuToggle?.addEventListener('mousedown', (event) => {
-        if (!desktopQuery.matches) return;
+        if (disclosureOnly || !desktopQuery.matches) return;
         event.preventDefault();
       });
     });
 
     nav.addEventListener('keydown', (event) => {
       if (event.key !== 'Escape') return;
+      const openDisclosure = menuItems.find(
+        (item) => item.hasAttribute('data-nav-disclosure') && item.classList.contains('is-open')
+      );
+      if (openDisclosure) {
+        setItemOpen(openDisclosure, false);
+        openDisclosure.querySelector<HTMLButtonElement>('[data-nav-submenu-toggle]')?.focus();
+        event.preventDefault();
+        return;
+      }
       closeSubmenus();
+      const menuWasOpen = nav.classList.contains('nav-open');
       toggle.setAttribute('aria-expanded', 'false');
       nav.classList.remove('nav-open');
+      if (menuWasOpen) toggle.focus();
+    });
+
+    document.addEventListener('click', (event) => {
+      const target = event.target as Node | null;
+      menuItems.forEach((item) => {
+        if (item.hasAttribute('data-nav-disclosure') && target && !item.contains(target)) {
+          setItemOpen(item, false);
+        }
+      });
     });
 
     desktopQuery.addEventListener('change', () => {

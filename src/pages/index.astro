@@ -73,23 +73,23 @@ const heroMeta =
       ];
 const photoStat = hero?.photo_stat;
 
-// "Four ways" title. Gate the italic accent fallback on whether the heading was
-// customized, so clearing the accent on a custom heading can't re-inject the old
-// default "work."; only emit <em> when the accent is non-empty (CLI-166 review).
-const fourWaysHeading = four_ways?.heading || 'Four ways into the';
-const fourWaysAccent = four_ways?.heading
+// Three audience routes keep the book in its full dedicated section below.
+// Keep the existing CMS field keys so saved Speaking/Courses/Custom copy survives.
+const audienceHeading = four_ways?.heading || 'Three ways we can';
+const audienceAccent = four_ways?.heading
   ? (four_ways?.heading_accent ?? '')
-  : (four_ways?.heading_accent || 'work.');
-
-// "Four ways into the work" cards. Heading and blurbs are editable via the home
-// singleton (CLI-153); the number of cards, their order, numbering, and links
-// stay fixed here. Fall back to the original copy if a field is left blank.
-const fourWays = [
-  { n: '01', label: four_ways?.column_1?.heading || 'Speaking', desc: four_ways?.column_1?.blurb || 'Keynotes built around what your team actually needs to hear.', href: '/speaking' },
-  { n: '02', label: four_ways?.column_2?.heading || 'Unforgettable Presence®', desc: four_ways?.column_2?.blurb || 'The book leadership programs already assign.', href: '/book' },
-  { n: '03', label: four_ways?.column_3?.heading || 'Courses', desc: four_ways?.column_3?.blurb || 'On-demand training. 500,000+ students on LinkedIn Learning.', href: '/learn' },
-  { n: '04', label: four_ways?.column_4?.heading || 'Custom programs', desc: four_ways?.column_4?.blurb || 'Cohort intensives for managers and high-potentials.', href: '/contact' },
+  : (four_ways?.heading_accent || 'partner together.');
+const audienceRoutes = [
+  { n: '01', audience: four_ways?.column_1?.audience || 'For event organizers', label: four_ways?.column_1?.heading || 'Speaking', desc: four_ways?.column_1?.blurb || 'Keynotes built around what your team actually needs to hear.', href: '/speaking' },
+  { n: '02', audience: four_ways?.column_4?.audience || 'For L&D teams', label: four_ways?.column_4?.heading || 'Custom programs', desc: four_ways?.column_4?.blurb || 'Cohort intensives for managers and high-potentials.', href: '/contact' },
+  { n: '03', audience: four_ways?.column_3?.audience || 'For individuals', label: four_ways?.column_3?.heading || 'Courses', desc: four_ways?.column_3?.blurb || 'On-demand training. 500,000+ students on LinkedIn Learning.', href: '/courses' },
 ];
+
+// Reuse the Speaking page's booking counts instead of maintaining a second total.
+const speakingProof = await reader.singletons.speaking.read();
+const repeatBookings = (speakingProof?.repeats ?? [])
+  .filter((client) => ['LinkedIn', 'Cisco', 'Zoom'].includes(client.name))
+  .map((client) => ({ name: client.name, multiplier: client.multiplier.replace(/x$/i, '×') }));
 
 const courseDays =
   free_course?.bullets && free_course.bullets.length
@@ -207,21 +207,22 @@ const courseHref =
       <TrustAsSeenIn />
       {/* /GLOBAL SECTION: trust-as-seen-in */}
 
-      {/* ---------- Four ways ---------- */}
+      {/* ---------- Routes by audience ---------- */}
       <section class="four-ways">
         <div class="grid12">
           <div class="four-ways-head">
             <span class="eyebrow">{four_ways?.eyebrow || 'How I can help'}</span>
-            <h2 class="four-ways-title">{fourWaysHeading} {fourWaysAccent && <em>{fourWaysAccent}</em>}</h2>
+            <h2 class="four-ways-title">{audienceHeading} {audienceAccent && <em>{audienceAccent}</em>}</h2>
           </div>
           <div class="four-ways-grid">
             {
-              fourWays.map((it) => (
+              audienceRoutes.map((it) => (
                 <a class="fw-card" href={it.href}>
                   <div class="fw-row">
                     <span class="fw-num">{it.n}</span>
-                    <span class="fw-arrow" aria-hidden="true">&#8599;</span>
+                    <span class="fw-arrow" aria-hidden="true">&rarr;</span>
                   </div>
+                  <div class="fw-audience">{it.audience}</div>
                   <div class="fw-label">{it.label}</div>
                   <div class="fw-desc">{it.desc}</div>
                 </a>
@@ -248,6 +249,7 @@ const courseHref =
            Coordinate edits in one place.
            ============================================================ */}
       <Testimonials
+        repeatBookings={repeatBookings}
         eyebrow={testimonials_section?.eyebrow || undefined}
         titleHtml={testimonials_section?.heading
           ? `${testimonials_section.heading}${testimonials_section.heading_accent ? ` <em>${testimonials_section.heading_accent}</em>` : ''}`
@@ -288,7 +290,7 @@ const courseHref =
                 action="https://app.kit.com/forms/8913437/subscriptions"
               >
                 <span class="course-form-eyebrow">{free_course?.form_eyebrow || 'Start tomorrow'}</span>
-                <h3 class="course-form-title">{free_course?.form_title || 'Join'} <em>{free_course?.form_title_accent || '12,000+'}</em> {free_course?.form_title_tail || 'leaders.'}</h3>
+                <h3 class="course-form-title">{free_course?.form_title || 'Join'} <em>{free_course?.form_title_accent || '14,000+'}</em> {free_course?.form_title_tail || 'leaders.'}</h3>
                 <label class="field-label" for="course-email">{free_course?.form_email_label || 'Email address'}</label>
                 <input
                   id="course-email"

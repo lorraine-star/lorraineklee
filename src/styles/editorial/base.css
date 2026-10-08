@@ -186,6 +186,12 @@ body {
   justify-content: center;
   line-height: 1;
 }
+/* Learn uses one full-label disclosure button on every screen size. */
+.nav-disclosure-toggle {
+  gap: 4px;
+  padding: 8px 0;
+  line-height: inherit;
+}
 .nav-submenu-toggle:hover { color: var(--accent); }
 .nav-submenu-toggle:focus-visible {
   outline: 2px solid var(--accent);
@@ -223,8 +229,8 @@ body {
   top: -14px;
   height: 14px;
 }
-.nav-item:hover .nav-dropdown,
-.nav-item:focus-within .nav-dropdown,
+.nav-item:where(:not([data-nav-disclosure])):hover .nav-dropdown,
+.nav-item:where(:not([data-nav-disclosure])):focus-within .nav-dropdown,
 .nav-item.is-open .nav-dropdown {
   opacity: 1;
   visibility: visible;
@@ -823,6 +829,9 @@ body {
     min-width: 44px;
     min-height: 44px;
     padding: 0;
+  }
+  .nav-disclosure-toggle {
+    justify-content: space-between;
   }
   .nav-link::after,
   .nav-summary::after {

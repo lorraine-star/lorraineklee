@@ -26,8 +26,9 @@ export interface NavItem {
 // Earlier history, route map (CLI-130): nav reflected Lorraine's May 28 IA feedback.
 // - "Work With Me" removed; Speaking already has its own top-level link and
 //   Coaching/Consulting are no longer surfaced in the nav.
-// - Every children-having parent label is a real link to its `href`. The
-//   chevron (split out in EditorialNav.astro as its own toggle) opens the
+// - Most children-having parent labels are real links to their `href`. Learn
+//   now uses a disclosure-only button; /learn remains available in the footer.
+//   For the other parents, the separate chevron in EditorialNav.astro opens the
 //   submenu on mobile; on desktop the submenu still opens on hover/focus.
 //   Don't re-add an "Overview" row to the dropdowns: the parent label
 //   already navigates to the same page, and the duplicate row is what

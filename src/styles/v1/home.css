@@ -185,6 +185,12 @@ body {
   justify-content: center;
   line-height: 1;
 }
+/* Learn uses one full-label disclosure button on every screen size. */
+.nav-disclosure-toggle {
+  gap: 4px;
+  padding: 8px 0;
+  line-height: inherit;
+}
 .nav-submenu-toggle:hover { color: var(--accent); }
 .nav-submenu-toggle:focus-visible {
   outline: 2px solid var(--accent);
@@ -222,8 +228,8 @@ body {
   top: -14px;
   height: 14px;
 }
-.nav-item:hover .nav-dropdown,
-.nav-item:focus-within .nav-dropdown,
+.nav-item:where(:not([data-nav-disclosure])):hover .nav-dropdown,
+.nav-item:where(:not([data-nav-disclosure])):focus-within .nav-dropdown,
 .nav-item.is-open .nav-dropdown {
   opacity: 1;
   visibility: visible;
@@ -1352,6 +1358,9 @@ body {
     min-height: 44px;
     padding: 0;
   }
+  .nav-disclosure-toggle {
+    justify-content: space-between;
+  }
   .nav-link::after,
   .nav-summary::after {
     display: none;
@@ -1591,7 +1600,7 @@ body {
 .four-ways-grid {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   border-top: 1px solid rgba(8,74,243,0.22);
   border-bottom: 1px solid rgba(8,74,243,0.22);
 }
@@ -1612,7 +1621,8 @@ body {
   background: var(--ink-900);
   color: var(--paper);
 }
-.fw-card:hover .fw-desc { color: rgba(249, 249, 249, 0.78); }
+.fw-card:hover .fw-desc,
+.fw-card:hover .fw-audience { color: rgba(249, 249, 249, 0.78); }
 .fw-card:hover .fw-num,
 .fw-card:hover .fw-arrow { color: var(--brand-yellow-500); }
 .fw-row {
@@ -1632,6 +1642,12 @@ body {
   transition: transform 240ms var(--ease-out);
 }
 .fw-card:hover .fw-arrow { transform: translate(2px, -2px); }
+.fw-audience {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--fg-muted);
+}
 .fw-label {
   font-family: var(--font-sans);
   font-weight: 600;
@@ -1649,11 +1665,6 @@ body {
 }
 
 @media (max-width: 900px) {
-  .four-ways-grid { grid-template-columns: repeat(2, 1fr); }
-  .fw-card:nth-child(2) { border-right: 0; }
-  .fw-card:nth-child(1), .fw-card:nth-child(2) { border-bottom: 1px solid rgba(8,74,243,0.14); }
-}
-@media (max-width: 600px) {
   .four-ways-grid { grid-template-columns: 1fr; }
   .fw-card { border-right: 0; border-bottom: 1px solid rgba(8,74,243,0.14); min-height: auto; }
   .fw-card:last-child { border-bottom: 0; }

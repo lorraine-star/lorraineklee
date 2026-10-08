@@ -13,7 +13,8 @@ topicTags:
   - Course review
 sourceUrl: https://lorraineklee.com/testimonials/
 matchedCptUrl: ""
-showOnHomepage: false
+showOnHomepage: true
+homepageOrder: 3
 showOnTestimonials: true
 showOnSpeaking: false
 showOnCourses: false

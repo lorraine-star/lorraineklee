@@ -11,6 +11,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "prepare": "git config core.hooksPath .githooks || exit 0",
+    "test:home": "node scripts/test-home-build.mjs",
+    "test:nav": "node scripts/test-nav-build.mjs",
     "test:e2e": "npx --yes momentic run",
     "test:unit": "node --experimental-strip-types scripts/test-url.mjs && node --experimental-strip-types scripts/test-shortlinks.mjs",
     "validate:content": "node --experimental-strip-types scripts/validate-keystatic-images.mjs",

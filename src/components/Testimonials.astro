@@ -39,6 +39,8 @@ interface Props {
   lead?: string;
   /** Override the testimonials shown; defaults to the shared `showOnHomepage` set. */
   testimonials?: Testimonial[];
+  /** Optional compact proof strip, supplied only by the homepage. */
+  repeatBookings?: { name: string; multiplier: string }[];
 }
 
 const {
@@ -46,14 +48,13 @@ const {
   titleHtml = 'Companies bring her back <em>for more.</em>',
   lead = "From Fortune 500 leadership programs to high-potential cohorts at fast-growth tech companies, Lorraine's frameworks travel.",
   testimonials: testimonialsProp,
+  repeatBookings = [],
 } = Astro.props;
 
 let testimonials = testimonialsProp;
 if (!testimonials) {
-  // TEMPORARY (CLI-120): the homepage now shows the curated `showOnHomepage`
-  // picks from the shared collection instead of the old hardcoded 16. This
-  // selection is provisional pending review. See CLI-120 for how to adjust
-  // the picks (toggle `showOnHomepage`) or fully revert.
+  // Homepage selections and their page-specific order are editable in the
+  // shared collection without changing the Speaking or About placements.
   const shared = await getTestimonials({ placement: 'homepage' });
   testimonials = shared.map(toCarouselCard);
 }
@@ -66,6 +67,31 @@ if (!testimonials) {
       <h2 class="testimonials-title" set:html={titleHtml}></h2>
       {lead && <p class="lead">{lead}</p>}
     </div>
+    {repeatBookings.length > 0 && (
+      <ul class="testimonials-rebookings" aria-label="Repeat bookings">
+        {repeatBookings.map((client) => (
+          <li><strong>{client.name}</strong> <span>{client.multiplier} bookings</span></li>
+        ))}
+      </ul>
+    )}
     <HomeTestimonialsCarousel testimonials={testimonials} client:load />
   </div>
 </section>
+
+<style>
+  .testimonials-rebookings {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+    margin: -20px 0 32px;
+    padding: 16px 0;
+    list-style: none;
+    border-block: 1px solid var(--border);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--ink-700);
+  }
+  .testimonials-rebookings li { display: flex; gap: 8px; }
+  .testimonials-rebookings strong { color: var(--ink-900); }
+</style>
