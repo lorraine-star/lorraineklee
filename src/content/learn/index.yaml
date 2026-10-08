@@ -3,7 +3,7 @@ hero:
   headline: "Learn from"
   headline_accent: "Lorraine."
   lead: "Want to keep learning between keynotes? Start with the free 5-day newsletter course, then dig into Lorraine's on-demand LinkedIn Learning courses and LinkedIn resources — all designed to help you communicate with confidence and grow your career on your own schedule."
-  trust_count: "14,000+"
+  trust_count: "16,000+"
   cta_primary_label: "Start the free course"
   cta_secondary_label: "Browse courses"
   trust_prefix: "Join"
@@ -37,7 +37,7 @@ newsletter:
     - Day 5 · Stay consistent without burning out
   form_eyebrow: Start tomorrow
   form_title: Join
-  form_title_accent: 14,000+ leaders.
+  form_title_accent: 16,000+ leaders.
   form_button_label: Send me Day 1
   form_fineprint: No spam. Unsubscribe in one click.
   success_title: You're in.
