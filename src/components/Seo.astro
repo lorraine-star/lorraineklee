@@ -48,6 +48,19 @@ const person = {
   ],
   worksFor: { '@type': 'Organization', name: 'RISE Learning Solutions' },
   alumniOf: { '@type': 'CollegeOrUniversity', name: 'Northwestern University' },
+  // Where she teaches. Assistants answering "who is Lorraine Lee" lean on
+  // these affiliations and awards, and the schema is the machine-readable
+  // version of the credentials the About page states in prose.
+  affiliation: [
+    { '@type': 'Organization', name: 'LinkedIn Learning' },
+    { '@type': 'Organization', name: 'Stanford Continuing Studies' },
+    { '@type': 'Organization', name: 'MasterClass' },
+  ],
+  award: [
+    'Amazon #1 bestselling author, Unforgettable Presence®',
+    'LinkedIn Top Voice',
+    'Next Big Idea Club must-read',
+  ],
   knowsAbout: [
     'Executive presence',
     'Professional presence',
@@ -55,6 +68,9 @@ const person = {
     'Personal branding',
     'Public speaking',
     'LinkedIn',
+    'Visibility at work',
+    'Career growth',
+    'Hybrid and virtual meetings',
   ],
 };
 
