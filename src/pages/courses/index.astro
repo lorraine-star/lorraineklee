@@ -89,8 +89,9 @@ for (const cat of CATEGORY_ORDER) {
 }
 const categories = CATEGORY_ORDER.filter((cat) => counts[cat] > 0);
 
-// Exact catalog totals stay in sync when courses are added or hidden.
-const totalCoursesLabel = String(mapped.length);
+// "20+" rather than the exact count: Lorraine prefers the rounded figure, and
+// it does not need editing every time a course is added or retired.
+const totalCoursesLabel = '20+';
 const hubCoursesLabel = String(counts.all);
 
 const isExternal = (url: string) => /^https?:\/\//i.test(url);

@@ -1904,6 +1904,8 @@ export default config({
       path: 'src/content/book/',
       format: { contentField: 'description' },
       schema: {
+        seo_title: fields.text({ label: 'SEO title' }),
+        seo_description: fields.text({ label: 'SEO description', multiline: true }),
         title: fields.text({ label: 'Book title' }),
         subtitle: fields.text({ label: 'Subtitle' }),
         og_image: fields.image({
