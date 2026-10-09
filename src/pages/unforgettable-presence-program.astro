@@ -35,8 +35,8 @@ const outcomes = [
 	{ title: 'Build influence and a career brand', lead: 'Visibility and trust, at every level of the org.' },
 ];
 
-// Shown as a proof bar under the hero. An L&D buyer wants to know who else
-// has bought this before they read anything else.
+// Companies Lorraine has spoken for. Worded carefully: the program itself is
+// new and has no clients yet, so the bar claims speaking, not training.
 const clientLogos = [
 	{ name: 'Google', src: '/images/clients/google.svg', h: 26 },
 	{ name: 'Amazon', src: '/images/clients/amazon.webp', h: 27 },
@@ -89,7 +89,7 @@ const proof = [
 	    else has bought this. */}
 	<section class="upsp-proofbar">
 		<div class="grid12">
-			<p class="upsp-proofbar-label">Lorraine has trained teams at</p>
+			<p class="upsp-proofbar-label">Lorraine has spoken at</p>
 			<div class="upsp-proofbar-logos">
 				{clientLogos.map((l) => (
 					<img src={l.src} alt={l.name} style={`height:${l.h}px`} loading="lazy" />
@@ -103,16 +103,15 @@ const proof = [
 		<div class="grid12">
 			<div class="upsp-gap reveal">
 				<div class="upsp-gap-stat">
-					<div class="upsp-stat-num">$12.5<span class="upsp-stat-unit">k</span></div>
-					<p>per employee, per year</p>
+					<div class="upsp-stat-num">32<span class="upsp-stat-unit">%</span></div>
+					<p>of companies</p>
 				</div>
 				<div class="upsp-gap-copy">
-					<h2>That is what unclear communication <em>costs you.</em></h2>
+					<h2>Almost nobody teaches people <em>how to communicate.</em></h2>
 					<p>
-						Seven and a half hours a week per person goes into clarifying
-						instructions, untangling miscommunication, and sitting in meetings
-						that go nowhere. Only 32% of companies train their managers to
-						communicate.
+						Only a third of companies train their managers to communicate, and
+						the gap shows up in every meeting, every update, and every pitch
+						that does not land the way it should have.
 					</p>
 				</div>
 			</div>
