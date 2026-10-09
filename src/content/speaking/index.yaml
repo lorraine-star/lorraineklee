@@ -381,9 +381,9 @@ past_clients:
   - name: Salesforce
     logo_src: /images/clients/salesforce.svg
     style: bold
-  - name: Adobe
-    logo_src: /images/clients/adobe.svg
-    style: serif
+  - name: ASICS
+    logo_src: /images/clients/asics.svg
+    style: bold
   - name: Amazon
     logo_src: /images/clients/amazon.webp
     style: mono
