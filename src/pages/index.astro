@@ -87,9 +87,18 @@ const audienceRoutes = [
 
 // Reuse the Speaking page's booking counts instead of maintaining a second total.
 const speakingProof = await reader.singletons.speaking.read();
+const past_clients = speakingProof?.past_clients ?? [];
 const repeatBookings = (speakingProof?.repeats ?? [])
   .filter((client) => ['LinkedIn', 'Cisco', 'Zoom'].includes(client.name))
-  .map((client) => ({ name: client.name, multiplier: client.multiplier.replace(/x$/i, '×') }));
+  .map((client) => ({
+    name: client.name,
+    multiplier: client.multiplier.replace(/x$/i, '×'),
+    // Reuse the logo the Speaking page's Trusted By grid already uses, so the
+    // strip shows a recognisable mark rather than the company's name set in
+    // bold text.
+    logo:
+      (past_clients ?? []).find((c) => c.name === client.name)?.logo_src ?? '',
+  }));
 
 const courseDays =
   free_course?.bullets && free_course.bullets.length

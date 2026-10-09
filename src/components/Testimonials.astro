@@ -40,7 +40,7 @@ interface Props {
   /** Override the testimonials shown; defaults to the shared `showOnHomepage` set. */
   testimonials?: Testimonial[];
   /** Optional compact proof strip, supplied only by the homepage. */
-  repeatBookings?: { name: string; multiplier: string }[];
+  repeatBookings?: { name: string; multiplier: string; logo?: string }[];
 }
 
 const {
@@ -70,7 +70,14 @@ if (!testimonials) {
     {repeatBookings.length > 0 && (
       <ul class="testimonials-rebookings" aria-label="Repeat bookings">
         {repeatBookings.map((client) => (
-          <li><strong>{client.name}</strong> <span>{client.multiplier} bookings</span></li>
+          <li>
+            {client.logo ? (
+              <img class="rebooking-logo" src={client.logo} alt={client.name} loading="lazy" width="80" height="20" />
+            ) : (
+              <strong>{client.name}</strong>
+            )}
+            <span>{client.multiplier} bookings</span>
+          </li>
         ))}
       </ul>
     )}
@@ -92,6 +99,23 @@ if (!testimonials) {
     font-size: 14px;
     color: var(--ink-700);
   }
-  .testimonials-rebookings li { display: flex; gap: 8px; }
+  .testimonials-rebookings li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
   .testimonials-rebookings strong { color: var(--ink-900); }
+  /* The mark rather than the company's name in bold text: a logo is
+     recognised at a glance, where a name has to be read. Kept small and
+     desaturated so the strip stays a supporting line under the heading
+     instead of competing with the Trusted By grid elsewhere. */
+  .rebooking-logo {
+    height: 18px;
+    width: auto;
+    max-width: 92px;
+    object-fit: contain;
+    opacity: 0.75;
+    filter: grayscale(1);
+  }
+  .testimonials-rebookings li:nth-child(2) .rebooking-logo { height: 15px; }
 </style>
