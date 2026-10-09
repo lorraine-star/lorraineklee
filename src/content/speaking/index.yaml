@@ -378,9 +378,9 @@ past_clients:
   - name: LinkedIn
     logo_src: /images/clients/linkedin.svg
     style: bold italic
-  - name: Salesforce
-    logo_src: /images/clients/salesforce.svg
-    style: bold
+  - name: Henry Schein
+    logo_src: /images/clients/henry-schein.svg
+    style: mono
   - name: ASICS
     logo_src: /images/clients/asics.svg
     style: bold
@@ -402,9 +402,9 @@ past_clients:
   - name: Tripadvisor
     logo_src: /images/clients/tripadvisor.webp
     style: mono
-  - name: Henry Schein
-    logo_src: /images/clients/henry-schein.svg
-    style: mono
+  - name: Salesforce
+    logo_src: /images/clients/salesforce.svg
+    style: bold
 show_stats: true
 stats_section:
   eyebrow: By the numbers

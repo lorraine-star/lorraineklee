@@ -69,12 +69,11 @@ work_cards:
     cta_label: See courses
     cta_url: /courses
     image: /images/book-resources/card-courses.webp
-  - title: Custom programs
+  - title: Team training
     description: >-
-      Bring Lorraine in as a communications advisor, career brand-building
-      expert, or an executive presence coach and create a custom program for
-      your organization. Options include workshop learning series, cohort
-      trainings, customized courses, and more.
+      Bring Lorraine in to train your team on communication, executive
+      presence, and career brand building. Amazon, Google, Cisco, and LinkedIn
+      have all brought her in to work with their people.
     cta_label: Contact Lorraine
     cta_url: /contact
     image: /images/book-resources/card-custom-programs.webp

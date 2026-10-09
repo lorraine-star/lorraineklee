@@ -3069,7 +3069,7 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
    ratio; the inner cap normalises optical height so wide/tall marks match. */
 .client-logo-frame {
   width: 100%;
-  height: 34px;
+  height: 40px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3078,10 +3078,8 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   display: none;
 }
 .client-logo-frame .client-logo {
-  /* A fixed height rather than a maximum, so every mark renders at exactly the
-     same height. max-width is only a safety rail: the widest wordmark here is
-     about 7.3:1, so 200px is wide enough that height always governs. When the
-     width cap bit instead, long wordmarks shrank to 17px against 26px marks. */
+  /* Per-logo heights below do the real work; this is the fallback for any
+     mark without one. */
   height: 26px;
   width: auto;
   max-width: 265px;
@@ -3700,3 +3698,27 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   }
 }
 
+
+/* Optical sizing for the Trusted By grid.
+   Matching heights does not make logos look the same size: at a single height
+   a long wordmark reads far larger than a compact mark, because it covers much
+   more area. These heights scale each mark toward equal area instead, using
+   h = 26 * (3.18 / aspect_ratio) ^ 0.4, which is a middle ground between equal
+   height and full equal-area (which overcorrects and leaves square marks
+   looming). Rendered widths land between 51px and 164px rather than 37px and
+   259px. Recompute if a logo is added or replaced. */
+.client-logo-frame[data-client='Henry Schein'] .client-logo { height: 16px; }
+.client-logo-frame[data-client='MasterClass'] .client-logo { height: 19px; }
+.client-logo-frame[data-client='ServiceNow'] .client-logo { height: 19px; }
+.client-logo-frame[data-client='Tripadvisor'] .client-logo { height: 20px; }
+.client-logo-frame[data-client='Stanford University'] .client-logo { height: 22px; }
+.client-logo-frame[data-client='Zoom'] .client-logo { height: 23px; }
+.client-logo-frame[data-client='LinkedIn'] .client-logo { height: 23px; }
+.client-logo-frame[data-client='McKinsey & Company'] .client-logo { height: 26px; }
+.client-logo-frame[data-client='Google'] .client-logo { height: 26px; }
+.client-logo-frame[data-client='ASICS'] .client-logo { height: 27px; }
+.client-logo-frame[data-client='Amazon'] .client-logo { height: 27px; }
+.client-logo-frame[data-client='Boston Scientific'] .client-logo { height: 30px; }
+.client-logo-frame[data-client='Hilton'] .client-logo { height: 32px; }
+.client-logo-frame[data-client='Cisco'] .client-logo { height: 32px; }
+.client-logo-frame[data-client='Salesforce'] .client-logo { height: 36px; }
