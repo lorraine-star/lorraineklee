@@ -1,0 +1,626 @@
+---
+/*
+ * /unforgettable-presence-program/ — the Unforgettable Presence® Signature
+ * Program, Lorraine's enterprise training offer.
+ *
+ * Content is adapted from her Gamma deck of the same name. It is written into
+ * this page rather than Keystatic for now: the offer is still taking shape and
+ * she expects to revise the positioning, so a CMS schema would be churn. Move
+ * it into a singleton once the copy settles.
+ *
+ * Built from the shared editorial primitives (page-hero, section, grid12,
+ * eyebrow, btn) so it matches /speaking rather than introducing a new look.
+ */
+import SpeakingLayout from '../layouts/SpeakingLayout.astro';
+
+const CONTACT_EMAIL = 'lorraine@wishlygroup.ca';
+
+const liveMoments = [
+	{ title: 'Team meetings', body: 'Clear messages that help teams understand priorities and next steps.' },
+	{ title: 'Stakeholder updates', body: 'Where the work stands, and what you need decided.' },
+	{ title: 'Board presentations', body: 'Making the case, then holding up under the questions that follow.' },
+	{ title: 'Client pitches', body: "Why you, in their words, with the objections handled." },
+];
+
+const howItWorks = [
+	{ n: '01', title: 'Video lessons', body: 'On-demand modules your team completes around their own schedules.' },
+	{ n: '02', title: 'Workbook practice', body: 'Structured exercises that move a skill from watched to applied.' },
+	{ n: '03', title: 'Live coaching', body: "Real-time practice and direct feedback from a coach on Lorraine's team." },
+];
+
+const outcomes = [
+	{ title: 'Show up with confidence', lead: 'Steady and credible in the moments that count, including the ones they did not see coming.' },
+	{ title: 'Command the virtual room', lead: 'Presence that carries on camera, where most of the work now happens.' },
+	{ title: 'Communicate with impact', lead: 'Messages people remember, and act on.' },
+	{ title: 'Build influence and a career brand', lead: 'Visibility and trust, at every level of the org.' },
+];
+
+// Companies Lorraine has spoken for. Worded carefully: the program itself is
+// new and has no clients yet, so the bar claims speaking, not training.
+const clientLogos = [
+	{ name: 'Google', src: '/images/clients/google.svg', h: 26 },
+	{ name: 'Amazon', src: '/images/clients/amazon.webp', h: 27, mono: true },
+	{ name: 'LinkedIn', src: '/images/clients/linkedin.svg', h: 23 },
+	{ name: 'Cisco', src: '/images/clients/cisco.svg', h: 32 },
+	{ name: 'McKinsey & Company', src: '/images/clients/mckinsey.svg', h: 26 },
+	{ name: 'Zoom', src: '/images/clients/zoom.svg', h: 23 },
+];
+
+const proof = [
+	{ quote: 'I joined the course because I had to prepare for an online pitch competition. I managed to completely transform my virtual presence and achieved outstanding results.', who: 'Ivana L.', org: 'Stanford Continuing Studies' },
+	{ quote: 'Through this class, I discovered how to reframe my mindset and shift from feeling nervous to feeling excited. My confidence has grown immensely in speaking in front of others.', who: 'Laurie P.', org: 'Stanford Continuing Studies' },
+	{ quote: "Lorraine led a masterclass at Zoom on engaging a virtual audience. She was by far the most engaging speaker we've had in the series.", who: 'Arun J.', org: 'Zoom' },
+];
+---
+
+<SpeakingLayout
+	title="Unforgettable Presence® Signature Program | Lorraine K. Lee"
+	description="Team training on executive presence and communication, built on Lorraine K. Lee's bestselling book. Video lessons, workbook practice, and live coaching."
+	activeId="speaking"
+>
+	{/* ---------- Hero ---------- */}
+	<section class="page-hero" id="top">
+		<div class="grid12 page-hero-grid">
+			<div class="page-hero-copy upsp-hero-copy fade-up">
+				<div class="page-hero-eyebrow">
+					<span class="dot"></span>
+					<span class="eyebrow" style="color: var(--ink-500);">For L&D and people teams · Delivered virtually</span>
+				</div>
+				<h1>Unforgettable Presence® <em>Signature Program</em></h1>
+				<p class="lead-large">
+					Turn strong contributors into leaders who can engage a room, communicate
+					confidently and effectively, and represent your company when it counts.
+				</p>
+				<div class="hero-cta-row">
+					<a class="btn primary large" href="mailto:lorraine@wishlygroup.ca?subject=Unforgettable%20Presence%20Signature%20Program" data-ga-event="speaking_inquiry" data-ga-label="upsp-hero">
+						Talk to Lorraine's team <span aria-hidden="true">&rarr;</span>
+					</a>
+					<a class="anchor-link" href="#how-it-works">
+						See how it works <span class="arrow" aria-hidden="true">&darr;</span>
+					</a>
+				</div>
+			</div>
+			<div class="upsp-hero-media fade-up" style="animation-delay: 120ms;">
+				<img
+					src="/images/program/teaching.webp"
+					alt="Lorraine K. Lee leading a workshop with a team around a table"
+					width="1200"
+					height="747"
+					loading="eager"
+					decoding="async"
+				/>
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Proof bar ----------
+	    Credibility before argument: the first question an L&D buyer has is who
+	    else has bought this. */}
+	<section class="upsp-proofbar">
+		<div class="grid12">
+			<p class="upsp-proofbar-label">Past speaking clients</p>
+			<div class="upsp-proofbar-logos">
+				{clientLogos.map((l) => (
+					<img
+						class={l.mono ? 'is-mono' : undefined}
+						src={l.src}
+						alt={l.name}
+						style={`height:${l.h}px`}
+						loading="lazy"
+					/>
+				))}
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- The gap ---------- */}
+	<section class="section section--tight section--cream">
+		<div class="grid12">
+			<div class="section-head section-head--center">
+				<span class="eyebrow">The gap</span>
+				<h2>Your best people are losing rooms <em>they should own.</em></h2>
+			</div>
+			<div class="upsp-pains reveal-stagger">
+				<p>The strongest analyst on the team rambles in front of the exec committee.</p>
+				<p>Now that every deck reads the same, the live moments are the only signal anyone trusts.</p>
+				<p>Your rising leaders are told they lack executive presence, and nobody can tell them what to do about it.</p>
+			</div>
+			<div class="upsp-gap reveal">
+				<div class="upsp-gap-stat">
+					<div class="upsp-stat-num">$1.2<span class="upsp-stat-unit">T</span></div>
+					<p>lost by US businesses each year</p>
+				</div>
+				<div class="upsp-gap-copy">
+					<p>
+						That is the annual cost of poor workplace communication, and only a
+						third of companies train their managers to do it well. By the time
+						someone hears they lack presence, the deal is lost and the
+						promotion has gone to someone else.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- What AI can't do ---------- */}
+	<section class="section section--tight">
+		<div class="grid12">
+			<div class="section-head section-head--center">
+				<span class="eyebrow">Why now</span>
+				<h2>The part AI <em>can't do for them.</em></h2>
+				<p class="lead">
+					AI can build the deck, but your people still have to deliver it, answer
+					the questions, and represent the company live.
+				</p>
+			</div>
+			<div class="upsp-cards reveal-stagger">
+				{liveMoments.map((m) => (
+					<div class="upsp-card">
+						<h3>{m.title}</h3>
+						<p>{m.body}</p>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- First course ---------- */}
+	<section class="section section--tight">
+		<div class="grid12">
+			<div class="upsp-course reveal">
+				<div class="upsp-course-copy">
+					<span class="eyebrow">First course</span>
+					<h2>Present Like <em>a Leader.</em></h2>
+					<p>
+						This is the first course in the program. Structured practice for the
+						meetings, presentations, and client conversations your team is
+						already in.
+					</p>
+					<p class="upsp-course-note">
+						It grew out of the flagship public speaking course Lorraine taught at
+						Stanford Continuing Studies, which rated above the program average,
+						and has been updated and refined for corporate audiences.
+					</p>
+					<ul class="upsp-course-list">
+						<li><strong>Speak with clarity and calm.</strong> One Senior Director cut filler words from roughly 70 a call to zero.</li>
+						<li><strong>Hold the room.</strong> Opening and delivering for team meetings and board discussions.</li>
+						<li><strong>Get buy-in.</strong> Structuring a recommendation so decision-makers can weigh it.</li>
+						<li><strong>Represent the company.</strong> Panels, conferences, and industry events.</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- How it works ---------- */}
+	<section class="section section--tight section--cream anchor-target" id="how-it-works">
+		<div class="grid12">
+			<div class="section-head section-head--center">
+				<span class="eyebrow">How it works</span>
+				<h2>Three parts, built <em>to stick.</em></h2>
+				<p class="lead">
+					Every part runs online, so it works across offices and time zones.
+					People forget half of what they hear within an hour and 90% within a
+					week, so the lessons are spaced out with practice in between.
+				</p>
+			</div>
+			<div class="upsp-steps reveal-stagger">
+				{howItWorks.map((s) => (
+					<div class="upsp-step">
+						<span class="upsp-step-n">{s.n}</span>
+						<h3>{s.title}</h3>
+						<p>{s.body}</p>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Outcomes ---------- */}
+	<section class="section section--tight">
+		<div class="grid12">
+			<div class="section-head section-head--center">
+				<span class="eyebrow">What your people walk away with</span>
+				<h2>Strategies they can use <em>on Monday.</em></h2>
+				<p class="lead">Every session ends with something they can use in their next meeting.</p>
+			</div>
+			<div class="upsp-outcomes reveal-stagger">
+				{outcomes.map((o) => (
+					<div class="upsp-outcome">
+						<h3>{o.title}</h3>
+						<p class="upsp-outcome-lead">{o.lead}</p>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Proof ---------- */}
+	<section class="section section--tight section--cream">
+		<div class="grid12">
+			<div class="section-head section-head--center">
+				<span class="eyebrow">From past speaking and coaching clients</span>
+				<h2>What it's like <em>working with Lorraine.</em></h2>
+			</div>
+			<div class="upsp-quotes reveal-stagger">
+				{proof.map((p) => (
+					<figure class="upsp-quote">
+						<blockquote>{p.quote}</blockquote>
+						<figcaption>
+							<span class="upsp-quote-who">{p.who}</span>
+							<span class="upsp-quote-org">{p.org}</span>
+						</figcaption>
+					</figure>
+				))}
+			</div>
+		</div>
+	</section>
+
+	{/* ---------- Pricing + CTA ---------- */}
+	<section class="section">
+		<div class="grid12">
+			<div class="upsp-cta reveal">
+				<span class="eyebrow upsp-cta-eyebrow">Pricing and enrollment</span>
+				<h2>Let's talk about <em>your team.</em></h2>
+				<p>
+					Each engagement is tailored to your company, and pricing is based on
+					team size and scope.
+				</p>
+				<div class="upsp-cta-row">
+					<a class="btn yellow large" href="mailto:lorraine@wishlygroup.ca?subject=Unforgettable%20Presence%20Signature%20Program" data-ga-event="speaking_inquiry" data-ga-label="upsp-footer">
+						Email Lorraine's team <span aria-hidden="true">&rarr;</span>
+					</a>
+					<p class="upsp-cta-email">
+						Or email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+</SpeakingLayout>
+
+<style>
+	/* ---- Hero with photo ---- */
+	.page-hero-grid { align-items: center; }
+	.upsp-hero-copy { grid-column: 1 / span 6; }
+	.upsp-hero-media { grid-column: 7 / -1; }
+	.upsp-hero-media img {
+		width: 100%;
+		height: auto;
+		display: block;
+		border-radius: var(--radius-2xl);
+		box-shadow: var(--shadow-lg);
+	}
+	@media (max-width: 900px) {
+		.upsp-hero-copy,
+		.upsp-hero-media { grid-column: 1 / -1; }
+		.upsp-hero-media { margin-top: 28px; }
+	}
+
+	/* ---- Pain lines ---- */
+	.upsp-pains {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: clamp(16px, 2vw, 28px);
+		margin-bottom: clamp(28px, 3.6vw, 44px);
+	}
+	.upsp-pains p {
+		margin: 0;
+		padding-left: 16px;
+		border-left: 2px solid var(--accent);
+		font-family: var(--font-serif);
+		font-size: clamp(16px, 1.4vw, 19px);
+		line-height: 1.45;
+		color: var(--ink-900);
+	}
+	@media (max-width: 820px) {
+		.upsp-pains { grid-template-columns: minmax(0, 1fr); }
+	}
+
+	/* ---- Proof bar ---- */
+	.upsp-proofbar { padding: clamp(22px, 3vw, 34px) 0; border-bottom: 1px solid var(--border); }
+	.upsp-proofbar-label {
+		grid-column: 1 / -1;
+		margin: 0 0 16px;
+		text-align: center;
+		font-family: var(--font-sans);
+		font-size: 11.5px;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--ink-300);
+	}
+	.upsp-proofbar-logos {
+		grid-column: 1 / -1;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		gap: 18px clamp(26px, 4vw, 52px);
+	}
+	/* Heights are set per logo inline, for the same reason the Trusted By grid
+	   needs them: one height makes a long wordmark tower over a compact mark. */
+	.upsp-proofbar-logos img {
+		width: auto;
+		object-fit: contain;
+		opacity: 0.62;
+		filter: grayscale(1);
+	}
+	/* Marks that ship light on transparency need flattening, or they wash out
+	   to nothing against this background. Same treatment as the Trusted By
+	   grid's "mono" style. */
+	.upsp-proofbar-logos img.is-mono {
+		filter: brightness(0);
+		opacity: 0.52;
+	}
+
+	/* ---- Gap ---- */
+	.upsp-gap {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: minmax(0, 0.8fr) minmax(0, 2fr);
+		gap: clamp(24px, 4vw, 56px);
+		align-items: center;
+	}
+	.upsp-gap-stat { text-align: center; }
+	.upsp-gap-stat p {
+		margin: 8px 0 0;
+		font-family: var(--font-sans);
+		font-size: 13px;
+		letter-spacing: 0.04em;
+		color: var(--ink-500);
+	}
+	.upsp-gap-copy h2 { margin: 0 0 12px; }
+	.upsp-gap-copy p {
+		margin: 0;
+		font-family: var(--font-sans);
+		font-size: clamp(15px, 1.15vw, 17px);
+		line-height: 1.65;
+		color: var(--ink-500);
+		max-width: 60ch;
+	}
+	@media (max-width: 820px) {
+		.upsp-gap { grid-template-columns: minmax(0, 1fr); text-align: center; }
+		.upsp-gap-copy p { margin-inline: auto; }
+	}
+
+	/* Layout primitives (section, grid12, eyebrow, btn, section-head) come from
+	   styles/editorial/. Only this page's own blocks are defined here. */
+	.upsp-stats,
+	.upsp-cards,
+	.upsp-steps,
+	.upsp-evidence,
+	.upsp-quotes {
+		grid-column: 1 / -1;
+		display: grid;
+		gap: clamp(16px, 2vw, 24px);
+	}
+	.upsp-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+	.upsp-cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+	.upsp-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+	.upsp-evidence { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+	.upsp-quotes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+	.upsp-stat { text-align: center; padding: clamp(20px, 2.4vw, 28px) 12px; }
+	.upsp-stat-num {
+		font-family: var(--font-serif);
+		font-size: clamp(38px, 4.6vw, 58px);
+		line-height: 1;
+		color: var(--accent);
+		letter-spacing: -0.02em;
+	}
+	.upsp-stat-unit { font-size: 0.5em; margin-left: 2px; }
+	.upsp-stat p {
+		margin: 12px auto 0;
+		max-width: 30ch;
+		font-family: var(--font-sans);
+		font-size: 14.5px;
+		line-height: 1.55;
+		color: var(--ink-500);
+	}
+
+	.upsp-card,
+	.upsp-step,
+	.upsp-ev,
+	.upsp-outcome,
+	.upsp-quote {
+		background: var(--white, #fff);
+		border: 1px solid var(--border-soft);
+		border-radius: 18px;
+		padding: clamp(20px, 2.4vw, 28px);
+		box-shadow: var(--shadow-sm);
+	}
+	.upsp-card h3,
+	.upsp-step h3,
+	.upsp-outcome h3 {
+		font-family: var(--font-serif);
+		font-weight: 500;
+		font-size: clamp(18px, 1.7vw, 21px);
+		line-height: 1.2;
+		color: var(--ink-900);
+		margin: 0 0 8px;
+	}
+	.upsp-card p,
+	.upsp-step p,
+	.upsp-ev p {
+		margin: 0;
+		font-family: var(--font-sans);
+		font-size: 14.5px;
+		line-height: 1.6;
+		color: var(--ink-500);
+	}
+	.upsp-step-n {
+		display: inline-block;
+		font-family: var(--font-sans);
+		font-size: 12px;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		color: var(--accent);
+		margin-bottom: 10px;
+	}
+
+	.upsp-ev-stat {
+		font-family: var(--font-serif);
+		font-size: clamp(32px, 3.6vw, 44px);
+		line-height: 1;
+		color: var(--accent);
+		letter-spacing: -0.02em;
+	}
+	.upsp-ev-label {
+		font-family: var(--font-sans);
+		font-size: 13px;
+		font-weight: 600;
+		color: var(--ink-900);
+		margin: 8px 0 10px;
+	}
+
+	.upsp-outcomes {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: clamp(16px, 2vw, 24px);
+	}
+	.upsp-outcome-lead {
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-size: 15.5px;
+		line-height: 1.5;
+		color: var(--ink-700);
+		margin: 0 0 14px;
+	}
+	.upsp-outcome ul {
+		margin: 0;
+		padding-left: 18px;
+		display: flex;
+		flex-direction: column;
+		gap: 7px;
+	}
+	.upsp-outcome li {
+		font-family: var(--font-sans);
+		font-size: 14.5px;
+		line-height: 1.5;
+		color: var(--ink-700);
+	}
+
+	.upsp-course {
+		grid-column: 1 / -1;
+		background: var(--brand-gradient);
+		border-radius: var(--radius-2xl);
+		padding: clamp(28px, 4vw, 52px);
+		box-shadow: 0 24px 60px rgba(8, 74, 243, 0.28);
+	}
+	.upsp-course .eyebrow { color: var(--brand-yellow-500); }
+	.upsp-course h2 { color: #fff; margin: 10px 0 14px; }
+	.upsp-course h2 em { color: var(--brand-yellow-500); font-style: italic; }
+	.upsp-course > .upsp-course-copy > p {
+		font-family: var(--font-sans);
+		font-size: clamp(15px, 1.15vw, 17px);
+		line-height: 1.65;
+		color: rgba(255, 255, 255, 0.92);
+		margin: 0 0 20px;
+		max-width: 62ch;
+	}
+	/* The Stanford provenance reads as a credential note rather than body copy,
+	   so it sits smaller and italic under the main line. */
+	.upsp-course-note {
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-size: clamp(13.5px, 1vw, 15px);
+		line-height: 1.6;
+		color: rgba(255, 255, 255, 0.78);
+		margin: 0 0 22px;
+		max-width: 62ch;
+	}
+
+	.upsp-course-list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 14px clamp(20px, 3vw, 40px);
+	}
+	.upsp-course-list li {
+		font-family: var(--font-sans);
+		font-size: 14.5px;
+		line-height: 1.6;
+		color: rgba(255, 255, 255, 0.9);
+		padding-left: 16px;
+		border-left: 2px solid var(--brand-yellow-500);
+	}
+	.upsp-course-list strong { color: #fff; }
+
+	.upsp-quote { display: flex; flex-direction: column; gap: 16px; }
+	.upsp-quote blockquote {
+		margin: 0;
+		font-family: var(--font-sans);
+		font-size: 15.5px;
+		line-height: 1.6;
+		color: var(--ink-900);
+	}
+	.upsp-quote blockquote::before { content: '\201C'; }
+	.upsp-quote blockquote::after { content: '\201D'; }
+	.upsp-quote figcaption {
+		margin-top: auto;
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		font-family: var(--font-sans);
+	}
+	.upsp-quote-who { font-size: 14px; font-weight: 600; color: var(--ink-900); }
+	.upsp-quote-org { font-size: 13px; color: var(--ink-500); }
+
+	.upsp-cta {
+		grid-column: 1 / -1;
+		text-align: center;
+		background: var(--brand-gradient);
+		border-radius: var(--radius-2xl);
+		padding: clamp(32px, 4.4vw, 60px) clamp(20px, 4vw, 56px);
+		box-shadow: 0 24px 60px rgba(8, 74, 243, 0.28);
+	}
+	.upsp-cta-eyebrow { color: var(--brand-yellow-500); display: block; }
+	.upsp-cta h2 { color: #fff; margin: 12px 0 14px; }
+	.upsp-cta h2 em { color: var(--brand-yellow-500); font-style: italic; }
+	.upsp-cta > p {
+		font-family: var(--font-sans);
+		font-size: clamp(15px, 1.15vw, 17px);
+		line-height: 1.6;
+		color: rgba(255, 255, 255, 0.92);
+		margin: 0 auto 26px;
+		max-width: 58ch;
+	}
+	.upsp-cta-row {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 14px;
+	}
+	.upsp-cta-email {
+		margin: 0;
+		font-family: var(--font-sans);
+		font-size: 14px;
+		color: rgba(255, 255, 255, 0.8);
+	}
+	.upsp-cta-email a {
+		color: #fff;
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+	.upsp-cta-email a:hover { color: var(--brand-yellow-500); }
+
+	@media (max-width: 1000px) {
+		.upsp-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	}
+	@media (max-width: 820px) {
+		.upsp-stats,
+		.upsp-steps,
+		.upsp-evidence,
+		.upsp-quotes,
+		.upsp-outcomes,
+		.upsp-course-list { grid-template-columns: minmax(0, 1fr); }
+	}
+	@media (max-width: 560px) {
+		.upsp-cards { grid-template-columns: minmax(0, 1fr); }
+	}
+</style>
