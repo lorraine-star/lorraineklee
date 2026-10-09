@@ -3078,9 +3078,13 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   display: none;
 }
 .client-logo-frame .client-logo {
-  max-height: 26px;
+  /* A fixed height rather than a maximum, so every mark renders at exactly the
+     same height. max-width is only a safety rail: the widest wordmark here is
+     about 7.3:1, so 200px is wide enough that height always governs. When the
+     width cap bit instead, long wordmarks shrank to 17px against 26px marks. */
+  height: 26px;
   width: auto;
-  max-width: 150px;
+  max-width: 265px;
   object-fit: contain;
   opacity: 0.6;
   filter: grayscale(1);
@@ -3696,16 +3700,3 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   }
 }
 
-/* Optical sizing for the client grid. Each mark has a different aspect ratio
-   and ink coverage, so a single max-height leaves compact marks looking half
-   the size of long wordmarks. These nudges even out how large each one reads,
-   rather than how tall it measures. */
-.client-logo-frame[data-client='Salesforce'] .client-logo { max-height: 34px; }
-.client-logo-frame[data-client='Cisco'] .client-logo { max-height: 30px; }
-.client-logo-frame[data-client='ASICS'] .client-logo { max-height: 22px; }
-.client-logo-frame[data-client='Prezi'] .client-logo { max-height: 30px; }
-.client-logo-frame[data-client='Hilton'] .client-logo { max-height: 30px; }
-.client-logo-frame[data-client='Boston Scientific'] .client-logo { max-height: 30px; }
-.client-logo-frame[data-client='McKinsey & Company'] .client-logo { max-height: 30px; }
-.client-logo-frame[data-client='Google'] .client-logo { max-height: 24px; }
-.client-logo-frame[data-client='Stanford University'] .client-logo { max-height: 24px; }

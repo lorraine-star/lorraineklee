@@ -402,8 +402,8 @@ past_clients:
   - name: Tripadvisor
     logo_src: /images/clients/tripadvisor.webp
     style: mono
-  - name: Prezi
-    logo_src: /images/clients/prezi.webp
+  - name: Henry Schein
+    logo_src: /images/clients/henry-schein.svg
     style: mono
 show_stats: true
 stats_section:
