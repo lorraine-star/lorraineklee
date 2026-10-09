@@ -19,7 +19,6 @@ const {
 	reel_section,
 	topics_section,
 	topics,
-	custom_programs_section,
 	other_talks_section,
 	other_talks,
 	clients_section,
@@ -557,38 +556,6 @@ const cardEyebrow = (format?: string | null) =>
 								</div>
 							);
 						})}
-					</div>
-				</div>
-			</section>
-		)
-	}
-
-	{/* ---------- Custom programs ---------- */}
-	{
-		custom_programs_section && (
-			<section class="section section--tight">
-				<div class="grid12">
-					<div class="custom-programs-grid">
-						<div class="custom-programs-copy reveal">
-							<span class="eyebrow">{custom_programs_section.eyebrow}</span>
-							<h2>
-								{custom_programs_section.heading}{' '}
-								<em>{custom_programs_section.heading_accent}</em>
-							</h2>
-							<p>{custom_programs_section.body}</p>
-							{custom_programs_section.cta_label && (
-								<a
-									class="btn primary large"
-									href={safeUrl(custom_programs_section.cta_url)} data-ga-event="speaking_inquiry" data-ga-label="speaking-custom-programs"
-								>
-									{custom_programs_section.cta_label}{' '}
-									<span aria-hidden="true">&rarr;</span>
-								</a>
-							)}
-						</div>
-						<ul class="custom-programs-list reveal-stagger">
-							{custom_programs_section.bullets?.map((b) => <li>{b}</li>)}
-						</ul>
 					</div>
 				</div>
 			</section>
