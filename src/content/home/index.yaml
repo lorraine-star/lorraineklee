@@ -62,8 +62,8 @@ four_ways:
     heading: Team training
     blurb: >-
       Team training that turns strong contributors into standout leaders.
-      Keynotes at Amazon, Google, and Cisco. Workshops at LinkedIn and Culture
-      Amp.
+      Amazon, Google, Cisco, LinkedIn, and 1Password have all brought me in to
+      train their teams.
 banner:
   enabled: true
   prefix: From

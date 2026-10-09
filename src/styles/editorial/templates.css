@@ -2450,7 +2450,9 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   background: #fff;
   border: 1px solid var(--border-soft);
   border-radius: 20px;
-  padding: 48px;
+  /* Was a flat 48px. On a phone that spent a quarter of the screen width on
+     whitespace around an embed that needs the room. */
+  padding: clamp(16px, 2.6vw, 32px);
   box-shadow: var(--shadow-sm);
 }
 .contact-form-card .form-eyebrow {
