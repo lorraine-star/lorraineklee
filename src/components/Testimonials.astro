@@ -70,9 +70,9 @@ if (!testimonials) {
     {repeatBookings.length > 0 && (
       <ul class="testimonials-rebookings" aria-label="Repeat bookings">
         {repeatBookings.map((client) => (
-          <li>
+          <li data-client={client.name}>
             {client.logo ? (
-              <img class="rebooking-logo" src={client.logo} alt={client.name} loading="lazy" width="80" height="20" />
+              <img class="rebooking-logo" src={client.logo} alt={client.name} loading="lazy" />
             ) : (
               <strong>{client.name}</strong>
             )}
@@ -86,36 +86,51 @@ if (!testimonials) {
 </section>
 
 <style>
+  /* Same treatment as the Trusted By grid on the speaking page, scaled down:
+     a row of evenly spaced cells with the mark centred and its count beneath,
+     rather than logos and text jammed together on one line. */
   .testimonials-rebookings {
     grid-column: 1 / -1;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px 32px;
-    margin: -20px 0 32px;
-    padding: 16px 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin: -12px 0 36px;
+    padding: 20px 0;
     list-style: none;
     border-block: 1px solid var(--border);
-    font-family: var(--font-sans);
-    font-size: 14px;
-    color: var(--ink-700);
   }
   .testimonials-rebookings li {
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 10px;
   }
-  .testimonials-rebookings strong { color: var(--ink-900); }
-  /* The mark rather than the company's name in bold text: a logo is
-     recognised at a glance, where a name has to be read. Kept small and
-     desaturated so the strip stays a supporting line under the heading
-     instead of competing with the Trusted By grid elsewhere. */
+  .testimonials-rebookings strong {
+    color: var(--ink-900);
+    font-family: var(--font-sans);
+    font-size: 15px;
+  }
+  .testimonials-rebookings span {
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    color: var(--ink-500);
+  }
+  /* Heights per logo for the same reason as the Trusted By grid: a single
+     height would leave Zoom looming over Cisco. Roughly 70% of the sizes used
+     there, since this strip is a supporting line. */
   .rebooking-logo {
-    height: 18px;
+    height: 16px;
     width: auto;
-    max-width: 92px;
     object-fit: contain;
-    opacity: 0.75;
+    opacity: 0.7;
     filter: grayscale(1);
   }
-  .testimonials-rebookings li:nth-child(2) .rebooking-logo { height: 15px; }
+  .testimonials-rebookings li[data-client='LinkedIn'] .rebooking-logo { height: 16px; }
+  .testimonials-rebookings li[data-client='Cisco'] .rebooking-logo { height: 22px; }
+  .testimonials-rebookings li[data-client='Zoom'] .rebooking-logo { height: 16px; }
+  @media (max-width: 600px) {
+    .testimonials-rebookings { gap: 6px; }
+    .testimonials-rebookings span { font-size: 11.5px; }
+  }
 </style>
