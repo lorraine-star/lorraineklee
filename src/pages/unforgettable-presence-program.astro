@@ -39,7 +39,7 @@ const outcomes = [
 // new and has no clients yet, so the bar claims speaking, not training.
 const clientLogos = [
 	{ name: 'Google', src: '/images/clients/google.svg', h: 26 },
-	{ name: 'Amazon', src: '/images/clients/amazon.webp', h: 27 },
+	{ name: 'Amazon', src: '/images/clients/amazon.webp', h: 27, mono: true },
 	{ name: 'LinkedIn', src: '/images/clients/linkedin.svg', h: 23 },
 	{ name: 'Cisco', src: '/images/clients/cisco.svg', h: 32 },
 	{ name: 'McKinsey & Company', src: '/images/clients/mckinsey.svg', h: 26 },
@@ -61,15 +61,15 @@ const proof = [
 	{/* ---------- Hero ---------- */}
 	<section class="page-hero" id="top">
 		<div class="grid12 page-hero-grid">
-			<div class="page-hero-copy fade-up">
+			<div class="page-hero-copy upsp-hero-copy fade-up">
 				<div class="page-hero-eyebrow">
 					<span class="dot"></span>
-					<span class="eyebrow" style="color: var(--ink-500);">For L&D and people teams</span>
+					<span class="eyebrow" style="color: var(--ink-500);">For L&D and people teams · Delivered virtually</span>
 				</div>
 				<h1>Unforgettable Presence® <em>Signature Program</em></h1>
 				<p class="lead-large">
-					Turn strong contributors into people who can hold a room, make their
-					thinking easy to follow, and represent your company when it counts.
+					Turn strong contributors into leaders who can engage a room, communicate
+					confidently and effectively, and represent your company when it counts.
 				</p>
 				<div class="hero-cta-row">
 					<a class="btn primary large" href="mailto:lorraine@wishlygroup.ca?subject=Unforgettable%20Presence%20Signature%20Program" data-ga-event="speaking_inquiry" data-ga-label="upsp-hero">
@@ -79,6 +79,16 @@ const proof = [
 						See how it works <span class="arrow" aria-hidden="true">&darr;</span>
 					</a>
 				</div>
+			</div>
+			<div class="upsp-hero-media fade-up" style="animation-delay: 120ms;">
+				<img
+					src="/images/program/teaching.webp"
+					alt="Lorraine K. Lee leading a workshop with a team around a table"
+					width="1200"
+					height="747"
+					loading="eager"
+					decoding="async"
+				/>
 			</div>
 		</div>
 	</section>
@@ -91,7 +101,13 @@ const proof = [
 			<p class="upsp-proofbar-label">Past speaking clients</p>
 			<div class="upsp-proofbar-logos">
 				{clientLogos.map((l) => (
-					<img src={l.src} alt={l.name} style={`height:${l.h}px`} loading="lazy" />
+					<img
+						class={l.mono ? 'is-mono' : undefined}
+						src={l.src}
+						alt={l.name}
+						style={`height:${l.h}px`}
+						loading="lazy"
+					/>
 				))}
 			</div>
 		</div>
@@ -105,9 +121,9 @@ const proof = [
 				<h2>Your best people are losing rooms <em>they should own.</em></h2>
 			</div>
 			<div class="upsp-pains reveal-stagger">
-				<p>The strongest analyst on the team goes quiet in front of the exec committee.</p>
-				<p>A recommendation that was right dies because nobody could follow it.</p>
-				<p>A manager who is excellent in person reads as junior on camera.</p>
+				<p>The strongest analyst on the team rambles in front of the exec committee.</p>
+				<p>Now that every deck reads the same, the live moments are the only signal anyone trusts.</p>
+				<p>Your rising leaders are told they lack executive presence, and nobody can tell them what to do about it.</p>
 			</div>
 			<div class="upsp-gap reveal">
 				<div class="upsp-gap-stat">
@@ -179,9 +195,9 @@ const proof = [
 				<span class="eyebrow">How it works</span>
 				<h2>Three parts, built <em>to stick.</em></h2>
 				<p class="lead">
+					Every part runs online, so it works across offices and time zones.
 					People forget half of what they hear within an hour and 90% within a
-					week. Spacing the lessons out and practicing between them is what makes
-					the difference.
+					week, so the lessons are spaced out with practice in between.
 				</p>
 			</div>
 			<div class="upsp-steps reveal-stagger">
@@ -260,6 +276,23 @@ const proof = [
 </SpeakingLayout>
 
 <style>
+	/* ---- Hero with photo ---- */
+	.page-hero-grid { align-items: center; }
+	.upsp-hero-copy { grid-column: 1 / span 6; }
+	.upsp-hero-media { grid-column: 7 / -1; }
+	.upsp-hero-media img {
+		width: 100%;
+		height: auto;
+		display: block;
+		border-radius: var(--radius-2xl);
+		box-shadow: var(--shadow-lg);
+	}
+	@media (max-width: 900px) {
+		.upsp-hero-copy,
+		.upsp-hero-media { grid-column: 1 / -1; }
+		.upsp-hero-media { margin-top: 28px; }
+	}
+
 	/* ---- Pain lines ---- */
 	.upsp-pains {
 		grid-column: 1 / -1;
@@ -309,6 +342,13 @@ const proof = [
 		object-fit: contain;
 		opacity: 0.62;
 		filter: grayscale(1);
+	}
+	/* Marks that ship light on transparency need flattening, or they wash out
+	   to nothing against this background. Same treatment as the Trusted By
+	   grid's "mono" style. */
+	.upsp-proofbar-logos img.is-mono {
+		filter: brightness(0);
+		opacity: 0.52;
 	}
 
 	/* ---- Gap ---- */
