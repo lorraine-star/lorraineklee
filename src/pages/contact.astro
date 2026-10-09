@@ -94,7 +94,7 @@ const links = (social_links ?? []).filter((s) => s.url);
 							<div
 								data-tf-widget={formId}
 								data-tf-iframe-props={`title=Contact Lorraine K. Lee`}
-								data-tf-medium="snippet" data-tf-disable-scroll="true" data-tf-inline-on-mobile="true"
+								data-tf-medium="snippet" data-tf-inline-on-mobile="true"
 								data-tf-opacity="100"
 								data-tf-on-submit="onContactSubmit"
 								class="contact-typeform"
@@ -153,21 +153,21 @@ const links = (social_links ?? []).filter((s) => s.url);
 	   multi-option ones) visible: the widget has data-tf-disable-scroll set, so
 	   it cannot scroll internally and the frame has to be tall enough on its
 	   own. */
+	/* Typeform centres its content vertically inside the frame, so any height
+	   beyond what a screen needs turns into whitespace above and below it. The
+	   welcome screen is short, so the frame is kept close to its size and the
+	   Start button sits just under the copy.
+	   The first question asks for four fields at once and is taller than this,
+	   so it scrolls inside the form. That needs data-tf-disable-scroll to be
+	   off, which it now is: with it on, the wheel did nothing and the lower
+	   fields were simply unreachable. */
 	.contact-typeform {
 		width: 100%;
-		/* The floor is set by the tallest question, not by taste: the first one
-		   asks for first name, last name, phone and email together, and at 558px
-		   the email field was cut off behind the OK button. The widget has
-		   data-tf-disable-scroll, so it cannot scroll internally and the frame
-		   has to be tall enough on its own. */
-		height: clamp(560px, 72vh, 700px);
+		height: clamp(420px, 52vh, 520px);
 	}
 	@media (max-width: 820px) {
 		.contact-typeform {
-			/* Phones stack that four-field question tall, so the frame needs more
-			   room here than the viewport share alone would give it. The welcome
-			   screen is short and still sits comfortably inside this. */
-			height: clamp(600px, 76vh, 680px);
+			height: clamp(440px, 56vh, 500px);
 		}
 	}
 </style>
