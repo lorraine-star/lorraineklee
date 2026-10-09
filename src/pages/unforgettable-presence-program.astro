@@ -172,11 +172,14 @@ const proof = [
 					<span class="eyebrow">First course</span>
 					<h2>Present Like <em>a Leader.</em></h2>
 					<p>
-						The first course in the program. It grew out of the public speaking
-						course Lorraine taught at Stanford Continuing Studies, which rated
-						above the program average, and has been built out further since.
-						Structured practice for the meetings, presentations, and client
-						conversations your team is already in.
+						This is the first course in the program. Structured practice for the
+						meetings, presentations, and client conversations your team is
+						already in.
+					</p>
+					<p class="upsp-course-note">
+						It grew out of the flagship public speaking course Lorraine taught at
+						Stanford Continuing Studies, which rated above the program average,
+						and has been updated and refined for corporate audiences.
 					</p>
 					<ul class="upsp-course-list">
 						<li><strong>Speak with clarity and calm.</strong> One Senior Director cut filler words from roughly 70 a call to zero.</li>
@@ -518,6 +521,18 @@ const proof = [
 		margin: 0 0 20px;
 		max-width: 62ch;
 	}
+	/* The Stanford provenance reads as a credential note rather than body copy,
+	   so it sits smaller and italic under the main line. */
+	.upsp-course-note {
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-size: clamp(13.5px, 1vw, 15px);
+		line-height: 1.6;
+		color: rgba(255, 255, 255, 0.78);
+		margin: 0 0 22px;
+		max-width: 62ch;
+	}
+
 	.upsp-course-list {
 		margin: 0;
 		padding: 0;
