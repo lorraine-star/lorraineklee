@@ -216,11 +216,9 @@ const articlesTeaser = articles.slice(0, TEASER_COUNT);
 									</div>
 								)}
 								<div class="tl-media-body">
-									<span class="tl-media-meta">
-										{g.show}
-										{g.show && g.date ? ' · ' : ''}
-										{g.date}
-									</span>
+									{/* The date still sorts these newest-first; it just is not
+									    printed, so an older appearance does not look stale. */}
+									<span class="tl-media-meta">{g.show}</span>
 									<h3>{g.title}</h3>
 									{g.description && (
 										<p class="tl-media-desc">{g.description}</p>
@@ -281,7 +279,11 @@ const articlesTeaser = articles.slice(0, TEASER_COUNT);
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								{f.outlet && <span class="tl-link-outlet">{f.outlet}</span>}
+								{f.logo ? (
+									<img class="tl-link-logo" src={f.logo} alt={f.outlet} loading="lazy" />
+								) : (
+									f.outlet && <span class="tl-link-outlet">{f.outlet}</span>
+								)}
 								<h3>{f.title}</h3>
 								<span class="tl-link-cta">
 									{f.cta_label || 'Read more'}{' '}
@@ -479,7 +481,7 @@ const articlesTeaser = articles.slice(0, TEASER_COUNT);
 	}
 	.tl-media-thumb--logo img {
 		object-fit: contain;
-		padding: clamp(24px, 6%, 48px);
+		padding: clamp(36px, 18%, 76px);
 	}
 	.tl-media-thumb-deco {
 		position: absolute;
@@ -689,5 +691,20 @@ const articlesTeaser = articles.slice(0, TEASER_COUNT);
 	}
 	.tl-back-to-top a:hover {
 		color: var(--accent);
+	}
+	/* Outlet marks rather than the outlet's name set in type: a masthead is
+	   recognised instantly where a name has to be read. Desaturated so the
+	   headline underneath stays the loudest thing on the card. */
+	.tl-link-logo {
+		height: 28px;
+		width: auto;
+		max-width: 150px;
+		object-fit: contain;
+		display: block;
+		margin-bottom: 16px;
+		opacity: 0.9;
+	}
+	.tl-link-card:hover .tl-link-logo {
+		opacity: 1;
 	}
 </style>

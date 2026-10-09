@@ -23,12 +23,13 @@ appearances_section:
 appearances:
   - date: June 2026
     show: LinkedIn News
+    thumbnail: /images/clients/linkedin.svg
     title: 'The 4-Week Career Reset: How to Stand Out in a Competitive Market'
     description: >-
       Part two of a four-part live workshop series with LinkedIn's Andrew
       Seaman, on building visibility habits, strengthening your profile, and
       standing out to recruiters in a slow hiring market.
-    thumbnail_fit: cover
+    thumbnail_fit: logo
     url: 'https://www.linkedin.com/feed/update/urn:li:ugcPost:7474854681056305152/'
     cta_label: View on LinkedIn
   - date: September 2026
