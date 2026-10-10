@@ -92,7 +92,7 @@ if (!testimonials) {
   .testimonials-rebookings {
     grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 8px;
     margin: -12px 0 36px;
     padding: 20px 0;
@@ -129,8 +129,12 @@ if (!testimonials) {
   .testimonials-rebookings li[data-client='LinkedIn'] .rebooking-logo { height: 16px; }
   .testimonials-rebookings li[data-client='Cisco'] .rebooking-logo { height: 22px; }
   .testimonials-rebookings li[data-client='Zoom'] .rebooking-logo { height: 16px; }
+  .testimonials-rebookings li[data-client='Google'] .rebooking-logo { height: 18px; }
+  @media (max-width: 820px) {
+    .testimonials-rebookings { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 8px; }
+  }
   @media (max-width: 600px) {
-    .testimonials-rebookings { gap: 6px; }
+    .testimonials-rebookings { gap: 16px 6px; }
     .testimonials-rebookings span { font-size: 11.5px; }
   }
 </style>

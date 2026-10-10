@@ -89,7 +89,8 @@ const audienceRoutes = [
 const speakingProof = await reader.singletons.speaking.read();
 const past_clients = speakingProof?.past_clients ?? [];
 const repeatBookings = (speakingProof?.repeats ?? [])
-  .filter((client) => ['LinkedIn', 'Cisco', 'Zoom'].includes(client.name))
+  .filter((client) => ['LinkedIn', 'Cisco', 'Zoom', 'Google'].includes(client.name))
+  .sort((a, b) => parseInt(b.multiplier, 10) - parseInt(a.multiplier, 10))
   .map((client) => ({
     name: client.name,
     multiplier: client.multiplier.replace(/x$/i, '×'),
