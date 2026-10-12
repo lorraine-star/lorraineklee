@@ -2245,6 +2245,22 @@ export default config({
           },
           { label: 'Hero' }
         ),
+        masterclass: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            title: fields.text({ label: 'Course title' }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            cta_label: fields.text({ label: 'Button label' }),
+            cta_url: fields.text({ label: 'Button URL' }),
+            image: fields.text({ label: 'Image path' }),
+            image_alt: fields.text({ label: 'Image alt text' }),
+          },
+          {
+            label: 'MasterClass',
+            description:
+              'Shown as its own section after the featured LinkedIn Learning course. Leave the title empty to hide it.',
+          }
+        ),
         rating: fields.object(
           {
             value: fields.text({ label: 'Rating value (e.g. 4.7)' }),

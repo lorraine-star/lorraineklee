@@ -12,6 +12,17 @@ hero:
   image: "/images/v1/courses/lorraine-laptop.webp"
   image_alt: "Lorraine K. Lee smiling at her laptop in a sunny office"
   credential_pill: "Top-rated LinkedIn Learning instructor"
+masterclass:
+  eyebrow: Also on MasterClass
+  title: "Strategic Communication: Build Trust. Drive Decisions. Lead With Influence."
+  body: >-
+    Lorraine is a MasterClass instructor, teaching the communication skills that
+    decide whether people listen to you, trust your judgment, and follow your
+    lead.
+  cta_label: Watch on MasterClass
+  cta_url: https://www.masterclass.com/certificates/strategic-communication-build-trust-drive-decisions-lead-with-influence
+  image: /images/courses/masterclass.webp
+  image_alt: Lorraine K. Lee presenting to camera for her MasterClass course
 rating:
   value: "4.7+"
   scale: "/5"

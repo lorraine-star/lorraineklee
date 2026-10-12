@@ -10,7 +10,7 @@ const page = await reader.singletons.coursesPage.read();
 if (!page) {
 	throw new Error('Missing courses page content (src/content/courses-page/index.yaml)');
 }
-const { hero, rating, filter_bar, why_section, final_cta, labels } = page;
+const { hero, rating, filter_bar, why_section, final_cta, labels, masterclass } = page;
 
 // Category order mirrors the old WordPress /learning-courses/ hub. Editors can
 // reorder via coursesPage.category_order; any category they leave off is
@@ -245,6 +245,39 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 										/>
 									</>
 								)}
+							</div>
+						</div>
+					</div>
+				</section>
+			)
+		}
+
+		{/* ---------- MasterClass ---------- */}
+		{
+			masterclass?.title && (
+				<section class="mc-section">
+					<div class="container">
+						<div class="mc-wrap">
+							<div class="mc-media">
+								<img
+									src={masterclass.image}
+									alt={masterclass.image_alt}
+									loading="lazy"
+									decoding="async"
+								/>
+							</div>
+							<div class="mc-text">
+								<span class="eyebrow mc-eyebrow">{masterclass.eyebrow}</span>
+								<h2 class="mc-title">{masterclass.title}</h2>
+								<p class="mc-body">{masterclass.body}</p>
+								<a
+									class="btn primary large"
+									href={masterclass.cta_url}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									{masterclass.cta_label} <span aria-hidden="true">&rarr;</span>
+								</a>
 							</div>
 						</div>
 					</div>
@@ -1249,5 +1282,52 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 
 		.final-cta-heading { font-size: clamp(32px, 9vw, 44px); }
 		.final-cta-ctas .btn { width: 100%; justify-content: center; }
+	}
+	/* MasterClass sits apart from the LinkedIn Learning grid on purpose: that
+	   grid's filters, counts and "Free with LinkedIn Learning" labels all
+	   assume one platform, so a MasterClass card inside it would read as a free
+	   LinkedIn course. Dark panel to separate it, and the still is portrait
+	   because it is a frame from the course video. */
+	.mc-section { padding: clamp(32px, 4vw, 56px) 0; }
+	.mc-wrap {
+		display: grid;
+		grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr);
+		gap: clamp(24px, 4vw, 56px);
+		align-items: center;
+		background: #121212;
+		border-radius: var(--radius-2xl);
+		padding: clamp(24px, 3.2vw, 44px);
+		box-shadow: var(--shadow-lg);
+	}
+	.mc-media img {
+		width: 100%;
+		height: auto;
+		display: block;
+		border-radius: 16px;
+	}
+	.mc-eyebrow { color: #fff; opacity: 0.6; display: block; margin-bottom: 10px; }
+	.mc-title {
+		font-family: var(--font-serif);
+		font-weight: 500;
+		font-size: clamp(22px, 2.4vw, 34px);
+		line-height: 1.18;
+		letter-spacing: -0.01em;
+		color: #fff;
+		margin: 0 0 14px;
+		text-wrap: balance;
+	}
+	.mc-body {
+		font-family: var(--font-sans);
+		font-size: clamp(15px, 1.15vw, 17px);
+		line-height: 1.65;
+		color: rgba(255, 255, 255, 0.78);
+		margin: 0 0 24px;
+		max-width: 56ch;
+	}
+	.mc-section .btn.primary { background: #fff; color: #121212; }
+	.mc-section .btn.primary:hover { background: rgba(255, 255, 255, 0.86); }
+	@media (max-width: 820px) {
+		.mc-wrap { grid-template-columns: minmax(0, 1fr); }
+		.mc-media { max-width: 280px; margin: 0 auto; }
 	}
 </style>
