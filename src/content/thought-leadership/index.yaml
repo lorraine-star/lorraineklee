@@ -32,17 +32,16 @@ appearances:
     url: >-
       https://business.udemy.com/resources/leading-up-podcast/lorraine-k-lee-how-to-go-from-passed-over-to-promoted
     cta_label: Listen now
-  - date: June 2026
-    show: LinkedIn News
-    thumbnail: /images/thought-leadership/appearances/linkedin-career-reset.webp
-    title: 'The 4-Week Career Reset: How to Stand Out in a Competitive Market'
+  - date: June 2025
+    show: Tiger Sisters
+    title: Body Language Expert Reveals Why You're Still Invisible
     description: >-
-      Part two of a four-part live workshop series with LinkedIn's Andrew
-      Seaman, on building visibility habits, strengthening your profile, and
-      standing out to recruiters in a slow hiring market.
+      Lorraine joins the Tiger Sisters podcast on why strong work can still go
+      unnoticed, and what to change in how you come across on camera and in
+      the room.
     thumbnail_fit: cover
-    url: 'https://www.linkedin.com/feed/update/urn:li:ugcPost:7474854681056305152/'
-    cta_label: View on LinkedIn
+    youtube_id: 8E164swLCxo
+    cta_label: Watch now
   - date: September 2026
     show: Think Fast Talk Smart
     title: 'AI-thenticity Crisis: Are Your Ums and Typos Now Proof You''re Human?'
