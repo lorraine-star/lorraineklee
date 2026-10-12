@@ -3652,6 +3652,13 @@ export default config({
           },
         }),
         quote: fields.text({ label: 'Quote', multiline: true }),
+            highlight: fields.text({
+              label: 'Phrase to emphasise (optional)',
+              description:
+                'A few words copied exactly from the quote above. They get a ' +
+                'yellow marker swipe wherever this testimonial appears. ' +
+                'Anything that is not in the quote is ignored.',
+            }),
         roleOrCompany: fields.text({
           label: 'Role / company',
           description: 'Shown under the author name, e.g. "Chief of Staff to HubSpot\'s CFO" or "Figma".',

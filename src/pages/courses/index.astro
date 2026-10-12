@@ -1,6 +1,7 @@
 ---
 import SpeakingLayout from '../../layouts/SpeakingLayout.astro';
 import { reader } from '../../lib/keystatic';
+import { markQuote } from '../../lib/highlight';
 import { safeUrl } from '../../lib/url';
 import { getTestimonials } from '../../lib/testimonials';
 import { existsSync } from 'node:fs';
@@ -443,7 +444,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 							<div class="proof-strip-quotes">
 								{proofQuotes.map((q) => (
 									<figure class="proof-quote">
-										<blockquote class="proof-quote-text">&ldquo;{q.quote}&rdquo;</blockquote>
+										<blockquote class="proof-quote-text" set:html={`&ldquo;${markQuote(q.quote, q.highlight)}&rdquo;`} />
 										<figcaption class="proof-quote-who">
 											<strong>{q.author}</strong>
 											{q.roleOrCompany && (

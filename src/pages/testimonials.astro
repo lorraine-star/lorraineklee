@@ -1,6 +1,7 @@
 ---
 import SpeakingLayout from '../layouts/SpeakingLayout.astro';
 import { reader } from '../lib/keystatic';
+import { markQuote } from '../lib/highlight';
 import {
 	getTestimonials,
 	getTestimonialSections,
@@ -95,7 +96,7 @@ const LONG_QUOTE = 550;
 									id={t.slug}
 								>
 									<span class="tm-mark" aria-hidden="true">&ldquo;</span>
-									<blockquote class="tm-quote">{t.quote}</blockquote>
+									<blockquote class="tm-quote" set:html={markQuote(t.quote, t.highlight)} />
 									{isLong && (
 										<button type="button" class="tm-more" aria-expanded="false">
 											Read more

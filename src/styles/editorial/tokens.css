@@ -42,6 +42,8 @@
   --accent:       var(--brand-blue-600);
   --accent-hover: var(--brand-blue-500);
   --highlight:    var(--brand-yellow-500);
+  /* Translucent, so the swipe tints the line instead of sitting on top of it. */
+  --highlight-soft: rgb(252 224 54 / 0.45);
   --success:      #2E8B57;
   --danger:       #C24545;
 
@@ -237,4 +239,22 @@ code, pre, .mono {
   font-style: italic;
   font-weight: var(--fw-regular);
   color: var(--accent);
+}
+
+
+/* Marker swipe for the pulled-out phrase in a testimonial. A band across the
+   lower part of the line rather than a filled block, so the words stay
+   legible. box-decoration-break keeps the band continuous when it wraps. */
+mark {
+  background: linear-gradient(
+    transparent 54%,
+    var(--highlight-soft) 62%,
+    var(--highlight-soft) 88%,
+    transparent 96%
+  );
+  color: inherit;
+  font-weight: 600;
+  padding: 0 0.06em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }

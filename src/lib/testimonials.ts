@@ -21,6 +21,8 @@ export interface Testimonial {
   slug: string;
   author: string;
   quote: string;
+  /** A few words from the quote to carry the marker swipe. */
+  highlight?: string | null;
   roleOrCompany: string;
   type: TestimonialType;
   order: number;
@@ -140,6 +142,7 @@ export const initialsFor = (name: string): string =>
  */
 export interface CarouselCard {
   quote: string;
+  highlight?: string | null;
   name: string;
   role: string;
   photo?: string;
@@ -150,6 +153,7 @@ export interface CarouselCard {
 /** Map a shared testimonial to the home/organizer carousel card shape. */
 export const toCarouselCard = (t: Testimonial): CarouselCard => ({
   quote: t.quote,
+  highlight: t.highlight,
   name: t.author,
   role: t.roleOrCompany,
   photo: t.image || undefined,
@@ -163,6 +167,7 @@ export const toCarouselCard = (t: Testimonial): CarouselCard => ({
  */
 export interface ColumnCard {
   quote: string;
+  highlight?: string | null;
   name: string;
   initials: string;
   role?: string;
@@ -173,6 +178,7 @@ export interface ColumnCard {
 /** Map a shared testimonial to the marquee-column card shape. */
 export const toColumnCard = (t: Testimonial): ColumnCard => ({
   quote: t.quote,
+  highlight: t.highlight,
   name: t.author,
   role: t.roleOrCompany || undefined,
   photo: t.image || undefined,

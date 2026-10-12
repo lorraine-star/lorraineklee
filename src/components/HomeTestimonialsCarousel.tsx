@@ -1,7 +1,22 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
+import { splitQuote } from '../lib/highlight';
 import './home-testimonials-carousel.css';
+
+/** Renders a quote with its pulled-out phrase wrapped in a <mark>. */
+const Quote = ({ text, highlight }: { text: string; highlight?: string | null }) => {
+  const { before, mark, after } = splitQuote(text, highlight);
+  if (!mark) return <>{before}</>;
+  return (
+    <>
+      {before}
+      <mark>{mark}</mark>
+      {after}
+    </>
+  );
+};
+
 
 type TestimonialLogo = {
   image: string;
@@ -10,6 +25,7 @@ type TestimonialLogo = {
 
 type Testimonial = {
   quote: string;
+  highlight?: string | null;
   name: string;
   role: string;
   photo?: string;
@@ -34,7 +50,9 @@ const renderCard = (testimonial: Testimonial) => (
     <span className="t-mark" aria-hidden="true">
       &ldquo;
     </span>
-    <blockquote className="t-quote">{testimonial.quote}</blockquote>
+    <blockquote className="t-quote">
+      <Quote text={testimonial.quote} highlight={testimonial.highlight} />
+    </blockquote>
     <div className="t-divider" />
     <figcaption className="t-attrib">
       {testimonial.photo ? (
