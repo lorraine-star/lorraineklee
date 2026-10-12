@@ -301,12 +301,26 @@ const courseHref =
               >
                 <span class="course-form-eyebrow">{free_course?.form_eyebrow || 'Start tomorrow'}</span>
                 <h3 class="course-form-title">{free_course?.form_title || 'Join'} <em>{free_course?.form_title_accent || '14,000+'}</em> {free_course?.form_title_tail || 'leaders.'}</h3>
+                {/* Kit stores this as the subscriber's first name, the same
+                    field the funnel form and the popup already send, so the
+                    course emails can greet people by name. */}
+                <label class="field-label" for="course-first-name">{free_course?.form_name_label || 'First name'}</label>
+                <input
+                  id="course-first-name"
+                  class="field"
+                  type="text"
+                  name="fields[first_name]"
+                  autocomplete="given-name"
+                  required
+                  placeholder={free_course?.form_name_placeholder || 'Jane'}
+                />
                 <label class="field-label" for="course-email">{free_course?.form_email_label || 'Email address'}</label>
                 <input
                   id="course-email"
                   class="field"
                   type="email"
                   name="email_address"
+                  autocomplete="email"
                   required
                   placeholder={free_course?.form_email_placeholder || 'you@company.com'}
                 />

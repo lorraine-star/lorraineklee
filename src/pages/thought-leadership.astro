@@ -150,8 +150,8 @@ const articlesTeaser = articles.slice(0, TEASER_COUNT);
 						/* Short fixed labels. The section headings are split into a
 						   plain half and an italic half, so reusing either one gave
 						   fragments like "appearances" and "interviewed". */
-						{ id: 'appearances', label: 'Interviews & shows', show: guestAppearances.length > 0 },
-						{ id: 'press', label: 'Press & features', show: pressFeatures.length > 0 },
+						{ id: 'appearances', label: 'Interviews & Shows', show: guestAppearances.length > 0 },
+						{ id: 'press', label: 'Press & Features', show: pressFeatures.length > 0 },
 						{ id: 'articles', label: 'Articles', show: articles.length > 0 },
 						{ id: 'listen', label: 'Listen', show: Boolean(spotifyEmbedUrl) },
 					]
@@ -236,12 +236,8 @@ const articlesTeaser = articles.slice(0, TEASER_COUNT);
 							<a
 								class="btn outline"
 								href={appearancesMore}
-								target={isExternal(appearancesMore) ? '_blank' : undefined}
-								rel={
-									isExternal(appearancesMore)
-										? 'noopener noreferrer'
-										: undefined
-								}
+								target="_blank"
+								rel="noopener noreferrer"
 							>
 								{appearances_section.view_more_label}{' '}
 								<span aria-hidden="true">{ctaArrow(appearancesMore)}</span>
@@ -297,8 +293,8 @@ const articlesTeaser = articles.slice(0, TEASER_COUNT);
 							<a
 								class="btn outline"
 								href={pressMore}
-								target={isExternal(pressMore) ? '_blank' : undefined}
-								rel={isExternal(pressMore) ? 'noopener noreferrer' : undefined}
+								target="_blank"
+								rel="noopener noreferrer"
 							>
 								{press_section.view_more_label}{' '}
 								<span aria-hidden="true">{ctaArrow(pressMore)}</span>
@@ -372,10 +368,8 @@ const articlesTeaser = articles.slice(0, TEASER_COUNT);
 							<a
 								class="btn outline"
 								href={articlesMore}
-								target={isExternal(articlesMore) ? '_blank' : undefined}
-								rel={
-									isExternal(articlesMore) ? 'noopener noreferrer' : undefined
-								}
+								target="_blank"
+								rel="noopener noreferrer"
 							>
 								{articles_section.view_more_label}{' '}
 								<span aria-hidden="true">{ctaArrow(articlesMore)}</span>

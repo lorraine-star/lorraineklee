@@ -23,6 +23,7 @@ appearances_section:
 appearances:
   - date: January 2026
     show: Leading Up (Udemy Business)
+    thumbnail: /images/thought-leadership/appearances/udemy-leading-up.webp
     title: 'How to Go From Passed Over to Promoted'
     description: >-
       Lorraine joins Udemy Business's Leading Up podcast on what separates the
@@ -39,7 +40,7 @@ appearances:
       Part two of a four-part live workshop series with LinkedIn's Andrew
       Seaman, on building visibility habits, strengthening your profile, and
       standing out to recruiters in a slow hiring market.
-    thumbnail_fit: logo
+    thumbnail_fit: cover
     url: 'https://www.linkedin.com/feed/update/urn:li:ugcPost:7474854681056305152/'
     cta_label: View on LinkedIn
   - date: September 2026
