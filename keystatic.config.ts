@@ -2683,6 +2683,13 @@ export default config({
         testimonials: fields.array(
           fields.object({
             quote: fields.text({ label: 'Quote', multiline: true }),
+            highlight: fields.text({
+              label: 'Phrase to emphasise (optional)',
+              description:
+                'A few words copied exactly from the quote above. They are ' +
+                'shown darker and bolder so the strongest part stands out. ' +
+                'Anything that does not appear in the quote is ignored.',
+            }),
             author: fields.text({ label: 'Name' }),
             roleOrCompany: fields.text({ label: 'Role or company' }),
           }),

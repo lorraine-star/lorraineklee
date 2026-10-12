@@ -92,6 +92,27 @@ const cardImage = hero_image?.trim() ?? '';
 // The quotes are reader-supplied, so the whole section stays hidden until
 // there is at least one rather than rendering an empty heading.
 const quotes = (testimonials ?? []).filter((t) => t?.quote && t.quote.trim());
+
+// Each quote can name one phrase to pull out. The phrase is matched against
+// the quote rather than stored separately, so editors cannot emphasise words
+// the reader never wrote. Curly and straight quotes are treated as the same
+// character, since the two get mixed when quotes are pasted in.
+const escapeHtml = (s: string) =>
+	s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const normalise = (s: string) =>
+	s.replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\u201d]/g, '"');
+
+const markQuote = (quote: string, highlight?: string | null): string => {
+	const phrase = (highlight ?? '').trim();
+	if (!phrase) return escapeHtml(quote);
+	const at = normalise(quote).toLowerCase().indexOf(normalise(phrase).toLowerCase());
+	if (at < 0) return escapeHtml(quote);
+	return (
+		escapeHtml(quote.slice(0, at)) +
+		'<mark>' + escapeHtml(quote.slice(at, at + phrase.length)) + '</mark>' +
+		escapeHtml(quote.slice(at + phrase.length))
+	);
+};
 ---
 
 <SpeakingLayout
@@ -210,7 +231,7 @@ const quotes = (testimonials ?? []).filter((t) => t?.quote && t.quote.trim());
           <div class="sub-quotes reveal-stagger">
             {quotes.map((t) => (
               <figure class="sub-quote">
-                <blockquote>{t.quote}</blockquote>
+                <blockquote set:html={markQuote(t.quote, t.highlight)} />
                 <figcaption>
                   <span class="sub-quote-author">{t.author}</span>
                   {t.roleOrCompany && (
@@ -267,7 +288,7 @@ const quotes = (testimonials ?? []).filter((t) => t?.quote && t.quote.trim());
     font-family: var(--font-sans);
     font-size: 15.5px;
     line-height: 1.45;
-    color: var(--ink-900);
+    color: var(--ink-700);
   }
   .sub-check {
     flex-shrink: 0;
@@ -442,7 +463,7 @@ const quotes = (testimonials ?? []).filter((t) => t?.quote && t.quote.trim());
     font-family: var(--font-sans);
     font-size: 15.5px;
     line-height: 1.6;
-    color: var(--ink-900);
+    color: var(--ink-700);
   }
   /* Quote marks are decorative, so they are drawn in CSS rather than typed
      into the content, which keeps them out of the copy editors maintain. */
@@ -451,6 +472,16 @@ const quotes = (testimonials ?? []).filter((t) => t?.quote && t.quote.trim());
   }
   .sub-quote blockquote::after {
     content: '\201D';
+  }
+
+  /* The pull-out phrase in each reader quote. Darker than the quote around it
+     rather than a colour wash, so it reads as emphasis and not as a link.
+     :global is required: the mark comes from set:html, so Astro does not add
+     its scoping attribute and a plain selector never matches it. */
+  .sub-quote blockquote :global(mark) {
+    background: none;
+    color: var(--ink-900);
+    font-weight: 600;
   }
   .sub-quote figcaption {
     margin-top: auto;
