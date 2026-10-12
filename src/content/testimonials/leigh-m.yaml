@@ -1,12 +1,14 @@
 author: Leigh M.
 quote: >-
-  We saw over 2,500 event registrations, and the engagement was truly off
-  the charts. Lorraine makes executive presence feel accessible rather than
-  intimidating.
+  Lorraine delivered an exceptional webinar on executive presence and career
+  branding for our Alumni Learning Consortium. We saw over 2,500 event
+  registrations, and the engagement was truly off the charts. The impact was
+  clear—one attendee even noted it was the first time they didn't just
+  'multitask through' a session because they were so hooked.
 highlight: "over 2,500 event registrations"
 roleOrCompany: Alumni Learning Consortium
 type: client-organizer-speaking
-order: 38
+order: 13
 image: /images/speaking/testimonials/leigh-m.webp
 imageAlt: Headshot of Leigh M.
 priority: High
@@ -15,7 +17,7 @@ topicTags:
   - Career development
 sourceUrl: ""
 matchedCptUrl: ""
-showOnHomepage: false
+showOnHomepage: true
 showOnTestimonials: true
 showOnSpeaking: true
 showOnCourses: false
