@@ -39,13 +39,47 @@ const spotifyEmbedUrl = spotifyId
 	: '';
 
 // Guest appearances: keep only items that resolve to a real link.
-const guests = (guest_appearances ?? [])
+//
+// This page is the canonical full list, so it pulls from two sources: this
+// page's own `guest_appearances` and the "Recent appearances" list on the
+// Media hub. The hub only shows its newest three, so without this merge the
+// older ones (and everything the hub pushes below the fold later) would have
+// no page to live on, even though "View more interviews" points here.
+const tlPage = await reader.singletons.thoughtLeadership.read();
+const hubAppearances = (tlPage?.appearances ?? []).map((a) => ({
+	title: a.title,
+	description: a.description,
+	show: a.show,
+	date: a.date,
+	thumbnail: a.thumbnail,
+	youtube_id: a.youtube_id,
+	url: a.url,
+}));
+
+const MONTHS = ['january','february','march','april','may','june','july',
+	'august','september','october','november','december'];
+// Dates are free text ("May 2025") and the page's own entries have none, so
+// anything unparseable sorts last rather than throwing.
+const dateRank = (d?: string | null): number => {
+	const m = /^\s*([a-z]+)\s+(\d{4})/i.exec(d ?? '');
+	if (!m) return -1;
+	const month = MONTHS.indexOf(m[1].toLowerCase());
+	return month < 0 ? -1 : Number(m[2]) * 12 + month;
+};
+
+const seen = new Set<string>();
+const guests = [...hubAppearances, ...(guest_appearances ?? [])]
 	.map((g) => {
 		const id = (g.youtube_id ?? '').trim();
 		const href = id ? watchUrl(id) : safeUrl(g.url);
 		return { ...g, id, href };
 	})
-	.filter((g) => g.href);
+	.filter((g) => {
+		if (!g.href || seen.has(g.href)) return false;
+		seen.add(g.href);
+		return true;
+	})
+	.sort((a, b) => dateRank(b.date) - dateRank(a.date));
 ---
 
 <SpeakingLayout
@@ -102,9 +136,9 @@ const guests = (guest_appearances ?? [])
 								rel="noopener noreferrer"
 							>
 								<div class="interview-thumb">
-									{g.id ? (
+									{g.id || g.thumbnail ? (
 										<img
-											src={thumbUrl(g.id)}
+											src={g.id ? thumbUrl(g.id) : g.thumbnail}
 											alt=""
 											loading="lazy"
 											width="480"
@@ -113,11 +147,11 @@ const guests = (guest_appearances ?? [])
 									) : (
 										<div class="interview-thumb-deco" aria-hidden="true" />
 									)}
-									<span class="play" aria-hidden="true">
+									{g.id && <span class="play" aria-hidden="true">
 										<svg viewBox="0 0 24 24" fill="currentColor">
 											<path d="M8 5v14l11-7z" />
 										</svg>
-									</span>
+									</span>}
 								</div>
 								<div class="interview-card-body">
 									{g.show && <span class="interview-show">{g.show}</span>}
