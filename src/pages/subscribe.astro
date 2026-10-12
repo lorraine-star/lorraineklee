@@ -474,14 +474,23 @@ const markQuote = (quote: string, highlight?: string | null): string => {
     content: '\201D';
   }
 
-  /* The pull-out phrase in each reader quote. Darker than the quote around it
-     rather than a colour wash, so it reads as emphasis and not as a link.
+  /* The pull-out phrase in each reader quote, drawn as the marker swipe used
+     on the UYI page: a yellow band across the lower part of the line rather
+     than a filled block, so the words stay legible. box-decoration-break
+     keeps the band continuous when the phrase wraps across lines.
      :global is required: the mark comes from set:html, so Astro does not add
      its scoping attribute and a plain selector never matches it. */
   .sub-quote blockquote :global(mark) {
-    background: none;
+    background: linear-gradient(
+      transparent 58%,
+      var(--highlight) 58%,
+      var(--highlight) 94%,
+      transparent 94%
+    );
     color: var(--ink-900);
-    font-weight: 600;
+    padding: 0 0.06em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
   .sub-quote figcaption {
     margin-top: auto;
