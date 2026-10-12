@@ -54,21 +54,10 @@ const toMedia = (items: typeof appearances) =>
 		})
 		.filter((item) => item.href);
 
-// "Recent appearances" is ordered by hand in Keystatic, so the top three were
-// whatever happened to be entered first, including a 2024 item. Sort newest
-// first so the teaser is actually recent. Dates are free text ("May 2025"), so
-// anything unparseable sorts last rather than throwing.
-const MONTHS = ['january','february','march','april','may','june','july',
-	'august','september','october','november','december'];
-const dateRank = (d?: string | null): number => {
-	const m = /^\s*([a-z]+)\s+(\d{4})/i.exec(d ?? '');
-	if (!m) return -1;
-	const month = MONTHS.indexOf(m[1].toLowerCase());
-	return month < 0 ? -1 : Number(m[2]) * 12 + month;
-};
-const guestAppearances = toMedia(appearances).sort(
-	(a, b) => dateRank(b.date) - dateRank(a.date)
-);
+// "Recent appearances" is hand-ordered in Keystatic: Lorraine picks which
+// three lead this page, so the CMS order is the running order. Anything past
+// the teaser falls through to /interviews, which keeps the same order.
+const guestAppearances = toMedia(appearances);
 
 // Keep the Media hub aligned with the curated Featured In highlights.
 const pressFeatures = (await reader.collections.featuredAppearances.all())

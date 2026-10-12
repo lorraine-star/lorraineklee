@@ -21,6 +21,37 @@ appearances_section:
   view_more_label: View more interviews
   view_more_url: /interviews#guest-interviews
 appearances:
+  - date: September 2026
+    show: Think Fast Talk Smart
+    title: 'AI-thenticity Crisis: Are Your Ums and Typos Now Proof You''re Human?'
+    description: >-
+      Lorraine guest hosts for Matt Abrahams' popular podcast, putting Matt in
+      the hot seat! They discuss one of the new chapters in his book on AI and
+      communication.
+    thumbnail_fit: cover
+    youtube_id: IxFWRpDsKsA
+    cta_label: Watch now
+  - date: June 2025
+    show: Tiger Sisters
+    title: Body Language Expert Reveals Why You're Still Invisible
+    description: >-
+      Lorraine joins the Tiger Sisters podcast on why strong work can still go
+      unnoticed, and what to change in how you come across on camera and in
+      the room.
+    thumbnail_fit: cover
+    youtube_id: 8E164swLCxo
+    cta_label: Watch now
+  - date: June 2026
+    show: LinkedIn News
+    thumbnail: /images/thought-leadership/appearances/linkedin-career-reset.webp
+    title: 'The 4-Week Career Reset: How to Stand Out in a Competitive Market'
+    description: >-
+      Part two of a four-part live workshop series with LinkedIn's Andrew
+      Seaman, on building visibility habits, strengthening your profile, and
+      standing out to recruiters in a slow hiring market.
+    thumbnail_fit: cover
+    url: 'https://www.linkedin.com/feed/update/urn:li:ugcPost:7474854681056305152/'
+    cta_label: View on LinkedIn
   - date: January 2026
     show: Leading Up (Udemy Business)
     thumbnail: /images/thought-leadership/appearances/udemy-leading-up.webp
@@ -32,25 +63,34 @@ appearances:
     url: >-
       https://business.udemy.com/resources/leading-up-podcast/lorraine-k-lee-how-to-go-from-passed-over-to-promoted
     cta_label: Listen now
-  - date: June 2025
-    show: Tiger Sisters
-    title: Body Language Expert Reveals Why You're Still Invisible
+  - date: October 2025
+    show: Her Workplace Unfiltered
+    title: >-
+      Building Influence and Visibility with Lorraine K. Lee, LinkedIn Top Voice
+      & Best-Selling Author
     description: >-
-      Lorraine joins the Tiger Sisters podcast on why strong work can still go
-      unnoticed, and what to change in how you come across on camera and in
-      the room.
+      Lorraine talks through how to build influence and visibility at work,
+      and what she learned writing Unforgettable Presence.
     thumbnail_fit: cover
-    youtube_id: 8E164swLCxo
+    youtube_id: a4Xf12qLrLE
     cta_label: Watch now
-  - date: September 2026
-    show: Think Fast Talk Smart
-    title: 'AI-thenticity Crisis: Are Your Ums and Typos Now Proof You''re Human?'
+  - date: August 2025
+    show: Career Contessa
+    title: How to Get Noticed at Work (Without Becoming Someone You're Not)
     description: >-
-      Lorraine guest hosts for Matt Abrahams' popular podcast, putting Matt in
-      the hot seat! They discuss one of the new chapters in his book on AI and
-      communication.
+      Lorraine joins Career Contessa on getting recognized for your work
+      without turning into a self-promoter.
     thumbnail_fit: cover
-    youtube_id: IxFWRpDsKsA
+    youtube_id: oOUEPF8MEPY
+    cta_label: Watch now
+  - date: August 2025
+    show: 'Nirit Cohen: The Future of Less Work'
+    title: How To Get Promoted Working Remotely
+    description: >-
+      Lorraine joins Forbes columnist Nirit Cohen on staying visible and
+      getting promoted when you're not in the office.
+    thumbnail_fit: cover
+    youtube_id: eHi9IkJ3TVA
     cta_label: Watch now
   - date: May 2025
     show: Think Fast Talk Smart
