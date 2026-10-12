@@ -98,6 +98,11 @@ const proof = [
 	    else has bought this. */}
 	<section class="upsp-proofbar">
 		<div class="grid12">
+			<p class="upsp-origin">
+				Created as the flagship public speaking course Lorraine taught at Stanford
+				Continuing Studies, which rated above the program average, and has been
+				updated and refined for corporate audiences.
+			</p>
 			<p class="upsp-proofbar-label">Past speaking clients</p>
 			<div class="upsp-proofbar-logos">
 				{clientLogos.map((l) => (
@@ -172,14 +177,9 @@ const proof = [
 					<span class="eyebrow">First course</span>
 					<h2>Present Like <em>a Leader.</em></h2>
 					<p>
-						This is the first course in the program. Structured practice for the
-						meetings, presentations, and client conversations your team is
-						already in.
-					</p>
-					<p class="upsp-course-note">
-						It grew out of the flagship public speaking course Lorraine taught at
-						Stanford Continuing Studies, which rated above the program average,
-						and has been updated and refined for corporate audiences.
+						This is the first course in the program. Structured, hands-on practice
+						for the meetings, presentations, and client conversations your team
+						needs to show up well in.
 					</p>
 					<ul class="upsp-course-list">
 						<li><strong>Speak with clarity and calm.</strong> One Senior Director cut filler words from roughly 70 a call to zero.</li>
@@ -318,6 +318,17 @@ const proof = [
 
 	/* ---- Proof bar ---- */
 	.upsp-proofbar { padding: clamp(22px, 3vw, 34px) 0; border-bottom: 1px solid var(--border); }
+	.upsp-origin {
+		grid-column: 1 / -1;
+		margin: 0 auto 22px;
+		max-width: 68ch;
+		text-align: center;
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-size: clamp(13.5px, 1vw, 15px);
+		line-height: 1.6;
+		color: var(--ink-500);
+	}
 	.upsp-proofbar-label {
 		grid-column: 1 / -1;
 		margin: 0 0 16px;
@@ -517,17 +528,6 @@ const proof = [
 		line-height: 1.65;
 		color: rgba(255, 255, 255, 0.92);
 		margin: 0 0 20px;
-		max-width: 62ch;
-	}
-	/* The Stanford provenance reads as a credential note rather than body copy,
-	   so it sits smaller and italic under the main line. */
-	.upsp-course-note {
-		font-family: var(--font-serif);
-		font-style: italic;
-		font-size: clamp(13.5px, 1vw, 15px);
-		line-height: 1.6;
-		color: rgba(255, 255, 255, 0.78);
-		margin: 0 0 22px;
 		max-width: 62ch;
 	}
 

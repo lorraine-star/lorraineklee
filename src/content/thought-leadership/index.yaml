@@ -21,9 +21,19 @@ appearances_section:
   view_more_label: View more interviews
   view_more_url: /interviews#guest-interviews
 appearances:
+  - date: January 2026
+    show: Leading Up (Udemy Business)
+    title: 'How to Go From Passed Over to Promoted'
+    description: >-
+      Lorraine joins Udemy Business's Leading Up podcast on what separates the
+      people who get promoted from the people who keep getting passed over.
+    thumbnail_fit: cover
+    url: >-
+      https://business.udemy.com/resources/leading-up-podcast/lorraine-k-lee-how-to-go-from-passed-over-to-promoted
+    cta_label: Listen now
   - date: June 2026
     show: LinkedIn News
-    thumbnail: /images/clients/linkedin.svg
+    thumbnail: /images/thought-leadership/appearances/linkedin-career-reset.webp
     title: 'The 4-Week Career Reset: How to Stand Out in a Competitive Market'
     description: >-
       Part two of a four-part live workshop series with LinkedIn's Andrew
