@@ -5,8 +5,7 @@ hero:
   headline: Don't just take her word for it.
   headline_accent: Hear it from them.
   lead: >-
-    {count} testimonials from the clients who book her, the audiences who show
-    up, and the students who keep coming back to her LinkedIn Learning courses.
+    {count} testimonials from the clients who book her and the audiences who show up.
 section_headings:
   clients:
     eyebrow: Clients & organizers

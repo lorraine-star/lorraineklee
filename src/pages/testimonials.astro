@@ -43,7 +43,7 @@ const hero = {
 	headline_accent: page?.hero?.headline_accent || 'Hear it from them.',
 	lead: (
 		page?.hero?.lead ||
-		'{count} testimonials from the clients who book her, the audiences who show up, and the students who keep coming back to her LinkedIn Learning courses.'
+		'{count} testimonials from the clients who book her and the audiences who show up.'
 	).replace('{count}', String(total)),
 };
 
@@ -55,7 +55,7 @@ const LONG_QUOTE = 550;
 <SpeakingLayout
 	title={page?.seo_title || 'Testimonials | Lorraine K. Lee'}
 	description={page?.seo_description ||
-		'What clients, event organizers, audiences, and LinkedIn Learning students say about working with and learning from Lorraine K. Lee.'}
+		'What clients, event organizers, and audiences say about working with Lorraine K. Lee.'}
 	activeId="about"
 >
 	{/* ---------- Hero ---------- */}
