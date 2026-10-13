@@ -106,16 +106,22 @@ const { title, description, activeId = 'home', image, noindex = false } = Astro.
           (entries) => {
             for (const entry of entries) {
               if (!entry.isIntersecting) continue;
-              animateCount(entry.target as HTMLElement);
-              observer.unobserve(entry.target);
+              const el = entry.target as HTMLElement;
+              // Count from zero, set in the same frame the animation starts so
+              // the real figure is never left showing 0.
+              el.textContent = parseInt(el.dataset.decimals || '0', 10) > 0 ? '0.0' : '0';
+              animateCount(el);
+              observer.unobserve(el);
             }
           },
           { threshold: 0.4 }
         );
-        counts.forEach((el) => {
-          el.textContent = parseInt(el.dataset.decimals || '0', 10) > 0 ? '0.0' : '0';
-          observer.observe(el);
-        });
+        // The real figure is rendered server-side. It used to be blanked to 0
+        // here and only restored by the observer, so any element the observer
+        // never reported left the page claiming "0% said they learned
+        // something new" — which is what /speaking has been showing. The
+        // number now stays correct until the moment it animates.
+        counts.forEach((el) => observer.observe(el));
       }
 
       // --- Smooth in-page anchors ---
