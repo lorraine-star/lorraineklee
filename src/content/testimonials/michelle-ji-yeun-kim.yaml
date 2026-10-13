@@ -4,7 +4,7 @@ quote: >-
 highlight: "93% of survey respondents said they learned something new"
 roleOrCompany: Senior Director, Sales & Customer Success Operations · Culture Amp
 type: client-organizer-speaking
-order: 1
+order: 3
 featuredOnTestimonials: false
 image: /images/speaking/testimonials/michelle-ji-yeun-kim.webp
 imageAlt: Headshot of Michelle Ji-Yeun Kim
@@ -14,6 +14,6 @@ sourceUrl: ""
 matchedCptUrl: ""
 showOnHomepage: false
 showOnTestimonials: true
-showOnSpeaking: false
+showOnSpeaking: true
 showOnCourses: false
 showOnAbout: false

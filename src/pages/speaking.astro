@@ -598,27 +598,13 @@ const cardEyebrow = (format?: string | null) =>
 		</div>
 	</section>
 
-	{
-		attendee_testimonials_section && attendeeQuotes.length > 0 && (
-			<section class="section section--tight section--cream attendee-testimonials">
-				<div class="grid12">
-					<div class="section-head">
-						<span class="eyebrow">{attendee_testimonials_section.eyebrow}</span>
-						<h2>
-							{attendee_testimonials_section.heading}{' '}
-							<em>{attendee_testimonials_section.heading_accent}</em>
-						</h2>
-						{attendee_testimonials_section.lead && (
-							<p class="lead">{attendee_testimonials_section.lead}</p>
-						)}
-					</div>
-				</div>
-				<div class="grid12">
-					<SpeakingAttendeeQuotes cards={attendeeQuotes} />
-				</div>
-			</section>
-		)
-	}
+	{/* The attendee-quote section used to sit here. The page already carried
+	    five proof blocks: logos, survey stats, organizer quotes, attendee
+	    quotes and repeat bookings. Audience reaction is covered twice over by
+	    the stats and by the organizer quotes that cite their own survey
+	    numbers, and those carry more weight because they come from the person
+	    who did the booking. The quotes themselves are still on /testimonials.
+	    SpeakingAttendeeQuotes and attendeeQuotes remain for an easy restore. */}
 
 	{/* ---------- Repeat bookings ---------- */}
 	<section class="section section--compact section--cream">
