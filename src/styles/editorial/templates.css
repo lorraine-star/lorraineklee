@@ -3598,14 +3598,22 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   display: flex;
   flex-direction: column;
 }
-/* Signature-keynote grid (not the nested other-talks grid): the first
-   card is the most popular, so it spans wide. Cards 2-5 are equal
-   half-row tiles. */
+/* Signature-keynote grid (not the nested other-talks grid): the top two
+   keynotes share the first row as equal half-width tiles, and the remaining
+   three sit three-up beneath them. The first card used to span 4 of 6, which
+   left its partner a third of the width and made two talks of equal standing
+   look unequal. */
 .topic-bento:not(.other-talks-list) > .topic-card {
   grid-column: span 2;
 }
-.topic-bento:not(.other-talks-list) > .topic-card:first-child {
-  grid-column: span 4;
+/* Only while the grid actually has its 6 tracks. Below 1024px it drops to 2
+   columns and every card already takes a full row, so a span of 3 there would
+   ask for more tracks than exist and the browser invents implicit ones. */
+@media (min-width: 1025px) {
+  .topic-bento:not(.other-talks-list) > .topic-card:first-child,
+  .topic-bento:not(.other-talks-list) > .topic-card:nth-child(2) {
+    grid-column: span 3;
+  }
 }
 /* Other-talks cards sit two-up inside the disclosure panel. */
 .other-talks-list.topic-bento {
@@ -3754,3 +3762,30 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 .section-head > .eyebrow:not(.eyebrow--keep) {
   display: none;
 }
+
+
+/* Testimonials CTA pair: the on-site page as the button, LinkedIn as a quieter
+   text link beneath it. Stacks and wraps so the long LinkedIn label cannot run
+   wider than a phone, which it did at 427px inside 375px. */
+.testimonials-cta {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+.testimonials-cta .btn {
+  white-space: normal;
+  max-width: 100%;
+}
+.testimonials-cta-secondary {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--ink-500);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-soft);
+  padding-bottom: 2px;
+  max-width: 100%;
+}
+.testimonials-cta-secondary:hover { color: var(--ink-900); }

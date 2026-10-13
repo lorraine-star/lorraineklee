@@ -578,14 +578,21 @@ const cardEyebrow = (format?: string | null) =>
 			<HomeTestimonialsCarousel client:load testimonials={organizerCarousel} />
 		</div>
 		<div class="grid12">
+			{/* The curated page comes first: it is 32 quotes with photos, verbatim
+			    and chosen, and it keeps the reader on the site. LinkedIn stays as
+			    the second link because the raw volume is its own kind of proof,
+			    and because it is the one a sceptical buyer can verify. */}
 			<div class="testimonials-cta reveal">
+				<a class="btn outline" href="/testimonials">
+					Read more testimonials
+				</a>
 				<a
-					class="btn outline"
+					class="testimonials-cta-secondary"
 					href={linkedinRecommendationsUrl}
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					{linkedinTestimonialsLabel}
+					{linkedinTestimonialsLabel} <span aria-hidden="true">&#8599;</span>
 				</a>
 			</div>
 		</div>
