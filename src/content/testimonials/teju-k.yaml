@@ -1,18 +1,15 @@
-author: Teju K.
+author: Teju Kotte
 quote: >-
-  Lorraine is an engaging speaker who delivers valuable, actionable insights. She simplified complex topics into practical steps attendees could use immediately.
-highlight: "simplified complex topics into practical steps"
-roleOrCompany: LinkedIn
+  Her session received an impressive rating of 4.8/5, with all participants finding it valuable and learning something new. What sets Lorraine apart is her ability to provide actionable advice. She simplified complex and vague topics into practical steps that attendees could start implementing immediately.
+roleOrCompany: Technical Consultant · LinkedIn
 type: client-organizer-speaking
-order: 9
+order: 13
+featuredOnTestimonials: false
 image: /images/speaking/testimonials/teju-k.webp
-imageAlt: Headshot of Teju K.
+imageAlt: Headshot of Teju Kotte
 priority: High
-topicTags:
-  - LinkedIn / personal brand
-  - ERG / inclusion
-  - Audience engagement
-sourceUrl: https://lorraineklee.com/testimonials/
+topicTags: []
+sourceUrl: ""
 matchedCptUrl: ""
 showOnHomepage: false
 showOnTestimonials: true

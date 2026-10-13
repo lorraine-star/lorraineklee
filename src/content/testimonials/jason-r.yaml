@@ -1,23 +1,18 @@
-author: Jason R.
+author: Jason Riddle
 quote: >-
-  Lorraine is a fantastic speaker who has given two TED Talk-caliber
-  sessions at Cisco. Both sessions received extremely positive audience
-  feedback, and more than 100 attendees tuned in live for each.
+  Lorraine is a fantastic speaker who has given two TED Talk-caliber sessions at Cisco. Both sessions received extremely positive audience feedback, and more than 100 attendees tuned in live for each. Her talks have been some of the most popular among our group.
 highlight: "two TED Talk-caliber sessions"
-roleOrCompany: Senior Manager, PMO, Cisco
+roleOrCompany: Senior Manager - Program Management Office (PMO) · Cisco Systems
 type: client-organizer-speaking
-order: 14
+order: 5
+featuredOnTestimonials: true
 image: /images/speaking/testimonials/jason-r.webp
-imageAlt: Headshot of Jason R.
+imageAlt: Headshot of Jason Riddle
 priority: High
-topicTags:
-  - Leadership / management
-  - Audience engagement
-  - Career development
-sourceUrl: https://lorraineklee.com/testimonials/
+topicTags: []
+sourceUrl: ""
 matchedCptUrl: ""
 showOnHomepage: true
-homepageOrder: 2
 showOnTestimonials: true
 showOnSpeaking: true
 showOnCourses: false

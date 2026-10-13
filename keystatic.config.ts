@@ -3652,6 +3652,13 @@ export default config({
           },
         }),
         quote: fields.text({ label: 'Quote', multiline: true }),
+            featuredOnTestimonials: fields.checkbox({
+              label: 'Feature on the Testimonials page',
+              description:
+                'Featured quotes lead the page in larger cards; the rest form '
+                + 'the wall underneath.',
+              defaultValue: false,
+            }),
             quoteShort: fields.text({
               label: 'Shorter version for carousels (optional)',
               description:

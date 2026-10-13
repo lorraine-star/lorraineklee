@@ -16,7 +16,7 @@ topicTags:
 sourceUrl: https://lorraineklee.com/testimonials/
 matchedCptUrl: ""
 showOnHomepage: true
-showOnTestimonials: true
+showOnTestimonials: false
 showOnSpeaking: true
 showOnCourses: false
 showOnAbout: false

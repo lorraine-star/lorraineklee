@@ -21,6 +21,8 @@ export interface Testimonial {
   slug: string;
   author: string;
   quote: string;
+  /** Leads the Testimonials page in a larger card. */
+  featuredOnTestimonials?: boolean;
   /** Trimmed version used where a long quote would clamp. */
   quoteShort?: string | null;
   /** A few words from the quote to carry the marker swipe. */

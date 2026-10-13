@@ -16,7 +16,7 @@ sourceUrl: https://lorraineklee.com/testimonials/
 matchedCptUrl: https://lorraineklee.com/testimonial/apurva-bhagali/
 showOnHomepage: true
 homepageOrder: 5
-showOnTestimonials: true
+showOnTestimonials: false
 showOnSpeaking: true
 showOnCourses: false
 showOnAbout: false
