@@ -21,6 +21,8 @@ export interface Testimonial {
   slug: string;
   author: string;
   quote: string;
+  /** Trimmed version used where a long quote would clamp. */
+  quoteShort?: string | null;
   /** A few words from the quote to carry the marker swipe. */
   highlight?: string | null;
   roleOrCompany: string;
@@ -152,7 +154,8 @@ export interface CarouselCard {
 
 /** Map a shared testimonial to the home/organizer carousel card shape. */
 export const toCarouselCard = (t: Testimonial): CarouselCard => ({
-  quote: t.quote,
+  // Carousel cards clamp, so a long quote loses its ending; prefer the trim.
+  quote: t.quoteShort?.trim() || t.quote,
   highlight: t.highlight,
   name: t.author,
   role: t.roleOrCompany,
@@ -177,7 +180,7 @@ export interface ColumnCard {
 
 /** Map a shared testimonial to the marquee-column card shape. */
 export const toColumnCard = (t: Testimonial): ColumnCard => ({
-  quote: t.quote,
+  quote: t.quoteShort?.trim() || t.quote,
   highlight: t.highlight,
   name: t.author,
   role: t.roleOrCompany || undefined,

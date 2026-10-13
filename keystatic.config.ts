@@ -3652,6 +3652,14 @@ export default config({
           },
         }),
         quote: fields.text({ label: 'Quote', multiline: true }),
+            quoteShort: fields.text({
+              label: 'Shorter version for carousels (optional)',
+              description:
+                'The home and About carousels clamp long quotes mid-sentence. ' +
+                'Put a trimmed version here and those carousels use it, while ' +
+                'the Testimonials page keeps the full quote.',
+              multiline: true,
+            }),
             highlight: fields.text({
               label: 'Phrase to emphasise (optional)',
               description:
