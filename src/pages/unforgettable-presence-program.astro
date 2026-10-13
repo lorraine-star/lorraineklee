@@ -89,6 +89,11 @@ const proof = [
 					loading="eager"
 					decoding="async"
 				/>
+				<p class="upsp-origin">
+					Created as the flagship public speaking course Lorraine taught at
+					Stanford Continuing Studies, which rated above the program average,
+					and has been updated and refined for corporate audiences.
+				</p>
 			</div>
 		</div>
 	</section>
@@ -98,11 +103,6 @@ const proof = [
 	    else has bought this. */}
 	<section class="upsp-proofbar">
 		<div class="grid12">
-			<p class="upsp-origin">
-				Created as the flagship public speaking course Lorraine taught at Stanford
-				Continuing Studies, which rated above the program average, and has been
-				updated and refined for corporate audiences.
-			</p>
 			<p class="upsp-proofbar-label">Past speaking clients</p>
 			<div class="upsp-proofbar-logos">
 				{clientLogos.map((l) => (
@@ -317,16 +317,20 @@ const proof = [
 
 	/* ---- Proof bar ---- */
 	.upsp-proofbar { padding: clamp(22px, 3vw, 34px) 0; border-bottom: 1px solid var(--border); }
+	/* Caption under the hero photo. It used to sit centred in the proof bar,
+	   where it floated alone in a band of whitespace between the CTA row and
+	   the logos. Against the image it reads as a note about the room. */
 	.upsp-origin {
-		grid-column: 1 / -1;
-		margin: 0 auto 22px;
-		max-width: 68ch;
-		text-align: center;
+		margin: 14px 0 0;
+		max-width: 52ch;
 		font-family: var(--font-serif);
 		font-style: italic;
-		font-size: clamp(13.5px, 1vw, 15px);
-		line-height: 1.6;
+		font-size: clamp(13px, 0.95vw, 14.5px);
+		line-height: 1.55;
 		color: var(--ink-500);
+	}
+	@media (max-width: 900px) {
+		.upsp-origin { max-width: none; }
 	}
 	.upsp-proofbar-label {
 		grid-column: 1 / -1;
