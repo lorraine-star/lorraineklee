@@ -4,7 +4,7 @@ quote: >-
 highlight: "one of our highest-rated speaker events of the year"
 roleOrCompany: Culture & Inclusion Leader · 1Password
 type: client-organizer-speaking
-order: 15
+order: 6
 featuredOnTestimonials: false
 image: /images/speaking/testimonials/desir-e-mcconnell.webp
 imageAlt: Headshot of Desirée McConnell
@@ -14,6 +14,6 @@ sourceUrl: ""
 matchedCptUrl: ""
 showOnHomepage: false
 showOnTestimonials: true
-showOnSpeaking: false
+showOnSpeaking: true
 showOnCourses: false
 showOnAbout: false

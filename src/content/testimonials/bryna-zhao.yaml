@@ -4,7 +4,7 @@ quote: >-
 highlight: "100% rated Lorraine 5 out of 5 as a speaker"
 roleOrCompany: Principal Partner Analytics Manager · Tripadvisor
 type: client-organizer-speaking
-order: 17
+order: 3
 featuredOnTestimonials: false
 image: /images/speaking/testimonials/bryna-zhao.webp
 imageAlt: Headshot of Bryna Zhao
@@ -14,6 +14,6 @@ sourceUrl: ""
 matchedCptUrl: ""
 showOnHomepage: false
 showOnTestimonials: true
-showOnSpeaking: false
+showOnSpeaking: true
 showOnCourses: false
 showOnAbout: false

@@ -14,6 +14,6 @@ sourceUrl: ""
 matchedCptUrl: ""
 showOnHomepage: true
 showOnTestimonials: true
-showOnSpeaking: true
+showOnSpeaking: false
 showOnCourses: false
 showOnAbout: true
