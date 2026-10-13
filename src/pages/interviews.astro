@@ -91,7 +91,7 @@ const guests = [...hubOverflow, ...(guest_appearances ?? [])]
 								target={isExternal(heroCtaUrl) ? '_blank' : undefined}
 								rel={isExternal(heroCtaUrl) ? 'noopener noreferrer' : undefined}
 							>
-								{hero.cta_label} <span aria-hidden="true">&rarr;</span>
+								{hero.cta_label}
 							</a>
 						</div>
 					)
@@ -208,7 +208,7 @@ const guests = [...hubOverflow, ...(guest_appearances ?? [])]
 					</h2>
 					<p>{final_cta.body}</p>
 					<a class="btn yellow large" href={finalCtaUrl}>
-						{final_cta.cta_label} <span aria-hidden="true">&rarr;</span>
+						{final_cta.cta_label}
 					</a>
 				</div>
 			</div>

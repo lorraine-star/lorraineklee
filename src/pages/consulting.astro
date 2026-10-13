@@ -50,7 +50,7 @@ const finalCtaUrl = safeUrl(final_cta.cta_url, '/contact');
 						target={isExternal(primaryCtaUrl) ? '_blank' : undefined}
 						rel={isExternal(primaryCtaUrl) ? 'noopener noreferrer' : undefined}
 					>
-						{hero.primary_cta_label} <span aria-hidden="true">&rarr;</span>
+						{hero.primary_cta_label}
 					</a>
 					{
 						hero.secondary_cta_label && (
@@ -172,7 +172,7 @@ const finalCtaUrl = safeUrl(final_cta.cta_url, '/contact');
 						target={isExternal(finalCtaUrl) ? '_blank' : undefined}
 						rel={isExternal(finalCtaUrl) ? 'noopener noreferrer' : undefined}
 					>
-						{final_cta.cta_label} <span aria-hidden="true">&rarr;</span>
+						{final_cta.cta_label}
 					</a>
 				</div>
 			</div>

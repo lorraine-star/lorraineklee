@@ -85,7 +85,7 @@ const finalCtaUrl = cleanUrl(final_cta.cta_url) || '/contact';
 						target={isExternal(heroPrimaryUrl) ? '_blank' : undefined}
 						rel={isExternal(heroPrimaryUrl) ? 'noopener noreferrer' : undefined}
 					>
-						{hero.primary_cta_label} <span aria-hidden="true">&rarr;</span>
+						{hero.primary_cta_label}
 					</a>
 					{
 						hero.secondary_cta_label && (
@@ -253,7 +253,7 @@ const finalCtaUrl = cleanUrl(final_cta.cta_url) || '/contact';
 					<p>{final_cta.body}</p>
 					<div class="hero-cta-row" style="justify-content: center;">
 						<a class="btn yellow large" href={finalCtaUrl}>
-							{final_cta.cta_label} <span aria-hidden="true">&rarr;</span>
+							{final_cta.cta_label}
 						</a>
 					</div>
 				</div>

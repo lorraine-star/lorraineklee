@@ -113,7 +113,7 @@ const cardEyebrow = (format?: string | null) =>
 				<p class="lead-large">{hero.lead}</p>
 				<div class="hero-cta-row">
 					<a class="btn primary large" href={safeUrl(hero.cta_url)} data-ga-event="speaking_inquiry" data-ga-label="speaking-hero">
-						{hero.cta_label} <span aria-hidden="true">&rarr;</span>
+						{hero.cta_label}
 					</a>
 					{
 						hero.secondary_cta_label && (
@@ -409,7 +409,6 @@ const cardEyebrow = (format?: string | null) =>
 										<div class="topic-cta-row">
 											<a class="btn primary" href={safeUrl(speaking.card_cta_url, '/contact')} data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
 												{speaking.card_cta_label || 'Book this talk'}{' '}
-												<span aria-hidden="true">&rarr;</span>
 											</a>
 										</div>
 									</div>
@@ -548,7 +547,6 @@ const cardEyebrow = (format?: string | null) =>
 											<div class="topic-cta-row">
 												<a class="btn primary" href={safeUrl(speaking.card_cta_url, '/contact')} data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
 													{speaking.card_cta_label || 'Book this talk'}{' '}
-													<span aria-hidden="true">&rarr;</span>
 												</a>
 											</div>
 										</div>
@@ -588,7 +586,6 @@ const cardEyebrow = (format?: string | null) =>
 					rel="noopener noreferrer"
 				>
 					{linkedinTestimonialsLabel}
-					<span aria-hidden="true">&rarr;</span>
 				</a>
 			</div>
 		</div>
@@ -657,7 +654,7 @@ const cardEyebrow = (format?: string | null) =>
 							<p>{bio_callout.body}</p>
 						</div>
 						<a class="btn outline large" href={safeUrl(bio_callout.cta_url)}>
-							{bio_callout.cta_label} <span aria-hidden="true">&rarr;</span>
+							{bio_callout.cta_label}
 						</a>
 					</div>
 				</div>
@@ -676,7 +673,7 @@ const cardEyebrow = (format?: string | null) =>
 					</h2>
 					<p>{final_cta.body}</p>
 					<a class="btn yellow large" href={safeUrl(final_cta.cta_url)} data-ga-event="speaking_inquiry" data-ga-label="speaking-final">
-						{final_cta.cta_label} <span aria-hidden="true">&rarr;</span>
+						{final_cta.cta_label}
 					</a>
 				</div>
 			</div>

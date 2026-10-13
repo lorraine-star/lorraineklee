@@ -551,7 +551,11 @@ body {
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.fade-up { animation: fadeUp 600ms var(--ease-out) backwards; }
+/* The one load animation on the page. Scoped to heroes: running it on every
+   section was most of what made the site feel generated. */
+.page-hero .fade-up,
+.hero .fade-up,
+.home-hero .fade-up { animation: fadeUp 600ms var(--ease-out) backwards; }
 
 /* ---------- TRUST STRIP ---------- */
 /* The .trust / .marquee / .press-mark* rules used to live here as a mirror of
@@ -1681,4 +1685,18 @@ body {
   .marquee,
   .fade-up,
   .photo-stat { animation: none; }
+}
+
+
+/* ----------------------------------------------------------------
+   Section eyebrows
+
+   A hero eyebrow carries information a visitor cannot get elsewhere
+   ("Keynote speaker · Bestselling author · Instructor"). A section eyebrow
+   repeated the heading under it in smaller caps, on every section of every
+   page, so it stopped labelling anything. Those are hidden rather than
+   deleted from 42 templates: to bring one back, add .eyebrow--keep to it.
+   ---------------------------------------------------------------- */
+.section-head > .eyebrow:not(.eyebrow--keep) {
+  display: none;
 }

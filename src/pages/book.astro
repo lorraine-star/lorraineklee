@@ -146,7 +146,7 @@ function getInitials(name: string) {
 				}
 				<div class="hero-cta-row">
 					<a class="btn primary large" href={safeUrl(hero.primary_cta_url)}>
-						{hero.primary_cta_label} <span aria-hidden="true">&rarr;</span>
+						{hero.primary_cta_label}
 					</a>
 					<a class="btn outline" href={safeUrl(hero.secondary_cta_url)}>
 						{hero.secondary_cta_label}
@@ -392,7 +392,6 @@ function getInitials(name: string) {
 									style={style}
 								>
 									<span class="retailer-name">{r.name}</span>
-									<span aria-hidden="true">&rarr;</span>
 								</a>
 							) : (
 								<span
@@ -425,7 +424,6 @@ function getInitials(name: string) {
 										style={style}
 									>
 										<span class="retailer-name">{r.name}</span>
-										<span aria-hidden="true">&rarr;</span>
 									</a>
 								) : (
 									<span
@@ -486,7 +484,7 @@ function getInitials(name: string) {
 					<p>{preview.body}</p>
 				</div>
 				<a class="btn primary" href={safeUrl(preview.cta_url)}>
-					{preview.cta_label} <span aria-hidden="true">&rarr;</span>
+					{preview.cta_label}
 				</a>
 			</div>
 		</div>
@@ -502,7 +500,7 @@ function getInitials(name: string) {
 					<p>{final_cta.body}</p>
 					<div class="hero-cta-row" style="justify-content: center;">
 						<a class="btn yellow large" href={safeUrl(final_cta.cta_url)}>
-							{final_cta.cta_label} <span aria-hidden="true">&rarr;</span>
+							{final_cta.cta_label}
 						</a>
 					</div>
 				</div>

@@ -5,7 +5,23 @@
 /* ----------------------------------------------------------------
    Reveal animations (scroll-triggered, .is-in added by script)
    ---------------------------------------------------------------- */
-.reveal {
+/* Scroll reveals are off. Every section sliding up on the way down read as
+   templated, and it left the page incomplete until an observer fired. The
+   hero keeps a single entrance (.fade-up, below) so there is still one
+   orchestrated moment on load.
+
+   The classes stay in the markup and the script still runs, so this is one
+   edit to undo rather than 70. To bring an individual section back, give it
+   .reveal--on instead of .reveal. */
+.reveal,
+.reveal-stagger > * {
+  opacity: 1;
+  transform: none;
+  transition: none;
+  will-change: auto;
+}
+
+.reveal--on {
   opacity: 0;
   transform: translateY(18px);
   transition:
@@ -13,10 +29,10 @@
     transform 700ms var(--ease-out);
   will-change: opacity, transform;
 }
-.reveal.is-in { opacity: 1; transform: translateY(0); }
+.reveal--on.is-in { opacity: 1; transform: translateY(0); }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
+  .reveal--on { opacity: 1; transform: none; transition: none; }
 }
 
 /* Anchor-link landing pulse */
@@ -3724,3 +3740,17 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
 .client-logo-frame[data-client='Hilton'] .client-logo { height: 32px; }
 .client-logo-frame[data-client='Cisco'] .client-logo { height: 32px; }
 .client-logo-frame[data-client='Salesforce'] .client-logo { height: 36px; }
+
+
+/* ----------------------------------------------------------------
+   Section eyebrows
+
+   A hero eyebrow carries information a visitor cannot get elsewhere
+   ("Keynote speaker · Bestselling author · Instructor"). A section eyebrow
+   repeated the heading under it in smaller caps, on every section of every
+   page, so it stopped labelling anything. Those are hidden rather than
+   deleted from 42 templates: to bring one back, add .eyebrow--keep to it.
+   ---------------------------------------------------------------- */
+.section-head > .eyebrow:not(.eyebrow--keep) {
+  display: none;
+}

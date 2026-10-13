@@ -77,7 +77,7 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 				<p class="lead-large">{hero.lead}</p>
 				<div class="learn-hero-cta-row">
 					<a class="btn primary large" href="#course">
-						{hero.cta_primary_label || 'Start the free course'} <span aria-hidden="true">&rarr;</span>
+						{hero.cta_primary_label || 'Start the free course'}
 					</a>
 					<a class="btn ghost" href="#courses">{hero.cta_secondary_label || 'Browse courses'}</a>
 				</div>
@@ -101,7 +101,7 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 								'A free 5-day email course that helps you articulate your value and get visible to decision-makers.'}
 						</p>
 						<span class="lh-card-cta">
-							{hero_bento?.feature_cta_label || 'Start the course'} <span aria-hidden="true">&rarr;</span>
+							{hero_bento?.feature_cta_label || 'Start the course'}
 						</span>
 					</div>
 					{
@@ -139,7 +139,7 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 						<span class="lh-card-eyebrow">LinkedIn Learning</span>
 						<h3 class="lh-card-title">{totalCoursesLabel} on-demand courses</h3>
 						<span class="lh-card-cta">
-							{hero_bento?.browse_card_cta_label || 'Browse all'} <span aria-hidden="true">&rarr;</span>
+							{hero_bento?.browse_card_cta_label || 'Browse all'}
 						</span>
 					</div>
 				</a>
@@ -172,7 +172,6 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 									<h3 class="lh-card-title">{r.label}</h3>
 									<span class="lh-card-cta">
 										{r.cta_label || 'Get it'}{' '}
-										<span aria-hidden="true">&rarr;</span>
 									</span>
 								</div>
 							</a>
@@ -239,7 +238,7 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 							placeholder="you@company.com"
 						/>
 						<button type="submit" class="btn yellow large btn-block">
-							{newsletter.form_button_label} <span aria-hidden="true">&rarr;</span>
+							{newsletter.form_button_label}
 						</button>
 						<div class="fineprint">{newsletter.form_fineprint}</div>
 					</form>
@@ -336,7 +335,7 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 									<h3>{c.title}</h3>
 									<p class="course-desc">{c.description}</p>
 									<span class="course-link">
-										Watch course <span aria-hidden="true">&rarr;</span>
+										Watch course
 									</span>
 								</div>
 							</a>
@@ -370,7 +369,7 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 									: undefined
 							}
 						>
-							{courses_section.cta_label} <span aria-hidden="true">&rarr;</span>
+							{courses_section.cta_label}
 						</a>
 					)
 				}

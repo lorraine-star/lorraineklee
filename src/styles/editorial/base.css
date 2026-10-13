@@ -479,6 +479,14 @@ body {
     -webkit-mask-image: linear-gradient(to bottom, #000 74%, transparent 100%);
     mask-image: linear-gradient(to bottom, #000 74%, transparent 100%);
   }
+  /* The 130% width is a deliberate bleed past the copy column while the hero
+     is two columns wide. Once it stacks there is no column to bleed out of,
+     so it ran 436px wide inside a 375px phone and scrolled the whole page
+     sideways. */
+  .photo-card {
+    width: 100%;
+    margin-right: 0;
+  }
 }
 .photo-stat {
   position: absolute;
@@ -520,7 +528,11 @@ body {
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.fade-up { animation: fadeUp 600ms var(--ease-out) backwards; }
+/* The one load animation on the page. Scoped to heroes: running it on every
+   section was most of what made the site feel generated. */
+.page-hero .fade-up,
+.hero .fade-up,
+.home-hero .fade-up { animation: fadeUp 600ms var(--ease-out) backwards; }
 
 /* logo word styles (shared) */
 .logo-word {

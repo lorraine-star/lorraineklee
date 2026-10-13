@@ -25,7 +25,10 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 // Arrow glyph for a CTA button: on-site links get a forward arrow, links that
 // leave the site get the "opens elsewhere" arrow. Pairs with the target/rel
 // treatment applied to the same links.
-const ctaArrow = (url: string) => (isExternal(url) ? '↗' : '→');
+// The outbound mark tells you the link leaves the site, which is worth
+// saying. An arrow on an internal link only decorates a control that already
+// looks clickable.
+const ctaArrow = (url: string) => (isExternal(url) ? '↗' : '');
 
 const watchUrl = (id: string) => `https://www.youtube.com/watch?v=${id}`;
 const thumbUrl = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
@@ -121,7 +124,7 @@ const articlesTeaser = articles.slice(0, TEASER_COUNT);
 						target={isExternal(primaryCtaUrl) ? '_blank' : undefined}
 						rel={isExternal(primaryCtaUrl) ? 'noopener noreferrer' : undefined}
 					>
-						{hero.primary_cta_label} <span aria-hidden="true">&rarr;</span>
+						{hero.primary_cta_label}
 					</a>
 				</div>
 			</div>
@@ -396,7 +399,7 @@ const articlesTeaser = articles.slice(0, TEASER_COUNT);
 						target={isExternal(finalCtaUrl) ? '_blank' : undefined}
 						rel={isExternal(finalCtaUrl) ? 'noopener noreferrer' : undefined}
 					>
-						{final_cta.cta_label} <span aria-hidden="true">&rarr;</span>
+						{final_cta.cta_label}
 					</a>
 				</div>
 			</div>

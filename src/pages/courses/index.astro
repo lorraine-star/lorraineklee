@@ -223,7 +223,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 										target={isExternal(courseHref(featured)) ? '_blank' : undefined}
 										rel={isExternal(courseHref(featured)) ? 'noopener noreferrer' : undefined}
 									>
-										{labels?.start_this_course || 'Start this course'} <span aria-hidden="true">&rarr;</span>
+										{labels?.start_this_course || 'Start this course'}
 									</a>
 								</div>
 							</div>
@@ -277,7 +277,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 									target="_blank"
 									rel="noopener noreferrer"
 								>
-									{masterclass.cta_label} <span aria-hidden="true">&rarr;</span>
+									{masterclass.cta_label}
 								</a>
 							</div>
 						</div>
@@ -382,7 +382,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 										<h3 class="course-card-title">{c.title}</h3>
 										<p class="course-card-summary">{c.description}</p>
 										<div class="course-card-foot">
-											<span class="course-cta">{labels?.view_course || 'View course'} <span aria-hidden="true">&rarr;</span></span>
+											<span class="course-cta">{labels?.view_course || 'View course'}</span>
 										</div>
 									</div>
 								</a>

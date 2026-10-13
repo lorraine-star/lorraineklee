@@ -33,7 +33,7 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 				<p class="lead-large">{hero.lead}</p>
 				<div class="hero-cta-row">
 					<a class="btn primary large" href={safeUrl(hero.primary_cta_url, '/contact')}>
-						{hero.primary_cta_label || 'Book Lorraine'} <span aria-hidden="true">&rarr;</span>
+						{hero.primary_cta_label || 'Book Lorraine'}
 					</a>
 					<a class="btn outline" href={safeUrl(hero.secondary_cta_url, '/speaking')}>
 						{hero.secondary_cta_label || 'Back to speaking'}
@@ -86,7 +86,6 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 									)}
 									<span class="dl-arrow">
 										{external ? 'Open' : 'Download'}{' '}
-										<span aria-hidden="true">&rarr;</span>
 									</span>
 								</a>
 							);
@@ -108,7 +107,7 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 					</h2>
 					<p>{final_cta.body}</p>
 					<a class="btn yellow large" href={safeUrl(final_cta.cta_url)}>
-						{final_cta.cta_label} <span aria-hidden="true">&rarr;</span>
+						{final_cta.cta_label}
 					</a>
 				</div>
 			</div>
