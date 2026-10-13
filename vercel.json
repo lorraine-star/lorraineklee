@@ -498,17 +498,17 @@
     },
     {
       "source": "/testimonial/nicole-h",
-      "destination": "/testimonials#nicole-h",
+      "destination": "/courses",
       "permanent": true
     },
     {
       "source": "/testimonial/elisa-c",
-      "destination": "/testimonials#elisa-c",
+      "destination": "/courses",
       "permanent": true
     },
     {
       "source": "/testimonial/jennifer-c",
-      "destination": "/testimonials#jennifer-c",
+      "destination": "/courses",
       "permanent": true
     },
     {

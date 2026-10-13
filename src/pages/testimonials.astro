@@ -27,9 +27,13 @@ const sections = (await getTestimonialSections())
 		anchor: SECTION_ANCHOR[section.type],
 		items: testimonials.filter((t) => t.type === section.type),
 	}))
+	// Course-student reviews live on /courses, where the course they refer to is
+	// right there. Repeating them here padded the page without adding proof a
+	// client or organiser would weigh.
+	.filter((section) => section.type !== 'course-student-review')
 	.filter((section) => section.items.length > 0);
 
-const total = testimonials.length;
+const total = sections.reduce((n, s) => n + s.items.length, 0);
 
 // Hero copy is editable in Keystatic; fall back to the original copy so the
 // page never renders empty if the singleton is missing.
