@@ -274,14 +274,6 @@ press:
       
       scale: 1
       
-    - id: fox5
-    
-      name: Fox 5 Washington DC
-      
-      src: /images/v1/press/press/logos/5/src.png
-      
-      scale: 1
-      
     - id: cnn
     
       name: CNN
