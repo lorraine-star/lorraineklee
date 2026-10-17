@@ -56,26 +56,69 @@ courses_section:
   count_caption_suffix: "on-demand courses and counting."
 linkedin_resources_section:
   eyebrow: Free resources
-  heading: Show up better on
-  heading_accent: LinkedIn.
+  heading: Start with
+  heading_accent: these.
   lead: >-
-    Free downloads to help you look the part and tell your story — straight from
-    Lorraine's LinkedIn playbook.
+    Free downloads from the material Lorraine teaches inside companies. Take
+    what you need.
 linkedin_resources:
+  - label: The Ultimate LinkedIn Guide
+    description: >-
+      A 40+ page playbook for building a LinkedIn presence that gets you noticed
+      by decision-makers, recruiters, and clients.
+    eyebrow: Free guide
+    cta_label: Get the guide
+    url: /ultimate-linkedin-guide
+    anchor_id: linkedin-guide
+    image: /images/v1/learn/linkedin_resources/1/image.webp
+  - label: Communication cheat sheets
+    description: >-
+      The one-page references Lorraine hands out after keynotes, covering the
+      phrases, structures, and habits that change how you come across.
+    eyebrow: Free download
+    cta_label: Get the cheat sheets
+    url: /cheat-sheets
+    anchor_id: cheat-sheets
+    image: ''
   - label: LinkedIn background photo pack
     description: >-
-      A set of on-brand LinkedIn cover photos you can drop into your profile in
-      minutes — designed to make your page look intentional, not stock.
+      On-brand cover photos you can drop into your profile in minutes, so your
+      page looks intentional rather than stock.
+    eyebrow: Free download
     cta_label: Get the photo pack
     url: /background-photo
     anchor_id: linkedin-photo-pack
     image: /images/v1/learn/linkedin_resources/0/image.webp
-  - label: The Ultimate LinkedIn Guide
+  - label: 10 phrases that undercut you
     description: >-
-      Lorraine's step-by-step playbook for building a LinkedIn presence that
-      gets you noticed by decision-makers, recruiters, and clients.
-    eyebrow: Free guide
-    cta_label: Get the free guide
-    url: /ultimate-linkedin-guide
-    anchor_id: linkedin-guide
-    image: /images/v1/learn/linkedin_resources/1/image.webp
+      The words that quietly cost you credibility at work, and what to say in
+      their place.
+    eyebrow: Free download
+    cta_label: Get the list
+    url: /10-phrases
+    anchor_id: ten-phrases
+    image: ''
+go_deeper_section:
+  eyebrow: Go deeper
+  heading: When you want
+  heading_accent: more than a download.
+  lead: ''
+go_deeper:
+  - label: LinkedIn Learning
+    description: 20+ on-demand courses, free with a LinkedIn Learning subscription.
+    cta_label: Browse the courses
+    url: /courses
+  - label: MasterClass
+    description: >-
+      Strategic Communication: build trust, drive decisions, and lead with
+      influence.
+    cta_label: Watch on MasterClass
+    url: https://www.masterclass.com/classes/strategic-communication-build-trust-drive-decisions-and-lead-with-influence
+  - label: Unforgettable Presence®
+    description: 'The Amazon #1 bestseller on getting seen and gaining influence.'
+    cta_label: Get the book
+    url: /book
+  - label: Career Bites
+    description: One short email a week on presence, visibility, and career growth.
+    cta_label: Subscribe free
+    url: /subscribe/

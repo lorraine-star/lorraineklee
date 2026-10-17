@@ -1686,6 +1686,31 @@ export default config({
         // The course grid renders from the shared `courses` collection
         // (reader.collections.courses) so the Learn grid and the /courses hub
         // stay in sync — there is no per-page course list on this singleton.
+        go_deeper_section: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({ label: 'Heading accent (italic)' }),
+            lead: fields.text({ label: 'Lead', multiline: true }),
+          },
+          { label: 'Go deeper section heading' }
+        ),
+        go_deeper: fields.array(
+          fields.object({
+            label: fields.text({ label: 'Label' }),
+            description: fields.text({ label: 'Description', multiline: true }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            url: fields.text({
+              label: 'URL (external links open in a new tab)',
+            }),
+          }),
+          {
+            label: 'Go deeper',
+            description:
+              'Paid or longer-form next steps shown under the free resources.',
+            itemLabel: (props) => props.fields.label.value || 'Item',
+          }
+        ),
         linkedin_resources_section: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),

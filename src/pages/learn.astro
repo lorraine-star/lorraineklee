@@ -14,6 +14,9 @@ const {
 	newsletter,
 	courses_section,
 	linkedin_resources,
+	linkedin_resources_section,
+	go_deeper_section,
+	go_deeper,
 } = learn;
 
 const isExternal = (url: string) => /^https?:\/\//i.test(url);
@@ -143,41 +146,6 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 						</span>
 					</div>
 				</a>
-				{
-					linkedin_resources?.map((r, i) => {
-						const url = safeUrl(r.url, '/contact');
-						const external = isExternal(url);
-						return (
-							<a
-								class:list={[
-									'lh-card lh-card--poster',
-									i === 0 ? 'bento-photo' : 'bento-guide',
-								]}
-								href={url}
-								target={external ? '_blank' : undefined}
-								rel={external ? 'noopener noreferrer' : undefined}
-							>
-								{r.image && (
-									<img
-										class="lh-card-bg"
-										src={r.image}
-										alt={r.label}
-										loading="lazy"
-									/>
-								)}
-								<div class="lh-card-overlay">
-									{/* Per-card eyebrow wins so a paid item (the LinkedIn guide)
-									    is not mislabelled by the shared "Free resource" default. */}
-									<span class="lh-card-eyebrow">{r.eyebrow || hero_bento?.resource_eyebrow || 'Free resource'}</span>
-									<h3 class="lh-card-title">{r.label}</h3>
-									<span class="lh-card-cta">
-										{r.cta_label || 'Get it'}{' '}
-									</span>
-								</div>
-							</a>
-						);
-					})
-				}
 			</div>
 		</div>
 	</section>
@@ -246,6 +214,84 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 			</div>
 		</div>
 	</section>
+
+	{/* ---------- Free resources ----------
+	    The reason this page exists. Every item is something a visitor can take
+	    away today, which is also what gives the page something to rank for. */}
+	{
+		linkedin_resources?.length > 0 && (
+			<section class="section section--compact anchor-target" id="resources">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<h2>
+							{linkedin_resources_section?.heading || 'Start with'}{' '}
+							<em>{linkedin_resources_section?.heading_accent || 'these.'}</em>
+						</h2>
+						{linkedin_resources_section?.lead && <p class="lead">{linkedin_resources_section.lead}</p>}
+					</div>
+					<div class="learn-resources">
+						{linkedin_resources.map((r) => {
+							const url = safeUrl(r.url, '/contact');
+							const external = isExternal(url);
+							return (
+								<a
+									class="learn-resource"
+									id={r.anchor_id}
+									href={url}
+									target={external ? '_blank' : undefined}
+									rel={external ? 'noopener noreferrer' : undefined}
+								>
+									{/* Artwork is deliberately off until all four cards have
+									    it. With two of four illustrated the text started at
+									    different heights and the row read as broken. */}
+									<div class="learn-resource-body">
+										<span class="learn-resource-eyebrow">{r.eyebrow || 'Free download'}</span>
+										<h3>{r.label}</h3>
+										{r.description && <p>{r.description}</p>}
+										<span class="learn-resource-cta">{r.cta_label || 'Get it'}</span>
+									</div>
+								</a>
+							);
+						})}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{/* ---------- Go deeper ---------- */}
+	{
+		go_deeper?.length > 0 && (
+			<section class="section section--compact section--cream anchor-target" id="go-deeper">
+				<div class="grid12">
+					<div class="section-head section-head--center">
+						<h2>
+							{go_deeper_section?.heading || 'When you want'}{' '}
+							<em>{go_deeper_section?.heading_accent || 'more than a download.'}</em>
+						</h2>
+					</div>
+					<div class="learn-deeper">
+						{go_deeper.map((d) => {
+							const url = safeUrl(d.url, '/contact');
+							const external = isExternal(url);
+							return (
+								<a
+									class="learn-deeper-card"
+									href={url}
+									target={external ? '_blank' : undefined}
+									rel={external ? 'noopener noreferrer' : undefined}
+								>
+									<h3>{d.label}</h3>
+									{d.description && <p>{d.description}</p>}
+									<span class="learn-deeper-cta">{d.cta_label}</span>
+								</a>
+							);
+						})}
+					</div>
+				</div>
+			</section>
+		)
+	}
 
 	{/* ---------- LinkedIn Learning courses (secondary) ---------- */}
 	<section class="section section--compact anchor-target" id="courses">
@@ -676,4 +722,128 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 			transition: none;
 		}
 	}
+
+  /* ---------- Free resources ----------
+     Four takeaways in one grid. The card is the unit, so the whole thing is
+     the link; an image is optional because not every resource has artwork. */
+  .learn-resources {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(14px, 1.6vw, 20px);
+  }
+  .learn-resource {
+    display: flex;
+    flex-direction: column;
+    background: var(--white, #fff);
+    border: 1px solid var(--border-soft);
+    border-radius: 14px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 160ms ease, transform 160ms ease;
+  }
+  .learn-resource:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .learn-resource-media {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .learn-resource-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .learn-resource-body {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: clamp(14px, 1.6vw, 20px);
+    flex: 1;
+  }
+  .learn-resource-eyebrow {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--ink-500);
+  }
+  .learn-resource h3 {
+    font-family: var(--font-serif);
+    font-size: clamp(17px, 1.5vw, 20px);
+    line-height: 1.22;
+    margin: 0;
+  }
+  .learn-resource p {
+    font-family: var(--font-sans);
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--ink-700);
+    margin: 0;
+  }
+  .learn-resource-cta {
+    margin-top: auto;
+    padding-top: 10px;
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  /* ---------- Go deeper ----------
+     Deliberately quieter than the resources above: these are next steps, not
+     the reason someone landed here. */
+  .learn-deeper {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(14px, 1.6vw, 20px);
+  }
+  .learn-deeper-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: clamp(16px, 1.8vw, 22px);
+    background: var(--white, #fff);
+    border: 1px solid var(--border-soft);
+    border-radius: 14px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 160ms ease;
+  }
+  .learn-deeper-card:hover { border-color: var(--accent); }
+  .learn-deeper-card h3 {
+    font-family: var(--font-serif);
+    font-size: clamp(17px, 1.5vw, 19px);
+    margin: 0;
+  }
+  .learn-deeper-card p {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-700);
+    margin: 0;
+  }
+  .learn-deeper-cta {
+    margin-top: auto;
+    padding-top: 10px;
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  @media (max-width: 1024px) {
+    .learn-resources,
+    .learn-deeper { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    .learn-resources,
+    .learn-deeper { grid-template-columns: 1fr; }
+  }
 </style>
