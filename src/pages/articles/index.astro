@@ -7,7 +7,7 @@ import { safeUrl } from '../../lib/url';
 // "Authored Articles" (the nav label) and this `/articles` page are the same
 // thing. The canonical list lives in the thought-leadership singleton's
 // `authored_articles` array (single source of truth, also teased on the
-// /thought-leadership hub) and each item links out to where the piece was
+// /media hub) and each item links out to where the piece was
 // published. We render that list here, newest-first as authored in the CMS.
 const tl = await reader.singletons.thoughtLeadership.read();
 const authored = (tl?.authored_articles ?? []).map((a) => ({
@@ -40,7 +40,7 @@ const isExternal = (href: string) => /^https?:\/\//i.test(href);
 // Hero image is Keystatic-editable (CLI-188); the committed default lives in
 // the field's managed folder so saves in the admin stay valid (see CLI-165).
 const heroImage =
-	tl?.articles_hero_image || '/images/thought-leadership/articles-hero.webp';
+	tl?.articles_hero_image || '/images/media/articles-hero.webp';
 const heroImageAlt =
 	tl?.articles_hero_image_alt ||
 	'Lorraine K. Lee seated in a studio interview, with her book Unforgettable Presence displayed beside her.';

@@ -52,7 +52,10 @@ const resolvedCtaLabel = ctaLabel ?? site?.nav?.cta_label ?? 'Contact';
           const active =
             isNavItemActive(item, activeId) ||
             !!item.children?.some((child) => isNavChildActive(child, currentPath));
-          const disclosureOnly = item.id === 'learn';
+          // Every parent label is a real link now. Learn used to open its
+          // submenu without navigating, which left /learn reachable only from
+          // the footer; it points at /courses instead.
+          const disclosureOnly = false;
           const submenuId = `nav-submenu-${item.id}`;
           return item.children?.length ? (
             <div

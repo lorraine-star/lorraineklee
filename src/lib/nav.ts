@@ -15,7 +15,7 @@ export interface NavItem {
 // Lorraine" button (the Contact item renders as that CTA in EditorialNav), and
 // no dropdowns. Following the Wishly review: Courses is promoted to the top
 // level, the three Thought Leadership pages sit behind one "Media" link (the
-// /thought-leadership hub already indexes interviews, press and articles),
+// /media hub already indexes interviews, press and articles),
 // Awards links to the awards section on About, and Home is the logo. Links
 // that left the top bar (Bio and Headshot, Testimonials, Free Course,
 // Newsletter, Learn, Guest Interviews, Featured In, Authored Articles) live in
@@ -49,7 +49,7 @@ export const mainNavItems: NavItem[] = [
   { id: 'courses', label: 'Courses', href: '/courses' },
   { id: 'book', label: 'The Book', href: '/book' },
   { id: 'about', label: 'About', href: '/about' },
-  { id: 'thought-leadership', label: 'Media', href: '/thought-leadership' },
+  { id: 'thought-leadership', label: 'Media', href: '/media' },
   { id: 'awards', label: 'Awards', href: '/about#awards' },
   { id: 'contact', label: 'Contact', href: '/contact' },
 ];

@@ -133,7 +133,7 @@
     },
     {
       "source": "/the-thought-leadership",
-      "destination": "/thought-leadership",
+      "destination": "/media",
       "permanent": true
     },
     {
@@ -848,12 +848,12 @@
     },
     {
       "source": "/thought-leadership-new",
-      "destination": "/thought-leadership",
+      "destination": "/media",
       "permanent": true
     },
     {
       "source": "/thought-leadership-2",
-      "destination": "/thought-leadership",
+      "destination": "/media",
       "permanent": true
     },
     {
@@ -974,6 +974,11 @@
     {
       "source": "/how-to-create-a-superpowered-agenda",
       "destination": "/articles/issue-44-how-to-create-a-superpowered-agenda",
+      "permanent": true
+    },
+    {
+      "source": "/thought-leadership",
+      "destination": "/media",
       "permanent": true
     }
   ]

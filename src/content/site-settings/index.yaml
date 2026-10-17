@@ -50,10 +50,6 @@ footer:
 
           href: /speaking
 
-        - label: Signature Program
-
-          href: /unforgettable-presence-program
-
         - label: Bio and Headshot
 
           href: /speaker-bio
@@ -61,10 +57,6 @@ footer:
         - label: Testimonials
 
           href: /testimonials
-
-        - label: Contact
-
-          href: /contact
 
     - heading: Learn
 
@@ -78,21 +70,17 @@ footer:
 
           href: /from-invisible-to-influential
 
-        - label: Learn with Lorraine
-
-          href: /learn
-
         - label: Newsletter
 
           href: /subscribe/
 
-        - label: The Book
-
-          href: /book
-
     - heading: About
 
       links:
+
+        - label: The Book
+
+          href: /book
 
         - label: About Lorraine
 
@@ -104,7 +92,7 @@ footer:
 
         - label: Media
 
-          href: /thought-leadership
+          href: /media
 
         - label: Guest Interviews
 
@@ -170,7 +158,7 @@ nav:
     
       label: Media
       
-      href: /thought-leadership
+      href: /media
       
       children: []
       
@@ -178,7 +166,7 @@ nav:
     
       label: Learn
       
-      href: /learn
+      href: /courses
       
       children:
       
