@@ -4,7 +4,7 @@ hero:
   headline_accent: "Lorraine."
   lead: "Want to keep learning between keynotes? Start with the free 5-day newsletter course, then dig into Lorraine's on-demand LinkedIn Learning courses and LinkedIn resources — all designed to help you communicate with confidence and grow your career on your own schedule."
   trust_count: "16,000+"
-  cta_primary_label: "Start the free course"
+  cta_primary_label: "See the free resources"
   cta_secondary_label: "Browse courses"
   trust_prefix: "Join"
   trust_suffix: "leaders learning with Lorraine."
@@ -62,6 +62,15 @@ linkedin_resources_section:
     Free downloads from the material Lorraine teaches inside companies. Take
     what you need.
 linkedin_resources:
+  - label: From Invisible to Influential
+    description: >-
+      A free 5-day email course on articulating your value and getting visible
+      to the people who decide promotions.
+    eyebrow: Free · 5-day course
+    cta_label: Start the course
+    url: /from-invisible-to-influential
+    anchor_id: free-course
+    image: ''
   - label: The Ultimate LinkedIn Guide
     description: >-
       A 40+ page playbook for building a LinkedIn presence that gets you noticed
@@ -97,6 +106,15 @@ linkedin_resources:
     cta_label: Get the list
     url: /10-phrases
     anchor_id: ten-phrases
+    image: ''
+  - label: The passive-to-active meeting framework
+    description: >-
+      How to turn a meeting where people wait their turn into one where they
+      actually contribute.
+    eyebrow: Free download
+    cta_label: Get the framework
+    url: /meetingframework
+    anchor_id: meeting-framework
     image: ''
 go_deeper_section:
   eyebrow: Go deeper

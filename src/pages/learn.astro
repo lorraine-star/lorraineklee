@@ -78,11 +78,13 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 			</div>
 			<div class="learn-hero-aside fade-up" style="animation-delay: 80ms;">
 				<p class="lead-large">{hero.lead}</p>
+				{/* One CTA, pointing at what this page is for. The old pair
+				    aimed at an on-page signup block and a course grid that both
+				    duplicated their own pages; those sections are gone. */}
 				<div class="learn-hero-cta-row">
-					<a class="btn primary large" href="#course">
-						{hero.cta_primary_label || 'Start the free course'}
+					<a class="btn primary large" href="#resources">
+						{hero.cta_primary_label || 'See the free resources'}
 					</a>
-					<a class="btn ghost" href="#courses">{hero.cta_secondary_label || 'Browse courses'}</a>
 				</div>
 				<p class="learn-hero-trust">
 					{hero.trust_prefix || 'Join'} <strong>{hero.trust_count || '14,000+'}</strong> {hero.trust_suffix || 'leaders learning with Lorraine.'}
@@ -90,129 +92,6 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 			</div>
 		</div>
 
-		<div class="grid12">
-			<div
-				class="learn-hero-bento reveal-stagger"
-				aria-label="Featured courses and resources"
-			>
-				<a class="lh-card lh-card--feature bento-feature" href="#course">
-					<div class="lh-card-body">
-						<span class="lh-card-pill">{hero_bento?.feature_pill || 'Free · 5-day course'}</span>
-						<h3 class="lh-card-title">{hero_bento?.feature_title || 'From'} <em>{hero_bento?.feature_title_accent || 'Invisible'}</em>{hero_bento?.feature_title_suffix || ' to Influential'}</h3>
-						<p class="lh-card-desc">
-							{hero_bento?.feature_desc ||
-								'A free 5-day email course that helps you articulate your value and get visible to decision-makers.'}
-						</p>
-						<span class="lh-card-cta">
-							{hero_bento?.feature_cta_label || 'Start the course'}
-						</span>
-					</div>
-					{
-						newsletter.hero_card_image && (
-							<div class="lh-card-media lh-card-media--feature">
-								<img
-									src={newsletter.hero_card_image}
-									alt={hero_bento?.feature_image_alt || 'Lorraine K. Lee working at her laptop'}
-									loading="lazy"
-								/>
-							</div>
-						)
-					}
-				</a>
-				<div class="lh-card lh-card--stat bento-stat">
-					<div class="lh-card-body">
-						<span class="lh-card-stat-num">{hero_bento?.stat_num || '500K'}<span class="suffix">{hero_bento?.stat_suffix || '+'}</span></span>
-						<span class="lh-card-stat-label">
-							{hero_bento?.stat_label || 'Students taught on LinkedIn Learning'}
-						</span>
-					</div>
-				</div>
-				<a class="lh-card lh-card--poster bento-browse" href="#courses">
-					{
-						courses_section.hero_card_image && (
-							<img
-								class="lh-card-bg"
-								src={courses_section.hero_card_image}
-								alt="Lorraine K. Lee, LinkedIn Learning instructor"
-								loading="lazy"
-							/>
-						)
-					}
-					<div class="lh-card-overlay">
-						<span class="lh-card-eyebrow">LinkedIn Learning</span>
-						<h3 class="lh-card-title">{totalCoursesLabel} on-demand courses</h3>
-						<span class="lh-card-cta">
-							{hero_bento?.browse_card_cta_label || 'Browse all'}
-						</span>
-					</div>
-				</a>
-			</div>
-		</div>
-	</section>
-
-	{/* ---------- Sticky jump-to-section sub-nav ---------- */}
-	<nav class="learn-subnav" aria-label="Jump to a section">
-		<div class="grid12">
-			<ul class="learn-subnav-list" data-section-nav>
-				<li>
-					<a href="#course" data-section-link>Free course</a>
-				</li>
-				<li>
-					<a href="#courses" data-section-link>Courses</a>
-				</li>
-			</ul>
-		</div>
-	</nav>
-
-	{/* ---------- Newsletter lead block (mirrors home page Free Course section) ---------- */}
-	<section id="course" class="course learn-newsletter">
-		<div class="grid12 course-grid">
-			<div class="course-copy">
-				<div class="course-eyebrow">
-					<span class="pill">{newsletter.eyebrow_pill}</span>
-					<span>{newsletter.eyebrow_label}</span>
-				</div>
-				<h2 class="course-headline">
-					{newsletter.headline} <em>{newsletter.headline_accent}</em>
-				</h2>
-				<p class="course-sub">{newsletter.body}</p>
-				<ul class="course-bullets">
-					{newsletter.bullets.map((day) => <li>{day}</li>)}
-				</ul>
-			</div>
-
-			<div class="course-form">
-				<div class="course-form-card">
-					{/* Newsletter signup posts to Kit list 5057243 (same list as
-					    /subscribe). Fires the GA newsletter_signup key event on submit
-					    via [data-ga-event] (GoogleAnalytics.astro, CLI-51); Kit handles
-					    the post-submit redirect. */}
-					<form
-						method="post"
-						action="https://app.kit.com/forms/5057243/subscriptions"
-						data-ga-event="newsletter_signup"
-					>
-						<span class="course-form-eyebrow">{newsletter.form_eyebrow}</span>
-						<h3 class="course-form-title">
-							{newsletter.form_title} <em>{newsletter.form_title_accent}</em>
-						</h3>
-						<label class="field-label" for="course-email">Email address</label>
-						<input
-							id="course-email"
-							class="field"
-							type="email"
-							name="email_address"
-							required
-							placeholder="you@company.com"
-						/>
-						<button type="submit" class="btn yellow large btn-block">
-							{newsletter.form_button_label}
-						</button>
-						<div class="fineprint">{newsletter.form_fineprint}</div>
-					</form>
-				</div>
-			</div>
-		</div>
 	</section>
 
 	{/* ---------- Free resources ----------
@@ -293,135 +172,6 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 		)
 	}
 
-	{/* ---------- LinkedIn Learning courses (secondary) ---------- */}
-	<section class="section section--compact anchor-target" id="courses">
-		<div class="grid12">
-			<div class="section-head section-head--center">
-				<span class="eyebrow">{courses_section.eyebrow}</span>
-				<h2>
-					{courses_section.heading}{' '}
-					<em>{courses_section.heading_accent}</em>
-				</h2>
-				{courses_section.lead && <p class="lead">{courses_section.lead}</p>}
-				<p class="course-catalog-count">
-					{totalCoursesLabel} {courses_section.count_caption_suffix || 'on-demand courses and counting.'}
-				</p>
-			</div>
-
-			{/* Category filter (progressive enhancement: hidden until JS wires it up,
-			    so it never renders as an inert control without JavaScript). */}
-			<div
-				class="course-filter"
-				data-course-filter
-				hidden
-				role="group"
-				aria-label="Filter courses by category"
-			>
-				<button
-					type="button"
-					class="course-filter-pill is-active"
-					data-filter="all"
-					aria-pressed="true"
-				>
-					All <span class="course-filter-num">{totalCoursesLabel}</span>
-				</button>
-				{
-					categories.map((cat) => (
-						<button
-							type="button"
-							class="course-filter-pill"
-							data-filter={cat}
-							aria-pressed="false"
-						>
-							{cat} <span class="course-filter-num">{countFor(cat)}</span>
-						</button>
-					))
-				}
-			</div>
-
-			<div class="course-grid-cards reveal-stagger" data-course-grid>
-				{
-					hubCourses.map((c, i) => {
-						const url = courseHref(c);
-						const external = isExternal(url);
-						return (
-							<a
-								class="course-card"
-								data-platform="LinkedIn Learning"
-								data-category={c.category}
-								data-default-visible={i < DEFAULT_VISIBLE ? 'true' : undefined}
-								href={url}
-								target={external ? '_blank' : undefined}
-								rel={external ? 'noopener noreferrer' : undefined}
-							>
-								<div class="course-thumb">
-									{c.thumbnail ? (
-										<img
-											class="course-thumb-img"
-											src={c.thumbnail}
-											alt=""
-											loading="lazy"
-											width="1280"
-											height="720"
-										/>
-									) : (
-										<div class="course-thumb-deco" aria-hidden="true">
-											{c.glyph}
-										</div>
-									)}
-									<span class="platform-tag">LinkedIn Learning</span>
-									<div class="play" aria-hidden="true">
-										<svg viewBox="0 0 24 24" fill="currentColor">
-											<path d="M8 5v14l11-7z" />
-										</svg>
-									</div>
-									{c.duration && <span class="duration">{c.duration}</span>}
-								</div>
-								<div class="course-card-body">
-									<h3>{c.title}</h3>
-									<p class="course-desc">{c.description}</p>
-									<span class="course-link">
-										Watch course
-									</span>
-								</div>
-							</a>
-						);
-					})
-				}
-			</div>
-
-			<p class="sr-only" data-course-live aria-live="polite" role="status"></p>
-
-			<div class="courses-cta courses-cta--stack">
-				<button
-					type="button"
-					class="btn outline large"
-					data-course-expand
-					hidden
-					aria-expanded="false"
-				>
-					<span data-expand-label>Show all {totalCourses} courses</span>
-					<span class="course-expand-icon" aria-hidden="true">&#8595;</span>
-				</button>
-				{
-					courses_section.cta_label && courses_section.cta_url && (
-						<a
-							class="course-hub-link"
-							href={safeUrl(courses_section.cta_url)}
-							target={isExternal(courses_section.cta_url) ? '_blank' : undefined}
-							rel={
-								isExternal(courses_section.cta_url)
-									? 'noopener noreferrer'
-									: undefined
-							}
-						>
-							{courses_section.cta_label}
-						</a>
-					)
-				}
-			</div>
-		</div>
-	</section>
 
 	{/* CLI-130: standalone Free Resources section removed; resources stay
 	    surfaced via the hero bento cards above so the page reads cleanly
@@ -600,8 +350,7 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 	}
 
 	/* Section anchors clear both the site header and this sub-nav. */
-	#course,
-	#courses {
+	#resources {
 		scroll-margin-top: 140px;
 	}
 
@@ -726,10 +475,12 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
   /* ---------- Free resources ----------
      Four takeaways in one grid. The card is the unit, so the whole thing is
      the link; an image is optional because not every resource has artwork. */
+  /* Three up, so six cards fill two full rows. At four across the sixth card
+     sat alone on a second row. */
   .learn-resources {
     grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: clamp(14px, 1.6vw, 20px);
   }
   .learn-resource {
