@@ -16,15 +16,16 @@ if (!fc) {
   throw new Error('Missing free-course content (src/content/free-course/index.yaml)');
 }
 const ty = fc.thank_you;
-// Partnerships is the page's primary action. Nearly every tap from this page
-// used to go to LinkedIn, which is the least valuable of the two outcomes, so
-// the speaking enquiry now leads and LinkedIn sits under it as an outline
-// button.
-const partnerUrl = (() => {
-  const safe = safeUrl(ty.partnerships_cta_url);
-  return safe && safe !== '#' ? safe : '/contact';
+// The block offers the self-paced course, not the enterprise programme.
+// Everyone here just signed up for a free B2C email course, so most of them
+// cannot commission team training; the team enquiry stays as a small link
+// underneath for the few who can.
+const upsellUrl = (() => {
+  const safe = safeUrl(ty.upsell_cta_url);
+  return safe && safe !== '#' ? safe : '/unlock-your-impact';
 })();
-const partnerEmail = ty.partnerships_email;
+const upsellSecondaryUrl = safeUrl(ty.upsell_secondary_url) || '/contact';
+const partnerEmail = ty.upsell_email;
 
 // LinkedIn and Instagram come from the canonical list in lib/social, the same
 // source the shared footer uses, so the destinations cannot drift.
@@ -59,20 +60,25 @@ const partnerSocials = socialLinks.filter((s) =>
         )
       }
       {
-        ty.partnerships_headline && (
+        ty.upsell_headline && (
           <div class="ty-partner fade-up" style="animation-delay: 140ms;">
-            {ty.partnerships_eyebrow && (
-              <span class="eyebrow ty-partner-eyebrow">{ty.partnerships_eyebrow}</span>
+            {ty.upsell_eyebrow && (
+              <span class="eyebrow ty-partner-eyebrow">{ty.upsell_eyebrow}</span>
             )}
-            <h2 class="ty-partner-headline">{ty.partnerships_headline}</h2>
+            <h2 class="ty-partner-headline">{ty.upsell_headline}</h2>
             <div class="ty-partner-cols">
               <div class="ty-partner-text">
-                {ty.partnerships_body && <p class="ty-partner-body">{ty.partnerships_body}</p>}
+                {ty.upsell_body && <p class="ty-partner-body">{ty.upsell_body}</p>}
               </div>
               <div class="ty-partner-action">
-                <a class="btn primary large ty-cta" href={partnerUrl}>
-                  {ty.partnerships_cta_label || "Contact Lorraine's team"}{' '}
+                <a class="btn primary large ty-cta" href={upsellUrl}>
+                  {ty.upsell_cta_label || 'Get the course'}
                 </a>
+                {ty.upsell_secondary_label && (
+                  <a class="ty-secondary" href={upsellSecondaryUrl}>
+                    {ty.upsell_secondary_label}
+                  </a>
+                )}
                 {partnerEmail && (
                   <p class="ty-partner-email">
                     Or reach out to <a href={`mailto:${partnerEmail}`}>{partnerEmail}</a>
@@ -286,4 +292,17 @@ const partnerSocials = socialLinks.filter((s) =>
       text-align: center;
     }
   }
+
+  /* Team enquiries, kept deliberately quiet under the course button. */
+  .ty-secondary {
+    display: block;
+    margin-top: 14px;
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: #ffffffdd;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .ty-secondary:hover { color: var(--brand-yellow-500); }
 </style>

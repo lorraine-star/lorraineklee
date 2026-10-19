@@ -3180,17 +3180,20 @@ export default config({
             closing: fields.text({ label: 'Closing line' }),
             // The partnerships block is the page's main call to action. The
             // LinkedIn CTA below it is deliberately the quieter of the two.
-            partnerships_eyebrow: fields.text({ label: 'Partnerships eyebrow' }),
-            partnerships_headline: fields.text({ label: 'Partnerships headline' }),
-            partnerships_body: fields.text({
-              label: 'Partnerships body',
-              multiline: true,
+            // The block used to pitch the enterprise programme. Most people here
+            // just signed up for a free B2C email course and have no budget
+            // authority, so it offers the self-serve course instead, with a
+            // small link for the rare team buyer.
+            upsell_eyebrow: fields.text({ label: 'Upsell eyebrow' }),
+            upsell_headline: fields.text({ label: 'Upsell headline' }),
+            upsell_body: fields.text({ label: 'Upsell body', multiline: true }),
+            upsell_cta_label: fields.text({ label: 'Upsell button label' }),
+            upsell_cta_url: fields.text({ label: 'Upsell button URL' }),
+            upsell_secondary_label: fields.text({
+              label: 'Secondary link label (team enquiries)',
             }),
-            partnerships_cta_label: fields.text({ label: 'Partnerships button label' }),
-            partnerships_cta_url: fields.text({ label: 'Partnerships button URL' }),
-            partnerships_email: fields.text({
-              label: 'Partnerships email (shown under the button)',
-            }),
+            upsell_secondary_url: fields.text({ label: 'Secondary link URL' }),
+            upsell_email: fields.text({ label: 'Contact email shown under the block' }),
             image: fields.image({
               label: 'Image',
               directory: 'public/images/free-course',
