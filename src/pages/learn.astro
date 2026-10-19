@@ -77,10 +77,10 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 				<h1>{hero.headline} <em>{hero.headline_accent}</em></h1>
 			</div>
 			<div class="learn-hero-aside fade-up" style="animation-delay: 80ms;">
-				<p class="lead-large">{hero.lead}</p>
 				{/* One CTA, pointing at what this page is for. The old pair
 				    aimed at an on-page signup block and a course grid that both
-				    duplicated their own pages; those sections are gone. */}
+				    duplicated their own pages; those sections are gone. The
+				    long lead that sat here repeated the section below it. */}
 				<div class="learn-hero-cta-row">
 					<a class="btn primary large" href="#resources">
 						{hero.cta_primary_label || 'See the free resources'}
@@ -89,6 +89,16 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
 				<p class="learn-hero-trust">
 					{hero.trust_prefix || 'Join'} <strong>{hero.trust_count || '14,000+'}</strong> {hero.trust_suffix || 'leaders learning with Lorraine.'}
 				</p>
+			</div>
+			<div class="learn-hero-photo fade-up" style="animation-delay: 140ms;">
+				<img
+					src="/images/v1/learn/newsletter/hero_card_image.webp"
+					alt="Lorraine K. Lee working at her laptop"
+					width="900"
+					height="810"
+					loading="eager"
+					decoding="async"
+				/>
 			</div>
 		</div>
 
@@ -596,5 +606,23 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
   @media (max-width: 560px) {
     .learn-resources,
     .learn-deeper { grid-template-columns: 1fr; }
+  }
+
+  /* Hero photo. The hero lost its bento tiles when the duplicated sections
+     went, which left it as a wall of type; this gives it something to look at
+     without reintroducing a second set of CTAs. */
+  .learn-hero-photo {
+    grid-column: 9 / span 4;
+    align-self: center;
+  }
+  .learn-hero-photo img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius-2xl, 20px);
+    box-shadow: var(--shadow-lg);
+  }
+  @media (max-width: 1024px) {
+    .learn-hero-photo { display: none; }
   }
 </style>

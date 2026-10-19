@@ -1,7 +1,7 @@
 hero:
   eyebrow: Consulting
   headline: Strategic support for your
-  headline_accent: leaders.
+  headline_accent: leaders
   lead: >-
     Get personalized support from Lorraine for your C-Suite, team, or
     organization on a wide range of topics.
@@ -12,7 +12,7 @@ hero:
 services_section:
   eyebrow: Services
   heading: Ways to work
-  heading_accent: together.
+  heading_accent: together
   lead: >-
     Engagements are tailored to your goals — from a single executive to an
     entire leadership team.
@@ -53,7 +53,7 @@ services:
 testimonials_section:
   eyebrow: Testimonials
   heading: What clients
-  heading_accent: say.
+  heading_accent: say
 testimonials:
   - quote: >-
       Throughout the entire process of developing the DRIVEN prototype, Lorraine
@@ -70,7 +70,7 @@ testimonials:
 audience_section:
   eyebrow: Who I work with
   heading: Built for professionals who
-  heading_accent: stand out.
+  heading_accent: stand out
   lead: For ambitious, career-driven professionals and teams who…
 audience_points:
   - >-

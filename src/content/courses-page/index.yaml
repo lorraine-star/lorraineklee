@@ -5,7 +5,7 @@ hero:
   eyebrow: "Courses with Lorraine"
   headline: "Courses to help you"
   headline_accent: "communicate with confidence"
-  headline_tail: ", lead with presence, and stand out at work."
+  headline_tail: ", lead with presence, and stand out at work"
   lead: ""
   primary_cta_label: "Start on LinkedIn Learning"
   primary_cta_url: "https://www.linkedin.com/learning/instructors/lorraine-lee"
@@ -43,7 +43,7 @@ category_order:
 why_section:
   eyebrow: "Why these courses"
   heading: "Tactics you can"
-  heading_accent: "use on Monday."
+  heading_accent: "use on Monday"
   lead: "Every course is built around concrete moves: scripts, frameworks, and small habits that compound across your week, not just your watch history."
   points:
     - title: "Communicate more clearly"

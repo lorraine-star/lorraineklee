@@ -1,7 +1,7 @@
 hero:
   eyebrow: "Guest Interviews"
   headline: "Conversations on presence,"
-  headline_accent: "influence, and growth."
+  headline_accent: "influence, and growth"
   lead: "Watch Lorraine's conversations on LinkedIn Lives, webinars, and shows about presence, communication, and career growth."
   cta_label: "Work with Lorraine"
   cta_url: "/contact"
@@ -10,14 +10,14 @@ labels:
 guest_section:
   eyebrow: "Select guest interviews"
   heading: "Featured guest"
-  heading_accent: "interviews."
+  heading_accent: "interviews"
   lead: "Lorraine joins LinkedIn Lives, shows, and webinars to talk professional presence, communication, and career growth."
   youtube_cta_label: "More on YouTube"
   youtube_cta_url: "https://www.youtube.com/c/lorraineklee"
 podcast_section:
   eyebrow: "Prefer audio?"
   heading: "Listen on"
-  heading_accent: "Spotify."
+  heading_accent: "Spotify"
   lead: "A playlist of Lorraine's conversations on presence, communication, and career growth. Press play and take them on the go."
   spotify_playlist_id: "3ttrdXR9hP0Nx1tncWtx6T"
 guest_appearances:

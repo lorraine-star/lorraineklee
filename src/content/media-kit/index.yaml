@@ -1,7 +1,7 @@
 hero:
   eyebrow: Press & Media Kit
   headline: Everything you need
-  headline_accent: in one place.
+  headline_accent: in one place
   lead: Need something you don't see here? Email team@lorraineklee.com.
   primary_cta_label: Book Lorraine
   primary_cta_url: /contact
@@ -16,7 +16,7 @@ quick_facts: []
 bios_section:
   eyebrow: Approved bios
   heading: Copy-and-paste
-  heading_accent: bios.
+  heading_accent: bios
 bios:
   - length_label: Short — 50 words
     text: >-
@@ -78,7 +78,7 @@ bios:
 headshots_section:
   eyebrow: Headshots
   heading: Approved
-  heading_accent: headshots.
+  heading_accent: headshots
 headshots:
   - image: /images/media-kit/headshots/0/image.png
     alt: Lorraine K. Lee, primary headshot
@@ -89,7 +89,7 @@ headshots:
 assets_section:
   eyebrow: Brand assets
   heading: Logos &
-  heading_accent: downloads.
+  heading_accent: downloads
 assets:
   - label: Speaker one-pager
     url: https://prezi.com/i/view/RISOp81lXrnbVqipsrOF
@@ -104,7 +104,7 @@ assets:
 topics_section:
   eyebrow: Topics
   heading: Speaking & media
-  heading_accent: topics.
+  heading_accent: topics
 topics:
   - title: Executive presence
     description: >-
@@ -125,7 +125,7 @@ topics:
 press_section:
   eyebrow: Featured in
   heading: Selected
-  heading_accent: press.
+  heading_accent: press
 featured_links:
   - outlet: Bloomberg
     title: On executive presence and showing up at work
@@ -142,7 +142,7 @@ featured_links:
 final_cta:
   eyebrow: Ready to book?
   heading: Let's get on
-  heading_accent: the calendar.
+  heading_accent: the calendar
   body: >-
     Send the date, audience, and what you want the room to walk away with.
     Lorraine replies within two business days.

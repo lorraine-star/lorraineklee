@@ -1,7 +1,7 @@
 hero:
   eyebrow: "Newsletter, on-demand courses & free resources"
   headline: "Learn from"
-  headline_accent: "Lorraine."
+  headline_accent: "Lorraine"
   lead: "Want to keep learning between keynotes? Start with the free 5-day newsletter course, then dig into Lorraine's on-demand LinkedIn Learning courses and LinkedIn resources — all designed to help you communicate with confidence and grow your career on your own schedule."
   trust_count: "16,000+"
   cta_primary_label: "See the free resources"
@@ -46,7 +46,7 @@ newsletter:
 courses_section:
   eyebrow: LinkedIn Learning
   heading: On-demand courses on
-  heading_accent: LinkedIn Learning.
+  heading_accent: LinkedIn Learning
   lead: >-
     Bite-sized, on-demand classes taught by Lorraine — watch on your schedule,
     free with a LinkedIn Learning subscription.
@@ -57,7 +57,7 @@ courses_section:
 linkedin_resources_section:
   eyebrow: Free resources
   heading: Start with
-  heading_accent: these.
+  heading_accent: these
   lead: >-
     Free downloads from the material Lorraine teaches inside companies. Take
     what you need.
@@ -119,7 +119,7 @@ linkedin_resources:
 go_deeper_section:
   eyebrow: Go deeper
   heading: When you want
-  heading_accent: more than a download.
+  heading_accent: more than a download
   lead: ''
 go_deeper:
   - label: LinkedIn Learning

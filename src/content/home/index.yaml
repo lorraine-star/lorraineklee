@@ -5,7 +5,7 @@ hero:
   eyebrow: Keynote speaker · Bestselling Author · Instructor
   headline: Helping leaders build an
   headline_accent: unforgettable
-  headline_tail: presence.
+  headline_tail: presence
   subheadline: >-
     Your next generation of leaders needs more than expertise. They need the
     communication and presence skills to build trust, gain buy-in, and make
@@ -44,7 +44,7 @@ hero_links:
 four_ways:
   eyebrow: How I can help
   heading: Three ways we can
-  heading_accent: partner together.
+  heading_accent: partner together
   column_1:
     audience: For event organizers
     heading: Speaking
@@ -112,4 +112,4 @@ course_popup:
 testimonials_section:
   eyebrow: What clients say
   heading: Companies bring her back
-  heading_accent: for more.
+  heading_accent: for more

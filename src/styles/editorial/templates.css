@@ -729,12 +729,19 @@
   align-items: end;
   row-gap: 28px;
 }
-.learn-hero-copy { grid-column: 1 / span 7; }
+/* Three columns now that a photo sits beside the copy: headline, then the
+   CTA and trust line, then the image. Below 1024px the photo is hidden and
+   these fall back to the full width. */
+.learn-hero-copy { grid-column: 1 / span 5; }
 .learn-hero-aside {
-  grid-column: 8 / span 5;
+  grid-column: 6 / span 3;
   display: flex;
   flex-direction: column;
   gap: 22px;
+}
+@media (max-width: 1024px) {
+  .learn-hero-copy { grid-column: 1 / -1; }
+  .learn-hero-aside { grid-column: 1 / -1; }
 }
 .learn-hero .learn-hero-copy h1 {
   font-family: var(--font-serif);

@@ -203,7 +203,7 @@ topics:
 custom_programs_section:
   eyebrow: Built for your team
   heading: Custom leadership
-  heading_accent: programs.
+  heading_accent: programs
   body: >-
     When you want more than a single keynote, Lorraine builds multi-session
     programs tailored to your needs and audience.
@@ -217,7 +217,7 @@ custom_programs_section:
 other_talks_section:
   eyebrow: More from the catalog
   heading: All other talks
-  heading_accent: and workshops.
+  heading_accent: and workshops
   lead: >-
     Beyond the signature keynotes, Lorraine offers a number of other popular
     sessions.
@@ -432,11 +432,11 @@ testimonials_section:
 attendee_testimonials_section:
   eyebrow: From the people in the seats
   heading: And the audience
-  heading_accent: agrees.
+  heading_accent: agrees
 bio_callout:
   eyebrow: For event organizers
   heading: Bio, headshot,
-  heading_accent: and downloads.
+  heading_accent: and downloads
   body: >-
     Need Lorraine's bio, high-resolution headshots, or her speaker one-pager for
     your event program? The full speaker resource page has everything in one
@@ -446,7 +446,7 @@ bio_callout:
 repeats_section:
   eyebrow: Clients keep coming back
   heading: The same companies
-  heading_accent: book her again.
+  heading_accent: book her again
 repeats:
   - name: LinkedIn
     multiplier: 7×
@@ -463,7 +463,7 @@ repeats:
 final_cta:
   eyebrow: Book Lorraine
   heading: Bring Lorraine to
-  heading_accent: your stage.
+  heading_accent: your stage
   body: >-
     Share more about your audience, event details, and what you want them to
     walk away with, and my team will reply within 2 business days (if not
