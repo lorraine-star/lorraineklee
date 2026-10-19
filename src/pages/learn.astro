@@ -485,13 +485,19 @@ const courseHref = (c: { url?: string | null; slug: string }) =>
   /* ---------- Free resources ----------
      Four takeaways in one grid. The card is the unit, so the whole thing is
      the link; an image is optional because not every resource has artwork. */
-  /* Three up, so six cards fill two full rows. At four across the sixth card
-     sat alone on a second row. */
+  /* Flex rather than grid so a partly-filled last row centres instead of
+     leaving a hole on the right. The card count changes as resources come and
+     go, and this copes with any of them. */
   .learn-resources {
     grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: clamp(14px, 1.6vw, 20px);
+  }
+  .learn-resource {
+    flex: 0 1 calc((100% - 2 * clamp(14px, 1.6vw, 20px)) / 3);
+    min-width: 240px;
   }
   .learn-resource {
     display: flex;

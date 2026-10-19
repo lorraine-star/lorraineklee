@@ -107,15 +107,6 @@ linkedin_resources:
     url: /10-phrases
     anchor_id: ten-phrases
     image: ''
-  - label: The passive-to-active meeting framework
-    description: >-
-      How to turn a meeting where people wait their turn into one where they
-      actually contribute.
-    eyebrow: Free download
-    cta_label: Get the framework
-    url: /meetingframework
-    anchor_id: meeting-framework
-    image: ''
 go_deeper_section:
   eyebrow: Go deeper
   heading: When you want
