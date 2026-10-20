@@ -1,7 +1,7 @@
 seo_title: Media & Press | Lorraine K. Lee
 seo_description: >-
   Podcasts, press features, and articles by Lorraine K. Lee on executive presence, communication, and career growth, in Forbes, CNBC, and Fast Company.
-articles_hero_image: /images/media/articles_hero_image.webp
+articles_hero_image: /images/thought-leadership/articles_hero_image.webp
 articles_hero_image_alt: >-
   Lorraine K. Lee seated in a studio interview, with her book Unforgettable
   Presence displayed beside her.
@@ -43,7 +43,7 @@ appearances:
     cta_label: Watch now
   - date: June 2026
     show: LinkedIn News
-    thumbnail: /images/media/appearances/linkedin-career-reset.webp
+    thumbnail: /images/thought-leadership/appearances/linkedin-career-reset.webp
     title: 'The 4-Week Career Reset: How to Stand Out in a Competitive Market'
     description: >-
       Part two of a four-part live workshop series with LinkedIn's Andrew
@@ -54,7 +54,7 @@ appearances:
     cta_label: View on LinkedIn
   - date: January 2026
     show: Leading Up (Udemy Business)
-    thumbnail: /images/media/appearances/udemy-leading-up.webp
+    thumbnail: /images/thought-leadership/appearances/udemy-leading-up.webp
     title: 'How to Go From Passed Over to Promoted'
     description: >-
       Lorraine joins Udemy Business's Leading Up podcast on what separates the
@@ -121,7 +121,7 @@ appearances:
     description: >-
       Lorraine shared tips for personal branding in Indeed's Job Search Academy
       webinar series.
-    thumbnail: /images/media/appearances/2/thumbnail.png
+    thumbnail: /images/thought-leadership/appearances/2/thumbnail.png
     thumbnail_fit: logo
     url: >-
       https://www.linkedin.com/events/shinebrighter-refreshingyoupers7183481875833761793/theater/
@@ -132,7 +132,7 @@ appearances:
     description: >-
       With host Andrew Seaman, Lorraine shared what to do after a layoff and how
       to prepare for your next role.
-    thumbnail: /images/media/appearances/3/thumbnail.webp
+    thumbnail: /images/thought-leadership/appearances/3/thumbnail.webp
     thumbnail_fit: cover
     url: >-
       https://www.linkedin.com/feed/update/urn%3Ali%3Aactivity%3A7226981095974547456/
