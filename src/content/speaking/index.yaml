@@ -453,7 +453,7 @@ repeats:
   - name: Cisco
     multiplier: 7×
   - name: Google
-    multiplier: 6×
+    multiplier: 7×
   - name: Zoom
     multiplier: 5x
   - name: ServiceNow
