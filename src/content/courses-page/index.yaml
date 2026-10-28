@@ -95,6 +95,8 @@ custom_courses:
     you're juggling a dozen courses at a time as a producer, that kind of
     reliability truly matters.
   quote_highlight: "it's rare to get drafts that need so little from me"
+  # Todd confirmed he is happy to be quoted publicly with his name, title
+  # and employer, and for his photo to be used (Lorraine, Oct 2026).
   quote_image: "/images/courses/todd-howard.webp"
   quote_image_alt: "Todd Howard"
   quote_author: "Todd Howard"
