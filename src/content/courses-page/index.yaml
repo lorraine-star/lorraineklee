@@ -58,6 +58,24 @@ why_section:
       description: "Look, sound, and read as credible on every video call."
     - title: "Stand out at work"
       description: "Get credit for the work you're already doing, even if you hate self-promotion."
+custom_courses:
+  eyebrow: "For companies"
+  heading: "Custom courses"
+  heading_accent: "for your company"
+  body: >-
+    Lorraine writes and presents courses for learning platforms and companies.
+    You can also license some of her existing LinkedIn Learning courses for
+    your own team.
+  cta_label: "Talk about a custom course"
+  cta_url: "/contact"
+  logos_label: "Course clients"
+  quote: >-
+    Her scripts came in nearly finished. I've produced hundreds of courses, and
+    it's rare to get drafts that need so little from me beyond a light pass and
+    a few suggestions.
+  quote_highlight: "I've produced hundreds of courses, and it's rare"
+  quote_author: "Todd Howard"
+  quote_role: "Senior Producer, LinkedIn Learning"
 final_cta:
   eyebrow: "Keep going"
   heading: "Ready to sharpen your"

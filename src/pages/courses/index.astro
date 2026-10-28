@@ -11,7 +11,7 @@ const page = await reader.singletons.coursesPage.read();
 if (!page) {
 	throw new Error('Missing courses page content (src/content/courses-page/index.yaml)');
 }
-const { hero, rating, filter_bar, why_section, final_cta, labels, masterclass } = page;
+const { hero, rating, filter_bar, why_section, final_cta, labels, masterclass, custom_courses } = page;
 
 // Category order mirrors the old WordPress /learning-courses/ hub. Editors can
 // reorder via coursesPage.category_order; any category they leave off is
@@ -92,6 +92,13 @@ const categories = CATEGORY_ORDER.filter((cat) => counts[cat] > 0);
 
 // "20+" rather than the exact count: Lorraine prefers the rounded figure, and
 // it does not need editing every time a course is added or retired.
+// Course clients whose logos we hold. Caliber, RiseGuide and CASBO are named
+// in the copy until their marks are added here.
+const courseClientLogos = [
+	{ name: 'LinkedIn Learning', src: '/images/clients/linkedin-learning.webp', h: 21 },
+	{ name: 'MasterClass', src: '/images/clients/masterclass.webp', h: 19 },
+];
+
 const totalCoursesLabel = '20+';
 const hubCoursesLabel = String(counts.all);
 
@@ -455,6 +462,54 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 								))}
 							</div>
 						)}
+					</div>
+				</section>
+			)
+		}
+
+		{/* ---------- Custom courses (for companies) ----------
+		    The one B2B block on a B2C page, so it is set apart rather than
+		    folded in with the catalogue above it. */}
+		{
+			custom_courses?.heading && (
+				<section class="cc-section">
+					<div class="container">
+						<div class="cc-wrap">
+							<div class="cc-text">
+								<span class="eyebrow cc-eyebrow">{custom_courses.eyebrow}</span>
+								<h2 class="cc-title">
+									{custom_courses.heading}{' '}
+									<em>{custom_courses.heading_accent}</em>
+								</h2>
+								<p class="cc-body">{custom_courses.body}</p>
+								<a class="btn primary large" href={custom_courses.cta_url || '/contact'}>
+									{custom_courses.cta_label}
+								</a>
+								{courseClientLogos.length > 0 && (
+									<div class="cc-logos">
+										{custom_courses.logos_label && (
+											<span class="cc-logos-label">{custom_courses.logos_label}</span>
+										)}
+										<div class="cc-logos-row">
+											{courseClientLogos.map((l) => (
+												<img src={l.src} alt={l.name} style={`height:${l.h}px`} loading="lazy" />
+											))}
+										</div>
+									</div>
+								)}
+							</div>
+							{custom_courses.quote && (
+								<figure class="cc-quote">
+									<blockquote set:html={markQuote(custom_courses.quote, custom_courses.quote_highlight)} />
+									<figcaption>
+										<span class="cc-quote-author">{custom_courses.quote_author}</span>
+										{custom_courses.quote_role && (
+											<span class="cc-quote-role">{custom_courses.quote_role}</span>
+										)}
+									</figcaption>
+								</figure>
+							)}
+						</div>
 					</div>
 				</section>
 			)
@@ -1330,5 +1385,88 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 	@media (max-width: 820px) {
 		.mc-wrap { grid-template-columns: minmax(0, 1fr); }
 		.mc-media { max-width: 280px; margin: 0 auto; }
+	}
+
+	/* ---------- Custom courses (B2B) ----------
+	   Cream panel so it separates from the white catalogue above without
+	   competing with the dark MasterClass block higher up the page. */
+	.cc-section {
+		padding-block: clamp(44px, 5vw, 76px);
+		background: var(--paper-deep, #f4f2ee);
+		border-top: 1px solid var(--border-soft);
+	}
+	.cc-wrap {
+		display: grid;
+		grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+		gap: clamp(28px, 4vw, 56px);
+		align-items: center;
+	}
+	.cc-eyebrow { display: block; margin-bottom: 12px; color: var(--ink-500); }
+	.cc-title {
+		font-family: var(--font-serif);
+		font-size: clamp(26px, 3vw, 38px);
+		line-height: 1.12;
+		margin: 0 0 14px;
+		text-wrap: balance;
+	}
+	.cc-title em { font-style: italic; color: var(--accent); }
+	.cc-body {
+		font-family: var(--font-sans);
+		font-size: clamp(15px, 1.15vw, 17px);
+		line-height: 1.6;
+		color: var(--ink-700);
+		margin: 0 0 22px;
+		max-width: 52ch;
+	}
+	.cc-logos { margin-top: 26px; }
+	.cc-logos-label {
+		display: block;
+		font-family: var(--font-sans);
+		font-size: 11px;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		font-weight: 600;
+		color: var(--ink-500);
+		margin-bottom: 12px;
+	}
+	.cc-logos-row {
+		display: flex;
+		align-items: center;
+		gap: clamp(20px, 3vw, 36px);
+		flex-wrap: wrap;
+	}
+	.cc-logos-row img { width: auto; opacity: 0.75; }
+
+	/* The quote is the proof for the offer beside it, so it sits in a card of
+	   its own rather than in the page's shared testimonial row. */
+	.cc-quote {
+		margin: 0;
+		padding: clamp(22px, 2.4vw, 32px);
+		background: var(--white, #fff);
+		border: 1px solid var(--border-soft);
+		border-radius: 16px;
+	}
+	.cc-quote blockquote {
+		margin: 0 0 16px;
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-size: clamp(16px, 1.3vw, 19px);
+		line-height: 1.5;
+		color: var(--ink-900);
+	}
+	.cc-quote figcaption { display: flex; flex-direction: column; gap: 2px; }
+	.cc-quote-author {
+		font-family: var(--font-sans);
+		font-weight: 600;
+		font-size: 14.5px;
+		color: var(--ink-900);
+	}
+	.cc-quote-role {
+		font-family: var(--font-sans);
+		font-size: 13.5px;
+		color: var(--ink-500);
+	}
+	@media (max-width: 900px) {
+		.cc-wrap { grid-template-columns: minmax(0, 1fr); }
 	}
 </style>

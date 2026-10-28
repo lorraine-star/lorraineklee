@@ -2270,6 +2270,31 @@ export default config({
           },
           { label: 'Hero' }
         ),
+        // The one B2B offer on an otherwise B2C page: companies and learning
+        // platforms hiring Lorraine to write and present a course.
+        custom_courses: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Eyebrow' }),
+            heading: fields.text({ label: 'Heading (plain)' }),
+            heading_accent: fields.text({ label: 'Heading accent (italic)' }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            cta_label: fields.text({ label: 'CTA label' }),
+            cta_url: fields.text({ label: 'CTA URL' }),
+            logos_label: fields.text({ label: 'Label above the logo row' }),
+            quote: fields.text({ label: 'Testimonial quote', multiline: true }),
+            quote_highlight: fields.text({
+              label: 'Phrase to emphasise',
+              description: 'Copied exactly from the quote above.',
+            }),
+            quote_author: fields.text({ label: 'Quote author' }),
+            quote_role: fields.text({ label: 'Quote author role' }),
+          },
+          {
+            label: 'Custom courses (for companies)',
+            description:
+              'Leave the heading empty to hide the whole section.',
+          }
+        ),
         masterclass: fields.object(
           {
             eyebrow: fields.text({ label: 'Eyebrow' }),
