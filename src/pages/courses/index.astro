@@ -92,13 +92,6 @@ const categories = CATEGORY_ORDER.filter((cat) => counts[cat] > 0);
 
 // "20+" rather than the exact count: Lorraine prefers the rounded figure, and
 // it does not need editing every time a course is added or retired.
-// Course clients whose logos we hold. Caliber, RiseGuide and CASBO are named
-// in the copy until their marks are added here.
-const courseClientLogos = [
-	{ name: 'LinkedIn Learning', src: '/images/clients/linkedin-learning.webp', h: 21 },
-	{ name: 'MasterClass', src: '/images/clients/masterclass.webp', h: 19 },
-];
-
 const totalCoursesLabel = '20+';
 const hubCoursesLabel = String(counts.all);
 
@@ -485,22 +478,32 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 								<a class="btn primary large" href={custom_courses.cta_url || '/contact'}>
 									{custom_courses.cta_label}
 								</a>
-								{courseClientLogos.length > 0 && (
+								{/* Text rather than logos: marks are held for two of the five
+								    clients, and a part-logo row reads unfinished. */}
+								{custom_courses.clients?.length > 0 && (
 									<div class="cc-logos">
 										{custom_courses.logos_label && (
 											<span class="cc-logos-label">{custom_courses.logos_label}</span>
 										)}
-										<div class="cc-logos-row">
-											{courseClientLogos.map((l) => (
-												<img src={l.src} alt={l.name} style={`height:${l.h}px`} loading="lazy" />
+										<ul class="cc-clients">
+											{custom_courses.clients.map((c) => (
+												<li>{c}</li>
 											))}
-										</div>
+										</ul>
 									</div>
 								)}
 							</div>
 							{custom_courses.quote && (
 								<figure class="cc-quote">
-									<blockquote set:html={markQuote(custom_courses.quote, custom_courses.quote_highlight)} />
+									<blockquote>
+										{/* Split on the blank line so the two paragraphs stay two
+										    paragraphs; HTML collapses the newline otherwise. */}
+										{custom_courses.quote
+											.split(/\n\s*\n/)
+											.map((para) => (
+												<p set:html={markQuote(para.trim(), custom_courses.quote_highlight)} />
+											))}
+									</blockquote>
 									<figcaption>
 										<span class="cc-quote-author">{custom_courses.quote_author}</span>
 										{custom_courses.quote_role && (
@@ -1397,7 +1400,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 	}
 	.cc-wrap {
 		display: grid;
-		grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
 		gap: clamp(28px, 4vw, 56px);
 		align-items: center;
 	}
@@ -1469,4 +1472,27 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 	@media (max-width: 900px) {
 		.cc-wrap { grid-template-columns: minmax(0, 1fr); }
 	}
+
+	.cc-clients {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px 18px;
+	}
+	.cc-clients li {
+		font-family: var(--font-sans);
+		font-size: 14.5px;
+		font-weight: 600;
+		color: var(--ink-700);
+	}
+	.cc-clients li + li::before {
+		content: '·';
+		margin-right: 18px;
+		color: var(--ink-300, #b9bbc2);
+		font-weight: 400;
+	}
+	/* Two paragraphs of quote, so they need space between them. */
+	.cc-quote blockquote p + p { margin-top: 12px; }
 </style>

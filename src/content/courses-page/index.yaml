@@ -69,11 +69,23 @@ custom_courses:
   cta_label: "Talk about a custom course"
   cta_url: "/contact"
   logos_label: "Course clients"
+  clients:
+    - LinkedIn Learning
+    - MasterClass
+    - Caliber
+    - RiseGuide
+    - CASBO
   quote: >-
-    Her scripts came in nearly finished. I've produced hundreds of courses, and
-    it's rare to get drafts that need so little from me beyond a light pass and
-    a few suggestions.
-  quote_highlight: "I've produced hundreds of courses, and it's rare"
+    I've produced hundreds of courses, and it's rare to get drafts that need so
+    little from me beyond a light pass and a few suggestions. She knows her
+    material and she knows how to teach it.
+
+
+    She is also one of the most organized instructors I've worked with. She hit
+    every deadline early, and I never once had to chase her for anything. When
+    you're juggling a dozen courses at a time as a producer, that kind of
+    reliability truly matters.
+  quote_highlight: "I never once had to chase her for anything"
   quote_author: "Todd Howard"
   quote_role: "Senior Producer, LinkedIn Learning"
 final_cta:

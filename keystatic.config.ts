@@ -2281,6 +2281,13 @@ export default config({
             cta_label: fields.text({ label: 'CTA label' }),
             cta_url: fields.text({ label: 'CTA URL' }),
             logos_label: fields.text({ label: 'Label above the logo row' }),
+            clients: fields.array(fields.text({ label: 'Client' }), {
+              label: 'Course clients',
+              description:
+                'Shown as a text row. Swap to logos once marks are held for '
+                + 'every client; a part-logo, part-text row reads unfinished.',
+              itemLabel: (props) => props.value || 'Client',
+            }),
             quote: fields.text({ label: 'Testimonial quote', multiline: true }),
             quote_highlight: fields.text({
               label: 'Phrase to emphasise',
