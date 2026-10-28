@@ -2281,13 +2281,22 @@ export default config({
             cta_label: fields.text({ label: 'CTA label' }),
             cta_url: fields.text({ label: 'CTA URL' }),
             logos_label: fields.text({ label: 'Label above the logo row' }),
-            clients: fields.array(fields.text({ label: 'Client' }), {
-              label: 'Course clients',
-              description:
-                'Shown as a text row. Swap to logos once marks are held for '
-                + 'every client; a part-logo, part-text row reads unfinished.',
-              itemLabel: (props) => props.value || 'Client',
-            }),
+            client_logos: fields.array(
+              fields.object({
+                name: fields.text({ label: 'Client name (alt text)' }),
+                src: fields.text({ label: 'Logo path' }),
+                height: fields.integer({
+                  label: 'Rendered height in px',
+                  description:
+                    'Set per logo by eye. Equal pixel heights do not read as '
+                    + 'equal size: a wide wordmark looks bigger than a compact one.',
+                }),
+              }),
+              {
+                label: 'Course client logos',
+                itemLabel: (props) => props.fields.name.value || 'Client',
+              }
+            ),
             quote: fields.text({ label: 'Testimonial quote', multiline: true }),
             quote_highlight: fields.text({
               label: 'Phrase to emphasise',

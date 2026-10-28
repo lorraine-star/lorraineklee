@@ -478,20 +478,6 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 								<a class="btn primary large" href={custom_courses.cta_url || '/contact'}>
 									{custom_courses.cta_label}
 								</a>
-								{/* Text rather than logos: marks are held for two of the five
-								    clients, and a part-logo row reads unfinished. */}
-								{custom_courses.clients?.length > 0 && (
-									<div class="cc-logos">
-										{custom_courses.logos_label && (
-											<span class="cc-logos-label">{custom_courses.logos_label}</span>
-										)}
-										<ul class="cc-clients">
-											{custom_courses.clients.map((c) => (
-												<li>{c}</li>
-											))}
-										</ul>
-									</div>
-								)}
 							</div>
 							{custom_courses.quote && (
 								<figure class="cc-quote">
@@ -513,6 +499,24 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 								</figure>
 							)}
 						</div>
+						{custom_courses.client_logos?.length > 0 && (
+							<div class="cc-logos">
+								{custom_courses.logos_label && (
+									<span class="cc-logos-label">{custom_courses.logos_label}</span>
+								)}
+								<div class="cc-logos-row">
+									{custom_courses.client_logos.map((l) => (
+										<img
+											src={l.src}
+											alt={l.name}
+											style={`height:${l.height || 22}px`}
+											loading="lazy"
+											decoding="async"
+										/>
+									))}
+								</div>
+							</div>
+						)}
 					</div>
 				</section>
 			)
@@ -1421,7 +1425,13 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 		margin: 0 0 22px;
 		max-width: 52ch;
 	}
-	.cc-logos { margin-top: 26px; }
+	/* Full width under both columns: in the text column the fourth logo wrapped
+	   onto a line of its own. */
+	.cc-logos {
+		margin-top: clamp(28px, 3vw, 40px);
+		padding-top: clamp(20px, 2.4vw, 28px);
+		border-top: 1px solid var(--border-soft);
+	}
 	.cc-logos-label {
 		display: block;
 		font-family: var(--font-sans);
@@ -1473,26 +1483,6 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 		.cc-wrap { grid-template-columns: minmax(0, 1fr); }
 	}
 
-	.cc-clients {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: flex;
-		flex-wrap: wrap;
-		gap: 8px 18px;
-	}
-	.cc-clients li {
-		font-family: var(--font-sans);
-		font-size: 14.5px;
-		font-weight: 600;
-		color: var(--ink-700);
-	}
-	.cc-clients li + li::before {
-		content: '·';
-		margin-right: 18px;
-		color: var(--ink-300, #b9bbc2);
-		font-weight: 400;
-	}
 	/* Two paragraphs of quote, so they need space between them. */
 	.cc-quote blockquote p + p { margin-top: 12px; }
 </style>
