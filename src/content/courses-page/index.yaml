@@ -67,13 +67,13 @@ custom_courses:
     license some of her existing LinkedIn Learning courses for your own team.
   cta_label: "Talk about a custom course"
   cta_url: "/contact"
-  logos_label: "Course clients"
+  logos_label: "Select course clients"
   client_logos:
     - name: LinkedIn Learning
       src: /images/clients/linkedin-learning.webp
       height: 21
     - name: MasterClass
-      src: /images/clients/masterclass.webp
+      src: /images/clients/masterclass-dark.webp
       height: 19
     - name: Caliber
       src: /images/clients/caliber.webp
@@ -81,6 +81,9 @@ custom_courses:
     - name: CASBO
       src: /images/clients/casbo.webp
       height: 23
+    - name: RiseGuide
+      src: /images/clients/riseguide.svg
+      height: 19
   quote: >-
     I've produced hundreds of courses, and it's rare to get drafts that need so
     little from me beyond a light pass and a few suggestions. She knows her
