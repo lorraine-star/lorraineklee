@@ -467,17 +467,20 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 					<span class="final-cta-italic">{final_cta.heading_accent}</span>
 				</h2>
 				<p class="final-cta-lead">{final_cta.body}</p>
+				{/* The band closes on the enterprise ask, so that is the primary
+				    button. The LinkedIn link sits under it: the catalogue just
+				    above already links out, course by course. */}
 				<div class="final-cta-ctas">
+					<a class="btn yellow large" href={finalCtaUrl}>
+						{final_cta.cta_label}
+					</a>
 					<a
-						class="btn yellow large"
+						class="btn outline-on-brand large"
 						href={linkedinUrl}
 						target="_blank"
 						rel="noopener noreferrer"
 					>
 						{labels?.see_all_courses || 'See all courses on LinkedIn Learning'} <span aria-hidden="true">&#8599;</span>
-					</a>
-					<a class="btn outline-on-brand large" href={finalCtaUrl}>
-						{final_cta.cta_label}
 					</a>
 				</div>
 			</div>

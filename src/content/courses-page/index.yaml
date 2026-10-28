@@ -71,7 +71,7 @@ custom_courses:
   client_logos:
     - name: LinkedIn Learning
       src: /images/clients/linkedin-learning.webp
-      height: 21
+      height: 19
     - name: MasterClass
       src: /images/clients/masterclass-dark.webp
       height: 19
@@ -98,12 +98,14 @@ custom_courses:
   quote_author: "Todd Howard"
   quote_role: "Senior Producer, LinkedIn Learning"
 final_cta:
-  eyebrow: "Keep going"
-  heading: "Ready to sharpen your"
-  heading_accent: "communication skills?"
-  body: "Browse the full LinkedIn Learning library, or get Lorraine's free 5-day course delivered to your inbox."
-  cta_label: "Get the free 5-day course"
-  cta_url: "/from-invisible-to-influential/"
+  eyebrow: "For L&D and people teams"
+  heading: "Want something like this"
+  heading_accent: "inside your company?"
+  body: >-
+    Some teams license a course from the catalogue above and run it on their
+    own platform. Others want one built for their people and their problems.
+  cta_label: "Ask about licensing or a custom build"
+  cta_url: "/contact"
 labels:
   explore_courses: "Explore courses"
   featured_badge: "Lorraine's pick · Start here"
