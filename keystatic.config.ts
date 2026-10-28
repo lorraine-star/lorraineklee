@@ -2302,6 +2302,8 @@ export default config({
               label: 'Phrase to emphasise',
               description: 'Copied exactly from the quote above.',
             }),
+            quote_image: fields.text({ label: 'Quote author photo' }),
+            quote_image_alt: fields.text({ label: 'Photo alt text' }),
             quote_author: fields.text({ label: 'Quote author' }),
             quote_role: fields.text({ label: 'Quote author role' }),
           },

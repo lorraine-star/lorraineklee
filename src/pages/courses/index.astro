@@ -224,10 +224,23 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 											))}
 									</blockquote>
 									<figcaption>
-										<span class="cc-quote-author">{custom_courses.quote_author}</span>
-										{custom_courses.quote_role && (
-											<span class="cc-quote-role">{custom_courses.quote_role}</span>
+										{custom_courses.quote_image && (
+											<img
+												class="cc-quote-avatar"
+												src={custom_courses.quote_image}
+												alt={custom_courses.quote_image_alt || custom_courses.quote_author}
+												width="56"
+												height="56"
+												loading="lazy"
+												decoding="async"
+											/>
 										)}
+										<span class="cc-quote-who">
+											<span class="cc-quote-author">{custom_courses.quote_author}</span>
+											{custom_courses.quote_role && (
+												<span class="cc-quote-role">{custom_courses.quote_role}</span>
+											)}
+										</span>
 									</figcaption>
 								</figure>
 							)}
@@ -1406,7 +1419,20 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 		line-height: 1.5;
 		color: var(--ink-900);
 	}
-	.cc-quote figcaption { display: flex; flex-direction: column; gap: 2px; }
+	/* Avatar beside the name, matching the testimonial cards elsewhere. */
+	.cc-quote figcaption {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+	.cc-quote-who { display: flex; flex-direction: column; gap: 2px; }
+	.cc-quote-avatar {
+		width: 48px;
+		height: 48px;
+		border-radius: 50%;
+		object-fit: cover;
+		flex-shrink: 0;
+	}
 	.cc-quote-author {
 		font-family: var(--font-sans);
 		font-weight: 600;

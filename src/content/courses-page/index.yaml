@@ -95,6 +95,8 @@ custom_courses:
     you're juggling a dozen courses at a time as a producer, that kind of
     reliability truly matters.
   quote_highlight: "it's rare to get drafts that need so little from me"
+  quote_image: "/images/courses/todd-howard.webp"
+  quote_image_alt: "Todd Howard"
   quote_author: "Todd Howard"
   quote_role: "Senior Producer, LinkedIn Learning"
 final_cta:
