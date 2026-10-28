@@ -34,7 +34,7 @@ rating:
   subscribe_url: "/learn"
 filter_bar:
   eyebrow: "Find the right course"
-  heading: "Which course is right for you?"
+  heading: "Which LinkedIn Learning course is right for you?"
 category_order:
   - Communication
   - Leadership
@@ -91,7 +91,7 @@ custom_courses:
     every deadline early, and I never once had to chase her for anything. When
     you're juggling a dozen courses at a time as a producer, that kind of
     reliability truly matters.
-  quote_highlight: "I never once had to chase her for anything"
+  quote_highlight: "I've produced hundreds of courses, and it's rare to get drafts that need so little from me beyond a light pass and a few suggestions. She knows her material and she knows how to teach it."
   quote_author: "Todd Howard"
   quote_role: "Senior Producer, LinkedIn Learning"
 final_cta:
@@ -118,5 +118,5 @@ labels:
   detail_back_label: "All courses"
   detail_back_url: "/courses"
   detail_more_label: "See other courses"
-  grid_count_all: "courses · all categories"
+  grid_count_all: "LinkedIn Learning courses"
   grid_count_filtered_prefix: "courses in "

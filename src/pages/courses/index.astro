@@ -33,7 +33,7 @@ const CATEGORY_ORDER = (() => {
 })();
 
 // Live grid-count captions (editable; the filter script rebuilds them client-side).
-const gridCountAll = labels?.grid_count_all || 'courses · all categories';
+const gridCountAll = labels?.grid_count_all || 'LinkedIn Learning courses';
 const gridCountFilteredPrefix = labels?.grid_count_filtered_prefix || 'courses in ';
 
 const all = await reader.collections.courses.all();
@@ -192,6 +192,68 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 				}
 			</div>
 		</section>
+
+		{/* ---------- Custom courses (for companies) ----------
+		    The one B2B block on a B2C page, so it is set apart rather than
+		    folded in with the catalogue above it. */}
+		{
+			custom_courses?.heading && (
+				<section class="cc-section">
+					<div class="container">
+						<div class="cc-wrap">
+							<div class="cc-text">
+								<span class="eyebrow cc-eyebrow">{custom_courses.eyebrow}</span>
+								<h2 class="cc-title">
+									{custom_courses.heading}{' '}
+									<em>{custom_courses.heading_accent}</em>
+								</h2>
+								<p class="cc-body">{custom_courses.body}</p>
+								<a class="btn primary large" href={custom_courses.cta_url || '/contact'}>
+									{custom_courses.cta_label}
+								</a>
+							</div>
+							{custom_courses.quote && (
+								<figure class="cc-quote">
+									<blockquote>
+										{/* Split on the blank line so the two paragraphs stay two
+										    paragraphs; HTML collapses the newline otherwise. */}
+										{custom_courses.quote
+											.split(/\n\s*\n/)
+											.map((para) => (
+												<p set:html={markQuote(para.trim(), custom_courses.quote_highlight)} />
+											))}
+									</blockquote>
+									<figcaption>
+										<span class="cc-quote-author">{custom_courses.quote_author}</span>
+										{custom_courses.quote_role && (
+											<span class="cc-quote-role">{custom_courses.quote_role}</span>
+										)}
+									</figcaption>
+								</figure>
+							)}
+						</div>
+						{custom_courses.client_logos?.length > 0 && (
+							<div class="cc-logos">
+								{custom_courses.logos_label && (
+									<span class="cc-logos-label">{custom_courses.logos_label}</span>
+								)}
+								<div class="cc-logos-row">
+									{custom_courses.client_logos.map((l) => (
+										<img
+											src={l.src}
+											alt={l.name}
+											style={`height:${l.height || 22}px`}
+											loading="lazy"
+											decoding="async"
+										/>
+									))}
+								</div>
+							</div>
+						)}
+					</div>
+				</section>
+			)
+		}
 
 		{/* ---------- Featured course ---------- */}
 		{
@@ -396,132 +458,6 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 			</div>
 		</section>
 
-		{/* ---------- Outcomes band (why these courses) ---------- */}
-		{
-			whyPoints.length > 0 && (
-				<section class="outcomes-section outcomes-dark">
-					<div class="container">
-						<div class="outcomes-head">
-							{why_section.eyebrow && (
-								<div class="eyebrow eyebrow-on-dark">{why_section.eyebrow}</div>
-							)}
-							<h2 class="outcomes-heading">
-								{why_section.heading}{' '}
-								<span class="accent-italic-light">{why_section.heading_accent}</span>
-							</h2>
-							{why_section.lead && <p class="outcomes-lead">{why_section.lead}</p>}
-						</div>
-						<ul class="outcomes-grid">
-							{whyPoints.map((p, i) => (
-								<li class="outcome">
-									<div class="outcome-glyph">{String(i + 1).padStart(2, '0')}</div>
-									<div class="outcome-title">{p.title}</div>
-									<div class="outcome-body">{p.description}</div>
-								</li>
-							))}
-						</ul>
-					</div>
-				</section>
-			)
-		}
-
-		{/* ---------- Proof strip ---------- */}
-		{
-			rating?.value && (
-				<section class="proof-strip">
-					<div class="container proof-strip-inner">
-						<div class="proof-strip-stat">
-							<div class="proof-strip-num">
-								{rating.value}
-								<span class="proof-strip-unit">{rating.scale}</span>
-							</div>
-							<div class="proof-strip-stat-label">
-								{rating.value_label}<br />
-								<strong>{rating.students_value} learners</strong> on LinkedIn Learning
-							</div>
-						</div>
-						{proofQuotes.length > 0 && (
-							<div class="proof-strip-quotes">
-								{proofQuotes.map((q) => (
-									<figure class="proof-quote">
-										<blockquote class="proof-quote-text" set:html={`&ldquo;${markQuote(q.quote, q.highlight)}&rdquo;`} />
-										<figcaption class="proof-quote-who">
-											<strong>{q.author}</strong>
-											{q.roleOrCompany && (
-												<span class="proof-quote-role"> &middot; {q.roleOrCompany}</span>
-											)}
-										</figcaption>
-									</figure>
-								))}
-							</div>
-						)}
-					</div>
-				</section>
-			)
-		}
-
-		{/* ---------- Custom courses (for companies) ----------
-		    The one B2B block on a B2C page, so it is set apart rather than
-		    folded in with the catalogue above it. */}
-		{
-			custom_courses?.heading && (
-				<section class="cc-section">
-					<div class="container">
-						<div class="cc-wrap">
-							<div class="cc-text">
-								<span class="eyebrow cc-eyebrow">{custom_courses.eyebrow}</span>
-								<h2 class="cc-title">
-									{custom_courses.heading}{' '}
-									<em>{custom_courses.heading_accent}</em>
-								</h2>
-								<p class="cc-body">{custom_courses.body}</p>
-								<a class="btn primary large" href={custom_courses.cta_url || '/contact'}>
-									{custom_courses.cta_label}
-								</a>
-							</div>
-							{custom_courses.quote && (
-								<figure class="cc-quote">
-									<blockquote>
-										{/* Split on the blank line so the two paragraphs stay two
-										    paragraphs; HTML collapses the newline otherwise. */}
-										{custom_courses.quote
-											.split(/\n\s*\n/)
-											.map((para) => (
-												<p set:html={markQuote(para.trim(), custom_courses.quote_highlight)} />
-											))}
-									</blockquote>
-									<figcaption>
-										<span class="cc-quote-author">{custom_courses.quote_author}</span>
-										{custom_courses.quote_role && (
-											<span class="cc-quote-role">{custom_courses.quote_role}</span>
-										)}
-									</figcaption>
-								</figure>
-							)}
-						</div>
-						{custom_courses.client_logos?.length > 0 && (
-							<div class="cc-logos">
-								{custom_courses.logos_label && (
-									<span class="cc-logos-label">{custom_courses.logos_label}</span>
-								)}
-								<div class="cc-logos-row">
-									{custom_courses.client_logos.map((l) => (
-										<img
-											src={l.src}
-											alt={l.name}
-											style={`height:${l.height || 22}px`}
-											loading="lazy"
-											decoding="async"
-										/>
-									))}
-								</div>
-							</div>
-						)}
-					</div>
-				</section>
-			)
-		}
-
 		{/* ---------- Final CTA ---------- */}
 		<section class="courses-final-cta">
 			<div class="container narrow text-center">
@@ -568,7 +504,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 			grid.querySelectorAll<HTMLElement>('.course-card')
 		);
 
-		const labelAll = labelEl?.dataset.labelAll ?? 'courses · all categories';
+		const labelAll = labelEl?.dataset.labelAll ?? 'LinkedIn Learning courses';
 		const labelFilteredPrefix =
 			labelEl?.dataset.labelFilteredPrefix ?? 'courses in ';
 
@@ -749,7 +685,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 	.cred-star { color: var(--brand-yellow-500); font-size: 15px; }
 
 	/* ---------- featured course ---------- */
-	.featured-section { padding: clamp(40px, 5vw, 72px) 0 clamp(40px, 5vw, 80px); }
+	.featured-section { padding: clamp(24px, 3vw, 44px) 0 clamp(40px, 5vw, 80px); }
 	.featured-wide {
 		position: relative;
 		display: grid;
