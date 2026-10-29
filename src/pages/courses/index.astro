@@ -1394,11 +1394,20 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 		color: var(--ink-500);
 		margin-bottom: 12px;
 	}
+	/* space-between so the five logos sit edge to edge across the container
+	   instead of packing at the left with a gap of dead space after CASBO.
+	   gap is the floor, so they never collide once the row has to wrap. */
 	.cc-logos-row {
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
 		gap: clamp(20px, 3vw, 36px);
 		flex-wrap: wrap;
+	}
+	@media (max-width: 640px) {
+		/* Wrapped onto two lines, space-between strands the last logo alone at
+		   the left edge. Centre them once that happens. */
+		.cc-logos-row { justify-content: center; }
 	}
 	.cc-logos-row img { width: auto; opacity: 0.75; }
 
