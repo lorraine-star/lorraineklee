@@ -71,7 +71,7 @@ work_cards:
       something new, 98% say they'll take action.
     cta_label: Learn more
     cta_url: /speaking
-    image: /images/book-resources/card-speaking-stage.webp
+    image: /images/cards/card-speaking-stage.webp
   - title: Courses
     description: >-
       Live and on-demand training on LinkedIn Learning, Stanford, and
@@ -79,7 +79,7 @@ work_cards:
       stars.
     cta_label: See courses
     cta_url: /courses
-    image: /images/book-resources/card-courses-filming.webp
+    image: /images/cards/card-courses-filming.webp
   - title: Team training
     description: >-
       Team training that turns strong contributors into standout leaders.
@@ -87,4 +87,4 @@ work_cards:
       train their teams.
     cta_label: Contact Lorraine
     cta_url: /contact
-    image: /images/book-resources/card-team-training.webp
+    image: /images/cards/card-team-training.webp

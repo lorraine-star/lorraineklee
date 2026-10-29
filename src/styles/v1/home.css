@@ -1625,6 +1625,30 @@ body {
   background: var(--ink-900);
   color: var(--paper);
 }
+/* The card has no radius of its own and the dark hover fills to its edges,
+   so the image keeps a small radius to sit inside that fill rather than
+   fighting the flush dividers. */
+.fw-media {
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--ink-100, rgba(8,74,243,0.06));
+}
+.fw-media img {
+  display: block;
+  width: 100%;
+  /* The width/height attributes reserve space before load, but height="675"
+     also lands as a presentational hint that beats aspect-ratio. Without
+     height:auto the images render at their full 675px. */
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  transition: transform 420ms var(--ease-out);
+}
+.fw-card:hover .fw-media img { transform: scale(1.03); }
+@media (prefers-reduced-motion: reduce) {
+  .fw-media img { transition: none; }
+  .fw-card:hover .fw-media img { transform: none; }
+}
 .fw-card:hover .fw-desc,
 .fw-card:hover .fw-audience { color: rgba(249, 249, 249, 0.78); }
 .fw-card:hover .fw-num,
