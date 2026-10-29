@@ -260,7 +260,11 @@ const kitFormId = (page.resources_section?.kit_form_id ?? '').trim();
 		overflow: hidden;
 		background: var(--ink-900);
 	}
-	.kit-video-frame iframe {
+	/* :global is required. The iframe is created by the click handler below,
+	   so Astro never stamps it with this component's scoping attribute and a
+	   plain selector silently misses it — which left the video playing at the
+	   browser's default 300x150 in the corner of the frame. */
+	.kit-video-frame :global(iframe) {
 		position: absolute;
 		inset: 0;
 		width: 100%;

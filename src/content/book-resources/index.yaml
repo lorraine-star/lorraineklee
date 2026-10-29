@@ -67,26 +67,24 @@ work_section:
 work_cards:
   - title: Speaking
     description: >-
-      Lorraine is a highly sought-after keynote speaker. She has received rave
-      reviews from Fortune 500 companies to startups for her engaging
-      presentations and actionable advice.
+      Keynotes and fireside chats that drive action. 100% of attendees learn
+      something new, 98% say they'll take action.
     cta_label: Learn more
     cta_url: /speaking
     image: /images/book-resources/card-speaking.webp
   - title: Courses
     description: >-
-      Lorraine teaches popular courses with LinkedIn Learning (20+ courses
-      published) and Stanford Continuing Studies. Watch her courses and gain
-      valuable career, management, and leadership skills you can immediately
-      implement.
+      Live and on-demand training on LinkedIn Learning, Stanford, and
+      MasterClass. 500,000+ LinkedIn Learning students, with courses rated 4.7+
+      stars.
     cta_label: See courses
     cta_url: /courses
     image: /images/book-resources/card-courses-new.webp
   - title: Team training
     description: >-
-      Bring Lorraine in to train your team on communication, executive
-      presence, and career brand building. Amazon, Google, Cisco, and LinkedIn
-      have all brought her in to work with their people.
+      Team training that turns strong contributors into standout leaders.
+      Amazon, Google, Cisco, LinkedIn, and 1Password have all brought her in to
+      train their teams.
     cta_label: Contact Lorraine
     cta_url: /contact
     image: /images/book-resources/card-team-training.webp
