@@ -153,7 +153,13 @@ const kitFormId = (page.resources_section?.kit_form_id ?? '').trim();
 				}
 				<h2>{page.author_section?.book_title}</h2>
 				{page.author_section?.book_subtitle && <p class="kit-book-sub">{page.author_section.book_subtitle}</p>}
-				<p>{page.author_section?.bio}</p>
+				{/* Split on the blank line: the bio is several paragraphs and HTML
+				    collapses the newline, so it rendered as one block. */}
+				{(page.author_section?.bio ?? '')
+					.split(/\n\s*\n/)
+					.map((para) => para.trim())
+					.filter(Boolean)
+					.map((para) => <p>{para}</p>)}
 			</div>
 		</div>
 	</section>
@@ -375,6 +381,10 @@ const kitFormId = (page.resources_section?.kit_form_id ?? '').trim();
 	}
 	.kit-author-copy {
 		grid-column: 6 / -1;
+	}
+	/* The bio runs to five paragraphs, so they need air between them. */
+	.kit-author-copy p + p {
+		margin-top: 14px;
 	}
 	.kit-book-sub {
 		color: var(--ink-500);

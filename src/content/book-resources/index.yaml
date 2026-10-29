@@ -37,16 +37,29 @@ author_section:
   book_title: Unforgettable Presence
   book_subtitle: Get Seen, Gain Influence, and Catapult Your Career
   bio: >-
-    Lorraine K. Lee is a keynote speaker and the bestselling author of
-    Unforgettable Presence: Get Seen, Gain Influence, and Catapult Your Career
-    (Wiley). She also teaches popular courses at Stanford Continuing Studies and
-    LinkedIn Learning. She is passionate about empowering leaders to elevate
-    their presence, influence, and impact. Her frameworks have been adopted by
-    globally recognized organizations like Zoom, Amazon, Cisco, and McKinsey &
-    Company. Lorraine is recognized as a LinkedIn Top Voice with hundreds of
-    thousands of followers, and previously spent over a decade as a founding
-    editor at companies including LinkedIn and Prezi. Her insights are featured
-    in top media outlets including CNBC, Bloomberg, and Fast Company.
+    Lorraine K. Lee is an award-winning keynote speaker and the bestselling
+    author of Unforgettable Presence® — a Next Big Idea Club must-read, a #1
+    Amazon bestseller, and named a top career book by Entrepreneur magazine.
+
+
+    She's on a mission to help talented professionals build an unforgettable
+    presence — so they get recognized, get promoted, and become impossible to
+    overlook. She has spoken at Fortune 500 companies and organizations
+    including Zoom, Amazon, Cisco, and McKinsey & Company.
+
+
+    With over 340,000 LinkedIn followers and recognition as a LinkedIn Top
+    Voice in workplace communication and presence, Lorraine's reach extends
+    beyond the stage. She's taught at MasterClass, Stanford Continuing Studies,
+    and LinkedIn Learning, where she's reached over half a million learners.
+
+
+    Before starting her own company, Lorraine spent over a decade in tech,
+    including as a founding editor at LinkedIn. Lorraine has been featured in
+    media outlets including CNBC, CNN, Bloomberg, and Financial Times.
+
+
+    She received her BSJ from Northwestern's Medill School of Journalism.
   photo: /images/book-resources/about-the-author.webp
 work_section:
   eyebrow: Work with me
@@ -68,7 +81,7 @@ work_cards:
       implement.
     cta_label: See courses
     cta_url: /courses
-    image: /images/book-resources/card-courses.webp
+    image: /images/book-resources/card-courses-new.webp
   - title: Team training
     description: >-
       Bring Lorraine in to train your team on communication, executive
@@ -76,4 +89,4 @@ work_cards:
       have all brought her in to work with their people.
     cta_label: Contact Lorraine
     cta_url: /contact
-    image: /images/book-resources/card-custom-programs.webp
+    image: /images/book-resources/card-team-training.webp
