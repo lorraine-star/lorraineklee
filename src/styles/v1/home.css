@@ -4,6 +4,15 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
+
+/* An <img> with width/height attributes gets those as presentational hints.
+   The height hint beats `aspect-ratio` in CSS, so a responsive image sized by
+   aspect-ratio renders at its full intrinsic height unless height is reset
+   here. Any rule with a class still overrides this, so fixed-height logos and
+   inline `style="height:22px"` are unaffected. Keep the attributes on images:
+   they are what reserves layout space before the file loads. */
+img, svg, video { max-width: 100%; }
+img, video { height: auto; }
 body {
   font-family: var(--font-sans);
   color: var(--ink-700);
@@ -1658,12 +1667,19 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+/* Serif italic rather than the mono numerals these started as: JetBrains Mono
+   with wide tracking read as a code comment next to photos of people. The
+   italic picks up the "partner together" accent in the heading above. */
 .fw-num {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  color: var(--fg-muted);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 19px;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--accent);
+  opacity: 0.55;
 }
+.fw-card:hover .fw-num { opacity: 1; }
 .fw-arrow {
   font-size: 16px;
   color: var(--fg-muted);

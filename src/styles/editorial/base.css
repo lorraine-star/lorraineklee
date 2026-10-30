@@ -5,6 +5,15 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
+
+/* An <img> with width/height attributes gets those as presentational hints.
+   The height hint beats `aspect-ratio` in CSS, so a responsive image sized by
+   aspect-ratio renders at its full intrinsic height unless height is reset
+   here. Any rule with a class still overrides this, so fixed-height logos and
+   inline `style="height:22px"` are unaffected. Keep the attributes on images:
+   they are what reserves layout space before the file loads. */
+img, svg, video { max-width: 100%; }
+img, video { height: auto; }
 body {
   font-family: var(--font-sans);
   color: var(--ink-700);

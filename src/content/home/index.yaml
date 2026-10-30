@@ -55,16 +55,15 @@ four_ways:
     audience: For individuals
     heading: Courses
     blurb: >-
-      Live and on-demand training on LinkedIn Learning, Stanford, and
-      MasterClass. 500,000+ LinkedIn Learning students, with courses rated 4.7+
-      stars.
+      Courses on LinkedIn Learning, Stanford, and MasterClass — 500,000+ LinkedIn
+      Learning students, rated 4.7+ stars. Companies and platforms also license
+      our courses or have us build custom ones.
   column_4:
     audience: For L&D teams
     heading: Team training
     blurb: >-
-      Team training that turns strong contributors into standout leaders.
-      Amazon, Google, Cisco, LinkedIn, and 1Password have all brought me in to
-      train their teams.
+      Team training that turns strong contributors into standout leaders. We've
+      trained teams at Amazon, Google, Cisco, LinkedIn, and 1Password.
 banner:
   enabled: true
   prefix: From
