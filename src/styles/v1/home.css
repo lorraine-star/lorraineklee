@@ -1586,8 +1586,10 @@ body {
 
 /* ---------- Four ways into the work (slim) ---------- */
 .four-ways {
-  /* Anchored to the shared `.section--tight` scale (CLI-123 + CLI-104). */
-  padding: clamp(32px, 4vw, 56px) 0;
+  /* Top stays on the shared `.section--tight` scale (CLI-123 + CLI-104).
+     The bottom is trimmed: the grid already closes with a rule, so the full
+     scale stacked against .book-promo's own top padding for ~92px of gap. */
+  padding: clamp(32px, 4vw, 56px) 0 clamp(10px, 1.2vw, 18px);
   background: var(--paper);
 }
 .four-ways-head {
