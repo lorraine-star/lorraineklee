@@ -1,0 +1,97 @@
+---
+/*
+ * The looping clip of Lorraine delivering a talk, on the speaking page.
+ *
+ * These were animated WebP, which is a flipbook of full frames: the nine clips
+ * came to 12.2MB, and the largest was 1.8MB for six seconds. The same footage
+ * as H.264/VP9 is roughly a tenth of that, because video codecs encode the
+ * difference between frames rather than every frame whole.
+ *
+ * The WebP is kept as the final fallback inside <video>, so a browser that
+ * cannot play either source still shows the animation it showed before.
+ *
+ * Nothing is fetched until the card is near the viewport. `preload="none"`
+ * alone is not enough -- `autoplay` makes a browser start loading anyway -- so
+ * the sources are held in data-src and swapped in by the observer below. That
+ * reproduces what loading="lazy" did for the old <img>.
+ */
+interface Props {
+  /** Path to the animated WebP, e.g. /images/speaking/keynotes/tea-method.webp */
+  src: string;
+  alt: string;
+}
+
+const { src, alt } = Astro.props;
+
+const base = src.replace(/\.webp$/, '');
+const mp4 = `${base}.mp4`;
+const webm = `${base}.webm`;
+const poster = `${base}-poster.webp`;
+---
+
+<div class="topic-media">
+  <video
+    class="topic-clip"
+    data-talk-clip
+    muted
+    loop
+    playsinline
+    preload="none"
+    poster={poster}
+    width="600"
+    height="338"
+    aria-label={alt}
+  >
+    <source data-src={webm} type="video/webm" />
+    <source data-src={mp4} type="video/mp4" />
+    {/* Last resort: the original animation, for a browser that plays neither. */}
+    <img src={src} alt={alt} width="600" height="338" loading="lazy" decoding="async" />
+  </video>
+</div>
+
+<style>
+  .topic-clip {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+</style>
+
+<script>
+  /*
+   * Load and play each clip only once it is close to the viewport, and only
+   * for viewers who have not asked for reduced motion. With reduced motion the
+   * poster frame stays, which is better than the old WebP managed: an animated
+   * image plays regardless of that preference.
+   */
+  const clips = document.querySelectorAll<HTMLVideoElement>('[data-talk-clip]');
+  if (clips.length) {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    const load = (video: HTMLVideoElement) => {
+      if (video.dataset.loaded) return;
+      video.dataset.loaded = 'true';
+      video.querySelectorAll<HTMLSourceElement>('source[data-src]').forEach((s) => {
+        s.src = s.dataset.src!;
+      });
+      video.load();
+      // play() rejects if the browser blocks autoplay; the poster then stays.
+      video.play().catch(() => {});
+    };
+
+    if (!reduceMotion.matches) {
+      const io = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            load(entry.target as HTMLVideoElement);
+            obs.unobserve(entry.target);
+          });
+        },
+        { rootMargin: '200px' }
+      );
+      clips.forEach((c) => io.observe(c));
+    }
+  }
+</script>

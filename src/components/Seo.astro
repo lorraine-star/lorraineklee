@@ -18,6 +18,15 @@ interface Props {
   type?: string;
   /** Set true to keep this page out of search engines. */
   noindex?: boolean;
+  /** Alt text for the social share image. */
+  imageAlt?: string;
+  /**
+   * Breadcrumb trail for this page, nearest ancestor first, excluding Home
+   * and excluding the page itself: e.g. [{ name: 'Courses', path: '/courses' }].
+   * Renders BreadcrumbList JSON-LD, which search engines use for the
+   * breadcrumb line in results and assistants use to place a page in the site.
+   */
+  breadcrumbs?: { name: string; path: string }[];
 }
 
 const {
@@ -25,11 +34,21 @@ const {
   description,
   image = '/images/og-default.jpg',
   type = 'website', noindex = false,
+  imageAlt = 'Lorraine K. Lee speaking on stage',
+  breadcrumbs = [],
 } = Astro.props;
 
 const site = Astro.site ?? new URL('https://lorraineklee.com');
 const canonical = new URL(Astro.url.pathname, site).href;
 const imageURL = new URL(image, site).href;
+/*
+ * og:image:width/height help a scraper lay out the card before the file
+ * downloads, but only the default image's dimensions are known here. Stating
+ * 1200x630 for a page that passed its own image would be wrong, so the tags
+ * are emitted only for the default.
+ */
+const OG_DEFAULT = '/images/og-default.jpg';
+const isDefaultImage = image === OG_DEFAULT;
 
 const person = {
   '@context': 'https://schema.org',
@@ -79,24 +98,89 @@ const website = {
   '@type': 'WebSite',
   name: 'Lorraine K. Lee',
   url: site.origin,
+  publisher: { '@id': `${site.origin}/#organization` },
+};
+
+/*
+ * The business behind the site. Person schema alone describes Lorraine; this
+ * describes RISE Learning Solutions, so an assistant asked "who runs this" or
+ * "is this a company" has something to answer with, and the services are
+ * named rather than inferred from page copy.
+ */
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${site.origin}/#organization`,
+  name: 'RISE Learning Solutions',
+  alternateName: 'Lorraine K. Lee',
+  url: site.origin,
+  logo: new URL('/images/og-default.jpg', site).href,
+  founder: { '@type': 'Person', name: 'Lorraine K. Lee' },
+  areaServed: 'Worldwide',
+  description:
+    'RISE Learning Solutions delivers keynotes, team training, and courses on executive presence and communication for managers and high-potential employees.',
+  knowsAbout: person.knowsAbout,
+  sameAs: person.sameAs,
+};
+
+const breadcrumbList = breadcrumbs.length > 0 && {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { name: 'Home', path: '/' },
+    ...breadcrumbs,
+    { name: title, path: Astro.url.pathname },
+  ].map((crumb, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: crumb.name,
+    item: new URL(crumb.path, site).href,
+  })),
 };
 ---
 
 <link rel="canonical" href={canonical} />
 
-{noindex && <meta name="robots" content="noindex" />}
+{
+  /*
+   * Without max-snippet/max-image-preview, Google caps how much of a page it
+   * may quote and shows only a thumbnail. The large-preview and unlimited
+   * snippet directives are what allow full-size images in results and longer
+   * pull-quotes in AI Overviews, which is how this site gets cited rather
+   * than just linked.
+   */
+  noindex ? (
+    <meta name="robots" content="noindex, follow" />
+  ) : (
+    <meta
+      name="robots"
+      content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    />
+  )
+}
 
 <meta property="og:type" content={type} />
 <meta property="og:site_name" content="Lorraine K. Lee" />
+<meta property="og:locale" content="en_US" />
 <meta property="og:title" content={title} />
 {description && <meta property="og:description" content={description} />}
 <meta property="og:url" content={canonical} />
 <meta property="og:image" content={imageURL} />
+<meta property="og:image:alt" content={imageAlt} />
+{isDefaultImage && <meta property="og:image:width" content="1200" />}
+{isDefaultImage && <meta property="og:image:height" content="630" />}
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 {description && <meta name="twitter:description" content={description} />}
 <meta name="twitter:image" content={imageURL} />
+<meta name="twitter:image:alt" content={imageAlt} />
+
+<meta name="author" content="Lorraine K. Lee" />
 
 <script type="application/ld+json" set:html={JSON.stringify(person)} />
+<script type="application/ld+json" set:html={JSON.stringify(organization)} />
 <script type="application/ld+json" set:html={JSON.stringify(website)} />
+{breadcrumbList && (
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbList)} />
+)}

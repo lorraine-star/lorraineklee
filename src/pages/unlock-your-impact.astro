@@ -1,5 +1,40 @@
 ---
 import FunnelLayout from '../layouts/FunnelLayout.astro';
+
+/*
+ * The FAQ below, as structured data. Every question and answer is copied
+ * verbatim from the markup further down -- if you edit one, edit both, or the
+ * schema misrepresents the page. This is what lets the answers appear as a
+ * rich result and be quoted by an assistant asked about the course.
+ */
+const faq = [
+  {
+    q: 'Is there a live component to this course?',
+    a: "No, this version is all self-paced video! It has the same frameworks as the live cohort, just without the live coaching.",
+  },
+  {
+    q: 'Can my company pay for it?',
+    a: "Yes! You can use the free intro route, or expense the $147 if that's easier.",
+  },
+  {
+    q: "What if it's not a fit?",
+    a: "If you bought the course and it's not the right fit, email us within 14 days of purchase and we'll happily refund you in full.",
+  },
+  {
+    q: 'How fast do I get access after an intro?',
+    a: 'Within 24 hours of the intro coming through!',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+};
 import '../styles/uyi.css';
 ---
 <FunnelLayout noindex={false} title="Unlock Your Impact | Lorraine K. Lee" description="A self-paced video course to get recognized for the work you do.">
@@ -333,6 +368,7 @@ Thanks!
   <a class="free" href="https://lorraineklee.kit.com/products/unlock-your-impact?step=checkout">Or buy, $147</a>
 </div>
 </div>
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 </FunnelLayout>
 <script is:inline>
 

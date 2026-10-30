@@ -6,3 +6,7 @@ User-agent: *
 Allow: /
 
 Sitemap: https://www.lorraineklee.com/sitemap-index.xml
+
+# Plain-language summary of the site for AI assistants and answer engines.
+# Not a standard directive -- crawlers that do not know it ignore the line.
+LLM-Content: https://www.lorraineklee.com/llms.txt
