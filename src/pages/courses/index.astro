@@ -102,22 +102,21 @@ const finalCtaUrl = safeUrl(final_cta.cta_url, '/from-invisible-to-influential/'
 /*
  * Where a course card points.
  *
- * The grid goes to the on-site detail page, not straight out to LinkedIn
- * Learning. Every course already has a detail page carrying its description
- * and a "Watch on LinkedIn Learning" button, so the destination is one click
- * further but on this site -- and previously those 23 pages had no inbound
- * link at all, so search engines found them only through the sitemap and no
- * internal authority reached them.
+ * The grid card goes straight to LinkedIn Learning, because that is where the
+ * visitor wants to end up and making them pass through a description page
+ * first is a click that buys them nothing.
  *
- * `url` stays on the course entry: the detail page's own CTA reads it, so it
- * must not be cleared in Keystatic to change this behaviour.
+ * Each card also carries a small "Course details" link to the on-site page, so
+ * those 23 pages keep an inbound link. Without one they are reachable only
+ * through the sitemap, no internal authority flows to them, and the course
+ * descriptions -- the only topic-specific writing on the site -- stay
+ * invisible to search.
+ *
+ * `url` stays on the course entry: both this card and the detail page's own
+ * CTA read it, so it must not be cleared in Keystatic.
  */
 const courseHref = (c: { slug: string }) => `/courses/${c.slug}`;
 
-/*
- * The featured course keeps its direct link. Its button says "Start this
- * course", which promises the course itself rather than a page about it.
- */
 const courseExternalHref = (c: { url?: string | null; slug: string }) =>
 	safeUrl(c.url, `/courses/${c.slug}`);
 
@@ -440,16 +439,10 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 				<div class="course-grid" data-course-grid>
 					{
 						hubCourses.map((c) => {
-							const url = courseHref(c);
+							const url = courseExternalHref(c);
 							const ext = isExternal(url);
 							return (
-								<a
-									class="course-card"
-									data-category={c.category}
-									href={url}
-									target={ext ? '_blank' : undefined}
-									rel={ext ? 'noopener noreferrer' : undefined}
-								>
+								<div class="course-card" data-category={c.category}>
 									<div class="thumb">
 										{c.thumbnail ? (
 											<img class="thumb-img" src={c.thumbnail} alt="" loading="lazy" />
@@ -471,13 +464,31 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 												</>
 											)}
 										</div>
-										<h3 class="course-card-title">{c.title}</h3>
+										<h3 class="course-card-title">
+											{/* Stretched via ::after below, so the whole card is clickable
+											    while the details link below stays separately clickable. */}
+											<a
+												class="course-link"
+												href={url}
+												target={ext ? '_blank' : undefined}
+												rel={ext ? 'noopener noreferrer' : undefined}
+											>
+												{c.title}
+											</a>
+										</h3>
 										<p class="course-card-summary">{c.description}</p>
 										<div class="course-card-foot">
 											<span class="course-cta">{labels?.view_course || 'View course'}</span>
+											<a
+												class="course-details"
+												href={courseHref(c)}
+												aria-label={`Course details: ${c.title}`}
+											>
+												Details
+											</a>
 										</div>
 									</div>
-								</a>
+								</div>
 							);
 						})
 					}
@@ -944,6 +955,7 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 
 	/* ---------- course card ---------- */
 	.course-card {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		background: #fff;
@@ -955,6 +967,35 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 		text-decoration: none;
 		color: inherit;
 		height: 100%;
+	}
+	/* The card is a <div> so the "Details" link can sit inside it without
+	   nesting one anchor in another. The title link covers the card instead. */
+	.course-link {
+		text-decoration: none;
+		color: inherit;
+	}
+	.course-link::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+	}
+	.course-details {
+		position: relative;
+		z-index: 2;
+		font-family: var(--font-sans);
+		font-size: 12px;
+		font-weight: 600;
+		letter-spacing: .04em;
+		color: var(--ink-500);
+		text-decoration: none;
+		border-bottom: 1px solid transparent;
+		transition: color 200ms var(--ease-out), border-color 200ms var(--ease-out);
+	}
+	.course-details:hover,
+	.course-details:focus-visible {
+		color: var(--accent);
+		border-bottom-color: currentColor;
 	}
 	.course-card[hidden] { display: none !important; }
 	.course-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
