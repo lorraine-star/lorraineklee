@@ -321,6 +321,17 @@ body {
   transition: transform 240ms var(--ease-out), background 240ms var(--ease-out), box-shadow 240ms var(--ease-out), color 240ms var(--ease-out);
   white-space: nowrap;
 }
+/* `nowrap` above keeps short labels on one line, but a long CTA — the book
+   page's "I'm ready to become unforgettable" is 388px — then grows wider than
+   a phone and makes the whole page scroll sideways. Below the fold of a narrow
+   screen, let the label wrap instead. */
+@media (max-width: 560px) {
+  .btn {
+    white-space: normal;
+    max-width: 100%;
+    text-align: center;
+  }
+}
 .btn:hover { transform: translateY(-2px); }
 .btn:active { transform: translateY(0) scale(0.98); }
 .btn:focus-visible {
