@@ -3298,7 +3298,7 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   color: var(--ink-900);
 }
 .talk-page-track li .t-time {
-  font-family: var(--font-mono, var(--font-sans));
+  font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.04em;

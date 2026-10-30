@@ -1151,7 +1151,8 @@ body {
 }
 .free-course-popup__meta {
   margin: 0;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
+  font-weight: 600;
   font-size: 10.5px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1538,7 +1539,8 @@ body {
 }
 .book-blockquote footer {
   margin-top: 12px;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
+  font-weight: 600;
   font-style: normal;
   font-size: 11px;
   letter-spacing: 0.06em;
