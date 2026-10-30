@@ -3869,6 +3869,27 @@ export default config({
           publicPath: '/images/v1/courses/',
         }),
         duration: fields.text({ label: 'Duration (optional)' }),
+        /*
+         * What the course covers, lesson by lesson. Shown on the /courses/[slug]
+         * detail page under "What you'll learn".
+         *
+         * Seeded from each course's own LinkedIn Learning page, which is where
+         * this copy was written in the first place. It is editable here, and
+         * nothing re-fetches it: if a course is re-recorded, update it here.
+         *
+         * A single-lesson entry is normal. Full-length courses list every
+         * lesson; the one-sitting courses carry a single course-level outcome.
+         */
+        lessons: fields.array(
+          fields.object({
+            title: fields.text({ label: 'Lesson title' }),
+            description: fields.text({ label: 'What it covers', multiline: true }),
+          }),
+          {
+            label: "What you'll learn",
+            itemLabel: (props) => props.fields.title.value || 'Lesson',
+          }
+        ),
         show_on_hub: fields.checkbox({
           label: 'Show on the /courses hub',
           description:

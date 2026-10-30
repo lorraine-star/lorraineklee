@@ -17,6 +17,17 @@ const courseUrl = safeUrl(course.url);
 const coursesPage = await reader.singletons.coursesPage.read();
 const labels = coursesPage?.labels;
 const backUrl = safeUrl(labels?.detail_back_url, '/courses');
+
+/*
+ * The lesson list is what makes this page worth landing on: without it the
+ * page is a headline, one sentence and a button, which is less than the card
+ * the visitor just clicked. See keystatic.config.ts for where it comes from.
+ *
+ * A course with a single entry gets a paragraph rather than a list, because a
+ * one-item list reads as a mistake.
+ */
+const lessons = (course.lessons ?? []).filter((l) => l?.title);
+const singleLesson = lessons.length === 1;
 ---
 
 <SpeakingLayout
@@ -59,4 +70,102 @@ const backUrl = safeUrl(labels?.detail_back_url, '/courses');
 			</div>
 		</div>
 	</section>
+
+	{
+		lessons.length > 0 && (
+			<section class="course-syllabus">
+				<div class="grid12">
+					<div class="course-syllabus-inner fade-up">
+						<h2>{singleLesson ? "What you'll take away" : "What you'll learn"}</h2>
+						{singleLesson ? (
+							<p class="course-syllabus-single">{lessons[0].description || lessons[0].title}</p>
+						) : (
+							<ol class="course-lessons">
+								{lessons.map((l) => (
+									<li class="course-lesson">
+										<h3>{l.title}</h3>
+										{l.description && <p>{l.description}</p>}
+									</li>
+								))}
+							</ol>
+						)}
+						{courseUrl && (
+							<a
+								class="btn primary"
+								href={courseUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								{labels?.detail_watch_cta || 'Watch on LinkedIn Learning'}
+							</a>
+						)}
+					</div>
+				</div>
+			</section>
+		)
+	}
 </SpeakingLayout>
+
+<style>
+	.course-syllabus {
+		padding: clamp(28px, 4vw, 56px) 0 clamp(48px, 6vw, 80px);
+	}
+	.course-syllabus-inner {
+		grid-column: 3 / span 8;
+	}
+	.course-syllabus-inner h2 {
+		margin: 0 0 clamp(18px, 2.5vw, 28px);
+	}
+	.course-syllabus-single {
+		margin: 0 0 28px;
+		font-size: 17px;
+		line-height: 1.65;
+		color: var(--ink-700);
+	}
+	/* Numbered by CSS so the figure can be styled apart from the text, and so
+	   the list stays an <ol>: these lessons run in order. */
+	.course-lessons {
+		list-style: none;
+		margin: 0 0 clamp(28px, 3vw, 40px);
+		padding: 0;
+		counter-reset: lesson;
+	}
+	.course-lesson {
+		counter-increment: lesson;
+		position: relative;
+		padding: 0 0 18px 46px;
+		margin-bottom: 18px;
+		border-bottom: 1px solid var(--border-soft);
+	}
+	.course-lesson:last-child {
+		border-bottom: 0;
+	}
+	.course-lesson::before {
+		content: counter(lesson, decimal-leading-zero);
+		position: absolute;
+		left: 0;
+		top: 2px;
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-size: 19px;
+		color: var(--accent);
+		opacity: 0.55;
+	}
+	.course-lesson h3 {
+		margin: 0 0 6px;
+		font-size: 16.5px;
+		line-height: 1.35;
+	}
+	.course-lesson p {
+		margin: 0;
+		font-size: 15px;
+		line-height: 1.6;
+		color: var(--ink-700);
+	}
+	@media (max-width: 900px) {
+		.course-syllabus-inner { grid-column: 1 / -1; }
+	}
+	@media (max-width: 560px) {
+		.course-lesson { padding-left: 36px; }
+	}
+</style>
