@@ -99,9 +99,26 @@ const isExternal = (url: string) => /^https?:\/\//i.test(url);
 const linkedinUrl = safeUrl(hero.primary_cta_url, 'https://www.linkedin.com/learning/instructors/lorraine-lee');
 const finalCtaUrl = safeUrl(final_cta.cta_url, '/from-invisible-to-influential/');
 
-// Resolve a course link: prefer the external LinkedIn Learning URL, fall back
-// to the on-site detail page.
-const courseHref = (c: { url?: string | null; slug: string }) =>
+/*
+ * Where a course card points.
+ *
+ * The grid goes to the on-site detail page, not straight out to LinkedIn
+ * Learning. Every course already has a detail page carrying its description
+ * and a "Watch on LinkedIn Learning" button, so the destination is one click
+ * further but on this site -- and previously those 23 pages had no inbound
+ * link at all, so search engines found them only through the sitemap and no
+ * internal authority reached them.
+ *
+ * `url` stays on the course entry: the detail page's own CTA reads it, so it
+ * must not be cleared in Keystatic to change this behaviour.
+ */
+const courseHref = (c: { slug: string }) => `/courses/${c.slug}`;
+
+/*
+ * The featured course keeps its direct link. Its button says "Start this
+ * course", which promises the course itself rather than a page about it.
+ */
+const courseExternalHref = (c: { url?: string | null; slug: string }) =>
 	safeUrl(c.url, `/courses/${c.slug}`);
 
 const whyPoints = why_section?.points ?? [];
@@ -294,9 +311,9 @@ const proofQuotes = (await getTestimonials({ placement: 'courses' })).slice(0, 2
 								<div class="featured-ctas">
 									<a
 										class="btn primary large"
-										href={courseHref(featured)}
-										target={isExternal(courseHref(featured)) ? '_blank' : undefined}
-										rel={isExternal(courseHref(featured)) ? 'noopener noreferrer' : undefined}
+										href={courseExternalHref(featured)}
+										target={isExternal(courseExternalHref(featured)) ? '_blank' : undefined}
+										rel={isExternal(courseExternalHref(featured)) ? 'noopener noreferrer' : undefined}
 									>
 										{labels?.start_this_course || 'Start this course'}
 									</a>
