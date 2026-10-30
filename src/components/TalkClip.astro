@@ -7,8 +7,13 @@
  * as H.264/VP9 is roughly a tenth of that, because video codecs encode the
  * difference between frames rather than every frame whole.
  *
+ * H.264/MP4 only, no WebM: VP9 encoded these 1.4-2.2x LARGER than H.264 on
+ * every clip, because the footage is short, low-motion and already 600px
+ * wide, which is where VP9's advantage disappears. H.264 also plays
+ * everywhere, so a second source would cost bytes and buy nothing.
+ *
  * The WebP is kept as the final fallback inside <video>, so a browser that
- * cannot play either source still shows the animation it showed before.
+ * cannot play the video still shows the animation it showed before.
  *
  * Nothing is fetched until the card is near the viewport. `preload="none"`
  * alone is not enough -- `autoplay` makes a browser start loading anyway -- so
@@ -25,7 +30,6 @@ const { src, alt } = Astro.props;
 
 const base = src.replace(/\.webp$/, '');
 const mp4 = `${base}.mp4`;
-const webm = `${base}.webm`;
 const poster = `${base}-poster.webp`;
 ---
 
@@ -42,7 +46,6 @@ const poster = `${base}-poster.webp`;
     height="338"
     aria-label={alt}
   >
-    <source data-src={webm} type="video/webm" />
     <source data-src={mp4} type="video/mp4" />
     {/* Last resort: the original animation, for a browser that plays neither. */}
     <img src={src} alt={alt} width="600" height="338" loading="lazy" decoding="async" />
@@ -50,10 +53,12 @@ const poster = `${base}-poster.webp`;
 </div>
 
 <style>
+  /* Mirrors `.topic-media img` in editorial/templates.css: the container is a
+     fixed 16/9 box, so the clip fills it and crops rather than letterboxing. */
   .topic-clip {
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
     object-fit: cover;
   }
 </style>

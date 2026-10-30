@@ -4,6 +4,7 @@ import HomeTestimonialsCarousel from '../components/HomeTestimonialsCarousel';
 import SpeakingAttendeeQuotes from '../components/SpeakingAttendeeQuotes.astro';
 import TrustAsSeenIn from '../components/TrustAsSeenIn.astro';
 import TalkTitleCard from '../components/TalkTitleCard.astro';
+import TalkClip from '../components/TalkClip.astro';
 import { reader } from '../lib/keystatic';
 import { getTestimonials, toCarouselCard, toColumnCard } from '../lib/testimonials';
 import { safeUrl, toEmbedUrl } from '../lib/url';
@@ -311,16 +312,7 @@ const cardEyebrow = (format?: string | null) =>
 								    which sells it better than a title card. Talks without
 								    one fall back to the branded card. */}
 								{t.gif ? (
-									<div class="topic-media">
-										<img
-											src={t.gif}
-											alt={t.gif_alt || t.title}
-											width="600"
-											height="338"
-											loading="lazy"
-											decoding="async"
-										/>
-									</div>
+									<TalkClip src={t.gif} alt={t.gif_alt || t.title} />
 								) : (
 									<TalkTitleCard
 										title={t.title}
@@ -448,16 +440,7 @@ const cardEyebrow = (format?: string | null) =>
 									    Lorraine delivering the talk, and fall back to the
 									    branded card for any talk without one. */}
 									{talk.gif ? (
-										<div class="topic-media">
-											<img
-												src={talk.gif}
-												alt={talk.gif_alt || talk.title}
-												width="600"
-												height="338"
-												loading="lazy"
-												decoding="async"
-											/>
-										</div>
+										<TalkClip src={talk.gif} alt={talk.gif_alt || talk.title} />
 									) : (
 										<TalkTitleCard
 											title={talk.title}
