@@ -23,7 +23,7 @@ interface Props {
 const {
   title,
   description,
-  image = '/images/about/lorraine-hero.jpg',
+  image = '/images/og-default.jpg',
   type = 'website', noindex = false,
 } = Astro.props;
 
@@ -36,7 +36,7 @@ const person = {
   '@type': 'Person',
   name: 'Lorraine K. Lee',
   url: site.origin,
-  image: new URL('/images/about/lorraine-hero.jpg', site).href,
+  image: new URL('/images/og-default.jpg', site).href,
   jobTitle: 'Keynote speaker, author, and instructor',
   description:
     'Keynote speaker, LinkedIn Learning instructor, and author of Unforgettable Presence®, helping professionals and teams build executive presence and get recognized for their work.',
