@@ -42,22 +42,18 @@ interface Props {
 
 const { variant = 'default' } = Astro.props;
 
-const DEFAULT_PRESS_LOGOS = [
-  { id: 'inc', name: 'Inc.', src: '/images/v1/press/inc.svg', scale: 1 },
-  { id: 'bloomberg', name: 'Bloomberg', src: '/images/v1/press/bloomberg.svg', scale: 1 },
-  { id: 'fast-company', name: 'Fast Company', src: '/images/v1/press/fast-company.png', scale: 1 },
-  { id: 'cnbc', name: 'CNBC', src: '/images/v1/press/cnbc-cropped.png', scale: 1.3 },
-  { id: 'business-insider', name: 'Business Insider', src: '/images/v1/press/business-insider.svg', scale: 1 },
-  { id: 'cnn', name: 'CNN', src: '/images/v1/press/cnn.svg', scale: 1 },
-  { id: 'nbc4', name: 'NBC 4', src: '/images/v1/press/nbc4.svg', scale: 1.4 },
-];
 
 const settings = await reader.singletons.siteSettings.read();
-const configuredLogos = (settings?.press?.logos ?? []).filter(
+/*
+ * There used to be a hardcoded fallback lineup here for when the CMS list was
+ * empty. Its seven image files had been deleted, so the "safe" path rendered
+ * seven broken images -- the same trap as the og:image that 404'd on 47 pages.
+ * A trust strip with nothing to show is better left out, so the section now
+ * renders only when logos are configured.
+ */
+const pressLogos = (settings?.press?.logos ?? []).filter(
   (logo) => logo.id && logo.src
 );
-const pressLogos =
-  configuredLogos.length > 0 ? configuredLogos : DEFAULT_PRESS_LOGOS;
 const eyebrow = settings?.press?.eyebrow || 'As Seen In';
 
 /**
@@ -98,6 +94,7 @@ const scaleStyle = (scale: unknown) => {
 };
 ---
 
+{pressLogos.length > 0 && (
 <section
   class:list={['trust', 'as-seen-in', variant === 'editorial' && 'editorial-trust']}
   data-global-section="trust-as-seen-in"
@@ -128,6 +125,7 @@ const scaleStyle = (scale: unknown) => {
     </div>
   </div>
 </section>
+)}
 
 <style is:global>
   /* TrustAsSeenIn — the only definition of the trust strip styles. Every page
