@@ -150,8 +150,12 @@ const finalCtaUrl = cleanUrl(final_cta.cta_url) || '/contact';
 									</div>
 									<h3 class="fi-h-title">{a.title}</h3>
 									{a.description && <p class="fi-desc">{a.description}</p>}
+									{/* The date is deliberately not printed: a 2020 feature
+									    sitting next to a 2026 one makes the whole page look
+									    stale. Same reasoning as the guest appearances on
+									    /media. The field stays in Keystatic as editorial
+									    reference. */}
 									<div class="fi-foot">
-										{a.date && <span class="fi-date">{a.date}</span>}
 										{a.href && (
 											<span class="fi-cta">
 												{a.ctaLabel} <span aria-hidden="true">&#8599;</span>
@@ -226,7 +230,6 @@ const finalCtaUrl = cleanUrl(final_cta.cta_url) || '/contact';
 							<h3 class="fi-title">{a.title}</h3>
 							{a.description && <p class="fi-desc">{a.description}</p>}
 							<div class="fi-foot">
-								{a.date && <span class="fi-date">{a.date}</span>}
 								{a.href && (
 									<span class="fi-cta">
 										{a.ctaLabel} <span aria-hidden="true">&#8599;</span>
@@ -347,11 +350,6 @@ const finalCtaUrl = cleanUrl(final_cta.cta_url) || '/contact';
 		gap: 12px;
 		margin-top: auto;
 		padding-top: 16px;
-	}
-	.fi-date {
-		font-family: var(--font-sans);
-		font-size: 11.5px;
-		color: var(--ink-300);
 	}
 	.fi-cta {
 		margin-left: auto;

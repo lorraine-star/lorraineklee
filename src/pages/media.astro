@@ -347,11 +347,9 @@ const articlesTeaser = articles.slice(0, TEASER_COUNT);
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								<span class="tl-link-outlet">
-									{a.outlet}
-									{a.outlet && a.date ? ' · ' : ''}
-									{a.date}
-								</span>
+								{/* Outlet only, no date -- see the note on the guest
+								    appearances above. */}
+								<span class="tl-link-outlet">{a.outlet}</span>
 								<h3>{a.title}</h3>
 								<span class="tl-link-cta">
 									{a.cta_label || 'Read more'}{' '}
