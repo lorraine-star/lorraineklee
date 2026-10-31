@@ -22,6 +22,18 @@ byline: >-
   Learning, and LinkedIn Top Voice with more than 340,000 followers.
 hero_image: /images/subscribe/signup-card.jpg
 hero_image_alt: Lorraine K. Lee at her laptop beside a stack of her book Unforgettable Presence
+editions_eyebrow: Recent editions
+editions_heading: What lands in your inbox
+editions:
+  - title: you're being ghosted at work
+    url: https://lorraineklee.kit.com/posts/you-re-being-ghosted-at-work
+    image: /images/subscribe/editions/ghosted-at-work.webp
+  - title: your presence lives in your inbox
+    url: https://lorraineklee.kit.com/posts/your-presence-lives-in-your-inbox
+    image: /images/subscribe/editions/presence-lives-in-your-inbox.webp
+  - title: your manager stopped listening
+    url: https://lorraineklee.kit.com/posts/your-manager-stopped-listening
+    image: /images/subscribe/editions/manager-stopped-listening.webp
 testimonials_eyebrow: ''
 testimonials_heading: What readers say
 testimonials:

@@ -2740,6 +2740,38 @@ export default config({
           description: 'Optional photo across the top of the signup card.',
         }),
         hero_image_alt: fields.text({ label: 'Signup card image alt text' }),
+        /*
+         * Recent editions, shown between the signup form and the testimonials.
+         * The point is to let someone see what they are signing up for before
+         * they hand over an email: the artwork and the subject line.
+         *
+         * Copied by hand from lorraineklee.kit.com/profile/posts. Kit has no
+         * public feed for these, so nothing refreshes them automatically --
+         * swap in newer ones when they start to look old.
+         */
+        editions_eyebrow: fields.text({
+          label: 'Recent editions eyebrow',
+          defaultValue: 'Recent editions',
+        }),
+        editions_heading: fields.text({
+          label: 'Recent editions heading',
+          defaultValue: 'What lands in your inbox',
+        }),
+        editions: fields.array(
+          fields.object({
+            title: fields.text({ label: 'Subject line' }),
+            url: fields.text({ label: 'Link to the edition' }),
+            image: fields.image({
+              label: 'Edition artwork',
+              directory: 'public/images/subscribe/editions',
+              publicPath: '/images/subscribe/editions/',
+            }),
+          }),
+          {
+            label: 'Recent editions',
+            itemLabel: (props) => props.fields.title.value || 'Edition',
+          }
+        ),
         testimonials_eyebrow: fields.text({
           label: 'Testimonials eyebrow',
           defaultValue: 'From readers',
