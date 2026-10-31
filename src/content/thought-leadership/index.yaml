@@ -52,6 +52,16 @@ appearances:
     thumbnail_fit: cover
     url: 'https://www.linkedin.com/feed/update/urn:li:ugcPost:7474854681056305152/'
     cta_label: View on LinkedIn
+  - date: October 2026
+    show: LinkedIn Career Talks
+    thumbnail: /images/thought-leadership/appearances/linkedin-career-talks-elevate-your-presence.webp
+    title: 'Elevate Your Presence: Essential Skills to Stand Out in Your Job Search'
+    description: >-
+      A live Career Talks session with LinkedIn's Andrew Seaman on the presence
+      skills that help you stand out while you're job hunting.
+    thumbnail_fit: cover
+    url: 'https://www.linkedin.com/events/7512927925839679489/'
+    cta_label: View on LinkedIn
   - date: January 2026
     show: Leading Up (Udemy Business)
     thumbnail: /images/thought-leadership/appearances/udemy-leading-up.webp
