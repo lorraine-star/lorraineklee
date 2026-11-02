@@ -172,6 +172,76 @@
       "permanent": true
     },
     {
+      "source": "/course-li",
+      "destination": "https://lorraineklee.com/from-invisible-to-influential/?utm_source=linkedin&utm_medium=post&utm_campaign=5daycourse",
+      "permanent": false
+    },
+    {
+      "source": "/book-ig",
+      "destination": "https://lorraineklee.com/unforgettable-presence/?utm_source=instagram&utm_medium=dm&utm_campaign=book&utm_content=manychat",
+      "permanent": false
+    },
+    {
+      "source": "/book-li",
+      "destination": "https://lorraineklee.com/unforgettable-presence/?utm_source=linkedin&utm_medium=post&utm_campaign=book",
+      "permanent": false
+    },
+    {
+      "source": "/bites",
+      "destination": "https://lorraineklee.com/subscribe/?utm_source=instagram&utm_medium=dm&utm_campaign=newsletter&utm_content=manychat",
+      "permanent": false
+    },
+    {
+      "source": "/bites-li",
+      "destination": "https://lorraineklee.com/subscribe/?utm_source=linkedin&utm_medium=post&utm_campaign=newsletter",
+      "permanent": false
+    },
+    {
+      "source": "/free-li",
+      "destination": "https://lorraineklee.com/free-resources/?utm_source=linkedin&utm_medium=comment&utm_campaign=freeresources&utm_content=comment",
+      "permanent": false
+    },
+    {
+      "source": "/resources",
+      "destination": "https://lorraineklee.com/free-resources/?utm_source=instagram&utm_medium=dm&utm_campaign=freeresources&utm_content=manychat",
+      "permanent": false
+    },
+    {
+      "source": "/keynote",
+      "destination": "https://www.lorraineklee.com/speaking?utm_source=linkedin&utm_medium=post&utm_campaign=speaking",
+      "permanent": false
+    },
+    {
+      "source": "/li-newsletter",
+      "destination": "https://www.lorraineklee.com/speaking?utm_source=linkedin&utm_medium=email&utm_campaign=speaking",
+      "permanent": false
+    },
+    {
+      "source": "/cb-speaking",
+      "destination": "https://www.lorraineklee.com/speaking?utm_source=newsletter&utm_medium=cb&utm_campaign=speaking",
+      "permanent": false
+    },
+    {
+      "source": "/speak-ig-bio",
+      "destination": "https://www.lorraineklee.com/speaking?utm_source=linktree&utm_medium=social&utm_campaign=speaking&utm_content=instagram",
+      "permanent": false
+    },
+    {
+      "source": "/lil",
+      "destination": "https://www.lorraineklee.com/courses?utm_source=linkedin&utm_medium=post&utm_campaign=lilcourse",
+      "permanent": false
+    },
+    {
+      "source": "/learn-ig",
+      "destination": "https://www.lorraineklee.com/courses?utm_source=instagram&utm_medium=dm&utm_campaign=lilcourse&utm_content=kw-learn",
+      "permanent": false
+    },
+    {
+      "source": "/cb-courses",
+      "destination": "https://www.lorraineklee.com/courses?utm_source=newsletter&utm_medium=cb&utm_campaign=lilcourse",
+      "permanent": false
+    },
+    {
       "source": "/ig-free-course",
       "destination": "/from-invisible-to-influential",
       "permanent": true
