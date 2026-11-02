@@ -13,7 +13,7 @@
  */
 import SpeakingLayout from '../layouts/SpeakingLayout.astro';
 
-const CONTACT_EMAIL = 'lorraine@wishlygroup.ca';
+const CONTACT_EMAIL = 'team@lorraineklee.com';
 
 const liveMoments = [
 	{ title: 'Team meetings', body: 'Clear messages that help teams understand priorities and next steps.' },
@@ -72,7 +72,7 @@ const proof = [
 					case to senior stakeholders, and represent your company when it counts.
 				</p>
 				<div class="hero-cta-row">
-					<a class="btn primary large" href="mailto:lorraine@wishlygroup.ca?subject=Unforgettable%20Presence%20Signature%20Program" data-ga-event="speaking_inquiry" data-ga-label="upsp-hero">
+					<a class="btn primary large" href={`mailto:${CONTACT_EMAIL}?subject=Unforgettable%20Presence%20Signature%20Program`} data-ga-event="speaking_inquiry" data-ga-label="upsp-hero">
 						Talk to Lorraine's team
 					</a>
 					<a class="anchor-link" href="#how-it-works">
@@ -266,7 +266,7 @@ const proof = [
 					team size and scope.
 				</p>
 				<div class="upsp-cta-row">
-					<a class="btn yellow large" href="mailto:lorraine@wishlygroup.ca?subject=Unforgettable%20Presence%20Signature%20Program" data-ga-event="speaking_inquiry" data-ga-label="upsp-footer">
+					<a class="btn yellow large" href={`mailto:${CONTACT_EMAIL}?subject=Unforgettable%20Presence%20Signature%20Program`} data-ga-event="speaking_inquiry" data-ga-label="upsp-footer">
 						Email Lorraine's team
 					</a>
 

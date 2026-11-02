@@ -156,7 +156,14 @@ export default defineConfig({
     
     // of the public sitemap.
     
-    filter: (page) => !page.includes('/keystatic') && !page.includes('/consulting'),
+    // The thank-you page is a post-signup confirmation step, so it is kept out
+    // of the sitemap as well as carrying noindex. The sitemap only controls
+    // what gets advertised to crawlers; the meta tag is what removes it from
+    // the index, and a page excluded here but left indexable would simply stay.
+    filter: (page) =>
+      !page.includes('/keystatic') &&
+      !page.includes('/consulting') &&
+      !page.includes('/from-invisible-to-influential-thank-you'),
     
   })]
     

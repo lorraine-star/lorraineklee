@@ -38,6 +38,12 @@ const partnerSocials = socialLinks.filter((s) =>
   title={fc.thankyou_seo_title || "You're in | From Invisible to Influential"}
   description={fc.thankyou_seo_description ||
     'Thanks for signing up for the free 5-day course. Day 1 is on its way to your inbox.'}
+  {/* A confirmation step reached only after signing up. It has no value in
+      search, and indexing it lets people arrive at a thank-you for something
+      they never signed up for. Paired with the sitemap filter in
+      astro.config.mjs -- noindex is what actually removes it from the index,
+      the sitemap only stops it being advertised. */}
+  noindex
 >
   {/* GA4 key event (CLI-51): this page is where Kit redirects after a
       successful free-course signup, so its load is the reliable conversion
