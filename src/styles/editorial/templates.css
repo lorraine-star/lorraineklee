@@ -2372,6 +2372,23 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   .about-final { grid-template-columns: 1fr; }
   .book-hero-cover,
   .book-hero-copy { grid-column: 1 / -1; }
+  /*
+   * On a phone the full-size cover pushed both buy buttons roughly 1,085px
+   * down the page, so the first thing a visitor could act on was below three
+   * screenfuls of nothing. The copy comes first instead and the cover follows
+   * it, smaller.
+   *
+   * These are grid items, so `order` moves them without touching the DOM and
+   * without affecting anything above 900px, where the two-column layout is
+   * unchanged.
+   */
+  .book-hero .book-hero-copy { order: 1; }
+  .book-hero .book-hero-cover { order: 2; margin-top: 32px; }
+  .book-hero .book-hero-cover .stack { width: min(260px, 70%); }
+  /* The eyebrow is the least useful line in the hero and buys ~40px toward
+     getting the buttons above the fold. */
+  .book-hero .page-hero-eyebrow { display: none; }
+  .book-hero-copy h1 { margin-top: 0; }
   .book-desc { grid-column: 1 / -1; }
   .retailer-row { grid-template-columns: 1fr; }
   .learn-list { grid-template-columns: 1fr; }
