@@ -512,7 +512,9 @@ function getInitials(name: string) {
 				<div class="preview-copy">
 					<span class="eyebrow">{preview.eyebrow}</span>
 					<h3>{preview.heading} <em>{preview.heading_accent}</em></h3>
-					<p>{preview.body}</p>
+					{/* No body copy is set, and an unconditional <p> rendered as an
+					    empty gap under the heading. */}
+					{preview.body && <p>{preview.body}</p>}
 				</div>
 				<a class="btn primary" href={safeUrl(preview.cta_url)}>
 					{preview.cta_label}
