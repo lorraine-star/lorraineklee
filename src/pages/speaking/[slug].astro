@@ -1,0 +1,142 @@
+---
+/*
+ * /speaking/<slug>/ — one page per talk.
+ *
+ * Mirrors /courses/<slug>: back link, format eyebrow, H1, lead, primary
+ * button, then the takeaways with the button repeated. Every word on the page
+ * already appears in that talk's expander on /speaking; nothing here is
+ * written for it.
+ *
+ * Both lists on /speaking feed this, so a talk moving between "signature" and
+ * "other" keeps its URL.
+ */
+import SpeakingLayout from '../../layouts/SpeakingLayout.astro';
+import { reader } from '../../lib/keystatic';
+import { safeUrl } from '../../lib/url';
+import { talkSlug, keynoteHeading, firstSentence, type Talk } from '../../lib/talks';
+
+export async function getStaticPaths() {
+	const speaking = await reader.singletons.speaking.read();
+	const all = [...(speaking?.topics ?? []), ...(speaking?.other_talks ?? [])] as Talk[];
+	return all
+		.filter((t) => t?.title)
+		.map((talk) => ({ params: { slug: talkSlug(talk) }, props: { talk } }));
+}
+
+const { talk } = Astro.props as { talk: Talk };
+
+/*
+ * The speaking singleton already carries labels written for these pages --
+ * detail_back_label, takeaways_label, card_cta_label and the rest. They were
+ * added before the pages existed, so they are used here rather than
+ * hardcoding, and Mahea can reword any of them.
+ *
+ * detail_back_url defaults to /keynotes in the schema, which redirects to
+ * /speaking; the fallback skips that hop.
+ */
+const speaking = await reader.singletons.speaking.read();
+const ctaLabel = speaking?.card_cta_label || 'Book this talk';
+const ctaUrl = safeUrl(speaking?.card_cta_url, '/contact');
+const backLabel = speaking?.detail_back_label || 'All keynotes';
+const backUrl = safeUrl(speaking?.detail_back_url, '/speaking') || '/speaking';
+const takeawaysLabel = speaking?.takeaways_label || 'What the audience walks away with';
+const moreLabel = speaking?.detail_more_label || 'See other keynotes';
+
+const heading = keynoteHeading(String(talk.title ?? ''));
+const takeaways = (talk.takeaways ?? []).filter((t) => t && t.trim());
+
+/*
+ * talk_track_url is deliberately not linked. Every one of them points at
+ * /keynotes/<old-slug>, which redirects to /speaking -- so the link would
+ * bounce a reader off the talk they are reading back to the list they came
+ * from. A link that undoes itself is worse than no link.
+ */
+
+/*
+ * This talk is also a self-paced LinkedIn Learning course. The link is for
+ * someone who wanted the course rather than a booking, and the label is the
+ * only new words on the page.
+ */
+const courseSlug = talkSlug(talk) === 'stand-out-in-the-age-of-ai' ? 'stand-out-in-the-age-of-ai' : null;
+---
+
+<SpeakingLayout
+	title={`${heading} | Lorraine K. Lee`}
+	description={firstSentence(talk.description)}
+	activeId="speaking"
+>
+	<section class="page-hero page-hero--center">
+		<div class="grid12 page-hero-grid">
+			<div class="talk-page-hero fade-up">
+				<a class="talk-page-back" href={backUrl}>
+					<span aria-hidden="true">&larr;</span> {backLabel}
+				</a>
+				<div class="talk-format">
+					{(talk.format || 'Keynote').replace(/\s*\/\s*/g, ' · ')}
+					{talk.tag && <> &middot; {talk.tag}</>}
+				</div>
+				<h1>{heading}</h1>
+				{talk.subtitle && <p class="talk-page-subtitle">{talk.subtitle}</p>}
+				{talk.description && <p class="lead-large">{talk.description}</p>}
+				<div class="hero-cta-row">
+					<a class="btn primary large" href={ctaUrl}>{ctaLabel}</a>
+					{
+						courseSlug && (
+							<a class="anchor-link" href={`/courses/${courseSlug}`}>
+								Prefer the self-paced course?{' '}
+								<span class="arrow" aria-hidden="true">&rarr;</span>
+							</a>
+						)
+					}
+				</div>
+				{talk.note && <p class="learn-hero-trust">{talk.note}</p>}
+			</div>
+		</div>
+	</section>
+
+	{
+		takeaways.length > 0 && (
+			<section class="course-syllabus">
+				<div class="grid12">
+					<div class="course-syllabus-inner fade-up">
+						<h2>{takeawaysLabel}</h2>
+						<ul class="talk-takeaways">
+							{takeaways.map((t) => (
+								<li>{t}</li>
+							))}
+						</ul>
+						<div class="hero-cta-row">
+							<a class="btn primary" href={ctaUrl}>{ctaLabel}</a>
+							<a class="anchor-link" href={backUrl}>
+								{moreLabel}{' '}
+								<span class="arrow" aria-hidden="true">&rarr;</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</section>
+		)
+	}
+</SpeakingLayout>
+
+<style>
+	.talk-page-subtitle {
+		font-family: var(--font-sans);
+		font-size: clamp(17px, 2vw, 20px);
+		color: var(--ink-600);
+		margin: 6px 0 0;
+	}
+	.talk-takeaways {
+		list-style: disc;
+		padding-left: 22px;
+		margin: 0 0 28px;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+	.talk-takeaways li {
+		font-size: 16.5px;
+		line-height: 1.6;
+		color: var(--ink-700);
+	}
+</style>

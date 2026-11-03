@@ -8,6 +8,7 @@ import TalkClip from '../components/TalkClip.astro';
 import { reader } from '../lib/keystatic';
 import { getTestimonials, toCarouselCard, toColumnCard } from '../lib/testimonials';
 import { safeUrl, toEmbedUrl } from '../lib/url';
+import { talkSlug } from '../lib/talks';
 
 
 const speaking = await reader.singletons.speaking.read();
@@ -78,13 +79,9 @@ const linkedinTestimonialsLabel =
 // Stable anchor for each talk so a single card can be linked to directly.
 // Prefers an explicit slug from the CMS; otherwise derives one from the title,
 // which keeps older links working as long as the title does not change.
-const talkSlug = (t: { slug?: string | null; title?: string | null }) =>
-  (t.slug && t.slug.trim()) ||
-  String(t.title ?? '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 60);
+// Imported rather than defined here: the detail pages are generated from the
+// same function, so a card's anchor and its page URL cannot drift apart.
+
 
 const clientLogos = past_clients ?? [];
 
@@ -402,6 +399,11 @@ const cardEyebrow = (format?: string | null) =>
 											<a class="btn primary" href={safeUrl(speaking.card_cta_url, '/contact')} data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
 												{speaking.card_cta_label || 'Book this talk'}{' '}
 											</a>
+											{/* The expander holds the same copy; this is for anyone who wants
+											    a page they can link to, send on, or find from search. */}
+											<a class="anchor-link" href={`/speaking/${cardId}`} aria-label={`Full talk details: ${t.title}`}>
+												Full talk details <span class="arrow" aria-hidden="true">&rarr;</span>
+											</a>
 										</div>
 									</div>
 								</div>
@@ -530,6 +532,11 @@ const cardEyebrow = (format?: string | null) =>
 											<div class="topic-cta-row">
 												<a class="btn primary" href={safeUrl(speaking.card_cta_url, '/contact')} data-ga-event="speaking_inquiry" data-ga-label="speaking-talk">
 													{speaking.card_cta_label || 'Book this talk'}{' '}
+												</a>
+												{/* The expander holds the same copy; this is for anyone who wants
+												    a page they can link to, send on, or find from search. */}
+												<a class="anchor-link" href={`/speaking/${cardId}`} aria-label={`Full talk details: ${talk.title}`}>
+													Full talk details <span class="arrow" aria-hidden="true">&rarr;</span>
 												</a>
 											</div>
 										</div>
