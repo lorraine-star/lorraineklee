@@ -1050,6 +1050,7 @@
       "source": "/thought-leadership",
       "destination": "/media",
       "permanent": true
-    }
+    },
+    { "source": "/sitemap.xml", "destination": "/sitemap-index.xml", "permanent": true }
   ]
 }
