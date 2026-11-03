@@ -2,10 +2,10 @@
 /*
  * /speaking/<slug>/ — one page per talk.
  *
- * Mirrors /courses/<slug>: back link, format eyebrow, H1, lead, primary
- * button, then the takeaways with the button repeated. Every word on the page
- * already appears in that talk's expander on /speaking; nothing here is
- * written for it.
+ * Page order is written for someone deciding whether to book: the intro line
+ * sells the talk, the takeaways say what the room gets, then the full talk
+ * track -- the longer description companies circulate to their teams -- and
+ * finally the other keynotes.
  *
  * Both lists on /speaking feed this, so a talk moving between "signature" and
  * "other" keeps its URL.
@@ -13,17 +13,21 @@
 import SpeakingLayout from '../../layouts/SpeakingLayout.astro';
 import { reader } from '../../lib/keystatic';
 import { safeUrl } from '../../lib/url';
-import { talkSlug, keynoteHeading, firstSentence, type Talk } from '../../lib/talks';
+import { talkSlug, keynoteHeading, firstSentence, clampText, type Talk } from '../../lib/talks';
 
 export async function getStaticPaths() {
 	const speaking = await reader.singletons.speaking.read();
 	const all = [...(speaking?.topics ?? []), ...(speaking?.other_talks ?? [])] as Talk[];
-	return all
-		.filter((t) => t?.title)
-		.map((talk) => ({ params: { slug: talkSlug(talk) }, props: { talk } }));
+	const usable = all.filter((t) => t?.title);
+	return usable.map((talk) => ({
+		params: { slug: talkSlug(talk) },
+		// The sibling list is passed down so the "other keynotes" block does not
+		// re-read the singleton once per page.
+		props: { talk, all: usable },
+	}));
 }
 
-const { talk } = Astro.props as { talk: Talk };
+const { talk, all } = Astro.props as { talk: Talk; all: Talk[] };
 
 /*
  * The speaking singleton already carries labels written for these pages --
@@ -46,14 +50,40 @@ const heading = keynoteHeading(String(talk.title ?? ''));
 const takeaways = (talk.takeaways ?? []).filter((t) => t && t.trim());
 
 /*
- * The CMS description is written in paragraphs -- the YAML uses a folded block
- * with blank lines between them. Rendering it as one <p> collapsed every break
- * and produced the eight-line slab these pages shipped with. Split it back out.
+ * Two different jobs, two different fields. `intro` is the short line that
+ * sells the talk -- it opens the page and becomes the search result. The
+ * `description` is the talk track: the longer piece a client forwards to
+ * their team. Until an intro is written for a talk, the first sentence of the
+ * track stands in, which is what every page used before the split.
  */
-const paragraphs = String(talk.description ?? '')
+const intro = String(talk.intro ?? '').trim();
+const metaDescription = intro ? clampText(intro) : firstSentence(talk.description);
+
+/*
+ * The talk track is written in paragraphs -- the YAML uses a folded block with
+ * blank lines between them. Rendering it as one <p> collapsed every break and
+ * produced the eight-line slab these pages shipped with. Split it back out.
+ */
+const trackParagraphs = String(talk.description ?? '')
 	.split(/\n\s*\n/)
 	.map((pp) => pp.replace(/\s+/g, ' ').trim())
 	.filter(Boolean);
+
+/* Formats are authored as "Keynote / Workshop"; shown as separate chips. */
+const formats = String(talk.format || 'Keynote')
+	.split(/\s*\/\s*/)
+	.map((f) => f.trim())
+	.filter(Boolean);
+
+/*
+ * The next three talks in CMS order, wrapping round. Order rather than
+ * similarity: there is no topic field to match on, and three links that always
+ * resolve beat a guess at relatedness.
+ */
+const index = all.findIndex((t) => talkSlug(t) === talkSlug(talk));
+const related = [1, 2, 3]
+	.map((offset) => all[(index + offset) % all.length])
+	.filter((t) => t && talkSlug(t) !== talkSlug(talk));
 
 /*
  * talk_track_url is deliberately not linked. Every one of them points at
@@ -68,13 +98,40 @@ const paragraphs = String(talk.description ?? '')
  * only new words on the page.
  */
 const courseSlug = talkSlug(talk) === 'stand-out-in-the-age-of-ai' ? 'stand-out-in-the-age-of-ai' : null;
+
+/*
+ * Service schema. These pages describe something a company books, and without
+ * it a crawler has only prose to go on -- Person and Organization schema say
+ * who she is but nothing about what is offered here. serviceType carries the
+ * words people actually search ("keynote speaker"), which the H1 alone does
+ * not, and provider points at the Organization node Seo.astro already emits.
+ */
+const site = Astro.site ?? new URL('https://lorraineklee.com');
+const serviceSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'Service',
+	name: heading,
+	serviceType: 'Keynote speaker',
+	url: new URL(Astro.url.pathname, site).href,
+	description: metaDescription,
+	provider: { '@id': `${site.origin}/#organization` },
+	areaServed: 'Worldwide',
+	audience: { '@type': 'BusinessAudience' },
+	availableChannel: {
+		'@type': 'ServiceChannel',
+		name: formats.join(', '),
+	},
+};
 ---
 
 <SpeakingLayout
 	title={`${heading} | Lorraine K. Lee`}
-	description={firstSentence(talk.description)}
+	description={metaDescription}
 	activeId="speaking"
+	breadcrumbs={[{ name: 'Speaking', path: '/speaking' }]}
 >
+	<script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+
 	<section class="page-hero page-hero--center">
 		<div class="grid12 page-hero-grid">
 			<div class="talk-page-hero fade-up">
@@ -82,18 +139,12 @@ const courseSlug = talkSlug(talk) === 'stand-out-in-the-age-of-ai' ? 'stand-out-
 					<span aria-hidden="true">&larr;</span> {backLabel}
 				</a>
 				<div class="talk-format">
-					{(talk.format || 'Keynote').replace(/\s*\/\s*/g, ' · ')}
+					{formats.join(' · ')}
 					{talk.tag && <> &middot; {talk.tag}</>}
 				</div>
 				<h1>{heading}</h1>
 				{talk.subtitle && <p class="talk-page-subtitle">{talk.subtitle}</p>}
-				{paragraphs.length > 0 && (
-					<div class="talk-page-body">
-						{paragraphs.map((pp, i) => (
-							<p class={i === 0 ? 'lead-large' : 'talk-page-para'}>{pp}</p>
-						))}
-					</div>
-				)}
+				{intro && <p class="lead-large talk-page-intro">{intro}</p>}
 				<div class="hero-cta-row">
 					<a class="btn primary large" href={ctaUrl}>{ctaLabel}</a>
 					{
@@ -123,6 +174,39 @@ const courseSlug = talkSlug(talk) === 'stand-out-in-the-age-of-ai' ? 'stand-out-
 								))}
 							</ul>
 						</div>
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{
+		trackParagraphs.length > 0 && (
+			<section class="talk-track-section">
+				<div class="grid12">
+					<div class="talk-detail-inner fade-up">
+						<h2 class="talk-track-heading">About this talk</h2>
+						<div class="talk-track-body">
+							{trackParagraphs.map((pp) => (
+								<p>{pp}</p>
+							))}
+						</div>
+						<dl class="talk-facts">
+							<div>
+								<dt>Formats</dt>
+								<dd>{formats.join(', ')}</dd>
+							</div>
+							{talk.note && (
+								<div>
+									<dt>Audience</dt>
+									<dd>{talk.note}</dd>
+								</div>
+							)}
+							<div>
+								<dt>Delivered</dt>
+								<dd>In person and virtual, worldwide</dd>
+							</div>
+						</dl>
 						<div class="hero-cta-row talk-detail-cta">
 							<a class="btn primary large" href={ctaUrl}>{ctaLabel}</a>
 							<a class="anchor-link" href={backUrl}>
@@ -130,6 +214,28 @@ const courseSlug = talkSlug(talk) === 'stand-out-in-the-age-of-ai' ? 'stand-out-
 								<span class="arrow" aria-hidden="true">&rarr;</span>
 							</a>
 						</div>
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{
+		related.length > 0 && (
+			<section class="talk-related">
+				<div class="grid12">
+					<div class="talk-detail-inner fade-up">
+						<h2 class="talk-related-heading">Other keynotes</h2>
+						<ul class="talk-related-list">
+							{related.map((t) => (
+								<li>
+									<a href={`/speaking/${talkSlug(t)}`}>
+										<span class="talk-related-title">{keynoteHeading(String(t.title ?? ''))}</span>
+										<span class="talk-related-line">{firstSentence(t.intro || t.description, 90)}</span>
+									</a>
+								</li>
+							))}
+						</ul>
 					</div>
 				</div>
 			</section>
@@ -145,8 +251,8 @@ const courseSlug = talkSlug(talk) === 'stand-out-in-the-age-of-ai' ? 'stand-out-
 	 * grid12 column -- 176px wide at desktop, which wrapped the heading one
 	 * word per line and left the right half of the page empty.
 	 *
-	 * Everything below is this page's own, and the column width matches the
-	 * hero's 880px so the page reads as one measure top to bottom.
+	 * Everything below is this page's own, and every section shares the
+	 * hero's 880px measure so the page reads as one column top to bottom.
 	 * ------------------------------------------------------------------ */
 
 	/* Hero
@@ -161,41 +267,27 @@ const courseSlug = talkSlug(talk) === 'stand-out-in-the-age-of-ai' ? 'stand-out-
 		font-family: var(--font-sans);
 		font-size: clamp(17px, 2vw, 20px);
 		line-height: 1.5;
-		color: var(--ink-600);
+		color: var(--ink-700);
 		margin: 6px 0 0;
 		max-width: 46ch;
 	}
-	/* The description is one long paragraph in the CMS. It cannot be split
-	   from here, so it is given a comfortable measure and leading instead of
-	   running the full width of the hero. */
-	.talk-page-body {
-		display: flex;
-		flex-direction: column;
-		gap: 18px;
-		max-width: 64ch;
-	}
-	.talk-page-hero .lead-large {
-		max-width: none;
+	.talk-page-hero .talk-page-intro {
+		max-width: 60ch;
 		line-height: 1.65;
-		color: var(--ink-800, var(--ink-900));
-	}
-	.talk-page-para {
-		font-family: var(--font-sans);
-		font-size: 16.5px;
-		line-height: 1.7;
-		color: var(--ink-700);
-		margin: 0;
+		margin: 4px 0 0;
 	}
 
-	/* Takeaways */
-	.talk-detail {
-		padding: clamp(8px, 2vw, 24px) 0 clamp(56px, 6vw, 88px);
-	}
+	/* Shared column */
 	.talk-detail-inner {
 		grid-column: 1 / -1;
 		max-width: 880px;
 		margin: 0 auto;
 		width: 100%;
+	}
+
+	/* Takeaways */
+	.talk-detail {
+		padding: clamp(8px, 2vw, 24px) 0 clamp(28px, 3vw, 40px);
 	}
 	.talk-detail-panel {
 		background: var(--paper-deep);
@@ -241,9 +333,106 @@ const courseSlug = talkSlug(talk) === 'stand-out-in-the-age-of-ai' ? 'stand-out-
 		background: var(--accent);
 		opacity: 0.85;
 	}
+
+	/* Talk track */
+	.talk-track-section {
+		padding: 0 0 clamp(48px, 5vw, 72px);
+	}
+	.talk-track-heading,
+	.talk-related-heading {
+		font-family: var(--font-serif);
+		font-weight: 500;
+		font-size: clamp(24px, 2.3vw, 30px);
+		line-height: 1.15;
+		letter-spacing: -0.015em;
+		color: var(--ink-900);
+		margin: 0 0 clamp(16px, 2vw, 22px);
+	}
+	.talk-track-body {
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+		max-width: 68ch;
+	}
+	.talk-track-body p {
+		font-family: var(--font-sans);
+		font-size: 16.5px;
+		line-height: 1.75;
+		color: var(--ink-700);
+		margin: 0;
+	}
+	/* Format, audience and delivery were buried in the eyebrow or missing.
+	   A booker scanning the page is looking for exactly these three. */
+	.talk-facts {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+		gap: clamp(16px, 2vw, 28px);
+		margin: clamp(28px, 3vw, 40px) 0 0;
+		padding: clamp(20px, 2.5vw, 28px) 0 0;
+		border-top: 1px solid var(--border-soft);
+	}
+	.talk-facts div { margin: 0; }
+	.talk-facts dt {
+		font-family: var(--font-sans);
+		font-size: 11px;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--ink-500);
+		margin: 0 0 6px;
+	}
+	.talk-facts dd {
+		font-family: var(--font-sans);
+		font-size: 15.5px;
+		line-height: 1.5;
+		color: var(--ink-900);
+		margin: 0;
+	}
 	.talk-detail-cta {
 		justify-content: flex-start;
 		margin-top: clamp(28px, 3vw, 36px);
+	}
+
+	/* Other keynotes */
+	.talk-related {
+		padding: 0 0 clamp(56px, 6vw, 88px);
+	}
+	.talk-related-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+		gap: clamp(14px, 2vw, 20px);
+	}
+	.talk-related-list a {
+		color: var(--ink-900);
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		height: 100%;
+		padding: clamp(18px, 2vw, 24px);
+		background: var(--paper);
+		border: 1px solid var(--border-soft);
+		border-radius: 16px;
+		text-decoration: none;
+		transition: border-color 200ms var(--ease-out), transform 200ms var(--ease-out);
+	}
+	.talk-related-list a:hover {
+		border-color: var(--accent);
+		transform: translateY(-2px);
+	}
+	.talk-related-title {
+		font-family: var(--font-serif);
+		font-size: 18px;
+		line-height: 1.25;
+		color: var(--ink-900);
+	}
+	.talk-related-line {
+		font-family: var(--font-sans);
+		font-size: 14.5px;
+		line-height: 1.55;
+		color: var(--ink-700);
 	}
 
 	@media (max-width: 760px) {

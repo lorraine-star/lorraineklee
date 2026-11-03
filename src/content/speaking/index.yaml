@@ -36,6 +36,10 @@ topics_section:
 topics:
   - number: '01'
     title: Supercharge Your Executive Presence
+    intro: >-
+      A keynote on how managers and senior ICs get taken seriously at work —
+      and how to change the way they're described when they're not in the
+      room.
     subtitle: A Leader's Guide to Managing Your Brand At Work
     tag: Most Popular
     gif: /images/speaking/keynotes/exec-presence.webp
@@ -86,6 +90,10 @@ topics:
   - number: '1'
     slug: stand-out-in-the-age-of-ai
     title: Stand Out in the Age of AI
+    intro: >-
+      When AI makes everyone's output look the same, presence is what people
+      remember. A keynote on making your work visible and your voice
+      recognizable.
     format: Keynote / Workshop
     gif: /images/speaking/keynotes/stand-out-in-the-age-of-ai.webp
     gif_alt: Lorraine K. Lee on LinkedIn Live with Stand Out in the Age of AI title graphic
@@ -110,6 +118,10 @@ topics:
       - Build a memorable career brand through intentional, high-quality LinkedIn engagement.
   - number: '02'
     title: How To Build Influence in the Hybrid Office
+    intro: >-
+      Influence is harder to build when half your team is on a screen. This
+      keynote gives people the RAVE Model and a concrete way to apply it in
+      their week.
     gif: /images/speaking/keynotes/build-influence.webp
     gif_alt: Lorraine K. Lee presenting on building influence at work
     description: >
@@ -144,6 +156,9 @@ topics:
       - Mistakes you may be making that are hurting your influence.
   - number: '05'
     title: How To Transform Your LinkedIn Presence
+    intro: >-
+      A keynote on turning LinkedIn into a career asset — what to post, and
+      how to get found by the people who hire and promote.
     gif: /images/speaking/keynotes/linkedin-presence.webp
     gif_alt: Lorraine K. Lee presenting on building a LinkedIn presence
     description: >
@@ -171,6 +186,9 @@ topics:
       - Best practices for sharing content to grow your audience and visibility.
       - Techniques to build credibility and be recognized as a thought leader.
   - title: How To Present Like a Pro
+    intro: >-
+      Most presentations lose the room in the first minute. A keynote on how
+      to open strong and keep an audience with you to the end.
     number: '07'
     tag: Popular
     format: Keynote / Workshop
@@ -224,37 +242,38 @@ other_talks_section:
   summary_label: See all other talks
 other_talks:
   - title: Communicate with Confidence In a Virtual World
+    intro: >-
+      Strong communication matters more now that AI writes the first draft.
+      A keynote on showing up with presence on video, where most work now
+      happens.
     format: Keynote / Workshop
     gif: /images/speaking/keynotes/stanford-class.webp
     gif_alt: Lorraine K. Lee teaching a virtual communication session
     description: >
-      In today's dynamic business landscape, virtual communication has become
-      the norm, transforming the way we connect, collaborate, and achieve
-      success.
+      Most work now happens through a screen. The camera is where people
+      decide whether you sound like someone worth listening to.
 
 
-      While this shift offers unparalleled flexibility and reach, it also
-      presents unique challenges in captivating attention and making a lasting
-      impression.
+      AI has raised the stakes. When everyone has the same tools to write the
+      email and build the deck, the part that's still yours is how you show up
+      — your voice, and the way you handle a hard question live.
 
 
-      You're not alone if you feel that communicating effectively through a
-      screen can feel challenging. Without the right strategies, it's easy to
-      get lost among the sea of video calls and remote meetings.
+      Lorraine covers framing and vocal delivery that make you easier to listen
+      to, and what to do in the moment your point gets talked over.
 
 
-      Join top-rated virtual speaker, virtual presence expert, and LinkedIn
-      Learning Instructor Lorraine K. Lee as she unveils the secrets to
-      mastering the virtual stage, whether you're leading a team meeting,
-      delivering a webinar, or pitching to clients, so that you exude confidence
-      and professionalism knowing that you're presenting your best self in a
-      virtual world.
+      Join Lorraine K. Lee, bestselling author of Unforgettable Presence and an
+      instructor at Stanford Continuing Studies and LinkedIn Learning.
     talk_track_url: /keynotes/communicate-with-confidence-in-a-virtual-world
     takeaways:
       - How to appear more confident and competent on video.
       - Tips and tricks to keep your audience engaged with your content.
       - Best practices to optimize your video presence.
   - title: How To Lead With Impact
+    intro: >-
+      A keynote for managers on building collaboration and trust that hold
+      up when the pressure is on.
     subtitle: Strategies to Build Collaboration and Trust On Your Team
     gif: /images/speaking/keynotes/lead-with-impact.webp
     gif_alt: Lorraine K. Lee leading a manager training session
@@ -300,6 +319,9 @@ other_talks:
         simple communication norms.
   - slug: make-every-meeting-count
     title: 9 Essential Tips For More Effective Hybrid and Virtual Meetings
+    intro: >-
+      Hybrid meetings waste more time than anyone budgets for. This keynote
+      gives teams 9 fixes they can use in their next call.
     note: >-
       Lorraine is a LinkedIn Learning instructor for two popular meeting courses
       (40,000+ learners).
@@ -332,6 +354,9 @@ other_talks:
       - Capture and keep your audience's attention.
       - Boost visibility and opportunities.
   - title: 'Make a Memorable First Impression On Video: The TEA Method'
+    intro: >-
+      First impressions on video happen in seconds. A keynote on the TEA
+      Method, and how to use it before your next client call.
     note: 'Bonus: a TEA Method checklist to make sure you''re set up for success.'
     format: Keynote / Workshop
     gif: /images/speaking/keynotes/tea-method.webp

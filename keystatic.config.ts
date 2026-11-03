@@ -850,6 +850,12 @@ export default config({
               description:
                 'The descriptive line after the title, e.g. "A Leader\'s Guide to Managing Your Brand At Work".',
             }),
+            intro: fields.text({
+              label: 'Intro line (optional)',
+              multiline: true,
+              description:
+                'One or two sentences for the top of the keynote page and the Google search result. Written to sell the talk to someone deciding whether to book it. The Description below stays the longer talk track that companies circulate to their teams; when this is blank, the page falls back to the first sentence of it.',
+            }),
             note: fields.text({
               label: 'Context note (optional)',
               description:
@@ -945,6 +951,12 @@ export default config({
             }),
             title: fields.text({ label: 'Title' }),
             subtitle: fields.text({ label: 'Subtitle (optional)' }),
+            intro: fields.text({
+              label: 'Intro line (optional)',
+              multiline: true,
+              description:
+                'One or two sentences for the top of the keynote page and the Google search result. Written to sell the talk to someone deciding whether to book it. The Description below stays the longer talk track that companies circulate to their teams; when this is blank, the page falls back to the first sentence of it.',
+            }),
             note: fields.text({ label: 'Context note (optional)' }),
             format: fields.text({ label: 'Format (optional)' }),
             gif: fields.text({

@@ -21,9 +21,14 @@ interface Props {
   image?: string;
   /** When true, render a robots noindex meta tag. */
   noindex?: boolean;
+  /**
+   * Breadcrumb trail, nearest ancestor first, excluding Home and this page.
+   * Passed straight through to <Seo>, which renders BreadcrumbList JSON-LD.
+   */
+  breadcrumbs?: { name: string; path: string }[];
 }
 
-const { title, description, activeId = 'home', image, noindex = false } = Astro.props;
+const { title, description, activeId = 'home', image, noindex = false, breadcrumbs = [] } = Astro.props;
 ---
 
 <!doctype html>
@@ -41,7 +46,7 @@ const { title, description, activeId = 'home', image, noindex = false } = Astro.
     />
     {description && <meta name="description" content={description} />}
     <title>{title}</title>
-    <Seo title={title} description={description} image={image} noindex={noindex} />
+    <Seo title={title} description={description} image={image} noindex={noindex} breadcrumbs={breadcrumbs} />
     <GoogleAnalytics />
 		<ExternalLinks />
     <ClarityAnalytics />

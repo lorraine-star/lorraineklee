@@ -11,6 +11,8 @@ export interface Talk {
   title?: string | null;
   slug?: string | null;
   subtitle?: string | null;
+  /** Short selling line for the detail page and the search result. */
+  intro?: string | null;
   format?: string | null;
   description?: string | null;
   takeaways?: readonly string[] | null;
@@ -52,4 +54,20 @@ export function firstSentence(text: string | null | undefined, max = 155): strin
   if (sentence.length <= max) return sentence;
   const cut = sentence.slice(0, max);
   return `${cut.slice(0, cut.lastIndexOf(' '))}…`;
+}
+
+/**
+ * The intro line as a meta description: whole thing when it fits, otherwise
+ * clipped on a word boundary.
+ *
+ * Distinct from firstSentence because an intro is written as a unit -- a short
+ * opening sentence followed by the hook is normal, and taking only the first
+ * would hand Google a six-word result. Google renders about 155-160 characters
+ * on desktop.
+ */
+export function clampText(text: string | null | undefined, max = 158): string {
+  const clean = String(text ?? '').replace(/\s+/g, ' ').trim();
+  if (clean.length <= max) return clean;
+  const cut = clean.slice(0, max);
+  return `${cut.slice(0, cut.lastIndexOf(' ')).replace(/[,;:\-–—]$/, '')}…`;
 }
