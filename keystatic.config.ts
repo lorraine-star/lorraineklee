@@ -1974,6 +1974,12 @@ export default config({
               label: 'Emphasized (accent colour)',
               defaultValue: false,
             }),
+            /* Optional, so any accolade can point somewhere without the page
+               having to recognise it by its wording. */
+            url: fields.text({
+              label: 'Link (optional)',
+              description: 'Makes this accolade clickable. Opens in a new tab.',
+            }),
           }),
           {
             label: 'Hero accolades line',

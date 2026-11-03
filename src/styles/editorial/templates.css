@@ -1922,6 +1922,13 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   margin: 0 0 22px;
   max-width: 520px;
 }
+/* An accolade carrying a link reads as one: underlined, same colour as the
+   line around it, not a button. --brand-blue-900 is the hover colour the
+   other text links on the site already use. */
+.book-hero-copy .bestseller-line .bestseller-link { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; }
+.book-hero-copy .bestseller-line .bestseller-link:hover { color: var(--brand-blue-900); }
+.book-hero-cover .book-cover-link { display: block; }
+
 .book-hero-copy .bestseller-line {
   font-family: var(--font-sans);
   font-size: 13px;

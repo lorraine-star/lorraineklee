@@ -37,6 +37,10 @@ const {
 	final_cta,
 } = book;
 
+/* Where the buy button points, reused by the cover image so the two cannot
+   drift apart. */
+const buyUrl = safeUrl(hero.primary_cta_url);
+
 const descriptionHtml = await renderMarkdoc(book.description);
 
 // CLI-63: Book structured data (JSON-LD) for /book. The ® stays on the title.
@@ -111,7 +115,20 @@ function getInitials(name: string) {
 							<span class="floating-badge top">{cover_badge_top}</span>
 						)
 					}
-					{book_cover && <img src={book_cover} alt={`${title} book cover`} />}
+					{
+						/* The cover is the most clicked-looking thing in the hero, so it
+						   goes where the buy button goes. aria-hidden on the image and a
+						   label on the link keeps it to one announcement for screen
+						   readers rather than two. */
+						book_cover &&
+							(buyUrl ? (
+								<a class="book-cover-link" href={buyUrl} target="_blank" rel="sponsored noopener noreferrer" aria-label={`Buy ${title} on Amazon (opens in a new tab)`}>
+									<img src={book_cover} alt="" aria-hidden="true" />
+								</a>
+							) : (
+								<img src={book_cover} alt={`${title} book cover`} />
+							))
+					}
 					{
 						cover_badge_bottom && (
 							<span class="floating-badge bottom">{cover_badge_bottom}</span>
@@ -134,18 +151,32 @@ function getInitials(name: string) {
 							{accolades.map((a, i) => (
 								<>
 									{i > 0 && <span class="dot" />}
-									{a.emphasized ? (
-										<strong>{a.text}</strong>
-									) : (
-										<span>{a.text}</span>
-									)}
+									{(() => {
+										/* An accolade links out only when someone set a url on
+										   it in Keystatic, so the page never has to recognise a
+										   particular accolade by its wording. rel="sponsored"
+										   because the Amazon link is an affiliate one. */
+										const label = a.emphasized ? <strong>{a.text}</strong> : <span>{a.text}</span>;
+										const href = safeUrl(a.url);
+										return href ? (
+											<a
+												class="bestseller-link"
+												href={href}
+												target="_blank"
+												rel="sponsored noopener noreferrer"
+												aria-label={`${a.text}: see ${title} on Amazon (opens in a new tab)`}
+											>
+												{label}
+											</a>
+										) : label;
+									})()}
 								</>
 							))}
 						</p>
 					)
 				}
 				<div class="hero-cta-row">
-					<a class="btn primary large" href={safeUrl(hero.primary_cta_url)}>
+					<a class="btn primary large" href={buyUrl}>
 						{hero.primary_cta_label}
 					</a>
 					<a class="btn outline" href={safeUrl(hero.secondary_cta_url)}>
