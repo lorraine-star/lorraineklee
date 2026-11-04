@@ -850,6 +850,18 @@ export default config({
               description:
                 'The descriptive line after the title, e.g. "A Leader\'s Guide to Managing Your Brand At Work".',
             }),
+            faqs: fields.array(
+              fields.object({
+                question: fields.text({ label: 'Question' }),
+                answer: fields.text({ label: 'Answer', multiline: true }),
+              }),
+              {
+                label: 'FAQs (optional)',
+                itemLabel: (props) => props.fields.question.value || 'Question',
+                description:
+                  'Shown on the keynote page and emitted as FAQPage structured data, which AI assistants read when answering questions about this talk. Leave empty to use the standard set built from this talk\'s own format, takeaways and booking details.',
+              }
+            ),
             intro: fields.text({
               label: 'Intro line (optional)',
               multiline: true,
@@ -951,6 +963,18 @@ export default config({
             }),
             title: fields.text({ label: 'Title' }),
             subtitle: fields.text({ label: 'Subtitle (optional)' }),
+            faqs: fields.array(
+              fields.object({
+                question: fields.text({ label: 'Question' }),
+                answer: fields.text({ label: 'Answer', multiline: true }),
+              }),
+              {
+                label: 'FAQs (optional)',
+                itemLabel: (props) => props.fields.question.value || 'Question',
+                description:
+                  'Shown on the keynote page and emitted as FAQPage structured data, which AI assistants read when answering questions about this talk. Leave empty to use the standard set built from this talk\'s own format, takeaways and booking details.',
+              }
+            ),
             intro: fields.text({
               label: 'Intro line (optional)',
               multiline: true,

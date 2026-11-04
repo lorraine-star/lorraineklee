@@ -21,6 +21,7 @@ export interface Talk {
   gif?: string | null;
   gif_alt?: string | null;
   talk_track_url?: string | null;
+  faqs?: readonly { question?: string | null; answer?: string | null }[] | null;
 }
 
 /**
@@ -70,4 +71,60 @@ export function clampText(text: string | null | undefined, max = 158): string {
   if (clean.length <= max) return clean;
   const cut = clean.slice(0, max);
   return `${cut.slice(0, cut.lastIndexOf(' ')).replace(/[,;:\-–—]$/, '')}…`;
+}
+
+/**
+ * The FAQ shown on a talk page.
+ *
+ * Authored FAQs win. Otherwise a standard set is built from what the CMS
+ * already states about this talk -- its formats, its takeaways and the booking
+ * promise on /speaking -- so every page carries a Q&A block without anyone
+ * writing nine of them, and without the page asserting anything the CMS does
+ * not already say. Questions are phrased the way someone actually asks an
+ * assistant, since that is what this block is for.
+ */
+export function talkFaqs(
+  talk: Talk,
+  opts: { heading: string; formats: string[] },
+): { question: string; answer: string }[] {
+  const authored = (talk.faqs ?? [])
+    .map((f) => ({ question: String(f?.question ?? '').trim(), answer: String(f?.answer ?? '').trim() }))
+    .filter((f) => f.question && f.answer);
+  if (authored.length) return authored;
+
+  const title = String(talk.title ?? '').trim();
+  const out: { question: string; answer: string }[] = [];
+
+  out.push({
+    question: `Is ${title} available as a virtual keynote?`,
+    answer: `Yes. Lorraine K. Lee delivers ${title} both in person and virtually.`,
+  });
+
+  out.push({
+    question: `What formats does ${title} come in?`,
+    answer:
+      `${opts.formats.join(' and ')}. Lorraine also builds multi-session programs for teams.`,
+  });
+
+  if (talk.note && talk.note.trim()) {
+    out.push({ question: `Who is ${title} for?`, answer: talk.note.trim() });
+  }
+
+  const takeaways = (talk.takeaways ?? []).filter((t) => t && t.trim()).map((t) => t!.trim());
+  if (takeaways.length) {
+    out.push({
+      question: `What will the audience take away from ${title}?`,
+      answer: takeaways
+        .map((t) => (/[.!?]$/.test(t) ? t : `${t}.`))
+        .join(' '),
+    });
+  }
+
+  out.push({
+    question: `How do you book Lorraine K. Lee for ${title}?`,
+    answer:
+      'Send your audience and event details through the contact form, and her team replies within 2 business days.',
+  });
+
+  return out;
 }

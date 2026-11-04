@@ -13,7 +13,7 @@
 import SpeakingLayout from '../../layouts/SpeakingLayout.astro';
 import { reader } from '../../lib/keystatic';
 import { safeUrl } from '../../lib/url';
-import { talkSlug, keynoteHeading, firstSentence, clampText, type Talk } from '../../lib/talks';
+import { talkSlug, keynoteHeading, firstSentence, clampText, talkFaqs, type Talk } from '../../lib/talks';
 
 export async function getStaticPaths() {
 	const speaking = await reader.singletons.speaking.read();
@@ -122,6 +122,25 @@ const serviceSchema = {
 		name: formats.join(', '),
 	},
 };
+
+const faqs = talkFaqs(talk, { heading, formats });
+
+/*
+ * FAQPage schema. Google retired the FAQ rich result for most sites in 2023,
+ * so this is not here for stars in the search listing -- it is here because
+ * assistants parse Q&A pairs directly when answering "is this available
+ * virtually" or "who is this talk for", which prose on the page does not
+ * answer in a form they can lift.
+ */
+const faqSchema = faqs.length > 0 && {
+	'@context': 'https://schema.org',
+	'@type': 'FAQPage',
+	mainEntity: faqs.map((f) => ({
+		'@type': 'Question',
+		name: f.question,
+		acceptedAnswer: { '@type': 'Answer', text: f.answer },
+	})),
+};
 ---
 
 <SpeakingLayout
@@ -131,6 +150,7 @@ const serviceSchema = {
 	breadcrumbs={[{ name: 'Speaking', path: '/speaking' }]}
 >
 	<script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+	{faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
 
 	<section class="page-hero page-hero--center">
 		<div class="grid12 page-hero-grid">
@@ -213,6 +233,26 @@ const serviceSchema = {
 								{moreLabel}{' '}
 								<span class="arrow" aria-hidden="true">&rarr;</span>
 							</a>
+						</div>
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{
+		faqs.length > 0 && (
+			<section class="talk-faq">
+				<div class="grid12">
+					<div class="talk-detail-inner fade-up">
+						<h2 class="talk-track-heading">Common questions</h2>
+						<div class="talk-faq-list">
+							{faqs.map((f, i) => (
+								<details open={i === 0}>
+									<summary>{f.question}</summary>
+									<p>{f.answer}</p>
+								</details>
+							))}
 						</div>
 					</div>
 				</div>
@@ -391,6 +431,55 @@ const serviceSchema = {
 	.talk-detail-cta {
 		justify-content: flex-start;
 		margin-top: clamp(28px, 3vw, 36px);
+	}
+
+	/* FAQ
+	 * Collapsed by default past the first one: the answers are long and the
+	 * block sits near the bottom. Google indexes content inside a <details>
+	 * normally, because a reader can open it -- which is the difference
+	 * between this and hiding text from visitors.
+	 */
+	.talk-faq {
+		padding: 0 0 clamp(40px, 4vw, 56px);
+	}
+	.talk-faq-list {
+		border-top: 1px solid var(--border-soft);
+	}
+	.talk-faq details {
+		border-bottom: 1px solid var(--border-soft);
+	}
+	.talk-faq summary {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 16px;
+		cursor: pointer;
+		list-style: none;
+		padding: 18px 0;
+		font-family: var(--font-sans);
+		font-size: 16.5px;
+		font-weight: 600;
+		line-height: 1.45;
+		color: var(--ink-900);
+	}
+	.talk-faq summary::-webkit-details-marker { display: none; }
+	.talk-faq summary::after {
+		content: "+";
+		flex: none;
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 1;
+		color: var(--accent);
+	}
+	.talk-faq details[open] summary::after { content: "−"; }
+	.talk-faq details p {
+		margin: 0 0 20px;
+		padding-right: 36px;
+		font-family: var(--font-sans);
+		font-size: 16px;
+		line-height: 1.7;
+		color: var(--ink-700);
+		max-width: 68ch;
 	}
 
 	/* Other keynotes */
