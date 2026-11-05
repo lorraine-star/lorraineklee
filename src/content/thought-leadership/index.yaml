@@ -41,17 +41,6 @@ appearances:
     thumbnail_fit: cover
     youtube_id: 8E164swLCxo
     cta_label: Watch now
-  - date: June 2026
-    show: LinkedIn News
-    thumbnail: /images/thought-leadership/appearances/linkedin-career-reset.webp
-    title: 'The 4-Week Career Reset: How to Stand Out in a Competitive Market'
-    description: >-
-      Part two of a four-part live workshop series with LinkedIn's Andrew
-      Seaman, on building visibility habits, strengthening your profile, and
-      standing out to recruiters in a slow hiring market.
-    thumbnail_fit: cover
-    url: 'https://www.linkedin.com/feed/update/urn:li:ugcPost:7474854681056305152/'
-    cta_label: View on LinkedIn
   - date: October 2026
     show: LinkedIn Career Talks
     thumbnail: /images/thought-leadership/appearances/linkedin-career-talks-elevate-your-presence.webp
@@ -62,6 +51,17 @@ appearances:
       while you're job hunting.
     thumbnail_fit: cover
     url: 'https://www.linkedin.com/events/7512927925839679489/'
+    cta_label: View on LinkedIn
+  - date: June 2026
+    show: LinkedIn News
+    thumbnail: /images/thought-leadership/appearances/linkedin-career-reset.webp
+    title: 'The 4-Week Career Reset: How to Stand Out in a Competitive Market'
+    description: >-
+      Part two of a four-part live workshop series with LinkedIn's Andrew
+      Seaman, on building visibility habits, strengthening your profile, and
+      standing out to recruiters in a slow hiring market.
+    thumbnail_fit: cover
+    url: 'https://www.linkedin.com/feed/update/urn:li:ugcPost:7474854681056305152/'
     cta_label: View on LinkedIn
   - date: January 2026
     show: Leading Up (Udemy Business)
@@ -472,7 +472,7 @@ interviews:
     youtube_id: ODWo8FKAzYM
     cta_label: Watch now
 final_cta:
-  eyebrow: Work with Lorraine
+  eyebrow: ''
   heading: Bring these ideas
   heading_accent: to your team
   body: >-

@@ -221,7 +221,10 @@ const courseHref =
       <section class="four-ways">
         <div class="grid12">
           <div class="four-ways-head">
-            <span class="eyebrow">{four_ways?.eyebrow || 'How I can help'}</span>
+            {/* Rendered only when set, so clearing it in Keystatic removes it.
+                It used to fall back to a hardcoded string, which meant a blank
+                CMS field still printed one. */}
+            {four_ways?.eyebrow && <span class="eyebrow">{four_ways.eyebrow}</span>}
             <h2 class="four-ways-title">{audienceHeading} {audienceAccent && <em>{audienceAccent}</em>}</h2>
           </div>
           <div class="four-ways-grid">

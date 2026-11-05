@@ -42,7 +42,7 @@ hero_links:
   - label: Get the book
     url: /book
 four_ways:
-  eyebrow: How I can help
+  eyebrow: ''
   heading: Three ways we can
   heading_accent: partner together
   column_1:

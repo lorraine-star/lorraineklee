@@ -386,7 +386,8 @@ const articlesTeaser = articles.slice(0, TEASER_COUNT);
 		<div class="grid12">
 			<div class="final-cta">
 				<div class="final-cta-inner">
-					<span class="eyebrow">{final_cta.eyebrow}</span>
+					{/* Only when set, so clearing it in Keystatic leaves no empty span. */}
+					{final_cta.eyebrow && <span class="eyebrow">{final_cta.eyebrow}</span>}
 					<h2>
 						{final_cta.heading} <em>{final_cta.heading_accent}</em>
 					</h2>

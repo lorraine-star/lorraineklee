@@ -15,7 +15,7 @@ import { reader } from '../lib/keystatic';
 
 const bp = await reader.singletons.bookPromo.read();
 
-const eyebrow = bp?.eyebrow || 'The Book';
+const eyebrow = bp?.eyebrow ?? '';
 const title = bp?.title || 'Unforgettable Presence®';
 const tagline = bp?.tagline || 'Get seen. Gain influence. Catapult your career.';
 const body =
@@ -40,7 +40,7 @@ const coverAlt =
       </div>
     </div>
     <div class="book-copy-col">
-      <span class="eyebrow book-eyebrow">{eyebrow}</span>
+      {eyebrow && <span class="eyebrow book-eyebrow">{eyebrow}</span>}
       <h2 class="book-bigtitle"><em>{title}</em></h2>
       <p class="book-tagline">{tagline}</p>
       <p class="book-body">{body}</p>
