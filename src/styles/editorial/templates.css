@@ -1651,6 +1651,24 @@ a.lh-card:hover .lh-card-cta span { transform: translateX(4px); }
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
+/* A hero proof stat with a `url` renders as <a>. Same reason as the highlight
+   cards: without this it takes the browser's link colour and underline. The
+   number keeps its own styling; the only cue is the cursor and a subtle
+   underline on the label at hover. */
+.hero-meta a.hero-stat-link {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.hero-meta a.hero-stat-link:hover .lbl {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.hero-meta a.hero-stat-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
 .highlight-logo {
   height: 56px;
   display: flex;

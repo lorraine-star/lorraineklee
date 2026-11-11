@@ -314,6 +314,11 @@ export default config({
                   description: 'Put each line on its own line for a manual break.',
                   multiline: true,
                 }),
+                url: fields.text({
+                  label: 'Link (optional)',
+                  description:
+                    'Where this claim can be verified. Set it and the stat becomes a link; leave it blank and the stat stays plain text.',
+                }),
               }),
               {
                 label: 'Hero proof stats',
