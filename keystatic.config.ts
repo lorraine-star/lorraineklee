@@ -631,6 +631,11 @@ export default config({
               description:
                 'Short tag shown at the bottom of the card — what this award/honor recognizes. E.g. "For her newsletter". Leave empty to hide.',
             }),
+            url: fields.text({
+              label: 'Link (optional)',
+              description:
+                'Where this honor can be verified, e.g. the Webby winners page. Set it and the whole card becomes a link; leave it blank and the card stays plain text.',
+            }),
           }),
           {
             label: 'Career highlights',

@@ -143,21 +143,41 @@ const hasStoryFacts = story_facts.length > 0;
 			</div>
 			<div class="highlight-grid reveal-stagger">
 				{
-					career_highlights.map((h) => (
-						<div class="highlight-card">
-							{h.logo && (
-								<div class="highlight-logo">
-									<img src={h.logo} alt={h.logo_alt || h.value} />
-								</div>
-							)}
-							<div class="eyebrow">{h.eyebrow}</div>
-							<div class="highlight-value">{h.value}</div>
-							<div class="highlight-label">{h.label}</div>
-							{h.attribution && (
-								<div class="highlight-attribution">{h.attribution}</div>
-							)}
-						</div>
-					))
+					career_highlights.map((h) => {
+						/* An honour people can verify is worth linking. The whole card
+						   becomes the link rather than a word inside it, so the hit area
+						   matches what looks clickable. Cards without a url stay a div --
+						   an <a href=""> would be focusable and go nowhere. */
+						const href = safeUrl(h.url);
+						const inner = (
+							<>
+								{h.logo && (
+									<div class="highlight-logo">
+										<img src={h.logo} alt={h.logo_alt || h.value} />
+									</div>
+								)}
+								<div class="eyebrow">{h.eyebrow}</div>
+								<div class="highlight-value">{h.value}</div>
+								<div class="highlight-label">{h.label}</div>
+								{h.attribution && (
+									<div class="highlight-attribution">{h.attribution}</div>
+								)}
+							</>
+						);
+						return href ? (
+							<a
+								class="highlight-card highlight-card--link"
+								href={href}
+								target="_blank"
+								rel="noopener noreferrer"
+								aria-label={`${h.value} ${h.label} (opens in a new tab)`}
+							>
+								{inner}
+							</a>
+						) : (
+							<div class="highlight-card">{inner}</div>
+						);
+					})
 				}
 			</div>
 		</div>
